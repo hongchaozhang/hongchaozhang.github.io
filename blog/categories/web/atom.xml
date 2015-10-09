@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Web | Zhang Hongchao]]></title>
+  <link href="http://hongchaozhang.github.io/blog/categories/web/atom.xml" rel="self"/>
+  <link href="http://hongchaozhang.github.io/"/>
+  <updated>2015-10-09T10:51:16+08:00</updated>
+  <id>http://hongchaozhang.github.io/</id>
+  <author>
+    <name><![CDATA[Zhang Hongchao]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Font Size in Html - Px, Em, Rem]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2015/08/03/Font-size-in-Html/"/>
+    <updated>2015-08-03T00:00:00+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2015/08/03/Font-size-in-Html</id>
+    <content type="html"><![CDATA[<p>Refer <a href="http://snook.ca/archives/html_and_css/font-size-with-rem">here</a></p>
+
+<p>Three units of measurements to size the text in html files to discuss:</p>
+
+<ol>
+<li>px</li>
+<li>em</li>
+<li>rem</li>
+</ol>
+
+
+<!-- more -->
+
+
+<h2>Sizing with <code>px</code></h2>
+
+<p><code>px</code> has some problems with IE of versions earlier then IE9 when changing text size with browser function.</p>
+
+<h2>Sizing with <code>em</code></h2>
+
+<p>To solve the issue in IE, we can use <code>em</code> instead. See <a href="http://clagnut.com/blog/348/">here</a> for more details. The <code>em</code> way modifies the base font size on the <code>body</code> using a percentage.</p>
+
+<p>However, there is a <strong>font size compounds</strong> problem for this em-based sizing. That is, if you set <code>li { font-size:1.4em }</code>, the <code>li</code> element inside another <code>li</code> element will become bigger. Guess[<strong>TODO</strong>]: the base font size is not on the body, it is on the <code>li</code> element outside.</p>
+
+<h2>Sizing with <code>rem</code></h2>
+
+<p>The em unit is relative to the font-size of the parent, which causes the compounding issue. The rem unit is relative to the root—or the html—element. That means that we can define a single font size on the html element and define all rem units to be a percentage of that. (Comming from the <a href="http://snook.ca/archives/html_and_css/font-size-with-rem">reference</a>)</p>
+]]></content>
+  </entry>
+  
+</feed>

@@ -1,0 +1,725 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Zhang Hongchao</title>
+  <meta name="author" content="Zhang Hongchao">
+
+  
+  <meta name="description" content="MKOverlay Write your own overlay class (for example, MapOverlay) confirm to MKOverlay, synthesize coordinate and boundingMapRect, so that we can &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://hongchaozhang.github.io/posts/2">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Zhang Hongchao" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/libs/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<!--
+<link href='https://fonts.googleapis.com/css?family=Noto+Serif:400,700' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+-->
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Zhang Hongchao</a></h1>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><!--
+<ul class="subscription" data-subscription="rss">
+  
+  
+</ul>
+-->
+
+<!--
+
+-->
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/07/14/use-MKOverlay-and-MKOverlayRenderer/">Use MKOverlay and MKOverlayRenderer</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2015-07-14T00:00:00+08:00" pubdate data-updated="true">Jul 14th, 2015</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h3>MKOverlay</h3>
+
+<p>Write your own overlay class (for example, <code>MapOverlay</code>) confirm to <code>MKOverlay</code>, synthesize <code>coordinate</code> and <code>boundingMapRect</code>, so that we can assign value to them while initializing it.</p>
+
+<p>Note that the type of <code>coordinate</code> is <code>CLLocationCoordinate2D</code> with <code>latitude</code> and <code>longitude</code>, while <code>boundingMapRect</code> is <code>MKMapRect</code>. And we need to use <code>MKMapPointForCoordinate</code> method to convert a <code>CLLocationCoordinate2D</code> type data to <code>MKMapPoint</code> type data. If we assign the <code>CLLocationCoordinate2D</code> data directly to <code>boundingMapRect</code>, the overlay will be too small to draw, and the <code>mapView:rendererForOverlay:</code> method will not be called at all. It is very hard for debugging.</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2015/07/14/use-MKOverlay-and-MKOverlayRenderer/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/07/14/How-to-add-category-or-tag-to-github-pages-posts/">How to Add Category or Tag to Github Page Posts</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2015-07-14T00:00:00+08:00" pubdate data-updated="true">Jul 14th, 2015</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><strong>[updated 2015.09.13]</strong> This adding method is only for my project pages (gh-pages) <em>GitBlogs</em>, and for octopress, the way is builded in.</p>
+
+<p><strong>[updated 2015.06.07]</strong> For adding category or tag automatically through python script, go to <a href="http://hongchaozhang.github.io/code/2015/06/27/instructions-for-adding-tags-and-categories.html">here</a>.</p>
+
+<h3>Introduction</h3>
+
+<p>The <strong>index</strong> page includes <em>cat_tag_for_index.html</em> for showing all the categories and tags, and the number of the corresponding posts.</p>
+
+<p>The <strong>_layouts/default.html</strong> describes the content of a post, because post includes it. In the <strong>_layout/default.html</strong> file, it includes the <strong>cat_tag.html</strong> template as the <em>category</em> and <em>tag</em> info in the beginning of the post. And <strong>cat_tag.html</strong> also includes the date behind.</p>
+
+<p><em>_data/categories.yml</em> and <em>_data/tags.yml</em> describe all the categories and tags.</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2015/07/14/How-to-add-category-or-tag-to-github-pages-posts/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/07/09/Basic-Git-Commands/">Basic Git Commands</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2015-07-09T00:00:00+08:00" pubdate data-updated="true">Jul 9th, 2015</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h1>Contents</h1>
+
+<ul>
+<li><a href="#branch_operation">Branch Operation</a></li>
+<li><a href="#check_commit_history">Check commit history</a></li>
+<li><a href="#git_ignore">.gitignore</a></li>
+<li><a href="#git_stash">Using <em>git stash</em></a></li>
+</ul>
+
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2015/07/09/Basic-Git-Commands/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/06/27/some-useful-links-for-building-github-pages/">Some Useful Links for Building Github Pages Blog</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2015-06-27T00:00:00+08:00" pubdate data-updated="true">Jun 27th, 2015</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>[<strong>updated 2015.09.13</strong>] Github has two kind of pages: <strong>user/orgnization pages</strong> and <strong>project pages (gh-pages)</strong>.</p>
+
+<p>Currently, I am using the <strong>user/orgnization pages</strong> deployed by <a href="http://octopress.org/">octopress</a>. This is recommended, due to the easy deployment.</p>
+
+<p>If you are using the <strong>project pages (gh-pages)</strong>, the following references may be help.</p>
+
+<h3>How to get started</h3>
+
+<p>Refer to &ldquo;<a href="http://www.pchou.info/web-build/2013/01/03/build-github-blog-page-01.html">一步步在GitHub上创建博客主页</a>&rdquo;.</p>
+
+<h3>Categories and tags</h3>
+
+<p>I tried the <a href="http://www.minddust.com/post/tags-and-categories-on-github-pages/">this</a> one. It works well.</p>
+
+<h3>Jekyll debugging</h3>
+
+<p>I didn&rsquo;t try the <a href="https://github.com/octopress/debugger">debugger</a> yet.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/06/27/pdb-commands-for-python-debugging-in-command-line/">Pdb Commands for Python Debugging in Command Line</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2015-06-27T00:00:00+08:00" pubdate data-updated="true">Jun 27th, 2015</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>The page is from <a href="http://web.stanford.edu/class/physics91si/2013/handouts/Pdb_Commands.pdf">MIT</a>. Keeping here only for reference.</p>
+
+<h3>Startup and Help</h3>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2015/06/27/pdb-commands-for-python-debugging-in-command-line/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/06/27/instructions-for-adding-tags-and-categories/">How to Use the Python Script for Adding Tags and Categories</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2015-06-27T00:00:00+08:00" pubdate data-updated="true">Jun 27th, 2015</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>The following is for my project pages (gh-pages) <em>GitBlogs</em>.</p>
+
+<p>The python script is put GitBlogs/tools/add.py.</p>
+
+<p>For adding category or tag:</p>
+
+<ul>
+<li>go to tools/</li>
+<li>run <code>python add.py -category category_name</code> or <code>python add.py -tag tag_name</code> for adding category and tag respectively.</li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/06/27/Basic-Vim-Commands/">Basic Vim Commands</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2015-06-27T00:00:00+08:00" pubdate data-updated="true">Jun 27th, 2015</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><strong>Vim</strong> is an editor to create or edit a text file.</p>
+
+<p>Two modes:</p>
+
+<ul>
+<li><strong>command mode</strong>: move around, copy and past</li>
+<li><strong>insert mode</strong>: insert text</li>
+</ul>
+
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2015/06/27/Basic-Vim-Commands/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/05/20/How-to-write-post-in-github-pages/">How to Write Post in Github Pages</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2015-05-20T00:00:00+08:00" pubdate data-updated="true">May 20th, 2015</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><strong>Contents:</strong></p>
+
+<ul>
+<li><a href="#to_add_a_new_post">To add a new post</a></li>
+<li><a href="#to_add_category_and_tag">To add a new &ldquo;category&rdquo; or &ldquo;tag&rdquo;</a></li>
+<li><a href="#to_enable_code_highlight">To enable code highlight</a></li>
+<li><a href="#to_make_the_post_searchable_by_google">To make the post searchable by Google</a></li>
+<li><a href="#some_tips_for_markdown_grammar">Some tips for markdown grammar</a></li>
+</ul>
+
+
+<p>The first two sections are only for my project pages (gh-pages) <em>GitBlogs</em>, and currently in cotopress blog, we have other new simpler ways to do these things. See <a href="http://hongchaozhang.github.io/blog/2015/09/09/migrate-blog-to-octopress/">Migrate Blog to Octopress</a>.</p>
+
+<h2>Description</h2>
+
+<p>This post is <strong>not</strong> for how to deploy the environment of writing posts in github pages, <strong>but</strong> how to use the environment you deployed before.</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2015/05/20/How-to-write-post-in-github-pages/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/05/20/How-to-deploy-MicroStrategy-Mobile-deploy-environment/">How to Deploy MicroStrategy iOS Mobile Environment</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2015-05-20T00:00:00+08:00" pubdate data-updated="true">May 20th, 2015</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>Start Developing in a New Mac Machine</h2>
+
+<p>[<strong>updated on 2015.9.17</strong>] With Xcode 7, we only need an Apple ID for deploying your app to ipad or iphone, with the ability to debug.</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2015/05/20/How-to-deploy-MicroStrategy-Mobile-deploy-environment/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/05/09/caution-javascript-closure-in-loop/">Caution Javascript Closure in Loop</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2015-05-09T00:00:00+08:00" pubdate data-updated="true">May 9th, 2015</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h3>Object</h3>
+
+<p>Define a function <span style="background-color:yellow;"><em>addTimer</em></span>, to log executed time for all function-type property of an object</p>
+
+<h3>Definition 1</h3>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2015/05/09/caution-javascript-closure-in-loop/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/05/09/How-to-Add-a-Clone-function-to-Function/">How to Add a Clone Function to Function?</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2015-05-09T00:00:00+08:00" pubdate data-updated="true">May 9th, 2015</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content">
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="lineno">1</span> <span class="nb">Function</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">clone</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+<span class="lineno">2</span>     <span class="kd">var</span> <span class="nx">that</span> <span class="o">=</span> <span class="k">this</span><span class="p">;</span>
+<span class="lineno">3</span>     <span class="kd">var</span> <span class="nx">temp</span> <span class="o">=</span> <span class="kd">function</span> <span class="nx">temporary</span><span class="p">()</span> <span class="p">{</span> <span class="k">return</span> <span class="nx">that</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="nx">arguments</span><span class="p">);</span> <span class="p">};</span>
+<span class="lineno">4</span>     <span class="k">for</span><span class="p">(</span> <span class="nx">key</span> <span class="k">in</span> <span class="k">this</span> <span class="p">)</span> <span class="p">{</span>
+<span class="lineno">5</span>         <span class="nx">temp</span><span class="p">[</span><span class="nx">key</span><span class="p">]</span> <span class="o">=</span> <span class="k">this</span><span class="p">[</span><span class="nx">key</span><span class="p">];</span>
+<span class="lineno">6</span>     <span class="p">}</span>
+<span class="lineno">7</span>     <span class="k">return</span> <span class="nx">temp</span><span class="p">;</span>
+<span class="lineno">8</span> <span class="p">};</span></code></pre></div>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+    <a class="next" href="1">Newer &rarr;</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+   
+  
+    <section class="categories">
+  <h1>Categories</h1>
+    <ul id="top-category-list" class="nav nav-list"><li><a href='/blog/categories/ios'>ios (12)</a></li><li><a href='/blog/categories/productivity'>productivity (11)</a></li><li><a href='/blog/categories/objective-c'>objective-c (5)</a></li><li><a href='/blog/categories/android'>android (3)</a></li><li><a href='/blog/categories/python'>python (2)</a></li><li><a href='/blog/categories/algorithm'>algorithm (2)</a></li><li><a href='/blog/categories/javascript'>javascript (2)</a></li><li><a href='/blog/categories/web'>web (1)</a></li><li><a href='/blog/categories/android-studio'>android_studio (1)</a></li><li><a href='/blog/categories/xcode'>xcode (1)</a></li><li><a href='/blog/categories/design-pattern'>design_pattern (1)</a></li><li><a href='/blog/categories/java'>java (1)</a></li></ul>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2015/09/23/phone-interview-preparation/">Phone Interview Preparation</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/09/14/brainteasers-and-puzzles/">经典算法智力题</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/09/09/migrate-blog-to-octopress/">Migrate Blog to Octopress</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/09/07/Singleton/">Singleton</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/09/02/Shortcut-of-Chrome-on-Windows-and-Mac/">Shortcut of Chrome on Windows and Mac</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/hongchaozhang">@hongchaozhang</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'hongchaozhang',
+            count: 10,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2015 - Zhang Hongchao -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+<script>
+  $(document).ready(function() {  
+    var stickyNavTop = $('nav').offset().top;  
+      
+    var stickyNav = function(){  
+      var scrollTop = $(window).scrollTop(); 
+      var navHasClassSticky = $('nav').hasClass('sticky');
+
+      if (scrollTop > stickyNavTop && navHasClassSticky) {   
+        return true;
+      } else if (scrollTop > stickyNavTop) {
+        $('nav').hide();
+        $('nav').addClass('sticky');
+        $('nav').fadeIn('2000');
+      } else {  
+        $('nav').removeClass('sticky');   
+      }  
+    };  
+      
+    stickyNav();  
+      
+    $(window).scroll(function() {  
+      stickyNav();  
+    });  
+  });  
+</script>
+
+
+</body>
+</html>

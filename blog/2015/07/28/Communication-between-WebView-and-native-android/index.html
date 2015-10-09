@@ -1,0 +1,391 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Communication Between WebView and Native Android - Zhang Hongchao</title>
+  <meta name="author" content="Zhang Hongchao">
+
+  
+  <meta name="description" content="Description In Android project, we sometimes want to rend a page in WebView, and need communication between webview and native android side. Note: Go &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://hongchaozhang.github.io/blog/2015/07/28/Communication-between-WebView-and-native-android">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Zhang Hongchao" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/libs/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<!--
+<link href='https://fonts.googleapis.com/css?family=Noto+Serif:400,700' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+-->
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Zhang Hongchao</a></h1>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><!--
+<ul class="subscription" data-subscription="rss">
+  
+  
+</ul>
+-->
+
+<!--
+
+-->
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <script type="text/javascript" src="/javascripts/DisableLineNumberCopy.js"></script>
+
+<div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Communication Between WebView and Native Android</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2015-07-28T00:00:00+08:00" pubdate data-updated="true">Jul 28th, 2015</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h2>Description</h2>
+
+<p>In Android project, we sometimes want to rend a page in <strong>WebView</strong>, and need communication between webview and native android side.</p>
+
+<p><strong>Note:</strong> Go to <a href="https://github.com/hongchaozhang/android_java_javascript_communication">here</a> for a project as a sample.</p>
+
+<h2>Javascript and Java Bridge</h2>
+
+<!-- more -->
+
+
+<ol>
+<li><p>Code for javascript interface in native android side:</p>
+
+<pre><code> public class JavaScriptInterface {
+     protected MyActivity parentActivity;
+     protected WebView mWebView;
+
+     public JavaScriptInterface(MyActivity _activity, WebView _webView)  {
+         parentActivity = _activity;
+         mWebView = _webView;
+
+     }
+
+     @JavascriptInterface
+     public void setResult(int val){
+         Log.v("mylog","JavaScriptHandler.setResult is called : " + val);
+         this.parentActivity.javascriptCallFinished(val);
+     }
+
+     @JavascriptInterface
+     public void calcSomething(int x, int y){
+         this.parentActivity.changeText("Result is : " + (x * y));
+     }
+
+     @JavascriptInterface
+     public String modifyString(String inputString) {
+         return inputString + " from Java side";
+     }
+ }
+</code></pre>
+
+<p> Here, we can introduce the main activity <code>parentActivity</code> and the webview <code>mWebView</code> into the interface for further use.</p></li>
+<li><p>Get webview from layout xml file, or create it from scrach, and config it:</p>
+
+<pre><code> myWebView = (WebView)this.findViewById(R.id.myWebView);
+ myWebView.getSettings().setJavaScriptEnabled(true);
+ myWebView.loadUrl("file:///android_asset/index.html");
+
+ myWebView.addJavascriptInterface(new JavaScriptInterface(this, myWebView), "MyHandler");
+ if(Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.KITKAT) {
+     WebView.setWebContentsDebuggingEnabled(true);
+ }
+</code></pre>
+
+<p> 1) Pay attention to <code>addJavascriptinterface</code>, which add the javascript interface, and gives the interface a name <code>MyHandler</code>.
+2) To be able to debug web page inside webview, <code>setWebContentsDebuggingEnabled(true)</code> should be called for android version after <code>KITKAT(4.4)</code>.</p></li>
+<li><p>Then we can use the following way to call javascript function and change html page from java side:</p>
+
+<pre><code> myWebView.loadUrl("javascript:document.getElementById('test1').innerHTML = 'changed'");
+</code></pre>
+
+<p> And use the following to call java method from javascript side:</p>
+
+<pre><code> window.MyHandler.setResult(9999)
+</code></pre></li>
+</ol>
+
+
+<h2>Passing parameters and <code>return</code> value</h2>
+
+<h4>parameter of <code>WebView.loadUrl</code></h4>
+
+<p>We can only use <em>String</em> as the parameter of <code>WebView.loadUrl()</code> function (Note <code>val1</code> and <code>val2</code>):</p>
+
+<pre><code>myWebView.loadUrl("javascript:window.MyHandler.setResult( addSomething("+val1+","+val2+") )");
+</code></pre>
+
+<h4>parameter of the interface for javascript</h4>
+
+<p>We can use <em>String</em> or <em>int</em> for these interfaces, like:</p>
+
+<pre><code>window.MyHandler.setResult(10);
+var stringFromJava = window.MyHandler.modifyString("string from javascript");
+</code></pre>
+
+<h4>Java return value to Javascript: <strong>sync</strong></h4>
+
+<p>Java can directly return String back to Javascritp, so we can use the following way to get the string from Java:</p>
+
+<pre><code>var stringFromJava = window.MyHandler.modifyString("string from javascript");
+</code></pre>
+
+<h4><a name="javascript_return_value_to_java"></a>Javascript return value to Java: <strong>async</strong></h4>
+
+<p>As <code>WebView.loadUrl</code> does not return anything, so Java can not get results from Javascript. We need other ways to get the result.</p>
+
+<p>Currently, we have no way to do this. The work around is: when javascript get the result, call a method in java side through the interface <code>MyHandler</code>, and pass the result as a parameter. As java call <code>WebView.loadurl</code> in a differenct thread, so even in this way, we can not get the result right away for use in the next line.</p>
+
+<h2>Multi-thread in Java side and Single-thread in Javascript side</h2>
+
+<h3>Javascript call Java: sync</h3>
+
+<p>When we run the following function, we can get the string returned from java side, and then set it into the html page.</p>
+
+<pre><code>function testSync() {
+    var string = "default string";
+    string = window.MyHandler.testString();
+    document.getElementById('test1').innerHTML = string;
+}
+</code></pre>
+
+<h3>Java call Javascript: async</h3>
+
+<p>Similar to <a href="#javascript_return_value_to_java">Javascript return value to Java</a>.</p>
+
+<h2>Security problems</h2>
+
+<p>Reference to <a href="http://jiajixin.cn/2014/09/16/webview-js-safety/">Java和Javascript安全交互</a>.</p>
+
+<p>An example listed:</p>
+
+<ul>
+<li>成名已久的任意命令执行漏洞，通过addJavascriptInterface方法，Js可以调用Java对象方法，通过反射机制，Js可以直接获取Runtime，从而执行任意命令。Android 4.2以上，可以通过声明@JavascriptInterface保证安全性，4.2以下不能再调用addJavascriptInterface，需要另谋他法。</li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Zhang Hongchao</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2015-07-28T00:00:00+08:00" pubdate data-updated="true">Jul 28th, 2015</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/android/'>android</a>, <a class='category' href='/blog/categories/java/'>java</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/07/27/Property-and-its-Attributes-in-Objective-C/" title="Previous Post: Property and its Attributes in Objective-C">&laquo; Property and its Attributes in Objective-C</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/08/02/ios-app-life-circle-and-some-interfaces/" title="Next Post: ios app life circle and related interfaces">ios app life circle and related interfaces &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+  <aside class="sidebar">
+   
+  
+    <section class="categories">
+  <h1>Categories</h1>
+    <ul id="top-category-list" class="nav nav-list"><li><a href='/blog/categories/ios'>ios (12)</a></li><li><a href='/blog/categories/productivity'>productivity (11)</a></li><li><a href='/blog/categories/objective-c'>objective-c (5)</a></li><li><a href='/blog/categories/android'>android (3)</a></li><li><a href='/blog/categories/python'>python (2)</a></li><li><a href='/blog/categories/algorithm'>algorithm (2)</a></li><li><a href='/blog/categories/javascript'>javascript (2)</a></li><li><a href='/blog/categories/web'>web (1)</a></li><li><a href='/blog/categories/android-studio'>android_studio (1)</a></li><li><a href='/blog/categories/xcode'>xcode (1)</a></li><li><a href='/blog/categories/design-pattern'>design_pattern (1)</a></li><li><a href='/blog/categories/java'>java (1)</a></li></ul>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2015/09/23/phone-interview-preparation/">Phone Interview Preparation</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/09/14/brainteasers-and-puzzles/">经典算法智力题</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/09/09/migrate-blog-to-octopress/">Migrate Blog to Octopress</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/09/07/Singleton/">Singleton</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/09/02/Shortcut-of-Chrome-on-Windows-and-Mac/">Shortcut of Chrome on Windows and Mac</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/hongchaozhang">@hongchaozhang</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'hongchaozhang',
+            count: 10,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+  
+</aside>
+
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2015 - Zhang Hongchao -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+<script>
+  $(document).ready(function() {  
+    var stickyNavTop = $('nav').offset().top;  
+      
+    var stickyNav = function(){  
+      var scrollTop = $(window).scrollTop(); 
+      var navHasClassSticky = $('nav').hasClass('sticky');
+
+      if (scrollTop > stickyNavTop && navHasClassSticky) {   
+        return true;
+      } else if (scrollTop > stickyNavTop) {
+        $('nav').hide();
+        $('nav').addClass('sticky');
+        $('nav').fadeIn('2000');
+      } else {  
+        $('nav').removeClass('sticky');   
+      }  
+    };  
+      
+    stickyNav();  
+      
+    $(window).scroll(function() {  
+      stickyNav();  
+    });  
+  });  
+</script>
+
+
+</body>
+</html>

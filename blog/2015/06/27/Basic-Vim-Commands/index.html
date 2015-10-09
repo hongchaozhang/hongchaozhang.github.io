@@ -1,0 +1,372 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Basic Vim Commands - Zhang Hongchao</title>
+  <meta name="author" content="Zhang Hongchao">
+
+  
+  <meta name="description" content="Vim is an editor to create or edit a text file. Two modes: command mode: move around, copy and past
+insert mode: insert text Change mode from one to &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://hongchaozhang.github.io/blog/2015/06/27/Basic-Vim-Commands">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Zhang Hongchao" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/libs/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<!--
+<link href='https://fonts.googleapis.com/css?family=Noto+Serif:400,700' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+-->
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Zhang Hongchao</a></h1>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><!--
+<ul class="subscription" data-subscription="rss">
+  
+  
+</ul>
+-->
+
+<!--
+
+-->
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <script type="text/javascript" src="/javascripts/DisableLineNumberCopy.js"></script>
+
+<div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Basic Vim Commands</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2015-06-27T00:00:00+08:00" pubdate data-updated="true">Jun 27th, 2015</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p><strong>Vim</strong> is an editor to create or edit a text file.</p>
+
+<p>Two modes:</p>
+
+<ul>
+<li><strong>command mode</strong>: move around, copy and past</li>
+<li><strong>insert mode</strong>: insert text</li>
+</ul>
+
+
+<!-- more -->
+
+
+<h3>Change mode from one to the other</h3>
+
+<p>From <em>command mode</em> to <em>insert mode</em>, type <strong>i/o(ou)</strong>.
+From <em>inset mode</em> to <em>command mode</em>, type <strong>Esc</strong>.</p>
+
+<p>Some useful commands for Vim. (<strong>Note:</strong> the following commands are only used in command mode.)</p>
+
+<h3>Text Entry Commands</h3>
+
+<ul>
+<li><strong>i</strong> Insert text before the current cursor position.</li>
+<li><strong>o(ou)</strong> Open up a new line following the current line and add text there.</li>
+</ul>
+
+
+<h3>Cursor Movement Commands</h3>
+
+<ul>
+<li><strong>h/l</strong> Moves the cursor one character to the <strong>left/right</strong>.</li>
+<li><strong>k/j</strong> Moves the cursor <strong>up/down</strong> one line.</li>
+<li><strong>nG/:n</strong> Cursor goes to the specified (n) line.</li>
+<li><strong>^f/^b</strong> One page <strong>forward/backward</strong>.</li>
+<li><strong>$/0(zero)</strong> Move cursor to the <strong>end/beginning</strong> of current line.</li>
+<li><strong>w/b</strong> Move cursor <strong>forward/backward</strong> one word.</li>
+</ul>
+
+
+<h3>Exit Commands</h3>
+
+<ul>
+<li><strong>:wq/ZZ</strong> Write file to disk and quit the editor.</li>
+<li><strong>:q!</strong> Quit with no warning.</li>
+<li><strong>:q</strong> Quit with a warning if a modified file has not been saved.</li>
+</ul>
+
+
+<h3>Delete</h3>
+
+<ul>
+<li><strong>x</strong> Delete character under cursor.</li>
+<li><strong>dw</strong> Delete word from cursor on.</li>
+<li><strong>db</strong> Delete word backward.</li>
+<li><strong>dd</strong> Delete line</li>
+<li><strong>d$</strong> Delete to the end of line.</li>
+<li><strong>d<sup>caret</sup></strong> Delete to the beginning of line.</li>
+</ul>
+
+
+<h3>Copy and Paste</h3>
+
+<p><strong>Yank</strong> is the <strong>copy</strong> command of Vim.</p>
+
+<ul>
+<li><strong>yy</strong> Yank current line.</li>
+<li><strong>y$</strong> Yank to end o fcurrent line from cursor.</li>
+<li><strong>yw</strong> Yank from cursor to end of current word.</li>
+<li><strong>[n]yy</strong> Yank the following <strong>n</strong> lines (including the current line).</li>
+</ul>
+
+
+<p><strong>Paste</strong> (used after <strong>Yank</strong>)</p>
+
+<ul>
+<li><strong>p</strong> Paste below cursor.</li>
+</ul>
+
+
+<h3>Search</h3>
+
+<ul>
+<li><strong>/pattern</strong> Search <strong>forward</strong> for the <em>pattern</em>.</li>
+<li><strong>?pattern</strong> Search <strong>backward</strong> for the <em>pattern</em>.</li>
+<li><strong>n/N</strong> After search, used for moving to the next search result (or reversely).</li>
+<li><strong>:g/pattern1/s//pattern2/g</strong> Replace every occurrence of <em>pattern1</em> with <em>pattern2</em>.</li>
+</ul>
+
+
+<h3>Other Usefull Commands</h3>
+
+<ul>
+<li><strong>u</strong> undo</li>
+<li><strong>^r(Ctrl+r)</strong> redo</li>
+<li><strong>:set number</strong> Display line number.</li>
+<li><strong>:set nonumber</strong> Don&rsquo;t display line number.</li>
+</ul>
+
+
+<p>What&rsquo;s more, most commands can be repeated <em>n</em> times by typing a number , <em>n</em>, before the command. For example, <em>10dd</em> means delete <em>10</em> lines.</p>
+
+<h3>Set Vim for Python</h3>
+
+<p>If you want to write <strong>Python</strong> code in Vim, it is better to set ~/.vimrc (for Mac) to support Python syntax, indent, etc. For default, there is not such file in the HOME path. Just create one.
+For the content, refer to official configuration at <a href="http://svn.python.org/projects/python/trunk/Misc/Vim/vimrc">here</a>.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Zhang Hongchao</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2015-06-27T00:00:00+08:00" pubdate data-updated="true">Jun 27th, 2015</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/productivity/'>productivity</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/05/20/How-to-write-post-in-github-pages/" title="Previous Post: How to write post in github pages">&laquo; How to write post in github pages</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/06/27/instructions-for-adding-tags-and-categories/" title="Next Post: How to use the python script for adding tags and categories">How to use the python script for adding tags and categories &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+  <aside class="sidebar">
+   
+  
+    <section class="categories">
+  <h1>Categories</h1>
+    <ul id="top-category-list" class="nav nav-list"><li><a href='/blog/categories/ios'>ios (12)</a></li><li><a href='/blog/categories/productivity'>productivity (11)</a></li><li><a href='/blog/categories/objective-c'>objective-c (5)</a></li><li><a href='/blog/categories/android'>android (3)</a></li><li><a href='/blog/categories/python'>python (2)</a></li><li><a href='/blog/categories/algorithm'>algorithm (2)</a></li><li><a href='/blog/categories/javascript'>javascript (2)</a></li><li><a href='/blog/categories/web'>web (1)</a></li><li><a href='/blog/categories/android-studio'>android_studio (1)</a></li><li><a href='/blog/categories/xcode'>xcode (1)</a></li><li><a href='/blog/categories/design-pattern'>design_pattern (1)</a></li><li><a href='/blog/categories/java'>java (1)</a></li></ul>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2015/09/23/phone-interview-preparation/">Phone Interview Preparation</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/09/14/brainteasers-and-puzzles/">经典算法智力题</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/09/09/migrate-blog-to-octopress/">Migrate Blog to Octopress</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/09/07/Singleton/">Singleton</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/09/02/Shortcut-of-Chrome-on-Windows-and-Mac/">Shortcut of Chrome on Windows and Mac</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/hongchaozhang">@hongchaozhang</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'hongchaozhang',
+            count: 10,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+  
+</aside>
+
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2015 - Zhang Hongchao -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+<script>
+  $(document).ready(function() {  
+    var stickyNavTop = $('nav').offset().top;  
+      
+    var stickyNav = function(){  
+      var scrollTop = $(window).scrollTop(); 
+      var navHasClassSticky = $('nav').hasClass('sticky');
+
+      if (scrollTop > stickyNavTop && navHasClassSticky) {   
+        return true;
+      } else if (scrollTop > stickyNavTop) {
+        $('nav').hide();
+        $('nav').addClass('sticky');
+        $('nav').fadeIn('2000');
+      } else {  
+        $('nav').removeClass('sticky');   
+      }  
+    };  
+      
+    stickyNav();  
+      
+    $(window).scroll(function() {  
+      stickyNav();  
+    });  
+  });  
+</script>
+
+
+</body>
+</html>
