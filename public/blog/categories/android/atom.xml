@@ -1,0 +1,328 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Android | Zhang Hongchao]]></title>
+  <link href="http://hongchaozhang.github.io/blog/categories/android/atom.xml" rel="self"/>
+  <link href="http://hongchaozhang.github.io/"/>
+  <updated>2015-10-09T10:47:08+08:00</updated>
+  <id>http://hongchaozhang.github.io/</id>
+  <author>
+    <name><![CDATA[Zhang Hongchao]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[How to Use Google Maps Android API Utility Library in Android Studio]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2015/08/26/How-to-Use-Google-Maps-Android-API-Utility-Library-in-Android-Studio/"/>
+    <updated>2015-08-26T00:00:00+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2015/08/26/How-to-Use-Google-Maps-Android-API-Utility-Library-in-Android-Studio</id>
+    <content type="html"><![CDATA[<p><strong>Google Maps Android API utility library</strong> (the <a href="https://github.com/googlemaps/android-maps-utils">github repo</a> and the <a href="http://googlemaps.github.io/android-maps-utils/">documentation</a>) supplies multiple cool features, including</p>
+
+<ul>
+<li><strong>Marker clustering</strong> — handles the display of a large number of points</li>
+<li><strong>Heat maps</strong> — display a large number of points as a heat map</li>
+<li><strong>IconGenerator</strong> — display text on your Markers</li>
+<li><strong>Poly decoding and encoding</strong> — compact encoding for paths, interoperability with Maps API web services</li>
+<li><strong>Spherical geometry</strong> — for example: computeDistance, computeHeading, computeArea</li>
+<li><strong>KML</strong> — displays KML data (Caution: Beta!)</li>
+<li><strong>GeoJSON</strong> — displays and styles GeoJSON data</li>
+</ul>
+
+
+<!-- more -->
+
+
+<p>A simple documentation about the usage of these features based on a demo can be found in <em>Google Developers</em> page <a href="https://developers.google.com/maps/documentation/android/utility/?hl=zh-cn">Google Maps Android API Utility Library</a>. And you can also refer to the <a href="http://googlemaps.github.io/android-maps-utils/javadoc/">javadoc</a>.</p>
+
+<p>When I tried to use the library in my Android Studio (Windows OS) project, I met some problems. It is not as simple as the <a href="http://googlemaps.github.io/android-maps-utils/">document</a> describes. A reference for setting up in Eclipse can be found in the <a href="https://developers.google.com/maps/documentation/android/utility/setup?hl=zh-cn">Google Maps Android API Utilities Setup</a>.</p>
+
+<p>As we know, we have three ways to use a library in Android Studio project: <em>Module dependency</em>, <em>Remote binary dependency</em> and <em>Local binary dependency</em>. (Go to <a href="https://developer.android.com/tools/building/configuring-gradle.html">Configure Gradle Builds</a> for detail). See the following code that we can use in the module <code>build.gradle</code>, not the project <code>build.gradle</code></p>
+
+<pre><code>dependencies {
+    // Module dependency
+    compile project(":lib")
+
+    // Remote binary dependency
+    compile 'com.android.support:appcompat-v7:19.0.1'
+
+    // Local binary dependency
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+}
+</code></pre>
+
+<p>I use the <em>Module dependency</em> method <strong>successfully</strong> in my project, but <strong>failed</strong> with the other two methods. Let&rsquo;s go to the details.</p>
+
+<h2>Module Dependency (Succeeded)</h2>
+
+<ul>
+<li>In your project, <strong>New &ndash;> Module &ndash;> Android Library</strong>, name it with <em>library</em> (not a googd name).</li>
+<li>Go to the exploror, go to <em><your project folder>/library</em>, delete all the files and folders there.</li>
+<li>Go to the <em>library</em> folder in the repository you downloaded from <a href="https://github.com/googlemaps/android-maps-utils">android-maps-utils</a>. Copy all the files and folders, and paste them into your own <em>library</em> folder.</li>
+<li>Open <code>build.gradle</code> under your own module, under <code>dependencies</code> element, add <code>compile project(':library')</code>.</li>
+<li>Sync your project, build and run. Success!</li>
+</ul>
+
+
+<h2>Remote Binary Dependency (Failed)</h2>
+
+<p>The github page suggested this way by</p>
+
+<pre><code>dependencies {
+    compile 'com.google.maps.android:android-maps-utils:x.y.z'
+}
+</code></pre>
+
+<p>But I just can not find the path <code>&lt;Android SDK&gt;/extras/google/m2repository/com/google/map.android/</code>. I am sure that I already installed the <em>Google Repository</em> by SDK manager.</p>
+
+<h2>Local Binary Dependency (Failed)</h2>
+
+<p>To use this way, I tried:</p>
+
+<ul>
+<li>put the <code>library-debug.aar</code> in to the <em>libs</em> folder in my module from <em>&lt;library/build/output/aar/</em> in Android Studio project exploror view.</li>
+<li>add <code>compile fileTree(dir: 'libs', include: ['*.aar'])</code> into my module <code>build.gradle</code> file, <code>dependencies</code> element.</li>
+</ul>
+
+
+<p>Seems that Android studio doesn&rsquo;t support <code>.aar</code> type library.</p>
+
+<p>So I changed to the following way:</p>
+
+<ul>
+<li>unzip the <code>library-debug.aar</code> file, and copy the <code>class.jar</code> file into the <em>libs</em> folder in my module.</li>
+<li>add <code>compile fileTree(dir: 'libs', include: ['*.jar'])</code> in to my module <code>build.gradle</code> file, <code>dependencies</code> element.</li>
+<li>Build passed, but crashed when I run it. I didn&rsquo;t go into it. Maybe the library need some resource that is in the <code>.aar</code> file, which is not in the <code>class.jar</code> file. Just guess.</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Deploy Environment for Android Map Development]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2015/08/20/Deploy-Environment-for-Android-Map-Developmet/"/>
+    <updated>2015-08-20T00:00:00+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2015/08/20/Deploy-Environment-for-Android-Map-Developmet</id>
+    <content type="html"><![CDATA[<p><strong>Contents:</strong></p>
+
+<ul>
+<li><a href="#get_map_key_from_google">Get map key from Google</a></li>
+<li><a href="#install_google_service_in_genymotion_vm">Install Google Service in Genymotion VM</a></li>
+</ul>
+
+
+<p>The following suggestions are all based on Windows. It should be similar on Mac.</p>
+
+<!-- more -->
+
+
+<p>Reference Google document from <a href="https://developers.google.com/maps/documentation/android/signup">here</a> and <a href="https://developers.google.com/maps/documentation/android/start">here</a>.</p>
+
+<h2><a name="get_map_key_from_google"></a>Get map key from Google</h2>
+
+<h3>Get package name</h3>
+
+<p>For Eclipse, open <strong>Androidmanifast.xml</strong> and the package name is:</p>
+
+<p><img src="/images/003_package_name_in_Eclipse.png" alt="003_package_name_in_Eclipse" /></p>
+
+<p>For Android Studio, <strong>TODO</strong></p>
+
+<h3>Get SHA1 fingerprint certificate</h3>
+
+<p>For Eclipse, go to <strong>Windows -> Preferences -> Android -> Build</strong> to find it.</p>
+
+<p>For Android Studio, go to your java(jdk) bin directory, and run:</p>
+
+<pre><code>keytool -list -v -keystore c:\users\&lt;your_user_name&gt;\.android\debug.keystore -alias androiddebugkey -storepass android -keypass android
+</code></pre>
+
+<p>You will get your SHA1 fingerprint from:</p>
+
+<p><img src="/images/004_SHA1_in_Android_Studio.png" alt="004_SHA1_in_Android_Studio" /></p>
+
+<h3>Generate the key</h3>
+
+<p>With your package name and SHA1 fingerprint, now we can generate your key.</p>
+
+<ol>
+<li>Go to the <a href="https://console.developers.google.com/">Google Developers Console</a>.</li>
+<li>In the sidebar on the left, select <em>Credentials</em>.</li>
+<li>If your project doesn&rsquo;t already have an Android API key, create one new by selecting <strong>Add credentials -> API key -> Android key</strong>.</li>
+<li>In the resulting dialog, enter your app&rsquo;s SHA-1 fingerprint and package name.</li>
+<li>Your new Android API key appears in the list of API keys for your project. An API key is a string of characters, something start with <em>AIza</em>, like <em>AIzaSyBdVl-cTICSwYKrZ95SuvNw7dbMuDt1KG0</em>.</li>
+</ol>
+
+
+<p>If you want to use an existing key, open the key, and click <em>add package name and fingerprint</em>, and then fill your package name and fingerprint.</p>
+
+<h3>Add the Android API key to your application</h3>
+
+<p>For Eclipse, in <code>AndroidManifest.xml</code>, add the following element as a child of the <code>&lt;application&gt;</code> element. Take the following as an example:</p>
+
+<p><img src="/images/002_add_key_in_Eclipse.png" alt="002_add_key_in_Eclipse" /></p>
+
+<p>For Android Studio, in res/values/google_maps_api.xml, add your Android API key as the value of <code>google_maps_key</code> element.</p>
+
+<h2><a name="install_google_service_in_genymotion_vm"></a>Install Google Service in Genymotion VM</h2>
+
+<p>Genymotion is a Virtual Android Environment built on x86 and Virtualbox. It&rsquo;s not an ARM emulator so it&rsquo;s performance is better than the Android SDK Emulator. However in their latest update they&rsquo;ve removed both ARM Translation and Google Play Apps.</p>
+
+<p>Sometimes, We need the above two functions for genymotion VM. For example, to run map type apps needs Google play service.</p>
+
+<p>In order to install ARM translation for Genymotion, follow these steps:</p>
+
+<ol>
+<li>Download the zip file from <a href="http://filetrip.net/dl?4SUOrdcMRv">here</a></li>
+<li>Open Genymotion and go to the home screen.</li>
+<li>Drag and Drop the .zip file onto the Genymotion window.</li>
+<li>Restart Genymotion</li>
+</ol>
+
+
+<p>Genymotion can now run applications that require ARM emulation.</p>
+
+<p>It is similar for Google Play Apps, which can be downloaded from <a href="https://www.androidfilehost.com/?fid=95784891001614559">here</a></p>
+
+<p>Go to <a href="http://stackoverflow.com/questions/20121883/how-to-install-google-play-services-in-a-genymotion-vm-with-no-drag-and-drop-su">How to install Google Play Services in a Genymotion VM (with no drag and drop support)?</a> for details.</p>
+
+<p>At last, <strong>Remenber</strong> to make sure that your device can connect to google server, especially when you are in China.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Communication Between WebView and Native Android]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2015/07/28/Communication-between-WebView-and-native-android/"/>
+    <updated>2015-07-28T00:00:00+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2015/07/28/Communication-between-WebView-and-native-android</id>
+    <content type="html"><![CDATA[<h2>Description</h2>
+
+<p>In Android project, we sometimes want to rend a page in <strong>WebView</strong>, and need communication between webview and native android side.</p>
+
+<p><strong>Note:</strong> Go to <a href="https://github.com/hongchaozhang/android_java_javascript_communication">here</a> for a project as a sample.</p>
+
+<h2>Javascript and Java Bridge</h2>
+
+<!-- more -->
+
+
+<ol>
+<li><p>Code for javascript interface in native android side:</p>
+
+<pre><code> public class JavaScriptInterface {
+     protected MyActivity parentActivity;
+     protected WebView mWebView;
+
+     public JavaScriptInterface(MyActivity _activity, WebView _webView)  {
+         parentActivity = _activity;
+         mWebView = _webView;
+
+     }
+
+     @JavascriptInterface
+     public void setResult(int val){
+         Log.v("mylog","JavaScriptHandler.setResult is called : " + val);
+         this.parentActivity.javascriptCallFinished(val);
+     }
+
+     @JavascriptInterface
+     public void calcSomething(int x, int y){
+         this.parentActivity.changeText("Result is : " + (x * y));
+     }
+
+     @JavascriptInterface
+     public String modifyString(String inputString) {
+         return inputString + " from Java side";
+     }
+ }
+</code></pre>
+
+<p> Here, we can introduce the main activity <code>parentActivity</code> and the webview <code>mWebView</code> into the interface for further use.</p></li>
+<li><p>Get webview from layout xml file, or create it from scrach, and config it:</p>
+
+<pre><code> myWebView = (WebView)this.findViewById(R.id.myWebView);
+ myWebView.getSettings().setJavaScriptEnabled(true);
+ myWebView.loadUrl("file:///android_asset/index.html");
+
+ myWebView.addJavascriptInterface(new JavaScriptInterface(this, myWebView), "MyHandler");
+ if(Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.KITKAT) {
+     WebView.setWebContentsDebuggingEnabled(true);
+ }
+</code></pre>
+
+<p> 1) Pay attention to <code>addJavascriptinterface</code>, which add the javascript interface, and gives the interface a name <code>MyHandler</code>.
+2) To be able to debug web page inside webview, <code>setWebContentsDebuggingEnabled(true)</code> should be called for android version after <code>KITKAT(4.4)</code>.</p></li>
+<li><p>Then we can use the following way to call javascript function and change html page from java side:</p>
+
+<pre><code> myWebView.loadUrl("javascript:document.getElementById('test1').innerHTML = 'changed'");
+</code></pre>
+
+<p> And use the following to call java method from javascript side:</p>
+
+<pre><code> window.MyHandler.setResult(9999)
+</code></pre></li>
+</ol>
+
+
+<h2>Passing parameters and <code>return</code> value</h2>
+
+<h4>parameter of <code>WebView.loadUrl</code></h4>
+
+<p>We can only use <em>String</em> as the parameter of <code>WebView.loadUrl()</code> function (Note <code>val1</code> and <code>val2</code>):</p>
+
+<pre><code>myWebView.loadUrl("javascript:window.MyHandler.setResult( addSomething("+val1+","+val2+") )");
+</code></pre>
+
+<h4>parameter of the interface for javascript</h4>
+
+<p>We can use <em>String</em> or <em>int</em> for these interfaces, like:</p>
+
+<pre><code>window.MyHandler.setResult(10);
+var stringFromJava = window.MyHandler.modifyString("string from javascript");
+</code></pre>
+
+<h4>Java return value to Javascript: <strong>sync</strong></h4>
+
+<p>Java can directly return String back to Javascritp, so we can use the following way to get the string from Java:</p>
+
+<pre><code>var stringFromJava = window.MyHandler.modifyString("string from javascript");
+</code></pre>
+
+<h4><a name="javascript_return_value_to_java"></a>Javascript return value to Java: <strong>async</strong></h4>
+
+<p>As <code>WebView.loadUrl</code> does not return anything, so Java can not get results from Javascript. We need other ways to get the result.</p>
+
+<p>Currently, we have no way to do this. The work around is: when javascript get the result, call a method in java side through the interface <code>MyHandler</code>, and pass the result as a parameter. As java call <code>WebView.loadurl</code> in a differenct thread, so even in this way, we can not get the result right away for use in the next line.</p>
+
+<h2>Multi-thread in Java side and Single-thread in Javascript side</h2>
+
+<h3>Javascript call Java: sync</h3>
+
+<p>When we run the following function, we can get the string returned from java side, and then set it into the html page.</p>
+
+<pre><code>function testSync() {
+    var string = "default string";
+    string = window.MyHandler.testString();
+    document.getElementById('test1').innerHTML = string;
+}
+</code></pre>
+
+<h3>Java call Javascript: async</h3>
+
+<p>Similar to <a href="#javascript_return_value_to_java">Javascript return value to Java</a>.</p>
+
+<h2>Security problems</h2>
+
+<p>Reference to <a href="http://jiajixin.cn/2014/09/16/webview-js-safety/">Java和Javascript安全交互</a>.</p>
+
+<p>An example listed:</p>
+
+<ul>
+<li>成名已久的任意命令执行漏洞，通过addJavascriptInterface方法，Js可以调用Java对象方法，通过反射机制，Js可以直接获取Runtime，从而执行任意命令。Android 4.2以上，可以通过声明@JavascriptInterface保证安全性，4.2以下不能再调用addJavascriptInterface，需要另谋他法。</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+</feed>

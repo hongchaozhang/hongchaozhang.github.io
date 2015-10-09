@@ -1,0 +1,2148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Zhang Hongchao]]></title>
+  <link href="http://hongchaozhang.github.io/atom.xml" rel="self"/>
+  <link href="http://hongchaozhang.github.io/"/>
+  <updated>2015-10-09T10:47:08+08:00</updated>
+  <id>http://hongchaozhang.github.io/</id>
+  <author>
+    <name><![CDATA[Zhang Hongchao]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Phone Interview Preparation]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2015/09/23/phone-interview-preparation/"/>
+    <updated>2015-09-23T11:02:18+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2015/09/23/phone-interview-preparation</id>
+    <content type="html"><![CDATA[<p>这里有很多面试题：<a href="http://www.geeksforgeeks.org/">GeeksforGeeks</a>，有概念，也有算法，也有各大公司的面试经历。尤其是下面两部分：</p>
+
+<ul>
+<li><a href="http://www.geeksforgeeks.org/data-structures/">数据结构</a></li>
+<li><a href="http://www.geeksforgeeks.org/fundamentals-of-algorithms/">算法</a></li>
+</ul>
+
+
+<p>Contents</p>
+
+<ul>
+<li><a href="#stack_and_queue">Concepts of Stack and Queue</a></li>
+<li><a href="#override_andoverload">覆盖(Overriding)和重载(Overloading)的区别是什么？</a></li>
+<li><a href="#iteration_and_recursion">迭代(Iteration)和递归(Recursion)有什么区别？</a></li>
+<li><a href="#tree_concepts">Concepts of some kinds of tree</a></li>
+<li><a href="#linked_list_and_array">链表(Linked List)和数组(Array)有哪些重要区别?</a></li>
+<li><a href="#delete_node_in_linked_list">给定链表的头指针和一个结点指针，在O(1)时间删除该结点</a></li>
+<li><a href="#find_numbers_appearing_once">找出数组中两个只出现一次的数字(数组)</a></li>
+<li><a href="#conflicts_while_hashing">在哈希表中处理冲突的方法都有哪些？</a></li>
+<li><a href="#get_elements_from_data_structure">从哈希表，二叉树和链表中取元素需要多少时间?</a></li>
+<li><a href="#sorting">Sort algorithm</a></li>
+<li><a href="#iterative_tree_traversal">Iterative Preorder(Postorder) traversal</a></li>
+<li><a href="#reverse_binary_tree">Reverse Binary Tree</a></li>
+<li><a href="#lucky_number">Lucky Number</a></li>
+<li><a href="#linked_list_circle">Circles in Linked List</a></li>
+<li><a href="#linked_list_intersection">Intersection of two single Linked Lists without circles</a></li>
+<li><a href="#find_k_smallest_nubers">寻找最小的k个数</a></li>
+<li><a href="#java_singleton">Singleton in Java</a></li>
+</ul>
+
+
+<!-- more -->
+
+
+<h3><a name="stack_and_queue"></a>Concepts of Stack and Queue</h3>
+
+<ul>
+<li>Stack</li>
+<li>Queue</li>
+</ul>
+
+
+<p><strong>Question:</strong> How to implement a <strong>Queue</strong> using two <strong>Stack</strong>s?</p>
+
+<p><strong>Answer:</strong></p>
+
+<div class="highlight"><pre><code class="language-c--" data-lang="c++"><span class="lineno"> 1</span> <span class="k">class</span> <span class="nc">Stack</span>
+<span class="lineno"> 2</span> <span class="p">{</span>
+<span class="lineno"> 3</span> <span class="err">…</span>
+<span class="lineno"> 4</span> <span class="k">public</span><span class="o">:</span>
+<span class="lineno"> 5</span>          <span class="kt">void</span> <span class="n">Push</span><span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">);</span> <span class="c1">// Push an element in stack;</span>
+<span class="lineno"> 6</span>          <span class="kt">int</span> <span class="nf">Pop</span><span class="p">();</span>  <span class="c1">// Pop an element out of stack;</span>
+<span class="lineno"> 7</span>          <span class="kt">int</span> <span class="n">Count</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>     <span class="c1">// Return the number of the elements in stack;</span>
+<span class="lineno"> 8</span> <span class="err">…</span>
+<span class="lineno"> 9</span> <span class="p">};</span>
+<span class="lineno">10</span>  
+<span class="lineno">11</span> <span class="k">class</span> <span class="nc">Queue</span>
+<span class="lineno">12</span> <span class="p">{</span>
+<span class="lineno">13</span> <span class="err">…</span>
+<span class="lineno">14</span> <span class="k">public</span><span class="o">:</span>
+<span class="lineno">15</span>          <span class="kt">void</span> <span class="n">Enqueue</span><span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">);</span>
+<span class="lineno">16</span>          <span class="kt">int</span> <span class="nf">Dequeue</span><span class="p">();</span>
+<span class="lineno">17</span>  
+<span class="lineno">18</span> <span class="k">private</span><span class="o">:</span>
+<span class="lineno">19</span>          <span class="n">Stack</span> <span class="n">s1</span><span class="p">;</span>
+<span class="lineno">20</span>          <span class="n">Stack</span> <span class="n">s2</span><span class="p">;</span>
+<span class="lineno">21</span> <span class="err">…</span>
+<span class="lineno">22</span> <span class="p">};</span></code></pre></div>
+
+
+<ul>
+<li>入队时，将元素压入s1。</li>
+<li>出队时，将s1的元素逐个“倒入”（弹出并压入）s2，将s2的顶元素弹出作为出队元素，之后再将s2剩下的元素逐个“倒回”s1。</li>
+</ul>
+
+
+<h3><a name="override_andoverload"></a>覆盖(Overriding)和重载(Overloading)的区别是什么？  (detailed answer)</h3>
+
+<p>覆盖在运行时决定，重载是在编译时决定。并且覆盖和重载的机制不同，例如在Java中，重载方法的签名必须不同于原先方法的，但对于覆盖签名必须相同。</p>
+
+<h3><a name="iteration_and_recursion"></a>迭代(Iteration)和递归(Recursion)有什么区别？(detailed answer)</h3>
+
+<p>迭代通过循环来重复执行同一步骤，递归通过调用函数自身来做重复性工作。递归经常是复杂问题（例如汉诺塔、反转链表或反转字符串）的清晰简洁的解决方案。递归的一个缺陷是深度，由于递归在栈中存储中间结果，你只能进行一定深度的递归，在那之后你的程序会因为StackOverFlowError而崩溃。这就是在产品代码中优先使用迭代而不是递归的原因。</p>
+
+<h3><a name="tree_concepts"></a>Concept of Tree</h3>
+
+<ul>
+<li>二叉树(Binary Tree)</li>
+<li>二叉查找树(Binary Search Tree) (二叉排序树(Binary Sort Tree))</li>
+<li>平衡二叉树(Balanced Binary Tree)</li>
+<li>满二叉树(Full Binary Tree)</li>
+</ul>
+
+
+<p>二叉查找树是有序的二叉树，所有节点（例如根节点）的左子树节点的值都小于或等于该节点的值，右子树节点的值都大于或等于该节点的值。它是一个重要的数据结构，可以用来表示有序的数据。</p>
+
+<p>二叉排序树又叫做二叉查找树</p>
+
+<h3><a name="linked_list_and_array"></a>链表(Linked List)和数组(Array)有哪些重要区别？(detailed answer)</h3>
+
+<p>链表和数组都是程序设计世界中重要的数据结构。它们间最明显的区别是，数组将元素存放在连续的地址中，链表将数据存放在内存中任意的位置。这使得链表有巨大的扩展自己的灵活性，因为内存总是分散的。这种情况总是可能的：你无法创建一个数组来存放一百万个整数，但可以用链表来存放，因为空间是存在的，只是不连续。其他的不同都是源于这项事实。例如，在数组中，如果你知道下标，可以用O(1)的时间得到一个元素，但在链表中要花O(n)的时间。更多不同参见详细答案。</p>
+
+<p>存储方式不同：Elements in array is stored condinuousely, while those in linked list are not.</p>
+
+<p>存储位置不同：In general, array is considered a data structure for which size is fixed at the compile time and array memory is allocated either from Data section (e.g. global array) or Stack section (e.g. local array).
+Similarly, linked list is considered a data structure for which size is not fixed and memory is allocated from Heap section (e.g. using malloc() etc.) as and when needed. In this sense, array is taken as a static data structure (residing in Data or Stack section) while linked list is taken as a dynamic data structure (residing in Heap section).</p>
+
+<p>Like arrays, Linked List is a linear data structure. Unlike arrays, linked list elements are not stored at contiguous location; the elements are linked using pointers.</p>
+
+<ul>
+<li>Advantages over arrays
+
+<ul>
+<li>Dynamic size</li>
+<li>Ease of insertion/deletion</li>
+</ul>
+</li>
+<li>Drawbacks:
+
+<ul>
+<li>Random access is not allowed. We have to access elements sequentially starting from the first node. So we cannot do binary search with linked lists.</li>
+<li>Extra memory space for a pointer is required with each element of the list.</li>
+</ul>
+</li>
+</ul>
+
+
+<h3><a name="delete_node_in_linked_list"></a>给定链表的头指针和一个结点指针，在O(1)时间删除该结点</h3>
+
+<p> 办法很简单，首先是放p中数据,然后将p->next的数据copy入p中，接下来删除p->next即可。</p>
+
+<blockquote><p>类似的：只给定单链表中某个结点p(非空结点)，在p前面插入一个结点。</p>
+
+<p>回答：首先分配一个结点q，将q插入在p后，接下来将p中的数据copy入q中，然后再将要插入的数据记录在p中。</p></blockquote>
+
+<h3><a name="find_numbers_appearing_once"></a>找出数组中两个只出现一次的数字(数组)</h3>
+
+<p>题目：一个整型数组里除了两个数字之外，其他的数字都出现了两次。
+请写程序找出这两个只出现一次的数字。要求时间复杂度是O(n)，空间复杂度是O(1)。
+分析：这是一道很新颖的关于位运算的面试题。</p>
+
+<p>首先我们考虑这个问题的一个简单版本：</p>
+
+<blockquote><p><strong>一个数组里除了一个数字之外，其他的数字都出现了两次。</strong>请写程序找出这个只出现一次的数字。</p></blockquote>
+
+<p>这个题目的突破口在哪里？题目为什么要强调有一个数字出现一次，其他的出现两次？我们想到了<strong>异或运算</strong>的性质：</p>
+
+<ul>
+<li>任何一个数字异或它自己都等于0。</li>
+<li>任何一个数字异或0还等于它自身。</li>
+</ul>
+
+
+<p>也就是说，如果我们从头到尾依次异或数组中的每一个数字，那么最终的结果刚好是那个只出现依次的数字，因为那些出现两次的数字全部在异或中抵消掉了。</p>
+
+<p>有了上面简单问题的解决方案之后，我们回到原始的问题。如果能够把原数组分为两个子数组。在每个子数组中，包含一个只出现一次的数字，而其他数字都出现两次。如果能够这样拆分原数组，按照前面的办法就是分别求出这两个只出现一次的数字了。</p>
+
+<p>我们还是从头到尾依次异或数组中的每一个数字，那么最终得到的结果就是两个只出现一次的数字的异或结果。因为其他数字都出现了两次，在异或中全部抵消掉了。由于这两个数字肯定不一样，那么这个异或结果肯定不为0，也就是说在这个结果数字的二进制表示中至少就有一位为1。我们在结果数字中找到第一个为1的位的位置，记为第N位。<strong>现在我们以第N位是不是1为标准把原数组中的数字分成两个子数组，第一个子数组中每个数字的第N位都为1，而第二个子数组的每个数字的第N位都为0。</strong>这种划分方法可以保证：</p>
+
+<ul>
+<li>出现两次的数字被划分到同一个数组中。</li>
+<li>只出现一次的两个数字被划分到不同的数组中。</li>
+</ul>
+
+
+<p>现在我们已经把原数组分成了两个子数组，每个子数组都包含一个只出现一次的数字，而其他数字都出现了两次。因此到此为止，所有的问题我们都已经解决。</p>
+
+<h3><a name="conflicts_while_hashing"></a>在哈希表中处理冲突的方法都有哪些？</h3>
+
+<p>线性探测(linear probing)，二次哈希(double hashing)和链接(chaining)。在线性探测中，如果桶已经被占据了，那么函数会线性地检查下一个桶，直到找到一个空位。在链接中，多个元素可以存储在同一个桶中。</p>
+
+<h3><a name="get_elements_from_data_structure"></a>从哈希表，二叉树和链表中取元素需要多少时间？如果你有数百万记录呢？</h3>
+
+<p>哈希表需要O(1)时间，二叉树需要O(logN) (N是树中节点数)，链表需要O(N) (N是链表中节点数）。如果数据结构工作正常（比如哈希表没有或只有相对少量冲突，二叉树是平衡的），数百万记录并不影响效率。如果工作不正常，那么效率会随着记录数上升而下降。</p>
+
+<h3><a name="sorting"></a>Sort algorithm</h3>
+
+<p>reference <a href="http://dongxicheng.org/structure/sort/">here</a></p>
+
+<h4>Stable of sorting</h4>
+
+<p>Some sorting algorithms are stable by nature like <strong>Insertion sort</strong>, <strong>Merge Sort</strong>, <strong>Bubble Sort</strong>, etc. And some sorting algorithms are not, like <strong>Heap Sort</strong>, <strong>Quick Sort</strong>, etc.</p>
+
+<h3><a name="iterative_tree_traversal"></a>Iterative Preorder(Postorder) Traversal</h3>
+
+<ol>
+<li>Create an empty stack nodeStack and push root node to stack.</li>
+<li>Do following while nodeStack is not empty.
+
+<ol>
+<li>Pop an item from stack and print it.</li>
+<li>Push <strong>right</strong> (left for Postorder) child of popped item to stack</li>
+<li>Push <strong>left</strong> (right for Postorder) child of popped item to stack</li>
+</ol>
+</li>
+</ol>
+
+
+<p>Right child is pushed before left child to make sure that left subtree is processed first.</p>
+
+<h3><a name="reverse_binary_tree"></a>Reverse Binary Tree</h3>
+
+<h4>Recursive method:</h4>
+
+<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="cm">/**</span>
+<span class="cm"> * Definition for a binary tree node.</span>
+<span class="cm"> * public class TreeNode {</span>
+<span class="cm"> *     int val;</span>
+<span class="cm"> *     TreeNode left;</span>
+<span class="cm"> *     TreeNode right;</span>
+<span class="cm"> *     TreeNode(int x) { val = x; }</span>
+<span class="cm"> * }</span>
+<span class="cm"> */</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Solution</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="n">TreeNode</span> <span class="nf">invertTree</span><span class="o">(</span><span class="n">TreeNode</span> <span class="n">root</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">root</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+        <span class="o">}</span>
+        <span class="n">root</span><span class="o">.</span><span class="na">left</span> <span class="o">=</span> <span class="n">invertTree</span><span class="o">(</span><span class="n">root</span><span class="o">.</span><span class="na">left</span><span class="o">);</span>
+        <span class="n">root</span><span class="o">.</span><span class="na">right</span> <span class="o">=</span> <span class="n">invertTree</span><span class="o">(</span><span class="n">root</span><span class="o">.</span><span class="na">right</span><span class="o">);</span>
+        
+        <span class="n">TreeNode</span> <span class="n">tmp</span> <span class="o">=</span> <span class="n">root</span><span class="o">.</span><span class="na">left</span><span class="o">;</span>
+        <span class="n">root</span><span class="o">.</span><span class="na">left</span> <span class="o">=</span> <span class="n">root</span><span class="o">.</span><span class="na">right</span><span class="o">;</span>
+        <span class="n">root</span><span class="o">.</span><span class="na">right</span> <span class="o">=</span> <span class="n">tmp</span><span class="o">;</span>
+        <span class="k">return</span> <span class="n">root</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></div>
+
+
+<h4>Iterative method:</h4>
+
+<p>to do &hellip;</p>
+
+<h3><a name="lucky_number"></a>Lucky Numbers</h3>
+
+<p>Implementation using Recursion.</p>
+
+<p>reference <a href="http://www.geeksforgeeks.org/lucky-numbers/">Lucky Numbers</a></p>
+
+<p><strong>Question:</strong></p>
+
+<p>Take the set of integers
+1,2,3,4,5,6,7,8,9,10,11,12,14,15,16,17,18,19,……</p>
+
+<ul>
+<li><p>First, delete every second number, we get following reduced set.
+1,3,5,7,9,11,13,15,17,19,…………</p></li>
+<li><p>Now, delete every third number, we get
+1, 3, 7, 9, 13, 15, 19,….….</p></li>
+<li><p>Continue this process indefinitely……
+Any number that does NOT get deleted due to above process is called “lucky”.</p></li>
+<li><p>Therefore, set of lucky numbers is 1, 3, 7, 13,………</p></li>
+</ul>
+
+
+<p>Now, given an integer ‘n’, write a function to say whether this number is lucky or not.</p>
+
+<p><code>bool isLucky(int n)</code></p>
+
+<p><strong>Analytics:</strong></p>
+
+<p>Before every iteration, if we calculate position of the given number, then in a given iteration, we can determine if the number will be deleted. Suppose calculated position for the given number is P before some iteration, and each Ith number is going to be removed in this iteration, if P &lt; I then input number is lucky, if P is such that P%I == 0 (I is a divisor of P), then input number is not lucky.</p>
+
+<p><strong>Code:</strong></p>
+
+<div class="highlight"><pre><code class="language-c" data-lang="c"><span class="lineno"> 1</span> <span class="cp">#include &lt;stdio.h&gt;</span>
+<span class="lineno"> 2</span> <span class="cp">#define bool int</span>
+<span class="lineno"> 3</span> 
+<span class="lineno"> 4</span> <span class="cm">/* Returns 1 if n is a lucky number, ohterwise returns 0*/</span>
+<span class="lineno"> 5</span> <span class="kt">bool</span> <span class="nf">isLucky</span><span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">)</span>
+<span class="lineno"> 6</span> <span class="p">{</span>
+<span class="lineno"> 7</span>     <span class="k">static</span> <span class="kt">int</span> <span class="n">counter</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
+<span class="lineno"> 8</span> 
+<span class="lineno"> 9</span>     <span class="cm">/*variable next_position is just for readability of</span>
+<span class="lineno">10</span> <span class="cm">       the program we can remove it and use n only */</span>
+<span class="lineno">11</span>     <span class="kt">int</span> <span class="n">next_position</span> <span class="o">=</span> <span class="n">n</span><span class="p">;</span>
+<span class="lineno">12</span>     <span class="k">if</span><span class="p">(</span><span class="n">counter</span> <span class="o">&gt;</span> <span class="n">n</span><span class="p">)</span>
+<span class="lineno">13</span>         <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+<span class="lineno">14</span>     <span class="k">if</span><span class="p">(</span><span class="n">n</span><span class="o">%</span><span class="n">counter</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+<span class="lineno">15</span>         <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>      
+<span class="lineno">16</span> 
+<span class="lineno">17</span>     <span class="cm">/*calculate next position of input no*/</span>
+<span class="lineno">18</span>     <span class="n">next_position</span> <span class="o">-=</span> <span class="n">next_position</span><span class="o">/</span><span class="n">counter</span><span class="p">;</span>
+<span class="lineno">19</span> 
+<span class="lineno">20</span>     <span class="n">counter</span><span class="o">++</span><span class="p">;</span>
+<span class="lineno">21</span>     <span class="k">return</span> <span class="n">isLucky</span><span class="p">(</span><span class="n">next_position</span><span class="p">);</span>
+<span class="lineno">22</span> <span class="p">}</span>
+<span class="lineno">23</span> 
+<span class="lineno">24</span> <span class="cm">/*Driver function to test above function*/</span>
+<span class="lineno">25</span> <span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="lineno">26</span> <span class="p">{</span>
+<span class="lineno">27</span>     <span class="kt">int</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">5</span><span class="p">;</span>
+<span class="lineno">28</span>     <span class="k">if</span><span class="p">(</span> <span class="n">isLucky</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="p">)</span>
+<span class="lineno">29</span>         <span class="n">printf</span><span class="p">(</span><span class="s">&quot;%d is a lucky no.&quot;</span><span class="p">,</span> <span class="n">x</span><span class="p">);</span>
+<span class="lineno">30</span>     <span class="k">else</span>
+<span class="lineno">31</span>         <span class="n">printf</span><span class="p">(</span><span class="s">&quot;%d is not a lucky no.&quot;</span><span class="p">,</span> <span class="n">x</span><span class="p">);</span>
+<span class="lineno">32</span>     <span class="n">getchar</span><span class="p">();</span>
+<span class="lineno">33</span> <span class="p">}</span></code></pre></div>
+
+
+<h3><a name="linked_list_circle"></a>Circles in Linked List</h3>
+
+<blockquote><p>判断单链表是否有环，要求空间尽量少（2011年MTK）。如何找出环的连接点在哪里？如何知道环的长度？</p></blockquote>
+
+<p>很经典的题目。</p>
+
+<ul>
+<li>判断是否有环。使用两个指针。一个每次前进1，另一个每次前进2，且都从链表第一个元素开始。显然，如果有环，两个指针必然会相遇。</li>
+<li>环的长度。记下第一次的相遇点，这个指针再次从相遇点出发，直到第二次相遇。此时，步长为1的指针所走的步数恰好就是环的长度。</li>
+<li>环的链接点。记下第一次的相遇点，使一个指针指向这个相遇点，另一个指针指向链表第一个元素。然后，两个指针同步前进，且步长都为1。当两个指针相遇时所指的点就是环的连接点。</li>
+</ul>
+
+
+<h3><a name="linked_list_intersection"></a>Intersection of two Single Linked List without circles</h3>
+
+<blockquote><p>判断两无环单链表是否相交。</p></blockquote>
+
+<p>方法一：直接法</p>
+
+<p>   直接判断第一个链表的每个结点是否在第二个链表中，时间复杂度为O(len1*len2)，耗时很大</p>
+
+<p>方法二：利用计数</p>
+
+<p>如 果 两个链表相交，则两个链表就会有共同的结点；而结点地址又是结点唯一标识。因而判断两个链表中是否存在地址一致的节点，就可以知道是否相交了。可以对第一 个链表的节点地址进行hash排序，建立hash表，然后针对第二个链表的每个节点的地址查询hash表，如果它在hash表中出现，则说明两个链表有共 同的结点。这个方法的时间复杂度为：O(max(len1+len2)；但同时还得增加O(len1)的存储空间存储哈希表。这样减少了时间复杂度，增加 了存储空间。</p>
+
+<p>以链表节点地址为值，遍历第一个链表，使用Hash保存所有节点地址值，结束条件为到最后一个节点（无环）或Hash中该地址值已经存在（有环）。</p>
+
+<p>再遍历第二个链表，判断节点地址值是否已经存在于上面创建的Hash表中。</p>
+
+<p>这个方面可以解决题目中的所有情况，时间复杂度为O(m+n)，m和n分别是两个链表中节点数量。由于节点地址指针就是一个整型，假设链表都是在堆中动态创建的，可以使用堆的起始地址作为偏移量，以地址减去这个偏移量作为Hash函数</p>
+
+<p>方法三</p>
+
+<p>两个没有环的链表相交于一节点，则在这个节点之后的所有结点都是两个链表所共有的。如果它们相交，则最后一个结点一定是共有的，则只需要判断最后一个结点是否相同即可。时间复杂度为O(len1+len2)。对于相交的第一个结点，则可求出两个链表的长度，然后用长的减去短的得到一个差值 K，然后让长的链表先遍历K个结点，然后两个链表再开始比较。</p>
+
+<h3><a name="find_k_smallest_nubers"></a>寻找最小的k个数</h3>
+
+<p><a href="http://blog.csdn.net/v_JULY_v/article/details/6370650">寻找最小的k个数</a></p>
+
+<h3><a name="java_singleton"></a>Singleton in Java</h3>
+
+<p><strong>Notes:</strong></p>
+
+<ul>
+<li>We  should create a static variable so that it can hold one single instance of our class.</li>
+<li>We should declare the constructor private so that  only Class itself can instantiate the object.</li>
+<li>Then the main work  to write the method which returns the instance of the class , let the name of the method be <code>getInstance()</code> .</li>
+</ul>
+
+
+<p>For <code>getInstance()</code>, we have two ways to implement it: <strong>Lazy initialization</strong> and <strong>Early initialization</strong>.</p>
+
+<h4>Lazy initialization:</h4>
+
+<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="lineno"> 1</span> <span class="kd">public</span> <span class="kd">class</span> <span class="nc">JavaHungrySingleton</span>
+<span class="lineno"> 2</span> <span class="o">{</span>
+<span class="lineno"> 3</span>     <span class="kd">private</span> <span class="kd">static</span>  <span class="kd">volatile</span> <span class="n">JavaHungrySingleton</span>  <span class="n">uniqueInstance</span><span class="o">;</span>
+<span class="lineno"> 4</span>     
+<span class="lineno"> 5</span>     <span class="kd">private</span> <span class="nf">JavaHungrySingleton</span><span class="o">(){}</span>
+<span class="lineno"> 6</span>     
+<span class="lineno"> 7</span>     <span class="kd">public</span> <span class="kd">static</span>   <span class="n">JavaHungrySingleton</span>  <span class="nf">getInstance</span><span class="o">()</span>
+<span class="lineno"> 8</span>     <span class="o">{</span>
+<span class="lineno"> 9</span>         <span class="k">if</span> <span class="o">(</span><span class="n">uniqueInstance</span> <span class="o">==</span><span class="kc">null</span> <span class="o">)</span>
+<span class="lineno">10</span>         <span class="o">{</span>
+<span class="lineno">11</span>             <span class="kd">synchronized</span><span class="o">(</span><span class="n">JavaHungrySingleton</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+<span class="lineno">12</span>             <span class="o">{</span>
+<span class="lineno">13</span>                 <span class="k">if</span> <span class="o">(</span><span class="n">uniqueInstance</span> <span class="o">==</span><span class="kc">null</span> <span class="o">)</span>
+<span class="lineno">14</span>                 <span class="o">{</span>
+<span class="lineno">15</span>                     <span class="n">uniqueInstance</span><span class="o">=</span><span class="k">new</span> <span class="nf">JavaHungrySingleton</span><span class="o">();</span>
+<span class="lineno">16</span>                 <span class="o">}</span>
+<span class="lineno">17</span>             <span class="o">}</span>
+<span class="lineno">18</span>         <span class="o">}</span>
+<span class="lineno">19</span>         <span class="k">return</span> <span class="n">uniqueInstance</span> <span class="o">;</span>
+<span class="lineno">20</span>     <span class="o">}</span>
+<span class="lineno">21</span>     
+<span class="lineno">22</span>     <span class="c1">// other useful methods here</span>
+<span class="lineno">23</span> <span class="o">}</span></code></pre></div>
+
+
+<h4>Early initailization</h4>
+
+<p>If our application always create and use the Singleton class, we can use <strong>Early initialization</strong> to implement Singleton.</p>
+
+<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="lineno"> 1</span> <span class="kd">public</span> <span class="kd">class</span> <span class="nc">JavaHungrySingleton</span>
+<span class="lineno"> 2</span> <span class="o">{</span>
+<span class="lineno"> 3</span>     <span class="kd">private</span> <span class="kd">static</span> <span class="n">JavaHungrySingleton</span>  <span class="n">uniqueInstance</span>  <span class="o">=</span>  <span class="k">new</span> <span class="nf">JavaHungrySingleton</span><span class="o">();</span>
+<span class="lineno"> 4</span>     
+<span class="lineno"> 5</span>     <span class="kd">private</span> <span class="nf">JavaHungrySingleton</span><span class="o">(){}</span>
+<span class="lineno"> 6</span>     
+<span class="lineno"> 7</span>     <span class="kd">public</span> <span class="kd">static</span>  <span class="n">JavaHungrySingleton</span>  <span class="nf">getInstance</span><span class="o">()</span>
+<span class="lineno"> 8</span>     <span class="o">{</span>
+<span class="lineno"> 9</span>         <span class="k">return</span>  <span class="n">uniqueInstance</span> <span class="o">;</span>
+<span class="lineno">10</span>     <span class="o">}</span>
+<span class="lineno">11</span>     
+<span class="lineno">12</span>     <span class="c1">// other useful methods here</span>
+<span class="lineno">13</span> <span class="o">}</span></code></pre></div>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[经典算法智力题]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2015/09/14/brainteasers-and-puzzles/"/>
+    <updated>2015-09-14T20:46:22+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2015/09/14/brainteasers-and-puzzles</id>
+    <content type="html"><![CDATA[<ol>
+<li><a href="#1">海盗分金子</a></li>
+<li><a href="#2">飞机加油问题</a></li>
+<li><a href="#3">蚂蚁爬杆</a></li>
+<li><a href="#4">平面上N个点，每两个点都确定一条直线，求出斜率最大的那条直线所通过的两个点（斜率不存在的情况不考虑）。时间效率越高越好。</a></li>
+<li><a href="#5">Find the closest pair from a sorted array</a></li>
+<li><a href="#6">Building Bridge</a></li>
+<li><a href="#7">打印n分之一的前k位小数</a></li>
+<li><a href="#8">Marketing Size</a></li>
+<li><a href="#9">赛马问题</a></li>
+<li><a href="#10">火车运煤问题</a></li>
+</ol>
+
+
+<!-- more -->
+
+
+<h3><a name="1"></a>海盗分金子</h3>
+
+<p>参考<a href="http://lucky-harry.blog.163.com/blog/static/201270702007101634121760/">海盗分金子的游戏</a></p>
+
+<p>数学的逻辑有时会导致看来十分怪异的结论。一般的规则是，如果逻辑推理没有漏洞，那么结论就必定站得住脚，即使它与你的直觉矛盾。</p>
+
+<h4>题目</h4>
+
+<p>10名海盗抢得了窖藏的100块金子，并打算瓜分这些战利品。这是一些讲民主的海盗（当然是他们自己特有的民主），他们的习惯是按下面的方式进行分配：最厉害的一名海盗提出分配方案，然后所有的海盗（包括提出方案者本人）就此方案进行表决。如果50%或更多的海盗赞同此方案，此方案就获得通过并据此分配战利品。否则提出方案的海盗将被扔到海里，然后下提名最厉害的海盗又重复上述过程。（所有的海盗都乐于看到他们的一位同伙被扔进海里，不过，如果让他们选择的话，他们还是宁可得一笔现金。他们当然也不愿意自己被扔到海里。所有的海盗都是有理性的，而且知道其他的海盗也是有理性的。此外，没有两名海盗是同等厉害的——这些海盗按照完全由上到下的等级排好了座次，并且每个人都清楚自己和其他所有人的等级。这些金块不能再分，也不允许几名海盗共有金块，因为任何海盗都不相信他的同伙会遵守关于共享金块的安排。这是一伙每人都只为自己打算的海盗。）最凶的一名海盗应当提出什么样的分配方案才能使他获得最多的金子呢？</p>
+
+<h4>分析</h4>
+
+<p>为方便起见，我们按照这些海盗的怯懦程度来给他们编号。最怯懦的海盗为1号海盗，次怯懦的海盗为2号海盗，如此类推。这样最厉害的海盗就应当得到最大的编号，而方案的提出就将倒过来从上至下地进行。</p>
+
+<p>分析所有这类策略游戏的奥妙就在于应当从结尾出发倒推回去。游戏结束时，你容易知道何种决策有利而何种决策不利。确定了这一点后，你就可以把它用到倒数第2次决策上，如此类推。如果从游戏的开头出发进行分析，那是走不了多远的。其原因在于，所有的战略决策都是要确定：“如果我这样做，那么下一个人会怎样做？”</p>
+
+<p>因此在你以下海盗所做的决定对你来说是重要的，而在你之前的海盗所做的决定并不重要，因为你反正对这些决定也无能为力了。</p>
+
+<p>记住了这一点，就可以知道我们的出发点应当是游戏进行到只剩两名海盗——即1号和2号——的时候。这时最厉害的海盗是2号，而他的最佳分配方案是一目了然的：100块金子全归他一人所有，1号海盗什么也得不到。由于他自己肯定为这个方案投赞成票，这样就占了总数的50%，因此方案获得通过。</p>
+
+<p>现在加上3号海盗。1号海盗知道，如果3号的方案被否决，那么最后将只剩2个海盗，而1号将肯定一无所获——此外，3号也明白1号了解这一形势。因此，只要3号的分配方案给1号一点甜头使他不至于空手而归，那么不论3号提出什么样的分配方案，1号都将投赞成票。因此3号需要分出尽可能少的一点金子来贿赂1号海盗，这样就有了下面的分配方案： 3号海盗分得99块金子，2号海盗一无所获，1号海盗得1块金子。</p>
+
+<p>4号海盗的策略也差不多。他需要有50%的支持票，因此同3号一样也需再找一人做同党。他可以给同党的最低贿赂是1块金子，而他可以用这块金子来收买2号海盗。因为如果4号被否决而3号得以通过，则2号将一文不名。因此，4号的分配方案应是：99块金子归自己，3号一块也得不到，2号得1块金子，1号也是一块也得不到。</p>
+
+<p>5号海盗的策略稍有不同。他需要收买另两名海盗，因此至少得用2块金子来贿赂，才能使自己的方案得到采纳。他的分配方案应该是：98块金子归自己，1块金子给3号，1块金子给1号。</p>
+
+<p>这一分析过程可以照着上述思路继续进行下去。每个分配方案都是唯一确定的，它可以使提出该方案的海盗获得尽可能多的金子，同时又保证该方案肯定能通过。照这一模式进行下去，10号海盗提出的方案将是96块金子归他所有，其他编号为偶数的海盗各得1块金子，而编号为奇数的海盗则什么也得不到。这就解决了10名海盗的分配难题。</p>
+
+<p>分配方案用表格表示如下：</p>
+
+<table>
+<thead>
+<tr>
+<th>被分配人</th>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+<th>4</th>
+<th>5</th>
+<th>6</th>
+<th>7</th>
+<th>8</th>
+<th>9</th>
+<th>10</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>分配人</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1</td>
+<td>100</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>2</td>
+<td>0</td>
+<td>100</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>3</td>
+<td>1</td>
+<td>0</td>
+<td>99</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>4</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>99</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>5</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>98</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>6</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>98</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>7</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>97</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>8</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>97</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>9</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>96</td>
+<td></td>
+</tr>
+<tr>
+<td>10</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>96</td>
+</tr>
+</tbody>
+</table>
+
+
+<h4>延伸</h4>
+
+<p>Omohundro的贡献是他把这一问题扩大到有500名海盗的情形，即500名海盗瓜分100块金子。显然，类似的规律依然成立——至少是在一定范围内成立。事实上，前面所述的规律直到第200号海盗都成立。 200号海盗的方案将是：从1到199号的所有奇数号的海盗都将一无所获，而从2到198号的所有偶数号海盗将各得1块金子，剩下的1块金子归200号海盗自己所有。</p>
+
+<p>乍看起来，这一论证方法到200号之后将不再适用了，因为201号拿不出更多的金子来收买其他海盗。但是即使分不到金子，201号至少还希望自己不会被扔进海里，因此他可以这样分配：给1到199号的所有奇数号海盗每人1块金子，自己一块也不要。</p>
+
+<p>202号海盗同样别无选择，只能一块金子都不要了——他必须把这100块金子全部用来收买100名海盗，而且这100名海盗还必须是那些按照201号方案将一无所获的人。由于这样的海盗有101名，因此202号的方案将不再是唯一的——贿赂方案有101种。</p>
+
+<blockquote><p>202号海盗是第一个有多种最优方案的人。</p></blockquote>
+
+<p>203号海盗必须获得102张赞成票，但他显然没有足够的金子去收买101名同伙。因此，无论提出什么样的分配方案，他都注定会被扔到海里去喂鱼。不过，尽管203号命中注定死路一条，但并不是说他在游戏进程中不起任何作用。相反，204号现在知道，203号为了能保住性命，就必须避免由他自己来提出分配方案这么一种局面，所以无论204号海盗提出什么样的方案，203号都一定会投赞成票。这样204号海盗总算侥幸拣到一条命：他可以得到他自己的1票、203号的1票、以及另外100名收买的海盗的赞成票，刚好达到保命所需的50%。获得金子的海盗，必属于根据202号方案肯定将一无所获的那101名海盗之列。</p>
+
+<p>205号海盗的命运又如何呢？他可没有这样走运了。他不能指望203号和204号支持他的方案，因为如果他们投票反对205号方案，就可以幸灾乐祸地看到205号被扔到海里去喂鱼，而他们自己的性命却仍然能够保全。这样，无论205号海盗提出什么方案都必死无疑。206号海盗也是如此——他肯定可以得到205号的支持，但这不足以救他一命。类似地，207号海盗需要104张赞成票——除了他收买的100张赞成票以及他自己的1张赞成票之外，他还需3张赞成票才能免于一死。他可以获得205号和206号的支持，但还差一张票却是无论如何也弄不到了，因此207号海盗的命运也是下海喂鱼。</p>
+
+<p>208号又时来运转了。他需要104张赞成票，而205、206、207号都会支持他，加上他自己一票及收买的100票，他得以过关保命。获得他贿赂的必属于那些根据204号方案肯定将一无所获的人（候选人包括2到200号中所有偶数号的海盗、以及201、203、204号）。</p>
+
+<p>现在可以看出一条新的、此后将一直有效的规律：那些方案能过关的海盗（他们的分配方案全都是把金子用来收买100名同伙而自己一点都得不到）相隔的距离越来越远，而在他们之间的海盗则无论提什么样的方案都会被扔进海里——因此为了保命，他们必会投票支持比他们厉害的海盗提出的任何分配方案。得以避免葬身鱼腹的海盗包括201、202、204、208、216、232、264、328、456号，即其号码等于200加2的某一方幂的海盗。</p>
+
+<blockquote><p>对于大于200号的海盗，均无法获得任何黄金，而且只有200加2的整数次幂的海盗可以分金子并且免于一死。</p></blockquote>
+
+<p>现在我们来看看哪些海盗是获得贿赂的幸运儿。分配贿赂的方法是不唯一的，其中一种方法是让201号海盗把贿赂分给1到199号的所有奇数编号的海盗，让202号分给2到200号的所有偶数编号的海盗，然后是让204号贿赂奇数编号的海盗，208号贿赂偶数编号的海盗，如此类推，也就是轮流贿赂奇数编号和偶数编号的海盗。</p>
+
+<h4>结论</h4>
+
+<p>当500名海盗运用最优策略来瓜分金子时，头44名海盗必死无疑，而456号海盗则给从1到199号中所有奇数编号的海盗每人分1块金子，问题就解决了。由于这些海盗所实行的那种民主制度，他们的事情就搞成了最厉害的一批海盗多半都是下海喂鱼，不过有时他们也会觉得自己很幸运——虽然分不到抢来的金子，但总可以免于一死。只有最怯懦的200名海盗有可能分得一份脏物，而他们之中又只有一半的人能真正得到一块金子，的确是<strong>怯懦者继承财富</strong>。</p>
+
+<h3><a name="2"></a>飞机加油问题</h3>
+
+<p>参考<a href="http://blog.csdn.net/athenaer/article/details/8612536">飞机加油智力题</a></p>
+
+<h4>Question</h4>
+
+<p>On Bagshot Island, there is an airport. The airport is the home base of an unlimited number of identical airplanes. Each airplane has a fuel capacity to allow it to fly exactly &frac12; way around the world, along a great circle. The planes have the ability to refuel in flight without loss of speed or spillage of fuel. Though the fuel is unlimited, the island is the only source of fuel.
+What is the fewest number of aircraft necessary to get one plane all the way around the world assuming that all of the aircraft must return safely to the airport? How did you get to your answer?</p>
+
+<p>Notes:</p>
+
+<ol>
+<li>Each airplane must depart and return to the same airport, and that is the only airport they can land and refuel on ground.</li>
+<li>Each airplane must have enough fuel to return to airport.</li>
+<li>The time and fuel consumption of refueling can be ignored. (so we can also assume that one airplane can refuel more than one airplanes in air at the same time.)</li>
+<li>The amount of fuel airplanes carrying can be zero as long as the other airplane is refueling these airplanes. What is the fewest number of airplanes and number of tanks of fuel needed to accomplish this work? (we only need airplane to go around the world)</li>
+</ol>
+
+
+<h4>Answer</h4>
+
+<p>The fewest number of aircraft is 3, and the times of taking off is 5!
+Imagine 3 aircraft (A, B and C). A is going to fly round the world. All three aircraft start at the same time in the same direction. After 1/8 of the circumference, B passes &frac14; of its fuel to C, &frac14; of its fuel to A, and returns home. C continues to fly alongside A until they are &frac14; of the distance around the world. At this point C completely fills the tank of A with &frac14; of its full fuel, which is now able to fly to a point &frac34; of the way around the world. C has now only &frac12; of its full fuel capacity left, exactly enough to get back to the home base.</p>
+
+<p>When C gets to the base, gets fully refueled and takes off in the other direction. C will meet A in &frac34; of the distance. Now A has no fuel while C has half of its full fuel. Let C fill the tank of A with &frac14; of its full fuel, and B takes off from base with full fuel. B will meet A and C in 7/8 of the distance. Currently, A and C has no fuel, while B has &frac34; of its full fuel. Let B fill A with its &frac14; of its full fuel and fills C with &frac14; of its full fuel. And all the three planes can get back safely to the base.</p>
+
+<h4>问题</h4>
+
+<p>每个飞机只有一个油箱，飞机之间可以相互加油，注意是相互，没有加油机，一箱油可供一架飞机绕地球飞半圈。    <br/>
+为使至少一架飞机绕地球一圈回到起飞时的飞机场，至少需要出动几架飞机？<br/>
+A:所有飞机从同一机场起飞，而且必须安全返回机场，不允许中途降落，中间没有飞机场
+B:所有飞机从同一机场,同一方向起飞，而且必须安全返回机场，不允许中途降落，中间没有飞机场</p>
+
+<h4>答案</h4>
+
+<p>三架飞机，五架次。</p>
+
+<blockquote><p>提示：刚开始三架同时飞，另一方向一架一架次去接。</p></blockquote>
+
+<h3><a name="3"></a>蚂蚁爬杆</h3>
+
+<h4>问题</h4>
+
+<p>有一根30厘米的细木杆，在第3厘米、7厘米、11厘米、17厘米、23厘米这五个位置上各有一只蚂蚁。木杆很细，同时只能通过一只蚂蚁。开始时，蚂蚁的头朝左还是朝右是任意的，它们只会朝前走或调头，但不会后退。当任意两只蚂蚁碰头时，两只蚂蚁会同时调头朝反方向走。假设蚂蚁们每秒钟可以走一厘米的距离。求所有蚂蚁都离开木杆的最小时间和最大时间。</p>
+
+<blockquote><p>提示：问题等价于蚂蚁之间是透明的，可以相互穿过不阻挡。</p></blockquote>
+
+<h3><a name="4"></a>平面上N个点，每两个点都确定一条直线，求出斜率最大的那条直线所通过的两个点（斜率不存在的情况不考虑）。时间效率越高越好。</h3>
+
+<p>按照一般的方法，逐个求斜率比较，O(n<sup>2</sup>)可完成。有没有更快的方法？有。</p>
+
+<p>对所有的点按x坐标排序，然后只比较相邻两点的斜率即可。复杂度O(nlgn)。</p>
+
+<h3><a name="5"></a>Given a sorted array and a number x, find the pair in array whose sum is closest to x</h3>
+
+<p>reference <a href="http://geeksquiz.com/given-sorted-array-number-x-find-pair-array-whose-sum-closest-x/">Given a sorted array and a number x, find the pair in array whose sum is closest to x</a></p>
+
+<p>A similar question is <a href="http://www.geeksforgeeks.org/given-two-sorted-arrays-number-x-find-pair-whose-sum-closest-x/">Find the closest pair from two sorted arrays</a>.</p>
+
+<h4>Question</h4>
+
+<p>Given a sorted array and a number x, find a pair in array whose sum is closest to x.
+Examples:</p>
+
+<div class="highlight"><pre><code class="language-text" data-lang="text">Input: arr[] = {10, 22, 28, 29, 30, 40}, x = 54
+Output: 22 and 30
+
+Input: arr[] = {1, 3, 4, 7, 10}, x = 15
+Output: 4 and 10</code></pre></div>
+
+
+<h4>Answer</h4>
+
+<p>An efficient solution can find the pair in <code>O(n)</code> time. Following is detailed algorithm.</p>
+
+<ol>
+<li>Initialize a variable <code>diff</code> as infinite (<code>diff</code> is used to store the
+difference between pair and <code>x</code>).  We need to find the minimum <code>diff</code>.</li>
+<li>Initialize two index variables <code>l</code> and <code>r</code> in the given sorted array.
+
+<ol>
+<li>Initialize first to the leftmost index:  <code>l = 0</code></li>
+<li>Initialize second  the rightmost index:  <code>r = n-1</code></li>
+</ol>
+</li>
+<li>Loop while <code>l &lt; r</code>.
+
+<ol>
+<li>If  <code>abs(arr[l] + arr[r] - sum) &lt; diff</code>  then update diff and result</li>
+<li>Else if(<code>arr[l] + arr[r] &lt;  sum</code> )  then <code>l++</code></li>
+<li>Else <code>r--</code></li>
+</ol>
+</li>
+</ol>
+
+
+<blockquote><p>Similar question: 给定一个存放整数的数组，重新排列数组使得数组左边为奇数，右边为偶数。时间复杂度O(n),空间复杂度O(1)。</p></blockquote>
+
+<h3><a name="6"></a>Building Bridge</h3>
+
+<p>A and B live in different sides of a straight river, whose width is <code>w</code>. A and B want to build a bridge over the river, so that they can visit each other. <strong>Question:</strong> where to build the bridge so that the walking distance is the shortest between A and B?
+<strong>Note:</strong> The bridge must be perpendicular (vertical) to the river.</p>
+
+<h3><a name="7"></a>打印n分之一的前k位小数</h3>
+
+<h4>Question</h4>
+
+<p>Given a positive integer n, print first k digits after point in value of 1/n. Your program should avoid overflow and floating point arithmetic.</p>
+
+<p>Examples:</p>
+
+<div class="highlight"><pre><code class="language-text" data-lang="text">Input:   n = 3, k = 3
+Output:  333
+Input:   n = 50, k = 4
+Output:  0200</code></pre></div>
+
+
+<h4>Answer</h4>
+
+<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="lineno"> 1</span> <span class="c1">// Function to print first k digits after dot in value</span>
+<span class="lineno"> 2</span> <span class="c1">// of 1/n. n is assumed to be a positive integer.</span>
+<span class="lineno"> 3</span> <span class="kt">void</span> <span class="nf">print</span><span class="o">(</span><span class="kt">int</span> <span class="n">n</span><span class="o">,</span> <span class="kt">int</span> <span class="n">k</span><span class="o">)</span>
+<span class="lineno"> 4</span> <span class="o">{</span>
+<span class="lineno"> 5</span>     <span class="kt">int</span> <span class="n">rem</span> <span class="o">=</span> <span class="mi">1</span><span class="o">;</span> <span class="c1">// Initialize remainder</span>
+<span class="lineno"> 6</span> 
+<span class="lineno"> 7</span>     <span class="c1">// Run a loop k times to print k digits</span>
+<span class="lineno"> 8</span>     <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">k</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span>
+<span class="lineno"> 9</span>     <span class="o">{</span>
+<span class="lineno">10</span>         <span class="c1">// The next digit can always be obtained as</span>
+<span class="lineno">11</span>         <span class="c1">// doing (10*rem)/10</span>
+<span class="lineno">12</span>         <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="o">(</span><span class="mi">10</span> <span class="o">*</span> <span class="n">rem</span><span class="o">)</span> <span class="o">/</span> <span class="n">n</span><span class="o">;</span>
+<span class="lineno">13</span> 
+<span class="lineno">14</span>         <span class="c1">// Update remainder</span>
+<span class="lineno">15</span>         <span class="n">rem</span> <span class="o">=</span> <span class="o">(</span><span class="mi">10</span><span class="o">*</span><span class="n">rem</span><span class="o">)</span> <span class="o">%</span> <span class="n">n</span><span class="o">;</span>
+<span class="lineno">16</span>     <span class="o">}</span>
+<span class="lineno">17</span> <span class="o">}</span></code></pre></div>
+
+
+<h2><a name="8"></a>Marketing Size</h2>
+
+<p>请估算：</p>
+
+<ul>
+<li>某城市市目前的出租车数量（TX某年面试题）；</li>
+<li>上周在某城市有多少个煎饼被吃掉?</li>
+<li>某城市的酒店的数量？</li>
+<li>波音747能装下多少个乒乓球?</li>
+<li>中国人一年用多少草本洗发水?</li>
+</ul>
+
+
+<blockquote><p>Manily, we have two kinds of methods: <strong>up-to-down</strong> and <strong>bottome-to-up</strong>.</p></blockquote>
+
+<h2><a name="9"></a>赛马问题</h2>
+
+<p><a href="http://blog.csdn.net/tianmohust/article/details/6839524">关于选牛和选马的问题</a></p>
+
+<h2><a name="10"></a>火车运煤问题</h2>
+
+<p><a href="http://www.cnblogs.com/liuzhi/p/3922311.html">火车运煤问题</a></p>
+
+<p><strong>Question:</strong></p>
+
+<p>你是山西的一个煤老板，你在矿区开采了有3000吨煤需要运送到市场上去卖，从你的矿区到市场有1000公里，你手里有一列烧煤的火车，这个火车最多只能装1000吨煤，且其能耗比较大——每一公里需要耗一吨煤。请问，</p>
+
+<ul>
+<li>作为一个懂编程的煤老板的你，你会怎么运送才能运最多的煤到集市？</li>
+<li>假设矿区共有1000n（n是正整数）吨煤，是否可能运送多于1000吨的煤到达目的地？如果不可以，说明理由，如果可以，试求最小的n值。</li>
+</ul>
+
+
+<p><strong>Analytics：</strong></p>
+
+<p>最优运送方案如下：</p>
+
+<ul>
+<li>将1000n吨煤运送到全程的1/(2n-1)处，此时还有1000(n-1)吨煤。</li>
+<li>将1000(n-1)吨煤再往前运送全程的1/(2n-3)，即全程的1/(2n-1)+1/(2n-3)处，此时还剩1000(n-2)吨煤。</li>
+<li>&hellip;</li>
+<li>将2000吨煤再往前运送全程的1/3，即全程的1/(2n-1)+1/(2n-3)+&hellip;+1/3处，此时还剩1000吨煤。</li>
+<li>将1000吨煤运送到目的地，此时还剩1000{1-[1/(2n-1)+1/(2n-3)+&hellip;+1/3]}吨煤。</li>
+</ul>
+
+
+<p>Note：</p>
+
+<ul>
+<li>当n=7时，1/3+1/5+1/7+&hellip;+1/13 = 0.96;</li>
+<li>当n=8时，1/3+1/5+1/7+&hellip;+1/13+1/15 = 1.02;</li>
+</ul>
+
+
+<p>所以，当n=8时，可以将多于1000吨的煤运送到目的地。火车可以将2000吨煤运送到1000[1/5+1/7+&hellip;+1/13+1/15]公里处，即688公里处，最终能将2000-(1000-688)*3吨煤，即1065吨煤，运送到目的地。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Migrate Blog to Octopress]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2015/09/09/migrate-blog-to-octopress/"/>
+    <updated>2015-09-09T10:22:17+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2015/09/09/migrate-blog-to-octopress</id>
+    <content type="html"><![CDATA[<p>For basic configuration of octopress blog, go to <a href="http://octopress.org/">official site</a> for references.</p>
+
+<h2>Themes</h2>
+
+<p>Go to <a href="https://github.com/imathis/octopress/wiki/3rd-Party-Octopress-Themes">here</a> to choose the theme you like. Personally, I like the <strong>boldandblue</strong> theme. It is simple and elegant.</p>
+
+<!-- more -->
+
+
+<h2>Category list</h2>
+
+<p>Go to <a href="https://github.com/ctdk/octopress-category-list">here</a>, and the guy tells you how to enhance your blog to display the categories.</p>
+
+<h2>code syntax highlight</h2>
+
+<p>Refer to my previous post on write post for project pages (gh-pages) <a href="http://hongchaozhang.github.io/blog/2015/05/20/How-to-write-post-in-github-pages/#to_enable_code_highlight">How to Write Post in Github Pages</a></p>
+
+<h2>Write post</h2>
+
+<ul>
+<li>go to <em>source</em> branch.</li>
+<li>in <em>hongchaozhang.github.io</em> folder, run <code>rake new_post["title"]</code>, and you will find a well named file with <code>md</code> as the extension. Open it and edit.</li>
+</ul>
+
+
+<blockquote><p><strong>Note:</strong>The url of post is generated from the post file name in <em>_post</em> folder, and you shouuld only use English charactors there. But inside your site, the title comes from the <code>title</code> property in the <em>yaml</em> header of your post, and other languages are supported here.</p>
+
+<p>use <code>published: false</code> in the yaml header to disable your post from being displayed in the blog.</p></blockquote>
+
+<ul>
+<li>run <code>rake setup_github_pages</code> if you haven&rsquo;t run it.</li>
+</ul>
+
+
+<blockquote><p>This command help you do the followings:</p>
+
+<ul>
+<li>Ask for and store your Github Pages repository url.</li>
+<li>Rename the remote pointing to imathis/octopress from &lsquo;origin&rsquo; to &lsquo;octopress&rsquo;</li>
+<li>Add your Github Pages repository as the default origin remote.</li>
+<li>Switch the active branch from master to source.</li>
+<li>Configure your blog&rsquo;s url according to your repository.</li>
+<li>Setup a master branch in the _deploy directory for deployment.</li>
+<li>run <code>rake generate</code> to generate your new post.</li>
+<li>run <code>rake preview</code> to start local server at <em>localhost:4000</em> for testing.</li>
+</ul>
+</blockquote>
+
+<ul>
+<li>If everything is OK, run <code>rake deploy</code> to push the generated site in <em>_deploy</em> to <strong>master</strong> branch in github (Do it in <strong>source</strong> branch). In a second, you will see the changes at <username>.github.io.</li>
+</ul>
+
+
+<blockquote><p>If you meet with the following error while pushing your site to master branch:</p>
+
+<pre><code>To git@github.com:hongchaozhang/hongchaozhang.github.io.git
+! [rejected]        master -&gt; master (non-fast-forward)
+error: failed to push some refs to 'git@github.com:hongchaozhang/hongchaozhang.github.io.git'
+hint: Updates were rejected because the tip of your current branch is behind
+hint: its remote counterpart. Integrate the remote changes (e.g.
+hint: 'git pull ...') before pushing again.
+hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+</code></pre>
+
+<p>Go to <em>_deploy</em> folder, and run the following commands (<a href="http://stackoverflow.com/questions/21356212/failed-to-deploy-to-github-pages-using-octopress">reference</a>):</p>
+
+<pre><code>git config branch.master.remote origin
+git config branch.master.merge refs/heads/master
+git pull
+</code></pre></blockquote>
+
+<ul>
+<li>push your source code to <strong>source</strong> branch.</li>
+</ul>
+
+
+<blockquote><p><strong>Note:</strong> Never push your source code to <strong>master</strong> branch. <strong>master</strong> branch should only hold your site.</p></blockquote>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Singleton]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2015/09/07/Singleton/"/>
+    <updated>2015-09-07T00:00:00+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2015/09/07/Singleton</id>
+    <content type="html"><![CDATA[<h2>Singleton implementation</h2>
+
+<p><a href="http://cocoa.venj.me/blog/singleton-in-objc/">Objective-C中单例模式的实现</a></p>
+
+<p><a href="http://www.makebetterthings.com/iphone/singleton-design-pattern-for-objective-c/">Singleton Design Pattern for Objective-C</a></p>
+
+<div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="p">+</span> <span class="p">(</span><span class="kt">instancetype</span><span class="p">)</span><span class="nf">sharedInstance</span>
+<span class="p">{</span>
+    <span class="k">static</span> <span class="kt">dispatch_once_t</span> <span class="n">once</span><span class="p">;</span>
+    <span class="k">static</span> <span class="kt">id</span> <span class="n">sharedInstance</span><span class="p">;</span>
+    <span class="n">dispatch_once</span><span class="p">(</span><span class="o">&amp;</span><span class="n">once</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
+        <span class="n">sharedInstance</span> <span class="o">=</span> <span class="p">[[</span><span class="nb">self</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
+    <span class="p">});</span>
+    <span class="k">return</span> <span class="n">sharedInstance</span><span class="p">;</span>
+<span class="p">}</span></code></pre></div>
+
+
+<h2>Avoid abusing singleton</h2>
+
+<p><a href="http://objccn.io/issue-13-2/">避免滥用单例</a></p>
+
+<p>Singleton introduces globla variable, which may lead to coupling of far-away components.</p>
+
+<p>Note the life circle of an object, to see if it confirm to &ldquo;will always has one instance&rdquo;. If NO, we can not use Singleton here.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Shortcut of Chrome on Windows and Mac]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2015/09/02/Shortcut-of-Chrome-on-Windows-and-Mac/"/>
+    <updated>2015-09-02T00:00:00+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2015/09/02/Shortcut-of-Chrome-on-Windows-and-Mac</id>
+    <content type="html"><![CDATA[<p>Use shortcut to improve productivity while using Chrome.</p>
+
+<p>A full page is on Chrome helper:</p>
+
+<ul>
+<li><a href="https://support.google.com/chrome/answer/157179?hl=en">English version</a></li>
+<li><a href="https://support.google.com/chrome/answer/157179?hl=zh-Hans">Chinese version</a></li>
+</ul>
+
+
+<p>I will list some common used ones here by myself.</p>
+
+<!-- more -->
+
+
+<p>Five star recommended:</p>
+
+<table>
+<thead>
+<tr>
+<th>Windows         </th>
+<th> Mac                   </th>
+<th> Function</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Ctrl + F        </td>
+<td> Command + F       </td>
+<td> open search toolbar</td>
+</tr>
+<tr>
+<td>ESC             </td>
+<td> ESC                   </td>
+<td> close search toolbar</td>
+</tr>
+<tr>
+<td>Ctrl + W        </td>
+<td> Command + W       </td>
+<td> close a tab</td>
+</tr>
+<tr>
+<td>Ctrl + T        </td>
+<td> Command + T       </td>
+<td> new a tab</td>
+</tr>
+<tr>
+<td>Ctrl + click a link </td>
+<td> Command + click a link </td>
+<td> open the link in a new tab, but stay in original tab</td>
+</tr>
+<tr>
+<td>Ctrl + Shift + click a link </td>
+<td> Command + Shift + click a link </td>
+<td> open the link in a new tab, and go to the new tab</td>
+</tr>
+<tr>
+<td>Ctrl + Shift + T </td>
+<td> Command + Shift + T </td>
+<td> open last closed tab (10 at the most)</td>
+</tr>
+<tr>
+<td>Ctrl + Tab </td>
+<td> Ctrl + Tab </td>
+<td> move to the next tab</td>
+</tr>
+<tr>
+<td>Backspace </td>
+<td> Backspace </td>
+<td> go to the last history page</td>
+</tr>
+<tr>
+<td>Shift + Backspace </td>
+<td> Shift + Backspace </td>
+<td> go to the next history page</td>
+</tr>
+<tr>
+<td>Space </td>
+<td> Space </td>
+<td> page down</td>
+</tr>
+<tr>
+<td>Home </td>
+<td> Command + up arrow </td>
+<td> go to the start of the page</td>
+</tr>
+<tr>
+<td>End </td>
+<td> Command + down arrow </td>
+<td> go to the end of the page</td>
+</tr>
+</tbody>
+</table>
+
+
+<p>Four star recommended</p>
+
+<table>
+<thead>
+<tr>
+<th>Windows </th>
+<th> Mac </th>
+<th> Function</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Ctrl + N        </td>
+<td> Command + N           </td>
+<td> new a window</td>
+</tr>
+<tr>
+<td>Ctrl + 1 (to 8) </td>
+<td> Ctrl + 1 (to 8) </td>
+<td> go to the 1 (to 8) page</td>
+</tr>
+<tr>
+<td>Ctrl + 9 </td>
+<td> Command + 9 </td>
+<td> go to the last tab</td>
+</tr>
+<tr>
+<td>Ctrl + Shift + B </td>
+<td> Command + Shift + B </td>
+<td> open or close bookmarks bar</td>
+</tr>
+<tr>
+<td>Ctrl + L </td>
+<td> Command + L </td>
+<td> highlight the URL</td>
+</tr>
+</tbody>
+</table>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Warning Messages in Xcode]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2015/08/31/Warning-Messages-in-Xcode/"/>
+    <updated>2015-08-31T00:00:00+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2015/08/31/Warning-Messages-in-Xcode</id>
+    <content type="html"><![CDATA[<p><a href="http://oleb.net/blog/2013/04/compiler-warnings-for-objective-c-developers/">Compiler Warnings for Objective-C Developers</a> is a good post for describing warning messages for Objective-C in xcode. A Chinese version can be found <a href="http://onevcat.com/2013/05/talk-about-warning/">谈谈Objective-C的警告</a>.</p>
+
+<p>Some important things are marked here.</p>
+
+<p>Two ways to modify complier&rsquo;s warning setting: <strong>UI Method</strong> and <strong>Custom Compiler Flags Method</strong>.</p>
+
+<!-- more -->
+
+
+<h2>UI Method</h2>
+
+<p>In <em>Project Navigator</em>, choose the project. On the right, under <em>Build Settings</em>, <code>Apple LLVM 6.1 - Warnings - Objective c</code> and <code>Apple LLVM 6.1 - Warnings - Objective C and ARC</code> are Objective C specific settings. You may also want to see some setttings for all languages, including Objective C in <code>Apple LLVM 6.1 - Warnings - All languages</code>.</p>
+
+<h2><em>Custom Compiler Flags</em> Method</h2>
+
+<p>Under <em>Build Settings</em>, find <code>other warning flags</code> in <code>Apple LLVM 6.1 - Custom Compiler Flags</code>. In this section, you can use <code>-W...</code> like commands for warning settings.</p>
+
+<p>For example, use <code>-Wall</code> to display all warnings (actually, not <em>All</em>), use <code>-Wno-unused-variable</code> to indicate not displaying <em>unused variable</em> warnings. Use space between differenct commands, like <code>-Wall -Wno-unused-variable</code>.</p>
+
+<p>Using this way, we can set for all kinds of warnings, some of which can not be set by <em>UI Method</em> above.</p>
+
+<p>Go to the following two refrences for details on <code>-Wall</code>, <code>-Wextra</code> and <code>-Weverything</code>:</p>
+
+<ul>
+<li><a href="http://oleb.net/blog/2013/04/compiler-warnings-for-objective-c-developers/">Compiler Warnings for Objective-C Developers</a></li>
+<li><a href="http://onevcat.com/2013/05/talk-about-warning/">谈谈Objective-C的警告</a>.</li>
+</ul>
+
+
+<p>The following paragraph comes from the first reference:</p>
+
+<p>If you encounter a particular warning that you actively want to suppress, check the build log. The compiler will tell you the name of each warning it has issued (-Wunused-variable in this example). You can use this name to selectively disable (with -Wno-unused-variable) or enable this specific warning in your project. In my experience, you will come up with a very short list of warnings you want to disable (probably no more than a handful).</p>
+
+<p>Attach one image to indicate the place (red circles) to find the warning type:</p>
+
+<p><img src="http://hongchaozhang.github.io/images/006_warning_type_from_build_log.png" alt="006_warning_type_from_build_log.png" /></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[How to Use Google Maps Android API Utility Library in Android Studio]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2015/08/26/How-to-Use-Google-Maps-Android-API-Utility-Library-in-Android-Studio/"/>
+    <updated>2015-08-26T00:00:00+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2015/08/26/How-to-Use-Google-Maps-Android-API-Utility-Library-in-Android-Studio</id>
+    <content type="html"><![CDATA[<p><strong>Google Maps Android API utility library</strong> (the <a href="https://github.com/googlemaps/android-maps-utils">github repo</a> and the <a href="http://googlemaps.github.io/android-maps-utils/">documentation</a>) supplies multiple cool features, including</p>
+
+<ul>
+<li><strong>Marker clustering</strong> — handles the display of a large number of points</li>
+<li><strong>Heat maps</strong> — display a large number of points as a heat map</li>
+<li><strong>IconGenerator</strong> — display text on your Markers</li>
+<li><strong>Poly decoding and encoding</strong> — compact encoding for paths, interoperability with Maps API web services</li>
+<li><strong>Spherical geometry</strong> — for example: computeDistance, computeHeading, computeArea</li>
+<li><strong>KML</strong> — displays KML data (Caution: Beta!)</li>
+<li><strong>GeoJSON</strong> — displays and styles GeoJSON data</li>
+</ul>
+
+
+<!-- more -->
+
+
+<p>A simple documentation about the usage of these features based on a demo can be found in <em>Google Developers</em> page <a href="https://developers.google.com/maps/documentation/android/utility/?hl=zh-cn">Google Maps Android API Utility Library</a>. And you can also refer to the <a href="http://googlemaps.github.io/android-maps-utils/javadoc/">javadoc</a>.</p>
+
+<p>When I tried to use the library in my Android Studio (Windows OS) project, I met some problems. It is not as simple as the <a href="http://googlemaps.github.io/android-maps-utils/">document</a> describes. A reference for setting up in Eclipse can be found in the <a href="https://developers.google.com/maps/documentation/android/utility/setup?hl=zh-cn">Google Maps Android API Utilities Setup</a>.</p>
+
+<p>As we know, we have three ways to use a library in Android Studio project: <em>Module dependency</em>, <em>Remote binary dependency</em> and <em>Local binary dependency</em>. (Go to <a href="https://developer.android.com/tools/building/configuring-gradle.html">Configure Gradle Builds</a> for detail). See the following code that we can use in the module <code>build.gradle</code>, not the project <code>build.gradle</code></p>
+
+<pre><code>dependencies {
+    // Module dependency
+    compile project(":lib")
+
+    // Remote binary dependency
+    compile 'com.android.support:appcompat-v7:19.0.1'
+
+    // Local binary dependency
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+}
+</code></pre>
+
+<p>I use the <em>Module dependency</em> method <strong>successfully</strong> in my project, but <strong>failed</strong> with the other two methods. Let&rsquo;s go to the details.</p>
+
+<h2>Module Dependency (Succeeded)</h2>
+
+<ul>
+<li>In your project, <strong>New &ndash;> Module &ndash;> Android Library</strong>, name it with <em>library</em> (not a googd name).</li>
+<li>Go to the exploror, go to <em><your project folder>/library</em>, delete all the files and folders there.</li>
+<li>Go to the <em>library</em> folder in the repository you downloaded from <a href="https://github.com/googlemaps/android-maps-utils">android-maps-utils</a>. Copy all the files and folders, and paste them into your own <em>library</em> folder.</li>
+<li>Open <code>build.gradle</code> under your own module, under <code>dependencies</code> element, add <code>compile project(':library')</code>.</li>
+<li>Sync your project, build and run. Success!</li>
+</ul>
+
+
+<h2>Remote Binary Dependency (Failed)</h2>
+
+<p>The github page suggested this way by</p>
+
+<pre><code>dependencies {
+    compile 'com.google.maps.android:android-maps-utils:x.y.z'
+}
+</code></pre>
+
+<p>But I just can not find the path <code>&lt;Android SDK&gt;/extras/google/m2repository/com/google/map.android/</code>. I am sure that I already installed the <em>Google Repository</em> by SDK manager.</p>
+
+<h2>Local Binary Dependency (Failed)</h2>
+
+<p>To use this way, I tried:</p>
+
+<ul>
+<li>put the <code>library-debug.aar</code> in to the <em>libs</em> folder in my module from <em>&lt;library/build/output/aar/</em> in Android Studio project exploror view.</li>
+<li>add <code>compile fileTree(dir: 'libs', include: ['*.aar'])</code> into my module <code>build.gradle</code> file, <code>dependencies</code> element.</li>
+</ul>
+
+
+<p>Seems that Android studio doesn&rsquo;t support <code>.aar</code> type library.</p>
+
+<p>So I changed to the following way:</p>
+
+<ul>
+<li>unzip the <code>library-debug.aar</code> file, and copy the <code>class.jar</code> file into the <em>libs</em> folder in my module.</li>
+<li>add <code>compile fileTree(dir: 'libs', include: ['*.jar'])</code> in to my module <code>build.gradle</code> file, <code>dependencies</code> element.</li>
+<li>Build passed, but crashed when I run it. I didn&rsquo;t go into it. Maybe the library need some resource that is in the <code>.aar</code> file, which is not in the <code>class.jar</code> file. Just guess.</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Deploy Environment for Android Map Development]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2015/08/20/Deploy-Environment-for-Android-Map-Developmet/"/>
+    <updated>2015-08-20T00:00:00+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2015/08/20/Deploy-Environment-for-Android-Map-Developmet</id>
+    <content type="html"><![CDATA[<p><strong>Contents:</strong></p>
+
+<ul>
+<li><a href="#get_map_key_from_google">Get map key from Google</a></li>
+<li><a href="#install_google_service_in_genymotion_vm">Install Google Service in Genymotion VM</a></li>
+</ul>
+
+
+<p>The following suggestions are all based on Windows. It should be similar on Mac.</p>
+
+<!-- more -->
+
+
+<p>Reference Google document from <a href="https://developers.google.com/maps/documentation/android/signup">here</a> and <a href="https://developers.google.com/maps/documentation/android/start">here</a>.</p>
+
+<h2><a name="get_map_key_from_google"></a>Get map key from Google</h2>
+
+<h3>Get package name</h3>
+
+<p>For Eclipse, open <strong>Androidmanifast.xml</strong> and the package name is:</p>
+
+<p><img src="http://hongchaozhang.github.io/images/003_package_name_in_Eclipse.png" alt="003_package_name_in_Eclipse" /></p>
+
+<p>For Android Studio, <strong>TODO</strong></p>
+
+<h3>Get SHA1 fingerprint certificate</h3>
+
+<p>For Eclipse, go to <strong>Windows -> Preferences -> Android -> Build</strong> to find it.</p>
+
+<p>For Android Studio, go to your java(jdk) bin directory, and run:</p>
+
+<pre><code>keytool -list -v -keystore c:\users\&lt;your_user_name&gt;\.android\debug.keystore -alias androiddebugkey -storepass android -keypass android
+</code></pre>
+
+<p>You will get your SHA1 fingerprint from:</p>
+
+<p><img src="http://hongchaozhang.github.io/images/004_SHA1_in_Android_Studio.png" alt="004_SHA1_in_Android_Studio" /></p>
+
+<h3>Generate the key</h3>
+
+<p>With your package name and SHA1 fingerprint, now we can generate your key.</p>
+
+<ol>
+<li>Go to the <a href="https://console.developers.google.com/">Google Developers Console</a>.</li>
+<li>In the sidebar on the left, select <em>Credentials</em>.</li>
+<li>If your project doesn&rsquo;t already have an Android API key, create one new by selecting <strong>Add credentials -> API key -> Android key</strong>.</li>
+<li>In the resulting dialog, enter your app&rsquo;s SHA-1 fingerprint and package name.</li>
+<li>Your new Android API key appears in the list of API keys for your project. An API key is a string of characters, something start with <em>AIza</em>, like <em>AIzaSyBdVl-cTICSwYKrZ95SuvNw7dbMuDt1KG0</em>.</li>
+</ol>
+
+
+<p>If you want to use an existing key, open the key, and click <em>add package name and fingerprint</em>, and then fill your package name and fingerprint.</p>
+
+<h3>Add the Android API key to your application</h3>
+
+<p>For Eclipse, in <code>AndroidManifest.xml</code>, add the following element as a child of the <code>&lt;application&gt;</code> element. Take the following as an example:</p>
+
+<p><img src="http://hongchaozhang.github.io/images/002_add_key_in_Eclipse.png" alt="002_add_key_in_Eclipse" /></p>
+
+<p>For Android Studio, in res/values/google_maps_api.xml, add your Android API key as the value of <code>google_maps_key</code> element.</p>
+
+<h2><a name="install_google_service_in_genymotion_vm"></a>Install Google Service in Genymotion VM</h2>
+
+<p>Genymotion is a Virtual Android Environment built on x86 and Virtualbox. It&rsquo;s not an ARM emulator so it&rsquo;s performance is better than the Android SDK Emulator. However in their latest update they&rsquo;ve removed both ARM Translation and Google Play Apps.</p>
+
+<p>Sometimes, We need the above two functions for genymotion VM. For example, to run map type apps needs Google play service.</p>
+
+<p>In order to install ARM translation for Genymotion, follow these steps:</p>
+
+<ol>
+<li>Download the zip file from <a href="http://filetrip.net/dl?4SUOrdcMRv">here</a></li>
+<li>Open Genymotion and go to the home screen.</li>
+<li>Drag and Drop the .zip file onto the Genymotion window.</li>
+<li>Restart Genymotion</li>
+</ol>
+
+
+<p>Genymotion can now run applications that require ARM emulation.</p>
+
+<p>It is similar for Google Play Apps, which can be downloaded from <a href="https://www.androidfilehost.com/?fid=95784891001614559">here</a></p>
+
+<p>Go to <a href="http://stackoverflow.com/questions/20121883/how-to-install-google-play-services-in-a-genymotion-vm-with-no-drag-and-drop-su">How to install Google Play Services in a Genymotion VM (with no drag and drop support)?</a> for details.</p>
+
+<p>At last, <strong>Remenber</strong> to make sure that your device can connect to google server, especially when you are in China.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Some Frameworks in iOS Development]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2015/08/19/Some-Frameworks-in-iOS-Development/"/>
+    <updated>2015-08-19T00:00:00+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2015/08/19/Some-Frameworks-in-iOS-Development</id>
+    <content type="html"><![CDATA[<p>Reference <a href="http://www.open-open.com/lib/view/open1343210425380.html">here</a>.</p>
+
+<!-- more -->
+
+
+<h3>Cocoa and Cocoa Touch</h3>
+
+<p>是在Mac OS X系统上原生的一个编译环境。他包含两个框架，其实就是一系列的类库，Foundation和AppKit。</p>
+
+<p>在你的iPhone等掌上设备上，使用的则是他的一个子类 - Cocoa Touch。他所支持的Foundation框架与Cocoa相同，但他的用户图形类库为UIKit，它是为掌上设备特殊设计，提供了你设备上的界面。</p>
+
+<p>Cocoa Touch与Cocoa一个比较鲜明的区别就是Cocoa Touch并不支持垃圾回收机制，这就意味着你必须在你的代码里管理好你的内存。</p>
+
+<h3>UIKit and AppKit</h3>
+
+<p>UIKit是iOS上的用户图形包。UI开头的类都来自于这个框架。
+AppKit是Mac OS X上的用户图形不同，类名以NS开头。</p>
+
+<h2>some frameworks</h2>
+
+<p><img src="http://hongchaozhang.github.io/images/001_ios_frameworks.png" alt="ios_frameworks.png" /></p>
+
+<h3>Foundation</h3>
+
+<h3>UIKit</h3>
+
+<h3>Core Data</h3>
+
+<h3>Core Graphics</h3>
+
+<h3>Core Animation</h3>
+
+<h3>OpenGL ES</h3>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[The .dSYM File in Ios Project]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2015/08/17/the-dSYM-file-in-ios-project/"/>
+    <updated>2015-08-17T00:00:00+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2015/08/17/the-dSYM-file-in-ios-project</id>
+    <content type="html"><![CDATA[<p>This article is mainly from the following post: <a href="http://stackoverflow.com/questions/22460058/how-is-a-dsym-file-created">How is a .dSYM file created?</a>.</p>
+
+<h3>Description</h3>
+
+<p>A <strong>.dSYM</strong> file is a <em>debug symbols file</em>. It is generated when in xcode the <code>Strip Debug Symbols</code> setting is enabled and <code>Debug Infomation Format</code> are set to <code>DWARF with dSYM File</code> in the build settings of your project.</p>
+
+<!-- more -->
+
+
+<h3>Creatation</h3>
+
+<p>Xcode creates the .dSYM file automatically for you when you use the Archive option. The created archive contains your app and its dSYM and is stored in <code>~/Library/Developer/Archive</code>.</p>
+
+<h3>Usage</h3>
+
+<p>When this setting is enabled, symbol names of your objects are removed from the resulting compiled binary (one of the many countermeasures to try and prevent would be hackers/crackers from reverse engineering your code, amongst other optimisations for binary size, etc.).</p>
+
+<p>They are useful for re-symbolicating your crash reports. With a stripped binary, you won&rsquo;t be able to read any crash reports without first re-symbolicating them. Without the dSYM the crash report will just show memory addresses of objects and methods. Xcode uses the dSYM to put the symbols back into the crash report and allow you to read it properly.</p>
+
+<p>dSYMs and executables have an embedded UUID which matches. So every time a build is done will cause both to get a new UUID. The consequence is that symbolication only works if the UUID of the binary that caused a crash matches the UUID of the dSYM that is used for symbolication.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[ARC and GC]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2015/08/14/ARC-and-Memory-Leak/"/>
+    <updated>2015-08-14T00:00:00+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2015/08/14/ARC-and-Memory-Leak</id>
+    <content type="html"><![CDATA[<p>The following post mainly comes from <a href="http://docs.elementscompiler.com/Concepts/ARCvsGC/">ARC vs GC</a> and <a href="http://lists.apple.com/archives/objc-language/2011/Jun/msg00013.html">Re: ARC replacing GC? from Chris Lattner&rsquo;s mail list</a>.</p>
+
+<p>Also reference some posts on memory leak, including <a href="http://stackoverflow.com/questions/6260256/what-kind-of-leaks-does-automatic-reference-counting-in-objective-c-not-prevent/6388601#6388601">What kind of leaks does automatic reference counting in Objective-C not prevent or minimize?</a> and <a href="http://www.reigndesign.com/blog/debugging-retain-cycles-in-objective-c-four-likely-culprits/">Debugging retain cycles in Objective-C: four likely culprits</a>.</p>
+
+<!-- more -->
+
+
+<h2>Garbage Collection</h2>
+
+<p>Garbage Collection (or GC for short) is the technique used for life cycle management on the .NET and Java platforms. The way GC works i/Users/hongchaozhang/Develop/octopress/source/_posts/2015-07-09-Basic-Git-Commands.mds that the runtime (either the Common Language Runtime for .NET or the Java Runtime) has infrastructure in place that detects unused objects and object graphs in the background.</p>
+
+<blockquote><p>Unfortunately, garbage collection does have a down side. Garbage collection is only available on MacOS X Version 10.5 or above. It is not available, currently (not sure if it is still true today), on iPhone, iPad, or any of the less common platforms, such as Linux or Windows.</p></blockquote>
+
+<p>This happens at indeterminate intervals (either after a certain amount of time has passed, or when the runtime sees available memory getting low), so objects are not necessarily released at the exact moment they are no longer used.</p>
+
+<h3>Advantages of Garbage Collection</h3>
+
+<p>GC can clean up entire object graphs, including retain cycles.
+GC happens in the background, so less memory management work is done as part of the regular application flow.</p>
+
+<h3>Disadvantages of Garbage Collection</h3>
+
+<p>Because GC happens in the background, the exact time frame for object releases is undetermined.
+When a GC happens, other threads in the application may be temporarily put on hold.</p>
+
+<h2>Automatic Reference Counting</h2>
+
+<p>Automatic Reference Counting (ARC for short) as used on Cocoa takes a different approach. Rather than having the runtime look for and dispose of unused objects in the background, the compiler will inject code into the executable that keeps track of object reference counts and will release objects as necessary, automatically. In essence, if you were to disassemble an executable compiled with ARC, it would look (conceptually) as if the developer spent a lot of time meticulously keeping track of object life cycles when writing the code — except that all that hard work was done by the compiler.</p>
+
+<h3>Advantages of Automatic Reference Counting</h3>
+
+<p>Real-time, deterministic destruction of objects as they become unused.
+No background processing, which makes it more efficient on lower-power systems, such as mobile devices.</p>
+
+<h3>Disadvantages of Automatic Reference Counting</h3>
+
+<p>Cannot cope with retain cycles.</p>
+
+<blockquote><p><strong>Note:</strong> Another couple of significant memory-related concerns are the handling of <strong>Core Foundation objects</strong> and <strong>memory allocated using malloc()</strong> for types like char*.</p>
+
+<blockquote><p>ARC does only manages Objective-C objects, so you&rsquo;ll still need to deal with <code>malloc()</code> related objects by yourself.</p>
+
+<p>(<strong>Not very clear about this</strong>)Core Foundation types can be particularly tricky, because sometimes they need to be bridged across to matching Objective-C objects, and vice versa. This means that control needs to be transferred back and forth from ARC when bridging between CF types and Objective-C.</p></blockquote></blockquote>
+
+<h2>Retain Cycle</h2>
+
+<p>A so-called retain cycle happens when two (or more) objects reference each other, essentially keeping each other alive even after all external references to the objects have gone out of scope.</p>
+
+<p>The <strong>Garbage Collection</strong> works by looking at &ldquo;reachable&rdquo; objects, it can handle retain cycles fine, and will discard entire object graphs that reference each other, if it detects no outside references exist.</p>
+
+<p>Because <strong>Automatic Reference Counting</strong> works on a lower level and manages life cycles based on reference counts, it cannot handle retain cycles automatically, and a retain cycle will cause objects to stay in memory, essentially causing the application to &ldquo;leak&rdquo; memory.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Understanding KVC and KVO in Objective-C]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2015/08/13/Understanding-KVC-and-KVO/"/>
+    <updated>2015-08-13T00:00:00+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2015/08/13/Understanding-KVC-and-KVO</id>
+    <content type="html"><![CDATA[<p>Contents:</p>
+
+<ul>
+<li><a href="#description">Description</a></li>
+<li><a href="#kvc">KVC</a></li>
+<li><a href="#kvo">KVO</a></li>
+<li><a href="#remove_observers">Remove Observers</a></li>
+</ul>
+
+
+<h2><a name="description"></a>Description</h2>
+
+<p>In Cocoa, the Model-View-Controller pattern, a controller’s responsibility is to keep the view and the model synchronized. There are two parts to this: when the model object changes, the views have to be updated to reflect this change, and when the user interacts with controls, the model has to be updated accordingly.</p>
+
+<p>Key-Value Observing helps us update the views to reflect changes to model objects. The controller can observe changes to those property values that the views depend on.</p>
+
+<p>For more details, refer <a href="http://www.objc.io/issues/7-foundation/key-value-coding-and-observing/">Key-Value Coding and Observing</a> from <a href="objc.io">objc.io</a>;</p>
+
+<!-- more -->
+
+
+<h2><a name="kvc"></a>KVC</h2>
+
+<h3>Description</h3>
+
+<p>KVC, which means <em>NSKeyValueCoding</em>, is a protoco, and supplies accessors (getter and setter) for getting and setting property value. Only by using the KVC setter method to set the property value, can the sender send a message to the observer.</p>
+
+<p>KVC has the following two getter methods: <code>valueForKey:</code> and <code>valueForKeyPath:</code>, two setter methods: <code>setValue:forKey:</code> and <code>setValue:forKeyPath:</code>.</p>
+
+<h3>Sample code</h3>
+
+<p>Assume that <code>Person</code> class has two simple properties: <code>name</code> and <code>address</code> and a <code>Person</code> type property <code>spouse</code>. We have the following two pieces of code explaining the <em>Key</em> and <em>KeyPath</em>:</p>
+
+<p>For <em>Key</em>:</p>
+
+<div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno"> 1</span> <span class="kt">void</span> <span class="nf">changeName</span><span class="p">(</span><span class="n">Person</span> <span class="o">*</span><span class="n">p</span><span class="p">,</span> <span class="bp">NSString</span> <span class="o">*</span><span class="n">newName</span><span class="p">)</span>
+<span class="lineno"> 2</span> <span class="p">{</span>
+<span class="lineno"> 3</span>     <span class="c1">// using the KVC accessor (getter) method</span>
+<span class="lineno"> 4</span>     <span class="bp">NSString</span> <span class="o">*</span><span class="n">originalName</span> <span class="o">=</span> <span class="p">[</span><span class="n">p</span> <span class="nl">valueForKey</span><span class="p">:</span><span class="s">@&quot;name&quot;</span><span class="p">];</span>
+<span class="lineno"> 5</span>  
+<span class="lineno"> 6</span>     <span class="c1">// using the KVC  accessor (setter) method.</span>
+<span class="lineno"> 7</span>     <span class="p">[</span><span class="n">p</span> <span class="nl">setValue</span><span class="p">:</span><span class="n">newName</span> <span class="nl">forKey</span><span class="p">:</span><span class="s">@&quot;name&quot;</span><span class="p">];</span>
+<span class="lineno"> 8</span>  
+<span class="lineno"> 9</span>     <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Changed %@&#39;s name to: %@&quot;</span><span class="p">,</span> <span class="n">originalName</span><span class="p">,</span> <span class="n">newName</span><span class="p">);</span>
+<span class="lineno">10</span> <span class="p">}</span></code></pre></div>
+
+
+<p>For <em>KeyPath</em>:</p>
+
+<div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno"> 1</span> <span class="kt">void</span> <span class="nf">logMarriage</span><span class="p">(</span><span class="n">Person</span> <span class="o">*</span><span class="n">p</span><span class="p">)</span>
+<span class="lineno"> 2</span> <span class="p">{</span>
+<span class="lineno"> 3</span>     <span class="c1">// just using the accessor again, same as example above</span>
+<span class="lineno"> 4</span>     <span class="bp">NSString</span> <span class="o">*</span><span class="n">personsName</span> <span class="o">=</span> <span class="p">[</span><span class="n">p</span> <span class="nl">valueForKey</span><span class="p">:</span><span class="s">@&quot;name&quot;</span><span class="p">];</span>
+<span class="lineno"> 5</span>  
+<span class="lineno"> 6</span>     <span class="c1">// this line is different, because it is using</span>
+<span class="lineno"> 7</span>     <span class="c1">// a &quot;key path&quot; instead of a normal &quot;key&quot;</span>
+<span class="lineno"> 8</span>     <span class="bp">NSString</span> <span class="o">*</span><span class="n">spousesName</span> <span class="o">=</span> <span class="p">[</span><span class="n">p</span> <span class="nl">valueForKeyPath</span><span class="p">:</span><span class="s">@&quot;spouse.name&quot;</span><span class="p">];</span>
+<span class="lineno"> 9</span>  
+<span class="lineno">10</span>     <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;%@ is happily married to %@&quot;</span><span class="p">,</span> <span class="n">personsName</span><span class="p">,</span> <span class="n">spousesName</span><span class="p">);</span>
+<span class="lineno">11</span> <span class="p">}</span></code></pre></div>
+
+
+<p>Actually, <code>[p valueForKeyPath:@"spouse.name"];</code> equals to <code>[[p valueForKey:@"spouse"] valueForKey:@"name"];</code>.</p>
+
+<h2><a name="kvo"></a>KVO</h2>
+
+<h3>Description</h3>
+
+<p><em>Key Value Observer (KVO)</em> is based on KVC, and can observe the change of a property of another object.</p>
+
+<p>KVO allows you to register as an observer of a given object and receive notification when specific properties on that object are changed. It’s an incredibly powerful capability, and it is built into Objective-C at its very core.</p>
+
+<h3>Sample code</h3>
+
+<p>Implement <code>PersonWatcher</code> for observing a <code>Person</code> instance.</p>
+
+<div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno"> 1</span> <span class="k">@implementation</span> <span class="nc">PersonWatcher</span>
+<span class="lineno"> 2</span> 
+<span class="lineno"> 3</span> <span class="k">static</span> <span class="bp">NSString</span> <span class="o">*</span><span class="k">const</span> <span class="n">KVO_CONTEXT_ADDRESS_CHANGED</span> <span class="o">=</span> <span class="s">@&quot;KVO_CONTEXT_ADDRESS_CHANGED&quot;</span><span class="p">;</span>
+<span class="lineno"> 4</span> 
+<span class="lineno"> 5</span> <span class="p">-(</span><span class="kt">id</span><span class="p">)</span> <span class="nf">init</span><span class="p">;</span>
+<span class="lineno"> 6</span> <span class="p">{</span>
+<span class="lineno"> 7</span>     <span class="k">if</span><span class="p">(</span><span class="nb">self</span> <span class="o">=</span> <span class="p">[</span><span class="nb">super</span> <span class="n">init</span><span class="p">]){</span>
+<span class="lineno"> 8</span>         <span class="nb">self</span><span class="p">.</span><span class="n">m_observedPeople</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSMutableArray</span> <span class="n">new</span><span class="p">];</span>
+<span class="lineno"> 9</span>     <span class="p">}</span>
+<span class="lineno">10</span>     
+<span class="lineno">11</span>     <span class="k">return</span> <span class="nb">self</span><span class="p">;</span>
+<span class="lineno">12</span> <span class="p">}</span>
+<span class="lineno">13</span> 
+<span class="lineno">14</span> <span class="c1">// watch a person</span>
+<span class="lineno">15</span> <span class="o">-</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="nl">watchPersonForChangeOfAddress</span><span class="p">:(</span><span class="n">Person</span> <span class="o">*</span><span class="p">)</span><span class="n">p</span>
+<span class="lineno">16</span> <span class="p">{</span>
+<span class="lineno">17</span>     <span class="c1">// this begins the observing</span>
+<span class="lineno">18</span>     <span class="p">[</span><span class="n">p</span> <span class="nl">addObserver</span><span class="p">:</span><span class="nb">self</span>
+<span class="lineno">19</span>         <span class="nl">forKeyPath</span><span class="p">:</span><span class="s">@&quot;address&quot;</span>
+<span class="lineno">20</span>            <span class="nl">options</span><span class="p">:</span><span class="mi">0</span>
+<span class="lineno">21</span>            <span class="nl">context</span><span class="p">:</span><span class="n">CFBridgingRetain</span><span class="p">(</span><span class="n">KVO_CONTEXT_ADDRESS_CHANGED</span><span class="p">)];</span>
+<span class="lineno">22</span>     
+<span class="lineno">23</span>     <span class="c1">// keep a record of all the people being observed,</span>
+<span class="lineno">24</span>     <span class="c1">// because we need to stop observing them in dealloc</span>
+<span class="lineno">25</span>     <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">m_observedPeople</span> <span class="nl">addObject</span><span class="p">:</span><span class="n">p</span><span class="p">];</span>
+<span class="lineno">26</span> <span class="p">}</span>
+<span class="lineno">27</span> 
+<span class="lineno">28</span> <span class="c1">// whenever an observed key path changes, this method will be called</span>
+<span class="lineno">29</span> <span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nl">observeValueForKeyPath</span><span class="p">:(</span><span class="bp">NSString</span> <span class="o">*</span><span class="p">)</span><span class="n">keyPath</span>
+<span class="lineno">30</span>                       <span class="nl">ofObject</span><span class="p">:(</span><span class="kt">id</span><span class="p">)</span><span class="n">object</span>
+<span class="lineno">31</span>                         <span class="nl">change</span><span class="p">:(</span><span class="bp">NSDictionary</span> <span class="o">*</span><span class="p">)</span><span class="n">change</span>
+<span class="lineno">32</span>                        <span class="nl">context</span><span class="p">:(</span><span class="kt">void</span> <span class="o">*</span><span class="p">)</span><span class="n">context</span>
+<span class="lineno">33</span> <span class="p">{</span>
+<span class="lineno">34</span>     <span class="c1">// use the context to make sure this is a change in the address,</span>
+<span class="lineno">35</span>     <span class="c1">// because we may also be observing other things</span>
+<span class="lineno">36</span>     <span class="k">if</span><span class="p">(</span><span class="n">context</span> <span class="o">==</span> <span class="n">CFBridgingRetain</span><span class="p">(</span><span class="n">KVO_CONTEXT_ADDRESS_CHANGED</span><span class="p">))</span> <span class="p">{</span>
+<span class="lineno">37</span>         <span class="bp">NSString</span> <span class="o">*</span><span class="n">name</span> <span class="o">=</span> <span class="p">[</span><span class="n">object</span> <span class="nl">valueForKey</span><span class="p">:</span><span class="s">@&quot;name&quot;</span><span class="p">];</span>
+<span class="lineno">38</span>         <span class="bp">NSString</span> <span class="o">*</span><span class="n">address</span> <span class="o">=</span> <span class="p">[</span><span class="n">object</span> <span class="nl">valueForKey</span><span class="p">:</span><span class="s">@&quot;address&quot;</span><span class="p">];</span>
+<span class="lineno">39</span>         <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;%@ has a new address: %@&quot;</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">address</span><span class="p">);</span>
+<span class="lineno">40</span>     <span class="p">}</span>
+<span class="lineno">41</span> <span class="p">}</span>
+<span class="lineno">42</span> 
+<span class="lineno">43</span> <span class="o">-</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="n">dealloc</span><span class="p">;</span>
+<span class="lineno">44</span> <span class="p">{</span> 
+<span class="lineno">45</span>     <span class="c1">// must stop observing everything before this object is</span>
+<span class="lineno">46</span>     <span class="c1">// deallocated, otherwise it will cause crashes</span>
+<span class="lineno">47</span>     <span class="k">for</span><span class="p">(</span><span class="n">Person</span> <span class="o">*</span><span class="n">p</span> <span class="k">in</span> <span class="nb">self</span><span class="p">.</span><span class="n">m_observedPeople</span><span class="p">){</span>
+<span class="lineno">48</span>         <span class="p">[</span><span class="n">p</span> <span class="nl">removeObserver</span><span class="p">:</span><span class="nb">self</span> <span class="nl">forKeyPath</span><span class="p">:</span><span class="s">@&quot;address&quot;</span><span class="p">];</span>
+<span class="lineno">49</span>     <span class="p">}</span>
+<span class="lineno">50</span>     
+<span class="lineno">51</span>     <span class="nb">self</span><span class="p">.</span><span class="n">m_observedPeople</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
+<span class="lineno">52</span> <span class="p">}</span></code></pre></div>
+
+
+<h2><a name="remove_observers"></a>Remove observer</h2>
+
+<p>Refer <a href="http://stackoverflow.com/questions/6959896/kvo-and-arc-how-to-removeobserver">here</a></p>
+
+<p>You should stop observing the sender when observer is dealloced. If you fail to do this and then allow the observer to be deallocated, then future notifications to the observer may cause your application to crash.</p>
+
+<p>So, remember to remove observers</p>
+
+<ol>
+<li>before observer is dealloced</li>
+<li>before the sender is dealloced</li>
+</ol>
+
+
+<p>For <code>#1</code>, just send <code>removeObserver:forKeyPath</code> message to the sender in the <code>-dealloc</code> function of the observer.
+<code>-dealloc</code> function is called even in ARC mode. In <code>-dealloc</code>, just free non-object resources, or clean up tasks like removing observers. In <code>-dealloc</code> under ARC mode, you can not call <code>[super dealloc]</code>, as the compiller did it for you and this why there is an error if you call this manually.</p>
+
+<blockquote><p><strong>Note:</strong> <code>-dealloc</code> is not called in <em>garbage collection</em> mode.</p></blockquote>
+
+<p>For <code>#2</code>, the observer must know the life circle of the sender, and before the sender is freed, the observer must remove the observation from the sender.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Resources for iOS Developers]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2015/08/09/Resources-for-iOS-developers/"/>
+    <updated>2015-08-09T00:00:00+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2015/08/09/Resources-for-iOS-developers</id>
+    <content type="html"><![CDATA[<p>Refer <a href="http://blog.csdn.net/cui7230102/article/details/14164221">Mac和iOS开发资源汇总</a></p>
+
+<p>Another good github page for iOS resources: <a href="https://github.com/Aufree/trip-to-iOS"><strong>iOS 学习资料整理</strong></a>.</p>
+
+<p>其中，最近（2015年）仍然在更新的中文博客：</p>
+
+<!-- more -->
+
+
+<h2>Apple官方</h2>
+
+<h3>官方文档</h3>
+
+<ul>
+<li><a href="https://developer.apple.com/library/ios/referencelibrary/GettingStarted/RoadMapiOS/FirstTutorial.html">Start Developing iOS Apps Today</a>：这篇文章介绍了iOS程序开发的过程。</li>
+<li><a href="https://developer.apple.com/library/mac/referencelibrary/GettingStarted/RoadMapOSX/chapters/01_Introduction.html">Start Developing Mac Apps Today</a>：这篇文章介绍了Mac OS X开发的过程。</li>
+<li><a href="https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/ProgrammingWithObjectiveC/ProgrammingWithObjectiveC.pdf">Programming with Objective-C</a>：这个链接是苹果官方介绍Objective-C的文档。</li>
+<li><a href="https://developer.apple.com/library/prerelease/mac/documentation/ToolsLanguages/Conceptual/Xcode_Overview/">Xcode Overview</a>：这个链接是苹果官方介绍Xcode用户指南。</li>
+</ul>
+
+
+<h3>官方邮件</h3>
+
+<ul>
+<li><a href="https://lists.apple.com/mailman/listinfo/cocoa-dev">Cocoa-dev</a>：由苹果负责运维，最初内容是与Mac OS X中的Cocoa相关，目前在这个list上的许多开发者可以帮助你解决 iOS 相关问题（提问的时候最好先搜索一下，之前是否有人提问过相关问题）。</li>
+<li><a href="https://lists.apple.com/mailman/listinfo/xcode-users">Xcode-user</a>：由苹果负责运维，该邮件列表是跟Xcode相关。</li>
+<li><a href="https://lists.apple.com/mailman/listinfo/quartz-dev">Quartz-dev</a>： 由苹果负责运维，该邮件列表主要是讨论Quartz 2D和Core Graphics相关技术。</li>
+</ul>
+
+
+<h2>高手在民间</h2>
+
+<ul>
+<li><a href="http://onevcat.com/page/3/#blog"><strong>OneV&rsquo;s Den</strong>(Strongly Recmended)</a></li>
+<li><a href="http://objccn.io/">objc中国</a>：<a href="http://www.objc.io/">objc.io</a>的翻译工作。</li>
+<li><a href="http://macshuo.com/">MacTalk By 池建强</a></li>
+<li><a href="http://blog.devtang.com/">唐巧的技术博客</a></li>
+<li><a href="http://www.cimgf.com/">Cocoa is my Girlfriend</a>: 这是有Marcus Zarra带领的一批博客，主要集中在iOS和Cocoa开发的问题上。</li>
+<li><a href="http://www.cocoachina.com/">Cocoa China</a></li>
+<li><a href="http://groups.google.com/group/iphonesdkdevelopment">iPhone SDK开发</a>：这是第三方的一个邮件列表，主要讨论 iOS 开发。</li>
+<li><a href="http://www.cnblogs.com/easonoutlook/"><del>easonoutlook</del></a></li>
+<li><a href="http://answerhuang.duapp.com/"><del>anwser_huang</del></a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Font Size in Html - Px, Em, Rem]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2015/08/03/Font-size-in-Html/"/>
+    <updated>2015-08-03T00:00:00+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2015/08/03/Font-size-in-Html</id>
+    <content type="html"><![CDATA[<p>Refer <a href="http://snook.ca/archives/html_and_css/font-size-with-rem">here</a></p>
+
+<p>Three units of measurements to size the text in html files to discuss:</p>
+
+<ol>
+<li>px</li>
+<li>em</li>
+<li>rem</li>
+</ol>
+
+
+<!-- more -->
+
+
+<h2>Sizing with <code>px</code></h2>
+
+<p><code>px</code> has some problems with IE of versions earlier then IE9 when changing text size with browser function.</p>
+
+<h2>Sizing with <code>em</code></h2>
+
+<p>To solve the issue in IE, we can use <code>em</code> instead. See <a href="http://clagnut.com/blog/348/">here</a> for more details. The <code>em</code> way modifies the base font size on the <code>body</code> using a percentage.</p>
+
+<p>However, there is a <strong>font size compounds</strong> problem for this em-based sizing. That is, if you set <code>li { font-size:1.4em }</code>, the <code>li</code> element inside another <code>li</code> element will become bigger. Guess[<strong>TODO</strong>]: the base font size is not on the body, it is on the <code>li</code> element outside.</p>
+
+<h2>Sizing with <code>rem</code></h2>
+
+<p>The em unit is relative to the font-size of the parent, which causes the compounding issue. The rem unit is relative to the root—or the html—element. That means that we can define a single font size on the html element and define all rem units to be a percentage of that. (Comming from the <a href="http://snook.ca/archives/html_and_css/font-size-with-rem">reference</a>)</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Ios App Life Circle and Related Interfaces]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2015/08/02/ios-app-life-circle-and-some-interfaces/"/>
+    <updated>2015-08-02T00:00:00+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2015/08/02/ios-app-life-circle-and-some-interfaces</id>
+    <content type="html"><![CDATA[<p><strong>TODO</strong></p>
+
+<p><a href="http://www.4byte.cn/learning/88477.html">reference</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Communication Between WebView and Native Android]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2015/07/28/Communication-between-WebView-and-native-android/"/>
+    <updated>2015-07-28T00:00:00+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2015/07/28/Communication-between-WebView-and-native-android</id>
+    <content type="html"><![CDATA[<h2>Description</h2>
+
+<p>In Android project, we sometimes want to rend a page in <strong>WebView</strong>, and need communication between webview and native android side.</p>
+
+<p><strong>Note:</strong> Go to <a href="https://github.com/hongchaozhang/android_java_javascript_communication">here</a> for a project as a sample.</p>
+
+<h2>Javascript and Java Bridge</h2>
+
+<!-- more -->
+
+
+<ol>
+<li><p>Code for javascript interface in native android side:</p>
+
+<pre><code> public class JavaScriptInterface {
+     protected MyActivity parentActivity;
+     protected WebView mWebView;
+
+     public JavaScriptInterface(MyActivity _activity, WebView _webView)  {
+         parentActivity = _activity;
+         mWebView = _webView;
+
+     }
+
+     @JavascriptInterface
+     public void setResult(int val){
+         Log.v("mylog","JavaScriptHandler.setResult is called : " + val);
+         this.parentActivity.javascriptCallFinished(val);
+     }
+
+     @JavascriptInterface
+     public void calcSomething(int x, int y){
+         this.parentActivity.changeText("Result is : " + (x * y));
+     }
+
+     @JavascriptInterface
+     public String modifyString(String inputString) {
+         return inputString + " from Java side";
+     }
+ }
+</code></pre>
+
+<p> Here, we can introduce the main activity <code>parentActivity</code> and the webview <code>mWebView</code> into the interface for further use.</p></li>
+<li><p>Get webview from layout xml file, or create it from scrach, and config it:</p>
+
+<pre><code> myWebView = (WebView)this.findViewById(R.id.myWebView);
+ myWebView.getSettings().setJavaScriptEnabled(true);
+ myWebView.loadUrl("file:///android_asset/index.html");
+
+ myWebView.addJavascriptInterface(new JavaScriptInterface(this, myWebView), "MyHandler");
+ if(Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.KITKAT) {
+     WebView.setWebContentsDebuggingEnabled(true);
+ }
+</code></pre>
+
+<p> 1) Pay attention to <code>addJavascriptinterface</code>, which add the javascript interface, and gives the interface a name <code>MyHandler</code>.
+2) To be able to debug web page inside webview, <code>setWebContentsDebuggingEnabled(true)</code> should be called for android version after <code>KITKAT(4.4)</code>.</p></li>
+<li><p>Then we can use the following way to call javascript function and change html page from java side:</p>
+
+<pre><code> myWebView.loadUrl("javascript:document.getElementById('test1').innerHTML = 'changed'");
+</code></pre>
+
+<p> And use the following to call java method from javascript side:</p>
+
+<pre><code> window.MyHandler.setResult(9999)
+</code></pre></li>
+</ol>
+
+
+<h2>Passing parameters and <code>return</code> value</h2>
+
+<h4>parameter of <code>WebView.loadUrl</code></h4>
+
+<p>We can only use <em>String</em> as the parameter of <code>WebView.loadUrl()</code> function (Note <code>val1</code> and <code>val2</code>):</p>
+
+<pre><code>myWebView.loadUrl("javascript:window.MyHandler.setResult( addSomething("+val1+","+val2+") )");
+</code></pre>
+
+<h4>parameter of the interface for javascript</h4>
+
+<p>We can use <em>String</em> or <em>int</em> for these interfaces, like:</p>
+
+<pre><code>window.MyHandler.setResult(10);
+var stringFromJava = window.MyHandler.modifyString("string from javascript");
+</code></pre>
+
+<h4>Java return value to Javascript: <strong>sync</strong></h4>
+
+<p>Java can directly return String back to Javascritp, so we can use the following way to get the string from Java:</p>
+
+<pre><code>var stringFromJava = window.MyHandler.modifyString("string from javascript");
+</code></pre>
+
+<h4><a name="javascript_return_value_to_java"></a>Javascript return value to Java: <strong>async</strong></h4>
+
+<p>As <code>WebView.loadUrl</code> does not return anything, so Java can not get results from Javascript. We need other ways to get the result.</p>
+
+<p>Currently, we have no way to do this. The work around is: when javascript get the result, call a method in java side through the interface <code>MyHandler</code>, and pass the result as a parameter. As java call <code>WebView.loadurl</code> in a differenct thread, so even in this way, we can not get the result right away for use in the next line.</p>
+
+<h2>Multi-thread in Java side and Single-thread in Javascript side</h2>
+
+<h3>Javascript call Java: sync</h3>
+
+<p>When we run the following function, we can get the string returned from java side, and then set it into the html page.</p>
+
+<pre><code>function testSync() {
+    var string = "default string";
+    string = window.MyHandler.testString();
+    document.getElementById('test1').innerHTML = string;
+}
+</code></pre>
+
+<h3>Java call Javascript: async</h3>
+
+<p>Similar to <a href="#javascript_return_value_to_java">Javascript return value to Java</a>.</p>
+
+<h2>Security problems</h2>
+
+<p>Reference to <a href="http://jiajixin.cn/2014/09/16/webview-js-safety/">Java和Javascript安全交互</a>.</p>
+
+<p>An example listed:</p>
+
+<ul>
+<li>成名已久的任意命令执行漏洞，通过addJavascriptInterface方法，Js可以调用Java对象方法，通过反射机制，Js可以直接获取Runtime，从而执行任意命令。Android 4.2以上，可以通过声明@JavascriptInterface保证安全性，4.2以下不能再调用addJavascriptInterface，需要另谋他法。</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Property and Its Attributes in Objective-C]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2015/07/27/Property-and-its-Attributes-in-Objective-C/"/>
+    <updated>2015-07-27T00:00:00+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2015/07/27/Property-and-its-Attributes-in-Objective-C</id>
+    <content type="html"><![CDATA[<p>All the attributes of a property defines how the compiler generate the <code>getter</code> and <code>setter</code> accessors.</p>
+
+<ul>
+<li><p>atomic / nonatomic</p></li>
+<li><p>strong / weak: used for ARC.</p></li>
+<li><p>assign / retain / copy: go to <a href="http://blog.csdn.net/jiarusun000/article/details/6991249">here</a> for reference. These properties define how the compiler generate the <code>setter</code> accessor.</p></li>
+<li><p>readonly / readwrite: if a property is declared as <code>readonly</code>, the compiler will only declare the getter accessor, so that you can not call setter accessor. This is called <code>readonly</code>.</p></li>
+</ul>
+
+
+<!-- more -->
+
+
+<p>Apart from above, <code>@synthesize</code> define the instance variable used for accessors. <code>@synthesize</code> can only be used to property, not iVar. For more info, see <a href="http://hongchaozhang.github.io/code/2015/07/22/Property-vs-Instance-Variable(iVar">Property vs Instance Variable (iVar) in objective-c</a>-in-Objective-C.html).</p>
+
+<p><a href="http://www.cnblogs.com/andyque/archive/2011/08/03/2125728.html">Here</a> has a detail description. And the useful part:</p>
+
+<ul>
+<li>什么时候用assign、什么时候用retain和copy呢？推荐做法是NSString用copy,delegate用assign（且一定要用assign，不要问为什么，只管去用就是了，以后你会明白的），非objc数据类型，比如int，float等基本数据类型用assign（默认就是assign），而其它objc类型，比如NSArray，NSDate用retain。</li>
+<li>当别人使用@property来做内存管理的时候就会有问题了。总结一下，如果你自己实现了getter和setter的话，atomic/nonatomic/retain/assign/copy这些只是给编译的建议，编译会首先会到你的代码里面去找，如果你定义了相应的getter和setter的话，那么好，用你的。如果没有，编译器就会根据atomic/nonatomic/retain/assign/copy这其中你指定的某几个规则去生成相应的getter和setter。</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Property vs Instance Variable (iVar) in Objective-c]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2015/07/22/Property-vs-Instance-Variable(iVar)-in-Objective-C/"/>
+    <updated>2015-07-22T00:00:00+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2015/07/22/Property-vs-Instance-Variable(iVar)-in-Objective-C</id>
+    <content type="html"><![CDATA[<h2>Description</h2>
+
+<p>To declare a variable in a objective-c class, we have the following two ways:</p>
+
+<ul>
+<li>Property</li>
+</ul>
+
+
+<div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno">1</span> <span class="k">@interface</span> <span class="nc">Photo</span> : <span class="bp">NSObject</span>
+<span class="lineno">2</span> <span class="k">@property</span> <span class="p">(</span><span class="k">nonatomic</span><span class="p">,</span> <span class="k">strong</span><span class="p">)</span> <span class="bp">NSString</span> <span class="o">*</span><span class="n">photographer</span><span class="p">;</span>
+<span class="lineno">3</span> <span class="k">@end</span></code></pre></div>
+
+
+<ul>
+<li>Instance Variable (iVar)</li>
+</ul>
+
+
+<div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno">1</span> <span class="k">@interface</span> <span class="nc">Photo</span> : <span class="bp">NSObject</span> <span class="p">{</span>
+<span class="lineno">2</span>     <span class="bp">NSString</span> <span class="o">*</span><span class="n">photographer</span><span class="p">;</span>
+<span class="lineno">3</span> <span class="p">}</span>
+<span class="lineno">4</span> <span class="k">@end</span></code></pre></div>
+
+
+<p>Then, what&rsquo;s the difference?</p>
+
+<!-- more -->
+
+
+<h2>Differences</h2>
+
+<h3>private vs public</h3>
+
+<p>For a private/protected variable, use iVar; for a public variable, use property. If you want to use the benifit of property attributes, like retain, nonatomic etc., declare the property in the implementation file as a private property.</p>
+
+<p>For an iVar, you can use <code>@private</code>, <code>@protected</code> and <code>@public</code>. But these attributes only influence the access of its subclass, and has nothing to do with the access ability of its instances. Go to <a href="http://www.cnblogs.com/andyque/archive/2011/08/03/2125728.html">here</a> for reference.</p>
+
+<h3>usage</h3>
+
+<p>Directly use an iVar inside the class, for example, <code>photographer</code>. But use <code>self.</code> for a property, for example, <code>self.photographer</code>.</p>
+
+<h3>performance</h3>
+
+<p>iVar is faster than property, as property will call the <code>getter</code> or <code>setter</code> functions. When you declare a property, the compiler will add <code>getter</code> and <code>setter</code> functions for the property.</p>
+
+<h3>@synthesize for property</h3>
+
+<p><strong>UPDATE：Just read this paragraph, omit the paragraphs behind.</strong> <code>@synthesize</code> is only for property, not iVar. It will help the property to generate the getter and setter accessors. For every property, complier will automatically synthesize it using <code>_propertyName</code>. The auto synthesize is the same as you add <code>@synthesize propertyName = _propertyName</code>. If you only add <code>@synthesize propertyName</code>, it is the same with <code>@synthesize propertyName = propertyName</code>, and if you define an iVar with the name <code>propertyName</code>, they will be synthesized. That is to say, in the accessors of <strong>property</strong> <code>propertyName</code>, it will use <strong>iVar</strong> <code>propertyName</code>.</p>
+
+<blockquote><p><strong>Note for property inheritance:</strong> If the super class has a property declared as public, the subclass can inherit the property. But the auto synthesize mechnism will not sythesize the property automatically, and you can only use the getter and setter accessors of the superclass by using dot operation. If you want to synthesize manually, <strong>Be Carefull!</strong> You should avoid using the same iVar as them in the superclass. This will lead to an error message <em>&ldquo;property &lsquo;propertyName&rsquo; atemping to use instance variable &lsquo;InstanceVariableName&rsquo; declared in super class &lsquo;SuperClassName&rsquo;&rdquo;</em>.</p>
+
+<p>If you inherit a property from a <strong>protocol</strong>, you mush synthesize it, as the protocol only declares it, not synthesize it.</p></blockquote>
+
+<p><strong>Omit the following paragraphs in this section</strong></p>
+
+<p>If you add <code>@synthesize photographer</code> in the implementation, compiler will automatically add an iVar <code>photographer</code> <del>and <code>_photographer</code></del> to the class. You can directly use <code>photographer</code> <del>or <code>_photographer</code></del> instead of <code>self.photographer</code> to get or set the value. The iVar method is faster, but keep in mind that it will not call the <code>getter</code> or <code>setter</code> method.</p>
+
+<p>If you declare the class like this and don&rsquo;t <code>@synthesize photographer</code>:</p>
+
+<div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno">1</span> <span class="k">@interface</span> <span class="nc">Photo</span> : <span class="bp">NSObject</span> <span class="p">{</span>
+<span class="lineno">2</span>   <span class="bp">NSString</span> <span class="o">*</span><span class="n">photographer</span><span class="p">;</span>
+<span class="lineno">3</span> <span class="p">}</span>
+<span class="lineno">4</span> <span class="k">@property</span> <span class="p">(</span><span class="k">nonatomic</span><span class="p">,</span> <span class="k">strong</span><span class="p">)</span> <span class="bp">NSString</span> <span class="o">*</span><span class="n">photographer</span><span class="p">;</span>
+<span class="lineno">5</span> <span class="k">@end</span></code></pre></div>
+
+
+<p>There are actually two <code>photographer</code> variables in the class: when you use <code>photographer</code> directly, you are using the iVar, and when you use <code>self.photographer</code>, you are using the property.</p>
+
+<p>However, when you use <code>@synthesize photographer</code> in the implementation file, the compoler will add <code>photographer</code> variable for the property. That is to say, <code>photographer</code> will be the property, and the iVar will not be usable.</p>
+
+<h2>References</h2>
+
+<p>A more detailed description is <a href="http://stackoverflow.com/questions/9086736/why-would-you-use-an-ivar">here</a>.</p>
+
+<p><a href="http://stackoverflow.com/questions/2032826/property-synthesize">reference</a>, answer by <em>Rachel Henderson</em></p>
+
+<p><del><em>Property</em> session of the </del><a href="http://www.cocoadevcentral.com/d/learn_objectivec/"><del>reference</del></a>. <del>This post is old fashioned</del>.</p>
+
+<p><a href="http://blog.csdn.net/likendsl/article/details/7345485">Here</a> has a good explaination.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Use Current Location Service in Map]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2015/07/21/Use-Current-Location-Service-in-Map/"/>
+    <updated>2015-07-21T00:00:00+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2015/07/21/Use-Current-Location-Service-in-Map</id>
+    <content type="html"><![CDATA[<h2>Location Service Authorization</h2>
+
+<h3>1. Set <em>info.plist</em></h3>
+
+<p>For iOS SDK 8.0 and later, we need to set <code>NSLocationWhenInUseUsageDescription</code> and &lsquo;NSLocationAlwaysUsageDescription&rsquo; in <em>info.plist</em> file. A sample case is:</p>
+
+<div class="highlight"><pre><code class="language-xml" data-lang="xml"><span class="lineno">1</span> <span class="nt">&lt;key&gt;</span>NSLocationWhenInUseUsageDescription<span class="nt">&lt;/key&gt;</span>
+<span class="lineno">2</span> <span class="nt">&lt;string&gt;</span>Do you allow the app to use your location?<span class="nt">&lt;/string&gt;</span>
+<span class="lineno">3</span> <span class="nt">&lt;key&gt;</span>NSLocationAlwaysUsageDescription<span class="nt">&lt;/key&gt;</span>
+<span class="lineno">4</span> <span class="nt">&lt;string&gt;</span>Are you willing to allow the app to use your location?<span class="nt">&lt;/string&gt;</span></code></pre></div>
+
+
+<p>The <code>string</code> will appear in the popup dialog. You can leave it as empty, and only the system message will appear in the popup.</p>
+
+<!-- more -->
+
+
+<h3>2. Ask the User for Location Service Authorization</h3>
+
+<p>We ask for the authorization by an instance of <code>CLLocationManager</code>.</p>
+
+<ul>
+<li>import <code>CoreLocation/CoreLocation.h</code> class, and define a location manager <code>locationManager</code> in the map view controller.</li>
+<li>use the following code for asking authorization from user:</li>
+</ul>
+
+
+<div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno"> 1</span> <span class="k">if</span> <span class="p">([</span><span class="bp">CLLocationManager</span> <span class="n">locationServicesEnabled</span><span class="p">]</span> <span class="p">)</span> <span class="p">{</span> <span class="c1">// check if the location service is enabled for the device</span>
+<span class="lineno"> 2</span>     <span class="k">if</span> <span class="p">(</span><span class="nb">self</span><span class="p">.</span><span class="n">locationManager</span> <span class="o">==</span> <span class="nb">nil</span> <span class="p">)</span> <span class="p">{</span>
+<span class="lineno"> 3</span>         <span class="nb">self</span><span class="p">.</span><span class="n">locationManager</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">CLLocationManager</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
+<span class="lineno"> 4</span>         <span class="nb">self</span><span class="p">.</span><span class="n">locationManager</span><span class="p">.</span><span class="n">desiredAccuracy</span> <span class="o">=</span> <span class="n">kCLLocationAccuracyBest</span><span class="p">;</span>
+<span class="lineno"> 5</span>         <span class="nb">self</span><span class="p">.</span><span class="n">locationManager</span><span class="p">.</span><span class="n">distanceFilter</span> <span class="o">=</span> <span class="n">kCLDistanceFilterNone</span><span class="p">;</span>
+<span class="lineno"> 6</span>     <span class="p">}</span>
+<span class="lineno"> 7</span>     <span class="c1">// Check for iOS 8. Without this guard the code will crash with &quot;unknown selector&quot; on iOS 7.</span>
+<span class="lineno"> 8</span>     <span class="k">if</span><span class="p">([</span><span class="nb">self</span><span class="p">.</span><span class="n">locationManager</span> <span class="nl">respondsToSelector</span><span class="p">:</span><span class="k">@selector</span><span class="p">(</span><span class="n">requestAlwaysAuthorization</span><span class="p">)]){</span>
+<span class="lineno"> 9</span>         <span class="n">CLAuthorizationStatus</span> <span class="n">locationAuthorizationStatus</span> <span class="o">=</span> <span class="p">[</span><span class="bp">CLLocationManager</span> <span class="n">authorizationStatus</span><span class="p">];</span>
+<span class="lineno">10</span>         <span class="k">if</span> <span class="p">(</span><span class="n">locationAuthorizationStatus</span> <span class="o">==</span> <span class="n">kCLAuthorizationStatusNotDetermined</span> <span class="o">&amp;&amp;</span> <span class="p">([</span><span class="nb">self</span><span class="p">.</span><span class="n">locationManager</span> <span class="nl">respondsToSelector</span><span class="p">:</span><span class="k">@selector</span><span class="p">(</span><span class="n">requestAlwaysAuthorization</span><span class="p">)]</span> <span class="o">||</span> <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">locationManager</span> <span class="nl">respondsToSelector</span><span class="p">:</span><span class="k">@selector</span><span class="p">(</span><span class="n">requestWhenInUseAuthorization</span><span class="p">)]))</span> <span class="p">{</span>
+<span class="lineno">11</span>             <span class="c1">// choose one request according to your business.</span>
+<span class="lineno">12</span>             <span class="k">if</span><span class="p">([[</span><span class="bp">NSBundle</span> <span class="n">mainBundle</span><span class="p">]</span> <span class="nl">objectForInfoDictionaryKey</span><span class="p">:</span><span class="s">@&quot;NSLocationAlwaysUsageDescription&quot;</span><span class="p">]){</span>
+<span class="lineno">13</span>                 <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">locationManager</span> <span class="n">requestAlwaysAuthorization</span><span class="p">];</span>
+<span class="lineno">14</span>             <span class="p">}</span> <span class="k">else</span> <span class="k">if</span><span class="p">([[</span><span class="bp">NSBundle</span> <span class="n">mainBundle</span><span class="p">]</span> <span class="nl">objectForInfoDictionaryKey</span><span class="p">:</span><span class="s">@&quot;NSLocationWhenInUseUsageDescription&quot;</span><span class="p">])</span> <span class="p">{</span>
+<span class="lineno">15</span>                 <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">locationManager</span>  <span class="n">requestWhenInUseAuthorization</span><span class="p">];</span>
+<span class="lineno">16</span>             <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+<span class="lineno">17</span>                 <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Info.plist does not contain NSLocationAlwaysUsageDescription or NSLocationWhenInUseUsageDescription&quot;</span><span class="p">);</span>
+<span class="lineno">18</span>             <span class="p">}</span>
+<span class="lineno">19</span>         <span class="p">}</span>
+<span class="lineno">20</span>     <span class="p">}</span>
+<span class="lineno">21</span> <span class="p">}</span></code></pre></div>
+
+
+<h2>Get Location</h2>
+
+<p>For iOS SDK 8.0 and later, we have two ways to get user current location:</p>
+
+<ol>
+<li>set <code>showsUserLocation</code> to <code>YES</code> for map view.</li>
+<li>send method <code>startUpdatingLocation</code> to <code>CLLocationManager</code> instance.</li>
+</ol>
+
+
+<h3>1. showsUserLocation</h3>
+
+<p>For this way, after we set <code>showsUserLocation</code> to <code>YES</code>,</p>
+
+<ul>
+<li>We can get the location in <code>mapView:didUpdateUserLocation:</code>.</li>
+</ul>
+
+
+<div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno"> 1</span> <span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">mapView:</span><span class="p">(</span><span class="bp">MKMapView</span> <span class="o">*</span><span class="p">)</span><span class="nv">mapView</span> <span class="nf">didUpdateUserLocation:</span><span class="p">(</span><span class="bp">MKUserLocation</span> <span class="o">*</span><span class="p">)</span><span class="nv">userLocation</span>
+<span class="lineno"> 2</span> <span class="p">{</span>
+<span class="lineno"> 3</span>     <span class="c1">// Center the map the first time we get a real location change.</span>
+<span class="lineno"> 4</span>     <span class="k">static</span> <span class="kt">dispatch_once_t</span> <span class="n">centerMapFirstTime</span><span class="p">;</span>
+<span class="lineno"> 5</span>     
+<span class="lineno"> 6</span>     <span class="k">if</span> <span class="p">((</span><span class="n">userLocation</span><span class="p">.</span><span class="n">coordinate</span><span class="p">.</span><span class="n">latitude</span> <span class="o">!=</span> <span class="mf">0.0</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="n">userLocation</span><span class="p">.</span><span class="n">coordinate</span><span class="p">.</span><span class="n">longitude</span> <span class="o">!=</span> <span class="mf">0.0</span><span class="p">))</span> <span class="p">{</span>
+<span class="lineno"> 7</span>         <span class="n">dispatch_once</span><span class="p">(</span><span class="o">&amp;</span><span class="n">centerMapFirstTime</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
+<span class="lineno"> 8</span>             <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">mapView</span> <span class="nl">setCenterCoordinate</span><span class="p">:</span><span class="n">userLocation</span><span class="p">.</span><span class="n">coordinate</span> <span class="nl">animated</span><span class="p">:</span><span class="nb">YES</span><span class="p">];</span>
+<span class="lineno"> 9</span>         <span class="p">});</span>
+<span class="lineno">10</span>     <span class="p">}</span>
+<span class="lineno">11</span>     
+<span class="lineno">12</span> <span class="p">}</span></code></pre></div>
+
+
+<ul>
+<li>We can set the current location annotation view in <code>mapView:viewForAnnotation:</code>. If <code>nil</code> is returned, a default blue circle with white boundary is use. The circle has breathing effect. For this purpose, we need to identify the annotation (which is an <code>id</code> type) type: if it is a <code>MKUserLocation</code> type, return a current location annotation view or nil. <strong>Question: How to define whether an <code>id</code> type object is a <code>MKUserLocation</code> type object?</strong></li>
+</ul>
+
+
+<p>Before implementing the above two methods, we should set the map view&rsquo;s delegate comfirm with <code>MapViewDelegate</code> protoco.</p>
+
+<h3>2. Send message <code>startUpdateingLocation</code> to <code>CLLocationManager</code> Instaance</h3>
+
+<p>For this way, after we send the method,</p>
+
+<ul>
+<li>We can get the location in <code>locationManager:didUpdateLocations:</code>. The newest location is the <code>lastObject</code> of <code>locations</code>.</li>
+</ul>
+
+
+<div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno"> 1</span> <span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">locationManager:</span><span class="p">(</span><span class="bp">CLLocationManager</span> <span class="o">*</span><span class="p">)</span><span class="nv">manager</span> <span class="nf">didUpdateLocations:</span><span class="p">(</span><span class="bp">NSArray</span> <span class="o">*</span><span class="p">)</span><span class="nv">locations</span>
+<span class="lineno"> 2</span> <span class="p">{</span>
+<span class="lineno"> 3</span>     <span class="nb">self</span><span class="p">.</span><span class="n">currentLocation</span> <span class="o">=</span> <span class="p">[</span><span class="n">locations</span> <span class="n">lastObject</span><span class="p">];</span>
+<span class="lineno"> 4</span>     <span class="n">CLLocationCoordinate2D</span> <span class="n">currentCoordinate</span> <span class="o">=</span> <span class="nb">self</span><span class="p">.</span><span class="n">currentLocation</span><span class="p">.</span><span class="n">coordinate</span><span class="p">;</span>
+<span class="lineno"> 5</span>     
+<span class="lineno"> 6</span>     <span class="k">if</span> <span class="p">(</span><span class="nb">self</span><span class="p">.</span><span class="n">currentLocationAnnotation</span><span class="p">)</span> <span class="p">{</span>
+<span class="lineno"> 7</span>         <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">mapView</span> <span class="nl">removeAnnotation</span><span class="p">:</span><span class="nb">self</span><span class="p">.</span><span class="n">currentLocationAnnotation</span><span class="p">];</span>
+<span class="lineno"> 8</span>     <span class="p">}</span>
+<span class="lineno"> 9</span>     <span class="nb">self</span><span class="p">.</span><span class="n">currentLocationAnnotation</span> <span class="o">=</span> <span class="p">[[</span><span class="n">CurrentLocationAnnotation</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithCoordinate</span><span class="p">:</span><span class="n">currentCoordinate</span><span class="p">];</span>
+<span class="lineno">10</span>     <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">mapView</span> <span class="nl">addAnnotation</span><span class="p">:</span><span class="nb">self</span><span class="p">.</span><span class="n">currentLocationAnnotation</span><span class="p">];</span>
+<span class="lineno">11</span> <span class="p">}</span></code></pre></div>
+
+
+<ul>
+<li><p>When you add the current location annotation to map view, you can set the current location annotation view in mapView:viewForAnnotation: method. If <code>nil</code> is returned, a <strong>red pin</strong> will be use as the annotation view. <strong>Question: How can we use the default blue circle as the annotation view, just as we set <code>showsUserLocation</code> to <code>YES</code>?</strong></p></li>
+<li><p>You can also get erroe message when app fails to get the location in <code>locationManager:didFailWithError:</code> method.</p></li>
+</ul>
+
+
+<div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno">1</span> <span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">locationManager:</span><span class="p">(</span><span class="bp">CLLocationManager</span> <span class="o">*</span><span class="p">)</span><span class="nv">manager</span> <span class="nf">didFailWithError:</span><span class="p">(</span><span class="bp">NSError</span> <span class="o">*</span><span class="p">)</span><span class="nv">error</span>
+<span class="lineno">2</span> <span class="p">{</span>
+<span class="lineno">3</span>     <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;didFailWithError: %@&quot;</span><span class="p">,</span> <span class="n">error</span><span class="p">);</span>
+<span class="lineno">4</span>     <span class="bp">UIAlertView</span> <span class="o">*</span><span class="n">errorAlert</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">UIAlertView</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithTitle</span><span class="p">:</span><span class="s">@&quot;Error&quot;</span> <span class="nl">message</span><span class="p">:</span><span class="s">@&quot;Failed to Get Your Location&quot;</span> <span class="nl">delegate</span><span class="p">:</span><span class="nb">nil</span> <span class="nl">cancelButtonTitle</span><span class="p">:</span><span class="s">@&quot;OK&quot;</span> <span class="nl">otherButtonTitles</span><span class="p">:</span><span class="nb">nil</span><span class="p">];</span>
+<span class="lineno">5</span>     <span class="p">[</span><span class="n">errorAlert</span> <span class="n">show</span><span class="p">];</span>
+<span class="lineno">6</span> <span class="p">}</span></code></pre></div>
+
+
+<p>Before implementing the above methods, set the <code>CLLocationManager</code>&rsquo;s delegate confirm  with <code>CLLocationManagerDelegate</code> protoco.</p>
+
+<h2>References</h2>
+
+<p><a href="http://nevan.net/2014/09/core-location-manager-changes-in-ios-8/">reference:</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Some Useful Tools for Coding]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2015/07/20/Some-Useful-Tools-for-Coding/"/>
+    <updated>2015-07-20T00:00:00+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2015/07/20/Some-Useful-Tools-for-Coding</id>
+    <content type="html"><![CDATA[<h2>VVDocument-Xcode</h2>
+
+<p>Use this plug-in for xcode to enable xcode support automatically adding comments to our code, using Javadoc style.
+With these comments, we can alt+click a used function to see some useful info.</p>
+
+<p>Go to <a href="http://nshipster.com/documentation/">here</a> for more info.</p>
+
+<h2>kdiff</h2>
+
+<!-- more -->
+
+
+<p>Use <strong>kdiff</strong> for comparing and merging files or folders.</p>
+
+<h2>goagent for VPN</h2>
+
+<p>For Mac, refer to <a href="http://blog.csdn.net/yanzi1225627/article/details/42886391">this post</a>.</p>
+
+<p>If you meet with httplib.BadStatusLine error while running <code>python uploader.py</code>, refer <a href="https://code.google.com/p/goagent/issues/detail?can=2&amp;start=0&amp;num=100&amp;q=&amp;colspec=ID%20Opened%20Reporter%20Modified%20Summary%20Stars&amp;groupby=&amp;sort=&amp;id=18501">here</a> (tricky here, as the link need vpn to get):</p>
+
+<ul>
+<li>关闭谷歌账户的两部验证功能。</li>
+<li>并且到 <a href="https://www.google.com/settings/security/lesssecureapps">这里</a> 确认"不够安全的应用的访问权限"已启用。</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+</feed>

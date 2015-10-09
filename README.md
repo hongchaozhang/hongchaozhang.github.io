@@ -1,2 +1,2 @@
 # hongchaozhang.github.io
-newly created repo of my octopress blog
+my blog created with octopress

@@ -1,0 +1,288 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Property and Its Attributes in Objective-C - Zhang Hongchao</title>
+  <meta name="author" content="Zhang Hongchao">
+
+  
+  <meta name="description" content="All the attributes of a property defines how the compiler generate the getter and setter accessors. atomic / nonatomic
+strong / weak: used for ARC. &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://hongchaozhang.github.io/blog/2015/07/27/Property-and-its-Attributes-in-Objective-C">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Zhang Hongchao" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/libs/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<!--
+<link href='https://fonts.googleapis.com/css?family=Noto+Serif:400,700' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+-->
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Zhang Hongchao</a></h1>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><!--
+<ul class="subscription" data-subscription="rss">
+  
+  
+</ul>
+-->
+
+<!--
+
+-->
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <script type="text/javascript" src="/javascripts/DisableLineNumberCopy.js"></script>
+
+<div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Property and Its Attributes in Objective-C</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2015-07-27T00:00:00+08:00" pubdate data-updated="true">Jul 27th, 2015</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>All the attributes of a property defines how the compiler generate the <code>getter</code> and <code>setter</code> accessors.</p>
+
+<ul>
+<li><p>atomic / nonatomic</p></li>
+<li><p>strong / weak: used for ARC.</p></li>
+<li><p>assign / retain / copy: go to <a href="http://blog.csdn.net/jiarusun000/article/details/6991249">here</a> for reference. These properties define how the compiler generate the <code>setter</code> accessor.</p></li>
+<li><p>readonly / readwrite: if a property is declared as <code>readonly</code>, the compiler will only declare the getter accessor, so that you can not call setter accessor. This is called <code>readonly</code>.</p></li>
+</ul>
+
+
+<!-- more -->
+
+
+<p>Apart from above, <code>@synthesize</code> define the instance variable used for accessors. <code>@synthesize</code> can only be used to property, not iVar. For more info, see <a href="http://hongchaozhang.github.io/code/2015/07/22/Property-vs-Instance-Variable(iVar">Property vs Instance Variable (iVar) in objective-c</a>-in-Objective-C.html).</p>
+
+<p><a href="http://www.cnblogs.com/andyque/archive/2011/08/03/2125728.html">Here</a> has a detail description. And the useful part:</p>
+
+<ul>
+<li>什么时候用assign、什么时候用retain和copy呢？推荐做法是NSString用copy,delegate用assign（且一定要用assign，不要问为什么，只管去用就是了，以后你会明白的），非objc数据类型，比如int，float等基本数据类型用assign（默认就是assign），而其它objc类型，比如NSArray，NSDate用retain。</li>
+<li>当别人使用@property来做内存管理的时候就会有问题了。总结一下，如果你自己实现了getter和setter的话，atomic/nonatomic/retain/assign/copy这些只是给编译的建议，编译会首先会到你的代码里面去找，如果你定义了相应的getter和setter的话，那么好，用你的。如果没有，编译器就会根据atomic/nonatomic/retain/assign/copy这其中你指定的某几个规则去生成相应的getter和setter。</li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Zhang Hongchao</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2015-07-27T00:00:00+08:00" pubdate data-updated="true">Jul 27th, 2015</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ios/'>ios</a>, <a class='category' href='/blog/categories/objective-c/'>objective-c</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/07/22/Property-vs-Instance-Variable(iVar)-in-Objective-C/" title="Previous Post: Property vs Instance Variable (iVar) in objective-c">&laquo; Property vs Instance Variable (iVar) in objective-c</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/07/28/Communication-between-WebView-and-native-android/" title="Next Post: Communication between WebView and native android">Communication between WebView and native android &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+  <aside class="sidebar">
+   
+  
+    <section class="categories">
+  <h1>Categories</h1>
+    <ul id="top-category-list" class="nav nav-list"><li><a href='/blog/categories/ios'>ios (12)</a></li><li><a href='/blog/categories/productivity'>productivity (11)</a></li><li><a href='/blog/categories/objective-c'>objective-c (5)</a></li><li><a href='/blog/categories/android'>android (3)</a></li><li><a href='/blog/categories/python'>python (2)</a></li><li><a href='/blog/categories/algorithm'>algorithm (2)</a></li><li><a href='/blog/categories/javascript'>javascript (2)</a></li><li><a href='/blog/categories/web'>web (1)</a></li><li><a href='/blog/categories/android-studio'>android_studio (1)</a></li><li><a href='/blog/categories/xcode'>xcode (1)</a></li><li><a href='/blog/categories/design-pattern'>design_pattern (1)</a></li><li><a href='/blog/categories/java'>java (1)</a></li></ul>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2015/09/23/phone-interview-preparation/">Phone Interview Preparation</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/09/14/brainteasers-and-puzzles/">经典算法智力题</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/09/09/migrate-blog-to-octopress/">Migrate Blog to Octopress</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/09/07/Singleton/">Singleton</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/09/02/Shortcut-of-Chrome-on-Windows-and-Mac/">Shortcut of Chrome on Windows and Mac</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/hongchaozhang">@hongchaozhang</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'hongchaozhang',
+            count: 10,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+  
+</aside>
+
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2015 - Zhang Hongchao -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+<script>
+  $(document).ready(function() {  
+    var stickyNavTop = $('nav').offset().top;  
+      
+    var stickyNav = function(){  
+      var scrollTop = $(window).scrollTop(); 
+      var navHasClassSticky = $('nav').hasClass('sticky');
+
+      if (scrollTop > stickyNavTop && navHasClassSticky) {   
+        return true;
+      } else if (scrollTop > stickyNavTop) {
+        $('nav').hide();
+        $('nav').addClass('sticky');
+        $('nav').fadeIn('2000');
+      } else {  
+        $('nav').removeClass('sticky');   
+      }  
+    };  
+      
+    stickyNav();  
+      
+    $(window).scroll(function() {  
+      stickyNav();  
+    });  
+  });  
+</script>
+
+
+</body>
+</html>

@@ -1,0 +1,353 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Ios | Zhang Hongchao]]></title>
+  <link href="http://hongchaozhang.github.io/blog/categories/ios/atom.xml" rel="self"/>
+  <link href="http://hongchaozhang.github.io/"/>
+  <updated>2015-10-09T10:47:08+08:00</updated>
+  <id>http://hongchaozhang.github.io/</id>
+  <author>
+    <name><![CDATA[Zhang Hongchao]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Warning Messages in Xcode]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2015/08/31/Warning-Messages-in-Xcode/"/>
+    <updated>2015-08-31T00:00:00+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2015/08/31/Warning-Messages-in-Xcode</id>
+    <content type="html"><![CDATA[<p><a href="http://oleb.net/blog/2013/04/compiler-warnings-for-objective-c-developers/">Compiler Warnings for Objective-C Developers</a> is a good post for describing warning messages for Objective-C in xcode. A Chinese version can be found <a href="http://onevcat.com/2013/05/talk-about-warning/">谈谈Objective-C的警告</a>.</p>
+
+<p>Some important things are marked here.</p>
+
+<p>Two ways to modify complier&rsquo;s warning setting: <strong>UI Method</strong> and <strong>Custom Compiler Flags Method</strong>.</p>
+
+<!-- more -->
+
+
+<h2>UI Method</h2>
+
+<p>In <em>Project Navigator</em>, choose the project. On the right, under <em>Build Settings</em>, <code>Apple LLVM 6.1 - Warnings - Objective c</code> and <code>Apple LLVM 6.1 - Warnings - Objective C and ARC</code> are Objective C specific settings. You may also want to see some setttings for all languages, including Objective C in <code>Apple LLVM 6.1 - Warnings - All languages</code>.</p>
+
+<h2><em>Custom Compiler Flags</em> Method</h2>
+
+<p>Under <em>Build Settings</em>, find <code>other warning flags</code> in <code>Apple LLVM 6.1 - Custom Compiler Flags</code>. In this section, you can use <code>-W...</code> like commands for warning settings.</p>
+
+<p>For example, use <code>-Wall</code> to display all warnings (actually, not <em>All</em>), use <code>-Wno-unused-variable</code> to indicate not displaying <em>unused variable</em> warnings. Use space between differenct commands, like <code>-Wall -Wno-unused-variable</code>.</p>
+
+<p>Using this way, we can set for all kinds of warnings, some of which can not be set by <em>UI Method</em> above.</p>
+
+<p>Go to the following two refrences for details on <code>-Wall</code>, <code>-Wextra</code> and <code>-Weverything</code>:</p>
+
+<ul>
+<li><a href="http://oleb.net/blog/2013/04/compiler-warnings-for-objective-c-developers/">Compiler Warnings for Objective-C Developers</a></li>
+<li><a href="http://onevcat.com/2013/05/talk-about-warning/">谈谈Objective-C的警告</a>.</li>
+</ul>
+
+
+<p>The following paragraph comes from the first reference:</p>
+
+<p>If you encounter a particular warning that you actively want to suppress, check the build log. The compiler will tell you the name of each warning it has issued (-Wunused-variable in this example). You can use this name to selectively disable (with -Wno-unused-variable) or enable this specific warning in your project. In my experience, you will come up with a very short list of warnings you want to disable (probably no more than a handful).</p>
+
+<p>Attach one image to indicate the place (red circles) to find the warning type:</p>
+
+<p><img src="/images/006_warning_type_from_build_log.png" alt="006_warning_type_from_build_log.png" /></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Some Frameworks in iOS Development]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2015/08/19/Some-Frameworks-in-iOS-Development/"/>
+    <updated>2015-08-19T00:00:00+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2015/08/19/Some-Frameworks-in-iOS-Development</id>
+    <content type="html"><![CDATA[<p>Reference <a href="http://www.open-open.com/lib/view/open1343210425380.html">here</a>.</p>
+
+<!-- more -->
+
+
+<h3>Cocoa and Cocoa Touch</h3>
+
+<p>是在Mac OS X系统上原生的一个编译环境。他包含两个框架，其实就是一系列的类库，Foundation和AppKit。</p>
+
+<p>在你的iPhone等掌上设备上，使用的则是他的一个子类 - Cocoa Touch。他所支持的Foundation框架与Cocoa相同，但他的用户图形类库为UIKit，它是为掌上设备特殊设计，提供了你设备上的界面。</p>
+
+<p>Cocoa Touch与Cocoa一个比较鲜明的区别就是Cocoa Touch并不支持垃圾回收机制，这就意味着你必须在你的代码里管理好你的内存。</p>
+
+<h3>UIKit and AppKit</h3>
+
+<p>UIKit是iOS上的用户图形包。UI开头的类都来自于这个框架。
+AppKit是Mac OS X上的用户图形不同，类名以NS开头。</p>
+
+<h2>some frameworks</h2>
+
+<p><img src="/images/001_ios_frameworks.png" alt="ios_frameworks.png" /></p>
+
+<h3>Foundation</h3>
+
+<h3>UIKit</h3>
+
+<h3>Core Data</h3>
+
+<h3>Core Graphics</h3>
+
+<h3>Core Animation</h3>
+
+<h3>OpenGL ES</h3>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[The .dSYM File in Ios Project]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2015/08/17/the-dSYM-file-in-ios-project/"/>
+    <updated>2015-08-17T00:00:00+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2015/08/17/the-dSYM-file-in-ios-project</id>
+    <content type="html"><![CDATA[<p>This article is mainly from the following post: <a href="http://stackoverflow.com/questions/22460058/how-is-a-dsym-file-created">How is a .dSYM file created?</a>.</p>
+
+<h3>Description</h3>
+
+<p>A <strong>.dSYM</strong> file is a <em>debug symbols file</em>. It is generated when in xcode the <code>Strip Debug Symbols</code> setting is enabled and <code>Debug Infomation Format</code> are set to <code>DWARF with dSYM File</code> in the build settings of your project.</p>
+
+<!-- more -->
+
+
+<h3>Creatation</h3>
+
+<p>Xcode creates the .dSYM file automatically for you when you use the Archive option. The created archive contains your app and its dSYM and is stored in <code>~/Library/Developer/Archive</code>.</p>
+
+<h3>Usage</h3>
+
+<p>When this setting is enabled, symbol names of your objects are removed from the resulting compiled binary (one of the many countermeasures to try and prevent would be hackers/crackers from reverse engineering your code, amongst other optimisations for binary size, etc.).</p>
+
+<p>They are useful for re-symbolicating your crash reports. With a stripped binary, you won&rsquo;t be able to read any crash reports without first re-symbolicating them. Without the dSYM the crash report will just show memory addresses of objects and methods. Xcode uses the dSYM to put the symbols back into the crash report and allow you to read it properly.</p>
+
+<p>dSYMs and executables have an embedded UUID which matches. So every time a build is done will cause both to get a new UUID. The consequence is that symbolication only works if the UUID of the binary that caused a crash matches the UUID of the dSYM that is used for symbolication.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[ARC and GC]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2015/08/14/ARC-and-Memory-Leak/"/>
+    <updated>2015-08-14T00:00:00+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2015/08/14/ARC-and-Memory-Leak</id>
+    <content type="html"><![CDATA[<p>The following post mainly comes from <a href="http://docs.elementscompiler.com/Concepts/ARCvsGC/">ARC vs GC</a> and <a href="http://lists.apple.com/archives/objc-language/2011/Jun/msg00013.html">Re: ARC replacing GC? from Chris Lattner&rsquo;s mail list</a>.</p>
+
+<p>Also reference some posts on memory leak, including <a href="http://stackoverflow.com/questions/6260256/what-kind-of-leaks-does-automatic-reference-counting-in-objective-c-not-prevent/6388601#6388601">What kind of leaks does automatic reference counting in Objective-C not prevent or minimize?</a> and <a href="http://www.reigndesign.com/blog/debugging-retain-cycles-in-objective-c-four-likely-culprits/">Debugging retain cycles in Objective-C: four likely culprits</a>.</p>
+
+<!-- more -->
+
+
+<h2>Garbage Collection</h2>
+
+<p>Garbage Collection (or GC for short) is the technique used for life cycle management on the .NET and Java platforms. The way GC works i/Users/hongchaozhang/Develop/octopress/source/_posts/2015-07-09-Basic-Git-Commands.mds that the runtime (either the Common Language Runtime for .NET or the Java Runtime) has infrastructure in place that detects unused objects and object graphs in the background.</p>
+
+<blockquote><p>Unfortunately, garbage collection does have a down side. Garbage collection is only available on MacOS X Version 10.5 or above. It is not available, currently (not sure if it is still true today), on iPhone, iPad, or any of the less common platforms, such as Linux or Windows.</p></blockquote>
+
+<p>This happens at indeterminate intervals (either after a certain amount of time has passed, or when the runtime sees available memory getting low), so objects are not necessarily released at the exact moment they are no longer used.</p>
+
+<h3>Advantages of Garbage Collection</h3>
+
+<p>GC can clean up entire object graphs, including retain cycles.
+GC happens in the background, so less memory management work is done as part of the regular application flow.</p>
+
+<h3>Disadvantages of Garbage Collection</h3>
+
+<p>Because GC happens in the background, the exact time frame for object releases is undetermined.
+When a GC happens, other threads in the application may be temporarily put on hold.</p>
+
+<h2>Automatic Reference Counting</h2>
+
+<p>Automatic Reference Counting (ARC for short) as used on Cocoa takes a different approach. Rather than having the runtime look for and dispose of unused objects in the background, the compiler will inject code into the executable that keeps track of object reference counts and will release objects as necessary, automatically. In essence, if you were to disassemble an executable compiled with ARC, it would look (conceptually) as if the developer spent a lot of time meticulously keeping track of object life cycles when writing the code — except that all that hard work was done by the compiler.</p>
+
+<h3>Advantages of Automatic Reference Counting</h3>
+
+<p>Real-time, deterministic destruction of objects as they become unused.
+No background processing, which makes it more efficient on lower-power systems, such as mobile devices.</p>
+
+<h3>Disadvantages of Automatic Reference Counting</h3>
+
+<p>Cannot cope with retain cycles.</p>
+
+<blockquote><p><strong>Note:</strong> Another couple of significant memory-related concerns are the handling of <strong>Core Foundation objects</strong> and <strong>memory allocated using malloc()</strong> for types like char*.</p>
+
+<blockquote><p>ARC does only manages Objective-C objects, so you&rsquo;ll still need to deal with <code>malloc()</code> related objects by yourself.</p>
+
+<p>(<strong>Not very clear about this</strong>)Core Foundation types can be particularly tricky, because sometimes they need to be bridged across to matching Objective-C objects, and vice versa. This means that control needs to be transferred back and forth from ARC when bridging between CF types and Objective-C.</p></blockquote></blockquote>
+
+<h2>Retain Cycle</h2>
+
+<p>A so-called retain cycle happens when two (or more) objects reference each other, essentially keeping each other alive even after all external references to the objects have gone out of scope.</p>
+
+<p>The <strong>Garbage Collection</strong> works by looking at &ldquo;reachable&rdquo; objects, it can handle retain cycles fine, and will discard entire object graphs that reference each other, if it detects no outside references exist.</p>
+
+<p>Because <strong>Automatic Reference Counting</strong> works on a lower level and manages life cycles based on reference counts, it cannot handle retain cycles automatically, and a retain cycle will cause objects to stay in memory, essentially causing the application to &ldquo;leak&rdquo; memory.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Understanding KVC and KVO in Objective-C]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2015/08/13/Understanding-KVC-and-KVO/"/>
+    <updated>2015-08-13T00:00:00+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2015/08/13/Understanding-KVC-and-KVO</id>
+    <content type="html"><![CDATA[<p>Contents:</p>
+
+<ul>
+<li><a href="#description">Description</a></li>
+<li><a href="#kvc">KVC</a></li>
+<li><a href="#kvo">KVO</a></li>
+<li><a href="#remove_observers">Remove Observers</a></li>
+</ul>
+
+
+<h2><a name="description"></a>Description</h2>
+
+<p>In Cocoa, the Model-View-Controller pattern, a controller’s responsibility is to keep the view and the model synchronized. There are two parts to this: when the model object changes, the views have to be updated to reflect this change, and when the user interacts with controls, the model has to be updated accordingly.</p>
+
+<p>Key-Value Observing helps us update the views to reflect changes to model objects. The controller can observe changes to those property values that the views depend on.</p>
+
+<p>For more details, refer <a href="http://www.objc.io/issues/7-foundation/key-value-coding-and-observing/">Key-Value Coding and Observing</a> from <a href="objc.io">objc.io</a>;</p>
+
+<!-- more -->
+
+
+<h2><a name="kvc"></a>KVC</h2>
+
+<h3>Description</h3>
+
+<p>KVC, which means <em>NSKeyValueCoding</em>, is a protoco, and supplies accessors (getter and setter) for getting and setting property value. Only by using the KVC setter method to set the property value, can the sender send a message to the observer.</p>
+
+<p>KVC has the following two getter methods: <code>valueForKey:</code> and <code>valueForKeyPath:</code>, two setter methods: <code>setValue:forKey:</code> and <code>setValue:forKeyPath:</code>.</p>
+
+<h3>Sample code</h3>
+
+<p>Assume that <code>Person</code> class has two simple properties: <code>name</code> and <code>address</code> and a <code>Person</code> type property <code>spouse</code>. We have the following two pieces of code explaining the <em>Key</em> and <em>KeyPath</em>:</p>
+
+<p>For <em>Key</em>:</p>
+
+<p><div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno"> 1</span> <span class="kt">void</span> <span class="nf">changeName</span><span class="p">(</span><span class="n">Person</span> <span class="o">&lt;</span><span class="n">em</span><span class="o">&gt;</span><span class="n">p</span><span class="p">,</span> <span class="bp">NSString</span> <span class="o">&lt;/</span><span class="n">em</span><span class="o">&gt;</span><span class="n">newName</span><span class="p">)</span>
+<span class="lineno"> 2</span> <span class="p">{</span>
+<span class="lineno"> 3</span>     <span class="c1">// using the KVC accessor (getter) method</span>
+<span class="lineno"> 4</span>     <span class="bp">NSString</span> <span class="o">*</span><span class="n">originalName</span> <span class="o">=</span> <span class="p">[</span><span class="n">p</span> <span class="nl">valueForKey</span><span class="p">:@</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">name</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;];</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+<span class="lineno"> 5</span> 
+<span class="lineno"> 6</span> <span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="c1">// using the KVC  accessor (setter) method.</span>
+<span class="lineno"> 7</span> <span class="p">[</span><span class="n">p</span> <span class="nl">setValue</span><span class="p">:</span><span class="n">newName</span> <span class="nl">forKey</span><span class="p">:</span><span class="s">@&quot;name&quot;</span><span class="p">];</span>
+<span class="lineno"> 8</span> 
+<span class="lineno"> 9</span> <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Changed %@&#39;s name to: %@&quot;</span><span class="p">,</span> <span class="n">originalName</span><span class="p">,</span> <span class="n">newName</span><span class="p">);</span>
+<span class="lineno">10</span> <span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+<span class="lineno">11</span> 
+<span class="lineno">12</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="p">}</span></code></pre></div></p>
+
+<p>For <em>KeyPath</em>:</p>
+
+<p><div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno"> 1</span> <span class="kt">void</span> <span class="nf">logMarriage</span><span class="p">(</span><span class="n">Person</span> <span class="o">&lt;</span><span class="n">em</span><span class="o">&gt;</span><span class="n">p</span><span class="p">)</span>
+<span class="lineno"> 2</span> <span class="p">{</span>
+<span class="lineno"> 3</span>     <span class="c1">// just using the accessor again, same as example above</span>
+<span class="lineno"> 4</span>     <span class="bp">NSString</span> <span class="o">&lt;/</span><span class="n">em</span><span class="o">&gt;</span><span class="n">personsName</span> <span class="o">=</span> <span class="p">[</span><span class="n">p</span> <span class="nl">valueForKey</span><span class="p">:@</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">name</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;];</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+<span class="lineno"> 5</span> 
+<span class="lineno"> 6</span> <span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="c1">// this line is different, because it is using</span>
+<span class="lineno"> 7</span> <span class="c1">// a &quot;key path&quot; instead of a normal &quot;key&quot;</span>
+<span class="lineno"> 8</span> <span class="bp">NSString</span> <span class="o">*</span><span class="n">spousesName</span> <span class="o">=</span> <span class="p">[</span><span class="n">p</span> <span class="nl">valueForKeyPath</span><span class="p">:</span><span class="s">@&quot;spouse.name&quot;</span><span class="p">];</span>
+<span class="lineno"> 9</span> 
+<span class="lineno">10</span> <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;%@ is happily married to %@&quot;</span><span class="p">,</span> <span class="n">personsName</span><span class="p">,</span> <span class="n">spousesName</span><span class="p">);</span>
+<span class="lineno">11</span> <span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+<span class="lineno">12</span> 
+<span class="lineno">13</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="p">}</span></code></pre></div></p>
+
+<p>Actually, <code>[p valueForKeyPath:@"spouse.name"];</code> equals to <code>[[p valueForKey:@"spouse"] valueForKey:@"name"];</code>.</p>
+
+<h2><a name="kvo"></a>KVO</h2>
+
+<h3>Description</h3>
+
+<p><em>Key Value Observer (KVO)</em> is based on KVC, and can observe the change of a property of another object.</p>
+
+<p>KVO allows you to register as an observer of a given object and receive notification when specific properties on that object are changed. It’s an incredibly powerful capability, and it is built into Objective-C at its very core.</p>
+
+<h3>Sample code</h3>
+
+<p>Implement <code>PersonWatcher</code> for observing a <code>Person</code> instance.</p>
+
+<p><div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno"> 1</span> <span class="k">@implementation</span> <span class="nc">PersonWatcher</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+<span class="lineno"> 2</span> 
+<span class="lineno"> 3</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">static</span> <span class="bp">NSString</span> <span class="o">*</span><span class="k">const</span> <span class="n">KVO_CONTEXT_ADDRESS_CHANGED</span> <span class="o">=</span> <span class="p">@</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">KVO_CONTEXT_ADDRESS_CHANGED</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;;</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+<span class="lineno"> 4</span> 
+<span class="lineno"> 5</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;-</span><span class="p">(</span><span class="kt">id</span><span class="p">)</span> <span class="n">init</span><span class="p">;</span>
+<span class="lineno"> 6</span> <span class="p">{</span>
+<span class="lineno"> 7</span>     <span class="k">if</span><span class="p">(</span><span class="nb">self</span> <span class="o">=</span> <span class="p">[</span><span class="nb">super</span> <span class="n">init</span><span class="p">]){</span>
+<span class="lineno"> 8</span>         <span class="nb">self</span><span class="p">.</span><span class="n">m_observedPeople</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSMutableArray</span> <span class="n">new</span><span class="p">];</span>
+<span class="lineno"> 9</span>     <span class="p">}</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+<span class="lineno">10</span> 
+<span class="lineno">11</span> <span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="k">return</span> <span class="nb">self</span><span class="p">;</span>
+<span class="lineno">12</span> <span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+<span class="lineno">13</span> 
+<span class="lineno">14</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="p">}</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+<span class="lineno">15</span> 
+<span class="lineno">16</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="c1">// watch a person</span>
+<span class="lineno">17</span> <span class="o">-</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="nl">watchPersonForChangeOfAddress</span><span class="p">:(</span><span class="n">Person</span> <span class="o">*</span><span class="p">)</span><span class="n">p</span>
+<span class="lineno">18</span> <span class="p">{</span>
+<span class="lineno">19</span>     <span class="c1">// this begins the observing</span>
+<span class="lineno">20</span>     <span class="p">[</span><span class="n">p</span> <span class="nl">addObserver</span><span class="p">:</span><span class="nb">self</span>
+<span class="lineno">21</span>         <span class="nl">forKeyPath</span><span class="p">:@</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">address</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;</span>
+<span class="lineno">22</span>            <span class="nl">options</span><span class="p">:</span><span class="mi">0</span>
+<span class="lineno">23</span>            <span class="nl">context</span><span class="p">:</span><span class="n">CFBridgingRetain</span><span class="p">(</span><span class="n">KVO_CONTEXT_ADDRESS_CHANGED</span><span class="p">)];</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+<span class="lineno">24</span> 
+<span class="lineno">25</span> <span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="c1">// keep a record of all the people being observed,</span>
+<span class="lineno">26</span> <span class="c1">// because we need to stop observing them in dealloc</span>
+<span class="lineno">27</span> <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">m_observedPeople</span> <span class="nl">addObject</span><span class="p">:</span><span class="n">p</span><span class="p">];</span>
+<span class="lineno">28</span> <span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+<span class="lineno">29</span> 
+<span class="lineno">30</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="p">}</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+<span class="lineno">31</span> 
+<span class="lineno">32</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="c1">// whenever an observed key path changes, this method will be called</span>
+<span class="lineno">33</span> <span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nl">observeValueForKeyPath</span><span class="p">:(</span><span class="bp">NSString</span> <span class="o">&lt;</span><span class="n">em</span><span class="o">&gt;</span><span class="p">)</span><span class="n">keyPath</span>
+<span class="lineno">34</span>                       <span class="nl">ofObject</span><span class="p">:(</span><span class="kt">id</span><span class="p">)</span><span class="n">object</span>
+<span class="lineno">35</span>                         <span class="nl">change</span><span class="p">:(</span><span class="bp">NSDictionary</span> <span class="o">&lt;/</span><span class="n">em</span><span class="o">&gt;</span><span class="p">)</span><span class="n">change</span>
+<span class="lineno">36</span>                        <span class="nl">context</span><span class="p">:(</span><span class="kt">void</span> <span class="o">&lt;</span><span class="n">em</span><span class="o">&gt;</span><span class="p">)</span><span class="n">context</span>
+<span class="lineno">37</span> <span class="p">{</span>
+<span class="lineno">38</span>     <span class="c1">// use the context to make sure this is a change in the address,</span>
+<span class="lineno">39</span>     <span class="c1">// because we may also be observing other things</span>
+<span class="lineno">40</span>     <span class="k">if</span><span class="p">(</span><span class="n">context</span> <span class="o">==</span> <span class="n">CFBridgingRetain</span><span class="p">(</span><span class="n">KVO_CONTEXT_ADDRESS_CHANGED</span><span class="p">))</span> <span class="p">{</span>
+<span class="lineno">41</span>         <span class="bp">NSString</span> <span class="o">&lt;/</span><span class="n">em</span><span class="o">&gt;</span><span class="n">name</span> <span class="o">=</span> <span class="p">[</span><span class="n">object</span> <span class="nl">valueForKey</span><span class="p">:@</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">name</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;];</span>
+<span class="lineno">42</span>         <span class="bp">NSString</span> <span class="o">*</span><span class="n">address</span> <span class="o">=</span> <span class="p">[</span><span class="n">object</span> <span class="nl">valueForKey</span><span class="p">:@</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">address</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;];</span>
+<span class="lineno">43</span>         <span class="n">NSLog</span><span class="p">(@</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="o">%</span><span class="p">@</span> <span class="n">has</span> <span class="n">a</span> <span class="n">new</span> <span class="nl">address</span><span class="p">:</span> <span class="o">%</span><span class="p">@</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;,</span> <span class="n">name</span><span class="p">,</span> <span class="n">address</span><span class="p">);</span>
+<span class="lineno">44</span>     <span class="p">}</span>
+<span class="lineno">45</span> <span class="p">}</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+<span class="lineno">46</span> 
+<span class="lineno">47</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;-</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="n">dealloc</span><span class="p">;</span>
+<span class="lineno">48</span> <span class="p">{</span>
+<span class="lineno">49</span>     <span class="c1">// must stop observing everything before this object is</span>
+<span class="lineno">50</span>     <span class="c1">// deallocated, otherwise it will cause crashes</span>
+<span class="lineno">51</span>     <span class="k">for</span><span class="p">(</span><span class="n">Person</span> <span class="o">*</span><span class="n">p</span> <span class="k">in</span> <span class="nb">self</span><span class="p">.</span><span class="n">m_observedPeople</span><span class="p">){</span>
+<span class="lineno">52</span>         <span class="p">[</span><span class="n">p</span> <span class="nl">removeObserver</span><span class="p">:</span><span class="nb">self</span> <span class="nl">forKeyPath</span><span class="p">:@</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">address</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;];</span>
+<span class="lineno">53</span>     <span class="p">}</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+<span class="lineno">54</span> 
+<span class="lineno">55</span> <span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="nb">self</span><span class="p">.</span><span class="n">m_observedPeople</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
+<span class="lineno">56</span> <span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+<span class="lineno">57</span> 
+<span class="lineno">58</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="p">}</span></code></pre></div></p>
+
+<h2><a name="remove_observers"></a>Remove observer</h2>
+
+<p>Refer <a href="http://stackoverflow.com/questions/6959896/kvo-and-arc-how-to-removeobserver">here</a></p>
+
+<p>You should stop observing the sender when observer is dealloced. If you fail to do this and then allow the observer to be deallocated, then future notifications to the observer may cause your application to crash.</p>
+
+<p>So, remember to remove observers</p>
+
+<ol>
+<li>before observer is dealloced</li>
+<li>before the sender is dealloced</li>
+</ol>
+
+
+<p>For <code>#1</code>, just send <code>removeObserver:forKeyPath</code> message to the sender in the <code>-dealloc</code> function of the observer.
+<code>-dealloc</code> function is called even in ARC mode. In <code>-dealloc</code>, just free non-object resources, or clean up tasks like removing observers. In <code>-dealloc</code> under ARC mode, you can not call <code>[super dealloc]</code>, as the compiller did it for you and this why there is an error if you call this manually.</p>
+
+<blockquote><p><strong>Note:</strong> <code>-dealloc</code> is not called in <em>garbage collection</em> mode.</p></blockquote>
+
+<p>For <code>#2</code>, the observer must know the life circle of the sender, and before the sender is freed, the observer must remove the observation from the sender.</p>
+]]></content>
+  </entry>
+  
+</feed>
