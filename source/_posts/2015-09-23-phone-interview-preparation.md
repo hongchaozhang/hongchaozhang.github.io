@@ -3,6 +3,7 @@ layout: post
 title: "phone interview preparation"
 date: 2015-09-23 11:02:18 +0800
 comments: true
+published: true
 categories: [algorithm]
 ---
 
@@ -71,13 +72,17 @@ private:
 * 入队时，将元素压入s1。
 * 出队时，将s1的元素逐个“倒入”（弹出并压入）s2，将s2的顶元素弹出作为出队元素，之后再将s2剩下的元素逐个“倒回”s1。
 
+> Words: enqueue, dequeue
+
 ### <a name="override_andoverload"></a>覆盖(Overriding)和重载(Overloading)的区别是什么？  (detailed answer)
 
 覆盖在运行时决定，重载是在编译时决定。并且覆盖和重载的机制不同，例如在Java中，重载方法的签名必须不同于原先方法的，但对于覆盖签名必须相同。
 
+> Words: take effect in compile / running phase
+
 ### <a name="iteration_and_recursion"></a>迭代(Iteration)和递归(Recursion)有什么区别？(detailed answer)
 
-迭代通过循环来重复执行同一步骤，递归通过调用函数自身来做重复性工作。递归经常是复杂问题（例如汉诺塔、反转链表或反转字符串）的清晰简洁的解决方案。递归的一个缺陷是深度，由于递归在栈中存储中间结果，你只能进行一定深度的递归，在那之后你的程序会因为StackOverFlowError而崩溃。这就是在产品代码中优先使用迭代而不是递归的原因。
+迭代通过循环来重复执行同一步骤，递归通过调用函数自身来做重复性工作。递归经常是复杂问题（例如汉诺塔、反转链表或反转字符串）的清晰简洁的解决方案。递归的一个缺陷是深度，由于递归在**栈**中存储中间结果，你只能进行一定深度的递归，在那之后你的程序会因为StackOverFlowError而崩溃。这就是在产品代码中优先使用迭代而不是递归的原因。
 
 ### <a name="tree_concepts"></a>Concept of Tree
 
@@ -110,6 +115,10 @@ Like arrays, Linked List is a linear data structure. Unlike arrays, linked list 
 
 ### <a name="delete_node_in_linked_list"></a>给定链表的头指针和一个结点指针，在O(1)时间删除该结点
 
+**Question:**
+
+Given the header pointer of a linked list, and a pointer to a non-null node, How can you delete the node?
+
  办法很简单，首先是放p中数据,然后将p->next的数据copy入p中，接下来删除p->next即可。
 
 > 类似的：只给定单链表中某个结点p(非空结点)，在p前面插入一个结点。
@@ -117,6 +126,12 @@ Like arrays, Linked List is a linear data structure. Unlike arrays, linked list 
 > 回答：首先分配一个结点q，将q插入在p后，接下来将p中的数据copy入q中，然后再将要插入的数据记录在p中。
 
 ### <a name="find_numbers_appearing_once"></a>找出数组中两个只出现一次的数字(数组)
+
+**Question:**
+
+In a interger array, there are two elements which appear only once, and for all the other elements, every one appears twice. How can you find the two elements which appears once?
+
+> Words: exclusive or (xor)
 
 题目：一个整型数组里除了两个数字之外，其他的数字都出现了两次。
 请写程序找出这两个只出现一次的数字。要求时间复杂度是O(n)，空间复杂度是O(1)。
@@ -164,8 +179,8 @@ Some sorting algorithms are stable by nature like **Insertion sort**, **Merge So
 1. Create an empty stack nodeStack and push root node to stack.
 2. Do following while nodeStack is not empty.
 	1. Pop an item from stack and print it.
-	2. Push **right** (left for Postorder) child of popped item to stack
-	3. Push **left** (right for Postorder) child of popped item to stack
+	2. Push **right** (<del>left for Postorder</del>. **Updated**: this is not correct, as pre- or post- is talking about the sequece of the parent node we travesed, not the sequece between left child and right child.) child of popped item to stack
+	3. Push **left** (<del>right for Postorder</del>) child of popped item to stack
 
 Right child is pushed before left child to make sure that left subtree is processed first.
 
@@ -309,6 +324,33 @@ int main()
 ### <a name="find_k_smallest_nubers"></a>寻找最小的k个数
 
 [寻找最小的k个数](http://blog.csdn.net/v_JULY_v/article/details/6370650)
+
+堆排序过程中涉及的主要概念参考[常见排序算法 - 堆排序 (Heap Sort)](http://bubkoo.com/2014/01/14/sort-algorithm/heap-sort/).
+
+**Questiong：**
+
+Given n intergers, how can we find the k smallest ones?
+
+> Words: max-heap
+
+输入n个整数，输出其中最小的k个。
+
+**Analytics：**
+
+基本上有以下几种思路：
+
+1. 快速排序平均所费时间为`n*logn`，然后再遍历序列中前k个元素输出，即可，总的时间复杂度为`O(n*logn+k)=O(n*logn)`。
+
+2. 咱们再进一步想想，题目并没有要求要查找的k个数，甚至后n-k个数是有序的，既然如此，咱们又何必对所有的n个数都进行排序列?
+
+	这时，咱们想到了用选择或交换排序，即遍历n个数，先把最先遍历到得k个数存入大小为k的数组之中，对这k个数，利用选择或交换排序，找到k个数中的最大数kmax(kmax设为k个元素的数组中最大元素)，用时`O(k)`(你应该知道，插入或选择排序查找操作需要`O(k)`的时间)，后再继续遍历后n-k个数，x与kmax比较：如果`x<kmax`，则x代替kmax，并再次重新找出k个元素的数组中最大元素kmax；如果`x>kmax`，则不更新数组。这样，每次更新或不更新数组的所用的时间为`O(k)`或`O(0)`，整趟下来，总的时间复杂度平均下来为：`n*O(k)=O(n*k)`。
+
+3. 更好的办法是维护k个元素的最大堆，原理与上一个方案一致，即用容量为k的最大堆存储最先遍历到的k个数，并假设它们即是最小的k个数，建堆费时`O(k)`后，有`k1<k2<...<kmax`(kmax设为大顶堆中最大元素)。继续遍历数列，每次遍历一个元素x，与堆顶元素比较，x<kmax，更新堆(用时`O(logk)`)，否则不更新堆。这样下来，总费时`O(k+(n-k)*logk)=O(n*logk)`。
+
+4. 可以用最小堆初始化数组，然后取这个优先队列前k个值。复杂度	`O(n)+k*O(logn)`。
+
+试着从时间和空间复杂度两个方面分析一下方法3和方法4。
+
 
 ### <a name="java_singleton"></a>Singleton in Java
 

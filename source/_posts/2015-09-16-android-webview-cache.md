@@ -7,4 +7,8 @@ categories: [android,java]
 published: false
 ---
 
-Works according to [this](http://stackoverflow.com/questions/20872052/android-webview-cache-lost-after-app-closed) setting.
+* 自动图片缓存
+* application缓存
+* Dom Storage缓存
+
+参考[webview 缓存机制详解](http://blog.csdn.net/jamkier/article/details/45850833)
