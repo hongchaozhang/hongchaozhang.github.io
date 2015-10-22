@@ -1,8 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>http://hongchaozhang.github.io/blog/2015/10/12/info-session/</loc>
-    <lastmod>2015-10-12T17:51:23+08:00</lastmod>
+    <loc>http://hongchaozhang.github.io/blog/2015/10/21/touch-event-in-ios/</loc>
+    <lastmod>2015-10-21T16:55:48+08:00</lastmod>
+  </url>
+  <url>
+    <loc>http://hongchaozhang.github.io/blog/2015/09/23/phone-interview-preparation/</loc>
+    <lastmod>2015-09-23T11:02:18+08:00</lastmod>
+  </url>
+  <url>
+    <loc>http://hongchaozhang.github.io/blog/2015/09/14/brainteasers-and-puzzles/</loc>
+    <lastmod>2015-09-14T20:46:22+08:00</lastmod>
   </url>
   <url>
     <loc>http://hongchaozhang.github.io/blog/2015/09/09/migrate-blog-to-octopress/</loc>
@@ -158,5 +166,8 @@
   </url>
   <url>
     <loc>http://hongchaozhang.github.io/blog/categories/design-pattern/</loc>
+  </url>
+  <url>
+    <loc>http://hongchaozhang.github.io/blog/categories/algorithm/</loc>
   </url>
 </urlset>

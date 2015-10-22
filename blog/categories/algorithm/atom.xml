@@ -1,0 +1,1118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Algorithm | Zhang Hongchao]]></title>
+  <link href="http://hongchaozhang.github.io/blog/categories/algorithm/atom.xml" rel="self"/>
+  <link href="http://hongchaozhang.github.io/"/>
+  <updated>2015-10-22T13:59:39+08:00</updated>
+  <id>http://hongchaozhang.github.io/</id>
+  <author>
+    <name><![CDATA[Zhang Hongchao]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Phone Interview Preparation]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2015/09/23/phone-interview-preparation/"/>
+    <updated>2015-09-23T11:02:18+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2015/09/23/phone-interview-preparation</id>
+    <content type="html"><![CDATA[<p>这里有很多面试题：<a href="http://www.geeksforgeeks.org/">GeeksforGeeks</a>，有概念，也有算法，也有各大公司的面试经历。尤其是下面两部分：</p>
+
+<ul>
+<li><a href="http://www.geeksforgeeks.org/data-structures/">数据结构</a></li>
+<li><a href="http://www.geeksforgeeks.org/fundamentals-of-algorithms/">算法</a></li>
+</ul>
+
+
+<p>Contents</p>
+
+<ul>
+<li><a href="#stack_and_queue">Concepts of Stack and Queue</a></li>
+<li><a href="#override_andoverload">覆盖(Overriding)和重载(Overloading)的区别是什么？</a></li>
+<li><a href="#iteration_and_recursion">迭代(Iteration)和递归(Recursion)有什么区别？</a></li>
+<li><a href="#tree_concepts">Concepts of some kinds of tree</a></li>
+<li><a href="#linked_list_and_array">链表(Linked List)和数组(Array)有哪些重要区别?</a></li>
+<li><a href="#delete_node_in_linked_list">给定链表的头指针和一个结点指针，在O(1)时间删除该结点</a></li>
+<li><a href="#find_numbers_appearing_once">找出数组中两个只出现一次的数字(数组)</a></li>
+<li><a href="#conflicts_while_hashing">在哈希表中处理冲突的方法都有哪些？</a></li>
+<li><a href="#get_elements_from_data_structure">从哈希表，二叉树和链表中取元素需要多少时间?</a></li>
+<li><a href="#sorting">Sort algorithm</a></li>
+<li><a href="#iterative_tree_traversal">Iterative Preorder(Postorder) traversal</a></li>
+<li><a href="#reverse_binary_tree">Reverse Binary Tree</a></li>
+<li><a href="#lucky_number">Lucky Number</a></li>
+<li><a href="#linked_list_circle">Circles in Linked List</a></li>
+<li><a href="#linked_list_intersection">Intersection of two single Linked Lists without circles</a></li>
+<li><a href="#find_k_smallest_nubers">寻找最小的k个数</a></li>
+<li><a href="#java_singleton">Singleton in Java</a></li>
+</ul>
+
+
+<!-- more -->
+
+
+<h3><a name="stack_and_queue"></a>Concepts of Stack and Queue</h3>
+
+<ul>
+<li>Stack</li>
+<li>Queue</li>
+</ul>
+
+
+<p><strong>Question:</strong> How to implement a <strong>Queue</strong> using two <strong>Stack</strong>s?</p>
+
+<p><strong>Answer:</strong></p>
+
+<p><div class="highlight"><pre><code class="language-c--" data-lang="c++"><span class="lineno"> 1</span> <span class="k">class</span> <span class="nc">Stack</span>
+<span class="lineno"> 2</span> <span class="p">{</span>
+<span class="lineno"> 3</span> <span class="err">…</span>
+<span class="lineno"> 4</span> <span class="k">public</span><span class="o">:</span>
+<span class="lineno"> 5</span>          <span class="kt">void</span> <span class="n">Push</span><span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">);</span> <span class="c1">// Push an element in stack;</span>
+<span class="lineno"> 6</span>          <span class="kt">int</span> <span class="nf">Pop</span><span class="p">();</span>  <span class="c1">// Pop an element out of stack;</span>
+<span class="lineno"> 7</span>          <span class="kt">int</span> <span class="n">Count</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>     <span class="c1">// Return the number of the elements in stack;</span>
+<span class="lineno"> 8</span> <span class="err">…</span>
+<span class="lineno"> 9</span> <span class="p">};</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+<span class="lineno">10</span> 
+<span class="lineno">11</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">class</span> <span class="nc">Queue</span>
+<span class="lineno">12</span> <span class="p">{</span>
+<span class="lineno">13</span> <span class="err">…</span>
+<span class="lineno">14</span> <span class="k">public</span><span class="o">:</span>
+<span class="lineno">15</span>          <span class="kt">void</span> <span class="n">Enqueue</span><span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">);</span>
+<span class="lineno">16</span>          <span class="kt">int</span> <span class="nf">Dequeue</span><span class="p">();</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+<span class="lineno">17</span> 
+<span class="lineno">18</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">private</span><span class="o">:</span>
+<span class="lineno">19</span>          <span class="n">Stack</span> <span class="n">s1</span><span class="p">;</span>
+<span class="lineno">20</span>          <span class="n">Stack</span> <span class="n">s2</span><span class="p">;</span>
+<span class="lineno">21</span> <span class="err">…</span>
+<span class="lineno">22</span> <span class="p">};</span></code></pre></div></p>
+
+<ul>
+<li>入队时，将元素压入s1。</li>
+<li>出队时，将s1的元素逐个“倒入”（弹出并压入）s2，将s2的顶元素弹出作为出队元素，之后再将s2剩下的元素逐个“倒回”s1。</li>
+</ul>
+
+
+<blockquote><p>Words: enqueue, dequeue</p></blockquote>
+
+<h3><a name="override_andoverload"></a>覆盖(Overriding)和重载(Overloading)的区别是什么？  (detailed answer)</h3>
+
+<p>覆盖在运行时决定，重载是在编译时决定。并且覆盖和重载的机制不同，例如在Java中，重载方法的签名必须不同于原先方法的，但对于覆盖签名必须相同。</p>
+
+<blockquote><p>Words: take effect in compile / running phase</p></blockquote>
+
+<h3><a name="iteration_and_recursion"></a>迭代(Iteration)和递归(Recursion)有什么区别？(detailed answer)</h3>
+
+<p>迭代通过循环来重复执行同一步骤，递归通过调用函数自身来做重复性工作。递归经常是复杂问题（例如汉诺塔、反转链表或反转字符串）的清晰简洁的解决方案。递归的一个缺陷是深度，由于递归在<strong>栈</strong>中存储中间结果，你只能进行一定深度的递归，在那之后你的程序会因为StackOverFlowError而崩溃。这就是在产品代码中优先使用迭代而不是递归的原因。</p>
+
+<h3><a name="tree_concepts"></a>Concept of Tree</h3>
+
+<ul>
+<li>二叉树(Binary Tree)</li>
+<li>二叉查找树(Binary Search Tree) (二叉排序树(Binary Sort Tree))</li>
+<li>平衡二叉树(Balanced Binary Tree)</li>
+<li>满二叉树(Full Binary Tree)</li>
+</ul>
+
+
+<p>二叉查找树是有序的二叉树，所有节点（例如根节点）的左子树节点的值都小于或等于该节点的值，右子树节点的值都大于或等于该节点的值。它是一个重要的数据结构，可以用来表示有序的数据。</p>
+
+<p>二叉排序树又叫做二叉查找树</p>
+
+<h3><a name="linked_list_and_array"></a>链表(Linked List)和数组(Array)有哪些重要区别？(detailed answer)</h3>
+
+<p>链表和数组都是程序设计世界中重要的数据结构。它们间最明显的区别是，数组将元素存放在连续的地址中，链表将数据存放在内存中任意的位置。这使得链表有巨大的扩展自己的灵活性，因为内存总是分散的。这种情况总是可能的：你无法创建一个数组来存放一百万个整数，但可以用链表来存放，因为空间是存在的，只是不连续。其他的不同都是源于这项事实。例如，在数组中，如果你知道下标，可以用O(1)的时间得到一个元素，但在链表中要花O(n)的时间。更多不同参见详细答案。</p>
+
+<p>存储方式不同：Elements in array is stored condinuousely, while those in linked list are not.</p>
+
+<p>存储位置不同：In general, array is considered a data structure for which size is fixed at the compile time and array memory is allocated either from Data section (e.g. global array) or Stack section (e.g. local array).
+Similarly, linked list is considered a data structure for which size is not fixed and memory is allocated from Heap section (e.g. using malloc() etc.) as and when needed. In this sense, array is taken as a static data structure (residing in Data or Stack section) while linked list is taken as a dynamic data structure (residing in Heap section).</p>
+
+<p>Like arrays, Linked List is a linear data structure. Unlike arrays, linked list elements are not stored at contiguous location; the elements are linked using pointers.</p>
+
+<ul>
+<li>Advantages over arrays
+
+<ul>
+<li>Dynamic size</li>
+<li>Ease of insertion/deletion</li>
+</ul>
+</li>
+<li>Drawbacks:
+
+<ul>
+<li>Random access is not allowed. We have to access elements sequentially starting from the first node. So we cannot do binary search with linked lists.</li>
+<li>Extra memory space for a pointer is required with each element of the list.</li>
+</ul>
+</li>
+</ul>
+
+
+<h3><a name="delete_node_in_linked_list"></a>给定链表的头指针和一个结点指针，在O(1)时间删除该结点</h3>
+
+<p><strong>Question:</strong></p>
+
+<p>Given the header pointer of a linked list, and a pointer to a non-null node, How can you delete the node?</p>
+
+<p> 办法很简单，首先是放p中数据,然后将p->next的数据copy入p中，接下来删除p->next即可。</p>
+
+<blockquote><p>类似的：只给定单链表中某个结点p(非空结点)，在p前面插入一个结点。</p>
+
+<p>回答：首先分配一个结点q，将q插入在p后，接下来将p中的数据copy入q中，然后再将要插入的数据记录在p中。</p></blockquote>
+
+<h3><a name="find_numbers_appearing_once"></a>找出数组中两个只出现一次的数字(数组)</h3>
+
+<p><strong>Question:</strong></p>
+
+<p>In a interger array, there are two elements which appear only once, and for all the other elements, every one appears twice. How can you find the two elements which appears once?</p>
+
+<blockquote><p>Words: exclusive or (xor)</p></blockquote>
+
+<p>题目：一个整型数组里除了两个数字之外，其他的数字都出现了两次。
+请写程序找出这两个只出现一次的数字。要求时间复杂度是O(n)，空间复杂度是O(1)。
+分析：这是一道很新颖的关于位运算的面试题。</p>
+
+<p>首先我们考虑这个问题的一个简单版本：</p>
+
+<blockquote><p><strong>一个数组里除了一个数字之外，其他的数字都出现了两次。</strong>请写程序找出这个只出现一次的数字。</p></blockquote>
+
+<p>这个题目的突破口在哪里？题目为什么要强调有一个数字出现一次，其他的出现两次？我们想到了<strong>异或运算</strong>的性质：</p>
+
+<ul>
+<li>任何一个数字异或它自己都等于0。</li>
+<li>任何一个数字异或0还等于它自身。</li>
+</ul>
+
+
+<p>也就是说，如果我们从头到尾依次异或数组中的每一个数字，那么最终的结果刚好是那个只出现依次的数字，因为那些出现两次的数字全部在异或中抵消掉了。</p>
+
+<p>有了上面简单问题的解决方案之后，我们回到原始的问题。如果能够把原数组分为两个子数组。在每个子数组中，包含一个只出现一次的数字，而其他数字都出现两次。如果能够这样拆分原数组，按照前面的办法就是分别求出这两个只出现一次的数字了。</p>
+
+<p>我们还是从头到尾依次异或数组中的每一个数字，那么最终得到的结果就是两个只出现一次的数字的异或结果。因为其他数字都出现了两次，在异或中全部抵消掉了。由于这两个数字肯定不一样，那么这个异或结果肯定不为0，也就是说在这个结果数字的二进制表示中至少就有一位为1。我们在结果数字中找到第一个为1的位的位置，记为第N位。<strong>现在我们以第N位是不是1为标准把原数组中的数字分成两个子数组，第一个子数组中每个数字的第N位都为1，而第二个子数组的每个数字的第N位都为0。</strong>这种划分方法可以保证：</p>
+
+<ul>
+<li>出现两次的数字被划分到同一个数组中。</li>
+<li>只出现一次的两个数字被划分到不同的数组中。</li>
+</ul>
+
+
+<p>现在我们已经把原数组分成了两个子数组，每个子数组都包含一个只出现一次的数字，而其他数字都出现了两次。因此到此为止，所有的问题我们都已经解决。</p>
+
+<h3><a name="conflicts_while_hashing"></a>在哈希表中处理冲突的方法都有哪些？</h3>
+
+<p>线性探测(linear probing)，二次哈希(double hashing)和链接(chaining)。在线性探测中，如果桶已经被占据了，那么函数会线性地检查下一个桶，直到找到一个空位。在链接中，多个元素可以存储在同一个桶中。</p>
+
+<h3><a name="get_elements_from_data_structure"></a>从哈希表，二叉树和链表中取元素需要多少时间？如果你有数百万记录呢？</h3>
+
+<p>哈希表需要O(1)时间，二叉树需要O(logN) (N是树中节点数)，链表需要O(N) (N是链表中节点数）。如果数据结构工作正常（比如哈希表没有或只有相对少量冲突，二叉树是平衡的），数百万记录并不影响效率。如果工作不正常，那么效率会随着记录数上升而下降。</p>
+
+<h3><a name="sorting"></a>Sort algorithm</h3>
+
+<p>reference <a href="http://dongxicheng.org/structure/sort/">here</a></p>
+
+<h4>Stable of sorting</h4>
+
+<p>Some sorting algorithms are stable by nature like <strong>Insertion sort</strong>, <strong>Merge Sort</strong>, <strong>Bubble Sort</strong>, etc. And some sorting algorithms are not, like <strong>Heap Sort</strong>, <strong>Quick Sort</strong>, etc.</p>
+
+<h3><a name="iterative_tree_traversal"></a>Iterative Preorder(Postorder) Traversal</h3>
+
+<ol>
+<li>Create an empty stack nodeStack and push root node to stack.</li>
+<li>Do following while nodeStack is not empty.
+
+<ol>
+<li>Pop an item from stack and print it.</li>
+<li>Push <strong>right</strong> (<del>left for Postorder</del>. <strong>Updated</strong>: this is not correct, as pre- or post- is talking about the sequece of the parent node we travesed, not the sequece between left child and right child.) child of popped item to stack</li>
+<li>Push <strong>left</strong> (<del>right for Postorder</del>) child of popped item to stack</li>
+</ol>
+</li>
+</ol>
+
+
+<p>Right child is pushed before left child to make sure that left subtree is processed first.</p>
+
+<h3><a name="reverse_binary_tree"></a>Reverse Binary Tree</h3>
+
+<h4>Recursive method:</h4>
+
+<p><div class="highlight"><pre><code class="language-java" data-lang="java"><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+
+<span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;/&lt;</span><span class="n">em</span><span class="o">&gt;*</span>
+ <span class="o">*</span> <span class="n">Definition</span> <span class="k">for</span> <span class="n">a</span> <span class="n">binary</span> <span class="n">tree</span> <span class="n">node</span><span class="o">.</span>
+ <span class="o">*</span> <span class="kd">public</span> <span class="kd">class</span> <span class="nc">TreeNode</span> <span class="o">{</span>
+ <span class="o">*</span>     <span class="kt">int</span> <span class="n">val</span><span class="o">;</span>
+ <span class="o">*</span>     <span class="n">TreeNode</span> <span class="n">left</span><span class="o">;</span>
+ <span class="o">*</span>     <span class="n">TreeNode</span> <span class="n">right</span><span class="o">;</span>
+ <span class="o">*</span>     <span class="n">TreeNode</span><span class="o">(</span><span class="kt">int</span> <span class="n">x</span><span class="o">)</span> <span class="o">{</span> <span class="n">val</span> <span class="o">=</span> <span class="n">x</span><span class="o">;</span> <span class="o">}</span>
+ <span class="o">*</span> <span class="o">}</span>
+ <span class="o">&lt;/</span><span class="n">em</span><span class="o">&gt;/</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Solution</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="n">TreeNode</span> <span class="nf">invertTree</span><span class="o">(</span><span class="n">TreeNode</span> <span class="n">root</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">root</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+        <span class="o">}</span>
+        <span class="n">root</span><span class="o">.</span><span class="na">left</span> <span class="o">=</span> <span class="n">invertTree</span><span class="o">(</span><span class="n">root</span><span class="o">.</span><span class="na">left</span><span class="o">);</span>
+        <span class="n">root</span><span class="o">.</span><span class="na">right</span> <span class="o">=</span> <span class="n">invertTree</span><span class="o">(</span><span class="n">root</span><span class="o">.</span><span class="na">right</span><span class="o">);&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+
+<span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span>    <span class="n">TreeNode</span> <span class="n">tmp</span> <span class="o">=</span> <span class="n">root</span><span class="o">.</span><span class="na">left</span><span class="o">;</span>
+    <span class="n">root</span><span class="o">.</span><span class="na">left</span> <span class="o">=</span> <span class="n">root</span><span class="o">.</span><span class="na">right</span><span class="o">;</span>
+    <span class="n">root</span><span class="o">.</span><span class="na">right</span> <span class="o">=</span> <span class="n">tmp</span><span class="o">;</span>
+    <span class="k">return</span> <span class="n">root</span><span class="o">;</span>
+<span class="o">}</span>
+<span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+
+<span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;}&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+
+<span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span></code></pre></div></p>
+
+<h4>Iterative method:</h4>
+
+<p>to do &hellip;</p>
+
+<h3><a name="lucky_number"></a>Lucky Numbers</h3>
+
+<p>Implementation using Recursion.</p>
+
+<p>reference <a href="http://www.geeksforgeeks.org/lucky-numbers/">Lucky Numbers</a></p>
+
+<p><strong>Question:</strong></p>
+
+<p>Take the set of integers
+1,2,3,4,5,6,7,8,9,10,11,12,14,15,16,17,18,19,……</p>
+
+<ul>
+<li><p>First, delete every second number, we get following reduced set.
+1,3,5,7,9,11,13,15,17,19,…………</p></li>
+<li><p>Now, delete every third number, we get
+1, 3, 7, 9, 13, 15, 19,….….</p></li>
+<li><p>Continue this process indefinitely……
+Any number that does NOT get deleted due to above process is called “lucky”.</p></li>
+<li><p>Therefore, set of lucky numbers is 1, 3, 7, 13,………</p></li>
+</ul>
+
+
+<p>Now, given an integer ‘n’, write a function to say whether this number is lucky or not.</p>
+
+<p><code>bool isLucky(int n)</code></p>
+
+<p><strong>Analytics:</strong></p>
+
+<p>Before every iteration, if we calculate position of the given number, then in a given iteration, we can determine if the number will be deleted. Suppose calculated position for the given number is P before some iteration, and each Ith number is going to be removed in this iteration, if P &lt; I then input number is lucky, if P is such that P%I == 0 (I is a divisor of P), then input number is not lucky.</p>
+
+<p><strong>Code:</strong></p>
+
+<p><div class="highlight"><pre><code class="language-c" data-lang="c"><span class="lineno"> 1</span> <span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+<span class="lineno"> 2</span> 
+<span class="lineno"> 3</span> <span class="o">&lt;</span><span class="n">h1</span><span class="o">&gt;</span><span class="n">include</span> <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="n">stdio</span><span class="p">.</span><span class="n">h</span><span class="o">&gt;&lt;/</span><span class="n">h1</span><span class="o">&gt;</span>
+<span class="lineno"> 4</span> 
+<span class="lineno"> 5</span> <span class="o">&lt;</span><span class="n">h1</span><span class="o">&gt;</span><span class="n">define</span> <span class="kt">bool</span> <span class="kt">int</span><span class="o">&lt;/</span><span class="n">h1</span><span class="o">&gt;</span>
+<span class="lineno"> 6</span> 
+<span class="lineno"> 7</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;/&lt;</span><span class="n">em</span><span class="o">&gt;</span> <span class="n">Returns</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">n</span> <span class="n">is</span> <span class="n">a</span> <span class="n">lucky</span> <span class="n">number</span><span class="p">,</span> <span class="n">ohterwise</span> <span class="n">returns</span> <span class="mi">0</span><span class="o">&lt;/</span><span class="n">em</span><span class="o">&gt;/</span>
+<span class="lineno"> 8</span> <span class="kt">bool</span> <span class="n">isLucky</span><span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">)</span>
+<span class="lineno"> 9</span> <span class="p">{</span>
+<span class="lineno">10</span>     <span class="k">static</span> <span class="kt">int</span> <span class="n">counter</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+<span class="lineno">11</span> 
+<span class="lineno">12</span> <span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="cm">/*variable next_position is just for readability of</span>
+<span class="lineno">13</span> <span class="cm">   the program we can remove it and use n only */</span>
+<span class="lineno">14</span> <span class="kt">int</span> <span class="n">next_position</span> <span class="o">=</span> <span class="n">n</span><span class="p">;</span>
+<span class="lineno">15</span> <span class="k">if</span><span class="p">(</span><span class="n">counter</span> <span class="o">&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="n">n</span><span class="p">)</span>
+<span class="lineno">16</span>     <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+<span class="lineno">17</span> <span class="k">if</span><span class="p">(</span><span class="n">n</span><span class="o">%</span><span class="n">counter</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+<span class="lineno">18</span>     <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>      
+<span class="lineno">19</span> 
+<span class="lineno">20</span> <span class="cm">/*calculate next position of input no*/</span>
+<span class="lineno">21</span> <span class="n">next_position</span> <span class="o">-=</span> <span class="n">next_position</span><span class="o">/</span><span class="n">counter</span><span class="p">;</span>
+<span class="lineno">22</span> 
+<span class="lineno">23</span> <span class="n">counter</span><span class="o">++</span><span class="p">;</span>
+<span class="lineno">24</span> <span class="k">return</span> <span class="nf">isLucky</span><span class="p">(</span><span class="n">next_position</span><span class="p">);</span>
+<span class="lineno">25</span> <span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+<span class="lineno">26</span> 
+<span class="lineno">27</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="p">}</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+<span class="lineno">28</span> 
+<span class="lineno">29</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;/&lt;</span><span class="n">em</span><span class="o">&gt;</span><span class="n">Driver</span> <span class="n">function</span> <span class="n">to</span> <span class="n">test</span> <span class="n">above</span> <span class="n">function</span><span class="o">&lt;/</span><span class="n">em</span><span class="o">&gt;/</span>
+<span class="lineno">30</span> <span class="kt">int</span> <span class="n">main</span><span class="p">()</span>
+<span class="lineno">31</span> <span class="p">{</span>
+<span class="lineno">32</span>     <span class="kt">int</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">5</span><span class="p">;</span>
+<span class="lineno">33</span>     <span class="k">if</span><span class="p">(</span> <span class="n">isLucky</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="p">)</span>
+<span class="lineno">34</span>         <span class="n">printf</span><span class="p">(</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="o">%</span><span class="n">d</span> <span class="n">is</span> <span class="n">a</span> <span class="n">lucky</span> <span class="n">no</span><span class="p">.</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;,</span> <span class="n">x</span><span class="p">);</span>
+<span class="lineno">35</span>     <span class="k">else</span>
+<span class="lineno">36</span>         <span class="n">printf</span><span class="p">(</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="o">%</span><span class="n">d</span> <span class="n">is</span> <span class="n">not</span> <span class="n">a</span> <span class="n">lucky</span> <span class="n">no</span><span class="p">.</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;,</span> <span class="n">x</span><span class="p">);</span>
+<span class="lineno">37</span>     <span class="n">getchar</span><span class="p">();</span>
+<span class="lineno">38</span> <span class="p">}</span></code></pre></div></p>
+
+<h3><a name="linked_list_circle"></a>Circles in Linked List</h3>
+
+<blockquote><p>判断单链表是否有环，要求空间尽量少（2011年MTK）。如何找出环的连接点在哪里？如何知道环的长度？</p></blockquote>
+
+<p>很经典的题目。</p>
+
+<ul>
+<li>判断是否有环。使用两个指针。一个每次前进1，另一个每次前进2，且都从链表第一个元素开始。显然，如果有环，两个指针必然会相遇。</li>
+<li>环的长度。记下第一次的相遇点，这个指针再次从相遇点出发，直到第二次相遇。此时，步长为1的指针所走的步数恰好就是环的长度。</li>
+<li>环的链接点。记下第一次的相遇点，使一个指针指向这个相遇点，另一个指针指向链表第一个元素。然后，两个指针同步前进，且步长都为1。当两个指针相遇时所指的点就是环的连接点。</li>
+</ul>
+
+
+<h3><a name="linked_list_intersection"></a>Intersection of two Single Linked List without circles</h3>
+
+<blockquote><p>判断两无环单链表是否相交。</p></blockquote>
+
+<p>方法一：直接法</p>
+
+<p>   直接判断第一个链表的每个结点是否在第二个链表中，时间复杂度为O(len1*len2)，耗时很大</p>
+
+<p>方法二：利用计数</p>
+
+<p>如 果 两个链表相交，则两个链表就会有共同的结点；而结点地址又是结点唯一标识。因而判断两个链表中是否存在地址一致的节点，就可以知道是否相交了。可以对第一 个链表的节点地址进行hash排序，建立hash表，然后针对第二个链表的每个节点的地址查询hash表，如果它在hash表中出现，则说明两个链表有共 同的结点。这个方法的时间复杂度为：O(max(len1+len2)；但同时还得增加O(len1)的存储空间存储哈希表。这样减少了时间复杂度，增加 了存储空间。</p>
+
+<p>以链表节点地址为值，遍历第一个链表，使用Hash保存所有节点地址值，结束条件为到最后一个节点（无环）或Hash中该地址值已经存在（有环）。</p>
+
+<p>再遍历第二个链表，判断节点地址值是否已经存在于上面创建的Hash表中。</p>
+
+<p>这个方面可以解决题目中的所有情况，时间复杂度为O(m+n)，m和n分别是两个链表中节点数量。由于节点地址指针就是一个整型，假设链表都是在堆中动态创建的，可以使用堆的起始地址作为偏移量，以地址减去这个偏移量作为Hash函数</p>
+
+<p>方法三</p>
+
+<p>两个没有环的链表相交于一节点，则在这个节点之后的所有结点都是两个链表所共有的。如果它们相交，则最后一个结点一定是共有的，则只需要判断最后一个结点是否相同即可。时间复杂度为O(len1+len2)。对于相交的第一个结点，则可求出两个链表的长度，然后用长的减去短的得到一个差值 K，然后让长的链表先遍历K个结点，然后两个链表再开始比较。</p>
+
+<h3><a name="find_k_smallest_nubers"></a>寻找最小的k个数</h3>
+
+<p><a href="http://blog.csdn.net/v_JULY_v/article/details/6370650">寻找最小的k个数</a></p>
+
+<p>堆排序过程中涉及的主要概念参考<a href="http://bubkoo.com/2014/01/14/sort-algorithm/heap-sort/">常见排序算法 - 堆排序 (Heap Sort)</a>.</p>
+
+<p><strong>Questiong：</strong></p>
+
+<p>Given n intergers, how can we find the k smallest ones?</p>
+
+<blockquote><p>Words: max-heap</p></blockquote>
+
+<p>输入n个整数，输出其中最小的k个。</p>
+
+<p><strong>Analytics：</strong></p>
+
+<p>基本上有以下几种思路：</p>
+
+<ol>
+<li><p>快速排序平均所费时间为<code>n*logn</code>，然后再遍历序列中前k个元素输出，即可，总的时间复杂度为<code>O(n*logn+k)=O(n*logn)</code>。</p></li>
+<li><p>咱们再进一步想想，题目并没有要求要查找的k个数，甚至后n-k个数是有序的，既然如此，咱们又何必对所有的n个数都进行排序列?</p>
+
+<p> 这时，咱们想到了用选择或交换排序，即遍历n个数，先把最先遍历到得k个数存入大小为k的数组之中，对这k个数，利用选择或交换排序，找到k个数中的最大数kmax(kmax设为k个元素的数组中最大元素)，用时<code>O(k)</code>(你应该知道，插入或选择排序查找操作需要<code>O(k)</code>的时间)，后再继续遍历后n-k个数，x与kmax比较：如果<code>x&lt;kmax</code>，则x代替kmax，并再次重新找出k个元素的数组中最大元素kmax；如果<code>x&gt;kmax</code>，则不更新数组。这样，每次更新或不更新数组的所用的时间为<code>O(k)</code>或<code>O(0)</code>，整趟下来，总的时间复杂度平均下来为：<code>n*O(k)=O(n*k)</code>。</p></li>
+<li><p>更好的办法是维护k个元素的最大堆，原理与上一个方案一致，即用容量为k的最大堆存储最先遍历到的k个数，并假设它们即是最小的k个数，建堆费时<code>O(k)</code>后，有<code>k1&lt;k2&lt;...&lt;kmax</code>(kmax设为大顶堆中最大元素)。继续遍历数列，每次遍历一个元素x，与堆顶元素比较，x&lt;kmax，更新堆(用时<code>O(logk)</code>)，否则不更新堆。这样下来，总费时<code>O(k+(n-k)*logk)=O(n*logk)</code>。</p></li>
+<li><p>可以用最小堆初始化数组，然后取这个优先队列前k个值。复杂度    <code>O(n)+k*O(logn)</code>。</p></li>
+</ol>
+
+
+<p>试着从时间和空间复杂度两个方面分析一下方法3和方法4。</p>
+
+<h3><a name="java_singleton"></a>Singleton in Java</h3>
+
+<p><strong>Notes:</strong></p>
+
+<ul>
+<li>We  should create a static variable so that it can hold one single instance of our class.</li>
+<li>We should declare the constructor private so that  only Class itself can instantiate the object.</li>
+<li>Then the main work  to write the method which returns the instance of the class , let the name of the method be <code>getInstance()</code> .</li>
+</ul>
+
+
+<p>For <code>getInstance()</code>, we have two ways to implement it: <strong>Lazy initialization</strong> and <strong>Early initialization</strong>.</p>
+
+<h4>Lazy initialization:</h4>
+
+<p><div class="highlight"><pre><code class="language-java" data-lang="java"><span class="lineno"> 1</span> <span class="kd">public</span> <span class="kd">class</span> <span class="nc">JavaHungrySingleton</span>
+<span class="lineno"> 2</span> <span class="o">{</span>
+<span class="lineno"> 3</span>     <span class="kd">private</span> <span class="kd">static</span>  <span class="kd">volatile</span> <span class="n">JavaHungrySingleton</span>  <span class="n">uniqueInstance</span><span class="o">;&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+<span class="lineno"> 4</span> 
+<span class="lineno"> 5</span> <span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="kd">private</span> <span class="nf">JavaHungrySingleton</span><span class="o">(){}</span>
+<span class="lineno"> 6</span> 
+<span class="lineno"> 7</span> <span class="kd">public</span> <span class="kd">static</span>   <span class="n">JavaHungrySingleton</span>  <span class="nf">getInstance</span><span class="o">()</span>
+<span class="lineno"> 8</span> <span class="o">{</span>
+<span class="lineno"> 9</span>     <span class="k">if</span> <span class="o">(</span><span class="n">uniqueInstance</span> <span class="o">==</span><span class="kc">null</span> <span class="o">)</span>
+<span class="lineno">10</span>     <span class="o">{</span>
+<span class="lineno">11</span>         <span class="kd">synchronized</span><span class="o">(</span><span class="n">JavaHungrySingleton</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+<span class="lineno">12</span>         <span class="o">{</span>
+<span class="lineno">13</span>             <span class="k">if</span> <span class="o">(</span><span class="n">uniqueInstance</span> <span class="o">==</span><span class="kc">null</span> <span class="o">)</span>
+<span class="lineno">14</span>             <span class="o">{</span>
+<span class="lineno">15</span>                 <span class="n">uniqueInstance</span><span class="o">=</span><span class="k">new</span> <span class="nf">JavaHungrySingleton</span><span class="o">();</span>
+<span class="lineno">16</span>             <span class="o">}</span>
+<span class="lineno">17</span>         <span class="o">}</span>
+<span class="lineno">18</span>     <span class="o">}</span>
+<span class="lineno">19</span>     <span class="k">return</span> <span class="n">uniqueInstance</span> <span class="o">;</span>
+<span class="lineno">20</span> <span class="o">}</span>
+<span class="lineno">21</span> 
+<span class="lineno">22</span> <span class="c1">// other useful methods here</span>
+<span class="lineno">23</span> <span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+<span class="lineno">24</span> 
+<span class="lineno">25</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;}</span></code></pre></div></p>
+
+<h4>Early initailization</h4>
+
+<p>If our application always create and use the Singleton class, we can use <strong>Early initialization</strong> to implement Singleton.</p>
+
+<p><div class="highlight"><pre><code class="language-java" data-lang="java"><span class="lineno"> 1</span> <span class="kd">public</span> <span class="kd">class</span> <span class="nc">JavaHungrySingleton</span>
+<span class="lineno"> 2</span> <span class="o">{</span>
+<span class="lineno"> 3</span>     <span class="kd">private</span> <span class="kd">static</span> <span class="n">JavaHungrySingleton</span>  <span class="n">uniqueInstance</span>  <span class="o">=</span>  <span class="k">new</span> <span class="nf">JavaHungrySingleton</span><span class="o">();&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+<span class="lineno"> 4</span> 
+<span class="lineno"> 5</span> <span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="kd">private</span> <span class="nf">JavaHungrySingleton</span><span class="o">(){}</span>
+<span class="lineno"> 6</span> 
+<span class="lineno"> 7</span> <span class="kd">public</span> <span class="kd">static</span>  <span class="n">JavaHungrySingleton</span>  <span class="nf">getInstance</span><span class="o">()</span>
+<span class="lineno"> 8</span> <span class="o">{</span>
+<span class="lineno"> 9</span>     <span class="k">return</span>  <span class="n">uniqueInstance</span> <span class="o">;</span>
+<span class="lineno">10</span> <span class="o">}</span>
+<span class="lineno">11</span> 
+<span class="lineno">12</span> <span class="c1">// other useful methods here</span>
+<span class="lineno">13</span> <span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+<span class="lineno">14</span> 
+<span class="lineno">15</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;}</span></code></pre></div></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[经典算法智力题]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2015/09/14/brainteasers-and-puzzles/"/>
+    <updated>2015-09-14T20:46:22+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2015/09/14/brainteasers-and-puzzles</id>
+    <content type="html"><![CDATA[<ol>
+<li><a href="#1">海盗分金子</a></li>
+<li><a href="#2">飞机加油问题</a></li>
+<li><a href="#3">蚂蚁爬杆</a></li>
+<li><a href="#4">平面上N个点，每两个点都确定一条直线，求出斜率最大的那条直线所通过的两个点（斜率不存在的情况不考虑）。时间效率越高越好。</a></li>
+<li><a href="#5">Find the closest pair from a sorted array</a></li>
+<li><a href="#6">Building Bridge</a></li>
+<li><a href="#7">打印n分之一的前k位小数</a></li>
+<li><a href="#8">Marketing Size</a></li>
+<li><a href="#9">赛马问题</a></li>
+<li><a href="#10">火车运煤问题</a></li>
+<li><a href="#hourglass">Measure 9 minutes with two hourglasses</a></li>
+</ol>
+
+
+<!-- more -->
+
+
+<h3><a name="1"></a>海盗分金子</h3>
+
+<p>参考<a href="http://lucky-harry.blog.163.com/blog/static/201270702007101634121760/">海盗分金子的游戏</a></p>
+
+<p>数学的逻辑有时会导致看来十分怪异的结论。一般的规则是，如果逻辑推理没有漏洞，那么结论就必定站得住脚，即使它与你的直觉矛盾。</p>
+
+<h4>题目</h4>
+
+<p>10名海盗抢得了窖藏的100块金子，并打算瓜分这些战利品。这是一些讲民主的海盗（当然是他们自己特有的民主），他们的习惯是按下面的方式进行分配：最厉害的一名海盗提出分配方案，然后所有的海盗（包括提出方案者本人）就此方案进行表决。如果50%或更多的海盗赞同此方案，此方案就获得通过并据此分配战利品。否则提出方案的海盗将被扔到海里，然后下提名最厉害的海盗又重复上述过程。（所有的海盗都乐于看到他们的一位同伙被扔进海里，不过，如果让他们选择的话，他们还是宁可得一笔现金。他们当然也不愿意自己被扔到海里。所有的海盗都是有理性的，而且知道其他的海盗也是有理性的。此外，没有两名海盗是同等厉害的——这些海盗按照完全由上到下的等级排好了座次，并且每个人都清楚自己和其他所有人的等级。这些金块不能再分，也不允许几名海盗共有金块，因为任何海盗都不相信他的同伙会遵守关于共享金块的安排。这是一伙每人都只为自己打算的海盗。）最凶的一名海盗应当提出什么样的分配方案才能使他获得最多的金子呢？</p>
+
+<h4>分析</h4>
+
+<p>为方便起见，我们按照这些海盗的怯懦程度来给他们编号。最怯懦的海盗为1号海盗，次怯懦的海盗为2号海盗，如此类推。这样最厉害的海盗就应当得到最大的编号，而方案的提出就将倒过来从上至下地进行。</p>
+
+<p>分析所有这类策略游戏的奥妙就在于应当从结尾出发倒推回去。游戏结束时，你容易知道何种决策有利而何种决策不利。确定了这一点后，你就可以把它用到倒数第2次决策上，如此类推。如果从游戏的开头出发进行分析，那是走不了多远的。其原因在于，所有的战略决策都是要确定：“如果我这样做，那么下一个人会怎样做？”</p>
+
+<p>因此在你以下海盗所做的决定对你来说是重要的，而在你之前的海盗所做的决定并不重要，因为你反正对这些决定也无能为力了。</p>
+
+<p>记住了这一点，就可以知道我们的出发点应当是游戏进行到只剩两名海盗——即1号和2号——的时候。这时最厉害的海盗是2号，而他的最佳分配方案是一目了然的：100块金子全归他一人所有，1号海盗什么也得不到。由于他自己肯定为这个方案投赞成票，这样就占了总数的50%，因此方案获得通过。</p>
+
+<p>现在加上3号海盗。1号海盗知道，如果3号的方案被否决，那么最后将只剩2个海盗，而1号将肯定一无所获——此外，3号也明白1号了解这一形势。因此，只要3号的分配方案给1号一点甜头使他不至于空手而归，那么不论3号提出什么样的分配方案，1号都将投赞成票。因此3号需要分出尽可能少的一点金子来贿赂1号海盗，这样就有了下面的分配方案： 3号海盗分得99块金子，2号海盗一无所获，1号海盗得1块金子。</p>
+
+<p>4号海盗的策略也差不多。他需要有50%的支持票，因此同3号一样也需再找一人做同党。他可以给同党的最低贿赂是1块金子，而他可以用这块金子来收买2号海盗。因为如果4号被否决而3号得以通过，则2号将一文不名。因此，4号的分配方案应是：99块金子归自己，3号一块也得不到，2号得1块金子，1号也是一块也得不到。</p>
+
+<p>5号海盗的策略稍有不同。他需要收买另两名海盗，因此至少得用2块金子来贿赂，才能使自己的方案得到采纳。他的分配方案应该是：98块金子归自己，1块金子给3号，1块金子给1号。</p>
+
+<p>这一分析过程可以照着上述思路继续进行下去。每个分配方案都是唯一确定的，它可以使提出该方案的海盗获得尽可能多的金子，同时又保证该方案肯定能通过。照这一模式进行下去，10号海盗提出的方案将是96块金子归他所有，其他编号为偶数的海盗各得1块金子，而编号为奇数的海盗则什么也得不到。这就解决了10名海盗的分配难题。</p>
+
+<p>分配方案用表格表示如下：</p>
+
+<table>
+<thead>
+<tr>
+<th>被分配人</th>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+<th>4</th>
+<th>5</th>
+<th>6</th>
+<th>7</th>
+<th>8</th>
+<th>9</th>
+<th>10</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>分配人</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1</td>
+<td>100</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>2</td>
+<td>0</td>
+<td>100</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>3</td>
+<td>1</td>
+<td>0</td>
+<td>99</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>4</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>99</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>5</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>98</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>6</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>98</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>7</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>97</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>8</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>97</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>9</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>96</td>
+<td></td>
+</tr>
+<tr>
+<td>10</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>96</td>
+</tr>
+</tbody>
+</table>
+
+
+<h4>延伸</h4>
+
+<p>Omohundro的贡献是他把这一问题扩大到有500名海盗的情形，即500名海盗瓜分100块金子。显然，类似的规律依然成立——至少是在一定范围内成立。事实上，前面所述的规律直到第200号海盗都成立。 200号海盗的方案将是：从1到199号的所有奇数号的海盗都将一无所获，而从2到198号的所有偶数号海盗将各得1块金子，剩下的1块金子归200号海盗自己所有。</p>
+
+<p>乍看起来，这一论证方法到200号之后将不再适用了，因为201号拿不出更多的金子来收买其他海盗。但是即使分不到金子，201号至少还希望自己不会被扔进海里，因此他可以这样分配：给1到199号的所有奇数号海盗每人1块金子，自己一块也不要。</p>
+
+<p>202号海盗同样别无选择，只能一块金子都不要了——他必须把这100块金子全部用来收买100名海盗，而且这100名海盗还必须是那些按照201号方案将一无所获的人。由于这样的海盗有101名，因此202号的方案将不再是唯一的——贿赂方案有101种。</p>
+
+<blockquote><p>202号海盗是第一个有多种最优方案的人。</p></blockquote>
+
+<p>203号海盗必须获得102张赞成票，但他显然没有足够的金子去收买101名同伙。因此，无论提出什么样的分配方案，他都注定会被扔到海里去喂鱼。不过，尽管203号命中注定死路一条，但并不是说他在游戏进程中不起任何作用。相反，204号现在知道，203号为了能保住性命，就必须避免由他自己来提出分配方案这么一种局面，所以无论204号海盗提出什么样的方案，203号都一定会投赞成票。这样204号海盗总算侥幸拣到一条命：他可以得到他自己的1票、203号的1票、以及另外100名收买的海盗的赞成票，刚好达到保命所需的50%。获得金子的海盗，必属于根据202号方案肯定将一无所获的那101名海盗之列。</p>
+
+<p>205号海盗的命运又如何呢？他可没有这样走运了。他不能指望203号和204号支持他的方案，因为如果他们投票反对205号方案，就可以幸灾乐祸地看到205号被扔到海里去喂鱼，而他们自己的性命却仍然能够保全。这样，无论205号海盗提出什么方案都必死无疑。206号海盗也是如此——他肯定可以得到205号的支持，但这不足以救他一命。类似地，207号海盗需要104张赞成票——除了他收买的100张赞成票以及他自己的1张赞成票之外，他还需3张赞成票才能免于一死。他可以获得205号和206号的支持，但还差一张票却是无论如何也弄不到了，因此207号海盗的命运也是下海喂鱼。</p>
+
+<p>208号又时来运转了。他需要104张赞成票，而205、206、207号都会支持他，加上他自己一票及收买的100票，他得以过关保命。获得他贿赂的必属于那些根据204号方案肯定将一无所获的人（候选人包括2到200号中所有偶数号的海盗、以及201、203、204号）。</p>
+
+<p>现在可以看出一条新的、此后将一直有效的规律：那些方案能过关的海盗（他们的分配方案全都是把金子用来收买100名同伙而自己一点都得不到）相隔的距离越来越远，而在他们之间的海盗则无论提什么样的方案都会被扔进海里——因此为了保命，他们必会投票支持比他们厉害的海盗提出的任何分配方案。得以避免葬身鱼腹的海盗包括201、202、204、208、216、232、264、328、456号，即其号码等于200加2的某一方幂的海盗。</p>
+
+<blockquote><p>对于大于200号的海盗，均无法获得任何黄金，而且只有200加2的整数次幂的海盗可以分金子并且免于一死。</p></blockquote>
+
+<p>现在我们来看看哪些海盗是获得贿赂的幸运儿。分配贿赂的方法是不唯一的，其中一种方法是让201号海盗把贿赂分给1到199号的所有奇数编号的海盗，让202号分给2到200号的所有偶数编号的海盗，然后是让204号贿赂奇数编号的海盗，208号贿赂偶数编号的海盗，如此类推，也就是轮流贿赂奇数编号和偶数编号的海盗。</p>
+
+<h4>结论</h4>
+
+<p>当500名海盗运用最优策略来瓜分金子时，头44名海盗必死无疑，而456号海盗则给从1到199号中所有奇数编号的海盗每人分1块金子，问题就解决了。由于这些海盗所实行的那种民主制度，他们的事情就搞成了最厉害的一批海盗多半都是下海喂鱼，不过有时他们也会觉得自己很幸运——虽然分不到抢来的金子，但总可以免于一死。只有最怯懦的200名海盗有可能分得一份脏物，而他们之中又只有一半的人能真正得到一块金子，的确是<strong>怯懦者继承财富</strong>。</p>
+
+<h3><a name="2"></a>飞机加油问题</h3>
+
+<p>参考<a href="http://blog.csdn.net/athenaer/article/details/8612536">飞机加油智力题</a></p>
+
+<h4>Question</h4>
+
+<p>On Bagshot Island, there is an airport. The airport is the home base of an unlimited number of identical airplanes. Each airplane has a fuel capacity to allow it to fly exactly &frac12; way around the world, along a great circle. The planes have the ability to refuel in flight without loss of speed or spillage of fuel. Though the fuel is unlimited, the island is the only source of fuel.
+What is the fewest number of aircraft necessary to get one plane all the way around the world assuming that all of the aircraft must return safely to the airport? How did you get to your answer?</p>
+
+<p>Notes:</p>
+
+<ol>
+<li>Each airplane must depart and return to the same airport, and that is the only airport they can land and refuel on ground.</li>
+<li>Each airplane must have enough fuel to return to airport.</li>
+<li>The time and fuel consumption of refueling can be ignored. (so we can also assume that one airplane can refuel more than one airplanes in air at the same time.)</li>
+<li>The amount of fuel airplanes carrying can be zero as long as the other airplane is refueling these airplanes. What is the fewest number of airplanes and number of tanks of fuel needed to accomplish this work? (we only need airplane to go around the world)</li>
+</ol>
+
+
+<h4>Answer</h4>
+
+<p>The fewest number of aircraft is 3, and the times of taking off is 5!
+Imagine 3 aircraft (A, B and C). A is going to fly round the world. All three aircraft start at the same time in the same direction. After 1/8 of the circumference, B passes &frac14; of its fuel to C, &frac14; of its fuel to A, and returns home. C continues to fly alongside A until they are &frac14; of the distance around the world. At this point C completely fills the tank of A with &frac14; of its full fuel, which is now able to fly to a point &frac34; of the way around the world. C has now only &frac12; of its full fuel capacity left, exactly enough to get back to the home base.</p>
+
+<p>When C gets to the base, gets fully refueled and takes off in the other direction. C will meet A in &frac34; of the distance. Now A has no fuel while C has half of its full fuel. Let C fill the tank of A with &frac14; of its full fuel, and B takes off from base with full fuel. B will meet A and C in 7/8 of the distance. Currently, A and C has no fuel, while B has &frac34; of its full fuel. Let B fill A with its &frac14; of its full fuel and fills C with &frac14; of its full fuel. And all the three planes can get back safely to the base.</p>
+
+<h4>问题</h4>
+
+<p>每个飞机只有一个油箱，飞机之间可以相互加油，注意是相互，没有加油机，一箱油可供一架飞机绕地球飞半圈。    <br/>
+为使至少一架飞机绕地球一圈回到起飞时的飞机场，至少需要出动几架飞机？<br/>
+A:所有飞机从同一机场起飞，而且必须安全返回机场，不允许中途降落，中间没有飞机场
+B:所有飞机从同一机场,同一方向起飞，而且必须安全返回机场，不允许中途降落，中间没有飞机场</p>
+
+<h4>答案</h4>
+
+<p>三架飞机，五架次。</p>
+
+<blockquote><p>提示：刚开始三架同时飞，另一方向一架一架次去接。</p></blockquote>
+
+<h3><a name="3"></a>蚂蚁爬杆</h3>
+
+<h4>问题</h4>
+
+<p><strong>Words:</strong></p>
+
+<p>transparent, straight stick, head for</p>
+
+<p><strong>Question:</strong></p>
+
+<p>We have a straight stick which is 30 centimeters long. There are five ants in the following positions: 3cm, 7cm, 11cm, 17cm and 23cm. Initially, the ants head left or right randomly. When ants meet, both of them will turn back and head for the other dirctions. Assuming that all the ants' speed is 1cm/s. Try to get the max and min time that all the ants leave the stick.</p>
+
+<p>有一根30厘米的细木杆，在第3厘米、7厘米、11厘米、17厘米、23厘米这五个位置上各有一只蚂蚁。木杆很细，同时只能通过一只蚂蚁。开始时，蚂蚁的头朝左还是朝右是任意的，它们只会朝前走或调头，但不会后退。当任意两只蚂蚁碰头时，两只蚂蚁会同时调头朝反方向走。假设蚂蚁们每秒钟可以走一厘米的距离。求所有蚂蚁都离开木杆的最小时间和最大时间。</p>
+
+<blockquote><p>提示：问题等价于蚂蚁之间是透明的，可以相互穿过不阻挡。</p></blockquote>
+
+<h3><a name="4"></a>平面上N个点，每两个点都确定一条直线，求出斜率最大的那条直线所通过的两个点（斜率不存在的情况不考虑）。时间效率越高越好。</h3>
+
+<p>按照一般的方法，逐个求斜率比较，O(n<sup>2</sup>)可完成。有没有更快的方法？有。</p>
+
+<p>对所有的点按x坐标排序，然后只比较相邻两点的斜率即可。复杂度O(nlgn)。</p>
+
+<h3><a name="5"></a>Given a sorted array and a number x, find the pair in array whose sum is closest to x</h3>
+
+<p>reference <a href="http://geeksquiz.com/given-sorted-array-number-x-find-pair-array-whose-sum-closest-x/">Given a sorted array and a number x, find the pair in array whose sum is closest to x</a></p>
+
+<p>A similar question is <a href="http://www.geeksforgeeks.org/given-two-sorted-arrays-number-x-find-pair-whose-sum-closest-x/">Find the closest pair from two sorted arrays</a>.</p>
+
+<p><strong>Question:</strong></p>
+
+<p>Given a sorted array and a number x, find a pair in array whose sum is closest to x.
+Examples:
+<div class="highlight"><pre><code class="language-text" data-lang="text">Input: arr[] = {10, 22, 28, 29, 30, 40}, x = 54
+Output: 22 and 30&lt;/p&gt;
+
+&lt;p&gt;Input: arr[] = {1, 3, 4, 7, 10}, x = 15
+Output: 4 and 10</code></pre></div></p>
+
+<p><strong>Answer:</strong></p>
+
+<p>An efficient solution can find the pair in <code>O(n)</code> time. Following is detailed algorithm.</p>
+
+<ol>
+<li>Initialize a variable <code>diff</code> as infinite (<code>diff</code> is used to store the
+difference between pair and <code>x</code>).  We need to find the minimum <code>diff</code>.</li>
+<li>Initialize two index variables <code>l</code> and <code>r</code> in the given sorted array.
+
+<ol>
+<li>Initialize first to the leftmost index:  <code>l = 0</code></li>
+<li>Initialize second  the rightmost index:  <code>r = n-1</code></li>
+</ol>
+</li>
+<li>Loop while <code>l &lt; r</code>.
+
+<ol>
+<li>If  <code>abs(arr[l] + arr[r] - sum) &lt; diff</code>  then update diff and result</li>
+<li>Else if(<code>arr[l] + arr[r] &lt;  sum</code> )  then <code>l++</code></li>
+<li>Else <code>r--</code></li>
+</ol>
+</li>
+</ol>
+
+
+<blockquote><p>Similar question: 给定一个存放整数的数组，重新排列数组使得数组左边为奇数(odd)，右边为偶数(even)。时间复杂度O(n),空间复杂度O(1)。</p></blockquote>
+
+<h3><a name="6"></a>Building Bridge</h3>
+
+<p><strong>Words:</strong></p>
+
+<p>be perpendicular to, be parallel with, intersection point</p>
+
+<p><strong>Question:</strong></p>
+
+<p>A and B live in different sides of a straight river, whose width is <code>w</code>. A and B want to build a bridge over the river (the bridge must be perpendicular to the river), so that they can visit each other. Where to build the bridge so that the walking distance is the shortest between A and B?</p>
+
+<p><strong>Analytics:</strong></p>
+
+<h3><a name="7"></a>打印n分之一的前k位小数</h3>
+
+<p><strong>Words:</strong></p>
+
+<p>digits, decimal point, overflow, floating point pricision，divided by, remainder, quotient，mod</p>
+
+<p><strong>Question:</strong></p>
+
+<p>Given a positive integer n, print first k digits after point in value of 1/n. Your program should avoid overflow and floating point arithmetic.</p>
+
+<p>Examples:</p>
+
+<p><div class="highlight"><pre><code class="language-text" data-lang="text">Input:   n = 3, k = 3
+Output:  333
+Input:   n = 50, k = 4
+Output:  0200</code></pre></div></p>
+
+<p><strong>Answer:</strong></p>
+
+<p><div class="highlight"><pre><code class="language-java" data-lang="java"><span class="lineno"> 1</span> <span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+<span class="lineno"> 2</span> 
+<span class="lineno"> 3</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="c1">// Function to print first k digits after dot in value</span>
+<span class="lineno"> 4</span> <span class="c1">// of 1/n. n is assumed to be a positive integer.</span>
+<span class="lineno"> 5</span> <span class="kt">void</span> <span class="nf">print</span><span class="o">(</span><span class="kt">int</span> <span class="n">n</span><span class="o">,</span> <span class="kt">int</span> <span class="n">k</span><span class="o">)</span>
+<span class="lineno"> 6</span> <span class="o">{</span>
+<span class="lineno"> 7</span>     <span class="kt">int</span> <span class="n">rem</span> <span class="o">=</span> <span class="mi">1</span><span class="o">;</span> <span class="c1">// Initialize remainder&lt;/p&gt;</span>
+<span class="lineno"> 8</span> 
+<span class="lineno"> 9</span> <span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="c1">// Run a loop k times to print k digits</span>
+<span class="lineno">10</span> <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&amp;</span><span class="n">lt</span><span class="o">;</span> <span class="n">k</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span>
+<span class="lineno">11</span> <span class="o">{</span>
+<span class="lineno">12</span>     <span class="c1">// The next digit can always be obtained as</span>
+<span class="lineno">13</span>     <span class="c1">// doing (10*rem)/10</span>
+<span class="lineno">14</span>     <span class="n">cout</span> <span class="o">&amp;</span><span class="n">lt</span><span class="o">;&amp;</span><span class="n">lt</span><span class="o">;</span> <span class="o">(</span><span class="mi">10</span> <span class="o">*</span> <span class="n">rem</span><span class="o">)</span> <span class="o">/</span> <span class="n">n</span><span class="o">;</span>
+<span class="lineno">15</span> 
+<span class="lineno">16</span>     <span class="c1">// Update remainder</span>
+<span class="lineno">17</span>     <span class="n">rem</span> <span class="o">=</span> <span class="o">(</span><span class="mi">10</span><span class="o">*</span><span class="n">rem</span><span class="o">)</span> <span class="o">%</span> <span class="n">n</span><span class="o">;</span>
+<span class="lineno">18</span> <span class="o">}</span>
+<span class="lineno">19</span> <span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+<span class="lineno">20</span> 
+<span class="lineno">21</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;}&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+<span class="lineno">22</span> 
+<span class="lineno">23</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span></code></pre></div></p>
+
+<h2><a name="8"></a>Marketing Size</h2>
+
+<p>请估算：</p>
+
+<ul>
+<li>某城市市目前的出租车数量（TX某年面试题）；</li>
+<li>上周在某城市有多少个煎饼被吃掉?</li>
+<li>某城市的酒店的数量？</li>
+<li>波音747能装下多少个乒乓球?</li>
+<li>中国人一年用多少草本洗发水?</li>
+</ul>
+
+
+<blockquote><p>Manily, we have two kinds of methods: <strong>up-to-down</strong> and <strong>bottome-to-up</strong>.</p></blockquote>
+
+<h2><a name="9"></a>赛马问题</h2>
+
+<p>各种不同的题型可以参考：</p>
+
+<ul>
+<li><a href="http://blog.csdn.net/tianmohust/article/details/6839524">关于选牛和选马的问题</a>： 结论基本都是错的。</li>
+<li><a href="http://coolshell.cn/articles/1202.html">面试题：赛马问题</a></li>
+</ul>
+
+
+<p>google面试原题：</p>
+
+<ul>
+<li><a href="http://hxraid.iteye.com/blog/662643">[Google]25匹马的角逐</a>：正确的分析过程。</li>
+</ul>
+
+
+<p><strong>Question：</strong></p>
+
+<p>一共有25匹马，有一个赛场，赛场有5个赛道，就是说最多同时可以有5匹马一起比赛。假设每匹马都跑的很稳定，不用任何其他工具，只通过马与马之间的比赛，试问最少 得比多少场才能知道跑得最快的5匹马。</p>
+
+<p><strong>Analytics：</strong></p>
+
+<ol>
+<li><p>首先将25匹马分成5组，并分别进行5场比赛之后得到的名次排列如下：</p>
+
+<p> A组：  [A1  A2  A3   A4  A5]</p>
+
+<p> B组：  [B1  B2  B3   B4  B5]</p>
+
+<p> C组：  [C1  C2  C3  C4  C5]</p>
+
+<p> D组：  [D1  D2  D3  D4  D5]</p>
+
+<p> E组：  [E1  E2  E3   E4  E5]</p>
+
+<p> 其中，每个小组最快的马为[A1、B1、C1、D1、E1]。</p></li>
+<li>将[A1、B1、C1、D1、E1]进行第6场，选出第1名的马，不妨设 A1>B1>C1>D1>E1. 此时第1名的马为A1。</li>
+<li>将[A2、B1、C1、D1、E1]进行第7场，此时选择出来的必定是第2名的马，不妨假设为B1。因为这5匹马是除去A1之外每个小组当前最快的马。</li>
+<li>进行第8场，选择[A2、B2、C1、D1、E1]角逐出第3名的马。</li>
+<li>依次类推，第9，10场可以分别决出第4，5名的吗。</li>
+</ol>
+
+
+<p>因此，依照这种竞标赛排序思想，需要10场比赛是一定可以取出前5名的。</p>
+
+<p>仔细想一下，如果需要减少比赛场次，就一定需要<strong>在某一次比赛中同时决出2个名次</strong>，而且<strong>每一场比赛之后，有一些不可能进入前5名的马可以提前出局</strong>。 当然要做到这一点，就必须小心选择每一场比赛的马匹。我们在上面的方法基础上进一步思考这个问题，希望能够得到解决。</p>
+
+<ol>
+<li>首先利用5场比赛角逐出每个小组的排名次序是绝对必要的。</li>
+<li><p>第6场比赛选出第1名的马也是必不可少的。假如仍然是A1马(A1>B1>C1>D1>E1)。那么此时我们可以得到一个重要的结论：有一些马在前6场比赛之后就决定出局的命运了。</p>
+
+<p> A组：  [A1  A2  A3   A4  A5]</p>
+
+<p> B组：  [B1  B2  B3   B4  <del>B5</del>]</p>
+
+<p> C组：  [C1  C2  C3   <del>C4</del>  <del>C5</del>]</p>
+
+<p> D组：  [D1  D2  <del>D3</del>   <del>D4</del>  <del>D5</del>]</p>
+
+<p> E组：  [E1  <del>E2</del>  <del>E3</del>   <del>E4</del>  <del>E5</del>]</p></li>
+<li><p>第7场比赛是关键，能否同时决出第2，3名的马呢？我们首先做下分析：</p>
+
+<p> 在上面的方法中，第7场比赛[A2、B1、C1、D1、E1]是为了决定第2名的马。但是在第6场比赛中我们已经得到(B1>C1>D1>E1)，试问？有B1在的比赛，C1、D1、E1还有可能争夺第2名吗？ 当然不可能，也就是说第2名只能在A2、B1中出现。实际上只需要2条跑道就可以决出第2名，剩下C1、D1、E1的3条跑道都只能用来凑热闹的吗？</p>
+
+<p> 能够优化的关键出来了，<strong>我们是否能够通过剩下的3个跑道来决出第3名呢？</strong>当然可以，我们来进一步分析第3名的情况？</p>
+
+<ul>
+<li>如果A2>B1(即第2名为A2)，那么根据第6场比赛中的(B1>C1>D1>E1)。 可以断定第3名只能在A3和B1中产生。</li>
+<li>如果B1>A2(即第2名为B1)，那么可以断定的第3名只能在A2, B2,C1 中产生。</li>
+</ul>
+
+
+<p> 好了，结论也出来了，只要我们把[A2、B1、A3、B2、C1]作为第7场比赛的马，那么这场比赛的第2，3名一定是整个25匹马中的第2，3名。</p>
+
+<p> 我们在这里列举出第7场的2，3名次的所有可能情况：</p>
+
+<ol>
+<li>第2名=A2，第3名=A3</li>
+<li>第2名=A2，第3名=B1</li>
+<li>第2名=B1，第3名=A2</li>
+<li>第2名=B1，第3名=B2</li>
+<li>第2名=B1，第3名=C1</li>
+</ol>
+</li>
+<li><p>第8场比赛很复杂，我们要根据第7场的所有可能的比赛情况进行分析。</p>
+
+<ol>
+<li>第2名=A2，第3名=A3。那么此种情况下第4名只能在A4和B1中产生。
+
+<ul>
+<li>如果第4名=A4，那么第5名只能在A5、B1中产生。</li>
+<li>如果第4名=B1，那么第5名只能在A4、B2、C1中产生。</li>
+</ul>
+
+
+<p>不管结果如何，此种情况下，第4、5名都可以在第8场比赛中决出。其中比赛马匹为[A4、A5、B1、B2、C1]</p></li>
+<li>第2名=A2，第3名=B1。那么此种情况下第4名只能在A3、B2、C1中产生。
+
+<ul>
+<li>如果第4名=A3，那么第5名只能在A4、B2、C1中产生。     * 如果第4名=B2，那么第5名只能在A3、B3、C1中产生。</li>
+<li>如果第4名=C1，那么第5名只能在A3、B2、C2、D1中产生。</li>
+</ul>
+
+
+<p>  那么，第4、5名需要在马匹[A3、B2、B3、C1、A4、C2、D1]七匹马中产生，则必须比赛两场才行，也就是到第9场角逐出全部的前5名。</p></li>
+<li>第2名=B1，第3名=A2。那么此种情况下第4名只能在A3、B2、C1中产生。情况和上述一样，必须角逐第9场</li>
+<li>第2名=B1，第3名=B2。 那么此种情况下第4名只能在A2、B3、C1中产生。
+
+<ul>
+<li>如果第4名=A2，那么第5名只能在A3、B3、C1中产生。</li>
+<li>如果第4名=B3，那么第5名只能在A2、B4、C1中产生。</li>
+<li>如果第4名=C1，那么第5名只能在A2、B3、C2、D1中产生。</li>
+</ul>
+
+
+<p>  那么，第4、5名需要在马匹[A2、B3、B4、C1、A3、C2、D1]七匹马中产 生，则必须比赛两场才行，也就是到第9场角逐出全部的前5名。</p></li>
+<li>第2名=B1，第3名=C1。那么此种情况下第4名只能在A2、B2、C2、D1中产生。
+
+<ul>
+<li>如果第4名=A2，那么第5名只能在A3、B2、C2、D1中产生。</li>
+<li>如果第4名=B2，那么第5名只能在A2、B3、C2、D1中产生。</li>
+<li>如果第4名=C2，那么第5名只能在A2、B2、C3、D1中产生。</li>
+<li>如果第4名=D1，那么第5名只能在A2、B2、C2、D2、E2中产生。</li>
+</ul>
+
+
+<p>  那么，第4、5名需要在马匹[A2、B2、C2、D1、A3、B3、C3、D2、E1]九匹马中 产 生，因此也必须比赛两场，也就是到第9长决出胜负。</p></li>
+</ol>
+</li>
+</ol>
+
+
+<p><strong>结论：</strong></p>
+
+<p>最好情况可以在第8场角逐出前5名，最差也可以在第9场搞定。</p>
+
+<h2><a name="10"></a>火车运煤问题</h2>
+
+<p><a href="http://www.cnblogs.com/liuzhi/p/3922311.html">火车运煤问题</a></p>
+
+<p><strong>Words:</strong></p>
+
+<p>coal mine, coal, goods, carry, transport, devided by, consume</p>
+
+<p><strong>Question:</strong></p>
+
+<p>Supposing we have a coal mine which has 3000 tons of coal. We plan to transport the coal to the market which is 1000 kilometers away.</p>
+
+<p>For the train,</p>
+
+<ul>
+<li>it uses one ton of coal for running 1 kilometer, no matter how much it is carrying;</li>
+<li>it can carry 1000 tons of coal at the most;</li>
+</ul>
+
+
+<p>Question:</p>
+
+<ol>
+<li><p>Can we carry coal to the market?</p>
+
+<ul>
+<li>IF NO, tell the reason;</li>
+<li>If YES, how much coal can we carry to the market at the most?</li>
+</ul>
+</li>
+<li><p>Supposing we have 1000n (n is a interger) tons of coal in the mine, can we transport more than 1000 tons of coal to the market?</p>
+
+<ul>
+<li>if NO, tell the reason;</li>
+<li>if YES, try to give the smallest n.</li>
+</ul>
+</li>
+</ol>
+
+
+<p>你是山西的一个煤老板，你在矿区开采了有3000吨煤需要运送到市场上去卖，从你的矿区到市场有1000公里，你手里有一列烧煤的火车，这个火车最多只能装1000吨煤，且其能耗比较大——每一公里需要耗一吨煤。请问，</p>
+
+<ul>
+<li>作为一个懂编程的煤老板的你，你会怎么运送才能运最多的煤到集市？</li>
+<li>假设矿区共有1000n（n是正整数）吨煤，是否可能运送多于1000吨的煤到达目的地？如果不可以，说明理由，如果可以，试求最小的n值。</li>
+</ul>
+
+
+<p><strong>Analytics：</strong></p>
+
+<p>最优运送方案如下：</p>
+
+<ul>
+<li>将1000n吨煤运送到全程的1/(2n-1)处，此时还有1000(n-1)吨煤。</li>
+<li>将1000(n-1)吨煤再往前运送全程的1/(2n-3)，即全程的1/(2n-1)+1/(2n-3)处，此时还剩1000(n-2)吨煤。</li>
+<li>&hellip;</li>
+<li>将2000吨煤再往前运送全程的1/3，即全程的1/(2n-1)+1/(2n-3)+&hellip;+1/3处，此时还剩1000吨煤。</li>
+<li>将1000吨煤运送到目的地，还需要消耗1000{1-[1/(2n-1)+1/(2n-3)+&hellip;+1/3]}吨煤，所以运送达目的地的煤量为1000[1/(2n-1)+1/(2n-3)+&hellip;+1/3]吨。</li>
+</ul>
+
+
+<p>Note：</p>
+
+<ul>
+<li>当n=7时，1/3+1/5+1/7+&hellip;+1/13 = 0.96;</li>
+<li>当n=8时，1/3+1/5+1/7+&hellip;+1/13+1/15 = 1.02;</li>
+</ul>
+
+
+<p>所以，</p>
+
+<ul>
+<li>上述公式只适用于n小于8的情况；</li>
+<li>当n=8时，可以将多于1000吨的煤运送到目的地。火车可以将2000吨煤运送到1000[1/5+1/7+&hellip;+1/13+1/15]公里处，即688公里处，最终能将2000-(1000-688)*3吨煤，即1065吨煤，运送到目的地。</li>
+</ul>
+
+
+<h2><a name="hourglass"></a>Measure 9 minutes with two hourglasses</h2>
+
+<p><strong>Words:</strong></p>
+
+<p>hourglass, flip over, turn over, measure, run out</p>
+
+<p><strong>Question:</strong></p>
+
+<p>How to measure 9 minutes with two hourglasses: 4 minutes and 7 minutes?</p>
+
+<p><strong>Analytics:</strong></p>
+
+<p>Start both timers together. When the 4 minute timer is done, flip it. 7 minute timer will have 3 minutes left. When the 7 minute timer is done, the 4 minute timer will have 1 minute left. Now you can count to 9 minutes by simply leaving the 4 minute to expire (1 min), flip it and let it expire (4 min), flip it again and let it expire (4 min). 1 + 4 + 4 = 9.</p>
+]]></content>
+  </entry>
+  
+</feed>

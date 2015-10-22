@@ -9,7 +9,10 @@
   <meta name="author" content="Zhang Hongchao">
 
   
-  <meta name="description" content="大家晚上好，我叫张洪超，2012年在西安交通大学电信学院硕士毕业，毕业之后一直在微策略工作。很高兴能站在这里跟大家分享一下这三年的工作和生活的感受。 ">
+  <meta name="description" content="在iOS中有三类事件： 触控事件（单点、多点触控以及各种手势操作）
+传感器事件（重力、加速度传感器等）
+远程控制事件（远程遥控iOS设备多媒体播放等） 这里要讨论的是触控事件的机制。 iOS中主要有两种触控事件： 手势识别类定义的触控事件
+UIResponder中定义的触控事件 手势识别类—— &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -68,7 +71,7 @@
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2015/10/12/info-session/">Info Session</a></h1>
+      <h1 class="entry-title"><a href="/blog/2015/10/21/touch-event-in-ios/">iOS中的触控事件机制</a></h1>
     
     
       <p class="meta">
@@ -85,20 +88,390 @@
 
 
 
-<time datetime="2015-10-12T17:51:23+08:00" pubdate data-updated="true">Oct 12th, 2015</time>
+<time datetime="2015-10-21T16:55:48+08:00" pubdate data-updated="true">Oct 21st, 2015</time>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p>大家晚上好，我叫张洪超，2012年在西安交通大学电信学院硕士毕业，毕业之后一直在微策略工作。很高兴能站在这里跟大家分享一下这三年的工作和生活的感受。</p>
+  <div class="entry-content"><p>在iOS中有三类事件：</p>
+
+<ul>
+<li>触控事件（单点、多点触控以及各种手势操作）</li>
+<li>传感器事件（重力、加速度传感器等）</li>
+<li>远程控制事件（远程遥控iOS设备多媒体播放等）</li>
+</ul>
+
+
+<p>这里要讨论的是<strong>触控事件</strong>的机制。</p>
+
+<p>iOS中主要有两种触控事件：</p>
+
+<ul>
+<li>手势识别类定义的触控事件</li>
+<li>UIResponder中定义的触控事件</li>
+</ul>
+
+
+<h2>手势识别类——Gesture Recognizer</h2>
+
+<h3>手势识别类的代码添加</h3>
+
+<p>可以通过如下代码，在ViewController中为UIView添加手势识别类，称为Action-Target模式。每一个Gesture Recognizer关联一个View，但是一个View可以关联多个Gesture Recognizer，因为一个View可能还能响应多种触控操作方式。</p>
+
+<div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno"> 1</span> <span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">viewDidLoad</span> <span class="p">{</span>
+<span class="lineno"> 2</span>     <span class="p">[</span><span class="nb">super</span> <span class="n">viewDidLoad</span><span class="p">];</span>
+<span class="lineno"> 3</span> 
+<span class="lineno"> 4</span>     <span class="c1">// 创建并初始化手势对象</span>
+<span class="lineno"> 5</span>     <span class="bp">UITapGestureRecognizer</span> <span class="o">*</span><span class="n">tapRecognizer</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">UITapGestureRecognizer</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithTarget</span><span class="p">:</span><span class="nb">self</span> <span class="nl">action</span><span class="p">:</span><span class="k">@selector</span><span class="p">(</span><span class="nl">respondToTapGesture</span><span class="p">:)];</span>
+<span class="lineno"> 6</span> 
+<span class="lineno"> 7</span>     <span class="c1">// 指定操作为单击一次</span>
+<span class="lineno"> 8</span>     <span class="n">tapRecognizer</span><span class="p">.</span><span class="n">numberOfTapsRequired</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+<span class="lineno"> 9</span> 
+<span class="lineno">10</span>     <span class="c1">// 为当前View添加GestureRecognizer</span>
+<span class="lineno">11</span>     <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">view</span> <span class="nl">addGestureRecognizer</span><span class="p">:</span><span class="n">tapRecognizer</span><span class="p">];</span>
+<span class="lineno">12</span> 
+<span class="lineno">13</span>     <span class="c1">// ...</span>
+<span class="lineno">14</span> <span class="p">}</span></code></pre></div>
+
+
+<h3>连续和不连续动作</h3>
+
+<p><img src="/images/011_iOS_event_discrete_vs_continuous.png" alt="011_iOS_event_discrete_vs_continuous.png" /></p>
+
+<p>对于不连续动作，Gesture Recognizer只会给ViewContoller发送一个单一的动作消息(action message)而，对于连续动作，Gesture Recognizer会发送多条动作消息给ViewController，直到所有的事件都结束。</p>
+
+<h3>常见的手势识别类</h3>
+
+<p>UIKit框架中已经提供了诸如UITapGestureRecognizer在内的六种手势识别器：</p>
+
+<table>
+<thead>
+<tr>
+<th>Gesture </th>
+<th> UIKit class</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Tapping (any number of taps)</td>
+<td> UITapGestureRecognizer</td>
+</tr>
+<tr>
+<td>Pinching in and out (for zooming a view) </td>
+<td> UIPinchGestureRecognizer</td>
+</tr>
+<tr>
+<td>Panning or dragging </td>
+<td> UIPanGestureRecognizer</td>
+</tr>
+<tr>
+<td>Swiping (in any direction) </td>
+<td> UISwipeGestureRecognizer</td>
+</tr>
+<tr>
+<td>Rotating (fingers moving in opposite directions) </td>
+<td> UIRotationGestureRecognizer</td>
+</tr>
+<tr>
+<td>Long press (also known as “touch and hold”) </td>
+<td> UILongPressGestureRecognizer</td>
+</tr>
+</tbody>
+</table>
+
+
+<p>如果你需要实现自定义的手势识别器，也可以通过继承UIGestureRecognizer类并重写其中的方法来完成。</p>
+
+<h3>事件识别过程</h3>
+
+<p>在事件处理过程中，连续事件和不连续事件所处的状态又各有不同，首先，所有的触控事件最开始都是处于可用状态(Possible)，对应UIKit里面的UIGestureRecognizerStatePossible类，如果是不连续动作事件，则状态只会从Possible转变为已识别状态(Recognized,UIGestureRecognizerStateRecognized)或者是失败状态(Failed,UIGestureRecognizerStateFailed)。例如一次成功的单击动作，就对应了Possible-Recognized这个过程。</p>
+
+<p><img src="/images/012_iOS_event_gesture_recognizer_state_transitions.png" alt="012_iOS_event_gesture_recognizer_state_transitions.png" /></p>
+
+<p>如果是连续动作事件，如果事件没有失败并且连续动作的第一个动作被成功识别(Recognized)，则从Possible状态转移到Began(UIGestureRecognizerStateBegan)状态，这里表示连续动作的开始，接着会转变为Changed(UIGestureRecognizerStateChanged)状态，在这个状态下会不断循环的处理连续动作，直到动作执行完成变转变为Recognized已识别状态，最终该动作会处于完成状态(UIGestureRecognizerStateEnded)。另外，连续动作事件的处理状态也可能会从Changed状态转变为Canceled(UIGestureRecognizerStateCancelled)状态，原因是识别器认为当前的动作已经不匹配当初对事件的设定了。每个动作状态的变化，Gesture Recognizer都会发送消息(action message)给Target，也就是ViewController，它可以根据这些动作消息进行相应的处理。例如一次成功的滑动手势动作就包括按下、移动、抬起的过程，分别对应了Possible-Began-Changed-Recognized这个过程。</p>
+
+<h2>UIResponder中定义的触控事件</h2>
+
+<h3>UITouch和UIEvent</h3>
+
+<p><strong>TODO</strong></p>
+
+<p>当UIView中没有添加UIGestureRecognizer的时候，如果对UIView触发Pinch操作，如下四个事件接口函数中的<code>touches</code>都只能接收到一个touch的信息（新加的或者改变的touche）。如果想得到所有touch的信息，可以到<code>event.touches</code>中获取。</p>
+
+<div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno">1</span> <span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">touchesBegan:</span><span class="p">(</span><span class="bp">NSSet</span><span class="o">&lt;</span><span class="bp">UITouch</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">touches</span> <span class="nf">withEvent:</span><span class="p">(</span><span class="bp">UIEvent</span> <span class="o">*</span><span class="p">)</span><span class="nv">event</span>
+<span class="lineno">2</span> <span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">touchesMoved:</span><span class="p">(</span><span class="bp">NSSet</span><span class="o">&lt;</span><span class="bp">UITouch</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">touches</span> <span class="nf">withEvent:</span><span class="p">(</span><span class="bp">UIEvent</span> <span class="o">*</span><span class="p">)</span><span class="nv">event</span>
+<span class="lineno">3</span> <span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">touchesEnded:</span><span class="p">(</span><span class="bp">NSSet</span><span class="o">&lt;</span><span class="bp">UITouch</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">touches</span> <span class="nf">withEvent:</span><span class="p">(</span><span class="bp">UIEvent</span> <span class="o">*</span><span class="p">)</span><span class="nv">event</span>
+<span class="lineno">4</span> <span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">touchesCancelled:</span><span class="p">(</span><span class="bp">NSSet</span><span class="o">&lt;</span><span class="bp">UITouch</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">touches</span> <span class="nf">withEvent:</span><span class="p">(</span><span class="bp">UIEvent</span> <span class="o">*</span><span class="p">)</span><span class="nv">event</span></code></pre></div>
+
+
+<p>每个touch都有自己的<code>phase</code>，其与上述四个接口函数的关系可以从下面的例子中看出：</p>
+
+<p><img src="/images/014_ios_event_touch_time.png" alt="014_ios_event_touch_time.png" /></p>
+
+<h2>手势识别类和UIResponder定义的事件的传递过程</h2>
+
+<p><img src="/images/013_iOS_event_path_of_touches.png" alt="013_iOS_event_path_of_touches.png" /></p>
+
+<p>iOS中事件传递首先从App(UIApplication)开始，接着传递到Window(UIWindow)，在接着往下传递到View之前，Window会将事件交给GestureRecognizer，如果在此期间，GestureRecognizer识别了传递过来的事件，则该事件将不会继续传递到View去，而是像我们之前说的那样交给Target(ViewController)进行处理。如果View上没有定义GestureRecognizer，或者GestureRecognizer没有识别出这个动作，那么View中的继承自UIResponder的如下事件方法会被触发：</p>
+
+<ul>
+<li>touchesBegan:withEvent:</li>
+<li>touchesMoved:withEvent:</li>
+<li>touchesEnded:withEvent:</li>
+<li>touchesCancelled:withEvent:</li>
+</ul>
+
+
+<p>比如，</p>
+
+<ul>
+<li>对于非连续行动作（比如Tap），
+
+<ul>
+<li>当View上定义了UITapGestureRecognizer，在View接受用户Tap事件时，touchesBegan:withEvent:和touchesCancelled:withEvent:会被调用，其余事件方法则不会被调用。</li>
+<li>当View上没有定义UIGestureRecognizer时，在View接受用户Tap事件时，touchesBegan:withEvent:和touchesEnded:withEvent:会被调用。</li>
+</ul>
+</li>
+<li>对于连续动作（比如Pinch），
+
+<ul>
+<li>当View上定义了UIPinchGestureRecognizer时，在View接受用户Pinch动作时，
+
+<ul>
+<li>如果Pinch动作被正确地Recognized，那么View上被触发的事件依次是：
+
+<ul>
+<li>touchesBegan</li>
+<li>touchesMoved</li>
+<li>touchesMoved</li>
+<li>&hellip;</li>
+<li>touchesMoved</li>
+<li>pinch (UIGestureRecognizerStateBegan)</li>
+<li>touchesCancelled</li>
+<li>pinch (UIGestureRecognizerStateChanged)</li>
+<li>pinch (UIGestureRecognizerStateChanged)</li>
+<li>&hellip;</li>
+<li>pinch (UIGestureRecognizerStateChanged)</li>
+<li>pinch (UIGestureRecognizerStateEnded / UIGestureRecognizerStateRecognized)</li>
+</ul>
+</li>
+<li>如果Pinch动作Cancelled，猜想：应该和recognized的情况类似，只是最后一步的状态是UIGestureRecognizerStateCancelled。</li>
+</ul>
+</li>
+<li>当View上未定义UIPinchGestureRecognizer时，在View接受Pinch动作时，被触发的事件依次是：
+
+<ul>
+<li>touchesBegan</li>
+<li>touchesMoved</li>
+<li>touchesMoved</li>
+<li>&hellip;</li>
+<li>touchesMoved</li>
+<li>touchesEnded</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+
+<p>可以到<a href="https://developer.apple.com/library/ios/documentation/EventHandling/Conceptual/EventHandlingiPhoneOS/GestureRecognizer_basics/GestureRecognizer_basics.html">Gesture Recognizers</a>官方文档中的“Gesture Recognizers Get the First Opportunity to Recognize a Touch”部分了解详细过程。</p>
+
+<p>截一插图放在这里：</p>
+
+<p><img src="/images/015_iOS_recognize_touch.png" alt="015_iOS_recognize_touch.png" /></p>
+
+<h2>响应者链（Responder Chain）</h2>
+
+<p>在网页上当我们讲到事件，我们会讲到事件响应链，我们会讲到事件的响应者和事件的传递方式(冒泡)，那么在app上，其实也离不开这几个问题。</p>
+
+<p>UIResponder是所有可以响应事件的类的基类(从名字应该就可以看出来了)，其中包括最常见的UIView和UIViewController甚至是UIApplication，所以我们的UIView和UIViewController都是作为响应事件的载体，称为<strong>响应者对象（Responder Object）</strong>。UIResponder部分接口如下：</p>
+
+<div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno"> 1</span> <span class="n">NS_CLASS_AVAILABLE_IOS</span><span class="p">(</span><span class="mi">2</span><span class="n">_0</span><span class="p">)</span> <span class="k">@interface</span> <span class="bp">UIResponder</span> : <span class="bp">NSObject</span>
+<span class="lineno"> 2</span> 
+<span class="lineno"> 3</span> <span class="p">-</span> <span class="p">(</span><span class="n">nullable</span> <span class="bp">UIResponder</span><span class="o">*</span><span class="p">)</span><span class="nf">nextResponder</span><span class="p">;</span>
+<span class="lineno"> 4</span> 
+<span class="lineno"> 5</span> <span class="p">-</span> <span class="p">(</span><span class="kt">BOOL</span><span class="p">)</span><span class="nf">canBecomeFirstResponder</span><span class="p">;</span>    <span class="c1">// default is NO</span>
+<span class="lineno"> 6</span> <span class="p">-</span> <span class="p">(</span><span class="kt">BOOL</span><span class="p">)</span><span class="nf">becomeFirstResponder</span><span class="p">;</span>
+<span class="lineno"> 7</span> 
+<span class="lineno"> 8</span> <span class="p">-</span> <span class="p">(</span><span class="kt">BOOL</span><span class="p">)</span><span class="nf">canResignFirstResponder</span><span class="p">;</span>    <span class="c1">// default is YES</span>
+<span class="lineno"> 9</span> <span class="p">-</span> <span class="p">(</span><span class="kt">BOOL</span><span class="p">)</span><span class="nf">resignFirstResponder</span><span class="p">;</span>
+<span class="lineno">10</span> 
+<span class="lineno">11</span> <span class="p">-</span> <span class="p">(</span><span class="kt">BOOL</span><span class="p">)</span><span class="nf">isFirstResponder</span><span class="p">;</span>
+<span class="lineno">12</span> 
+<span class="lineno">13</span> <span class="c1">// Generally, all responders which do custom touch handling should override all four of these methods.</span>
+<span class="lineno">14</span> <span class="c1">// Your responder will receive either touchesEnded:withEvent: or touchesCancelled:withEvent: for each</span>
+<span class="lineno">15</span> <span class="c1">// touch it is handling (those touches it received in touchesBegan:withEvent:).</span>
+<span class="lineno">16</span> <span class="c1">// *** You must handle cancelled touches to ensure correct behavior in your application.  Failure to</span>
+<span class="lineno">17</span> <span class="c1">// do so is very likely to lead to incorrect behavior or crashes.</span>
+<span class="lineno">18</span> <span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">touchesBegan:</span><span class="p">(</span><span class="bp">NSSet</span><span class="o">&lt;</span><span class="bp">UITouch</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">touches</span> <span class="nf">withEvent:</span><span class="p">(</span><span class="n">nullable</span> <span class="bp">UIEvent</span> <span class="o">*</span><span class="p">)</span><span class="nv">event</span><span class="p">;</span>
+<span class="lineno">19</span> <span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">touchesMoved:</span><span class="p">(</span><span class="bp">NSSet</span><span class="o">&lt;</span><span class="bp">UITouch</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">touches</span> <span class="nf">withEvent:</span><span class="p">(</span><span class="n">nullable</span> <span class="bp">UIEvent</span> <span class="o">*</span><span class="p">)</span><span class="nv">event</span><span class="p">;</span>
+<span class="lineno">20</span> <span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">touchesEnded:</span><span class="p">(</span><span class="bp">NSSet</span><span class="o">&lt;</span><span class="bp">UITouch</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">touches</span> <span class="nf">withEvent:</span><span class="p">(</span><span class="n">nullable</span> <span class="bp">UIEvent</span> <span class="o">*</span><span class="p">)</span><span class="nv">event</span><span class="p">;</span>
+<span class="lineno">21</span> <span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">touchesCancelled:</span><span class="p">(</span><span class="n">nullable</span> <span class="bp">NSSet</span><span class="o">&lt;</span><span class="bp">UITouch</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">touches</span> <span class="nf">withEvent:</span><span class="p">(</span><span class="n">nullable</span> <span class="bp">UIEvent</span> <span class="o">*</span><span class="p">)</span><span class="nv">event</span><span class="p">;</span></code></pre></div>
+
+
+<p>那么响应链跟这个UIResponder有什么关系呢？事实事件响应链的形成和事件的响应和传递，UIResponder都帮我们做了很多事。我们的app中，所有的视图都是按照一定的结构组织起来的，即树状层次结构，每个view都有自己的superView，包括controller的topmost view(controller的self.view)。当一个view被add到superView上的时候，他的nextResponder属性就会被指向它的superView，当controller被初始化的时候，self.view(topmost view)的nextResponder会被指向所在的controller，而controller的nextResponder会被指向self.view的superView，这样，整个app就通过nextResponder串成了一条链，也就是我们所说的响应链。所以响应链就是一条虚拟的链，并没有一个对象来专门存储这样的一条链，而是通过UIResponder的属性nextResponder串连起来的。如下图：</p>
+
+<p><img src="/images/007_iOS_responder_chain.png" alt="007_iOS_responder_chain.png" /></p>
+
+<p>参考文章：<a href="http://zhoon.github.io/ios/2015/04/12/ios-event.html">深入浅出iOS事件机制</a>。</p>
+
+<h3>hit-test view</h3>
+
+<p>有了事件响应链，接下来的事情就是寻找响应事件的具体响应者了，我们称为hit-testing view，寻找这个view的过程我们称着为hit-test。</p>
+
+<p>每当手指接触屏幕，UIApplication接收到手指的事件之后，就会去调用UIWindow的hitTest:withEvent:</p>
+
+<div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno"> 1</span> <span class="nl">hitTest</span><span class="p">:</span> <span class="p">(</span><span class="bp">CGPoint</span><span class="p">)</span> <span class="n">point</span> <span class="nl">withEvent</span><span class="p">:</span> <span class="p">(</span><span class="bp">UIEvent</span><span class="o">*</span> <span class="p">)</span><span class="n">event</span><span class="p">{</span>
+<span class="lineno"> 2</span> <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nb">self</span><span class="p">.</span><span class="n">isUserInteractionEnabled</span> <span class="o">||</span> <span class="nb">self</span><span class="p">.</span><span class="n">isHidden</span> <span class="o">||</span> <span class="nb">self</span><span class="p">.</span><span class="n">alpha</span> <span class="o">&lt;=</span><span class="mf">0.01</span><span class="p">)</span> <span class="p">{</span>
+<span class="lineno"> 3</span>     <span class="k">return</span> <span class="nb">nil</span><span class="p">;</span>
+<span class="lineno"> 4</span> <span class="p">}</span>
+<span class="lineno"> 5</span> 
+<span class="lineno"> 6</span> <span class="k">for</span> <span class="p">(</span><span class="bp">UIView</span><span class="o">*</span> <span class="n">v</span> <span class="k">in</span> <span class="n">subviews</span><span class="p">){</span>
+<span class="lineno"> 7</span>      <span class="k">if</span> <span class="p">([</span><span class="n">v</span> <span class="nl">pointInside</span><span class="p">:</span><span class="n">point</span> <span class="nl">withEvent</span><span class="p">:</span><span class="n">event</span><span class="p">]){</span>
+<span class="lineno"> 8</span>           <span class="k">return</span> <span class="p">[</span><span class="n">v</span> <span class="nl">hitTest</span><span class="p">:</span><span class="n">point</span> <span class="nl">withEvent</span><span class="p">:</span><span class="n">event</span><span class="p">];</span>
+<span class="lineno"> 9</span>      <span class="p">}</span>
+<span class="lineno">10</span>   <span class="p">}</span>
+<span class="lineno">11</span> <span class="p">}</span></code></pre></div>
+
+
+<p>注意hitTest里面是有判断当前的view是否支持点击事件，比如userInteractionEnabled、hidden、alpha等属性，都会影响一个view是否可以响应事件，如果不响应则直接返回nil。</p>
+
+<p>我们留意到还有一个pointInside:withEvent:方法，这个方法跟hittest:withEvent:一样都是UIView的一个方法，通过他可以判断point是否在view的<strong>bound</strong>范围内。</p>
+
+<p>下面用一幅图说明hit-test的过程：</p>
+
+<p><img src="/images/009_iOS_hittest_2.png" alt="009_iOS_hittest_2.png" /></p>
+
+<p>参考文章：<a href="http://zhoon.github.io/ios/2015/04/12/ios-event.html">深入浅出iOS事件机制</a>。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/09/23/phone-interview-preparation/">Phone Interview Preparation</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2015-09-23T11:02:18+08:00" pubdate data-updated="true">Sep 23rd, 2015</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>这里有很多面试题：<a href="http://www.geeksforgeeks.org/">GeeksforGeeks</a>，有概念，也有算法，也有各大公司的面试经历。尤其是下面两部分：</p>
+
+<ul>
+<li><a href="http://www.geeksforgeeks.org/data-structures/">数据结构</a></li>
+<li><a href="http://www.geeksforgeeks.org/fundamentals-of-algorithms/">算法</a></li>
+</ul>
+
+
+<p>Contents</p>
+
+<ul>
+<li><a href="#stack_and_queue">Concepts of Stack and Queue</a></li>
+<li><a href="#override_andoverload">覆盖(Overriding)和重载(Overloading)的区别是什么？</a></li>
+<li><a href="#iteration_and_recursion">迭代(Iteration)和递归(Recursion)有什么区别？</a></li>
+<li><a href="#tree_concepts">Concepts of some kinds of tree</a></li>
+<li><a href="#linked_list_and_array">链表(Linked List)和数组(Array)有哪些重要区别?</a></li>
+<li><a href="#delete_node_in_linked_list">给定链表的头指针和一个结点指针，在O(1)时间删除该结点</a></li>
+<li><a href="#find_numbers_appearing_once">找出数组中两个只出现一次的数字(数组)</a></li>
+<li><a href="#conflicts_while_hashing">在哈希表中处理冲突的方法都有哪些？</a></li>
+<li><a href="#get_elements_from_data_structure">从哈希表，二叉树和链表中取元素需要多少时间?</a></li>
+<li><a href="#sorting">Sort algorithm</a></li>
+<li><a href="#iterative_tree_traversal">Iterative Preorder(Postorder) traversal</a></li>
+<li><a href="#reverse_binary_tree">Reverse Binary Tree</a></li>
+<li><a href="#lucky_number">Lucky Number</a></li>
+<li><a href="#linked_list_circle">Circles in Linked List</a></li>
+<li><a href="#linked_list_intersection">Intersection of two single Linked Lists without circles</a></li>
+<li><a href="#find_k_smallest_nubers">寻找最小的k个数</a></li>
+<li><a href="#java_singleton">Singleton in Java</a></li>
+</ul>
+
 
 </div>
   
   
     <footer>
-      <a rel="full-article" href="/blog/2015/10/12/info-session/">Read on &rarr;</a>
+      <a rel="full-article" href="/blog/2015/09/23/phone-interview-preparation/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/09/14/brainteasers-and-puzzles/">经典算法智力题</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2015-09-14T20:46:22+08:00" pubdate data-updated="true">Sep 14th, 2015</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><ol>
+<li><a href="#1">海盗分金子</a></li>
+<li><a href="#2">飞机加油问题</a></li>
+<li><a href="#3">蚂蚁爬杆</a></li>
+<li><a href="#4">平面上N个点，每两个点都确定一条直线，求出斜率最大的那条直线所通过的两个点（斜率不存在的情况不考虑）。时间效率越高越好。</a></li>
+<li><a href="#5">Find the closest pair from a sorted array</a></li>
+<li><a href="#6">Building Bridge</a></li>
+<li><a href="#7">打印n分之一的前k位小数</a></li>
+<li><a href="#8">Marketing Size</a></li>
+<li><a href="#9">赛马问题</a></li>
+<li><a href="#10">火车运煤问题</a></li>
+<li><a href="#hourglass">Measure 9 minutes with two hourglasses</a></li>
+</ol>
+
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2015/09/14/brainteasers-and-puzzles/">Read on &rarr;</a>
     </footer>
   
 
@@ -957,101 +1330,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/07/20/Some-Useful-Tools-for-Coding/">Some Useful Tools for Coding</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-
-<time datetime="2015-07-20T00:00:00+08:00" pubdate data-updated="true">Jul 20th, 2015</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>VVDocument-Xcode</h2>
-
-<p>Use this plug-in for xcode to enable xcode support automatically adding comments to our code, using Javadoc style.
-With these comments, we can alt+click a used function to see some useful info.</p>
-
-<p>Go to <a href="http://nshipster.com/documentation/">here</a> for more info.</p>
-
-<h2>kdiff</h2>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2015/07/20/Some-Useful-Tools-for-Coding/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/07/14/use-MKOverlay-and-MKOverlayRenderer/">Use MKOverlay and MKOverlayRenderer</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-
-<time datetime="2015-07-14T00:00:00+08:00" pubdate data-updated="true">Jul 14th, 2015</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h3>MKOverlay</h3>
-
-<p>Write your own overlay class (for example, <code>MapOverlay</code>) confirm to <code>MKOverlay</code>, synthesize <code>coordinate</code> and <code>boundingMapRect</code>, so that we can assign value to them while initializing it.</p>
-
-<p>Note that the type of <code>coordinate</code> is <code>CLLocationCoordinate2D</code> with <code>latitude</code> and <code>longitude</code>, while <code>boundingMapRect</code> is <code>MKMapRect</code>. And we need to use <code>MKMapPointForCoordinate</code> method to convert a <code>CLLocationCoordinate2D</code> type data to <code>MKMapPoint</code> type data. If we assign the <code>CLLocationCoordinate2D</code> data directly to <code>boundingMapRect</code>, the overlay will be too small to draw, and the <code>mapView:rendererForOverlay:</code> method will not be called at all. It is very hard for debugging.</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2015/07/14/use-MKOverlay-and-MKOverlayRenderer/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="2">&larr; Older</a>
@@ -1065,14 +1343,22 @@ With these comments, we can alt+click a used function to see some useful info.</
   
     <section class="categories">
   <h1>Categories</h1>
-    <ul id="top-category-list" class="nav nav-list"><li><a href='/blog/categories/ios'>ios (12)</a></li><li><a href='/blog/categories/productivity'>productivity (11)</a></li><li><a href='/blog/categories/objective-c'>objective-c (5)</a></li><li><a href='/blog/categories/android'>android (3)</a></li><li><a href='/blog/categories/javascript'>javascript (2)</a></li><li><a href='/blog/categories/python'>python (2)</a></li><li><a href='/blog/categories/java'>java (1)</a></li><li><a href='/blog/categories/web'>web (1)</a></li><li><a href='/blog/categories/android-studio'>android_studio (1)</a></li><li><a href='/blog/categories/xcode'>xcode (1)</a></li><li><a href='/blog/categories/design-pattern'>design_pattern (1)</a></li></ul>
+    <ul id="top-category-list" class="nav nav-list"><li><a href='/blog/categories/ios'>ios (13)</a></li><li><a href='/blog/categories/productivity'>productivity (11)</a></li><li><a href='/blog/categories/objective-c'>objective-c (6)</a></li><li><a href='/blog/categories/android'>android (3)</a></li><li><a href='/blog/categories/python'>python (2)</a></li><li><a href='/blog/categories/algorithm'>algorithm (2)</a></li><li><a href='/blog/categories/javascript'>javascript (2)</a></li><li><a href='/blog/categories/web'>web (1)</a></li><li><a href='/blog/categories/android-studio'>android_studio (1)</a></li><li><a href='/blog/categories/xcode'>xcode (1)</a></li><li><a href='/blog/categories/design-pattern'>design_pattern (1)</a></li><li><a href='/blog/categories/java'>java (1)</a></li></ul>
 </section>
 <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/2015/10/12/info-session/">Info Session</a>
+        <a href="/blog/2015/10/21/touch-event-in-ios/">iOS中的触控事件机制</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/09/23/phone-interview-preparation/">Phone Interview Preparation</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/09/14/brainteasers-and-puzzles/">经典算法智力题</a>
       </li>
     
       <li class="post">
@@ -1081,14 +1367,6 @@ With these comments, we can alt+click a used function to see some useful info.</
     
       <li class="post">
         <a href="/blog/2015/09/07/Singleton/">Singleton</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/09/02/Shortcut-of-Chrome-on-Windows-and-Mac/">Shortcut of Chrome on Windows and Mac</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/08/31/Warning-Messages-in-Xcode/">Warning Messages in Xcode</a>
       </li>
     
   </ul>
