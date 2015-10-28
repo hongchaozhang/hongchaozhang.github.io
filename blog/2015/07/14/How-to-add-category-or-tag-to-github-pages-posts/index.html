@@ -1,0 +1,303 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>How to Add Category or Tag to Github Page Posts - Zhang Hongchao</title>
+  <meta name="author" content="Zhang Hongchao">
+
+  
+  <meta name="description" content="[updated 2015.09.13] This adding method is only for my project pages (gh-pages) GitBlogs, and for octopress, the way is builded in. [updated 2015.06. &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://hongchaozhang.github.io/blog/2015/07/14/How-to-add-category-or-tag-to-github-pages-posts">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Zhang Hongchao" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/libs/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<!--
+<link href='https://fonts.googleapis.com/css?family=Noto+Serif:400,700' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+-->
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Zhang Hongchao</a></h1>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><!--
+<ul class="subscription" data-subscription="rss">
+  
+  
+</ul>
+-->
+
+<!--
+
+-->
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <script type="text/javascript" src="/javascripts/DisableLineNumberCopy.js"></script>
+
+<div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">How to Add Category or Tag to Github Page Posts</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2015-07-14T00:00:00+08:00" pubdate data-updated="true">Jul 14th, 2015</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p><strong>[updated 2015.09.13]</strong> This adding method is only for my project pages (gh-pages) <em>GitBlogs</em>, and for octopress, the way is builded in.</p>
+
+<p><strong>[updated 2015.06.07]</strong> For adding category or tag automatically through python script, go to <a href="http://hongchaozhang.github.io/code/2015/06/27/instructions-for-adding-tags-and-categories.html">here</a>.</p>
+
+<h3>Introduction</h3>
+
+<p>The <strong>index</strong> page includes <em>cat_tag_for_index.html</em> for showing all the categories and tags, and the number of the corresponding posts.</p>
+
+<p>The <strong>_layouts/default.html</strong> describes the content of a post, because post includes it. In the <strong>_layout/default.html</strong> file, it includes the <strong>cat_tag.html</strong> template as the <em>category</em> and <em>tag</em> info in the beginning of the post. And <strong>cat_tag.html</strong> also includes the date behind.</p>
+
+<p><em>_data/categories.yml</em> and <em>_data/tags.yml</em> describe all the categories and tags.</p>
+
+<!-- more -->
+
+
+<h3>Category</h3>
+
+<p>To add a <strong>category</strong>:</p>
+
+<ol>
+<li>add the category in <em>_data/categories.yml</em>. The <em>slug</em> tag is used as the <em>id</em>, the <em>name</em> is used as the <em>description</em>, and the <em>color</em> is used as the background color.</li>
+<li><p>in folder <em>blog/category/</em>, add a <em>.md</em> file with the category as the file name. use the following as the content (change <em>category_name</em> to the real category name):</p>
+
+<p> ---<br>
+ layout: blog_by_category<br>
+ cat: category_name<br>
+ permalink: /blog/category/category_name/<br>
+ ---<br></p></li>
+</ol>
+
+
+<p>Now we can use <em>category: category_name</em> in the post <em>YAML</em> header to indicate the category of the post.</p>
+
+<p><strong>Note:</strong> the category name can not contain capital letter. For example, <em>testCat</em> will not work as a new category.</p>
+
+<h3>Tag</h3>
+
+<p>Adding a new <strong>tag</strong> is very similar to adding a new category.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Zhang Hongchao</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2015-07-14T00:00:00+08:00" pubdate data-updated="true">Jul 14th, 2015</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/productivity/'>productivity</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/07/09/Basic-Git-Commands/" title="Previous Post: Basic Git Commands">&laquo; Basic Git Commands</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/07/14/use-MKOverlay-and-MKOverlayRenderer/" title="Next Post: Use MKOverlay and MKOverlayRenderer">Use MKOverlay and MKOverlayRenderer &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+  <aside class="sidebar">
+   
+  
+    <section class="categories">
+  <h1>Categories</h1>
+    <ul id="top-category-list" class="nav nav-list"><li><a href='/blog/categories/ios'>ios (13)</a></li><li><a href='/blog/categories/productivity'>productivity (11)</a></li><li><a href='/blog/categories/objective-c'>objective-c (6)</a></li><li><a href='/blog/categories/android'>android (3)</a></li><li><a href='/blog/categories/python'>python (2)</a></li><li><a href='/blog/categories/algorithm'>algorithm (2)</a></li><li><a href='/blog/categories/javascript'>javascript (2)</a></li><li><a href='/blog/categories/web'>web (1)</a></li><li><a href='/blog/categories/android-studio'>android_studio (1)</a></li><li><a href='/blog/categories/xcode'>xcode (1)</a></li><li><a href='/blog/categories/design-pattern'>design_pattern (1)</a></li><li><a href='/blog/categories/java'>java (1)</a></li></ul>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2015/10/21/touch-event-in-ios/">iOS中的触控事件机制</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/09/23/phone-interview-preparation/">Phone Interview Preparation</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/09/14/brainteasers-and-puzzles/">经典算法智力题</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/09/09/migrate-blog-to-octopress/">Migrate Blog to Octopress</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/09/07/Singleton/">Singleton</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/hongchaozhang">@hongchaozhang</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'hongchaozhang',
+            count: 10,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+  
+</aside>
+
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2015 - Zhang Hongchao -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+<script>
+  $(document).ready(function() {  
+    var stickyNavTop = $('nav').offset().top;  
+      
+    var stickyNav = function(){  
+      var scrollTop = $(window).scrollTop(); 
+      var navHasClassSticky = $('nav').hasClass('sticky');
+
+      if (scrollTop > stickyNavTop && navHasClassSticky) {   
+        return true;
+      } else if (scrollTop > stickyNavTop) {
+        $('nav').hide();
+        $('nav').addClass('sticky');
+        $('nav').fadeIn('2000');
+      } else {  
+        $('nav').removeClass('sticky');   
+      }  
+    };  
+      
+    stickyNav();  
+      
+    $(window).scroll(function() {  
+      stickyNav();  
+    });  
+  });  
+</script>
+
+
+</body>
+</html>

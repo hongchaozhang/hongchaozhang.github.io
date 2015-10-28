@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Android_studio | Zhang Hongchao]]></title>
+  <link href="http://hongchaozhang.github.io/blog/categories/android-studio/atom.xml" rel="self"/>
+  <link href="http://hongchaozhang.github.io/"/>
+  <updated>2015-10-22T13:59:52+08:00</updated>
+  <id>http://hongchaozhang.github.io/</id>
+  <author>
+    <name><![CDATA[Zhang Hongchao]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[How to Use Google Maps Android API Utility Library in Android Studio]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2015/08/26/How-to-Use-Google-Maps-Android-API-Utility-Library-in-Android-Studio/"/>
+    <updated>2015-08-26T00:00:00+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2015/08/26/How-to-Use-Google-Maps-Android-API-Utility-Library-in-Android-Studio</id>
+    <content type="html"><![CDATA[<p><strong>Google Maps Android API utility library</strong> (the <a href="https://github.com/googlemaps/android-maps-utils">github repo</a> and the <a href="http://googlemaps.github.io/android-maps-utils/">documentation</a>) supplies multiple cool features, including</p>
+
+<ul>
+<li><strong>Marker clustering</strong> — handles the display of a large number of points</li>
+<li><strong>Heat maps</strong> — display a large number of points as a heat map</li>
+<li><strong>IconGenerator</strong> — display text on your Markers</li>
+<li><strong>Poly decoding and encoding</strong> — compact encoding for paths, interoperability with Maps API web services</li>
+<li><strong>Spherical geometry</strong> — for example: computeDistance, computeHeading, computeArea</li>
+<li><strong>KML</strong> — displays KML data (Caution: Beta!)</li>
+<li><strong>GeoJSON</strong> — displays and styles GeoJSON data</li>
+</ul>
+
+
+<!-- more -->
+
+
+<p>A simple documentation about the usage of these features based on a demo can be found in <em>Google Developers</em> page <a href="https://developers.google.com/maps/documentation/android/utility/?hl=zh-cn">Google Maps Android API Utility Library</a>. And you can also refer to the <a href="http://googlemaps.github.io/android-maps-utils/javadoc/">javadoc</a>.</p>
+
+<p>When I tried to use the library in my Android Studio (Windows OS) project, I met some problems. It is not as simple as the <a href="http://googlemaps.github.io/android-maps-utils/">document</a> describes. A reference for setting up in Eclipse can be found in the <a href="https://developers.google.com/maps/documentation/android/utility/setup?hl=zh-cn">Google Maps Android API Utilities Setup</a>.</p>
+
+<p>As we know, we have three ways to use a library in Android Studio project: <em>Module dependency</em>, <em>Remote binary dependency</em> and <em>Local binary dependency</em>. (Go to <a href="https://developer.android.com/tools/building/configuring-gradle.html">Configure Gradle Builds</a> for detail). See the following code that we can use in the module <code>build.gradle</code>, not the project <code>build.gradle</code></p>
+
+<pre><code>dependencies {
+    // Module dependency
+    compile project(":lib")
+
+    // Remote binary dependency
+    compile 'com.android.support:appcompat-v7:19.0.1'
+
+    // Local binary dependency
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+}
+</code></pre>
+
+<p>I use the <em>Module dependency</em> method <strong>successfully</strong> in my project, but <strong>failed</strong> with the other two methods. Let&rsquo;s go to the details.</p>
+
+<h2>Module Dependency (Succeeded)</h2>
+
+<ul>
+<li>In your project, <strong>New &ndash;> Module &ndash;> Android Library</strong>, name it with <em>library</em> (not a googd name).</li>
+<li>Go to the exploror, go to <em><your project folder>/library</em>, delete all the files and folders there.</li>
+<li>Go to the <em>library</em> folder in the repository you downloaded from <a href="https://github.com/googlemaps/android-maps-utils">android-maps-utils</a>. Copy all the files and folders, and paste them into your own <em>library</em> folder.</li>
+<li>Open <code>build.gradle</code> under your own module, under <code>dependencies</code> element, add <code>compile project(':library')</code>.</li>
+<li>Sync your project, build and run. Success!</li>
+</ul>
+
+
+<h2>Remote Binary Dependency (Failed)</h2>
+
+<p>The github page suggested this way by</p>
+
+<pre><code>dependencies {
+    compile 'com.google.maps.android:android-maps-utils:x.y.z'
+}
+</code></pre>
+
+<p>But I just can not find the path <code>&lt;Android SDK&gt;/extras/google/m2repository/com/google/map.android/</code>. I am sure that I already installed the <em>Google Repository</em> by SDK manager.</p>
+
+<h2>Local Binary Dependency (Failed)</h2>
+
+<p>To use this way, I tried:</p>
+
+<ul>
+<li>put the <code>library-debug.aar</code> in to the <em>libs</em> folder in my module from <em>&lt;library/build/output/aar/</em> in Android Studio project exploror view.</li>
+<li>add <code>compile fileTree(dir: 'libs', include: ['*.aar'])</code> into my module <code>build.gradle</code> file, <code>dependencies</code> element.</li>
+</ul>
+
+
+<p>Seems that Android studio doesn&rsquo;t support <code>.aar</code> type library.</p>
+
+<p>So I changed to the following way:</p>
+
+<ul>
+<li>unzip the <code>library-debug.aar</code> file, and copy the <code>class.jar</code> file into the <em>libs</em> folder in my module.</li>
+<li>add <code>compile fileTree(dir: 'libs', include: ['*.jar'])</code> in to my module <code>build.gradle</code> file, <code>dependencies</code> element.</li>
+<li>Build passed, but crashed when I run it. I didn&rsquo;t go into it. Maybe the library need some resource that is in the <code>.aar</code> file, which is not in the <code>class.jar</code> file. Just guess.</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+</feed>
