@@ -1,2 +1,4 @@
-**/public
-**/_deploy
+public/
+_deploy/
+.sass-cache/
+.ruby-version
