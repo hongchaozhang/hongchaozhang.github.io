@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>http://hongchaozhang.github.io/blog/2015/10/28/operating-files-and-folders-with-command-line-in-terminal/</loc>
+    <lastmod>2015-10-28T16:26:14+08:00</lastmod>
+  </url>
+  <url>
     <loc>http://hongchaozhang.github.io/blog/2015/10/21/touch-event-in-ios/</loc>
     <lastmod>2015-10-21T16:55:48+08:00</lastmod>
   </url>
@@ -169,5 +173,8 @@
   </url>
   <url>
     <loc>http://hongchaozhang.github.io/blog/categories/algorithm/</loc>
+  </url>
+  <url>
+    <loc>http://hongchaozhang.github.io/posts/2/</loc>
   </url>
 </urlset>

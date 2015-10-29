@@ -4,7 +4,7 @@
   <title><![CDATA[Zhang Hongchao]]></title>
   <link href="http://hongchaozhang.github.io/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2015-10-22T13:59:52+08:00</updated>
+  <updated>2015-10-29T10:22:51+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -12,6 +12,72 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Operating Files and Folders With Command Line in Terminal]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2015/10/28/operating-files-and-folders-with-command-line-in-terminal/"/>
+    <updated>2015-10-28T16:26:14+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2015/10/28/operating-files-and-folders-with-command-line-in-terminal</id>
+    <content type="html"><![CDATA[<p>为什么需要在命令行进行文件和文件夹的操作：</p>
+
+<!-- more -->
+
+
+<ul>
+<li>通过正则表达式批量处理文件（夹）。</li>
+<li>可以用来删除隐藏文件，比如一些以“.”开头的设置文件。</li>
+<li>打不开Finder的情况下。</li>
+<li>强制删除一些顽固的文件。</li>
+</ul>
+
+
+<p>一些常用命令罗列：</p>
+
+<table>
+<thead>
+<tr>
+<th>命令 </th>
+<th> 说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ls -a </td>
+<td> 列出当前文件夹下的所有文件。</td>
+</tr>
+<tr>
+<td>vi file </td>
+<td> 在当前位置用vim打开file，如果已经存在，直接打开。</td>
+</tr>
+<tr>
+<td>mkdir folder </td>
+<td> 创建文件夹。</td>
+</tr>
+<tr>
+<td>cp sourceFile destFolder </td>
+<td> 将sourceFile拷贝到destFolder下。</td>
+</tr>
+<tr>
+<td>cp -R sourceFolder destFolder </td>
+<td> 将sourceFolder及其下面的所有资源拷贝到destFolder下，R是reverse的意思。</td>
+</tr>
+<tr>
+<td>mv sourceFile destFolder </td>
+<td> 将sourceFile移动到destFolder下。</td>
+</tr>
+<tr>
+<td>rm file.txt </td>
+<td> 删除文件。</td>
+</tr>
+<tr>
+<td>rm -R folder </td>
+<td> 删除文件夹和里面的子文件（夹），R是reverse的意思。</td>
+</tr>
+</tbody>
+</table>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS中的触控事件机制]]></title>
@@ -1371,6 +1437,8 @@ Output:  0200</code></pre></div>
     <id>http://hongchaozhang.github.io/blog/2015/09/09/migrate-blog-to-octopress</id>
     <content type="html"><![CDATA[<p>For basic configuration of octopress blog, go to <a href="http://octopress.org/">official site</a> for references.</p>
 
+<p>After updating OS to EI Caption (10.11), there is some bugs when we run <code>rake preview</code>. You need to update your ruby version, and reinstall dependencies of octopress. Refer to <a href="http://schalkneethling.github.io/blog/2015/10/16/errno-enoent-no-such-file-or-directory-jekyll-octopress-el-capitan/">this</a> post for more details.</p>
+
 <h2>Themes</h2>
 
 <p>Go to <a href="https://github.com/imathis/octopress/wiki/3rd-Party-Octopress-Themes">here</a> to choose the theme you like. Personally, I like the <strong>boldandblue</strong> theme. It is simple and elegant.</p>
@@ -2478,145 +2546,6 @@ var stringFromJava = window.MyHandler.modifyString("string from javascript");
 <p><del><em>Property</em> session of the </del><a href="http://www.cocoadevcentral.com/d/learn_objectivec/"><del>reference</del></a>. <del>This post is old fashioned</del>.</p>
 
 <p><a href="http://blog.csdn.net/likendsl/article/details/7345485">Here</a> has a good explaination.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Use Current Location Service in Map]]></title>
-    <link href="http://hongchaozhang.github.io/blog/2015/07/21/Use-Current-Location-Service-in-Map/"/>
-    <updated>2015-07-21T00:00:00+08:00</updated>
-    <id>http://hongchaozhang.github.io/blog/2015/07/21/Use-Current-Location-Service-in-Map</id>
-    <content type="html"><![CDATA[<h2>Location Service Authorization</h2>
-
-<h3>1. Set <em>info.plist</em></h3>
-
-<p>For iOS SDK 8.0 and later, we need to set <code>NSLocationWhenInUseUsageDescription</code> and &lsquo;NSLocationAlwaysUsageDescription&rsquo; in <em>info.plist</em> file. A sample case is:</p>
-
-<div class="highlight"><pre><code class="language-xml" data-lang="xml"><span class="lineno">1</span> <span class="nt">&lt;key&gt;</span>NSLocationWhenInUseUsageDescription<span class="nt">&lt;/key&gt;</span>
-<span class="lineno">2</span> <span class="nt">&lt;string&gt;</span>Do you allow the app to use your location?<span class="nt">&lt;/string&gt;</span>
-<span class="lineno">3</span> <span class="nt">&lt;key&gt;</span>NSLocationAlwaysUsageDescription<span class="nt">&lt;/key&gt;</span>
-<span class="lineno">4</span> <span class="nt">&lt;string&gt;</span>Are you willing to allow the app to use your location?<span class="nt">&lt;/string&gt;</span></code></pre></div>
-
-
-<p>The <code>string</code> will appear in the popup dialog. You can leave it as empty, and only the system message will appear in the popup.</p>
-
-<!-- more -->
-
-
-<h3>2. Ask the User for Location Service Authorization</h3>
-
-<p>We ask for the authorization by an instance of <code>CLLocationManager</code>.</p>
-
-<ul>
-<li>import <code>CoreLocation/CoreLocation.h</code> class, and define a location manager <code>locationManager</code> in the map view controller.</li>
-<li>use the following code for asking authorization from user:</li>
-</ul>
-
-
-<div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno"> 1</span> <span class="k">if</span> <span class="p">([</span><span class="bp">CLLocationManager</span> <span class="n">locationServicesEnabled</span><span class="p">]</span> <span class="p">)</span> <span class="p">{</span> <span class="c1">// check if the location service is enabled for the device</span>
-<span class="lineno"> 2</span>     <span class="k">if</span> <span class="p">(</span><span class="nb">self</span><span class="p">.</span><span class="n">locationManager</span> <span class="o">==</span> <span class="nb">nil</span> <span class="p">)</span> <span class="p">{</span>
-<span class="lineno"> 3</span>         <span class="nb">self</span><span class="p">.</span><span class="n">locationManager</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">CLLocationManager</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
-<span class="lineno"> 4</span>         <span class="nb">self</span><span class="p">.</span><span class="n">locationManager</span><span class="p">.</span><span class="n">desiredAccuracy</span> <span class="o">=</span> <span class="n">kCLLocationAccuracyBest</span><span class="p">;</span>
-<span class="lineno"> 5</span>         <span class="nb">self</span><span class="p">.</span><span class="n">locationManager</span><span class="p">.</span><span class="n">distanceFilter</span> <span class="o">=</span> <span class="n">kCLDistanceFilterNone</span><span class="p">;</span>
-<span class="lineno"> 6</span>     <span class="p">}</span>
-<span class="lineno"> 7</span>     <span class="c1">// Check for iOS 8. Without this guard the code will crash with &quot;unknown selector&quot; on iOS 7.</span>
-<span class="lineno"> 8</span>     <span class="k">if</span><span class="p">([</span><span class="nb">self</span><span class="p">.</span><span class="n">locationManager</span> <span class="nl">respondsToSelector</span><span class="p">:</span><span class="k">@selector</span><span class="p">(</span><span class="n">requestAlwaysAuthorization</span><span class="p">)]){</span>
-<span class="lineno"> 9</span>         <span class="n">CLAuthorizationStatus</span> <span class="n">locationAuthorizationStatus</span> <span class="o">=</span> <span class="p">[</span><span class="bp">CLLocationManager</span> <span class="n">authorizationStatus</span><span class="p">];</span>
-<span class="lineno">10</span>         <span class="k">if</span> <span class="p">(</span><span class="n">locationAuthorizationStatus</span> <span class="o">==</span> <span class="n">kCLAuthorizationStatusNotDetermined</span> <span class="o">&amp;&amp;</span> <span class="p">([</span><span class="nb">self</span><span class="p">.</span><span class="n">locationManager</span> <span class="nl">respondsToSelector</span><span class="p">:</span><span class="k">@selector</span><span class="p">(</span><span class="n">requestAlwaysAuthorization</span><span class="p">)]</span> <span class="o">||</span> <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">locationManager</span> <span class="nl">respondsToSelector</span><span class="p">:</span><span class="k">@selector</span><span class="p">(</span><span class="n">requestWhenInUseAuthorization</span><span class="p">)]))</span> <span class="p">{</span>
-<span class="lineno">11</span>             <span class="c1">// choose one request according to your business.</span>
-<span class="lineno">12</span>             <span class="k">if</span><span class="p">([[</span><span class="bp">NSBundle</span> <span class="n">mainBundle</span><span class="p">]</span> <span class="nl">objectForInfoDictionaryKey</span><span class="p">:</span><span class="s">@&quot;NSLocationAlwaysUsageDescription&quot;</span><span class="p">]){</span>
-<span class="lineno">13</span>                 <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">locationManager</span> <span class="n">requestAlwaysAuthorization</span><span class="p">];</span>
-<span class="lineno">14</span>             <span class="p">}</span> <span class="k">else</span> <span class="k">if</span><span class="p">([[</span><span class="bp">NSBundle</span> <span class="n">mainBundle</span><span class="p">]</span> <span class="nl">objectForInfoDictionaryKey</span><span class="p">:</span><span class="s">@&quot;NSLocationWhenInUseUsageDescription&quot;</span><span class="p">])</span> <span class="p">{</span>
-<span class="lineno">15</span>                 <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">locationManager</span>  <span class="n">requestWhenInUseAuthorization</span><span class="p">];</span>
-<span class="lineno">16</span>             <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-<span class="lineno">17</span>                 <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Info.plist does not contain NSLocationAlwaysUsageDescription or NSLocationWhenInUseUsageDescription&quot;</span><span class="p">);</span>
-<span class="lineno">18</span>             <span class="p">}</span>
-<span class="lineno">19</span>         <span class="p">}</span>
-<span class="lineno">20</span>     <span class="p">}</span>
-<span class="lineno">21</span> <span class="p">}</span></code></pre></div>
-
-
-<h2>Get Location</h2>
-
-<p>For iOS SDK 8.0 and later, we have two ways to get user current location:</p>
-
-<ol>
-<li>set <code>showsUserLocation</code> to <code>YES</code> for map view.</li>
-<li>send method <code>startUpdatingLocation</code> to <code>CLLocationManager</code> instance.</li>
-</ol>
-
-
-<h3>1. showsUserLocation</h3>
-
-<p>For this way, after we set <code>showsUserLocation</code> to <code>YES</code>,</p>
-
-<ul>
-<li>We can get the location in <code>mapView:didUpdateUserLocation:</code>.</li>
-</ul>
-
-
-<div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno"> 1</span> <span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">mapView:</span><span class="p">(</span><span class="bp">MKMapView</span> <span class="o">*</span><span class="p">)</span><span class="nv">mapView</span> <span class="nf">didUpdateUserLocation:</span><span class="p">(</span><span class="bp">MKUserLocation</span> <span class="o">*</span><span class="p">)</span><span class="nv">userLocation</span>
-<span class="lineno"> 2</span> <span class="p">{</span>
-<span class="lineno"> 3</span>     <span class="c1">// Center the map the first time we get a real location change.</span>
-<span class="lineno"> 4</span>     <span class="k">static</span> <span class="kt">dispatch_once_t</span> <span class="n">centerMapFirstTime</span><span class="p">;</span>
-<span class="lineno"> 5</span>     
-<span class="lineno"> 6</span>     <span class="k">if</span> <span class="p">((</span><span class="n">userLocation</span><span class="p">.</span><span class="n">coordinate</span><span class="p">.</span><span class="n">latitude</span> <span class="o">!=</span> <span class="mf">0.0</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="n">userLocation</span><span class="p">.</span><span class="n">coordinate</span><span class="p">.</span><span class="n">longitude</span> <span class="o">!=</span> <span class="mf">0.0</span><span class="p">))</span> <span class="p">{</span>
-<span class="lineno"> 7</span>         <span class="n">dispatch_once</span><span class="p">(</span><span class="o">&amp;</span><span class="n">centerMapFirstTime</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
-<span class="lineno"> 8</span>             <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">mapView</span> <span class="nl">setCenterCoordinate</span><span class="p">:</span><span class="n">userLocation</span><span class="p">.</span><span class="n">coordinate</span> <span class="nl">animated</span><span class="p">:</span><span class="nb">YES</span><span class="p">];</span>
-<span class="lineno"> 9</span>         <span class="p">});</span>
-<span class="lineno">10</span>     <span class="p">}</span>
-<span class="lineno">11</span>     
-<span class="lineno">12</span> <span class="p">}</span></code></pre></div>
-
-
-<ul>
-<li>We can set the current location annotation view in <code>mapView:viewForAnnotation:</code>. If <code>nil</code> is returned, a default blue circle with white boundary is use. The circle has breathing effect. For this purpose, we need to identify the annotation (which is an <code>id</code> type) type: if it is a <code>MKUserLocation</code> type, return a current location annotation view or nil. <strong>Question: How to define whether an <code>id</code> type object is a <code>MKUserLocation</code> type object?</strong></li>
-</ul>
-
-
-<p>Before implementing the above two methods, we should set the map view&rsquo;s delegate comfirm with <code>MapViewDelegate</code> protoco.</p>
-
-<h3>2. Send message <code>startUpdateingLocation</code> to <code>CLLocationManager</code> Instaance</h3>
-
-<p>For this way, after we send the method,</p>
-
-<ul>
-<li>We can get the location in <code>locationManager:didUpdateLocations:</code>. The newest location is the <code>lastObject</code> of <code>locations</code>.</li>
-</ul>
-
-
-<div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno"> 1</span> <span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">locationManager:</span><span class="p">(</span><span class="bp">CLLocationManager</span> <span class="o">*</span><span class="p">)</span><span class="nv">manager</span> <span class="nf">didUpdateLocations:</span><span class="p">(</span><span class="bp">NSArray</span> <span class="o">*</span><span class="p">)</span><span class="nv">locations</span>
-<span class="lineno"> 2</span> <span class="p">{</span>
-<span class="lineno"> 3</span>     <span class="nb">self</span><span class="p">.</span><span class="n">currentLocation</span> <span class="o">=</span> <span class="p">[</span><span class="n">locations</span> <span class="n">lastObject</span><span class="p">];</span>
-<span class="lineno"> 4</span>     <span class="n">CLLocationCoordinate2D</span> <span class="n">currentCoordinate</span> <span class="o">=</span> <span class="nb">self</span><span class="p">.</span><span class="n">currentLocation</span><span class="p">.</span><span class="n">coordinate</span><span class="p">;</span>
-<span class="lineno"> 5</span>     
-<span class="lineno"> 6</span>     <span class="k">if</span> <span class="p">(</span><span class="nb">self</span><span class="p">.</span><span class="n">currentLocationAnnotation</span><span class="p">)</span> <span class="p">{</span>
-<span class="lineno"> 7</span>         <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">mapView</span> <span class="nl">removeAnnotation</span><span class="p">:</span><span class="nb">self</span><span class="p">.</span><span class="n">currentLocationAnnotation</span><span class="p">];</span>
-<span class="lineno"> 8</span>     <span class="p">}</span>
-<span class="lineno"> 9</span>     <span class="nb">self</span><span class="p">.</span><span class="n">currentLocationAnnotation</span> <span class="o">=</span> <span class="p">[[</span><span class="n">CurrentLocationAnnotation</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithCoordinate</span><span class="p">:</span><span class="n">currentCoordinate</span><span class="p">];</span>
-<span class="lineno">10</span>     <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">mapView</span> <span class="nl">addAnnotation</span><span class="p">:</span><span class="nb">self</span><span class="p">.</span><span class="n">currentLocationAnnotation</span><span class="p">];</span>
-<span class="lineno">11</span> <span class="p">}</span></code></pre></div>
-
-
-<ul>
-<li><p>When you add the current location annotation to map view, you can set the current location annotation view in mapView:viewForAnnotation: method. If <code>nil</code> is returned, a <strong>red pin</strong> will be use as the annotation view. <strong>Question: How can we use the default blue circle as the annotation view, just as we set <code>showsUserLocation</code> to <code>YES</code>?</strong></p></li>
-<li><p>You can also get erroe message when app fails to get the location in <code>locationManager:didFailWithError:</code> method.</p></li>
-</ul>
-
-
-<div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno">1</span> <span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">locationManager:</span><span class="p">(</span><span class="bp">CLLocationManager</span> <span class="o">*</span><span class="p">)</span><span class="nv">manager</span> <span class="nf">didFailWithError:</span><span class="p">(</span><span class="bp">NSError</span> <span class="o">*</span><span class="p">)</span><span class="nv">error</span>
-<span class="lineno">2</span> <span class="p">{</span>
-<span class="lineno">3</span>     <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;didFailWithError: %@&quot;</span><span class="p">,</span> <span class="n">error</span><span class="p">);</span>
-<span class="lineno">4</span>     <span class="bp">UIAlertView</span> <span class="o">*</span><span class="n">errorAlert</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">UIAlertView</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithTitle</span><span class="p">:</span><span class="s">@&quot;Error&quot;</span> <span class="nl">message</span><span class="p">:</span><span class="s">@&quot;Failed to Get Your Location&quot;</span> <span class="nl">delegate</span><span class="p">:</span><span class="nb">nil</span> <span class="nl">cancelButtonTitle</span><span class="p">:</span><span class="s">@&quot;OK&quot;</span> <span class="nl">otherButtonTitles</span><span class="p">:</span><span class="nb">nil</span><span class="p">];</span>
-<span class="lineno">5</span>     <span class="p">[</span><span class="n">errorAlert</span> <span class="n">show</span><span class="p">];</span>
-<span class="lineno">6</span> <span class="p">}</span></code></pre></div>
-
-
-<p>Before implementing the above methods, set the <code>CLLocationManager</code>&rsquo;s delegate confirm  with <code>CLLocationManagerDelegate</code> protoco.</p>
-
-<h2>References</h2>
-
-<p><a href="http://nevan.net/2014/09/core-location-manager-changes-in-ios-8/">reference:</a></p>
 ]]></content>
   </entry>
   

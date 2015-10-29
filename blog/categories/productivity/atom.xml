@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Productivity | Zhang Hongchao]]></title>
   <link href="http://hongchaozhang.github.io/blog/categories/productivity/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2015-10-22T13:59:52+08:00</updated>
+  <updated>2015-10-29T10:22:51+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -14,11 +14,79 @@
 
   
   <entry>
+    <title type="html"><![CDATA[Operating Files and Folders With Command Line in Terminal]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2015/10/28/operating-files-and-folders-with-command-line-in-terminal/"/>
+    <updated>2015-10-28T16:26:14+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2015/10/28/operating-files-and-folders-with-command-line-in-terminal</id>
+    <content type="html"><![CDATA[<p>为什么需要在命令行进行文件和文件夹的操作：</p>
+
+<!-- more -->
+
+
+<ul>
+<li>通过正则表达式批量处理文件（夹）。</li>
+<li>可以用来删除隐藏文件，比如一些以“.”开头的设置文件。</li>
+<li>打不开Finder的情况下。</li>
+<li>强制删除一些顽固的文件。</li>
+</ul>
+
+
+<p>一些常用命令罗列：</p>
+
+<table>
+<thead>
+<tr>
+<th>命令 </th>
+<th> 说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ls -a </td>
+<td> 列出当前文件夹下的所有文件。</td>
+</tr>
+<tr>
+<td>vi file </td>
+<td> 在当前位置用vim打开file，如果已经存在，直接打开。</td>
+</tr>
+<tr>
+<td>mkdir folder </td>
+<td> 创建文件夹。</td>
+</tr>
+<tr>
+<td>cp sourceFile destFolder </td>
+<td> 将sourceFile拷贝到destFolder下。</td>
+</tr>
+<tr>
+<td>cp -R sourceFolder destFolder </td>
+<td> 将sourceFolder及其下面的所有资源拷贝到destFolder下，R是reverse的意思。</td>
+</tr>
+<tr>
+<td>mv sourceFile destFolder </td>
+<td> 将sourceFile移动到destFolder下。</td>
+</tr>
+<tr>
+<td>rm file.txt </td>
+<td> 删除文件。</td>
+</tr>
+<tr>
+<td>rm -R folder </td>
+<td> 删除文件夹和里面的子文件（夹），R是reverse的意思。</td>
+</tr>
+</tbody>
+</table>
+
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[Migrate Blog to Octopress]]></title>
     <link href="http://hongchaozhang.github.io/blog/2015/09/09/migrate-blog-to-octopress/"/>
     <updated>2015-09-09T10:22:17+08:00</updated>
     <id>http://hongchaozhang.github.io/blog/2015/09/09/migrate-blog-to-octopress</id>
     <content type="html"><![CDATA[<p>For basic configuration of octopress blog, go to <a href="http://octopress.org/">official site</a> for references.</p>
+
+<p>After updating OS to EI Caption (10.11), there is some bugs when we run <code>rake preview</code>. You need to update your ruby version, and reinstall dependencies of octopress. Refer to <a href="http://schalkneethling.github.io/blog/2015/10/16/errno-enoent-no-such-file-or-directory-jekyll-octopress-el-capitan/">this</a> post for more details.</p>
 
 <h2>Themes</h2>
 
@@ -316,184 +384,6 @@ With these comments, we can alt+click a used function to see some useful info.</
 <h3>Tag</h3>
 
 <p>Adding a new <strong>tag</strong> is very similar to adding a new category.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Basic Git Commands]]></title>
-    <link href="http://hongchaozhang.github.io/blog/2015/07/09/Basic-Git-Commands/"/>
-    <updated>2015-07-09T00:00:00+08:00</updated>
-    <id>http://hongchaozhang.github.io/blog/2015/07/09/Basic-Git-Commands</id>
-    <content type="html"><![CDATA[<h1>Contents</h1>
-
-<ul>
-<li><a href="#branch_operation">Branch Operation</a></li>
-<li><a href="#check_commit_history">Check commit history</a></li>
-<li><a href="#git_ignore">.gitignore</a></li>
-<li><a href="#git_stash">Using <em>git stash</em></a></li>
-</ul>
-
-
-<!-- more -->
-
-
-<p><strong>Git</strong> commands can be searched everywheere. Here I will list only the commonly used ones in <strong>my</strong> development.</p>
-
-<p>First of all, try the following commands first:</p>
-
-<ul>
-<li><p><strong>git help:</strong> get git basic commands.</p></li>
-<li><p><strong>git help COMMAND:</strong> get help of a command.</p></li>
-</ul>
-
-
-<h2><a name="branch_operation"></a>Branch Operation</h2>
-
-<p>To checkout a new branch from remote repo: When you want to change to a branch that is not in your local side, use <code>git branch -a</code> to list all the branches, and find the one you want to checkout in the remote. Then run <code>git checkout --track origin/&lt;branch_name&gt;</code>, and you will get the branch. Use <code>git branch</code> to check it.</p>
-
-<h2><a name="check_commit_history"></a>Check commit history</h2>
-
-<p>First, use <code>git log</code> to find the commit we want. We can use <code>git log --author=&lt;someone&gt;</code> to narrow the scope.</p>
-
-<p>Then, use <strong>git diff COMMIT^ COMMIT</strong> to get all the changes of one commit.</p>
-
-<p>More useful commands on <code>git log</code></p>
-
-<table>
-<thead>
-<tr>
-<th>git commands</th>
-<th> in GUI <em>SourceTree</em> </th>
-<th> comments</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>git log --author=&lt;someone&gt;</code> </td>
-<td> on the top left, select <em>Log</em> view </td>
-<td> list all commits <someone> made</td>
-</tr>
-<tr>
-<td><code>git log --name-only</code> </td>
-<td> on the top left, select <em>Log</em> view </td>
-<td>  list all commits and each modified or new created files</td>
-</tr>
-<tr>
-<td><code>git log -- &lt;file&gt;</code> </td>
-<td> right click a file and select <em>log selected&hellip;</em> </td>
-<td> list all commits on a file</td>
-</tr>
-</tbody>
-</table>
-
-
-<h2><a name="git_ignore"></a>.gitignore</h2>
-
-<p>Sometimes we want to ignore some files/folders from being tracked by git. We can use <strong>.gitignore</strong> file to do this. But this only works for the untracked items. If you have done <em>git add file</em> to the file once, .gitignore will not exclude this file from being tracked. For this case, we can use the following two ways to ignore the file:</p>
-
-<h5><code>git rm \-\-cached file</code></h5>
-
-<p>This command will remove the file from the stage, and if you exclude the file in the <strong>.gitignore</strong>, it will not appear in the <em>untrancked files</em> list. But you will get a <em>deleted: file</em> in the <em>changes to be commited</em> list, and the next time you commit, the file in the repo will be deleted.</p>
-
-<p>If this is not what you want, and you only want to ignore the file locally, and don&rsquo;t want to remove it in the repo, because someone else may need this file, go to the second method.</p>
-
-<h5><code>git update-index \-\-assume-unchanged file</code></h5>
-
-<p>This method doesn&rsquo;t need <strong>.gitignore</strong>, and will not delete the file in the repo. The disadvantage is: when you clone the repo in other places, you need to run the command again.</p>
-
-<h2><a name="git_stash"></a>Using <code>git stash</code></h2>
-
-<p>Reference:</p>
-
-<ul>
-<li><a href="http://www.cppblog.com/deercoder/archive/2011/11/13/160007.html">here</a>: Chinese version</li>
-<li><a href="http://www.gitguys.com/topics/switching-branches-without-committing/">here</a>: provide a good scenario for using <code>git stash</code>.</li>
-</ul>
-
-
-<h3>Description</h3>
-
-<p>When you are woring on a <code>newbranch</code> which is based on an <code>oldbranch</code>, and have some uncommitted changes in <code>newbranch</code>. But now your manager notice you that there is an urgent issue needs to be fixed in the <code>oldbranch</code> right now, and you don&rsquo;t want to commit your changes in <code>newbranch</code>, what should we do here?</p>
-
-<h3>Solution</h3>
-
-<p>When we trying to checkout <code>oldbranch</code> using <code>git checkout oldbranch</code>, what is <em>git</em> doing? There may be three ways:</p>
-
-<ol>
-<li>Ignore the uncommitted working directory changes in <code>newbranch</code>, and set the working directory to the files in the <code>oldbranch</code>. The uncommited changes in the <code>newbranch</code> will be lost.</li>
-<li>Ignore the state of the files in <code>oldbranch</code>, and use the working directory files in <code>newbranch</code>. Completely wrong! This will not confirm with the original <code>oldbranch</code>.</li>
-<li>Attempt to merge in the changes from the working directory in <code>newbranch</code> into the files in <code>oldbranch</code>.</li>
-</ol>
-
-
-<p><em>Git</em> actually tries to use <em>#3</em> method.</p>
-
-<h5>With no confilicts</h5>
-
-<p>checkout <code>oldbranch</code> from <code>newbranch</code> with uncommitted changes in <code>newbranch</code>, but <strong>NO Conflicts</strong> between the two branches</p>
-
-<p>The sample log:
-<div class="highlight"><pre><code class="language-text" data-lang="text"><span class="lineno">1</span> M   test.txt
-<span class="lineno">2</span> Switched to branch &amp;lsquo;oldbranch&amp;rsquo;</code></pre></div></p>
-
-<p>And the <code>M</code> means the <code>test.txt</code> is successfully merged.</p>
-
-<h5>With Conflicts</h5>
-
-<p>checkout <code>oldbranch</code> from <code>newbranch</code> with uncommitted changes in <code>newbranch</code>, but <strong>With Conflict</strong> between the two branches. In this situation, if you want to checkout <code>oldbranch</code> any way, use <code>git checkout -m oldbranch</code> which will let git list all the conflicts, as follows:
-<div class="highlight"><pre><code class="language-text" data-lang="text"><span class="lineno"> 1</span> $ git checkout -m oldbranch
-<span class="lineno"> 2</span> M   test.txt
-<span class="lineno"> 3</span> Switched to branch &amp;lsquo;oldbranch&amp;rsquo;
-<span class="lineno"> 4</span> $ cat test.txt
-<span class="lineno"> 5</span> This is the test file.
-<span class="lineno"> 6</span> &amp;lt;&amp;lt;&amp;lt;&amp;lt;&amp;lt;&amp;lt;&amp;lt; oldbranch&lt;/p&gt;
-<span class="lineno"> 7</span> 
-<span class="lineno"> 8</span> &lt;h1&gt;Second line added from the &amp;lsquo;oldbranch&amp;rsquo; branch.&lt;/h1&gt;
-<span class="lineno"> 9</span> 
-<span class="lineno">10</span> &lt;p&gt;A conflicted line added on the test branch.&lt;/p&gt;
-<span class="lineno">11</span> 
-<span class="lineno">12</span> &lt;blockquote&gt;&lt;blockquote&gt;&lt;blockquote&gt;&lt;blockquote&gt;&lt;blockquote&gt;&lt;blockquote&gt;&lt;blockquote&gt;&lt;p&gt;local
-<span class="lineno">13</span> $ git branch
-<span class="lineno">14</span> * oldbranch
-<span class="lineno">15</span>   newbranch</code></pre></div></p></blockquote></blockquote></blockquote></blockquote></blockquote></blockquote></blockquote>
-
-<h5><code>git stash</code></h5>
-
-<p>But most of the time, we want to keep the uncommited changes staying in <code>newbranch</code>, and <code>oldbranch</code> as it was. And when we finish the work in <code>oldbranch</code> and get back to <code>newbranch</code>, the uncommited changes is still there. For this purpose, we need <code>git stash</code>:</p>
-
-<ol>
-<li>in <code>newbranch</code>, run <code>git stash</code>. Check <code>git status</code>, and there will be nothing changed.</li>
-<li><code>git checkout oldbranch</code>.</li>
-<li>Work in <code>oldbranch</code>, and commit the changes.</li>
-<li><code>git checkout newbranch</code></li>
-<li><code>git stash pop</code></li>
-</ol>
-
-
-<p><em>Git</em> will hold a stash stack for all the stashes in all branches. That is to say, no matter how many branches you have, you will have only one stash stack. So when you run <code>git stash pop</code>, you should check the stash stack using <code>git stash list</code>, you will get:
-<div class="highlight"><pre><code class="language-text" data-lang="text"><span class="lineno">1</span> stash@{0}: WIP on oldbranch: 6ed44e2 checkin a new file
-<span class="lineno">2</span> stash@{1}: WIP on newbranch: 7a51723 checkin
-<span class="lineno">3</span> stash@{2}: WIP on oldbranch: 022cbf7 first checkin
-<span class="lineno">4</span> stash@{3}: WIP on newbranch: 6995c80 checkin changes to test.txt</code></pre></div>
-If you want to roll back the last stash in newbranch, in #5 step, run <code>git stash pop stash@{1}</code>. If you don&rsquo;t use the index <code>stash@{1}</code>, the top stash in the stash stack will be popped out.</p>
-
-<h2>Use <em>kdiff3</em> as the default tool for git</h2>
-
-<p>When you run <code>git diff</code>, the difference will be listed in the command window. If you want to see the difference in a visual window (for exmple, <em>kdiff3</em>):</p>
-
-<ol>
-<li>install <em>kdiff3</em> in your mac</li>
-<li><p>As the new version of git has build-in support for <em>kdiff3</em>, so there is no need for manually configuration, just run</p>
-
-<pre><code> $ git config --global merge.tool *kdiff3*
-</code></pre></li>
-<li><p>If <em>kdiff3</em> is not in your path, run</p>
-
-<pre><code> $ git config --global mergetool.kdiff3.path /Applications/kdiff3.app/Contents/MacOS/kdiff3
-</code></pre></li>
-<li>Use <code>git difftool</code> instead of <code>git diff</code> to let git launch <em>kdiff3</em> for the difference. Also use <code>git mergetool</code> instead of <code>git merge</code> for merging files.</li>
-</ol>
-
 ]]></content>
   </entry>
   
