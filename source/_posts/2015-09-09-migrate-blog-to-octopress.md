@@ -8,6 +8,8 @@ categories: [productivity]
 
 For basic configuration of octopress blog, go to [official site](http://octopress.org/) for references.
 
+After updating OS to EI Caption (10.11), there is some bugs when we run `rake preview`. You need to update your ruby version, and reinstall dependencies of octopress. Refer to [this](http://schalkneethling.github.io/blog/2015/10/16/errno-enoent-no-such-file-or-directory-jekyll-octopress-el-capitan/) post for more details.
+
 
 ## Themes
 Go to [here](https://github.com/imathis/octopress/wiki/3rd-Party-Octopress-Themes) to choose the theme you like. Personally, I like the **boldandblue** theme. It is simple and elegant.
