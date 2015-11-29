@@ -11,6 +11,8 @@ Also reference some posts on memory leak, including [What kind of leaks does aut
 
 <!-- more -->
 
+Add one more article: [Objective-c 内存管理的历史和参考资料](http://www.pchou.info/ios/2015/06/05/oc-memory-management.html).
+
 ## Garbage Collection
 
 Garbage Collection (or GC for short) is the technique used for life cycle management on the .NET and Java platforms. The way GC works i/Users/hongchaozhang/Develop/octopress/source/_posts/2015-07-09-Basic-Git-Commands.mds that the runtime (either the Common Language Runtime for .NET or the Java Runtime) has infrastructure in place that detects unused objects and object graphs in the background.

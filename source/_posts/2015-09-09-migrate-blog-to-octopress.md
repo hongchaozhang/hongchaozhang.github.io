@@ -8,13 +8,53 @@ categories: [productivity]
 
 For basic configuration of octopress blog, go to [official site](http://octopress.org/) for references.
 
-After updating OS to EI Caption (10.11), there is some bugs when we run `rake preview`. You need to update your ruby version, and reinstall dependencies of octopress. Refer to [this](http://schalkneethling.github.io/blog/2015/10/16/errno-enoent-no-such-file-or-directory-jekyll-octopress-el-capitan/) post for more details.
+## Issue with OS EI Caption (10.11)
+
+After updating OS to **EI Caption** (10.11), there is some bugs when we run `rake preview`. You need to update your ruby version, and reinstall dependencies of octopress. 
+
+Refer to [Errno::ENOENT: No Such File or Directory - Jekyll ~ Octopress and El Capitan](http://schalkneethling.github.io/blog/2015/10/16/errno-enoent-no-such-file-or-directory-jekyll-octopress-el-capitan/) post for more details. 
+
+If you can still not update your ruby version using the way in the above post, try the following commands (Refer to [Using Rbenv to Manage Multiple Versions of Ruby](http://misheska.com/blog/2013/06/15/using-rbenv-to-manage-multiple-versions-of-ruby/) for more details.) before install new ruby version:
+
+* Add rbenv init to your shell to enable shims and autocompletion:
+
+{% highlight text %}
+$ echo 'eval "$(rbenv init -)"' >> $HOME/.bash_profile
+$ source ~/.bash_profile
+{% endhighlight %}
+
+* Restart shell as a login shell so that the PATH changes take effect:
+
+{% highlight text %}
+$ exec $SHELL -l
+{% endhighlight %}
 
 
 ## Themes
 Go to [here](https://github.com/imathis/octopress/wiki/3rd-Party-Octopress-Themes) to choose the theme you like. Personally, I like the **boldandblue** theme. It is simple and elegant.
 
 <!-- more -->
+
+## Code Styles
+目前有以下几种插入代码片段的方法：
+
+{% highlight text %}
+this is code
+{% endhighlight %}
+
+{% highlight text linenos %}
+this is code
+{% endhighlight %}
+
+```
+this is code
+```
+
+~~~
+this is code
+~~~
+
+    this is code
 
 ## Category list
 Go to [here](https://github.com/ctdk/octopress-category-list), and the guy tells you how to enhance your blog to display the categories.
@@ -44,7 +84,7 @@ Refer to my previous post on write post for project pages (gh-pages) [How to Wri
 * run `rake generate` to generate your new post.
 * run `rake preview` to start local server at *localhost:4000* for testing.
 
-* If everything is OK, run `rake deploy` to push the generated site in *_deploy* to **master** branch in github (Do it in **source** branch). In a second, you will see the changes at <username>.github.io.
+* If everything is OK, run `rake deploy` to push the generated site in *_deploy* to **master** branch in github (Do it in **source** branch). In a second, you will see the changes at *username*.github.io.
 	
 > If you meet with the following error while pushing your site to master branch:
 >
@@ -64,6 +104,12 @@ Go to *_deploy* folder, and run the following commands ([reference](http://stack
 git config branch.master.remote origin
 git config branch.master.merge refs/heads/master
 git pull
+~~~
+>
+For some times, I just run the following:
+>
+~~~
+git pull origin master
 ~~~
 
 * push your source code to **source** branch.

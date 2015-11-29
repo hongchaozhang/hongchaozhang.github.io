@@ -3,7 +3,7 @@ layout: post
 title: "phone interview preparation"
 date: 2015-09-23 11:02:18 +0800
 comments: true
-published: true
+published: false
 categories: [algorithm]
 ---
 

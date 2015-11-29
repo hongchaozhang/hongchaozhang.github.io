@@ -21,7 +21,7 @@ Reference Google document from [here](https://developers.google.com/maps/documen
 
 ### Get package name
 
-For Eclipse, open **Androidmanifast.xml** and the package name is:
+For Eclipse, or projects migrated from Eclipse to Android Studio, open **Androidmanifast.xml** and the package name is:
 
 ![003_package_name_in_Eclipse](/images/003_package_name_in_Eclipse.png)
 
@@ -53,7 +53,7 @@ If you want to use an existing key, open the key, and click *add package name an
 
 ### Add the Android API key to your application
 
-For Eclipse, in `AndroidManifest.xml`, add the following element as a child of the `<application>` element. Take the following as an example:
+For Eclipse, or projects migrated from Eclipse to Android Studio, in `AndroidManifest.xml`, add the following element as a child of the `<application>` element. Take the following as an example:
 
 ![002_add_key_in_Eclipse](/images/002_add_key_in_Eclipse.png)
 

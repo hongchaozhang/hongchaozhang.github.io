@@ -5,6 +5,9 @@ categories: [productivity]
 title: How to write post in github pages
 ---
 
+[**updated 2015.10.30**] The following way is **deprecated**, and [octopress way](http://hongchaozhang.github.io/blog/2015/09/09/migrate-blog-to-octopress/) is prefered. But the [To make the post searchable by Google](#to_make_the_post_searchable_by_google) part is still in use.
+
+
 **Contents:**
 
 * [To add a new post](#to_add_a_new_post)

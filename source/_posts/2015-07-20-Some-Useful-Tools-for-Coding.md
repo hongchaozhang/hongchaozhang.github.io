@@ -5,12 +5,31 @@ categories: [productivity]
 title: Some Useful Tools for Coding
 ---
 
-## VVDocument-Xcode
+## Using plugins for Xcode
 
-Use this plug-in for xcode to enable xcode support automatically adding comments to our code, using Javadoc style.
+Using [Alcatraz](http://alcatraz.io/) to manage plugins in Xcode.
+
+Some recommended plugins:
+
+* [ColorSenseRainBow](https://github.com/NorthernRealities/ColorSenseRainbow)
+    
+    A plugin for Xcode that shows colours and allows you to modify them. It works for both UIColor and NSColor in Swift and Objective-C.
+
+* [AutoHighlightSymbol](https://github.com/chiahsien/AutoHighlightSymbol)
+
+    Xcode can highlight instances of selected symbol, but what it does is to add dash lines under the instances, which is hard to be noticed.
+
+    AutoHighlightSymbol is a plugin for Xcode, it adds background highlight color to those instances. It's super useful while you're tracing codes, especially when you want to figure out where a specific variable is used in a certain method.
+
+* [Backlight-for_Xcode](https://github.com/limejelly/Backlight-for-XCode)
+
+    Highlights the current editing line in Xcode.
+
+* [VVDocument-Xcode](https://github.com/onevcat/VVDocumenter-Xcode)
+
+    Use this plug-in for xcode to enable xcode support automatically adding comments to our code, using Javadoc style.
 With these comments, we can alt+click a used function to see some useful info.
 
-Go to [here](http://nshipster.com/documentation/) for more info.
 
 ## kdiff
 

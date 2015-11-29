@@ -3,7 +3,7 @@ layout: post
 title: "经典算法智力题"
 date: 2015-09-14 20:46:22 +0800
 comments: true
-published: true
+published: false
 categories: [algorithm]
 ---
 

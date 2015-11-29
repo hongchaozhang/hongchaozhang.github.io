@@ -5,6 +5,8 @@ categories: [productivity]
 title: Some useful links for building Github Pages blog
 ---
 
+[**updated 2015.10.30**] The followings ways for deploying posts is **deprecated**. Refer to [deploying octopress](http://hongchaozhang.github.io/blog/2015/09/09/migrate-blog-to-octopress/) for details. But if you knows things this post descripbes, you will have better understanding of octopress.
+
 [**updated 2015.09.13**] Github has two kind of pages: **user/orgnization pages** and **project pages (gh-pages)**.
 
 Currently, I am using the **user/orgnization pages** deployed by [octopress](http://octopress.org/). This is recommended, due to the easy deployment.

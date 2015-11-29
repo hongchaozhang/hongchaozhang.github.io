@@ -19,11 +19,11 @@ categories: [productivity]
 
 命令 | 说明
 ----|----
-ls -a | 列出当前文件夹下的所有文件。
-vi file | 在当前位置用vim打开file，如果已经存在，直接打开。
-mkdir folder | 创建文件夹。
-cp sourceFile destFolder | 将sourceFile拷贝到destFolder下。
-cp -R sourceFolder destFolder | 将sourceFolder及其下面的所有资源拷贝到destFolder下，R是reverse的意思。
-mv sourceFile destFolder | 将sourceFile移动到destFolder下。
-rm file.txt | 删除文件。
-rm -R folder | 删除文件夹和里面的子文件（夹），R是reverse的意思。
+**ls -a** | 列出当前文件夹下的所有文件。
+**vi** *file* | 在当前位置用vim打开file，如果已经存在，直接打开。
+**mkdir** *folder* | 创建文件夹。
+**cp** *sourceFile* *destFolder* | 将sourceFile拷贝到destFolder下。
+**cp** **-R** *sourceFolder* *destFolder* | 将sourceFolder及其下面的所有资源拷贝到destFolder下，R是reverse的意思。
+**mv** *sourceFile* *destFolder* | 将sourceFile移动到destFolder下。
+**rm** *file.txt* | 删除文件。
+**rm** **-R** *folder* | 删除文件夹和里面的子文件（夹），R是reverse的意思。
