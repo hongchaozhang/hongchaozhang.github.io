@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ios | Zhang Hongchao]]></title>
   <link href="http://hongchaozhang.github.io/blog/categories/ios/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2015-10-29T10:22:51+08:00</updated>
+  <updated>2015-11-29T14:11:59+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -396,6 +396,8 @@ AppKit是Mac OS X上的用户图形不同，类名以NS开头。</p>
 
 <!-- more -->
 
+
+<p>Add one more article: <a href="http://www.pchou.info/ios/2015/06/05/oc-memory-management.html">Objective-c 内存管理的历史和参考资料</a>.</p>
 
 <h2>Garbage Collection</h2>
 

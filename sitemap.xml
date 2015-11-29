@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>http://hongchaozhang.github.io/blog/2015/11/28/some-useful-plugins-for-sublime/</loc>
+    <lastmod>2015-11-28T23:45:59+08:00</lastmod>
+  </url>
+  <url>
+    <loc>http://hongchaozhang.github.io/blog/2015/11/27/using-node-dot-js-for-a-simple-server/</loc>
+    <lastmod>2015-11-27T16:45:10+08:00</lastmod>
+  </url>
+  <url>
+    <loc>http://hongchaozhang.github.io/blog/2015/11/19/some-tools-to-impromve-efficiency-in-daily-life/</loc>
+    <lastmod>2015-11-19T16:16:22+08:00</lastmod>
+  </url>
+  <url>
     <loc>http://hongchaozhang.github.io/blog/2015/10/28/operating-files-and-folders-with-command-line-in-terminal/</loc>
     <lastmod>2015-10-28T16:26:14+08:00</lastmod>
   </url>
@@ -175,6 +187,6 @@
     <loc>http://hongchaozhang.github.io/blog/categories/algorithm/</loc>
   </url>
   <url>
-    <loc>http://hongchaozhang.github.io/posts/2/</loc>
+    <loc>http://hongchaozhang.github.io/blog/categories/node/</loc>
   </url>
 </urlset>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Node | Zhang Hongchao]]></title>
+  <link href="http://hongchaozhang.github.io/blog/categories/node/atom.xml" rel="self"/>
+  <link href="http://hongchaozhang.github.io/"/>
+  <updated>2015-11-29T14:11:59+08:00</updated>
+  <id>http://hongchaozhang.github.io/</id>
+  <author>
+    <name><![CDATA[Zhang Hongchao]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[应用Node.js搭建一个简单的服务器]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2015/11/27/using-node-dot-js-for-a-simple-server/"/>
+    <updated>2015-11-27T16:45:10+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2015/11/27/using-node-dot-js-for-a-simple-server</id>
+    <content type="html"><![CDATA[<h3>第一个简单应用</h3>
+
+<p>参考<a href="http://code.tutsplus.com/tutorials/nodejs-for-beginners--net-26314">Node.js for Beginners</a>. 去除以下代码：</p>
+
+<p><div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="lineno">1</span> <span class="nx">request</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">ldquo</span><span class="p">;</span><span class="nx">end</span><span class="o">&amp;</span><span class="nx">rdquo</span><span class="p">;,</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span><span class="o">&lt;</span><span class="err">/p&gt;</span>
+<span class="lineno">2</span> 
+<span class="lineno">3</span> <span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span><span class="p">});</span></code></pre></div></p>
+
+<h3>如何调试Node.js在服务器上的应用</h3>
+
+<!-- more -->
+
+
+<p><a href="https://github.com/node-inspector/node-inspector">node-inspector</a>是一款非常好用的GUI调试工具，可以让你像调试Web页面一样调试Node.js应用。</p>
+
+<p>安装</p>
+
+<p><div class="highlight"><pre><code class="language-text" data-lang="text">$ npm install -g node-inspector</code></pre></div></p>
+
+<p>打开</p>
+
+<p><div class="highlight"><pre><code class="language-text" data-lang="text">$ node-debug app.js</code></pre></div></p>
+
+<h3>解析excel文件</h3>
+
+<p>在我的应用中需要对excel文件内容进行搜索，所以需要一个解析excel文件的插件。</p>
+
+<p><a href="https://www.npmjs.com/package/node-xlsx">node-xlsx</a>插件可以让我们解析、修改、新建excel文件。</p>
+
+<p>安装</p>
+
+<p><div class="highlight"><pre><code class="language-text" data-lang="text">npm install excel node-xlsx</code></pre></div></p>
+
+<p>然后就可以这样解析excel文件：</p>
+
+<p><div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="lineno">1</span> <span class="kd">var</span> <span class="nx">xlsx</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">lsquo</span><span class="p">;</span><span class="nx">node</span><span class="o">-</span><span class="nx">xlsx</span><span class="o">&amp;</span><span class="nx">rsquo</span><span class="p">;);</span>
+<span class="lineno">2</span> <span class="kd">var</span> <span class="nx">obj</span> <span class="o">=</span> <span class="nx">xlsx</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">__dirname</span> <span class="o">+</span> <span class="o">&amp;</span><span class="nx">lsquo</span><span class="p">;</span><span class="sr">/myFile.xlsx&amp;rsquo;); /</span><span class="o">/</span> <span class="nx">parses</span> <span class="nx">a</span> <span class="nx">file</span></code></pre></div></p>
+]]></content>
+  </entry>
+  
+</feed>

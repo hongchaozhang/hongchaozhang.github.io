@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Android | Zhang Hongchao]]></title>
   <link href="http://hongchaozhang.github.io/blog/categories/android/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2015-10-29T10:22:51+08:00</updated>
+  <updated>2015-11-29T14:11:59+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -123,7 +123,7 @@
 
 <h3>Get package name</h3>
 
-<p>For Eclipse, open <strong>Androidmanifast.xml</strong> and the package name is:</p>
+<p>For Eclipse, or projects migrated from Eclipse to Android Studio, open <strong>Androidmanifast.xml</strong> and the package name is:</p>
 
 <p><img src="/images/003_package_name_in_Eclipse.png" alt="003_package_name_in_Eclipse" /></p>
 
@@ -159,7 +159,7 @@
 
 <h3>Add the Android API key to your application</h3>
 
-<p>For Eclipse, in <code>AndroidManifest.xml</code>, add the following element as a child of the <code>&lt;application&gt;</code> element. Take the following as an example:</p>
+<p>For Eclipse, or projects migrated from Eclipse to Android Studio, in <code>AndroidManifest.xml</code>, add the following element as a child of the <code>&lt;application&gt;</code> element. Take the following as an example:</p>
 
 <p><img src="/images/002_add_key_in_Eclipse.png" alt="002_add_key_in_Eclipse" /></p>
 

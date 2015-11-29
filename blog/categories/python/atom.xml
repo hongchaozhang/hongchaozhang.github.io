@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Python | Zhang Hongchao]]></title>
   <link href="http://hongchaozhang.github.io/blog/categories/python/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2015-10-29T10:22:51+08:00</updated>
+  <updated>2015-11-29T14:11:59+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -124,7 +124,9 @@
     <link href="http://hongchaozhang.github.io/blog/2015/06/27/instructions-for-adding-tags-and-categories/"/>
     <updated>2015-06-27T00:00:00+08:00</updated>
     <id>http://hongchaozhang.github.io/blog/2015/06/27/instructions-for-adding-tags-and-categories</id>
-    <content type="html"><![CDATA[<p>The following is for my project pages (gh-pages) <em>GitBlogs</em>.</p>
+    <content type="html"><![CDATA[<p>[<strong>updated 2015.10.30</strong>] The following way is for my previous blog, and now I am using <a href="http://hongchaozhang.github.io/blog/2015/09/09/migrate-blog-to-octopress/">octopress for my blog</a>.</p>
+
+<p>The following is for my project pages (gh-pages) <em>GitBlogs</em>.</p>
 
 <p>The python script is put GitBlogs/tools/add.py.</p>
 

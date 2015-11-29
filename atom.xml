@@ -4,7 +4,7 @@
   <title><![CDATA[Zhang Hongchao]]></title>
   <link href="http://hongchaozhang.github.io/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2015-10-29T10:22:51+08:00</updated>
+  <updated>2015-11-29T14:11:59+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -12,6 +12,136 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Sublime的一些插件]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2015/11/28/some-useful-plugins-for-sublime/"/>
+    <updated>2015-11-28T23:45:59+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2015/11/28/some-useful-plugins-for-sublime</id>
+    <content type="html"><![CDATA[<h3>Package Control</h3>
+
+<p><a href="https://packagecontrol.io/installation#st2">Package Control</a>是Sublime中用于插件管理的工具。安装之后，其它插件基本上可以通过它进行管理：安装、删除、禁用等。</p>
+
+<h3>JSFormat</h3>
+
+<!-- more -->
+
+
+<p>可以对Javascript和json文件进行格式化。</p>
+
+<p>对于json，如果不想用本地插件，可以用<a href="http://jsonviewer.stack.hu/">Online Json Viewer</a>。</p>
+
+<h3>JSHint Guntter</h3>
+
+<ul>
+<li>Run JSHint: Command+Shift+J</li>
+<li>Clear Annotations: Command+Escape</li>
+</ul>
+
+
+<p>对于一些关键字，比如node中的<code>require</code>，在.jshintrc文件中通过设置<code>predef</code>进行排除。.jshintrc通过Preferrences->Package Settings->JSHint Gunter->Set Linting Preferences打开。</p>
+
+<h3>Sublime ​Code​Intel</h3>
+
+<ul>
+<li><p>自动代码补全功能</p></li>
+<li><p>代码间跳转</p>
+
+<ul>
+<li>Jump to definition = Super+Click</li>
+<li>Go back = Control+Super+Alt+Left</li>
+</ul>
+</li>
+</ul>
+
+
+<h3>Bracket Highlighter</h3>
+
+<p>可以对括号（圆括号，方括号，花括号，尖括号等）和标签（html tag等）进行自定义高亮。</p>
+
+<p>自定义方法：</p>
+
+<ul>
+<li>打开Preferences->Package Settings->Bracket Highlighter->Brakets Settings - <strong>Default</strong>，复制。这个文件无法修改。</li>
+<li>打开Preferences->Package Settings->Bracket Highlighter->Brakets Settings - <strong>User</strong>，粘贴。修改<code>bracket styles</code>。此文件中的设置将覆盖<strong>Default</strong>中的设置。</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[应用Node.js搭建一个简单的服务器]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2015/11/27/using-node-dot-js-for-a-simple-server/"/>
+    <updated>2015-11-27T16:45:10+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2015/11/27/using-node-dot-js-for-a-simple-server</id>
+    <content type="html"><![CDATA[<h3>第一个简单应用</h3>
+
+<p>参考<a href="http://code.tutsplus.com/tutorials/nodejs-for-beginners--net-26314">Node.js for Beginners</a>. 去除以下代码：</p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="lineno">1</span> <span class="nx">request</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s2">&quot;end&quot;</span><span class="p">,</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+<span class="lineno">2</span> 
+<span class="lineno">3</span> <span class="p">});</span></code></pre></div>
+
+
+<h3>如何调试Node.js在服务器上的应用</h3>
+
+<!-- more -->
+
+
+<p><a href="https://github.com/node-inspector/node-inspector">node-inspector</a>是一款非常好用的GUI调试工具，可以让你像调试Web页面一样调试Node.js应用。</p>
+
+<p>安装</p>
+
+<div class="highlight"><pre><code class="language-text" data-lang="text">$ npm install -g node-inspector</code></pre></div>
+
+
+<p>打开</p>
+
+<div class="highlight"><pre><code class="language-text" data-lang="text">$ node-debug app.js</code></pre></div>
+
+
+<h3>解析excel文件</h3>
+
+<p>在我的应用中需要对excel文件内容进行搜索，所以需要一个解析excel文件的插件。</p>
+
+<p><a href="https://www.npmjs.com/package/node-xlsx">node-xlsx</a>插件可以让我们解析、修改、新建excel文件。</p>
+
+<p>安装</p>
+
+<div class="highlight"><pre><code class="language-text" data-lang="text">npm install excel node-xlsx</code></pre></div>
+
+
+<p>然后就可以这样解析excel文件：</p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="lineno">1</span> <span class="kd">var</span> <span class="nx">xlsx</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;node-xlsx&#39;</span><span class="p">);</span>
+<span class="lineno">2</span> <span class="kd">var</span> <span class="nx">obj</span> <span class="o">=</span> <span class="nx">xlsx</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">__dirname</span> <span class="o">+</span> <span class="s1">&#39;/myFile.xlsx&#39;</span><span class="p">);</span> <span class="c1">// parses a file</span></code></pre></div>
+
+
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Some Tools to Impromve Efficiency in Daily Life]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2015/11/19/some-tools-to-impromve-efficiency-in-daily-life/"/>
+    <updated>2015-11-19T16:16:22+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2015/11/19/some-tools-to-impromve-efficiency-in-daily-life</id>
+    <content type="html"><![CDATA[<h3>Everything</h3>
+
+<p>瞬间搜索全机器文件。但是只支持文件名搜索，不支持文件内容搜索。结合DocFetcher应用，可以大大提高搜索文件的效率。</p>
+
+<h3>DocFetcher</h3>
+
+<p>支持文件内容搜索。但是索引文件较大，最好分目录进行索引，不要索引整台计算机。结合Everything应用，可以大大提高搜索文件的效率。</p>
+
+<!-- more -->
+
+
+<h3>RescueTime</h3>
+
+<p>可以用来监督你一天之中分别有多少时间花在什么地方。在上淘宝的时候都想快点结束，不然一天下来数据会很难看。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Operating Files and Folders With Command Line in Terminal]]></title>
@@ -42,35 +172,35 @@
 </thead>
 <tbody>
 <tr>
-<td>ls -a </td>
+<td><strong>ls -a</strong> </td>
 <td> 列出当前文件夹下的所有文件。</td>
 </tr>
 <tr>
-<td>vi file </td>
+<td><strong>vi</strong> <em>file</em> </td>
 <td> 在当前位置用vim打开file，如果已经存在，直接打开。</td>
 </tr>
 <tr>
-<td>mkdir folder </td>
+<td><strong>mkdir</strong> <em>folder</em> </td>
 <td> 创建文件夹。</td>
 </tr>
 <tr>
-<td>cp sourceFile destFolder </td>
+<td><strong>cp</strong> <em>sourceFile</em> <em>destFolder</em> </td>
 <td> 将sourceFile拷贝到destFolder下。</td>
 </tr>
 <tr>
-<td>cp -R sourceFolder destFolder </td>
+<td><strong>cp</strong> <strong>-R</strong> <em>sourceFolder</em> <em>destFolder</em> </td>
 <td> 将sourceFolder及其下面的所有资源拷贝到destFolder下，R是reverse的意思。</td>
 </tr>
 <tr>
-<td>mv sourceFile destFolder </td>
+<td><strong>mv</strong> <em>sourceFile</em> <em>destFolder</em> </td>
 <td> 将sourceFile移动到destFolder下。</td>
 </tr>
 <tr>
-<td>rm file.txt </td>
+<td><strong>rm</strong> <em>file.txt</em> </td>
 <td> 删除文件。</td>
 </tr>
 <tr>
-<td>rm -R folder </td>
+<td><strong>rm</strong> <strong>-R</strong> <em>folder</em> </td>
 <td> 删除文件夹和里面的子文件（夹），R是reverse的意思。</td>
 </tr>
 </tbody>
@@ -1437,7 +1567,30 @@ Output:  0200</code></pre></div>
     <id>http://hongchaozhang.github.io/blog/2015/09/09/migrate-blog-to-octopress</id>
     <content type="html"><![CDATA[<p>For basic configuration of octopress blog, go to <a href="http://octopress.org/">official site</a> for references.</p>
 
-<p>After updating OS to EI Caption (10.11), there is some bugs when we run <code>rake preview</code>. You need to update your ruby version, and reinstall dependencies of octopress. Refer to <a href="http://schalkneethling.github.io/blog/2015/10/16/errno-enoent-no-such-file-or-directory-jekyll-octopress-el-capitan/">this</a> post for more details.</p>
+<h2>Issue with OS EI Caption (10.11)</h2>
+
+<p>After updating OS to <strong>EI Caption</strong> (10.11), there is some bugs when we run <code>rake preview</code>. You need to update your ruby version, and reinstall dependencies of octopress.</p>
+
+<p>Refer to <a href="http://schalkneethling.github.io/blog/2015/10/16/errno-enoent-no-such-file-or-directory-jekyll-octopress-el-capitan/">Errno::ENOENT: No Such File or Directory - Jekyll ~ Octopress and El Capitan</a> post for more details.</p>
+
+<p>If you can still not update your ruby version using the way in the above post, try the following commands (Refer to <a href="http://misheska.com/blog/2013/06/15/using-rbenv-to-manage-multiple-versions-of-ruby/">Using Rbenv to Manage Multiple Versions of Ruby</a> for more details.) before install new ruby version:</p>
+
+<ul>
+<li>Add rbenv init to your shell to enable shims and autocompletion:</li>
+</ul>
+
+
+<div class="highlight"><pre><code class="language-text" data-lang="text">$ echo &#39;eval &quot;$(rbenv init -)&quot;&#39; &gt;&gt; $HOME/.bash_profile
+$ source ~/.bash_profile</code></pre></div>
+
+
+<ul>
+<li>Restart shell as a login shell so that the PATH changes take effect:</li>
+</ul>
+
+
+<div class="highlight"><pre><code class="language-text" data-lang="text">$ exec $SHELL -l</code></pre></div>
+
 
 <h2>Themes</h2>
 
@@ -1445,6 +1598,30 @@ Output:  0200</code></pre></div>
 
 <!-- more -->
 
+
+<h2>Code Styles</h2>
+
+<p>目前有以下几种插入代码片段的方法：</p>
+
+<div class="highlight"><pre><code class="language-text" data-lang="text">this is code</code></pre></div>
+
+
+
+
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span class="lineno">1</span> this is code</code></pre></div>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>this is code</span></code></pre></td></tr></table></div></figure>
+
+
+<pre><code>this is code
+</code></pre>
+
+<pre><code>this is code
+</code></pre>
 
 <h2>Category list</h2>
 
@@ -1486,7 +1663,7 @@ Output:  0200</code></pre></div>
 </blockquote>
 
 <ul>
-<li>If everything is OK, run <code>rake deploy</code> to push the generated site in <em>_deploy</em> to <strong>master</strong> branch in github (Do it in <strong>source</strong> branch). In a second, you will see the changes at <username>.github.io.</li>
+<li>If everything is OK, run <code>rake deploy</code> to push the generated site in <em>_deploy</em> to <strong>master</strong> branch in github (Do it in <strong>source</strong> branch). In a second, you will see the changes at <em>username</em>.github.io.</li>
 </ul>
 
 
@@ -1506,6 +1683,11 @@ hint: See the 'Note about fast-forwards' in 'git push --help' for details.
 <pre><code>git config branch.master.remote origin
 git config branch.master.merge refs/heads/master
 git pull
+</code></pre>
+
+<p>For some times, I just run the following:</p>
+
+<pre><code>git pull origin master
 </code></pre></blockquote>
 
 <ul>
@@ -1845,7 +2027,7 @@ git pull
 
 <h3>Get package name</h3>
 
-<p>For Eclipse, open <strong>Androidmanifast.xml</strong> and the package name is:</p>
+<p>For Eclipse, or projects migrated from Eclipse to Android Studio, open <strong>Androidmanifast.xml</strong> and the package name is:</p>
 
 <p><img src="http://hongchaozhang.github.io/images/003_package_name_in_Eclipse.png" alt="003_package_name_in_Eclipse" /></p>
 
@@ -1881,7 +2063,7 @@ git pull
 
 <h3>Add the Android API key to your application</h3>
 
-<p>For Eclipse, in <code>AndroidManifest.xml</code>, add the following element as a child of the <code>&lt;application&gt;</code> element. Take the following as an example:</p>
+<p>For Eclipse, or projects migrated from Eclipse to Android Studio, in <code>AndroidManifest.xml</code>, add the following element as a child of the <code>&lt;application&gt;</code> element. Take the following as an example:</p>
 
 <p><img src="http://hongchaozhang.github.io/images/002_add_key_in_Eclipse.png" alt="002_add_key_in_Eclipse" /></p>
 
@@ -1993,6 +2175,8 @@ AppKit是Mac OS X上的用户图形不同，类名以NS开头。</p>
 
 <!-- more -->
 
+
+<p>Add one more article: <a href="http://www.pchou.info/ios/2015/06/05/oc-memory-management.html">Objective-c 内存管理的历史和参考资料</a>.</p>
 
 <h2>Garbage Collection</h2>
 
@@ -2294,258 +2478,6 @@ No background processing, which makes it more efficient on lower-power systems, 
     <content type="html"><![CDATA[<p><strong>TODO</strong></p>
 
 <p><a href="http://www.4byte.cn/learning/88477.html">reference</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Communication Between WebView and Native Android]]></title>
-    <link href="http://hongchaozhang.github.io/blog/2015/07/28/Communication-between-WebView-and-native-android/"/>
-    <updated>2015-07-28T00:00:00+08:00</updated>
-    <id>http://hongchaozhang.github.io/blog/2015/07/28/Communication-between-WebView-and-native-android</id>
-    <content type="html"><![CDATA[<h2>Description</h2>
-
-<p>In Android project, we sometimes want to rend a page in <strong>WebView</strong>, and need communication between webview and native android side.</p>
-
-<p><strong>Note:</strong> Go to <a href="https://github.com/hongchaozhang/android_java_javascript_communication">here</a> for a project as a sample.</p>
-
-<h2>Javascript and Java Bridge</h2>
-
-<!-- more -->
-
-
-<ol>
-<li><p>Code for javascript interface in native android side:</p>
-
-<pre><code> public class JavaScriptInterface {
-     protected MyActivity parentActivity;
-     protected WebView mWebView;
-
-     public JavaScriptInterface(MyActivity _activity, WebView _webView)  {
-         parentActivity = _activity;
-         mWebView = _webView;
-
-     }
-
-     @JavascriptInterface
-     public void setResult(int val){
-         Log.v("mylog","JavaScriptHandler.setResult is called : " + val);
-         this.parentActivity.javascriptCallFinished(val);
-     }
-
-     @JavascriptInterface
-     public void calcSomething(int x, int y){
-         this.parentActivity.changeText("Result is : " + (x * y));
-     }
-
-     @JavascriptInterface
-     public String modifyString(String inputString) {
-         return inputString + " from Java side";
-     }
- }
-</code></pre>
-
-<p> Here, we can introduce the main activity <code>parentActivity</code> and the webview <code>mWebView</code> into the interface for further use.</p></li>
-<li><p>Get webview from layout xml file, or create it from scrach, and config it:</p>
-
-<pre><code> myWebView = (WebView)this.findViewById(R.id.myWebView);
- myWebView.getSettings().setJavaScriptEnabled(true);
- myWebView.loadUrl("file:///android_asset/index.html");
-
- myWebView.addJavascriptInterface(new JavaScriptInterface(this, myWebView), "MyHandler");
- if(Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.KITKAT) {
-     WebView.setWebContentsDebuggingEnabled(true);
- }
-</code></pre>
-
-<p> 1) Pay attention to <code>addJavascriptinterface</code>, which add the javascript interface, and gives the interface a name <code>MyHandler</code>.
-2) To be able to debug web page inside webview, <code>setWebContentsDebuggingEnabled(true)</code> should be called for android version after <code>KITKAT(4.4)</code>.</p></li>
-<li><p>Then we can use the following way to call javascript function and change html page from java side:</p>
-
-<pre><code> myWebView.loadUrl("javascript:document.getElementById('test1').innerHTML = 'changed'");
-</code></pre>
-
-<p> And use the following to call java method from javascript side:</p>
-
-<pre><code> window.MyHandler.setResult(9999)
-</code></pre></li>
-</ol>
-
-
-<h2>Passing parameters and <code>return</code> value</h2>
-
-<h4>parameter of <code>WebView.loadUrl</code></h4>
-
-<p>We can only use <em>String</em> as the parameter of <code>WebView.loadUrl()</code> function (Note <code>val1</code> and <code>val2</code>):</p>
-
-<pre><code>myWebView.loadUrl("javascript:window.MyHandler.setResult( addSomething("+val1+","+val2+") )");
-</code></pre>
-
-<h4>parameter of the interface for javascript</h4>
-
-<p>We can use <em>String</em> or <em>int</em> for these interfaces, like:</p>
-
-<pre><code>window.MyHandler.setResult(10);
-var stringFromJava = window.MyHandler.modifyString("string from javascript");
-</code></pre>
-
-<h4>Java return value to Javascript: <strong>sync</strong></h4>
-
-<p>Java can directly return String back to Javascritp, so we can use the following way to get the string from Java:</p>
-
-<pre><code>var stringFromJava = window.MyHandler.modifyString("string from javascript");
-</code></pre>
-
-<h4><a name="javascript_return_value_to_java"></a>Javascript return value to Java: <strong>async</strong></h4>
-
-<p>As <code>WebView.loadUrl</code> does not return anything, so Java can not get results from Javascript. We need other ways to get the result.</p>
-
-<p>Currently, we have no way to do this. The work around is: when javascript get the result, call a method in java side through the interface <code>MyHandler</code>, and pass the result as a parameter. As java call <code>WebView.loadurl</code> in a differenct thread, so even in this way, we can not get the result right away for use in the next line.</p>
-
-<h2>Multi-thread in Java side and Single-thread in Javascript side</h2>
-
-<h3>Javascript call Java: sync</h3>
-
-<p>When we run the following function, we can get the string returned from java side, and then set it into the html page.</p>
-
-<pre><code>function testSync() {
-    var string = "default string";
-    string = window.MyHandler.testString();
-    document.getElementById('test1').innerHTML = string;
-}
-</code></pre>
-
-<h3>Java call Javascript: async</h3>
-
-<p>Similar to <a href="#javascript_return_value_to_java">Javascript return value to Java</a>.</p>
-
-<h2>Security problems</h2>
-
-<p>Reference to <a href="http://jiajixin.cn/2014/09/16/webview-js-safety/">Java和Javascript安全交互</a>.</p>
-
-<p>An example listed:</p>
-
-<ul>
-<li>成名已久的任意命令执行漏洞，通过addJavascriptInterface方法，Js可以调用Java对象方法，通过反射机制，Js可以直接获取Runtime，从而执行任意命令。Android 4.2以上，可以通过声明@JavascriptInterface保证安全性，4.2以下不能再调用addJavascriptInterface，需要另谋他法。</li>
-</ul>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Property and Its Attributes in Objective-C]]></title>
-    <link href="http://hongchaozhang.github.io/blog/2015/07/27/Property-and-its-Attributes-in-Objective-C/"/>
-    <updated>2015-07-27T00:00:00+08:00</updated>
-    <id>http://hongchaozhang.github.io/blog/2015/07/27/Property-and-its-Attributes-in-Objective-C</id>
-    <content type="html"><![CDATA[<p>All the attributes of a property defines how the compiler generate the <code>getter</code> and <code>setter</code> accessors.</p>
-
-<ul>
-<li><p>atomic / nonatomic</p></li>
-<li><p>strong / weak: used for ARC.</p></li>
-<li><p>assign / retain / copy: go to <a href="http://blog.csdn.net/jiarusun000/article/details/6991249">here</a> for reference. These properties define how the compiler generate the <code>setter</code> accessor.</p></li>
-<li><p>readonly / readwrite: if a property is declared as <code>readonly</code>, the compiler will only declare the getter accessor, so that you can not call setter accessor. This is called <code>readonly</code>.</p></li>
-</ul>
-
-
-<!-- more -->
-
-
-<p>Apart from above, <code>@synthesize</code> define the instance variable used for accessors. <code>@synthesize</code> can only be used to property, not iVar. For more info, see <a href="http://hongchaozhang.github.io/code/2015/07/22/Property-vs-Instance-Variable(iVar">Property vs Instance Variable (iVar) in objective-c</a>-in-Objective-C.html).</p>
-
-<p><a href="http://www.cnblogs.com/andyque/archive/2011/08/03/2125728.html">Here</a> has a detail description. And the useful part:</p>
-
-<ul>
-<li>什么时候用assign、什么时候用retain和copy呢？推荐做法是NSString用copy,delegate用assign（且一定要用assign，不要问为什么，只管去用就是了，以后你会明白的），非objc数据类型，比如int，float等基本数据类型用assign（默认就是assign），而其它objc类型，比如NSArray，NSDate用retain。</li>
-<li>当别人使用@property来做内存管理的时候就会有问题了。总结一下，如果你自己实现了getter和setter的话，atomic/nonatomic/retain/assign/copy这些只是给编译的建议，编译会首先会到你的代码里面去找，如果你定义了相应的getter和setter的话，那么好，用你的。如果没有，编译器就会根据atomic/nonatomic/retain/assign/copy这其中你指定的某几个规则去生成相应的getter和setter。</li>
-</ul>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Property vs Instance Variable (iVar) in Objective-c]]></title>
-    <link href="http://hongchaozhang.github.io/blog/2015/07/22/Property-vs-Instance-Variable(iVar)-in-Objective-C/"/>
-    <updated>2015-07-22T00:00:00+08:00</updated>
-    <id>http://hongchaozhang.github.io/blog/2015/07/22/Property-vs-Instance-Variable(iVar)-in-Objective-C</id>
-    <content type="html"><![CDATA[<h2>Description</h2>
-
-<p>To declare a variable in a objective-c class, we have the following two ways:</p>
-
-<ul>
-<li>Property</li>
-</ul>
-
-
-<div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno">1</span> <span class="k">@interface</span> <span class="nc">Photo</span> : <span class="bp">NSObject</span>
-<span class="lineno">2</span> <span class="k">@property</span> <span class="p">(</span><span class="k">nonatomic</span><span class="p">,</span> <span class="k">strong</span><span class="p">)</span> <span class="bp">NSString</span> <span class="o">*</span><span class="n">photographer</span><span class="p">;</span>
-<span class="lineno">3</span> <span class="k">@end</span></code></pre></div>
-
-
-<ul>
-<li>Instance Variable (iVar)</li>
-</ul>
-
-
-<div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno">1</span> <span class="k">@interface</span> <span class="nc">Photo</span> : <span class="bp">NSObject</span> <span class="p">{</span>
-<span class="lineno">2</span>     <span class="bp">NSString</span> <span class="o">*</span><span class="n">photographer</span><span class="p">;</span>
-<span class="lineno">3</span> <span class="p">}</span>
-<span class="lineno">4</span> <span class="k">@end</span></code></pre></div>
-
-
-<p>Then, what&rsquo;s the difference?</p>
-
-<!-- more -->
-
-
-<h2>Differences</h2>
-
-<h3>private vs public</h3>
-
-<p>For a private/protected variable, use iVar; for a public variable, use property. If you want to use the benifit of property attributes, like retain, nonatomic etc., declare the property in the implementation file as a private property.</p>
-
-<p>For an iVar, you can use <code>@private</code>, <code>@protected</code> and <code>@public</code>. But these attributes only influence the access of its subclass, and has nothing to do with the access ability of its instances. Go to <a href="http://www.cnblogs.com/andyque/archive/2011/08/03/2125728.html">here</a> for reference.</p>
-
-<h3>usage</h3>
-
-<p>Directly use an iVar inside the class, for example, <code>photographer</code>. But use <code>self.</code> for a property, for example, <code>self.photographer</code>.</p>
-
-<h3>performance</h3>
-
-<p>iVar is faster than property, as property will call the <code>getter</code> or <code>setter</code> functions. When you declare a property, the compiler will add <code>getter</code> and <code>setter</code> functions for the property.</p>
-
-<h3>@synthesize for property</h3>
-
-<p><strong>UPDATE：Just read this paragraph, omit the paragraphs behind.</strong> <code>@synthesize</code> is only for property, not iVar. It will help the property to generate the getter and setter accessors. For every property, complier will automatically synthesize it using <code>_propertyName</code>. The auto synthesize is the same as you add <code>@synthesize propertyName = _propertyName</code>. If you only add <code>@synthesize propertyName</code>, it is the same with <code>@synthesize propertyName = propertyName</code>, and if you define an iVar with the name <code>propertyName</code>, they will be synthesized. That is to say, in the accessors of <strong>property</strong> <code>propertyName</code>, it will use <strong>iVar</strong> <code>propertyName</code>.</p>
-
-<blockquote><p><strong>Note for property inheritance:</strong> If the super class has a property declared as public, the subclass can inherit the property. But the auto synthesize mechnism will not sythesize the property automatically, and you can only use the getter and setter accessors of the superclass by using dot operation. If you want to synthesize manually, <strong>Be Carefull!</strong> You should avoid using the same iVar as them in the superclass. This will lead to an error message <em>&ldquo;property &lsquo;propertyName&rsquo; atemping to use instance variable &lsquo;InstanceVariableName&rsquo; declared in super class &lsquo;SuperClassName&rsquo;&rdquo;</em>.</p>
-
-<p>If you inherit a property from a <strong>protocol</strong>, you mush synthesize it, as the protocol only declares it, not synthesize it.</p></blockquote>
-
-<p><strong>Omit the following paragraphs in this section</strong></p>
-
-<p>If you add <code>@synthesize photographer</code> in the implementation, compiler will automatically add an iVar <code>photographer</code> <del>and <code>_photographer</code></del> to the class. You can directly use <code>photographer</code> <del>or <code>_photographer</code></del> instead of <code>self.photographer</code> to get or set the value. The iVar method is faster, but keep in mind that it will not call the <code>getter</code> or <code>setter</code> method.</p>
-
-<p>If you declare the class like this and don&rsquo;t <code>@synthesize photographer</code>:</p>
-
-<div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno">1</span> <span class="k">@interface</span> <span class="nc">Photo</span> : <span class="bp">NSObject</span> <span class="p">{</span>
-<span class="lineno">2</span>   <span class="bp">NSString</span> <span class="o">*</span><span class="n">photographer</span><span class="p">;</span>
-<span class="lineno">3</span> <span class="p">}</span>
-<span class="lineno">4</span> <span class="k">@property</span> <span class="p">(</span><span class="k">nonatomic</span><span class="p">,</span> <span class="k">strong</span><span class="p">)</span> <span class="bp">NSString</span> <span class="o">*</span><span class="n">photographer</span><span class="p">;</span>
-<span class="lineno">5</span> <span class="k">@end</span></code></pre></div>
-
-
-<p>There are actually two <code>photographer</code> variables in the class: when you use <code>photographer</code> directly, you are using the iVar, and when you use <code>self.photographer</code>, you are using the property.</p>
-
-<p>However, when you use <code>@synthesize photographer</code> in the implementation file, the compoler will add <code>photographer</code> variable for the property. That is to say, <code>photographer</code> will be the property, and the iVar will not be usable.</p>
-
-<h2>References</h2>
-
-<p>A more detailed description is <a href="http://stackoverflow.com/questions/9086736/why-would-you-use-an-ivar">here</a>.</p>
-
-<p><a href="http://stackoverflow.com/questions/2032826/property-synthesize">reference</a>, answer by <em>Rachel Henderson</em></p>
-
-<p><del><em>Property</em> session of the </del><a href="http://www.cocoadevcentral.com/d/learn_objectivec/"><del>reference</del></a>. <del>This post is old fashioned</del>.</p>
-
-<p><a href="http://blog.csdn.net/likendsl/article/details/7345485">Here</a> has a good explaination.</p>
 ]]></content>
   </entry>
   
