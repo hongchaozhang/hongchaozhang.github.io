@@ -1,4 +1,0 @@
-User-agent: *
-Disallow: 
-
-Sitemap: http://hongchaozhang.github.io/sitemap.xml 

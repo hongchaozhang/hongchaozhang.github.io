@@ -2,3 +2,4 @@ public/
 _deploy/
 .sass-cache/
 .ruby-version
+.pygments-cache/
