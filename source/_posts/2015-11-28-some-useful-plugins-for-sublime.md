@@ -31,8 +31,8 @@ categories: [productivity]
 
 * 代码间跳转
 
-    * Jump to definition = Super+Click
-    * Go back = Control+Super+Alt+Left
+    * Jump to definition = Control+Click
+    * Go back = Control+Alt+Command+Left
 
 ### Bracket Highlighter
 
