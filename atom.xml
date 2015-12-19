@@ -4,7 +4,7 @@
   <title><![CDATA[Zhang Hongchao]]></title>
   <link href="http://hongchaozhang.github.io/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2015-12-19T16:41:42+08:00</updated>
+  <updated>2015-12-19T16:47:59+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -25,6 +25,11 @@
 <h3>如果没有Property</h3>
 
 <p>如果没有Property，我们可以这样实现Instance Variable的accessor（getter和setter），示例代码如下：</p>
+
+<!-- more -->
+
+
+
 
 <div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno"> 1</span> <span class="k">@interface</span> <span class="nc">PropertyTester</span><span class="p">()</span> <span class="p">{</span>
 <span class="lineno"> 2</span>     <span class="bp">NSString</span><span class="o">*</span> <span class="n">testString</span><span class="p">;</span>
@@ -173,6 +178,13 @@
     <id>http://hongchaozhang.github.io/blog/2015/12/17/ios-coding-best-practice</id>
     <content type="html"><![CDATA[<ul>
 <li>Use forward declarations</li>
+</ul>
+
+
+<!-- more -->
+
+
+<ul>
 <li>Move variable declaration out of header</li>
 <li>Cleanup duplication in import</li>
 <li>Remove private method declaration in implementation files</li>
@@ -198,9 +210,9 @@
   
   <entry>
     <title type="html"><![CDATA[UIViewController中常见的ios编程习惯]]></title>
-    <link href="http://hongchaozhang.github.io/blog/2015/12/06/some-usefull-ios-coding-styles/"/>
+    <link href="http://hongchaozhang.github.io/blog/2015/12/06/some-usefull-ios-coding-styles-in-UIViewController/"/>
     <updated>2015-12-06T12:55:47+08:00</updated>
-    <id>http://hongchaozhang.github.io/blog/2015/12/06/some-usefull-ios-coding-styles</id>
+    <id>http://hongchaozhang.github.io/blog/2015/12/06/some-usefull-ios-coding-styles-in-UIViewController</id>
     <content type="html"><![CDATA[<p>参考<a href="http://www.cocoachina.com/ios/20150525/11919.html">iOS应用架构谈 view层的组织和调用方案</a>。</p>
 
 <h3>所有的属性都使用getter和setter</h3>

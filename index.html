@@ -100,145 +100,12 @@
 
 <p>如果没有Property，我们可以这样实现Instance Variable的accessor（getter和setter），示例代码如下：</p>
 
-<div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno"> 1</span> <span class="k">@interface</span> <span class="nc">PropertyTester</span><span class="p">()</span> <span class="p">{</span>
-<span class="lineno"> 2</span>     <span class="bp">NSString</span><span class="o">*</span> <span class="n">testString</span><span class="p">;</span>
-<span class="lineno"> 3</span> <span class="p">}</span>
-<span class="lineno"> 4</span> 
-<span class="lineno"> 5</span> <span class="k">@end</span>
-<span class="lineno"> 6</span> 
-<span class="lineno"> 7</span> <span class="k">@implementation</span> <span class="nc">PropertyTester</span>
-<span class="lineno"> 8</span> 
-<span class="lineno"> 9</span> <span class="p">-</span> <span class="p">(</span><span class="bp">NSString</span><span class="o">*</span><span class="p">)</span><span class="nf">testString</span> <span class="p">{</span>
-<span class="lineno">10</span>     <span class="k">return</span> <span class="n">testString</span><span class="p">;</span>
-<span class="lineno">11</span> <span class="p">}</span>
-<span class="lineno">12</span> <span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">setTestString:</span><span class="p">(</span><span class="bp">NSString</span><span class="o">*</span><span class="p">)</span><span class="nv">stringValue</span> <span class="p">{</span>
-<span class="lineno">13</span>     <span class="n">testString</span> <span class="o">=</span> <span class="n">stringValue</span><span class="p">;</span>
-<span class="lineno">14</span> <span class="p">}</span>
-<span class="lineno">15</span> 
-<span class="lineno">16</span> <span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">test</span> <span class="p">{</span>
-<span class="lineno">17</span>     <span class="nb">self</span><span class="p">.</span><span class="n">testString</span> <span class="o">=</span> <span class="s">@&quot;test proeprty&quot;</span><span class="p">;</span>
-<span class="lineno">18</span>     <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;%@&quot;</span><span class="p">,</span> <span class="nb">self</span><span class="p">.</span><span class="n">testString</span><span class="p">);</span> 
-<span class="lineno">19</span> <span class="p">}</span>
-<span class="lineno">20</span> 
-<span class="lineno">21</span> <span class="k">@end</span></code></pre></div>
-
-
-<h3>有了Property</h3>
-
-<p>眼看着Instance Variable及其getter和setter函数是如此有规律，于是Property出现了。</p>
-
-<p>Property可以告诉编译器：我声明了一个Property，名字叫做<code>propertyName</code>，你帮我声明一个Instance Variable <code>_propertyName</code>，并帮助我实现其getter和setter函数。于是，上述代码，我们可以写成：</p>
-
-<div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno"> 1</span> <span class="k">@interface</span> <span class="nc">PropertyTester</span><span class="p">()</span>
-<span class="lineno"> 2</span> 
-<span class="lineno"> 3</span> <span class="k">@property</span> <span class="p">(</span><span class="k">nonatomic</span><span class="p">,</span> <span class="k">strong</span><span class="p">)</span> <span class="bp">NSString</span><span class="o">*</span> <span class="n">testString</span><span class="p">;</span>
-<span class="lineno"> 4</span> 
-<span class="lineno"> 5</span> <span class="k">@end</span>
-<span class="lineno"> 6</span> 
-<span class="lineno"> 7</span> <span class="k">@implementation</span> <span class="nc">PropertyTester</span>
-<span class="lineno"> 8</span> 
-<span class="lineno"> 9</span> <span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">test</span> <span class="p">{</span>
-<span class="lineno">10</span>     <span class="nb">self</span><span class="p">.</span><span class="n">testString</span> <span class="o">=</span> <span class="s">@&quot;test proeprty&quot;</span><span class="p">;</span>
-<span class="lineno">11</span>     <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;%@&quot;</span><span class="p">,</span> <span class="nb">self</span><span class="p">.</span><span class="n">testString</span><span class="p">);</span>
-<span class="lineno">12</span>     
-<span class="lineno">13</span> <span class="p">}</span>
-<span class="lineno">14</span> 
-<span class="lineno">15</span> <span class="k">@end</span></code></pre></div>
-
-
-<p>看看，是不是简单了很多。</p>
-
-<h3>Auto Synthesize</h3>
-
-<p>其实在上述使用Property的代码中，编译器还帮助我们做了一件事情：</p>
-
-<div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno">1</span> <span class="k">@synthesize</span> <span class="n">testString</span> <span class="o">=</span> <span class="n">_testString</span><span class="p">;</span></code></pre></div>
-
-
-<p>从Xcode 4.4和LLVM Compiler 4.0起，有了<strong>auto synthesize</strong>，即@synthesize被更改为默认使用。因此，大多数情况下，你只需要 @property 指令，编译器将为你关心其它的事情。对，是“大多数”，因为在某些情况下，不会进行auto synthesize 。比如，对于上述代码，如果我打算自己实现getter函数：</p>
-
-<div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno"> 1</span> <span class="k">@interface</span> <span class="nc">PropertyTester</span><span class="p">()</span>
-<span class="lineno"> 2</span> 
-<span class="lineno"> 3</span> <span class="k">@property</span> <span class="p">(</span><span class="k">nonatomic</span><span class="p">,</span> <span class="k">strong</span><span class="p">)</span> <span class="bp">NSString</span><span class="o">*</span> <span class="n">testString</span><span class="p">;</span>
-<span class="lineno"> 4</span> 
-<span class="lineno"> 5</span> <span class="k">@end</span>
-<span class="lineno"> 6</span> 
-<span class="lineno"> 7</span> <span class="k">@implementation</span> <span class="nc">PropertyTester</span>
-<span class="lineno"> 8</span> 
-<span class="lineno"> 9</span> <span class="p">-</span> <span class="p">(</span><span class="bp">NSString</span><span class="o">*</span><span class="p">)</span><span class="nf">testString</span> <span class="p">{</span>
-<span class="lineno">10</span>     <span class="k">return</span> <span class="n">_testString</span><span class="p">;</span>
-<span class="lineno">11</span> <span class="p">}</span>
-<span class="lineno">12</span> 
-<span class="lineno">13</span> <span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">test</span> <span class="p">{</span>
-<span class="lineno">14</span>     <span class="nb">self</span><span class="p">.</span><span class="n">testString</span> <span class="o">=</span> <span class="s">@&quot;test proeprty&quot;</span><span class="p">;</span>
-<span class="lineno">15</span>     <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;%@&quot;</span><span class="p">,</span> <span class="nb">self</span><span class="p">.</span><span class="n">testString</span><span class="p">);</span>
-<span class="lineno">16</span>     
-<span class="lineno">17</span> <span class="p">}</span>
-<span class="lineno">18</span> 
-<span class="lineno">19</span> <span class="k">@end</span></code></pre></div>
-
-
-<p>没有任何问题。</p>
-
-<p>如果我再试图加入setter函数：</p>
-
-<div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno"> 1</span> <span class="k">@interface</span> <span class="nc">PropertyTester</span><span class="p">()</span>
-<span class="lineno"> 2</span> <span class="k">@property</span> <span class="p">(</span><span class="k">nonatomic</span><span class="p">,</span> <span class="k">strong</span><span class="p">)</span> <span class="bp">NSString</span><span class="o">*</span> <span class="n">testString</span><span class="p">;</span>
-<span class="lineno"> 3</span> <span class="k">@end</span>
-<span class="lineno"> 4</span> 
-<span class="lineno"> 5</span> <span class="k">@implementation</span> <span class="nc">PropertyTester</span>
-<span class="lineno"> 6</span> 
-<span class="lineno"> 7</span> <span class="p">-</span> <span class="p">(</span><span class="bp">NSString</span><span class="o">*</span><span class="p">)</span><span class="nf">testString</span> <span class="p">{</span>
-<span class="lineno"> 8</span>     <span class="k">return</span> <span class="n">_testString</span><span class="p">;</span>
-<span class="lineno"> 9</span> <span class="p">}</span>
-<span class="lineno">10</span> 
-<span class="lineno">11</span> <span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">setTestString:</span><span class="p">(</span><span class="bp">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">testString</span> <span class="p">{</span>
-<span class="lineno">12</span>     <span class="n">_testString</span> <span class="o">=</span> <span class="n">testString</span><span class="p">;</span>
-<span class="lineno">13</span> <span class="p">}</span>
-<span class="lineno">14</span> 
-<span class="lineno">15</span> <span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">test</span> <span class="p">{</span>
-<span class="lineno">16</span>     <span class="nb">self</span><span class="p">.</span><span class="n">testString</span> <span class="o">=</span> <span class="s">@&quot;test proeprty&quot;</span><span class="p">;</span>
-<span class="lineno">17</span>     <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;%@&quot;</span><span class="p">,</span> <span class="nb">self</span><span class="p">.</span><span class="n">testString</span><span class="p">);</span>
-<span class="lineno">18</span>     
-<span class="lineno">19</span> <span class="p">}</span>
-<span class="lineno">20</span> 
-<span class="lineno">21</span> <span class="k">@end</span></code></pre></div>
-
-
-<p>编译器会报错：</p>
-
-<div class="highlight"><pre><code class="language-text" data-lang="text">use of undefined identifier &#39;_testString&#39;。</code></pre></div>
-
-
-<p>为什么呢？</p>
-
-<p>因为此时auto synthesize没有工作。编译器认为：既然你同时手动接管了getter和setter的实现，那么我就什么也不管了，Instance Variable你也自己声明并起个名字吧。</p>
-
-<p>总结一下auto synthesize不会工作的几种情况（参考<a href="http://stackoverflow.com/questions/19784454/when-should-i-use-synthesize-explicitly">When should I use @synthesize explicitly?</a>）：</p>
-
-<ul>
-<li><p>readwrite property with custom getter and setter</p>
-
-<p>  when providing both a getter and setter custom implementation, the property won&rsquo;t be automatically synthesized</p></li>
-<li><p>readonly property with custom getter</p>
-
-<p>  when providing a custom getter implementation for a readonly property, this won&rsquo;t be automatically synthesized</p></li>
-<li><p>@dynamic</p>
-
-<p>  when using @dynamic propertyName, the property won&rsquo;t be automatically synthesized (pretty obvious, since @dynamic and @synthesize are mutually exclusive)</p></li>
-<li><p>properties declared in a @protocol</p>
-
-<p>  when conforming to a protocol, any property the protocol defines won&rsquo;t be automatically synthesized</p></li>
-<li><p>properties declared in a category</p>
-
-<p>  this is a case in which the @synthesize directive is not automatically inserted by the compiler, but this properties cannot be manually synthesized either. While categories can declare properties, they cannot be synthesized at all, since categories cannot create ivars. For the sake of completeness, I&rsquo;ll add that&rsquo;s it&rsquo;s still possible to fake the property synthesis using the Objective-C runtime.</p></li>
-<li><p>overridden properties (new since clang-600.0.51, shipping with Xcode 6, thanks Marc Schlüpmann)</p>
-
-<p>  when you override a property of a superclass, you must explicitly synthesize it</p></li>
-</ul>
-
 </div>
   
+  
+    <footer>
+      <a rel="full-article" href="/blog/2015/12/19/propety-instance-variable-and-at-synthesize/">Read on &rarr;</a>
+    </footer>
   
 
 
@@ -275,28 +142,15 @@
 
   <div class="entry-content"><ul>
 <li>Use forward declarations</li>
-<li>Move variable declaration out of header</li>
-<li>Cleanup duplication in import</li>
-<li>Remove private method declaration in implementation files</li>
-<li>Move protocol definition to separate header to aviod unnecessary cross reference</li>
-<li>Freqently monitor warnings and static analyzer warnings in your component. Usually it is a good idea to fix it.</li>
-<li>Removing unused resources</li>
-<li>Delegate objects should not be retained when doing so would create a retain cycle.</li>
-<li>import Objective-C/Objective-C++ headers, and #include C/C++ headers.</li>
-<li>Don&rsquo;t @throw Objective-C exceptions, but you should be prepared to catch them from third-party or OS calls.</li>
-<li>Use nil checks for logic flow only.</li>
-<li>Don&rsquo;t initialize variables to 0 or nil in the init method; it&rsquo;s redundant.</li>
-<li>Instance Variables In Headers Should Be @private
+</ul>
 
-<ul>
-<li>Instance variables should typically be declared in implementation files or auto-synthesized by properties. When ivars are declared in a header file, they should be marked @private.</li>
-</ul>
-</li>
-<li>One space should be used between the - or + and the return type, and no spacing in the parameter list except between parameters.</li>
-</ul>
 
 </div>
   
+  
+    <footer>
+      <a rel="full-article" href="/blog/2015/12/17/ios-coding-best-practice/">Read on &rarr;</a>
+    </footer>
   
 
 
@@ -307,7 +161,7 @@
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2015/12/06/some-usefull-ios-coding-styles/">UIViewController中常见的ios编程习惯</a></h1>
+      <h1 class="entry-title"><a href="/blog/2015/12/06/some-usefull-ios-coding-styles-in-UIViewController/">UIViewController中常见的ios编程习惯</a></h1>
     
     
       <p class="meta">
@@ -339,7 +193,7 @@
   
   
     <footer>
-      <a rel="full-article" href="/blog/2015/12/06/some-usefull-ios-coding-styles/">Read on &rarr;</a>
+      <a rel="full-article" href="/blog/2015/12/06/some-usefull-ios-coding-styles-in-UIViewController/">Read on &rarr;</a>
     </footer>
   
 
@@ -1246,7 +1100,7 @@ $ source ~/.bash_profile</code></pre></div>
       </li>
     
       <li class="post">
-        <a href="/blog/2015/12/06/some-usefull-ios-coding-styles/">UIViewController中常见的ios编程习惯</a>
+        <a href="/blog/2015/12/06/some-usefull-ios-coding-styles-in-UIViewController/">UIViewController中常见的ios编程习惯</a>
       </li>
     
       <li class="post">
