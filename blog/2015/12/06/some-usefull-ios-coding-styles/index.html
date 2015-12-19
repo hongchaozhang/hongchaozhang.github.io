@@ -1,0 +1,339 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>UIViewController中常见的ios编程习惯 - Zhang Hongchao</title>
+  <meta name="author" content="Zhang Hongchao">
+
+  
+  <meta name="description" content="参考iOS应用架构谈 view层的组织和调用方案。 所有的属性都使用getter和setter 不要在viewDidLoad里面初始化你的view然后再add，这样代码就很难看。在viewDidload里面只做addSubview的事情，然后在viewWillAppear里面做布局的事情， &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://hongchaozhang.github.io/blog/2015/12/06/some-usefull-ios-coding-styles">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Zhang Hongchao" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/libs/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<!--
+<link href='https://fonts.googleapis.com/css?family=Noto+Serif:400,700' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+-->
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Zhang Hongchao</a></h1>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><!--
+<ul class="subscription" data-subscription="rss">
+  
+  
+</ul>
+-->
+
+<!--
+
+-->
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <script type="text/javascript" src="/javascripts/DisableLineNumberCopy.js"></script>
+
+<div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">UIViewController中常见的ios编程习惯</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2015-12-06T12:55:47+08:00" pubdate data-updated="true">Dec 6th, 2015</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>参考<a href="http://www.cocoachina.com/ios/20150525/11919.html">iOS应用架构谈 view层的组织和调用方案</a>。</p>
+
+<h3>所有的属性都使用getter和setter</h3>
+
+<!-- more -->
+
+
+<blockquote><p>不要在viewDidLoad里面初始化你的view然后再add，这样代码就很难看。在viewDidload里面只做addSubview的事情，然后在viewWillAppear里面做布局的事情，最后在viewDidAppear里面做Notification的监听之类的事情。至于属性的初始化，则交给getter去做。</p></blockquote>
+
+<p>不要出现这样的代码：</p>
+
+<div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno"> 1</span> <span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">viewDidLoad</span>
+<span class="lineno"> 2</span> <span class="p">{</span>
+<span class="lineno"> 3</span>     <span class="p">[</span><span class="nb">super</span> <span class="n">viewDidLoad</span><span class="p">];</span>
+<span class="lineno"> 4</span>     <span class="nb">self</span><span class="p">.</span><span class="n">textLabel</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">UILabel</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
+<span class="lineno"> 5</span>     <span class="nb">self</span><span class="p">.</span><span class="n">textLabel</span><span class="p">.</span><span class="n">textColor</span> <span class="o">=</span> <span class="p">[</span><span class="bp">UIColor</span> <span class="n">blackColor</span><span class="p">];</span>
+<span class="lineno"> 6</span>     <span class="nb">self</span><span class="p">.</span><span class="n">textLabel</span> <span class="p">...</span> <span class="p">...</span>
+<span class="lineno"> 7</span>     <span class="nb">self</span><span class="p">.</span><span class="n">textLabel</span> <span class="p">...</span> <span class="p">...</span>
+<span class="lineno"> 8</span>     <span class="nb">self</span><span class="p">.</span><span class="n">textLabel</span> <span class="p">...</span> <span class="p">...</span>
+<span class="lineno"> 9</span>     <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">view</span> <span class="nl">addSubview</span><span class="p">:</span><span class="nb">self</span><span class="p">.</span><span class="n">textLabel</span><span class="p">];</span>
+<span class="lineno">10</span> <span class="p">}</span></code></pre></div>
+
+
+<p>而应该是这样的：</p>
+
+<div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno"> 1</span> <span class="cp">#pragma mark - life cycle</span>
+<span class="lineno"> 2</span> <span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">viewDidLoad</span>
+<span class="lineno"> 3</span> <span class="p">{</span>
+<span class="lineno"> 4</span>     <span class="p">[</span><span class="nb">super</span> <span class="n">viewDidLoad</span><span class="p">];</span>
+<span class="lineno"> 5</span>     <span class="nb">self</span><span class="p">.</span><span class="n">view</span><span class="p">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="p">[</span><span class="bp">UIColor</span> <span class="n">whiteColor</span><span class="p">];</span>
+<span class="lineno"> 6</span>     <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">view</span> <span class="nl">addSubview</span><span class="p">:</span><span class="nb">self</span><span class="p">.</span><span class="n">firstTableView</span><span class="p">];</span>
+<span class="lineno"> 7</span>     <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">view</span> <span class="nl">addSubview</span><span class="p">:</span><span class="nb">self</span><span class="p">.</span><span class="n">secondTableView</span><span class="p">];</span>
+<span class="lineno"> 8</span>     <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">view</span> <span class="nl">addSubview</span><span class="p">:</span><span class="nb">self</span><span class="p">.</span><span class="n">cleanButton</span><span class="p">];</span>
+<span class="lineno"> 9</span>     <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">view</span> <span class="nl">addSubview</span><span class="p">:</span><span class="nb">self</span><span class="p">.</span><span class="n">originImageView</span><span class="p">];</span>
+<span class="lineno">10</span>     <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">view</span> <span class="nl">addSubview</span><span class="p">:</span><span class="nb">self</span><span class="p">.</span><span class="n">processedImageView</span><span class="p">];</span>
+<span class="lineno">11</span>     <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">view</span> <span class="nl">addSubview</span><span class="p">:</span><span class="nb">self</span><span class="p">.</span><span class="n">activityIndicator</span><span class="p">];</span>
+<span class="lineno">12</span>     <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">view</span> <span class="nl">addSubview</span><span class="p">:</span><span class="nb">self</span><span class="p">.</span><span class="n">takeImageButton</span><span class="p">];</span>
+<span class="lineno">13</span> <span class="p">}</span>
+<span class="lineno">14</span> 
+<span class="lineno">15</span> <span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">viewWillAppear:</span><span class="p">(</span><span class="kt">BOOL</span><span class="p">)</span><span class="nv">animated</span>
+<span class="lineno">16</span> <span class="p">{</span>
+<span class="lineno">17</span>     <span class="p">[</span><span class="nb">super</span> <span class="nl">viewWillAppear</span><span class="p">:</span><span class="n">animated</span><span class="p">];</span>
+<span class="lineno">18</span>     <span class="n">CGFloat</span> <span class="n">width</span> <span class="o">=</span> <span class="p">(</span><span class="nb">self</span><span class="p">.</span><span class="n">view</span><span class="p">.</span><span class="n">width</span> <span class="o">-</span> <span class="mi">30</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.0f</span><span class="p">;</span>
+<span class="lineno">19</span>     <span class="nb">self</span><span class="p">.</span><span class="n">originImageView</span><span class="p">.</span><span class="n">size</span> <span class="o">=</span> <span class="n">CGSizeMake</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">width</span><span class="p">);</span>
+<span class="lineno">20</span>     <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">originImageView</span> <span class="nl">topInContainer</span><span class="p">:</span><span class="mi">70</span> <span class="nl">shouldResize</span><span class="p">:</span><span class="nb">NO</span><span class="p">];</span>
+<span class="lineno">21</span>     <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">originImageView</span> <span class="nl">leftInContainer</span><span class="p">:</span><span class="mi">10</span> <span class="nl">shouldResize</span><span class="p">:</span><span class="nb">NO</span><span class="p">];</span>
+<span class="lineno">22</span>     <span class="nb">self</span><span class="p">.</span><span class="n">processedImageView</span><span class="p">.</span><span class="n">size</span> <span class="o">=</span> <span class="n">CGSizeMake</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">width</span><span class="p">);</span>
+<span class="lineno">23</span>     <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">processedImageView</span> <span class="nl">right</span><span class="p">:</span><span class="mi">10</span> <span class="nl">FromView</span><span class="p">:</span><span class="nb">self</span><span class="p">.</span><span class="n">originImageView</span><span class="p">];</span>
+<span class="lineno">24</span>     <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">processedImageView</span> <span class="nl">topEqualToView</span><span class="p">:</span><span class="nb">self</span><span class="p">.</span><span class="n">originImageView</span><span class="p">];</span>
+<span class="lineno">25</span>     <span class="n">CGFloat</span> <span class="n">labelWidth</span> <span class="o">=</span> <span class="nb">self</span><span class="p">.</span><span class="n">view</span><span class="p">.</span><span class="n">width</span> <span class="o">-</span> <span class="mi">100</span><span class="p">;</span>
+<span class="lineno">26</span>     <span class="nb">self</span><span class="p">.</span><span class="n">firstFilterLabel</span><span class="p">.</span><span class="n">size</span> <span class="o">=</span> <span class="n">CGSizeMake</span><span class="p">(</span><span class="n">labelWidth</span><span class="p">,</span> <span class="mi">20</span><span class="p">);</span>
+<span class="lineno">27</span>     <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">firstFilterLabel</span> <span class="nl">leftInContainer</span><span class="p">:</span><span class="mi">10</span> <span class="nl">shouldResize</span><span class="p">:</span><span class="nb">NO</span><span class="p">];</span>
+<span class="lineno">28</span>     <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">firstFilterLabel</span> <span class="nl">top</span><span class="p">:</span><span class="mi">10</span> <span class="nl">FromView</span><span class="p">:</span><span class="nb">self</span><span class="p">.</span><span class="n">originImageView</span><span class="p">];</span>
+<span class="lineno">29</span>     <span class="p">...</span> <span class="p">...</span>
+<span class="lineno">30</span> <span class="p">}</span></code></pre></div>
+
+
+<h4>getter和setter全部都放在最后</h4>
+
+<blockquote><p>因为一个ViewController很有可能会有非常多的view，就像上面给出的代码样例一样，如果getter和setter写在前面，就会把主要逻辑扯到后面去，其他人看的时候就要先划过一长串getter和setter，这样不太好。然后要求业务工程师写代码的时候按照顺序来分配代码块的位置，<strong>先是life cycle，然后是Delegate方法实现，然后是event response，然后才是getters and setters</strong>。这样后来者阅读代码时就能省力很多。</p></blockquote>
+
+<h3>每一个delegate都把对应的protocol名字带上，delegate方法不要到处乱写，写到一块区域里面去</h3>
+
+<blockquote><p>比如UITableViewDelegate的方法集就老老实实写上#pragma mark - UITableViewDelegate。这样有个好处就是，当其他人阅读一个他并不熟悉的Delegate实现方法时，他只要按住command然后去点这个protocol名字，Xcode就能够立刻跳转到对应这个Delegate的protocol定义的那部分代码去，就省得他到处找了。</p></blockquote>
+
+<h3>event response专门开一个代码区域</h3>
+
+<p>所有button、gestureRecognizer的响应事件都放在这个区域里面，不要到处乱放。</p>
+
+<h3>关于private methods，正常情况下ViewController里面不应该写</h3>
+
+<p>不是delegate方法的，不是event response方法的，不是life cycle方法的，就是private method了。对的，正常情况下ViewController里面一般是不会存在private methods的，这个private methods一般是用于日期换算、图片裁剪啥的这种小功能。这种小功能要么把它写成一个category，要么把他做成一个模块，哪怕这个模块只有一个函数也行。</p>
+
+<p>ViewController基本上是大部分业务的载体，本身代码已经相当复杂，所以跟业务关联不大的东西能不放在ViewController里面就不要放。另外一点，这个private method的功能这时候只是你用得到，但是将来说不定别的地方也会用到，一开始就独立出来，有利于将来的代码复用。</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Zhang Hongchao</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2015-12-06T12:55:47+08:00" pubdate data-updated="true">Dec 6th, 2015</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ios/'>ios</a>, <a class='category' href='/blog/categories/objective-c/'>objective-c</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/12/01/autosizing-and-autolayout/" title="Previous Post: AutoSizing and AutoLayout">&laquo; AutoSizing and AutoLayout</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/12/17/ios-coding-best-practice/" title="Next Post: ios coding best practice">ios coding best practice &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+  <aside class="sidebar">
+   
+  
+    <section class="categories">
+  <h1>Categories</h1>
+    <ul id="top-category-list" class="nav nav-list"><li><a href='/blog/categories/ios'>ios (17)</a></li><li><a href='/blog/categories/productivity'>productivity (14)</a></li><li><a href='/blog/categories/objective-c'>objective-c (11)</a></li><li><a href='/blog/categories/android'>android (3)</a></li><li><a href='/blog/categories/python'>python (2)</a></li><li><a href='/blog/categories/javascript'>javascript (2)</a></li><li><a href='/blog/categories/java'>java (1)</a></li><li><a href='/blog/categories/web'>web (1)</a></li><li><a href='/blog/categories/android-studio'>android_studio (1)</a></li><li><a href='/blog/categories/xcode'>xcode (1)</a></li><li><a href='/blog/categories/design-pattern'>design_pattern (1)</a></li><li><a href='/blog/categories/node'>node (1)</a></li></ul>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2015/12/19/propety-instance-variable-and-at-synthesize/">Propety, Instance Variable and @synthesize</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/12/17/ios-coding-best-practice/">Ios Coding Best Practice</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/12/06/some-usefull-ios-coding-styles/">UIViewController中常见的ios编程习惯</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/12/01/autosizing-and-autolayout/">AutoSizing and AutoLayout</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/11/29/ios-network-request/">Ios进行网络请求</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/hongchaozhang">@hongchaozhang</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'hongchaozhang',
+            count: 10,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+  
+</aside>
+
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2015 - Zhang Hongchao -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+<script>
+  $(document).ready(function() {  
+    var stickyNavTop = $('nav').offset().top;  
+      
+    var stickyNav = function(){  
+      var scrollTop = $(window).scrollTop(); 
+      var navHasClassSticky = $('nav').hasClass('sticky');
+
+      if (scrollTop > stickyNavTop && navHasClassSticky) {   
+        return true;
+      } else if (scrollTop > stickyNavTop) {
+        $('nav').hide();
+        $('nav').addClass('sticky');
+        $('nav').fadeIn('2000');
+      } else {  
+        $('nav').removeClass('sticky');   
+      }  
+    };  
+      
+    stickyNav();  
+      
+    $(window).scroll(function() {  
+      stickyNav();  
+    });  
+  });  
+</script>
+
+
+</body>
+</html>

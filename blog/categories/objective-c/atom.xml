@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Objective-c | Zhang Hongchao]]></title>
   <link href="http://hongchaozhang.github.io/blog/categories/objective-c/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2015-11-29T14:11:59+08:00</updated>
+  <updated>2015-12-19T16:41:42+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -14,548 +14,349 @@
 
   
   <entry>
-    <title type="html"><![CDATA[iOS中的触控事件机制]]></title>
-    <link href="http://hongchaozhang.github.io/blog/2015/10/21/touch-event-in-ios/"/>
-    <updated>2015-10-21T16:55:48+08:00</updated>
-    <id>http://hongchaozhang.github.io/blog/2015/10/21/touch-event-in-ios</id>
-    <content type="html"><![CDATA[<p>在iOS中有三类事件：</p>
+    <title type="html"><![CDATA[Propety, Instance Variable and @synthesize]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2015/12/19/propety-instance-variable-and-at-synthesize/"/>
+    <updated>2015-12-19T15:17:41+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2015/12/19/propety-instance-variable-and-at-synthesize</id>
+    <content type="html"><![CDATA[<p>这一段时间，工作上在做一对不理解代码的重构，重新了解了一下Property、Instance Variable和@synthesize，总结一下。</p>
 
-<ul>
-<li>触控事件（单点、多点触控以及各种手势操作）</li>
-<li>传感器事件（重力、加速度传感器等）</li>
-<li>远程控制事件（远程遥控iOS设备多媒体播放等）</li>
-</ul>
+<p>首先需要明白一点：Property和@synthesize是让编译器帮助我们做一些规律性的工作。</p>
 
+<h3>如果没有Property</h3>
 
-<p>这里要讨论的是<strong>触控事件</strong>的机制。</p>
+<p>如果没有Property，我们可以这样实现Instance Variable的accessor（getter和setter），示例代码如下：</p>
 
-<p>iOS中主要有两种触控事件：</p>
-
-<ul>
-<li>手势识别类定义的触控事件</li>
-<li>UIResponder中定义的触控事件</li>
-</ul>
-
-
-<!-- more -->
-
-
-<h2>手势识别类——Gesture Recognizer</h2>
-
-<h3>手势识别类的代码添加</h3>
-
-<p>可以通过如下代码，在ViewController中为UIView添加手势识别类，称为Action-Target模式。每一个Gesture Recognizer关联一个View，但是一个View可以关联多个Gesture Recognizer，因为一个View可能还能响应多种触控操作方式。</p>
-
-<p><div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno"> 1</span> <span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">viewDidLoad</span> <span class="p">{</span>
-<span class="lineno"> 2</span>     <span class="p">[</span><span class="nb">super</span> <span class="n">viewDidLoad</span><span class="p">];</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-<span class="lineno"> 3</span> 
-<span class="lineno"> 4</span> <span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="c1">// 创建并初始化手势对象</span>
-<span class="lineno"> 5</span> <span class="bp">UITapGestureRecognizer</span> <span class="o">*</span><span class="n">tapRecognizer</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">UITapGestureRecognizer</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithTarget</span><span class="p">:</span><span class="nb">self</span> <span class="nl">action</span><span class="p">:</span><span class="k">@selector</span><span class="p">(</span><span class="nl">respondToTapGesture</span><span class="p">:)];</span>
+<p><div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno"> 1</span> <span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+<span class="lineno"> 2</span> 
+<span class="lineno"> 3</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">@interface</span> <span class="nc">PropertyTester</span><span class="p">()</span> <span class="p">{</span>
+<span class="lineno"> 4</span>     <span class="bp">NSString</span><span class="o">*</span> <span class="n">testString</span><span class="p">;</span>
+<span class="lineno"> 5</span> <span class="p">}</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
 <span class="lineno"> 6</span> 
-<span class="lineno"> 7</span> <span class="c1">// 指定操作为单击一次</span>
-<span class="lineno"> 8</span> <span class="n">tapRecognizer</span><span class="p">.</span><span class="n">numberOfTapsRequired</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
-<span class="lineno"> 9</span> 
-<span class="lineno">10</span> <span class="c1">// 为当前View添加GestureRecognizer</span>
-<span class="lineno">11</span> <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">view</span> <span class="nl">addGestureRecognizer</span><span class="p">:</span><span class="n">tapRecognizer</span><span class="p">];</span>
-<span class="lineno">12</span> 
-<span class="lineno">13</span> <span class="c1">// ...</span>
-<span class="lineno">14</span> <span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
-<span class="lineno">15</span> 
-<span class="lineno">16</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="p">}</span></code></pre></div></p>
-
-<h3>连续和不连续动作</h3>
-
-<p><img src="/images/011_iOS_event_discrete_vs_continuous.png" alt="011_iOS_event_discrete_vs_continuous.png" /></p>
-
-<p>对于不连续动作，Gesture Recognizer只会给ViewContoller发送一个单一的动作消息(action message)而，对于连续动作，Gesture Recognizer会发送多条动作消息给ViewController，直到所有的事件都结束。</p>
-
-<h3>常见的手势识别类</h3>
-
-<p>UIKit框架中已经提供了诸如UITapGestureRecognizer在内的六种手势识别器：</p>
-
-<table>
-<thead>
-<tr>
-<th>Gesture </th>
-<th> UIKit class</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Tapping (any number of taps)</td>
-<td> UITapGestureRecognizer</td>
-</tr>
-<tr>
-<td>Pinching in and out (for zooming a view) </td>
-<td> UIPinchGestureRecognizer</td>
-</tr>
-<tr>
-<td>Panning or dragging </td>
-<td> UIPanGestureRecognizer</td>
-</tr>
-<tr>
-<td>Swiping (in any direction) </td>
-<td> UISwipeGestureRecognizer</td>
-</tr>
-<tr>
-<td>Rotating (fingers moving in opposite directions) </td>
-<td> UIRotationGestureRecognizer</td>
-</tr>
-<tr>
-<td>Long press (also known as “touch and hold”) </td>
-<td> UILongPressGestureRecognizer</td>
-</tr>
-</tbody>
-</table>
-
-
-<p>如果你需要实现自定义的手势识别器，也可以通过继承UIGestureRecognizer类并重写其中的方法来完成。</p>
-
-<h3>事件识别过程</h3>
-
-<p>在事件处理过程中，连续事件和不连续事件所处的状态又各有不同，首先，所有的触控事件最开始都是处于可用状态(Possible)，对应UIKit里面的UIGestureRecognizerStatePossible类，如果是不连续动作事件，则状态只会从Possible转变为已识别状态(Recognized,UIGestureRecognizerStateRecognized)或者是失败状态(Failed,UIGestureRecognizerStateFailed)。例如一次成功的单击动作，就对应了Possible-Recognized这个过程。</p>
-
-<p><img src="/images/012_iOS_event_gesture_recognizer_state_transitions.png" alt="012_iOS_event_gesture_recognizer_state_transitions.png" /></p>
-
-<p>如果是连续动作事件，如果事件没有失败并且连续动作的第一个动作被成功识别(Recognized)，则从Possible状态转移到Began(UIGestureRecognizerStateBegan)状态，这里表示连续动作的开始，接着会转变为Changed(UIGestureRecognizerStateChanged)状态，在这个状态下会不断循环的处理连续动作，直到动作执行完成变转变为Recognized已识别状态，最终该动作会处于完成状态(UIGestureRecognizerStateEnded)。另外，连续动作事件的处理状态也可能会从Changed状态转变为Canceled(UIGestureRecognizerStateCancelled)状态，原因是识别器认为当前的动作已经不匹配当初对事件的设定了。每个动作状态的变化，Gesture Recognizer都会发送消息(action message)给Target，也就是ViewController，它可以根据这些动作消息进行相应的处理。例如一次成功的滑动手势动作就包括按下、移动、抬起的过程，分别对应了Possible-Began-Changed-Recognized这个过程。</p>
-
-<h2>UIResponder中定义的触控事件</h2>
-
-<h3>UITouch和UIEvent</h3>
-
-<p><strong>TODO</strong></p>
-
-<p>当UIView中没有添加UIGestureRecognizer的时候，如果对UIView触发Pinch操作，如下四个事件接口函数中的<code>touches</code>都只能接收到一个touch的信息（新加的或者改变的touche）。如果想得到所有touch的信息，可以到<code>event.touches</code>中获取。</p>
-
-<p><div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno">1</span> <span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">touchesBegan:</span><span class="p">(</span><span class="bp">NSSet</span><span class="o">&lt;</span><span class="bp">UITouch</span> <span class="o">*&gt;</span> <span class="o">&lt;</span><span class="n">em</span><span class="o">&gt;</span><span class="p">)</span><span class="nv">touches</span> <span class="nf">withEvent:</span><span class="p">(</span><span class="bp">UIEvent</span> <span class="o">&lt;/</span><span class="n">em</span><span class="o">&gt;</span><span class="p">)</span><span class="nv">event</span>
-<span class="lineno">2</span> <span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">touchesMoved:</span><span class="p">(</span><span class="bp">NSSet</span><span class="o">&lt;</span><span class="bp">UITouch</span> <span class="o">*&gt;</span> <span class="o">&lt;</span><span class="n">em</span><span class="o">&gt;</span><span class="p">)</span><span class="nv">touches</span> <span class="nf">withEvent:</span><span class="p">(</span><span class="bp">UIEvent</span> <span class="o">&lt;/</span><span class="n">em</span><span class="o">&gt;</span><span class="p">)</span><span class="nv">event</span>
-<span class="lineno">3</span> <span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">touchesEnded:</span><span class="p">(</span><span class="bp">NSSet</span><span class="o">&lt;</span><span class="bp">UITouch</span> <span class="o">*&gt;</span> <span class="o">&lt;</span><span class="n">em</span><span class="o">&gt;</span><span class="p">)</span><span class="nv">touches</span> <span class="nf">withEvent:</span><span class="p">(</span><span class="bp">UIEvent</span> <span class="o">&lt;/</span><span class="n">em</span><span class="o">&gt;</span><span class="p">)</span><span class="nv">event</span>
-<span class="lineno">4</span> <span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">touchesCancelled:</span><span class="p">(</span><span class="bp">NSSet</span><span class="o">&lt;</span><span class="bp">UITouch</span> <span class="o">*&gt;</span> <span class="o">&lt;</span><span class="n">em</span><span class="o">&gt;</span><span class="p">)</span><span class="nv">touches</span> <span class="nf">withEvent:</span><span class="p">(</span><span class="bp">UIEvent</span> <span class="o">&lt;/</span><span class="n">em</span><span class="o">&gt;</span><span class="p">)</span><span class="nv">event</span></code></pre></div></p>
-
-<p>每个touch都有自己的<code>phase</code>，其与上述四个接口函数的关系可以从下面的例子中看出：</p>
-
-<p><img src="/images/014_ios_event_touch_time.png" alt="014_ios_event_touch_time.png" /></p>
-
-<h2>手势识别类和UIResponder定义的事件的传递过程</h2>
-
-<p><img src="/images/013_iOS_event_path_of_touches.png" alt="013_iOS_event_path_of_touches.png" /></p>
-
-<p>iOS中事件传递首先从App(UIApplication)开始，接着传递到Window(UIWindow)，在接着往下传递到View之前，Window会将事件交给GestureRecognizer，如果在此期间，GestureRecognizer识别了传递过来的事件，则该事件将不会继续传递到View去，而是像我们之前说的那样交给Target(ViewController)进行处理。如果View上没有定义GestureRecognizer，或者GestureRecognizer没有识别出这个动作，那么View中的继承自UIResponder的如下事件方法会被触发：</p>
-
-<ul>
-<li>touchesBegan:withEvent:</li>
-<li>touchesMoved:withEvent:</li>
-<li>touchesEnded:withEvent:</li>
-<li>touchesCancelled:withEvent:</li>
-</ul>
-
-
-<p>比如，</p>
-
-<ul>
-<li>对于非连续行动作（比如Tap），
-
-<ul>
-<li>当View上定义了UITapGestureRecognizer，在View接受用户Tap事件时，touchesBegan:withEvent:和touchesCancelled:withEvent:会被调用，其余事件方法则不会被调用。</li>
-<li>当View上没有定义UIGestureRecognizer时，在View接受用户Tap事件时，touchesBegan:withEvent:和touchesEnded:withEvent:会被调用。</li>
-</ul>
-</li>
-<li>对于连续动作（比如Pinch），
-
-<ul>
-<li>当View上定义了UIPinchGestureRecognizer时，在View接受用户Pinch动作时，
-
-<ul>
-<li>如果Pinch动作被正确地Recognized，那么View上被触发的事件依次是：
-
-<ul>
-<li>touchesBegan</li>
-<li>touchesMoved</li>
-<li>touchesMoved</li>
-<li>&hellip;</li>
-<li>touchesMoved</li>
-<li>pinch (UIGestureRecognizerStateBegan)</li>
-<li>touchesCancelled</li>
-<li>pinch (UIGestureRecognizerStateChanged)</li>
-<li>pinch (UIGestureRecognizerStateChanged)</li>
-<li>&hellip;</li>
-<li>pinch (UIGestureRecognizerStateChanged)</li>
-<li>pinch (UIGestureRecognizerStateEnded / UIGestureRecognizerStateRecognized)</li>
-</ul>
-</li>
-<li>如果Pinch动作Cancelled，猜想：应该和recognized的情况类似，只是最后一步的状态是UIGestureRecognizerStateCancelled。</li>
-</ul>
-</li>
-<li>当View上未定义UIPinchGestureRecognizer时，在View接受Pinch动作时，被触发的事件依次是：
-
-<ul>
-<li>touchesBegan</li>
-<li>touchesMoved</li>
-<li>touchesMoved</li>
-<li>&hellip;</li>
-<li>touchesMoved</li>
-<li>touchesEnded</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-
-
-<p>可以到<a href="https://developer.apple.com/library/ios/documentation/EventHandling/Conceptual/EventHandlingiPhoneOS/GestureRecognizer_basics/GestureRecognizer_basics.html">Gesture Recognizers</a>官方文档中的“Gesture Recognizers Get the First Opportunity to Recognize a Touch”部分了解详细过程。</p>
-
-<p>截一插图放在这里：</p>
-
-<p><img src="/images/015_iOS_recognize_touch.png" alt="015_iOS_recognize_touch.png" /></p>
-
-<h2>响应者链（Responder Chain）</h2>
-
-<p>在网页上当我们讲到事件，我们会讲到事件响应链，我们会讲到事件的响应者和事件的传递方式(冒泡)，那么在app上，其实也离不开这几个问题。</p>
-
-<p>UIResponder是所有可以响应事件的类的基类(从名字应该就可以看出来了)，其中包括最常见的UIView和UIViewController甚至是UIApplication，所以我们的UIView和UIViewController都是作为响应事件的载体，称为<strong>响应者对象（Responder Object）</strong>。UIResponder部分接口如下：</p>
-
-<p><div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno"> 1</span> <span class="n">NS_CLASS_AVAILABLE_IOS</span><span class="p">(</span><span class="mi">2</span><span class="n">_0</span><span class="p">)</span> <span class="k">@interface</span> <span class="bp">UIResponder</span> : <span class="bp">NSObject</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-<span class="lineno"> 2</span> 
-<span class="lineno"> 3</span> <span class="o">&lt;</span><span class="n">ul</span><span class="o">&gt;</span>
-<span class="lineno"> 4</span> <span class="o">&lt;</span><span class="n">li</span><span class="o">&gt;&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="p">(</span><span class="n">nullable</span> <span class="bp">UIResponder</span><span class="o">*</span><span class="p">)</span><span class="n">nextResponder</span><span class="p">;</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;&lt;/</span><span class="n">li</span><span class="o">&gt;</span>
-<span class="lineno"> 5</span> <span class="o">&lt;</span><span class="n">li</span><span class="o">&gt;&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="p">(</span><span class="kt">BOOL</span><span class="p">)</span><span class="n">canBecomeFirstResponder</span><span class="p">;</span>    <span class="c1">// default is NO&lt;/p&gt;&lt;/li&gt;</span>
-<span class="lineno"> 6</span> <span class="o">&lt;</span><span class="n">li</span><span class="o">&gt;&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="p">(</span><span class="kt">BOOL</span><span class="p">)</span><span class="n">becomeFirstResponder</span><span class="p">;</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;&lt;/</span><span class="n">li</span><span class="o">&gt;</span>
-<span class="lineno"> 7</span> <span class="o">&lt;</span><span class="n">li</span><span class="o">&gt;&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="p">(</span><span class="kt">BOOL</span><span class="p">)</span><span class="n">canResignFirstResponder</span><span class="p">;</span>    <span class="c1">// default is YES&lt;/p&gt;&lt;/li&gt;</span>
-<span class="lineno"> 8</span> <span class="o">&lt;</span><span class="n">li</span><span class="o">&gt;&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="p">(</span><span class="kt">BOOL</span><span class="p">)</span><span class="n">resignFirstResponder</span><span class="p">;</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;&lt;/</span><span class="n">li</span><span class="o">&gt;</span>
-<span class="lineno"> 9</span> <span class="o">&lt;</span><span class="n">li</span><span class="o">&gt;&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="p">(</span><span class="kt">BOOL</span><span class="p">)</span><span class="n">isFirstResponder</span><span class="p">;</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;&lt;/</span><span class="n">li</span><span class="o">&gt;</span>
-<span class="lineno">10</span> <span class="o">&lt;/</span><span class="n">ul</span><span class="o">&gt;</span>
-<span class="lineno">11</span> 
-<span class="lineno">12</span> 
-<span class="lineno">13</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="c1">// Generally, all responders which do custom touch handling should override all four of these methods.</span>
-<span class="lineno">14</span> <span class="c1">// Your responder will receive either touchesEnded:withEvent: or touchesCancelled:withEvent: for each</span>
-<span class="lineno">15</span> <span class="c1">// touch it is handling (those touches it received in touchesBegan:withEvent:).</span>
-<span class="lineno">16</span> <span class="c1">// &lt;em&gt;&lt;em&gt;&lt;em&gt; You must handle cancelled touches to ensure correct behavior in your application.  Failure to</span>
-<span class="lineno">17</span> <span class="c1">// do so is very likely to lead to incorrect behavior or crashes.</span>
-<span class="lineno">18</span> <span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nl">touchesBegan</span><span class="p">:(</span><span class="bp">NSSet</span><span class="o">&lt;</span><span class="bp">UITouch</span> <span class="o">*&gt;</span> <span class="o">&lt;/</span><span class="n">em</span><span class="o">&gt;</span><span class="p">)</span><span class="n">touches</span> <span class="nl">withEvent</span><span class="p">:(</span><span class="n">nullable</span> <span class="bp">UIEvent</span> <span class="o">&lt;/</span><span class="n">em</span><span class="o">&gt;</span><span class="p">)</span><span class="n">event</span><span class="p">;</span>
-<span class="lineno">19</span> <span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">touchesMoved:</span><span class="p">(</span><span class="bp">NSSet</span><span class="o">&lt;</span><span class="bp">UITouch</span> <span class="o">*&gt;</span> <span class="o">&lt;/</span><span class="n">em</span><span class="o">&gt;</span><span class="p">)</span><span class="nv">touches</span> <span class="nf">withEvent:</span><span class="p">(</span><span class="n">nullable</span> <span class="bp">UIEvent</span> <span class="o">&lt;</span><span class="n">em</span><span class="o">&gt;</span><span class="p">)</span><span class="nv">event</span><span class="p">;</span>
-<span class="lineno">20</span> <span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">touchesEnded:</span><span class="p">(</span><span class="bp">NSSet</span><span class="o">&lt;</span><span class="bp">UITouch</span> <span class="o">*&gt;</span> <span class="o">&lt;/</span><span class="n">em</span><span class="o">&gt;</span><span class="p">)</span><span class="nv">touches</span> <span class="nf">withEvent:</span><span class="p">(</span><span class="n">nullable</span> <span class="bp">UIEvent</span> <span class="o">&lt;</span><span class="n">em</span><span class="o">&gt;</span><span class="p">)</span><span class="nv">event</span><span class="p">;</span>
-<span class="lineno">21</span> <span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">touchesCancelled:</span><span class="p">(</span><span class="n">nullable</span> <span class="bp">NSSet</span><span class="o">&lt;</span><span class="bp">UITouch</span> <span class="o">*&gt;</span> <span class="o">&lt;/</span><span class="n">em</span><span class="o">&gt;</span><span class="p">)</span><span class="nv">touches</span> <span class="nf">withEvent:</span><span class="p">(</span><span class="n">nullable</span> <span class="bp">UIEvent</span> <span class="o">*</span><span class="p">)</span><span class="nv">event</span><span class="p">;</span></code></pre></div></p>
-
-<p>那么响应链跟这个UIResponder有什么关系呢？事实事件响应链的形成和事件的响应和传递，UIResponder都帮我们做了很多事。我们的app中，所有的视图都是按照一定的结构组织起来的，即树状层次结构，每个view都有自己的superView，包括controller的topmost view(controller的self.view)。当一个view被add到superView上的时候，他的nextResponder属性就会被指向它的superView，当controller被初始化的时候，self.view(topmost view)的nextResponder会被指向所在的controller，而controller的nextResponder会被指向self.view的superView，这样，整个app就通过nextResponder串成了一条链，也就是我们所说的响应链。所以响应链就是一条虚拟的链，并没有一个对象来专门存储这样的一条链，而是通过UIResponder的属性nextResponder串连起来的。如下图：</p>
-
-<p><img src="/images/007_iOS_responder_chain.png" alt="007_iOS_responder_chain.png" /></p>
-
-<p>参考文章：<a href="http://zhoon.github.io/ios/2015/04/12/ios-event.html">深入浅出iOS事件机制</a>。</p>
-
-<h3>hit-test view</h3>
-
-<p>有了事件响应链，接下来的事情就是寻找响应事件的具体响应者了，我们称为hit-testing view，寻找这个view的过程我们称着为hit-test。</p>
-
-<p>每当手指接触屏幕，UIApplication接收到手指的事件之后，就会去调用UIWindow的hitTest:withEvent:</p>
-
-<p><div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno"> 1</span> <span class="nl">hitTest</span><span class="p">:</span> <span class="p">(</span><span class="bp">CGPoint</span><span class="p">)</span> <span class="n">point</span> <span class="nl">withEvent</span><span class="p">:</span> <span class="p">(</span><span class="bp">UIEvent</span><span class="o">*</span> <span class="p">)</span><span class="n">event</span><span class="p">{</span>
-<span class="lineno"> 2</span> <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nb">self</span><span class="p">.</span><span class="n">isUserInteractionEnabled</span> <span class="o">||</span> <span class="nb">self</span><span class="p">.</span><span class="n">isHidden</span> <span class="o">||</span> <span class="nb">self</span><span class="p">.</span><span class="n">alpha</span> <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span> <span class="p">{</span>
-<span class="lineno"> 3</span>     <span class="k">return</span> <span class="nb">nil</span><span class="p">;</span>
-<span class="lineno"> 4</span> <span class="p">}</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-<span class="lineno"> 5</span> 
-<span class="lineno"> 6</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">for</span> <span class="p">(</span><span class="bp">UIView</span><span class="o">*</span> <span class="n">v</span> <span class="k">in</span> <span class="n">subviews</span><span class="p">){</span>
-<span class="lineno"> 7</span>      <span class="k">if</span> <span class="p">([</span><span class="n">v</span> <span class="nl">pointInside</span><span class="p">:</span><span class="n">point</span> <span class="nl">withEvent</span><span class="p">:</span><span class="n">event</span><span class="p">]){</span>
-<span class="lineno"> 8</span>           <span class="k">return</span> <span class="p">[</span><span class="n">v</span> <span class="nl">hitTest</span><span class="p">:</span><span class="n">point</span> <span class="nl">withEvent</span><span class="p">:</span><span class="n">event</span><span class="p">];</span>
-<span class="lineno"> 9</span>      <span class="p">}</span>
-<span class="lineno">10</span>   <span class="p">}</span>
-<span class="lineno">11</span> <span class="p">}</span></code></pre></div></p>
-
-<p>注意hitTest里面是有判断当前的view是否支持点击事件，比如userInteractionEnabled、hidden、alpha等属性，都会影响一个view是否可以响应事件，如果不响应则直接返回nil。</p>
-
-<p>我们留意到还有一个pointInside:withEvent:方法，这个方法跟hittest:withEvent:一样都是UIView的一个方法，通过他可以判断point是否在view的<strong>bound</strong>范围内。</p>
-
-<p>下面用一幅图说明hit-test的过程：</p>
-
-<p><img src="/images/009_iOS_hittest_2.png" alt="009_iOS_hittest_2.png" /></p>
-
-<p>参考文章：<a href="http://zhoon.github.io/ios/2015/04/12/ios-event.html">深入浅出iOS事件机制</a>。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Singleton]]></title>
-    <link href="http://hongchaozhang.github.io/blog/2015/09/07/Singleton/"/>
-    <updated>2015-09-07T00:00:00+08:00</updated>
-    <id>http://hongchaozhang.github.io/blog/2015/09/07/Singleton</id>
-    <content type="html"><![CDATA[<h2>Singleton implementation</h2>
-
-<p><a href="http://cocoa.venj.me/blog/singleton-in-objc/">Objective-C中单例模式的实现</a></p>
-
-<p><a href="http://www.makebetterthings.com/iphone/singleton-design-pattern-for-objective-c/">Singleton Design Pattern for Objective-C</a></p>
-
-<p><div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="p">+</span> <span class="p">(</span><span class="kt">instancetype</span><span class="p">)</span><span class="nf">sharedInstance</span>
-<span class="p">{</span>
-    <span class="k">static</span> <span class="kt">dispatch_once_t</span> <span class="n">once</span><span class="p">;</span>
-    <span class="k">static</span> <span class="kt">id</span> <span class="n">sharedInstance</span><span class="p">;</span>
-    <span class="n">dispatch_once</span><span class="p">(</span><span class="o">&amp;</span><span class="n">amp</span><span class="p">;</span><span class="n">once</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
-        <span class="n">sharedInstance</span> <span class="o">=</span> <span class="p">[[</span><span class="nb">self</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
-    <span class="p">});</span>
-    <span class="k">return</span> <span class="n">sharedInstance</span><span class="p">;</span>
-<span class="p">}</span></code></pre></div></p>
-
-<h2>Avoid abusing singleton</h2>
-
-<p><a href="http://objccn.io/issue-13-2/">避免滥用单例</a></p>
-
-<p>Singleton introduces globla variable, which may lead to coupling of far-away components.</p>
-
-<p>Note the life circle of an object, to see if it confirm to &ldquo;will always has one instance&rdquo;. If NO, we can not use Singleton here.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[ARC and GC]]></title>
-    <link href="http://hongchaozhang.github.io/blog/2015/08/14/ARC-and-Memory-Leak/"/>
-    <updated>2015-08-14T00:00:00+08:00</updated>
-    <id>http://hongchaozhang.github.io/blog/2015/08/14/ARC-and-Memory-Leak</id>
-    <content type="html"><![CDATA[<p>The following post mainly comes from <a href="http://docs.elementscompiler.com/Concepts/ARCvsGC/">ARC vs GC</a> and <a href="http://lists.apple.com/archives/objc-language/2011/Jun/msg00013.html">Re: ARC replacing GC? from Chris Lattner&rsquo;s mail list</a>.</p>
-
-<p>Also reference some posts on memory leak, including <a href="http://stackoverflow.com/questions/6260256/what-kind-of-leaks-does-automatic-reference-counting-in-objective-c-not-prevent/6388601#6388601">What kind of leaks does automatic reference counting in Objective-C not prevent or minimize?</a> and <a href="http://www.reigndesign.com/blog/debugging-retain-cycles-in-objective-c-four-likely-culprits/">Debugging retain cycles in Objective-C: four likely culprits</a>.</p>
-
-<!-- more -->
-
-
-<p>Add one more article: <a href="http://www.pchou.info/ios/2015/06/05/oc-memory-management.html">Objective-c 内存管理的历史和参考资料</a>.</p>
-
-<h2>Garbage Collection</h2>
-
-<p>Garbage Collection (or GC for short) is the technique used for life cycle management on the .NET and Java platforms. The way GC works i/Users/hongchaozhang/Develop/octopress/source/_posts/2015-07-09-Basic-Git-Commands.mds that the runtime (either the Common Language Runtime for .NET or the Java Runtime) has infrastructure in place that detects unused objects and object graphs in the background.</p>
-
-<blockquote><p>Unfortunately, garbage collection does have a down side. Garbage collection is only available on MacOS X Version 10.5 or above. It is not available, currently (not sure if it is still true today), on iPhone, iPad, or any of the less common platforms, such as Linux or Windows.</p></blockquote>
-
-<p>This happens at indeterminate intervals (either after a certain amount of time has passed, or when the runtime sees available memory getting low), so objects are not necessarily released at the exact moment they are no longer used.</p>
-
-<h3>Advantages of Garbage Collection</h3>
-
-<p>GC can clean up entire object graphs, including retain cycles.
-GC happens in the background, so less memory management work is done as part of the regular application flow.</p>
-
-<h3>Disadvantages of Garbage Collection</h3>
-
-<p>Because GC happens in the background, the exact time frame for object releases is undetermined.
-When a GC happens, other threads in the application may be temporarily put on hold.</p>
-
-<h2>Automatic Reference Counting</h2>
-
-<p>Automatic Reference Counting (ARC for short) as used on Cocoa takes a different approach. Rather than having the runtime look for and dispose of unused objects in the background, the compiler will inject code into the executable that keeps track of object reference counts and will release objects as necessary, automatically. In essence, if you were to disassemble an executable compiled with ARC, it would look (conceptually) as if the developer spent a lot of time meticulously keeping track of object life cycles when writing the code — except that all that hard work was done by the compiler.</p>
-
-<h3>Advantages of Automatic Reference Counting</h3>
-
-<p>Real-time, deterministic destruction of objects as they become unused.
-No background processing, which makes it more efficient on lower-power systems, such as mobile devices.</p>
-
-<h3>Disadvantages of Automatic Reference Counting</h3>
-
-<p>Cannot cope with retain cycles.</p>
-
-<blockquote><p><strong>Note:</strong> Another couple of significant memory-related concerns are the handling of <strong>Core Foundation objects</strong> and <strong>memory allocated using malloc()</strong> for types like char*.</p>
-
-<blockquote><p>ARC does only manages Objective-C objects, so you&rsquo;ll still need to deal with <code>malloc()</code> related objects by yourself.</p>
-
-<p>(<strong>Not very clear about this</strong>)Core Foundation types can be particularly tricky, because sometimes they need to be bridged across to matching Objective-C objects, and vice versa. This means that control needs to be transferred back and forth from ARC when bridging between CF types and Objective-C.</p></blockquote></blockquote>
-
-<h2>Retain Cycle</h2>
-
-<p>A so-called retain cycle happens when two (or more) objects reference each other, essentially keeping each other alive even after all external references to the objects have gone out of scope.</p>
-
-<p>The <strong>Garbage Collection</strong> works by looking at &ldquo;reachable&rdquo; objects, it can handle retain cycles fine, and will discard entire object graphs that reference each other, if it detects no outside references exist.</p>
-
-<p>Because <strong>Automatic Reference Counting</strong> works on a lower level and manages life cycles based on reference counts, it cannot handle retain cycles automatically, and a retain cycle will cause objects to stay in memory, essentially causing the application to &ldquo;leak&rdquo; memory.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Understanding KVC and KVO in Objective-C]]></title>
-    <link href="http://hongchaozhang.github.io/blog/2015/08/13/Understanding-KVC-and-KVO/"/>
-    <updated>2015-08-13T00:00:00+08:00</updated>
-    <id>http://hongchaozhang.github.io/blog/2015/08/13/Understanding-KVC-and-KVO</id>
-    <content type="html"><![CDATA[<p>Contents:</p>
-
-<ul>
-<li><a href="#description">Description</a></li>
-<li><a href="#kvc">KVC</a></li>
-<li><a href="#kvo">KVO</a></li>
-<li><a href="#remove_observers">Remove Observers</a></li>
-</ul>
-
-
-<h2><a name="description"></a>Description</h2>
-
-<p>In Cocoa, the Model-View-Controller pattern, a controller’s responsibility is to keep the view and the model synchronized. There are two parts to this: when the model object changes, the views have to be updated to reflect this change, and when the user interacts with controls, the model has to be updated accordingly.</p>
-
-<p>Key-Value Observing helps us update the views to reflect changes to model objects. The controller can observe changes to those property values that the views depend on.</p>
-
-<p>For more details, refer <a href="http://www.objc.io/issues/7-foundation/key-value-coding-and-observing/">Key-Value Coding and Observing</a> from <a href="objc.io">objc.io</a>;</p>
-
-<!-- more -->
-
-
-<h2><a name="kvc"></a>KVC</h2>
-
-<h3>Description</h3>
-
-<p>KVC, which means <em>NSKeyValueCoding</em>, is a protoco, and supplies accessors (getter and setter) for getting and setting property value. Only by using the KVC setter method to set the property value, can the sender send a message to the observer.</p>
-
-<p>KVC has the following two getter methods: <code>valueForKey:</code> and <code>valueForKeyPath:</code>, two setter methods: <code>setValue:forKey:</code> and <code>setValue:forKeyPath:</code>.</p>
-
-<h3>Sample code</h3>
-
-<p>Assume that <code>Person</code> class has two simple properties: <code>name</code> and <code>address</code> and a <code>Person</code> type property <code>spouse</code>. We have the following two pieces of code explaining the <em>Key</em> and <em>KeyPath</em>:</p>
-
-<p>For <em>Key</em>:</p>
-
-<p><div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno"> 1</span> <span class="kt">void</span> <span class="nf">changeName</span><span class="p">(</span><span class="n">Person</span> <span class="o">&lt;</span><span class="n">em</span><span class="o">&gt;</span><span class="n">p</span><span class="p">,</span> <span class="bp">NSString</span> <span class="o">&lt;/</span><span class="n">em</span><span class="o">&gt;</span><span class="n">newName</span><span class="p">)</span>
-<span class="lineno"> 2</span> <span class="p">{</span>
-<span class="lineno"> 3</span>     <span class="c1">// using the KVC accessor (getter) method</span>
-<span class="lineno"> 4</span>     <span class="bp">NSString</span> <span class="o">*</span><span class="n">originalName</span> <span class="o">=</span> <span class="p">[</span><span class="n">p</span> <span class="nl">valueForKey</span><span class="p">:@</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">name</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;];</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-<span class="lineno"> 5</span> 
-<span class="lineno"> 6</span> <span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="c1">// using the KVC  accessor (setter) method.</span>
-<span class="lineno"> 7</span> <span class="p">[</span><span class="n">p</span> <span class="nl">setValue</span><span class="p">:</span><span class="n">newName</span> <span class="nl">forKey</span><span class="p">:</span><span class="s">@&quot;name&quot;</span><span class="p">];</span>
+<span class="lineno"> 7</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">@end</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
 <span class="lineno"> 8</span> 
-<span class="lineno"> 9</span> <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Changed %@&#39;s name to: %@&quot;</span><span class="p">,</span> <span class="n">originalName</span><span class="p">,</span> <span class="n">newName</span><span class="p">);</span>
-<span class="lineno">10</span> <span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
-<span class="lineno">11</span> 
-<span class="lineno">12</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="p">}</span></code></pre></div></p>
-
-<p>For <em>KeyPath</em>:</p>
-
-<p><div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno"> 1</span> <span class="kt">void</span> <span class="nf">logMarriage</span><span class="p">(</span><span class="n">Person</span> <span class="o">&lt;</span><span class="n">em</span><span class="o">&gt;</span><span class="n">p</span><span class="p">)</span>
-<span class="lineno"> 2</span> <span class="p">{</span>
-<span class="lineno"> 3</span>     <span class="c1">// just using the accessor again, same as example above</span>
-<span class="lineno"> 4</span>     <span class="bp">NSString</span> <span class="o">&lt;/</span><span class="n">em</span><span class="o">&gt;</span><span class="n">personsName</span> <span class="o">=</span> <span class="p">[</span><span class="n">p</span> <span class="nl">valueForKey</span><span class="p">:@</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">name</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;];</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-<span class="lineno"> 5</span> 
-<span class="lineno"> 6</span> <span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="c1">// this line is different, because it is using</span>
-<span class="lineno"> 7</span> <span class="c1">// a &quot;key path&quot; instead of a normal &quot;key&quot;</span>
-<span class="lineno"> 8</span> <span class="bp">NSString</span> <span class="o">*</span><span class="n">spousesName</span> <span class="o">=</span> <span class="p">[</span><span class="n">p</span> <span class="nl">valueForKeyPath</span><span class="p">:</span><span class="s">@&quot;spouse.name&quot;</span><span class="p">];</span>
-<span class="lineno"> 9</span> 
-<span class="lineno">10</span> <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;%@ is happily married to %@&quot;</span><span class="p">,</span> <span class="n">personsName</span><span class="p">,</span> <span class="n">spousesName</span><span class="p">);</span>
-<span class="lineno">11</span> <span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
-<span class="lineno">12</span> 
-<span class="lineno">13</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="p">}</span></code></pre></div></p>
-
-<p>Actually, <code>[p valueForKeyPath:@"spouse.name"];</code> equals to <code>[[p valueForKey:@"spouse"] valueForKey:@"name"];</code>.</p>
-
-<h2><a name="kvo"></a>KVO</h2>
-
-<h3>Description</h3>
-
-<p><em>Key Value Observer (KVO)</em> is based on KVC, and can observe the change of a property of another object.</p>
-
-<p>KVO allows you to register as an observer of a given object and receive notification when specific properties on that object are changed. It’s an incredibly powerful capability, and it is built into Objective-C at its very core.</p>
-
-<h3>Sample code</h3>
-
-<p>Implement <code>PersonWatcher</code> for observing a <code>Person</code> instance.</p>
-
-<p><div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno"> 1</span> <span class="k">@implementation</span> <span class="nc">PersonWatcher</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-<span class="lineno"> 2</span> 
-<span class="lineno"> 3</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">static</span> <span class="bp">NSString</span> <span class="o">*</span><span class="k">const</span> <span class="n">KVO_CONTEXT_ADDRESS_CHANGED</span> <span class="o">=</span> <span class="p">@</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">KVO_CONTEXT_ADDRESS_CHANGED</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;;</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-<span class="lineno"> 4</span> 
-<span class="lineno"> 5</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;-</span><span class="p">(</span><span class="kt">id</span><span class="p">)</span> <span class="n">init</span><span class="p">;</span>
-<span class="lineno"> 6</span> <span class="p">{</span>
-<span class="lineno"> 7</span>     <span class="k">if</span><span class="p">(</span><span class="nb">self</span> <span class="o">=</span> <span class="p">[</span><span class="nb">super</span> <span class="n">init</span><span class="p">]){</span>
-<span class="lineno"> 8</span>         <span class="nb">self</span><span class="p">.</span><span class="n">m_observedPeople</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSMutableArray</span> <span class="n">new</span><span class="p">];</span>
-<span class="lineno"> 9</span>     <span class="p">}</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+<span class="lineno"> 9</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">@implementation</span> <span class="nc">PropertyTester</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
 <span class="lineno">10</span> 
-<span class="lineno">11</span> <span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="k">return</span> <span class="nb">self</span><span class="p">;</span>
-<span class="lineno">12</span> <span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
-<span class="lineno">13</span> 
-<span class="lineno">14</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="p">}</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-<span class="lineno">15</span> 
-<span class="lineno">16</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="c1">// watch a person</span>
-<span class="lineno">17</span> <span class="o">-</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="nl">watchPersonForChangeOfAddress</span><span class="p">:(</span><span class="n">Person</span> <span class="o">*</span><span class="p">)</span><span class="n">p</span>
-<span class="lineno">18</span> <span class="p">{</span>
-<span class="lineno">19</span>     <span class="c1">// this begins the observing</span>
-<span class="lineno">20</span>     <span class="p">[</span><span class="n">p</span> <span class="nl">addObserver</span><span class="p">:</span><span class="nb">self</span>
-<span class="lineno">21</span>         <span class="nl">forKeyPath</span><span class="p">:@</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">address</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;</span>
-<span class="lineno">22</span>            <span class="nl">options</span><span class="p">:</span><span class="mi">0</span>
-<span class="lineno">23</span>            <span class="nl">context</span><span class="p">:</span><span class="n">CFBridgingRetain</span><span class="p">(</span><span class="n">KVO_CONTEXT_ADDRESS_CHANGED</span><span class="p">)];</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+<span class="lineno">11</span> <span class="o">&lt;</span><span class="n">ul</span><span class="o">&gt;</span>
+<span class="lineno">12</span> <span class="o">&lt;</span><span class="n">li</span><span class="o">&gt;</span><span class="p">(</span><span class="bp">NSString</span><span class="o">*</span><span class="p">)</span><span class="n">testString</span> <span class="p">{</span>
+<span class="lineno">13</span>   <span class="k">return</span> <span class="n">testString</span><span class="p">;</span>
+<span class="lineno">14</span> <span class="p">}</span><span class="o">&lt;/</span><span class="n">li</span><span class="o">&gt;</span>
+<span class="lineno">15</span> <span class="o">&lt;</span><span class="n">li</span><span class="o">&gt;&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nl">setTestString</span><span class="p">:(</span><span class="bp">NSString</span><span class="o">*</span><span class="p">)</span><span class="n">stringValue</span> <span class="p">{</span>
+<span class="lineno">16</span>   <span class="n">testString</span> <span class="o">=</span> <span class="n">stringValue</span><span class="p">;</span>
+<span class="lineno">17</span> <span class="p">}</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;&lt;/</span><span class="n">li</span><span class="o">&gt;</span>
+<span class="lineno">18</span> <span class="o">&lt;</span><span class="n">li</span><span class="o">&gt;&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">test</span> <span class="p">{</span>
+<span class="lineno">19</span>   <span class="nb">self</span><span class="p">.</span><span class="n">testString</span> <span class="o">=</span> <span class="p">@</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">test</span> <span class="n">proeprty</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;;</span>
+<span class="lineno">20</span>   <span class="n">NSLog</span><span class="p">(@</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="o">%</span><span class="p">@</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;,</span> <span class="nb">self</span><span class="p">.</span><span class="n">testString</span><span class="p">);</span>
+<span class="lineno">21</span> <span class="p">}</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;&lt;/</span><span class="n">li</span><span class="o">&gt;</span>
+<span class="lineno">22</span> <span class="o">&lt;/</span><span class="n">ul</span><span class="o">&gt;</span>
+<span class="lineno">23</span> 
 <span class="lineno">24</span> 
-<span class="lineno">25</span> <span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="c1">// keep a record of all the people being observed,</span>
-<span class="lineno">26</span> <span class="c1">// because we need to stop observing them in dealloc</span>
-<span class="lineno">27</span> <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">m_observedPeople</span> <span class="nl">addObject</span><span class="p">:</span><span class="n">p</span><span class="p">];</span>
-<span class="lineno">28</span> <span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
-<span class="lineno">29</span> 
-<span class="lineno">30</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="p">}</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-<span class="lineno">31</span> 
-<span class="lineno">32</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="c1">// whenever an observed key path changes, this method will be called</span>
-<span class="lineno">33</span> <span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nl">observeValueForKeyPath</span><span class="p">:(</span><span class="bp">NSString</span> <span class="o">&lt;</span><span class="n">em</span><span class="o">&gt;</span><span class="p">)</span><span class="n">keyPath</span>
-<span class="lineno">34</span>                       <span class="nl">ofObject</span><span class="p">:(</span><span class="kt">id</span><span class="p">)</span><span class="n">object</span>
-<span class="lineno">35</span>                         <span class="nl">change</span><span class="p">:(</span><span class="bp">NSDictionary</span> <span class="o">&lt;/</span><span class="n">em</span><span class="o">&gt;</span><span class="p">)</span><span class="n">change</span>
-<span class="lineno">36</span>                        <span class="nl">context</span><span class="p">:(</span><span class="kt">void</span> <span class="o">&lt;</span><span class="n">em</span><span class="o">&gt;</span><span class="p">)</span><span class="n">context</span>
-<span class="lineno">37</span> <span class="p">{</span>
-<span class="lineno">38</span>     <span class="c1">// use the context to make sure this is a change in the address,</span>
-<span class="lineno">39</span>     <span class="c1">// because we may also be observing other things</span>
-<span class="lineno">40</span>     <span class="k">if</span><span class="p">(</span><span class="n">context</span> <span class="o">==</span> <span class="n">CFBridgingRetain</span><span class="p">(</span><span class="n">KVO_CONTEXT_ADDRESS_CHANGED</span><span class="p">))</span> <span class="p">{</span>
-<span class="lineno">41</span>         <span class="bp">NSString</span> <span class="o">&lt;/</span><span class="n">em</span><span class="o">&gt;</span><span class="n">name</span> <span class="o">=</span> <span class="p">[</span><span class="n">object</span> <span class="nl">valueForKey</span><span class="p">:@</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">name</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;];</span>
-<span class="lineno">42</span>         <span class="bp">NSString</span> <span class="o">*</span><span class="n">address</span> <span class="o">=</span> <span class="p">[</span><span class="n">object</span> <span class="nl">valueForKey</span><span class="p">:@</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">address</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;];</span>
-<span class="lineno">43</span>         <span class="n">NSLog</span><span class="p">(@</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="o">%</span><span class="p">@</span> <span class="n">has</span> <span class="n">a</span> <span class="n">new</span> <span class="nl">address</span><span class="p">:</span> <span class="o">%</span><span class="p">@</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;,</span> <span class="n">name</span><span class="p">,</span> <span class="n">address</span><span class="p">);</span>
-<span class="lineno">44</span>     <span class="p">}</span>
-<span class="lineno">45</span> <span class="p">}</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-<span class="lineno">46</span> 
-<span class="lineno">47</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;-</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="n">dealloc</span><span class="p">;</span>
-<span class="lineno">48</span> <span class="p">{</span>
-<span class="lineno">49</span>     <span class="c1">// must stop observing everything before this object is</span>
-<span class="lineno">50</span>     <span class="c1">// deallocated, otherwise it will cause crashes</span>
-<span class="lineno">51</span>     <span class="k">for</span><span class="p">(</span><span class="n">Person</span> <span class="o">*</span><span class="n">p</span> <span class="k">in</span> <span class="nb">self</span><span class="p">.</span><span class="n">m_observedPeople</span><span class="p">){</span>
-<span class="lineno">52</span>         <span class="p">[</span><span class="n">p</span> <span class="nl">removeObserver</span><span class="p">:</span><span class="nb">self</span> <span class="nl">forKeyPath</span><span class="p">:@</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">address</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;];</span>
-<span class="lineno">53</span>     <span class="p">}</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-<span class="lineno">54</span> 
-<span class="lineno">55</span> <span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="nb">self</span><span class="p">.</span><span class="n">m_observedPeople</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
-<span class="lineno">56</span> <span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
-<span class="lineno">57</span> 
-<span class="lineno">58</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="p">}</span></code></pre></div></p>
+<span class="lineno">25</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">@end</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+<span class="lineno">26</span> 
+<span class="lineno">27</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span></code></pre></div></p>
 
-<h2><a name="remove_observers"></a>Remove observer</h2>
+<h3>有了Property</h3>
 
-<p>Refer <a href="http://stackoverflow.com/questions/6959896/kvo-and-arc-how-to-removeobserver">here</a></p>
+<p>眼看着Instance Variable及其getter和setter函数是如此有规律，于是Property出现了。</p>
 
-<p>You should stop observing the sender when observer is dealloced. If you fail to do this and then allow the observer to be deallocated, then future notifications to the observer may cause your application to crash.</p>
+<p>Property可以告诉编译器：我声明了一个Property，名字叫做<code>propertyName</code>，你帮我声明一个Instance Variable <code>_propertyName</code>，并帮助我实现其getter和setter函数。于是，上述代码，我们可以写成：</p>
 
-<p>So, remember to remove observers</p>
+<p><div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno"> 1</span> <span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+<span class="lineno"> 2</span> 
+<span class="lineno"> 3</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">@interface</span> <span class="nc">PropertyTester</span><span class="p">()</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+<span class="lineno"> 4</span> 
+<span class="lineno"> 5</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">@property</span> <span class="p">(</span><span class="k">nonatomic</span><span class="p">,</span> <span class="k">strong</span><span class="p">)</span> <span class="bp">NSString</span><span class="o">*</span> <span class="n">testString</span><span class="p">;</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+<span class="lineno"> 6</span> 
+<span class="lineno"> 7</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">@end</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+<span class="lineno"> 8</span> 
+<span class="lineno"> 9</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">@implementation</span> <span class="nc">PropertyTester</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+<span class="lineno">10</span> 
+<span class="lineno">11</span> <span class="o">&lt;</span><span class="n">ul</span><span class="o">&gt;</span>
+<span class="lineno">12</span> <span class="o">&lt;</span><span class="n">li</span><span class="o">&gt;</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">test</span> <span class="p">{</span>
+<span class="lineno">13</span>   <span class="nb">self</span><span class="p">.</span><span class="n">testString</span> <span class="o">=</span> <span class="p">@</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">test</span> <span class="n">proeprty</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;;</span>
+<span class="lineno">14</span>   <span class="n">NSLog</span><span class="p">(@</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="o">%</span><span class="p">@</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;,</span> <span class="nb">self</span><span class="p">.</span><span class="n">testString</span><span class="p">);</span><span class="o">&lt;/</span><span class="n">li</span><span class="o">&gt;</span>
+<span class="lineno">15</span> <span class="o">&lt;/</span><span class="n">ul</span><span class="o">&gt;</span>
+<span class="lineno">16</span> 
+<span class="lineno">17</span> 
+<span class="lineno">18</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="p">}</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+<span class="lineno">19</span> 
+<span class="lineno">20</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">@end</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+<span class="lineno">21</span> 
+<span class="lineno">22</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span></code></pre></div></p>
 
-<ol>
-<li>before observer is dealloced</li>
-<li>before the sender is dealloced</li>
-</ol>
+<p>看看，是不是简单了很多。</p>
 
+<h3>Auto Synthesize</h3>
 
-<p>For <code>#1</code>, just send <code>removeObserver:forKeyPath</code> message to the sender in the <code>-dealloc</code> function of the observer.
-<code>-dealloc</code> function is called even in ARC mode. In <code>-dealloc</code>, just free non-object resources, or clean up tasks like removing observers. In <code>-dealloc</code> under ARC mode, you can not call <code>[super dealloc]</code>, as the compiller did it for you and this why there is an error if you call this manually.</p>
+<p>其实在上述使用Property的代码中，编译器还帮助我们做了一件事情：</p>
 
-<blockquote><p><strong>Note:</strong> <code>-dealloc</code> is not called in <em>garbage collection</em> mode.</p></blockquote>
+<p><div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno">1</span> <span class="k">@synthesize</span> <span class="n">testString</span> <span class="o">=</span> <span class="n">_testString</span><span class="p">;</span></code></pre></div></p>
 
-<p>For <code>#2</code>, the observer must know the life circle of the sender, and before the sender is freed, the observer must remove the observation from the sender.</p>
+<p>从Xcode 4.4和LLVM Compiler 4.0起，有了<strong>auto synthesize</strong>，即@synthesize被更改为默认使用。因此，大多数情况下，你只需要 @property 指令，编译器将为你关心其它的事情。对，是“大多数”，因为在某些情况下，不会进行auto synthesize 。比如，对于上述代码，如果我打算自己实现getter函数：</p>
+
+<p><div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno"> 1</span> <span class="k">@interface</span> <span class="nc">PropertyTester</span><span class="p">()</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+<span class="lineno"> 2</span> 
+<span class="lineno"> 3</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">@property</span> <span class="p">(</span><span class="k">nonatomic</span><span class="p">,</span> <span class="k">strong</span><span class="p">)</span> <span class="bp">NSString</span><span class="o">*</span> <span class="n">testString</span><span class="p">;</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+<span class="lineno"> 4</span> 
+<span class="lineno"> 5</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">@end</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+<span class="lineno"> 6</span> 
+<span class="lineno"> 7</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">@implementation</span> <span class="nc">PropertyTester</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+<span class="lineno"> 8</span> 
+<span class="lineno"> 9</span> <span class="o">&lt;</span><span class="n">ul</span><span class="o">&gt;</span>
+<span class="lineno">10</span> <span class="o">&lt;</span><span class="n">li</span><span class="o">&gt;&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="p">(</span><span class="bp">NSString</span><span class="o">*</span><span class="p">)</span><span class="n">testString</span> <span class="p">{</span>
+<span class="lineno">11</span>   <span class="k">return</span> <span class="n">_testString</span><span class="p">;</span>
+<span class="lineno">12</span> <span class="p">}</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;&lt;/</span><span class="n">li</span><span class="o">&gt;</span>
+<span class="lineno">13</span> <span class="o">&lt;</span><span class="n">li</span><span class="o">&gt;&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">test</span> <span class="p">{</span>
+<span class="lineno">14</span>   <span class="nb">self</span><span class="p">.</span><span class="n">testString</span> <span class="o">=</span> <span class="p">@</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">test</span> <span class="n">proeprty</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;;</span>
+<span class="lineno">15</span>   <span class="n">NSLog</span><span class="p">(@</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="o">%</span><span class="p">@</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;,</span> <span class="nb">self</span><span class="p">.</span><span class="n">testString</span><span class="p">);</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;&lt;/</span><span class="n">li</span><span class="o">&gt;</span>
+<span class="lineno">16</span> <span class="o">&lt;/</span><span class="n">ul</span><span class="o">&gt;</span>
+<span class="lineno">17</span> 
+<span class="lineno">18</span> 
+<span class="lineno">19</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="p">}</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+<span class="lineno">20</span> 
+<span class="lineno">21</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">@end</span></code></pre></div></p>
+
+<p>没有任何问题。</p>
+
+<p>如果我再试图加入setter函数：</p>
+
+<p><div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno"> 1</span> <span class="k">@interface</span> <span class="nc">PropertyTester</span><span class="p">()</span>
+<span class="lineno"> 2</span> <span class="k">@property</span> <span class="p">(</span><span class="k">nonatomic</span><span class="p">,</span> <span class="k">strong</span><span class="p">)</span> <span class="bp">NSString</span><span class="o">*</span> <span class="n">testString</span><span class="p">;</span>
+<span class="lineno"> 3</span> <span class="k">@end</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+<span class="lineno"> 4</span> 
+<span class="lineno"> 5</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">@implementation</span> <span class="nc">PropertyTester</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+<span class="lineno"> 6</span> 
+<span class="lineno"> 7</span> <span class="o">&lt;</span><span class="n">ul</span><span class="o">&gt;</span>
+<span class="lineno"> 8</span> <span class="o">&lt;</span><span class="n">li</span><span class="o">&gt;&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="p">(</span><span class="bp">NSString</span><span class="o">*</span><span class="p">)</span><span class="n">testString</span> <span class="p">{</span>
+<span class="lineno"> 9</span>   <span class="k">return</span> <span class="n">_testString</span><span class="p">;</span>
+<span class="lineno">10</span> <span class="p">}</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;&lt;/</span><span class="n">li</span><span class="o">&gt;</span>
+<span class="lineno">11</span> <span class="o">&lt;</span><span class="n">li</span><span class="o">&gt;&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nl">setTestString</span><span class="p">:(</span><span class="bp">NSString</span> <span class="o">*</span><span class="p">)</span><span class="n">testString</span> <span class="p">{</span>
+<span class="lineno">12</span>   <span class="n">_testString</span> <span class="o">=</span> <span class="n">testString</span><span class="p">;</span>
+<span class="lineno">13</span> <span class="p">}</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;&lt;/</span><span class="n">li</span><span class="o">&gt;</span>
+<span class="lineno">14</span> <span class="o">&lt;</span><span class="n">li</span><span class="o">&gt;&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">test</span> <span class="p">{</span>
+<span class="lineno">15</span>   <span class="nb">self</span><span class="p">.</span><span class="n">testString</span> <span class="o">=</span> <span class="p">@</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">test</span> <span class="n">proeprty</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;;</span>
+<span class="lineno">16</span>   <span class="n">NSLog</span><span class="p">(@</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="o">%</span><span class="p">@</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;,</span> <span class="nb">self</span><span class="p">.</span><span class="n">testString</span><span class="p">);</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;&lt;/</span><span class="n">li</span><span class="o">&gt;</span>
+<span class="lineno">17</span> <span class="o">&lt;/</span><span class="n">ul</span><span class="o">&gt;</span>
+<span class="lineno">18</span> 
+<span class="lineno">19</span> 
+<span class="lineno">20</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="p">}</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+<span class="lineno">21</span> 
+<span class="lineno">22</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">@end</span></code></pre></div></p>
+
+<p>编译器会报错：</p>
+
+<p><div class="highlight"><pre><code class="language-text" data-lang="text">use of undefined identifier &amp;lsquo;_testString&#39;。</code></pre></div></p>
+
+<p>为什么呢？</p>
+
+<p>因为此时auto synthesize没有工作。编译器认为：既然你同时手动接管了getter和setter的实现，那么我就什么也不管了，Instance Variable你也自己声明并起个名字吧。</p>
+
+<p>总结一下auto synthesize不会工作的几种情况（参考<a href="http://stackoverflow.com/questions/19784454/when-should-i-use-synthesize-explicitly">When should I use @synthesize explicitly?</a>）：</p>
+
+<ul>
+<li><p>readwrite property with custom getter and setter</p>
+
+<p>  when providing both a getter and setter custom implementation, the property won&rsquo;t be automatically synthesized</p></li>
+<li><p>readonly property with custom getter</p>
+
+<p>  when providing a custom getter implementation for a readonly property, this won&rsquo;t be automatically synthesized</p></li>
+<li><p>@dynamic</p>
+
+<p>  when using @dynamic propertyName, the property won&rsquo;t be automatically synthesized (pretty obvious, since @dynamic and @synthesize are mutually exclusive)</p></li>
+<li><p>properties declared in a @protocol</p>
+
+<p>  when conforming to a protocol, any property the protocol defines won&rsquo;t be automatically synthesized</p></li>
+<li><p>properties declared in a category</p>
+
+<p>  this is a case in which the @synthesize directive is not automatically inserted by the compiler, but this properties cannot be manually synthesized either. While categories can declare properties, they cannot be synthesized at all, since categories cannot create ivars. For the sake of completeness, I&rsquo;ll add that&rsquo;s it&rsquo;s still possible to fake the property synthesis using the Objective-C runtime.</p></li>
+<li><p>overridden properties (new since clang-600.0.51, shipping with Xcode 6, thanks Marc Schlüpmann)</p>
+
+<p>  when you override a property of a superclass, you must explicitly synthesize it</p></li>
+</ul>
+
 ]]></content>
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[Property and Its Attributes in Objective-C]]></title>
-    <link href="http://hongchaozhang.github.io/blog/2015/07/27/Property-and-its-Attributes-in-Objective-C/"/>
-    <updated>2015-07-27T00:00:00+08:00</updated>
-    <id>http://hongchaozhang.github.io/blog/2015/07/27/Property-and-its-Attributes-in-Objective-C</id>
-    <content type="html"><![CDATA[<p>All the attributes of a property defines how the compiler generate the <code>getter</code> and <code>setter</code> accessors.</p>
+    <title type="html"><![CDATA[Ios Coding Best Practice]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2015/12/17/ios-coding-best-practice/"/>
+    <updated>2015-12-17T10:49:54+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2015/12/17/ios-coding-best-practice</id>
+    <content type="html"><![CDATA[<ul>
+<li>Use forward declarations</li>
+<li>Move variable declaration out of header</li>
+<li>Cleanup duplication in import</li>
+<li>Remove private method declaration in implementation files</li>
+<li>Move protocol definition to separate header to aviod unnecessary cross reference</li>
+<li>Freqently monitor warnings and static analyzer warnings in your component. Usually it is a good idea to fix it.</li>
+<li>Removing unused resources</li>
+<li>Delegate objects should not be retained when doing so would create a retain cycle.</li>
+<li>import Objective-C/Objective-C++ headers, and #include C/C++ headers.</li>
+<li>Don&rsquo;t @throw Objective-C exceptions, but you should be prepared to catch them from third-party or OS calls.</li>
+<li>Use nil checks for logic flow only.</li>
+<li>Don&rsquo;t initialize variables to 0 or nil in the init method; it&rsquo;s redundant.</li>
+<li>Instance Variables In Headers Should Be @private
 
 <ul>
-<li><p>atomic / nonatomic</p></li>
-<li><p>strong / weak: used for ARC.</p></li>
-<li><p>assign / retain / copy: go to <a href="http://blog.csdn.net/jiarusun000/article/details/6991249">here</a> for reference. These properties define how the compiler generate the <code>setter</code> accessor.</p></li>
-<li><p>readonly / readwrite: if a property is declared as <code>readonly</code>, the compiler will only declare the getter accessor, so that you can not call setter accessor. This is called <code>readonly</code>.</p></li>
+<li>Instance variables should typically be declared in implementation files or auto-synthesized by properties. When ivars are declared in a header file, they should be marked @private.</li>
+</ul>
+</li>
+<li>One space should be used between the - or + and the return type, and no spacing in the parameter list except between parameters.</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[UIViewController中常见的ios编程习惯]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2015/12/06/some-usefull-ios-coding-styles/"/>
+    <updated>2015-12-06T12:55:47+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2015/12/06/some-usefull-ios-coding-styles</id>
+    <content type="html"><![CDATA[<p>参考<a href="http://www.cocoachina.com/ios/20150525/11919.html">iOS应用架构谈 view层的组织和调用方案</a>。</p>
+
+<h3>所有的属性都使用getter和setter</h3>
+
+<!-- more -->
+
+
+<blockquote><p>不要在viewDidLoad里面初始化你的view然后再add，这样代码就很难看。在viewDidload里面只做addSubview的事情，然后在viewWillAppear里面做布局的事情，最后在viewDidAppear里面做Notification的监听之类的事情。至于属性的初始化，则交给getter去做。</p></blockquote>
+
+<p>不要出现这样的代码：</p>
+
+<p><div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno"> 1</span> <span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">viewDidLoad</span>
+<span class="lineno"> 2</span> <span class="p">{</span>
+<span class="lineno"> 3</span>     <span class="p">[</span><span class="nb">super</span> <span class="n">viewDidLoad</span><span class="p">];</span>
+<span class="lineno"> 4</span>     <span class="nb">self</span><span class="p">.</span><span class="n">textLabel</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">UILabel</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
+<span class="lineno"> 5</span>     <span class="nb">self</span><span class="p">.</span><span class="n">textLabel</span><span class="p">.</span><span class="n">textColor</span> <span class="o">=</span> <span class="p">[</span><span class="bp">UIColor</span> <span class="n">blackColor</span><span class="p">];</span>
+<span class="lineno"> 6</span>     <span class="nb">self</span><span class="p">.</span><span class="n">textLabel</span> <span class="o">&amp;</span><span class="n">hellip</span><span class="p">;</span> <span class="o">&amp;</span><span class="n">hellip</span><span class="p">;</span>
+<span class="lineno"> 7</span>     <span class="nb">self</span><span class="p">.</span><span class="n">textLabel</span> <span class="o">&amp;</span><span class="n">hellip</span><span class="p">;</span> <span class="o">&amp;</span><span class="n">hellip</span><span class="p">;</span>
+<span class="lineno"> 8</span>     <span class="nb">self</span><span class="p">.</span><span class="n">textLabel</span> <span class="o">&amp;</span><span class="n">hellip</span><span class="p">;</span> <span class="o">&amp;</span><span class="n">hellip</span><span class="p">;</span>
+<span class="lineno"> 9</span>     <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">view</span> <span class="nl">addSubview</span><span class="p">:</span><span class="nb">self</span><span class="p">.</span><span class="n">textLabel</span><span class="p">];</span>
+<span class="lineno">10</span> <span class="p">}</span></code></pre></div></p>
+
+<p>而应该是这样的：</p>
+
+<p><div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno"> 1</span> <span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+<span class="lineno"> 2</span> 
+<span class="lineno"> 3</span> <span class="o">&lt;</span><span class="n">h1</span><span class="o">&gt;</span><span class="n">pragma</span> <span class="n">mark</span> <span class="o">-</span> <span class="n">life</span> <span class="n">cycle</span><span class="o">&lt;/</span><span class="n">h1</span><span class="o">&gt;</span>
+<span class="lineno"> 4</span> 
+<span class="lineno"> 5</span> <span class="o">&lt;</span><span class="n">ul</span><span class="o">&gt;</span>
+<span class="lineno"> 6</span> <span class="o">&lt;</span><span class="n">li</span><span class="o">&gt;&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">viewDidLoad</span>
+<span class="lineno"> 7</span> <span class="p">{</span>
+<span class="lineno"> 8</span>   <span class="p">[</span><span class="nb">super</span> <span class="n">viewDidLoad</span><span class="p">];</span>
+<span class="lineno"> 9</span>   <span class="nb">self</span><span class="p">.</span><span class="n">view</span><span class="p">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="p">[</span><span class="bp">UIColor</span> <span class="n">whiteColor</span><span class="p">];</span>
+<span class="lineno">10</span>   <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">view</span> <span class="nl">addSubview</span><span class="p">:</span><span class="nb">self</span><span class="p">.</span><span class="n">firstTableView</span><span class="p">];</span>
+<span class="lineno">11</span>   <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">view</span> <span class="nl">addSubview</span><span class="p">:</span><span class="nb">self</span><span class="p">.</span><span class="n">secondTableView</span><span class="p">];</span>
+<span class="lineno">12</span>   <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">view</span> <span class="nl">addSubview</span><span class="p">:</span><span class="nb">self</span><span class="p">.</span><span class="n">cleanButton</span><span class="p">];</span>
+<span class="lineno">13</span>   <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">view</span> <span class="nl">addSubview</span><span class="p">:</span><span class="nb">self</span><span class="p">.</span><span class="n">originImageView</span><span class="p">];</span>
+<span class="lineno">14</span>   <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">view</span> <span class="nl">addSubview</span><span class="p">:</span><span class="nb">self</span><span class="p">.</span><span class="n">processedImageView</span><span class="p">];</span>
+<span class="lineno">15</span>   <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">view</span> <span class="nl">addSubview</span><span class="p">:</span><span class="nb">self</span><span class="p">.</span><span class="n">activityIndicator</span><span class="p">];</span>
+<span class="lineno">16</span>   <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">view</span> <span class="nl">addSubview</span><span class="p">:</span><span class="nb">self</span><span class="p">.</span><span class="n">takeImageButton</span><span class="p">];</span>
+<span class="lineno">17</span> <span class="p">}</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;&lt;/</span><span class="n">li</span><span class="o">&gt;</span>
+<span class="lineno">18</span> <span class="o">&lt;</span><span class="n">li</span><span class="o">&gt;&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nl">viewWillAppear</span><span class="p">:(</span><span class="kt">BOOL</span><span class="p">)</span><span class="n">animated</span>
+<span class="lineno">19</span> <span class="p">{</span>
+<span class="lineno">20</span>   <span class="p">[</span><span class="nb">super</span> <span class="nl">viewWillAppear</span><span class="p">:</span><span class="n">animated</span><span class="p">];</span>
+<span class="lineno">21</span>   <span class="n">CGFloat</span> <span class="n">width</span> <span class="o">=</span> <span class="p">(</span><span class="nb">self</span><span class="p">.</span><span class="n">view</span><span class="p">.</span><span class="n">width</span> <span class="o">-</span> <span class="mi">30</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.0f</span><span class="p">;</span>
+<span class="lineno">22</span>   <span class="nb">self</span><span class="p">.</span><span class="n">originImageView</span><span class="p">.</span><span class="n">size</span> <span class="o">=</span> <span class="n">CGSizeMake</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">width</span><span class="p">);</span>
+<span class="lineno">23</span>   <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">originImageView</span> <span class="nl">topInContainer</span><span class="p">:</span><span class="mi">70</span> <span class="nl">shouldResize</span><span class="p">:</span><span class="nb">NO</span><span class="p">];</span>
+<span class="lineno">24</span>   <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">originImageView</span> <span class="nl">leftInContainer</span><span class="p">:</span><span class="mi">10</span> <span class="nl">shouldResize</span><span class="p">:</span><span class="nb">NO</span><span class="p">];</span>
+<span class="lineno">25</span>   <span class="nb">self</span><span class="p">.</span><span class="n">processedImageView</span><span class="p">.</span><span class="n">size</span> <span class="o">=</span> <span class="n">CGSizeMake</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">width</span><span class="p">);</span>
+<span class="lineno">26</span>   <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">processedImageView</span> <span class="nl">right</span><span class="p">:</span><span class="mi">10</span> <span class="nl">FromView</span><span class="p">:</span><span class="nb">self</span><span class="p">.</span><span class="n">originImageView</span><span class="p">];</span>
+<span class="lineno">27</span>   <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">processedImageView</span> <span class="nl">topEqualToView</span><span class="p">:</span><span class="nb">self</span><span class="p">.</span><span class="n">originImageView</span><span class="p">];</span>
+<span class="lineno">28</span>   <span class="n">CGFloat</span> <span class="n">labelWidth</span> <span class="o">=</span> <span class="nb">self</span><span class="p">.</span><span class="n">view</span><span class="p">.</span><span class="n">width</span> <span class="o">-</span> <span class="mi">100</span><span class="p">;</span>
+<span class="lineno">29</span>   <span class="nb">self</span><span class="p">.</span><span class="n">firstFilterLabel</span><span class="p">.</span><span class="n">size</span> <span class="o">=</span> <span class="n">CGSizeMake</span><span class="p">(</span><span class="n">labelWidth</span><span class="p">,</span> <span class="mi">20</span><span class="p">);</span>
+<span class="lineno">30</span>   <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">firstFilterLabel</span> <span class="nl">leftInContainer</span><span class="p">:</span><span class="mi">10</span> <span class="nl">shouldResize</span><span class="p">:</span><span class="nb">NO</span><span class="p">];</span>
+<span class="lineno">31</span>   <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">firstFilterLabel</span> <span class="nl">top</span><span class="p">:</span><span class="mi">10</span> <span class="nl">FromView</span><span class="p">:</span><span class="nb">self</span><span class="p">.</span><span class="n">originImageView</span><span class="p">];</span>
+<span class="lineno">32</span>   <span class="o">&amp;</span><span class="n">hellip</span><span class="p">;</span> <span class="o">&amp;</span><span class="n">hellip</span><span class="p">;</span>
+<span class="lineno">33</span> <span class="p">}</span></code></pre></div></p></li>
+</ul>
+
+
+<h4>getter和setter全部都放在最后</h4>
+
+<blockquote><p>因为一个ViewController很有可能会有非常多的view，就像上面给出的代码样例一样，如果getter和setter写在前面，就会把主要逻辑扯到后面去，其他人看的时候就要先划过一长串getter和setter，这样不太好。然后要求业务工程师写代码的时候按照顺序来分配代码块的位置，<strong>先是life cycle，然后是Delegate方法实现，然后是event response，然后才是getters and setters</strong>。这样后来者阅读代码时就能省力很多。</p></blockquote>
+
+<h3>每一个delegate都把对应的protocol名字带上，delegate方法不要到处乱写，写到一块区域里面去</h3>
+
+<blockquote><p>比如UITableViewDelegate的方法集就老老实实写上#pragma mark - UITableViewDelegate。这样有个好处就是，当其他人阅读一个他并不熟悉的Delegate实现方法时，他只要按住command然后去点这个protocol名字，Xcode就能够立刻跳转到对应这个Delegate的protocol定义的那部分代码去，就省得他到处找了。</p></blockquote>
+
+<h3>event response专门开一个代码区域</h3>
+
+<p>所有button、gestureRecognizer的响应事件都放在这个区域里面，不要到处乱放。</p>
+
+<h3>关于private methods，正常情况下ViewController里面不应该写</h3>
+
+<p>不是delegate方法的，不是event response方法的，不是life cycle方法的，就是private method了。对的，正常情况下ViewController里面一般是不会存在private methods的，这个private methods一般是用于日期换算、图片裁剪啥的这种小功能。这种小功能要么把它写成一个category，要么把他做成一个模块，哪怕这个模块只有一个函数也行。</p>
+
+<p>ViewController基本上是大部分业务的载体，本身代码已经相当复杂，所以跟业务关联不大的东西能不放在ViewController里面就不要放。另外一点，这个private method的功能这时候只是你用得到，但是将来说不定别的地方也会用到，一开始就独立出来，有利于将来的代码复用。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[AutoSizing and AutoLayout]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2015/12/01/autosizing-and-autolayout/"/>
+    <updated>2015-12-01T11:20:38+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2015/12/01/autosizing-and-autolayout</id>
+    <content type="html"><![CDATA[<p>参考：</p>
+
+<ul>
+<li><a href="http://objccn.io/issue-3-5/">先进的自动布局工具箱</a></li>
+<li><a href="https://developer.apple.com/library/prerelease/ios/documentation/UserExperience/Conceptual/AutolayoutPG/ProgrammaticallyCreatingConstraints.html#//apple_ref/doc/uid/TP40010853-CH16-SW1">AutoLayout Guide</a></li>
+<li><a href="https://developer.apple.com/library/ios/documentation/UserExperience/Conceptual/AutolayoutPG/WorkingwithSelf-SizingTableViewCells.html">AutoLayout Table View</a></li>
+</ul>
+
+
+<p>摘要：</p>
+
+<ul>
+<li><p>AutoSizing和AutoLayout都是用来自动确定试图大小和位置的方法，区别在于：</p>
+
+<ul>
+<li>AutoSizing: 只针对SuperView</li>
+<li>AutoLayout: 针对SuperView和兄弟View</li>
+</ul>
+</li>
 </ul>
 
 
 <!-- more -->
 
 
-<p>Apart from above, <code>@synthesize</code> define the instance variable used for accessors. <code>@synthesize</code> can only be used to property, not iVar. For more info, see <a href="http://hongchaozhang.github.io/code/2015/07/22/Property-vs-Instance-Variable(iVar">Property vs Instance Variable (iVar) in objective-c</a>-in-Objective-C.html).</p>
-
-<p><a href="http://www.cnblogs.com/andyque/archive/2011/08/03/2125728.html">Here</a> has a detail description. And the useful part:</p>
+<ul>
+<li><p>Autolayout这边可以考虑使用<a href="https://github.com/SnapKit/Masonry">Masonry</a>，代码的可读性就能好很多。</p></li>
+<li><p>如果还有使用Frame的，可以考虑一下使用<a href="https://github.com/casatwy/HandyAutoLayout">这个项目</a>。</p>
 
 <ul>
-<li>什么时候用assign、什么时候用retain和copy呢？推荐做法是NSString用copy,delegate用assign（且一定要用assign，不要问为什么，只管去用就是了，以后你会明白的），非objc数据类型，比如int，float等基本数据类型用assign（默认就是assign），而其它objc类型，比如NSArray，NSDate用retain。</li>
-<li>当别人使用@property来做内存管理的时候就会有问题了。总结一下，如果你自己实现了getter和setter的话，atomic/nonatomic/retain/assign/copy这些只是给编译的建议，编译会首先会到你的代码里面去找，如果你定义了相应的getter和setter的话，那么好，用你的。如果没有，编译器就会根据atomic/nonatomic/retain/assign/copy这其中你指定的某几个规则去生成相应的getter和setter。</li>
+<li>这个项目里面提供了Frame相关的方便方法(UIView+LayoutMethods)，里面的方法也基本涵盖了所有布局的需求，可读性非常好，使用它之后基本可以和CGRectMake说再见了。因为天猫在最近才切换到支持iOS6，所以之前天猫都是用Frame布局的，在天猫App中，首页，范儿部分页面的布局就使用了这些方法。使用这些方便方法能起到事半功倍的效果。</li>
+</ul>
+</li>
 </ul>
 
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Ios进行网络请求]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2015/11/29/ios-network-request/"/>
+    <updated>2015-11-29T15:12:59+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2015/11/29/ios-network-request</id>
+    <content type="html"><![CDATA[<p>参考<a href="http://blog.csdn.net/dyllove98/article/details/9050863">IOS网络编程：HTTP</a>。</p>
+
+<!-- more -->
+
+
+<p>如果遇到如下错误信息：</p>
+
+<p><div class="highlight"><pre><code class="language-text" data-lang="text">App Transport Security has blocked a cleartext HTTP (&lt;a href=&quot;http://&quot;&gt;http://&lt;/a&gt;) resource load since it is insecure.
+Temporary exceptions can be configured via your app&amp;rsquo;s Info.plist file.</code></pre></div></p>
+
+<p>打开Info.plist，加入如下字段：</p>
+
+<p><div class="highlight"><pre><code class="language-xml" data-lang="xml"><span class="lineno">1</span> <span class="nt">&lt;key&gt;</span>NSAppTransportSecurity<span class="nt">&lt;/key&gt;</span>
+<span class="lineno">2</span>     <span class="nt">&lt;dict&gt;</span>
+<span class="lineno">3</span>         <span class="c">&lt;!--Include to allow all connections (DANGER)--&gt;</span>
+<span class="lineno">4</span>         <span class="nt">&lt;key&gt;</span>NSAllowsArbitraryLoads<span class="nt">&lt;/key&gt;</span>
+<span class="lineno">5</span>         <span class="nt">&lt;true/&gt;</span>
+<span class="lineno">6</span>     <span class="nt">&lt;/dict&gt;</span></code></pre></div></p>
 ]]></content>
   </entry>
   

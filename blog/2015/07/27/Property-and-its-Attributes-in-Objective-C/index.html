@@ -95,23 +95,23 @@ strong / weak: used for ARC. &hellip;">
 <div class="entry-content"><p>All the attributes of a property defines how the compiler generate the <code>getter</code> and <code>setter</code> accessors.</p>
 
 <ul>
-<li><p>atomic / nonatomic</p></li>
-<li><p>strong / weak: used for ARC.</p></li>
-<li><p>assign / retain / copy: go to <a href="http://blog.csdn.net/jiarusun000/article/details/6991249">here</a> for reference. These properties define how the compiler generate the <code>setter</code> accessor.</p></li>
-<li><p>readonly / readwrite: if a property is declared as <code>readonly</code>, the compiler will only declare the getter accessor, so that you can not call setter accessor. This is called <code>readonly</code>.</p></li>
+<li>atomic / nonatomic</li>
+<li>strong / weak: used for ARC.</li>
+<li>assign / retain / copy: go to <a href="http://blog.csdn.net/jiarusun000/article/details/6991249">here</a> for reference. These properties define how the compiler generate the <code>setter</code> accessor.</li>
+<li>readonly / readwrite: if a property is declared as <code>readonly</code>, the compiler will only declare the getter accessor, so that you can not call setter accessor.</li>
 </ul>
 
 
 <!-- more -->
 
 
-<p>Apart from above, <code>@synthesize</code> define the instance variable used for accessors. <code>@synthesize</code> can only be used to property, not iVar. For more info, see <a href="http://hongchaozhang.github.io/code/2015/07/22/Property-vs-Instance-Variable(iVar">Property vs Instance Variable (iVar) in objective-c</a>-in-Objective-C.html).</p>
+<p>Apart from above, <code>@synthesize</code> define the instance variable used for accessors. <code>@synthesize</code> can only be used to property, not iVar. For more info, see <a href="http://localhost:4000/blog/2015/12/19/propety-instance-variable-and-at-synthesize/">Property and Its Attributes in Objective-C</a>, and <del><a href="http://hongchaozhang.github.io/code/2015/07/22/Property-vs-Instance-Variable(iVar">Property vs Instance Variable (iVar) in objective-c</a>-in-Objective-C.html)</del> is depracated.</p>
 
 <p><a href="http://www.cnblogs.com/andyque/archive/2011/08/03/2125728.html">Here</a> has a detail description. And the useful part:</p>
 
 <ul>
-<li>什么时候用assign、什么时候用retain和copy呢？推荐做法是NSString用copy,delegate用assign（且一定要用assign，不要问为什么，只管去用就是了，以后你会明白的），非objc数据类型，比如int，float等基本数据类型用assign（默认就是assign），而其它objc类型，比如NSArray，NSDate用retain。</li>
-<li>当别人使用@property来做内存管理的时候就会有问题了。总结一下，如果你自己实现了getter和setter的话，atomic/nonatomic/retain/assign/copy这些只是给编译的建议，编译会首先会到你的代码里面去找，如果你定义了相应的getter和setter的话，那么好，用你的。如果没有，编译器就会根据atomic/nonatomic/retain/assign/copy这其中你指定的某几个规则去生成相应的getter和setter。</li>
+<li>什么时候用assign、什么时候用retain和copy呢？就看你想让编译器怎么实现该Property的setter函数了。推荐做法是NSString用copy,delegate用assign（且一定要用assign，<del>不要问为什么，只管去用就是了，以后你会明白的。</del>如果用retain，容易造成retain cycle。），非objc数据类型，比如int，float等基本数据类型用assign（默认就是assign），而其它objc类型，比如NSArray，NSDate用retain。</li>
+<li>如果你自己实现了getter和setter的话，atomic/nonatomic/retain/assign/copy这些只是给编译的建议，编译会首先会到你的代码里面去找，如果你定义了相应的getter和setter的话，那么好，用你的。如果没有，编译器就会根据atomic/nonatomic/retain/assign/copy这其中你指定的某几个规则去生成相应的getter和setter。</li>
 </ul>
 
 </div>
@@ -174,30 +174,30 @@ strong / weak: used for ARC. &hellip;">
   
     <section class="categories">
   <h1>Categories</h1>
-    <ul id="top-category-list" class="nav nav-list"><li><a href='/blog/categories/productivity'>productivity (14)</a></li><li><a href='/blog/categories/ios'>ios (13)</a></li><li><a href='/blog/categories/objective-c'>objective-c (6)</a></li><li><a href='/blog/categories/android'>android (3)</a></li><li><a href='/blog/categories/python'>python (2)</a></li><li><a href='/blog/categories/algorithm'>algorithm (2)</a></li><li><a href='/blog/categories/javascript'>javascript (2)</a></li><li><a href='/blog/categories/java'>java (1)</a></li><li><a href='/blog/categories/web'>web (1)</a></li><li><a href='/blog/categories/android-studio'>android_studio (1)</a></li><li><a href='/blog/categories/xcode'>xcode (1)</a></li><li><a href='/blog/categories/design-pattern'>design_pattern (1)</a></li><li><a href='/blog/categories/node'>node (1)</a></li></ul>
+    <ul id="top-category-list" class="nav nav-list"><li><a href='/blog/categories/ios'>ios (17)</a></li><li><a href='/blog/categories/productivity'>productivity (14)</a></li><li><a href='/blog/categories/objective-c'>objective-c (11)</a></li><li><a href='/blog/categories/android'>android (3)</a></li><li><a href='/blog/categories/python'>python (2)</a></li><li><a href='/blog/categories/javascript'>javascript (2)</a></li><li><a href='/blog/categories/java'>java (1)</a></li><li><a href='/blog/categories/web'>web (1)</a></li><li><a href='/blog/categories/android-studio'>android_studio (1)</a></li><li><a href='/blog/categories/xcode'>xcode (1)</a></li><li><a href='/blog/categories/design-pattern'>design_pattern (1)</a></li><li><a href='/blog/categories/node'>node (1)</a></li></ul>
 </section>
 <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/2015/11/28/some-useful-plugins-for-sublime/">Sublime的一些插件</a>
+        <a href="/blog/2015/12/19/propety-instance-variable-and-at-synthesize/">Propety, Instance Variable and @synthesize</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2015/11/27/using-node-dot-js-for-a-simple-server/">应用Node.js搭建一个简单的服务器</a>
+        <a href="/blog/2015/12/17/ios-coding-best-practice/">Ios Coding Best Practice</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2015/11/19/some-tools-to-impromve-efficiency-in-daily-life/">Some Tools to Impromve Efficiency in Daily Life</a>
+        <a href="/blog/2015/12/06/some-usefull-ios-coding-styles/">UIViewController中常见的ios编程习惯</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2015/10/28/operating-files-and-folders-with-command-line-in-terminal/">Operating Files and Folders With Command Line in Terminal</a>
+        <a href="/blog/2015/12/01/autosizing-and-autolayout/">AutoSizing and AutoLayout</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2015/10/21/touch-event-in-ios/">iOS中的触控事件机制</a>
+        <a href="/blog/2015/11/29/ios-network-request/">Ios进行网络请求</a>
       </li>
     
   </ul>

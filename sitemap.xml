@@ -1,6 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>http://hongchaozhang.github.io/blog/2015/12/19/propety-instance-variable-and-at-synthesize/</loc>
+    <lastmod>2015-12-19T15:17:41+08:00</lastmod>
+  </url>
+  <url>
+    <loc>http://hongchaozhang.github.io/blog/2015/12/17/ios-coding-best-practice/</loc>
+    <lastmod>2015-12-17T10:49:54+08:00</lastmod>
+  </url>
+  <url>
+    <loc>http://hongchaozhang.github.io/blog/2015/12/06/some-usefull-ios-coding-styles/</loc>
+    <lastmod>2015-12-06T12:55:47+08:00</lastmod>
+  </url>
+  <url>
+    <loc>http://hongchaozhang.github.io/blog/2015/12/01/autosizing-and-autolayout/</loc>
+    <lastmod>2015-12-01T11:20:38+08:00</lastmod>
+  </url>
+  <url>
+    <loc>http://hongchaozhang.github.io/blog/2015/11/29/ios-network-request/</loc>
+    <lastmod>2015-11-29T15:12:59+08:00</lastmod>
+  </url>
+  <url>
     <loc>http://hongchaozhang.github.io/blog/2015/11/28/some-useful-plugins-for-sublime/</loc>
     <lastmod>2015-11-28T23:45:59+08:00</lastmod>
   </url>
@@ -19,14 +39,6 @@
   <url>
     <loc>http://hongchaozhang.github.io/blog/2015/10/21/touch-event-in-ios/</loc>
     <lastmod>2015-10-21T16:55:48+08:00</lastmod>
-  </url>
-  <url>
-    <loc>http://hongchaozhang.github.io/blog/2015/09/23/phone-interview-preparation/</loc>
-    <lastmod>2015-09-23T11:02:18+08:00</lastmod>
-  </url>
-  <url>
-    <loc>http://hongchaozhang.github.io/blog/2015/09/14/brainteasers-and-puzzles/</loc>
-    <lastmod>2015-09-14T20:46:22+08:00</lastmod>
   </url>
   <url>
     <loc>http://hongchaozhang.github.io/blog/2015/09/09/migrate-blog-to-octopress/</loc>
@@ -182,9 +194,6 @@
   </url>
   <url>
     <loc>http://hongchaozhang.github.io/blog/categories/design-pattern/</loc>
-  </url>
-  <url>
-    <loc>http://hongchaozhang.github.io/blog/categories/algorithm/</loc>
   </url>
   <url>
     <loc>http://hongchaozhang.github.io/blog/categories/node/</loc>

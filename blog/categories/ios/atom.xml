@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ios | Zhang Hongchao]]></title>
   <link href="http://hongchaozhang.github.io/blog/categories/ios/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2015-11-29T14:11:59+08:00</updated>
+  <updated>2015-12-19T16:41:42+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -12,6 +12,323 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Propety, Instance Variable and @synthesize]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2015/12/19/propety-instance-variable-and-at-synthesize/"/>
+    <updated>2015-12-19T15:17:41+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2015/12/19/propety-instance-variable-and-at-synthesize</id>
+    <content type="html"><![CDATA[<p>这一段时间，工作上在做一对不理解代码的重构，重新了解了一下Property、Instance Variable和@synthesize，总结一下。</p>
+
+<p>首先需要明白一点：Property和@synthesize是让编译器帮助我们做一些规律性的工作。</p>
+
+<h3>如果没有Property</h3>
+
+<p>如果没有Property，我们可以这样实现Instance Variable的accessor（getter和setter），示例代码如下：</p>
+
+<p><div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno"> 1</span> <span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+<span class="lineno"> 2</span> 
+<span class="lineno"> 3</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">@interface</span> <span class="nc">PropertyTester</span><span class="p">()</span> <span class="p">{</span>
+<span class="lineno"> 4</span>     <span class="bp">NSString</span><span class="o">*</span> <span class="n">testString</span><span class="p">;</span>
+<span class="lineno"> 5</span> <span class="p">}</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+<span class="lineno"> 6</span> 
+<span class="lineno"> 7</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">@end</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+<span class="lineno"> 8</span> 
+<span class="lineno"> 9</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">@implementation</span> <span class="nc">PropertyTester</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+<span class="lineno">10</span> 
+<span class="lineno">11</span> <span class="o">&lt;</span><span class="n">ul</span><span class="o">&gt;</span>
+<span class="lineno">12</span> <span class="o">&lt;</span><span class="n">li</span><span class="o">&gt;</span><span class="p">(</span><span class="bp">NSString</span><span class="o">*</span><span class="p">)</span><span class="n">testString</span> <span class="p">{</span>
+<span class="lineno">13</span>   <span class="k">return</span> <span class="n">testString</span><span class="p">;</span>
+<span class="lineno">14</span> <span class="p">}</span><span class="o">&lt;/</span><span class="n">li</span><span class="o">&gt;</span>
+<span class="lineno">15</span> <span class="o">&lt;</span><span class="n">li</span><span class="o">&gt;&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nl">setTestString</span><span class="p">:(</span><span class="bp">NSString</span><span class="o">*</span><span class="p">)</span><span class="n">stringValue</span> <span class="p">{</span>
+<span class="lineno">16</span>   <span class="n">testString</span> <span class="o">=</span> <span class="n">stringValue</span><span class="p">;</span>
+<span class="lineno">17</span> <span class="p">}</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;&lt;/</span><span class="n">li</span><span class="o">&gt;</span>
+<span class="lineno">18</span> <span class="o">&lt;</span><span class="n">li</span><span class="o">&gt;&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">test</span> <span class="p">{</span>
+<span class="lineno">19</span>   <span class="nb">self</span><span class="p">.</span><span class="n">testString</span> <span class="o">=</span> <span class="p">@</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">test</span> <span class="n">proeprty</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;;</span>
+<span class="lineno">20</span>   <span class="n">NSLog</span><span class="p">(@</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="o">%</span><span class="p">@</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;,</span> <span class="nb">self</span><span class="p">.</span><span class="n">testString</span><span class="p">);</span>
+<span class="lineno">21</span> <span class="p">}</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;&lt;/</span><span class="n">li</span><span class="o">&gt;</span>
+<span class="lineno">22</span> <span class="o">&lt;/</span><span class="n">ul</span><span class="o">&gt;</span>
+<span class="lineno">23</span> 
+<span class="lineno">24</span> 
+<span class="lineno">25</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">@end</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+<span class="lineno">26</span> 
+<span class="lineno">27</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span></code></pre></div></p>
+
+<h3>有了Property</h3>
+
+<p>眼看着Instance Variable及其getter和setter函数是如此有规律，于是Property出现了。</p>
+
+<p>Property可以告诉编译器：我声明了一个Property，名字叫做<code>propertyName</code>，你帮我声明一个Instance Variable <code>_propertyName</code>，并帮助我实现其getter和setter函数。于是，上述代码，我们可以写成：</p>
+
+<p><div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno"> 1</span> <span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+<span class="lineno"> 2</span> 
+<span class="lineno"> 3</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">@interface</span> <span class="nc">PropertyTester</span><span class="p">()</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+<span class="lineno"> 4</span> 
+<span class="lineno"> 5</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">@property</span> <span class="p">(</span><span class="k">nonatomic</span><span class="p">,</span> <span class="k">strong</span><span class="p">)</span> <span class="bp">NSString</span><span class="o">*</span> <span class="n">testString</span><span class="p">;</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+<span class="lineno"> 6</span> 
+<span class="lineno"> 7</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">@end</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+<span class="lineno"> 8</span> 
+<span class="lineno"> 9</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">@implementation</span> <span class="nc">PropertyTester</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+<span class="lineno">10</span> 
+<span class="lineno">11</span> <span class="o">&lt;</span><span class="n">ul</span><span class="o">&gt;</span>
+<span class="lineno">12</span> <span class="o">&lt;</span><span class="n">li</span><span class="o">&gt;</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">test</span> <span class="p">{</span>
+<span class="lineno">13</span>   <span class="nb">self</span><span class="p">.</span><span class="n">testString</span> <span class="o">=</span> <span class="p">@</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">test</span> <span class="n">proeprty</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;;</span>
+<span class="lineno">14</span>   <span class="n">NSLog</span><span class="p">(@</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="o">%</span><span class="p">@</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;,</span> <span class="nb">self</span><span class="p">.</span><span class="n">testString</span><span class="p">);</span><span class="o">&lt;/</span><span class="n">li</span><span class="o">&gt;</span>
+<span class="lineno">15</span> <span class="o">&lt;/</span><span class="n">ul</span><span class="o">&gt;</span>
+<span class="lineno">16</span> 
+<span class="lineno">17</span> 
+<span class="lineno">18</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="p">}</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+<span class="lineno">19</span> 
+<span class="lineno">20</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">@end</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+<span class="lineno">21</span> 
+<span class="lineno">22</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span></code></pre></div></p>
+
+<p>看看，是不是简单了很多。</p>
+
+<h3>Auto Synthesize</h3>
+
+<p>其实在上述使用Property的代码中，编译器还帮助我们做了一件事情：</p>
+
+<p><div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno">1</span> <span class="k">@synthesize</span> <span class="n">testString</span> <span class="o">=</span> <span class="n">_testString</span><span class="p">;</span></code></pre></div></p>
+
+<p>从Xcode 4.4和LLVM Compiler 4.0起，有了<strong>auto synthesize</strong>，即@synthesize被更改为默认使用。因此，大多数情况下，你只需要 @property 指令，编译器将为你关心其它的事情。对，是“大多数”，因为在某些情况下，不会进行auto synthesize 。比如，对于上述代码，如果我打算自己实现getter函数：</p>
+
+<p><div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno"> 1</span> <span class="k">@interface</span> <span class="nc">PropertyTester</span><span class="p">()</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+<span class="lineno"> 2</span> 
+<span class="lineno"> 3</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">@property</span> <span class="p">(</span><span class="k">nonatomic</span><span class="p">,</span> <span class="k">strong</span><span class="p">)</span> <span class="bp">NSString</span><span class="o">*</span> <span class="n">testString</span><span class="p">;</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+<span class="lineno"> 4</span> 
+<span class="lineno"> 5</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">@end</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+<span class="lineno"> 6</span> 
+<span class="lineno"> 7</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">@implementation</span> <span class="nc">PropertyTester</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+<span class="lineno"> 8</span> 
+<span class="lineno"> 9</span> <span class="o">&lt;</span><span class="n">ul</span><span class="o">&gt;</span>
+<span class="lineno">10</span> <span class="o">&lt;</span><span class="n">li</span><span class="o">&gt;&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="p">(</span><span class="bp">NSString</span><span class="o">*</span><span class="p">)</span><span class="n">testString</span> <span class="p">{</span>
+<span class="lineno">11</span>   <span class="k">return</span> <span class="n">_testString</span><span class="p">;</span>
+<span class="lineno">12</span> <span class="p">}</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;&lt;/</span><span class="n">li</span><span class="o">&gt;</span>
+<span class="lineno">13</span> <span class="o">&lt;</span><span class="n">li</span><span class="o">&gt;&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">test</span> <span class="p">{</span>
+<span class="lineno">14</span>   <span class="nb">self</span><span class="p">.</span><span class="n">testString</span> <span class="o">=</span> <span class="p">@</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">test</span> <span class="n">proeprty</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;;</span>
+<span class="lineno">15</span>   <span class="n">NSLog</span><span class="p">(@</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="o">%</span><span class="p">@</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;,</span> <span class="nb">self</span><span class="p">.</span><span class="n">testString</span><span class="p">);</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;&lt;/</span><span class="n">li</span><span class="o">&gt;</span>
+<span class="lineno">16</span> <span class="o">&lt;/</span><span class="n">ul</span><span class="o">&gt;</span>
+<span class="lineno">17</span> 
+<span class="lineno">18</span> 
+<span class="lineno">19</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="p">}</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+<span class="lineno">20</span> 
+<span class="lineno">21</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">@end</span></code></pre></div></p>
+
+<p>没有任何问题。</p>
+
+<p>如果我再试图加入setter函数：</p>
+
+<p><div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno"> 1</span> <span class="k">@interface</span> <span class="nc">PropertyTester</span><span class="p">()</span>
+<span class="lineno"> 2</span> <span class="k">@property</span> <span class="p">(</span><span class="k">nonatomic</span><span class="p">,</span> <span class="k">strong</span><span class="p">)</span> <span class="bp">NSString</span><span class="o">*</span> <span class="n">testString</span><span class="p">;</span>
+<span class="lineno"> 3</span> <span class="k">@end</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+<span class="lineno"> 4</span> 
+<span class="lineno"> 5</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">@implementation</span> <span class="nc">PropertyTester</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+<span class="lineno"> 6</span> 
+<span class="lineno"> 7</span> <span class="o">&lt;</span><span class="n">ul</span><span class="o">&gt;</span>
+<span class="lineno"> 8</span> <span class="o">&lt;</span><span class="n">li</span><span class="o">&gt;&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="p">(</span><span class="bp">NSString</span><span class="o">*</span><span class="p">)</span><span class="n">testString</span> <span class="p">{</span>
+<span class="lineno"> 9</span>   <span class="k">return</span> <span class="n">_testString</span><span class="p">;</span>
+<span class="lineno">10</span> <span class="p">}</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;&lt;/</span><span class="n">li</span><span class="o">&gt;</span>
+<span class="lineno">11</span> <span class="o">&lt;</span><span class="n">li</span><span class="o">&gt;&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nl">setTestString</span><span class="p">:(</span><span class="bp">NSString</span> <span class="o">*</span><span class="p">)</span><span class="n">testString</span> <span class="p">{</span>
+<span class="lineno">12</span>   <span class="n">_testString</span> <span class="o">=</span> <span class="n">testString</span><span class="p">;</span>
+<span class="lineno">13</span> <span class="p">}</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;&lt;/</span><span class="n">li</span><span class="o">&gt;</span>
+<span class="lineno">14</span> <span class="o">&lt;</span><span class="n">li</span><span class="o">&gt;&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">test</span> <span class="p">{</span>
+<span class="lineno">15</span>   <span class="nb">self</span><span class="p">.</span><span class="n">testString</span> <span class="o">=</span> <span class="p">@</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">test</span> <span class="n">proeprty</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;;</span>
+<span class="lineno">16</span>   <span class="n">NSLog</span><span class="p">(@</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="o">%</span><span class="p">@</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;,</span> <span class="nb">self</span><span class="p">.</span><span class="n">testString</span><span class="p">);</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;&lt;/</span><span class="n">li</span><span class="o">&gt;</span>
+<span class="lineno">17</span> <span class="o">&lt;/</span><span class="n">ul</span><span class="o">&gt;</span>
+<span class="lineno">18</span> 
+<span class="lineno">19</span> 
+<span class="lineno">20</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="p">}</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+<span class="lineno">21</span> 
+<span class="lineno">22</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">@end</span></code></pre></div></p>
+
+<p>编译器会报错：</p>
+
+<p><div class="highlight"><pre><code class="language-text" data-lang="text">use of undefined identifier &amp;lsquo;_testString&#39;。</code></pre></div></p>
+
+<p>为什么呢？</p>
+
+<p>因为此时auto synthesize没有工作。编译器认为：既然你同时手动接管了getter和setter的实现，那么我就什么也不管了，Instance Variable你也自己声明并起个名字吧。</p>
+
+<p>总结一下auto synthesize不会工作的几种情况（参考<a href="http://stackoverflow.com/questions/19784454/when-should-i-use-synthesize-explicitly">When should I use @synthesize explicitly?</a>）：</p>
+
+<ul>
+<li><p>readwrite property with custom getter and setter</p>
+
+<p>  when providing both a getter and setter custom implementation, the property won&rsquo;t be automatically synthesized</p></li>
+<li><p>readonly property with custom getter</p>
+
+<p>  when providing a custom getter implementation for a readonly property, this won&rsquo;t be automatically synthesized</p></li>
+<li><p>@dynamic</p>
+
+<p>  when using @dynamic propertyName, the property won&rsquo;t be automatically synthesized (pretty obvious, since @dynamic and @synthesize are mutually exclusive)</p></li>
+<li><p>properties declared in a @protocol</p>
+
+<p>  when conforming to a protocol, any property the protocol defines won&rsquo;t be automatically synthesized</p></li>
+<li><p>properties declared in a category</p>
+
+<p>  this is a case in which the @synthesize directive is not automatically inserted by the compiler, but this properties cannot be manually synthesized either. While categories can declare properties, they cannot be synthesized at all, since categories cannot create ivars. For the sake of completeness, I&rsquo;ll add that&rsquo;s it&rsquo;s still possible to fake the property synthesis using the Objective-C runtime.</p></li>
+<li><p>overridden properties (new since clang-600.0.51, shipping with Xcode 6, thanks Marc Schlüpmann)</p>
+
+<p>  when you override a property of a superclass, you must explicitly synthesize it</p></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[UIViewController中常见的ios编程习惯]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2015/12/06/some-usefull-ios-coding-styles/"/>
+    <updated>2015-12-06T12:55:47+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2015/12/06/some-usefull-ios-coding-styles</id>
+    <content type="html"><![CDATA[<p>参考<a href="http://www.cocoachina.com/ios/20150525/11919.html">iOS应用架构谈 view层的组织和调用方案</a>。</p>
+
+<h3>所有的属性都使用getter和setter</h3>
+
+<!-- more -->
+
+
+<blockquote><p>不要在viewDidLoad里面初始化你的view然后再add，这样代码就很难看。在viewDidload里面只做addSubview的事情，然后在viewWillAppear里面做布局的事情，最后在viewDidAppear里面做Notification的监听之类的事情。至于属性的初始化，则交给getter去做。</p></blockquote>
+
+<p>不要出现这样的代码：</p>
+
+<p><div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno"> 1</span> <span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">viewDidLoad</span>
+<span class="lineno"> 2</span> <span class="p">{</span>
+<span class="lineno"> 3</span>     <span class="p">[</span><span class="nb">super</span> <span class="n">viewDidLoad</span><span class="p">];</span>
+<span class="lineno"> 4</span>     <span class="nb">self</span><span class="p">.</span><span class="n">textLabel</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">UILabel</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
+<span class="lineno"> 5</span>     <span class="nb">self</span><span class="p">.</span><span class="n">textLabel</span><span class="p">.</span><span class="n">textColor</span> <span class="o">=</span> <span class="p">[</span><span class="bp">UIColor</span> <span class="n">blackColor</span><span class="p">];</span>
+<span class="lineno"> 6</span>     <span class="nb">self</span><span class="p">.</span><span class="n">textLabel</span> <span class="o">&amp;</span><span class="n">hellip</span><span class="p">;</span> <span class="o">&amp;</span><span class="n">hellip</span><span class="p">;</span>
+<span class="lineno"> 7</span>     <span class="nb">self</span><span class="p">.</span><span class="n">textLabel</span> <span class="o">&amp;</span><span class="n">hellip</span><span class="p">;</span> <span class="o">&amp;</span><span class="n">hellip</span><span class="p">;</span>
+<span class="lineno"> 8</span>     <span class="nb">self</span><span class="p">.</span><span class="n">textLabel</span> <span class="o">&amp;</span><span class="n">hellip</span><span class="p">;</span> <span class="o">&amp;</span><span class="n">hellip</span><span class="p">;</span>
+<span class="lineno"> 9</span>     <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">view</span> <span class="nl">addSubview</span><span class="p">:</span><span class="nb">self</span><span class="p">.</span><span class="n">textLabel</span><span class="p">];</span>
+<span class="lineno">10</span> <span class="p">}</span></code></pre></div></p>
+
+<p>而应该是这样的：</p>
+
+<p><div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno"> 1</span> <span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+<span class="lineno"> 2</span> 
+<span class="lineno"> 3</span> <span class="o">&lt;</span><span class="n">h1</span><span class="o">&gt;</span><span class="n">pragma</span> <span class="n">mark</span> <span class="o">-</span> <span class="n">life</span> <span class="n">cycle</span><span class="o">&lt;/</span><span class="n">h1</span><span class="o">&gt;</span>
+<span class="lineno"> 4</span> 
+<span class="lineno"> 5</span> <span class="o">&lt;</span><span class="n">ul</span><span class="o">&gt;</span>
+<span class="lineno"> 6</span> <span class="o">&lt;</span><span class="n">li</span><span class="o">&gt;&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">viewDidLoad</span>
+<span class="lineno"> 7</span> <span class="p">{</span>
+<span class="lineno"> 8</span>   <span class="p">[</span><span class="nb">super</span> <span class="n">viewDidLoad</span><span class="p">];</span>
+<span class="lineno"> 9</span>   <span class="nb">self</span><span class="p">.</span><span class="n">view</span><span class="p">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="p">[</span><span class="bp">UIColor</span> <span class="n">whiteColor</span><span class="p">];</span>
+<span class="lineno">10</span>   <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">view</span> <span class="nl">addSubview</span><span class="p">:</span><span class="nb">self</span><span class="p">.</span><span class="n">firstTableView</span><span class="p">];</span>
+<span class="lineno">11</span>   <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">view</span> <span class="nl">addSubview</span><span class="p">:</span><span class="nb">self</span><span class="p">.</span><span class="n">secondTableView</span><span class="p">];</span>
+<span class="lineno">12</span>   <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">view</span> <span class="nl">addSubview</span><span class="p">:</span><span class="nb">self</span><span class="p">.</span><span class="n">cleanButton</span><span class="p">];</span>
+<span class="lineno">13</span>   <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">view</span> <span class="nl">addSubview</span><span class="p">:</span><span class="nb">self</span><span class="p">.</span><span class="n">originImageView</span><span class="p">];</span>
+<span class="lineno">14</span>   <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">view</span> <span class="nl">addSubview</span><span class="p">:</span><span class="nb">self</span><span class="p">.</span><span class="n">processedImageView</span><span class="p">];</span>
+<span class="lineno">15</span>   <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">view</span> <span class="nl">addSubview</span><span class="p">:</span><span class="nb">self</span><span class="p">.</span><span class="n">activityIndicator</span><span class="p">];</span>
+<span class="lineno">16</span>   <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">view</span> <span class="nl">addSubview</span><span class="p">:</span><span class="nb">self</span><span class="p">.</span><span class="n">takeImageButton</span><span class="p">];</span>
+<span class="lineno">17</span> <span class="p">}</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;&lt;/</span><span class="n">li</span><span class="o">&gt;</span>
+<span class="lineno">18</span> <span class="o">&lt;</span><span class="n">li</span><span class="o">&gt;&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nl">viewWillAppear</span><span class="p">:(</span><span class="kt">BOOL</span><span class="p">)</span><span class="n">animated</span>
+<span class="lineno">19</span> <span class="p">{</span>
+<span class="lineno">20</span>   <span class="p">[</span><span class="nb">super</span> <span class="nl">viewWillAppear</span><span class="p">:</span><span class="n">animated</span><span class="p">];</span>
+<span class="lineno">21</span>   <span class="n">CGFloat</span> <span class="n">width</span> <span class="o">=</span> <span class="p">(</span><span class="nb">self</span><span class="p">.</span><span class="n">view</span><span class="p">.</span><span class="n">width</span> <span class="o">-</span> <span class="mi">30</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.0f</span><span class="p">;</span>
+<span class="lineno">22</span>   <span class="nb">self</span><span class="p">.</span><span class="n">originImageView</span><span class="p">.</span><span class="n">size</span> <span class="o">=</span> <span class="n">CGSizeMake</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">width</span><span class="p">);</span>
+<span class="lineno">23</span>   <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">originImageView</span> <span class="nl">topInContainer</span><span class="p">:</span><span class="mi">70</span> <span class="nl">shouldResize</span><span class="p">:</span><span class="nb">NO</span><span class="p">];</span>
+<span class="lineno">24</span>   <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">originImageView</span> <span class="nl">leftInContainer</span><span class="p">:</span><span class="mi">10</span> <span class="nl">shouldResize</span><span class="p">:</span><span class="nb">NO</span><span class="p">];</span>
+<span class="lineno">25</span>   <span class="nb">self</span><span class="p">.</span><span class="n">processedImageView</span><span class="p">.</span><span class="n">size</span> <span class="o">=</span> <span class="n">CGSizeMake</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">width</span><span class="p">);</span>
+<span class="lineno">26</span>   <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">processedImageView</span> <span class="nl">right</span><span class="p">:</span><span class="mi">10</span> <span class="nl">FromView</span><span class="p">:</span><span class="nb">self</span><span class="p">.</span><span class="n">originImageView</span><span class="p">];</span>
+<span class="lineno">27</span>   <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">processedImageView</span> <span class="nl">topEqualToView</span><span class="p">:</span><span class="nb">self</span><span class="p">.</span><span class="n">originImageView</span><span class="p">];</span>
+<span class="lineno">28</span>   <span class="n">CGFloat</span> <span class="n">labelWidth</span> <span class="o">=</span> <span class="nb">self</span><span class="p">.</span><span class="n">view</span><span class="p">.</span><span class="n">width</span> <span class="o">-</span> <span class="mi">100</span><span class="p">;</span>
+<span class="lineno">29</span>   <span class="nb">self</span><span class="p">.</span><span class="n">firstFilterLabel</span><span class="p">.</span><span class="n">size</span> <span class="o">=</span> <span class="n">CGSizeMake</span><span class="p">(</span><span class="n">labelWidth</span><span class="p">,</span> <span class="mi">20</span><span class="p">);</span>
+<span class="lineno">30</span>   <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">firstFilterLabel</span> <span class="nl">leftInContainer</span><span class="p">:</span><span class="mi">10</span> <span class="nl">shouldResize</span><span class="p">:</span><span class="nb">NO</span><span class="p">];</span>
+<span class="lineno">31</span>   <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">firstFilterLabel</span> <span class="nl">top</span><span class="p">:</span><span class="mi">10</span> <span class="nl">FromView</span><span class="p">:</span><span class="nb">self</span><span class="p">.</span><span class="n">originImageView</span><span class="p">];</span>
+<span class="lineno">32</span>   <span class="o">&amp;</span><span class="n">hellip</span><span class="p">;</span> <span class="o">&amp;</span><span class="n">hellip</span><span class="p">;</span>
+<span class="lineno">33</span> <span class="p">}</span></code></pre></div></p></li>
+</ul>
+
+
+<h4>getter和setter全部都放在最后</h4>
+
+<blockquote><p>因为一个ViewController很有可能会有非常多的view，就像上面给出的代码样例一样，如果getter和setter写在前面，就会把主要逻辑扯到后面去，其他人看的时候就要先划过一长串getter和setter，这样不太好。然后要求业务工程师写代码的时候按照顺序来分配代码块的位置，<strong>先是life cycle，然后是Delegate方法实现，然后是event response，然后才是getters and setters</strong>。这样后来者阅读代码时就能省力很多。</p></blockquote>
+
+<h3>每一个delegate都把对应的protocol名字带上，delegate方法不要到处乱写，写到一块区域里面去</h3>
+
+<blockquote><p>比如UITableViewDelegate的方法集就老老实实写上#pragma mark - UITableViewDelegate。这样有个好处就是，当其他人阅读一个他并不熟悉的Delegate实现方法时，他只要按住command然后去点这个protocol名字，Xcode就能够立刻跳转到对应这个Delegate的protocol定义的那部分代码去，就省得他到处找了。</p></blockquote>
+
+<h3>event response专门开一个代码区域</h3>
+
+<p>所有button、gestureRecognizer的响应事件都放在这个区域里面，不要到处乱放。</p>
+
+<h3>关于private methods，正常情况下ViewController里面不应该写</h3>
+
+<p>不是delegate方法的，不是event response方法的，不是life cycle方法的，就是private method了。对的，正常情况下ViewController里面一般是不会存在private methods的，这个private methods一般是用于日期换算、图片裁剪啥的这种小功能。这种小功能要么把它写成一个category，要么把他做成一个模块，哪怕这个模块只有一个函数也行。</p>
+
+<p>ViewController基本上是大部分业务的载体，本身代码已经相当复杂，所以跟业务关联不大的东西能不放在ViewController里面就不要放。另外一点，这个private method的功能这时候只是你用得到，但是将来说不定别的地方也会用到，一开始就独立出来，有利于将来的代码复用。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[AutoSizing and AutoLayout]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2015/12/01/autosizing-and-autolayout/"/>
+    <updated>2015-12-01T11:20:38+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2015/12/01/autosizing-and-autolayout</id>
+    <content type="html"><![CDATA[<p>参考：</p>
+
+<ul>
+<li><a href="http://objccn.io/issue-3-5/">先进的自动布局工具箱</a></li>
+<li><a href="https://developer.apple.com/library/prerelease/ios/documentation/UserExperience/Conceptual/AutolayoutPG/ProgrammaticallyCreatingConstraints.html#//apple_ref/doc/uid/TP40010853-CH16-SW1">AutoLayout Guide</a></li>
+<li><a href="https://developer.apple.com/library/ios/documentation/UserExperience/Conceptual/AutolayoutPG/WorkingwithSelf-SizingTableViewCells.html">AutoLayout Table View</a></li>
+</ul>
+
+
+<p>摘要：</p>
+
+<ul>
+<li><p>AutoSizing和AutoLayout都是用来自动确定试图大小和位置的方法，区别在于：</p>
+
+<ul>
+<li>AutoSizing: 只针对SuperView</li>
+<li>AutoLayout: 针对SuperView和兄弟View</li>
+</ul>
+</li>
+</ul>
+
+
+<!-- more -->
+
+
+<ul>
+<li><p>Autolayout这边可以考虑使用<a href="https://github.com/SnapKit/Masonry">Masonry</a>，代码的可读性就能好很多。</p></li>
+<li><p>如果还有使用Frame的，可以考虑一下使用<a href="https://github.com/casatwy/HandyAutoLayout">这个项目</a>。</p>
+
+<ul>
+<li>这个项目里面提供了Frame相关的方便方法(UIView+LayoutMethods)，里面的方法也基本涵盖了所有布局的需求，可读性非常好，使用它之后基本可以和CGRectMake说再见了。因为天猫在最近才切换到支持iOS6，所以之前天猫都是用Frame布局的，在天猫App中，首页，范儿部分页面的布局就使用了这些方法。使用这些方便方法能起到事半功倍的效果。</li>
+</ul>
+</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Ios进行网络请求]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2015/11/29/ios-network-request/"/>
+    <updated>2015-11-29T15:12:59+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2015/11/29/ios-network-request</id>
+    <content type="html"><![CDATA[<p>参考<a href="http://blog.csdn.net/dyllove98/article/details/9050863">IOS网络编程：HTTP</a>。</p>
+
+<!-- more -->
+
+
+<p>如果遇到如下错误信息：</p>
+
+<p><div class="highlight"><pre><code class="language-text" data-lang="text">App Transport Security has blocked a cleartext HTTP (&lt;a href=&quot;http://&quot;&gt;http://&lt;/a&gt;) resource load since it is insecure.
+Temporary exceptions can be configured via your app&amp;rsquo;s Info.plist file.</code></pre></div></p>
+
+<p>打开Info.plist，加入如下字段：</p>
+
+<p><div class="highlight"><pre><code class="language-xml" data-lang="xml"><span class="lineno">1</span> <span class="nt">&lt;key&gt;</span>NSAppTransportSecurity<span class="nt">&lt;/key&gt;</span>
+<span class="lineno">2</span>     <span class="nt">&lt;dict&gt;</span>
+<span class="lineno">3</span>         <span class="c">&lt;!--Include to allow all connections (DANGER)--&gt;</span>
+<span class="lineno">4</span>         <span class="nt">&lt;key&gt;</span>NSAllowsArbitraryLoads<span class="nt">&lt;/key&gt;</span>
+<span class="lineno">5</span>         <span class="nt">&lt;true/&gt;</span>
+<span class="lineno">6</span>     <span class="nt">&lt;/dict&gt;</span></code></pre></div></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS中的触控事件机制]]></title>
@@ -269,180 +586,6 @@
 <p><img src="/images/009_iOS_hittest_2.png" alt="009_iOS_hittest_2.png" /></p>
 
 <p>参考文章：<a href="http://zhoon.github.io/ios/2015/04/12/ios-event.html">深入浅出iOS事件机制</a>。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Warning Messages in Xcode]]></title>
-    <link href="http://hongchaozhang.github.io/blog/2015/08/31/Warning-Messages-in-Xcode/"/>
-    <updated>2015-08-31T00:00:00+08:00</updated>
-    <id>http://hongchaozhang.github.io/blog/2015/08/31/Warning-Messages-in-Xcode</id>
-    <content type="html"><![CDATA[<p><a href="http://oleb.net/blog/2013/04/compiler-warnings-for-objective-c-developers/">Compiler Warnings for Objective-C Developers</a> is a good post for describing warning messages for Objective-C in xcode. A Chinese version can be found <a href="http://onevcat.com/2013/05/talk-about-warning/">谈谈Objective-C的警告</a>.</p>
-
-<p>Some important things are marked here.</p>
-
-<p>Two ways to modify complier&rsquo;s warning setting: <strong>UI Method</strong> and <strong>Custom Compiler Flags Method</strong>.</p>
-
-<!-- more -->
-
-
-<h2>UI Method</h2>
-
-<p>In <em>Project Navigator</em>, choose the project. On the right, under <em>Build Settings</em>, <code>Apple LLVM 6.1 - Warnings - Objective c</code> and <code>Apple LLVM 6.1 - Warnings - Objective C and ARC</code> are Objective C specific settings. You may also want to see some setttings for all languages, including Objective C in <code>Apple LLVM 6.1 - Warnings - All languages</code>.</p>
-
-<h2><em>Custom Compiler Flags</em> Method</h2>
-
-<p>Under <em>Build Settings</em>, find <code>other warning flags</code> in <code>Apple LLVM 6.1 - Custom Compiler Flags</code>. In this section, you can use <code>-W...</code> like commands for warning settings.</p>
-
-<p>For example, use <code>-Wall</code> to display all warnings (actually, not <em>All</em>), use <code>-Wno-unused-variable</code> to indicate not displaying <em>unused variable</em> warnings. Use space between differenct commands, like <code>-Wall -Wno-unused-variable</code>.</p>
-
-<p>Using this way, we can set for all kinds of warnings, some of which can not be set by <em>UI Method</em> above.</p>
-
-<p>Go to the following two refrences for details on <code>-Wall</code>, <code>-Wextra</code> and <code>-Weverything</code>:</p>
-
-<ul>
-<li><a href="http://oleb.net/blog/2013/04/compiler-warnings-for-objective-c-developers/">Compiler Warnings for Objective-C Developers</a></li>
-<li><a href="http://onevcat.com/2013/05/talk-about-warning/">谈谈Objective-C的警告</a>.</li>
-</ul>
-
-
-<p>The following paragraph comes from the first reference:</p>
-
-<p>If you encounter a particular warning that you actively want to suppress, check the build log. The compiler will tell you the name of each warning it has issued (-Wunused-variable in this example). You can use this name to selectively disable (with -Wno-unused-variable) or enable this specific warning in your project. In my experience, you will come up with a very short list of warnings you want to disable (probably no more than a handful).</p>
-
-<p>Attach one image to indicate the place (red circles) to find the warning type:</p>
-
-<p><img src="/images/006_warning_type_from_build_log.png" alt="006_warning_type_from_build_log.png" /></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Some Frameworks in iOS Development]]></title>
-    <link href="http://hongchaozhang.github.io/blog/2015/08/19/Some-Frameworks-in-iOS-Development/"/>
-    <updated>2015-08-19T00:00:00+08:00</updated>
-    <id>http://hongchaozhang.github.io/blog/2015/08/19/Some-Frameworks-in-iOS-Development</id>
-    <content type="html"><![CDATA[<p>Reference <a href="http://www.open-open.com/lib/view/open1343210425380.html">here</a>.</p>
-
-<!-- more -->
-
-
-<h3>Cocoa and Cocoa Touch</h3>
-
-<p>是在Mac OS X系统上原生的一个编译环境。他包含两个框架，其实就是一系列的类库，Foundation和AppKit。</p>
-
-<p>在你的iPhone等掌上设备上，使用的则是他的一个子类 - Cocoa Touch。他所支持的Foundation框架与Cocoa相同，但他的用户图形类库为UIKit，它是为掌上设备特殊设计，提供了你设备上的界面。</p>
-
-<p>Cocoa Touch与Cocoa一个比较鲜明的区别就是Cocoa Touch并不支持垃圾回收机制，这就意味着你必须在你的代码里管理好你的内存。</p>
-
-<h3>UIKit and AppKit</h3>
-
-<p>UIKit是iOS上的用户图形包。UI开头的类都来自于这个框架。
-AppKit是Mac OS X上的用户图形不同，类名以NS开头。</p>
-
-<h2>some frameworks</h2>
-
-<p><img src="/images/001_ios_frameworks.png" alt="ios_frameworks.png" /></p>
-
-<h3>Foundation</h3>
-
-<h3>UIKit</h3>
-
-<h3>Core Data</h3>
-
-<h3>Core Graphics</h3>
-
-<h3>Core Animation</h3>
-
-<h3>OpenGL ES</h3>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[The .dSYM File in Ios Project]]></title>
-    <link href="http://hongchaozhang.github.io/blog/2015/08/17/the-dSYM-file-in-ios-project/"/>
-    <updated>2015-08-17T00:00:00+08:00</updated>
-    <id>http://hongchaozhang.github.io/blog/2015/08/17/the-dSYM-file-in-ios-project</id>
-    <content type="html"><![CDATA[<p>This article is mainly from the following post: <a href="http://stackoverflow.com/questions/22460058/how-is-a-dsym-file-created">How is a .dSYM file created?</a>.</p>
-
-<h3>Description</h3>
-
-<p>A <strong>.dSYM</strong> file is a <em>debug symbols file</em>. It is generated when in xcode the <code>Strip Debug Symbols</code> setting is enabled and <code>Debug Infomation Format</code> are set to <code>DWARF with dSYM File</code> in the build settings of your project.</p>
-
-<!-- more -->
-
-
-<h3>Creatation</h3>
-
-<p>Xcode creates the .dSYM file automatically for you when you use the Archive option. The created archive contains your app and its dSYM and is stored in <code>~/Library/Developer/Archive</code>.</p>
-
-<h3>Usage</h3>
-
-<p>When this setting is enabled, symbol names of your objects are removed from the resulting compiled binary (one of the many countermeasures to try and prevent would be hackers/crackers from reverse engineering your code, amongst other optimisations for binary size, etc.).</p>
-
-<p>They are useful for re-symbolicating your crash reports. With a stripped binary, you won&rsquo;t be able to read any crash reports without first re-symbolicating them. Without the dSYM the crash report will just show memory addresses of objects and methods. Xcode uses the dSYM to put the symbols back into the crash report and allow you to read it properly.</p>
-
-<p>dSYMs and executables have an embedded UUID which matches. So every time a build is done will cause both to get a new UUID. The consequence is that symbolication only works if the UUID of the binary that caused a crash matches the UUID of the dSYM that is used for symbolication.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[ARC and GC]]></title>
-    <link href="http://hongchaozhang.github.io/blog/2015/08/14/ARC-and-Memory-Leak/"/>
-    <updated>2015-08-14T00:00:00+08:00</updated>
-    <id>http://hongchaozhang.github.io/blog/2015/08/14/ARC-and-Memory-Leak</id>
-    <content type="html"><![CDATA[<p>The following post mainly comes from <a href="http://docs.elementscompiler.com/Concepts/ARCvsGC/">ARC vs GC</a> and <a href="http://lists.apple.com/archives/objc-language/2011/Jun/msg00013.html">Re: ARC replacing GC? from Chris Lattner&rsquo;s mail list</a>.</p>
-
-<p>Also reference some posts on memory leak, including <a href="http://stackoverflow.com/questions/6260256/what-kind-of-leaks-does-automatic-reference-counting-in-objective-c-not-prevent/6388601#6388601">What kind of leaks does automatic reference counting in Objective-C not prevent or minimize?</a> and <a href="http://www.reigndesign.com/blog/debugging-retain-cycles-in-objective-c-four-likely-culprits/">Debugging retain cycles in Objective-C: four likely culprits</a>.</p>
-
-<!-- more -->
-
-
-<p>Add one more article: <a href="http://www.pchou.info/ios/2015/06/05/oc-memory-management.html">Objective-c 内存管理的历史和参考资料</a>.</p>
-
-<h2>Garbage Collection</h2>
-
-<p>Garbage Collection (or GC for short) is the technique used for life cycle management on the .NET and Java platforms. The way GC works i/Users/hongchaozhang/Develop/octopress/source/_posts/2015-07-09-Basic-Git-Commands.mds that the runtime (either the Common Language Runtime for .NET or the Java Runtime) has infrastructure in place that detects unused objects and object graphs in the background.</p>
-
-<blockquote><p>Unfortunately, garbage collection does have a down side. Garbage collection is only available on MacOS X Version 10.5 or above. It is not available, currently (not sure if it is still true today), on iPhone, iPad, or any of the less common platforms, such as Linux or Windows.</p></blockquote>
-
-<p>This happens at indeterminate intervals (either after a certain amount of time has passed, or when the runtime sees available memory getting low), so objects are not necessarily released at the exact moment they are no longer used.</p>
-
-<h3>Advantages of Garbage Collection</h3>
-
-<p>GC can clean up entire object graphs, including retain cycles.
-GC happens in the background, so less memory management work is done as part of the regular application flow.</p>
-
-<h3>Disadvantages of Garbage Collection</h3>
-
-<p>Because GC happens in the background, the exact time frame for object releases is undetermined.
-When a GC happens, other threads in the application may be temporarily put on hold.</p>
-
-<h2>Automatic Reference Counting</h2>
-
-<p>Automatic Reference Counting (ARC for short) as used on Cocoa takes a different approach. Rather than having the runtime look for and dispose of unused objects in the background, the compiler will inject code into the executable that keeps track of object reference counts and will release objects as necessary, automatically. In essence, if you were to disassemble an executable compiled with ARC, it would look (conceptually) as if the developer spent a lot of time meticulously keeping track of object life cycles when writing the code — except that all that hard work was done by the compiler.</p>
-
-<h3>Advantages of Automatic Reference Counting</h3>
-
-<p>Real-time, deterministic destruction of objects as they become unused.
-No background processing, which makes it more efficient on lower-power systems, such as mobile devices.</p>
-
-<h3>Disadvantages of Automatic Reference Counting</h3>
-
-<p>Cannot cope with retain cycles.</p>
-
-<blockquote><p><strong>Note:</strong> Another couple of significant memory-related concerns are the handling of <strong>Core Foundation objects</strong> and <strong>memory allocated using malloc()</strong> for types like char*.</p>
-
-<blockquote><p>ARC does only manages Objective-C objects, so you&rsquo;ll still need to deal with <code>malloc()</code> related objects by yourself.</p>
-
-<p>(<strong>Not very clear about this</strong>)Core Foundation types can be particularly tricky, because sometimes they need to be bridged across to matching Objective-C objects, and vice versa. This means that control needs to be transferred back and forth from ARC when bridging between CF types and Objective-C.</p></blockquote></blockquote>
-
-<h2>Retain Cycle</h2>
-
-<p>A so-called retain cycle happens when two (or more) objects reference each other, essentially keeping each other alive even after all external references to the objects have gone out of scope.</p>
-
-<p>The <strong>Garbage Collection</strong> works by looking at &ldquo;reachable&rdquo; objects, it can handle retain cycles fine, and will discard entire object graphs that reference each other, if it detects no outside references exist.</p>
-
-<p>Because <strong>Automatic Reference Counting</strong> works on a lower level and manages life cycles based on reference counts, it cannot handle retain cycles automatically, and a retain cycle will cause objects to stay in memory, essentially causing the application to &ldquo;leak&rdquo; memory.</p>
 ]]></content>
   </entry>
   

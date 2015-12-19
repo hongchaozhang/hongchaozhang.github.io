@@ -126,7 +126,7 @@
 
 <h3>private vs public</h3>
 
-<p>For a private/protected variable, use iVar; for a public variable, use property. If you want to use the benifit of property attributes, like retain, nonatomic etc., declare the property in the implementation file as a private property.</p>
+<p>For a private/protected variable, use <em>iVar</em>; for a public variable, use <em>property</em>. If you want to use the benifit of property attributes for a private variable, like retain, nonatomic etc., declare the property in the implementation file as a private property.</p>
 
 <p>For an iVar, you can use <code>@private</code>, <code>@protected</code> and <code>@public</code>. But these attributes only influence the access of its subclass, and has nothing to do with the access ability of its instances. Go to <a href="http://www.cnblogs.com/andyque/archive/2011/08/03/2125728.html">here</a> for reference.</p>
 
@@ -140,7 +140,9 @@
 
 <h3>@synthesize for property</h3>
 
-<p><strong>UPDATE：Just read this paragraph, omit the paragraphs behind.</strong> <code>@synthesize</code> is only for property, not iVar. It will help the property to generate the getter and setter accessors. For every property, complier will automatically synthesize it using <code>_propertyName</code>. The auto synthesize is the same as you add <code>@synthesize propertyName = _propertyName</code>. If you only add <code>@synthesize propertyName</code>, it is the same with <code>@synthesize propertyName = propertyName</code>, and if you define an iVar with the name <code>propertyName</code>, they will be synthesized. That is to say, in the accessors of <strong>property</strong> <code>propertyName</code>, it will use <strong>iVar</strong> <code>propertyName</code>.</p>
+<p><strong>UPDATE：Just read this paragraph, omit the paragraphs behind.</strong></p>
+
+<p><strong><code>@synthesize</code> is only for property, not iVar. It will help the property generate an instance variable, the getter and setter accessors for the property and use the generated instance variable in the getter and setter accessors</strong>. For every property, complier will automatically synthesize it using <code>_propertyName</code>. The auto synthesize is the same as you add <code>@synthesize propertyName = _propertyName</code>. If you only add <code>@synthesize propertyName</code>, it is the same with <code>@synthesize propertyName = propertyName</code>, and if you define an iVar with the name <code>propertyName</code>, they will be synthesized. That is to say, in the accessors (getter and setter) of <strong>property</strong> <code>propertyName</code>, it will use <strong>iVar</strong> <code>propertyName</code>.</p>
 
 <blockquote><p><strong>Note for property inheritance:</strong> If the super class has a property declared as public, the subclass can inherit the property. But the auto synthesize mechnism will not sythesize the property automatically, and you can only use the getter and setter accessors of the superclass by using dot operation. If you want to synthesize manually, <strong>Be Carefull!</strong> You should avoid using the same iVar as them in the superclass. This will lead to an error message <em>&ldquo;property &lsquo;propertyName&rsquo; atemping to use instance variable &lsquo;InstanceVariableName&rsquo; declared in super class &lsquo;SuperClassName&rsquo;&rdquo;</em>.</p>
 
@@ -232,30 +234,30 @@
   
     <section class="categories">
   <h1>Categories</h1>
-    <ul id="top-category-list" class="nav nav-list"><li><a href='/blog/categories/productivity'>productivity (14)</a></li><li><a href='/blog/categories/ios'>ios (13)</a></li><li><a href='/blog/categories/objective-c'>objective-c (6)</a></li><li><a href='/blog/categories/android'>android (3)</a></li><li><a href='/blog/categories/python'>python (2)</a></li><li><a href='/blog/categories/algorithm'>algorithm (2)</a></li><li><a href='/blog/categories/javascript'>javascript (2)</a></li><li><a href='/blog/categories/java'>java (1)</a></li><li><a href='/blog/categories/web'>web (1)</a></li><li><a href='/blog/categories/android-studio'>android_studio (1)</a></li><li><a href='/blog/categories/xcode'>xcode (1)</a></li><li><a href='/blog/categories/design-pattern'>design_pattern (1)</a></li><li><a href='/blog/categories/node'>node (1)</a></li></ul>
+    <ul id="top-category-list" class="nav nav-list"><li><a href='/blog/categories/ios'>ios (17)</a></li><li><a href='/blog/categories/productivity'>productivity (14)</a></li><li><a href='/blog/categories/objective-c'>objective-c (11)</a></li><li><a href='/blog/categories/android'>android (3)</a></li><li><a href='/blog/categories/python'>python (2)</a></li><li><a href='/blog/categories/javascript'>javascript (2)</a></li><li><a href='/blog/categories/java'>java (1)</a></li><li><a href='/blog/categories/web'>web (1)</a></li><li><a href='/blog/categories/android-studio'>android_studio (1)</a></li><li><a href='/blog/categories/xcode'>xcode (1)</a></li><li><a href='/blog/categories/design-pattern'>design_pattern (1)</a></li><li><a href='/blog/categories/node'>node (1)</a></li></ul>
 </section>
 <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/2015/11/28/some-useful-plugins-for-sublime/">Sublime的一些插件</a>
+        <a href="/blog/2015/12/19/propety-instance-variable-and-at-synthesize/">Propety, Instance Variable and @synthesize</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2015/11/27/using-node-dot-js-for-a-simple-server/">应用Node.js搭建一个简单的服务器</a>
+        <a href="/blog/2015/12/17/ios-coding-best-practice/">Ios Coding Best Practice</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2015/11/19/some-tools-to-impromve-efficiency-in-daily-life/">Some Tools to Impromve Efficiency in Daily Life</a>
+        <a href="/blog/2015/12/06/some-usefull-ios-coding-styles/">UIViewController中常见的ios编程习惯</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2015/10/28/operating-files-and-folders-with-command-line-in-terminal/">Operating Files and Folders With Command Line in Terminal</a>
+        <a href="/blog/2015/12/01/autosizing-and-autolayout/">AutoSizing and AutoLayout</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2015/10/21/touch-event-in-ios/">iOS中的触控事件机制</a>
+        <a href="/blog/2015/11/29/ios-network-request/">Ios进行网络请求</a>
       </li>
     
   </ul>

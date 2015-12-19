@@ -9,7 +9,7 @@
   <meta name="author" content="Zhang Hongchao">
 
   
-  <meta name="description" content="Package Control Package Control是Sublime中用于插件管理的工具。安装之后，其它插件基本上可以通过它进行管理：安装、删除、禁用等。 JSFormat ">
+  <meta name="description" content="这一段时间，工作上在做一对不理解代码的重构，重新了解了一下Property、Instance Variable和@synthesize，总结一下。 首先需要明白一点：Property和@synthesize是让编译器帮助我们做一些规律性的工作。 如果没有Property 如果没有Property， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -62,6 +62,393 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/12/19/propety-instance-variable-and-at-synthesize/">Propety, Instance Variable and @synthesize</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2015-12-19T15:17:41+08:00" pubdate data-updated="true">Dec 19th, 2015</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>这一段时间，工作上在做一对不理解代码的重构，重新了解了一下Property、Instance Variable和@synthesize，总结一下。</p>
+
+<p>首先需要明白一点：Property和@synthesize是让编译器帮助我们做一些规律性的工作。</p>
+
+<h3>如果没有Property</h3>
+
+<p>如果没有Property，我们可以这样实现Instance Variable的accessor（getter和setter），示例代码如下：</p>
+
+<div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno"> 1</span> <span class="k">@interface</span> <span class="nc">PropertyTester</span><span class="p">()</span> <span class="p">{</span>
+<span class="lineno"> 2</span>     <span class="bp">NSString</span><span class="o">*</span> <span class="n">testString</span><span class="p">;</span>
+<span class="lineno"> 3</span> <span class="p">}</span>
+<span class="lineno"> 4</span> 
+<span class="lineno"> 5</span> <span class="k">@end</span>
+<span class="lineno"> 6</span> 
+<span class="lineno"> 7</span> <span class="k">@implementation</span> <span class="nc">PropertyTester</span>
+<span class="lineno"> 8</span> 
+<span class="lineno"> 9</span> <span class="p">-</span> <span class="p">(</span><span class="bp">NSString</span><span class="o">*</span><span class="p">)</span><span class="nf">testString</span> <span class="p">{</span>
+<span class="lineno">10</span>     <span class="k">return</span> <span class="n">testString</span><span class="p">;</span>
+<span class="lineno">11</span> <span class="p">}</span>
+<span class="lineno">12</span> <span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">setTestString:</span><span class="p">(</span><span class="bp">NSString</span><span class="o">*</span><span class="p">)</span><span class="nv">stringValue</span> <span class="p">{</span>
+<span class="lineno">13</span>     <span class="n">testString</span> <span class="o">=</span> <span class="n">stringValue</span><span class="p">;</span>
+<span class="lineno">14</span> <span class="p">}</span>
+<span class="lineno">15</span> 
+<span class="lineno">16</span> <span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">test</span> <span class="p">{</span>
+<span class="lineno">17</span>     <span class="nb">self</span><span class="p">.</span><span class="n">testString</span> <span class="o">=</span> <span class="s">@&quot;test proeprty&quot;</span><span class="p">;</span>
+<span class="lineno">18</span>     <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;%@&quot;</span><span class="p">,</span> <span class="nb">self</span><span class="p">.</span><span class="n">testString</span><span class="p">);</span> 
+<span class="lineno">19</span> <span class="p">}</span>
+<span class="lineno">20</span> 
+<span class="lineno">21</span> <span class="k">@end</span></code></pre></div>
+
+
+<h3>有了Property</h3>
+
+<p>眼看着Instance Variable及其getter和setter函数是如此有规律，于是Property出现了。</p>
+
+<p>Property可以告诉编译器：我声明了一个Property，名字叫做<code>propertyName</code>，你帮我声明一个Instance Variable <code>_propertyName</code>，并帮助我实现其getter和setter函数。于是，上述代码，我们可以写成：</p>
+
+<div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno"> 1</span> <span class="k">@interface</span> <span class="nc">PropertyTester</span><span class="p">()</span>
+<span class="lineno"> 2</span> 
+<span class="lineno"> 3</span> <span class="k">@property</span> <span class="p">(</span><span class="k">nonatomic</span><span class="p">,</span> <span class="k">strong</span><span class="p">)</span> <span class="bp">NSString</span><span class="o">*</span> <span class="n">testString</span><span class="p">;</span>
+<span class="lineno"> 4</span> 
+<span class="lineno"> 5</span> <span class="k">@end</span>
+<span class="lineno"> 6</span> 
+<span class="lineno"> 7</span> <span class="k">@implementation</span> <span class="nc">PropertyTester</span>
+<span class="lineno"> 8</span> 
+<span class="lineno"> 9</span> <span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">test</span> <span class="p">{</span>
+<span class="lineno">10</span>     <span class="nb">self</span><span class="p">.</span><span class="n">testString</span> <span class="o">=</span> <span class="s">@&quot;test proeprty&quot;</span><span class="p">;</span>
+<span class="lineno">11</span>     <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;%@&quot;</span><span class="p">,</span> <span class="nb">self</span><span class="p">.</span><span class="n">testString</span><span class="p">);</span>
+<span class="lineno">12</span>     
+<span class="lineno">13</span> <span class="p">}</span>
+<span class="lineno">14</span> 
+<span class="lineno">15</span> <span class="k">@end</span></code></pre></div>
+
+
+<p>看看，是不是简单了很多。</p>
+
+<h3>Auto Synthesize</h3>
+
+<p>其实在上述使用Property的代码中，编译器还帮助我们做了一件事情：</p>
+
+<div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno">1</span> <span class="k">@synthesize</span> <span class="n">testString</span> <span class="o">=</span> <span class="n">_testString</span><span class="p">;</span></code></pre></div>
+
+
+<p>从Xcode 4.4和LLVM Compiler 4.0起，有了<strong>auto synthesize</strong>，即@synthesize被更改为默认使用。因此，大多数情况下，你只需要 @property 指令，编译器将为你关心其它的事情。对，是“大多数”，因为在某些情况下，不会进行auto synthesize 。比如，对于上述代码，如果我打算自己实现getter函数：</p>
+
+<div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno"> 1</span> <span class="k">@interface</span> <span class="nc">PropertyTester</span><span class="p">()</span>
+<span class="lineno"> 2</span> 
+<span class="lineno"> 3</span> <span class="k">@property</span> <span class="p">(</span><span class="k">nonatomic</span><span class="p">,</span> <span class="k">strong</span><span class="p">)</span> <span class="bp">NSString</span><span class="o">*</span> <span class="n">testString</span><span class="p">;</span>
+<span class="lineno"> 4</span> 
+<span class="lineno"> 5</span> <span class="k">@end</span>
+<span class="lineno"> 6</span> 
+<span class="lineno"> 7</span> <span class="k">@implementation</span> <span class="nc">PropertyTester</span>
+<span class="lineno"> 8</span> 
+<span class="lineno"> 9</span> <span class="p">-</span> <span class="p">(</span><span class="bp">NSString</span><span class="o">*</span><span class="p">)</span><span class="nf">testString</span> <span class="p">{</span>
+<span class="lineno">10</span>     <span class="k">return</span> <span class="n">_testString</span><span class="p">;</span>
+<span class="lineno">11</span> <span class="p">}</span>
+<span class="lineno">12</span> 
+<span class="lineno">13</span> <span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">test</span> <span class="p">{</span>
+<span class="lineno">14</span>     <span class="nb">self</span><span class="p">.</span><span class="n">testString</span> <span class="o">=</span> <span class="s">@&quot;test proeprty&quot;</span><span class="p">;</span>
+<span class="lineno">15</span>     <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;%@&quot;</span><span class="p">,</span> <span class="nb">self</span><span class="p">.</span><span class="n">testString</span><span class="p">);</span>
+<span class="lineno">16</span>     
+<span class="lineno">17</span> <span class="p">}</span>
+<span class="lineno">18</span> 
+<span class="lineno">19</span> <span class="k">@end</span></code></pre></div>
+
+
+<p>没有任何问题。</p>
+
+<p>如果我再试图加入setter函数：</p>
+
+<div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno"> 1</span> <span class="k">@interface</span> <span class="nc">PropertyTester</span><span class="p">()</span>
+<span class="lineno"> 2</span> <span class="k">@property</span> <span class="p">(</span><span class="k">nonatomic</span><span class="p">,</span> <span class="k">strong</span><span class="p">)</span> <span class="bp">NSString</span><span class="o">*</span> <span class="n">testString</span><span class="p">;</span>
+<span class="lineno"> 3</span> <span class="k">@end</span>
+<span class="lineno"> 4</span> 
+<span class="lineno"> 5</span> <span class="k">@implementation</span> <span class="nc">PropertyTester</span>
+<span class="lineno"> 6</span> 
+<span class="lineno"> 7</span> <span class="p">-</span> <span class="p">(</span><span class="bp">NSString</span><span class="o">*</span><span class="p">)</span><span class="nf">testString</span> <span class="p">{</span>
+<span class="lineno"> 8</span>     <span class="k">return</span> <span class="n">_testString</span><span class="p">;</span>
+<span class="lineno"> 9</span> <span class="p">}</span>
+<span class="lineno">10</span> 
+<span class="lineno">11</span> <span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">setTestString:</span><span class="p">(</span><span class="bp">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">testString</span> <span class="p">{</span>
+<span class="lineno">12</span>     <span class="n">_testString</span> <span class="o">=</span> <span class="n">testString</span><span class="p">;</span>
+<span class="lineno">13</span> <span class="p">}</span>
+<span class="lineno">14</span> 
+<span class="lineno">15</span> <span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">test</span> <span class="p">{</span>
+<span class="lineno">16</span>     <span class="nb">self</span><span class="p">.</span><span class="n">testString</span> <span class="o">=</span> <span class="s">@&quot;test proeprty&quot;</span><span class="p">;</span>
+<span class="lineno">17</span>     <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;%@&quot;</span><span class="p">,</span> <span class="nb">self</span><span class="p">.</span><span class="n">testString</span><span class="p">);</span>
+<span class="lineno">18</span>     
+<span class="lineno">19</span> <span class="p">}</span>
+<span class="lineno">20</span> 
+<span class="lineno">21</span> <span class="k">@end</span></code></pre></div>
+
+
+<p>编译器会报错：</p>
+
+<div class="highlight"><pre><code class="language-text" data-lang="text">use of undefined identifier &#39;_testString&#39;。</code></pre></div>
+
+
+<p>为什么呢？</p>
+
+<p>因为此时auto synthesize没有工作。编译器认为：既然你同时手动接管了getter和setter的实现，那么我就什么也不管了，Instance Variable你也自己声明并起个名字吧。</p>
+
+<p>总结一下auto synthesize不会工作的几种情况（参考<a href="http://stackoverflow.com/questions/19784454/when-should-i-use-synthesize-explicitly">When should I use @synthesize explicitly?</a>）：</p>
+
+<ul>
+<li><p>readwrite property with custom getter and setter</p>
+
+<p>  when providing both a getter and setter custom implementation, the property won&rsquo;t be automatically synthesized</p></li>
+<li><p>readonly property with custom getter</p>
+
+<p>  when providing a custom getter implementation for a readonly property, this won&rsquo;t be automatically synthesized</p></li>
+<li><p>@dynamic</p>
+
+<p>  when using @dynamic propertyName, the property won&rsquo;t be automatically synthesized (pretty obvious, since @dynamic and @synthesize are mutually exclusive)</p></li>
+<li><p>properties declared in a @protocol</p>
+
+<p>  when conforming to a protocol, any property the protocol defines won&rsquo;t be automatically synthesized</p></li>
+<li><p>properties declared in a category</p>
+
+<p>  this is a case in which the @synthesize directive is not automatically inserted by the compiler, but this properties cannot be manually synthesized either. While categories can declare properties, they cannot be synthesized at all, since categories cannot create ivars. For the sake of completeness, I&rsquo;ll add that&rsquo;s it&rsquo;s still possible to fake the property synthesis using the Objective-C runtime.</p></li>
+<li><p>overridden properties (new since clang-600.0.51, shipping with Xcode 6, thanks Marc Schlüpmann)</p>
+
+<p>  when you override a property of a superclass, you must explicitly synthesize it</p></li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/12/17/ios-coding-best-practice/">Ios Coding Best Practice</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2015-12-17T10:49:54+08:00" pubdate data-updated="true">Dec 17th, 2015</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><ul>
+<li>Use forward declarations</li>
+<li>Move variable declaration out of header</li>
+<li>Cleanup duplication in import</li>
+<li>Remove private method declaration in implementation files</li>
+<li>Move protocol definition to separate header to aviod unnecessary cross reference</li>
+<li>Freqently monitor warnings and static analyzer warnings in your component. Usually it is a good idea to fix it.</li>
+<li>Removing unused resources</li>
+<li>Delegate objects should not be retained when doing so would create a retain cycle.</li>
+<li>import Objective-C/Objective-C++ headers, and #include C/C++ headers.</li>
+<li>Don&rsquo;t @throw Objective-C exceptions, but you should be prepared to catch them from third-party or OS calls.</li>
+<li>Use nil checks for logic flow only.</li>
+<li>Don&rsquo;t initialize variables to 0 or nil in the init method; it&rsquo;s redundant.</li>
+<li>Instance Variables In Headers Should Be @private
+
+<ul>
+<li>Instance variables should typically be declared in implementation files or auto-synthesized by properties. When ivars are declared in a header file, they should be marked @private.</li>
+</ul>
+</li>
+<li>One space should be used between the - or + and the return type, and no spacing in the parameter list except between parameters.</li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/12/06/some-usefull-ios-coding-styles/">UIViewController中常见的ios编程习惯</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2015-12-06T12:55:47+08:00" pubdate data-updated="true">Dec 6th, 2015</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>参考<a href="http://www.cocoachina.com/ios/20150525/11919.html">iOS应用架构谈 view层的组织和调用方案</a>。</p>
+
+<h3>所有的属性都使用getter和setter</h3>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2015/12/06/some-usefull-ios-coding-styles/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/12/01/autosizing-and-autolayout/">AutoSizing and AutoLayout</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2015-12-01T11:20:38+08:00" pubdate data-updated="true">Dec 1st, 2015</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>参考：</p>
+
+<ul>
+<li><a href="http://objccn.io/issue-3-5/">先进的自动布局工具箱</a></li>
+<li><a href="https://developer.apple.com/library/prerelease/ios/documentation/UserExperience/Conceptual/AutolayoutPG/ProgrammaticallyCreatingConstraints.html#//apple_ref/doc/uid/TP40010853-CH16-SW1">AutoLayout Guide</a></li>
+<li><a href="https://developer.apple.com/library/ios/documentation/UserExperience/Conceptual/AutolayoutPG/WorkingwithSelf-SizingTableViewCells.html">AutoLayout Table View</a></li>
+</ul>
+
+
+<p>摘要：</p>
+
+<ul>
+<li><p>AutoSizing和AutoLayout都是用来自动确定试图大小和位置的方法，区别在于：</p>
+
+<ul>
+<li>AutoSizing: 只针对SuperView</li>
+<li>AutoLayout: 针对SuperView和兄弟View</li>
+</ul>
+</li>
+</ul>
+
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2015/12/01/autosizing-and-autolayout/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/11/29/ios-network-request/">Ios进行网络请求</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2015-11-29T15:12:59+08:00" pubdate data-updated="true">Nov 29th, 2015</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>参考<a href="http://blog.csdn.net/dyllove98/article/details/9050863">IOS网络编程：HTTP</a>。</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2015/11/29/ios-network-request/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -303,132 +690,6 @@
   
     <footer>
       <a rel="full-article" href="/blog/2015/10/21/touch-event-in-ios/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/09/23/phone-interview-preparation/">Phone Interview Preparation</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-
-<time datetime="2015-09-23T11:02:18+08:00" pubdate data-updated="true">Sep 23rd, 2015</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>这里有很多面试题：<a href="http://www.geeksforgeeks.org/">GeeksforGeeks</a>，有概念，也有算法，也有各大公司的面试经历。尤其是下面两部分：</p>
-
-<ul>
-<li><a href="http://www.geeksforgeeks.org/data-structures/">数据结构</a></li>
-<li><a href="http://www.geeksforgeeks.org/fundamentals-of-algorithms/">算法</a></li>
-</ul>
-
-
-<p>Contents</p>
-
-<ul>
-<li><a href="#stack_and_queue">Concepts of Stack and Queue</a></li>
-<li><a href="#override_andoverload">覆盖(Overriding)和重载(Overloading)的区别是什么？</a></li>
-<li><a href="#iteration_and_recursion">迭代(Iteration)和递归(Recursion)有什么区别？</a></li>
-<li><a href="#tree_concepts">Concepts of some kinds of tree</a></li>
-<li><a href="#linked_list_and_array">链表(Linked List)和数组(Array)有哪些重要区别?</a></li>
-<li><a href="#delete_node_in_linked_list">给定链表的头指针和一个结点指针，在O(1)时间删除该结点</a></li>
-<li><a href="#find_numbers_appearing_once">找出数组中两个只出现一次的数字(数组)</a></li>
-<li><a href="#conflicts_while_hashing">在哈希表中处理冲突的方法都有哪些？</a></li>
-<li><a href="#get_elements_from_data_structure">从哈希表，二叉树和链表中取元素需要多少时间?</a></li>
-<li><a href="#sorting">Sort algorithm</a></li>
-<li><a href="#iterative_tree_traversal">Iterative Preorder(Postorder) traversal</a></li>
-<li><a href="#reverse_binary_tree">Reverse Binary Tree</a></li>
-<li><a href="#lucky_number">Lucky Number</a></li>
-<li><a href="#linked_list_circle">Circles in Linked List</a></li>
-<li><a href="#linked_list_intersection">Intersection of two single Linked Lists without circles</a></li>
-<li><a href="#find_k_smallest_nubers">寻找最小的k个数</a></li>
-<li><a href="#java_singleton">Singleton in Java</a></li>
-</ul>
-
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2015/09/23/phone-interview-preparation/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/09/14/brainteasers-and-puzzles/">经典算法智力题</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-
-<time datetime="2015-09-14T20:46:22+08:00" pubdate data-updated="true">Sep 14th, 2015</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><ol>
-<li><a href="#1">海盗分金子</a></li>
-<li><a href="#2">飞机加油问题</a></li>
-<li><a href="#3">蚂蚁爬杆</a></li>
-<li><a href="#4">平面上N个点，每两个点都确定一条直线，求出斜率最大的那条直线所通过的两个点（斜率不存在的情况不考虑）。时间效率越高越好。</a></li>
-<li><a href="#5">Find the closest pair from a sorted array</a></li>
-<li><a href="#6">Building Bridge</a></li>
-<li><a href="#7">打印n分之一的前k位小数</a></li>
-<li><a href="#8">Marketing Size</a></li>
-<li><a href="#9">赛马问题</a></li>
-<li><a href="#10">火车运煤问题</a></li>
-<li><a href="#hourglass">Measure 9 minutes with two hourglasses</a></li>
-</ol>
-
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2015/09/14/brainteasers-and-puzzles/">Read on &rarr;</a>
     </footer>
   
 
@@ -957,142 +1218,6 @@ $ source ~/.bash_profile</code></pre></div>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/08/09/Resources-for-iOS-developers/">Resources for iOS Developers</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-
-<time datetime="2015-08-09T00:00:00+08:00" pubdate data-updated="true">Aug 9th, 2015</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Refer <a href="http://blog.csdn.net/cui7230102/article/details/14164221">Mac和iOS开发资源汇总</a></p>
-
-<p>Another good github page for iOS resources: <a href="https://github.com/Aufree/trip-to-iOS"><strong>iOS 学习资料整理</strong></a>.</p>
-
-<p>其中，最近（2015年）仍然在更新的中文博客：</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2015/08/09/Resources-for-iOS-developers/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/08/03/Font-size-in-Html/">Font Size in Html - Px, Em, Rem</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-
-<time datetime="2015-08-03T00:00:00+08:00" pubdate data-updated="true">Aug 3rd, 2015</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Refer <a href="http://snook.ca/archives/html_and_css/font-size-with-rem">here</a></p>
-
-<p>Three units of measurements to size the text in html files to discuss:</p>
-
-<ol>
-<li>px</li>
-<li>em</li>
-<li>rem</li>
-</ol>
-
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2015/08/03/Font-size-in-Html/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/08/02/ios-app-life-circle-and-some-interfaces/">Ios App Life Circle and Related Interfaces</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-
-<time datetime="2015-08-02T00:00:00+08:00" pubdate data-updated="true">Aug 2nd, 2015</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><strong>TODO</strong></p>
-
-<p><a href="http://www.4byte.cn/learning/88477.html">reference</a></p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="2">&larr; Older</a>
@@ -1106,30 +1231,30 @@ $ source ~/.bash_profile</code></pre></div>
   
     <section class="categories">
   <h1>Categories</h1>
-    <ul id="top-category-list" class="nav nav-list"><li><a href='/blog/categories/productivity'>productivity (14)</a></li><li><a href='/blog/categories/ios'>ios (13)</a></li><li><a href='/blog/categories/objective-c'>objective-c (6)</a></li><li><a href='/blog/categories/android'>android (3)</a></li><li><a href='/blog/categories/python'>python (2)</a></li><li><a href='/blog/categories/algorithm'>algorithm (2)</a></li><li><a href='/blog/categories/javascript'>javascript (2)</a></li><li><a href='/blog/categories/java'>java (1)</a></li><li><a href='/blog/categories/web'>web (1)</a></li><li><a href='/blog/categories/android-studio'>android_studio (1)</a></li><li><a href='/blog/categories/xcode'>xcode (1)</a></li><li><a href='/blog/categories/design-pattern'>design_pattern (1)</a></li><li><a href='/blog/categories/node'>node (1)</a></li></ul>
+    <ul id="top-category-list" class="nav nav-list"><li><a href='/blog/categories/ios'>ios (17)</a></li><li><a href='/blog/categories/productivity'>productivity (14)</a></li><li><a href='/blog/categories/objective-c'>objective-c (11)</a></li><li><a href='/blog/categories/android'>android (3)</a></li><li><a href='/blog/categories/python'>python (2)</a></li><li><a href='/blog/categories/javascript'>javascript (2)</a></li><li><a href='/blog/categories/java'>java (1)</a></li><li><a href='/blog/categories/web'>web (1)</a></li><li><a href='/blog/categories/android-studio'>android_studio (1)</a></li><li><a href='/blog/categories/xcode'>xcode (1)</a></li><li><a href='/blog/categories/design-pattern'>design_pattern (1)</a></li><li><a href='/blog/categories/node'>node (1)</a></li></ul>
 </section>
 <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/2015/11/28/some-useful-plugins-for-sublime/">Sublime的一些插件</a>
+        <a href="/blog/2015/12/19/propety-instance-variable-and-at-synthesize/">Propety, Instance Variable and @synthesize</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2015/11/27/using-node-dot-js-for-a-simple-server/">应用Node.js搭建一个简单的服务器</a>
+        <a href="/blog/2015/12/17/ios-coding-best-practice/">Ios Coding Best Practice</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2015/11/19/some-tools-to-impromve-efficiency-in-daily-life/">Some Tools to Impromve Efficiency in Daily Life</a>
+        <a href="/blog/2015/12/06/some-usefull-ios-coding-styles/">UIViewController中常见的ios编程习惯</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2015/10/28/operating-files-and-folders-with-command-line-in-terminal/">Operating Files and Folders With Command Line in Terminal</a>
+        <a href="/blog/2015/12/01/autosizing-and-autolayout/">AutoSizing and AutoLayout</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2015/10/21/touch-event-in-ios/">iOS中的触控事件机制</a>
+        <a href="/blog/2015/11/29/ios-network-request/">Ios进行网络请求</a>
       </li>
     
   </ul>
