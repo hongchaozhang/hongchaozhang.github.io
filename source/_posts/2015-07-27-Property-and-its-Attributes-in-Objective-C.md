@@ -14,7 +14,7 @@ All the attributes of a property defines how the compiler generate the `getter` 
 
 <!-- more -->
 
-Apart from above, `@synthesize` define the instance variable used for accessors. `@synthesize` can only be used to property, not iVar. For more info, see [Property and Its Attributes in Objective-C](http://hongchaozhang.github.io/blog/2015/07/27/Property-and-its-Attributes-in-Objective-C/), and <del>[Property vs Instance Variable (iVar) in objective-c](http://hongchaozhang.github.io/code/2015/07/22/Property-vs-Instance-Variable(iVar)-in-Objective-C.html)</del> is depracated.
+Apart from above, `@synthesize` define the instance variable used for accessors. `@synthesize` can only be used to property, not iVar. For more info, see [Property and Its Attributes in Objective-C](http://hongchaozhang.github.io/blog/2015/07/27/Property-and-its-Attributes-in-Objective-C/), and <del>[Property vs Instance Variable (iVar) in objective-c](http://hongchaozhang.github.io/code/2015/07/22/Property-vs-Instance-Variable(iVar)-in-Objective-C.html)</del> is deprecated.
 
 [Here](http://www.cnblogs.com/andyque/archive/2011/08/03/2125728.html) has a detail description. And the useful part:
  

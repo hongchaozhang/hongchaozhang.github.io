@@ -12,6 +12,8 @@ published: true
 
 [Singleton Design Pattern for Objective-C](http://www.makebetterthings.com/iphone/singleton-design-pattern-for-objective-c/)
 
+<!-- more -->
+
 {% highlight objc lineno %}
 + (instancetype)sharedInstance
 {

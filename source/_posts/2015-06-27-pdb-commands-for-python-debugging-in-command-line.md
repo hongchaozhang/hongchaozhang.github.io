@@ -60,8 +60,8 @@ Within a python file:
 
 <table>
 	<tr>
-		<td><strong>b [#]</strong></td>
-		<td>create a breakpoint at line [#]</td>
+		<td><strong>b #</strong></td>
+		<td>create a breakpoint at line #</td>
 	</tr>
 	<tr>
 		<td><strong>b</strong></td>
@@ -71,8 +71,8 @@ Within a python file:
 		<td><strong>c</strong>(ontinue)</td>
 		<td>execute until a breakpoint is encountered</td>
 	</tr><tr>
-		<td><strong>clear [#]</strong></td>
-		<td>clear breakpoint of index [#]</td>
+		<td><strong>clear #</strong></td>
+		<td>clear breakpoint of index #</td>
 	</tr>
 </table>
 

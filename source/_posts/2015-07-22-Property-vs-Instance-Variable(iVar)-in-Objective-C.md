@@ -5,6 +5,8 @@ categories: [ios,objective-c]
 title: Property vs Instance Variable (iVar) in objective-c
 ---
 
+This post is deprecated. Refer to [Propety, Instance Variable and @synthesize](http://hongchaozhang.github.io/blog/2015/12/19/propety-instance-variable-and-at-synthesize/).
+
 ## Description
 
 To declare a variable in a objective-c class, we have the following two ways:

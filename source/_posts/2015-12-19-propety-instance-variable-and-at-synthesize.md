@@ -150,7 +150,9 @@ use of undefined identifier '_testString'。
 
 * @dynamic
 
-    when using @dynamic propertyName, the property won't be automatically synthesized (pretty obvious, since @dynamic and @synthesize are mutually exclusive)
+    when using @dynamic propertyName, the property won't be automatically synthesized (pretty obvious, since @dynamic and @synthesize are mutually exclusive).
+    
+    @synthesize will generate getter and setter methods for your property. @dynamic just tells the compiler that the getter and setter methods are implemented not by the class itself but somewhere else (like the superclass)
 
 * properties declared in a @protocol
 
@@ -158,9 +160,13 @@ use of undefined identifier '_testString'。
 
 * properties declared in a category
 
-    this is a case in which the @synthesize directive is not automatically inserted by the compiler, but this properties cannot be manually synthesized either. While categories can declare properties, they cannot be synthesized at all, since categories cannot create ivars. For the sake of completeness, I'll add that's it's still possible to fake the property synthesis using the Objective-C runtime.
+    this is a case in which the @synthesize directive is not automatically inserted by the compiler, but this properties cannot be manually synthesized either. While categories can declare properties, they cannot be synthesized at all, since categories cannot create ivars. For the sake of completeness, I'll add that it's still possible to fake the property synthesis using the Objective-C runtime.
+    
+    Actually, **categorie** is best used for adding capability to code you do not own and cannot change. Adding properties via categories is deprecated.
 
 * overridden properties (new since clang-600.0.51, shipping with Xcode 6, thanks Marc Schlüpmann)
 
-    when you override a property of a superclass, you must explicitly synthesize it
+    when you override a property of a superclass, two ways for you:
+    * explicitly synthesize it with a different instance variable name from super class.
+    * @dynamic the property to tell the compiler that I will use the getter and setter methods in the super class.
 
