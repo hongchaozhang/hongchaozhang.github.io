@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Python | Zhang Hongchao]]></title>
   <link href="http://hongchaozhang.github.io/blog/categories/python/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2015-12-19T16:47:59+08:00</updated>
+  <updated>2015-12-31T23:00:29+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -79,8 +79,8 @@
 
 <table>
     <tr>
-        <td><strong>b [#]</strong></td>
-        <td>create a breakpoint at line [#]</td>
+        <td><strong>b #</strong></td>
+        <td>create a breakpoint at line #</td>
     </tr>
     <tr>
         <td><strong>b</strong></td>
@@ -90,8 +90,8 @@
         <td><strong>c</strong>(ontinue)</td>
         <td>execute until a breakpoint is encountered</td>
     </tr><tr>
-        <td><strong>clear [#]</strong></td>
-        <td>clear breakpoint of index [#]</td>
+        <td><strong>clear #</strong></td>
+        <td>clear breakpoint of index #</td>
     </tr>
 </table>
 

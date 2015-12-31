@@ -1,0 +1,313 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Https工作过程 - Zhang Hongchao</title>
+  <meta name="author" content="Zhang Hongchao">
+
+  
+  <meta name="description" content="摘录在此，备忘。 HTTPS其实是有两部分组成：HTTP + SSL / TLS，也就是在HTTP上又加了一层处理加密信息的模块。服务端和客户端的信息传输都会通过TLS进行加密，所以传输的数据都是加密后的数据。 具体的加密过程看下图： 客户端发起HTTPS请求 用户在浏览器里输入一个https网址 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://hongchaozhang.github.io/blog/2015/12/29/https-workflow">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Zhang Hongchao" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/libs/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<!--
+<link href='https://fonts.googleapis.com/css?family=Noto+Serif:400,700' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+-->
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Zhang Hongchao</a></h1>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><!--
+<ul class="subscription" data-subscription="rss">
+  
+  
+</ul>
+-->
+
+<!--
+
+-->
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <script type="text/javascript" src="/javascripts/DisableLineNumberCopy.js"></script>
+
+<div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Https工作过程</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2015-12-29T16:21:19+08:00" pubdate data-updated="true">Dec 29th, 2015</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>摘录在此，备忘。</p>
+
+<p>HTTPS其实是有两部分组成：HTTP + SSL / TLS，也就是在HTTP上又加了一层处理加密信息的模块。服务端和客户端的信息传输都会通过TLS进行加密，所以传输的数据都是加密后的数据。</p>
+
+<p>具体的加密过程看下图：</p>
+
+<!-- more -->
+
+
+<p><img src="/images/https-workflow.png" alt="https-workflow" /></p>
+
+<ol>
+<li><p>客户端发起HTTPS请求</p>
+
+<p> 用户在浏览器里输入一个https网址，然后连接到server的443端口。</p></li>
+<li><p>服务端的配置</p>
+
+<p> 采用HTTPS协议的服务器必须要有一套数字证书，可以自己制作，也可以向组织申请。区别就是自己颁发的证书需要客户端验证通过，才可以继续访问，而使用受信任的公司申请的证书则不会弹出提示页面。这套证书其实就是一对公钥和私钥。如果对公钥和私钥不太理解，可以想象成一把钥匙和一个锁头，只是全世界只有你一个人有这把钥匙，你可以把锁头给别人，别人可以用这个锁把重要的东西锁起来，然后发给你，因为只有你一个人有这把钥匙，所以只有你才能看到被这把锁锁起来的东西。</p></li>
+<li><p>传送证书</p>
+
+<p> 这个证书其实就是公钥，只是包含了很多信息，如证书的颁发机构，过期时间等等。</p></li>
+<li><p>客户端解析证书</p>
+
+<p> 这部分工作是有客户端的TLS来完成的，首先会验证公钥是否有效，比如颁发机构，过期时间等等，如果发现异常，则会弹出一个警告框，提示证书存在问题。如果证书没有问题，那么就生成一个随机值。然后用证书对该随机值进行加密。就好像上面说的，把随机值用锁头锁起来，这样除非有钥匙，不然看不到被锁住的内容。</p></li>
+<li><p>传送加密信息</p>
+
+<p> 这部分传送的是用证书加密后的随机值，目的就是让服务端得到这个随机值，以后客户端和服务端的通信就可以通过这个随机值来进行加密解密了。</p></li>
+<li><p>服务段解密信息</p>
+
+<p> 服务端用自己的私钥解密后，得到了客户端传过来的随机值，然后把内容通过该值进行对称加密。所谓对称加密就是，将信息和随机值通过某种算法混合在一起，这样除非知道随机值，不然无法获取内容，而正好客户端和服务端都知道这个随机值，所以只要加密算法够彪悍，这个随机值够复杂，数据就够安全。</p></li>
+<li><p>传输加密后的信息</p>
+
+<p> 这部分信息是服务段用客户端传过来的随机值加密后的信息，可以在客户端被还原。</p></li>
+<li><p>客户端解密信息</p>
+
+<p> 客户端用之前生成的随机值解密服务段传过来的信息，于是获取了解密后的内容。整个过程第三方即使监听到了数据，也束手无策。</p></li>
+</ol>
+
+
+<h3>References</h3>
+
+<p><del>https的基本概念，请参考</del><a href="http://www.cnblogs.com/P_Chou/archive/2010/12/27/https-ssl-certification.html"><del>浅谈https\ssl\数字证书</del></a></p>
+
+<p>https的传输过程，请参考：<a href="http://www.jb51.net/network/68135.html">图解HTTPS协议加密解密全过程</a></p>
+
+<p>https/http/get/post: 请参考<a href="http://cuishen.iteye.com/blog/2019925">http https get post 的区别，定义/安全性/性能</a>和<a href="http://www.cnblogs.com/hyddd/archive/2009/03/31/1426026.html">浅谈HTTP中Get与Post的区别</a></p>
+
+<p>其实百度百科中关于<a href="http://baike.baidu.com/view/14121.htm">https</a>的解释也是十分清楚了。</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Zhang Hongchao</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2015-12-29T16:21:19+08:00" pubdate data-updated="true">Dec 29th, 2015</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/web/'>web</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/12/22/generics-in-objective-c/" title="Previous Post: generics in objective-c">&laquo; generics in objective-c</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/12/30/implement-https-server-side-using-nodejs/" title="Next Post: https在Server端的Nodejs实现">https在Server端的Nodejs实现 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+  <aside class="sidebar">
+   
+  
+    <section class="categories">
+  <h1>Categories</h1>
+    <ul id="top-category-list" class="nav nav-list"><li><a href='/blog/categories/ios'>ios (18)</a></li><li><a href='/blog/categories/productivity'>productivity (14)</a></li><li><a href='/blog/categories/objective-c'>objective-c (13)</a></li><li><a href='/blog/categories/android'>android (3)</a></li><li><a href='/blog/categories/python'>python (2)</a></li><li><a href='/blog/categories/web'>web (2)</a></li><li><a href='/blog/categories/node'>node (2)</a></li><li><a href='/blog/categories/javascript'>javascript (2)</a></li><li><a href='/blog/categories/android-studio'>android_studio (1)</a></li><li><a href='/blog/categories/xcode'>xcode (1)</a></li><li><a href='/blog/categories/design-pattern'>design_pattern (1)</a></li><li><a href='/blog/categories/java'>java (1)</a></li></ul>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2015/12/30/implement-https-ios-client-side-using-objective-c/">Https在ios客户端的objective-c实现</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/12/30/implement-https-server-side-using-nodejs/">https在Server端的Nodejs实现</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/12/29/https-workflow/">Https工作过程</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/12/22/generics-in-objective-c/">Generics in Objective-c</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/12/19/propety-instance-variable-and-at-synthesize/">Propety, Instance Variable and @synthesize</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/hongchaozhang">@hongchaozhang</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'hongchaozhang',
+            count: 10,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+  
+</aside>
+
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2015 - Zhang Hongchao -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+<script>
+  $(document).ready(function() {  
+    var stickyNavTop = $('nav').offset().top;  
+      
+    var stickyNav = function(){  
+      var scrollTop = $(window).scrollTop(); 
+      var navHasClassSticky = $('nav').hasClass('sticky');
+
+      if (scrollTop > stickyNavTop && navHasClassSticky) {   
+        return true;
+      } else if (scrollTop > stickyNavTop) {
+        $('nav').hide();
+        $('nav').addClass('sticky');
+        $('nav').fadeIn('2000');
+      } else {  
+        $('nav').removeClass('sticky');   
+      }  
+    };  
+      
+    stickyNav();  
+      
+    $(window).scroll(function() {  
+      stickyNav();  
+    });  
+  });  
+</script>
+
+
+</body>
+</html>

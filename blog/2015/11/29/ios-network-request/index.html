@@ -9,7 +9,7 @@
   <meta name="author" content="Zhang Hongchao">
 
   
-  <meta name="description" content="参考IOS网络编程：HTTP。 如果遇到如下错误信息： App Transport Security has blocked a cleartext HTTP (http://) resource load since it is insecure. Temporary exceptions &hellip;">
+  <meta name="description" content="ios网络请求设计的一些类，可以参考；IOS网络编程：HTTP。 下面主要说说NSURLSession。 NSURLSession 参考官方文档：Life Cycle of a URL Session。根据官方文档的Sample code如下： Life Cycle of a URL &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -91,10 +91,98 @@
   </header>
 
 
-<div class="entry-content"><p>参考<a href="http://blog.csdn.net/dyllove98/article/details/9050863">IOS网络编程：HTTP</a>。</p>
+<div class="entry-content"><p>ios网络请求设计的一些类，可以参考；<a href="http://blog.csdn.net/dyllove98/article/details/9050863">IOS网络编程：HTTP</a>。</p>
+
+<p>下面主要说说NSURLSession。</p>
 
 <!-- more -->
 
+
+<h3>NSURLSession</h3>
+
+<p>参考官方文档：<a href="https://developer.apple.com/library/ios/documentation/Cocoa/Conceptual/URLLoadingSystem/NSURLSessionConcepts/NSURLSessionConcepts.html#//apple_ref/doc/uid/10000165i-CH2-SW1">Life Cycle of a URL Session</a>。根据官方文档的Sample code如下：</p>
+
+<ul>
+<li>Life Cycle of a URL Session with System-Provided Delegates</li>
+</ul>
+
+
+<div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno"> 1</span> <span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">startWithURLString:</span><span class="p">(</span><span class="bp">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">urlString</span> <span class="p">{</span>
+<span class="lineno"> 2</span>     <span class="cm">/**</span>
+<span class="lineno"> 3</span> <span class="cm">     *  using stringByAddingPercentEscapesUsingEncoding to support Chinese characters in url string</span>
+<span class="lineno"> 4</span> <span class="cm">     */</span>
+<span class="lineno"> 5</span>     <span class="bp">NSURL</span> <span class="o">*</span><span class="n">url</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSURL</span> <span class="nl">URLWithString</span><span class="p">:[</span><span class="n">urlString</span> <span class="nl">stringByAddingPercentEscapesUsingEncoding</span><span class="p">:</span><span class="n">NSUTF8StringEncoding</span><span class="p">]];</span>
+<span class="lineno"> 6</span>     <span class="bp">NSURLRequest</span> <span class="o">*</span><span class="n">request</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSURLRequest</span> <span class="nl">requestWithURL</span><span class="p">:</span><span class="n">url</span><span class="p">];</span>
+<span class="lineno"> 7</span>     
+<span class="lineno"> 8</span>     <span class="bp">NSURLSessionConfiguration</span><span class="o">*</span> <span class="n">configuration</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSURLSessionConfiguration</span> <span class="n">ephemeralSessionConfiguration</span><span class="p">];</span>
+<span class="lineno"> 9</span>     <span class="bp">NSURLSession</span><span class="o">*</span> <span class="n">session</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSURLSession</span> <span class="nl">sessionWithConfiguration</span><span class="p">:</span><span class="n">configuration</span><span class="p">];</span>
+<span class="lineno">10</span>     <span class="bp">NSURLSessionDataTask</span><span class="o">*</span> <span class="n">dataTask</span> <span class="o">=</span> <span class="p">[</span><span class="n">session</span> <span class="nl">dataTaskWithRequest</span><span class="p">:</span><span class="n">request</span>
+<span class="lineno">11</span>                                                 <span class="nl">completionHandler</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="bp">NSData</span> <span class="o">*</span><span class="n">data</span><span class="p">,</span> <span class="bp">NSURLResponse</span> <span class="o">*</span><span class="n">response</span><span class="p">,</span> <span class="bp">NSError</span> <span class="o">*</span><span class="n">error</span><span class="p">)</span> <span class="p">{</span>
+<span class="lineno">12</span>                                                     <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">error</span><span class="p">)</span> <span class="p">{</span>
+<span class="lineno">13</span>                                                         <span class="k">if</span> <span class="p">([</span><span class="n">request</span><span class="p">.</span><span class="n">URL</span> <span class="nl">isEqual</span><span class="p">:</span><span class="n">url</span><span class="p">])</span> <span class="p">{</span>
+<span class="lineno">14</span>                                                             <span class="cm">/**</span>
+<span class="lineno">15</span> <span class="cm">                                                             *  currently we are not in the main thread</span>
+<span class="lineno">16</span> <span class="cm">                                                             *  call method in main thread to update the UI</span>
+<span class="lineno">17</span> <span class="cm">                                                             */</span>
+<span class="lineno">18</span>                                                             <span class="n">dispatch_async</span><span class="p">(</span><span class="n">dispatch_get_main_queue</span><span class="p">(),</span> <span class="o">^</span><span class="p">{</span>
+<span class="lineno">19</span> 
+<span class="lineno">20</span>                                                             <span class="p">});</span>
+<span class="lineno">21</span>                                                         <span class="p">}</span>
+<span class="lineno">22</span>                                                     <span class="p">}</span>
+<span class="lineno">23</span>                                                 <span class="p">}];</span>
+<span class="lineno">24</span>     <span class="p">[</span><span class="n">dataTask</span> <span class="n">resume</span><span class="p">];</span>
+<span class="lineno">25</span> 
+<span class="lineno">26</span> <span class="p">}</span></code></pre></div>
+
+
+
+
+<!-- more -->
+
+
+<ul>
+<li>Life Cycle of a URL Session with Custom Delegates</li>
+</ul>
+
+
+<div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno"> 1</span> <span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">startWithURLString:</span><span class="p">(</span><span class="bp">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">urlString</span> <span class="p">{</span>
+<span class="lineno"> 2</span>     <span class="cm">/**</span>
+<span class="lineno"> 3</span> <span class="cm">     *  using stringByAddingPercentEscapesUsingEncoding to support Chinese characters in url string</span>
+<span class="lineno"> 4</span> <span class="cm">     */</span>
+<span class="lineno"> 5</span>     <span class="bp">NSURL</span> <span class="o">*</span><span class="n">url</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSURL</span> <span class="nl">URLWithString</span><span class="p">:[</span><span class="n">urlString</span> <span class="nl">stringByAddingPercentEscapesUsingEncoding</span><span class="p">:</span><span class="n">NSUTF8StringEncoding</span><span class="p">]];</span>
+<span class="lineno"> 6</span>     <span class="bp">NSURLRequest</span> <span class="o">*</span><span class="n">request</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSURLRequest</span> <span class="nl">requestWithURL</span><span class="p">:</span><span class="n">url</span><span class="p">];</span>
+<span class="lineno"> 7</span>     
+<span class="lineno"> 8</span>     <span class="bp">NSURLSessionConfiguration</span><span class="o">*</span> <span class="n">configuration</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSURLSessionConfiguration</span> <span class="n">ephemeralSessionConfiguration</span><span class="p">];</span>
+<span class="lineno"> 9</span>     
+<span class="lineno">10</span>     <span class="bp">NSURLSession</span> <span class="o">*</span><span class="n">session</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSURLSession</span> <span class="nl">sessionWithConfiguration</span><span class="p">:</span><span class="n">configuration</span> <span class="nl">delegate</span><span class="p">:</span><span class="nb">self</span> <span class="nl">delegateQueue</span><span class="p">:[</span><span class="bp">NSOperationQueue</span> <span class="n">mainQueue</span><span class="p">]];</span>
+<span class="lineno">11</span>     
+<span class="lineno">12</span>     <span class="bp">NSURLSessionDataTask</span> <span class="o">*</span><span class="n">dataTask</span> <span class="o">=</span> <span class="p">[</span><span class="n">session</span> <span class="nl">dataTaskWithRequest</span><span class="p">:</span><span class="n">request</span><span class="p">];</span>
+<span class="lineno">13</span>     
+<span class="lineno">14</span>     <span class="nb">self</span><span class="p">.</span><span class="n">responseData</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">NSMutableData</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
+<span class="lineno">15</span>     
+<span class="lineno">16</span>     <span class="p">[</span><span class="n">dataTask</span> <span class="n">resume</span><span class="p">];</span>
+<span class="lineno">17</span> <span class="p">}</span></code></pre></div>
+
+
+<p>以及NSURLSessionDataDelegate中的：</p>
+
+<div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno"> 1</span> <span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">URLSession:</span><span class="p">(</span><span class="bp">NSURLSession</span> <span class="o">*</span><span class="p">)</span><span class="nv">session</span> <span class="nf">dataTask:</span><span class="p">(</span><span class="bp">NSURLSessionDataTask</span> <span class="o">*</span><span class="p">)</span><span class="nv">dataTask</span> <span class="nf">didReceiveData:</span><span class="p">(</span><span class="bp">NSData</span> <span class="o">*</span><span class="p">)</span><span class="nv">data</span> <span class="p">{</span>
+<span class="lineno"> 2</span>     <span class="c1">// self.responseData is NSMutableData type</span>
+<span class="lineno"> 3</span>     <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">responseData</span> <span class="nl">appendData</span><span class="p">:</span><span class="n">data</span><span class="p">];</span>
+<span class="lineno"> 4</span> <span class="p">}</span>
+<span class="lineno"> 5</span> 
+<span class="lineno"> 6</span> <span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">URLSession:</span><span class="p">(</span><span class="bp">NSURLSession</span> <span class="o">*</span><span class="p">)</span><span class="nv">session</span> <span class="nf">task:</span><span class="p">(</span><span class="bp">NSURLSessionTask</span> <span class="o">*</span><span class="p">)</span><span class="nv">task</span> <span class="nf">didCompleteWithError:</span><span class="p">(</span><span class="bp">NSError</span> <span class="o">*</span><span class="p">)</span><span class="nv">error</span> <span class="p">{</span>
+<span class="lineno"> 7</span>     <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">error</span><span class="p">)</span> <span class="p">{</span>
+<span class="lineno"> 8</span> 
+<span class="lineno"> 9</span>     <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+<span class="lineno">10</span> 
+<span class="lineno">11</span>     <span class="p">}</span>
+<span class="lineno">12</span> <span class="p">}</span></code></pre></div>
+
+
+<blockquote><p>NSURLSessionDataTask不能携带completionHandler，否则上面的delegate不会调到。</p></blockquote>
+
+<h3>App Transport Security</h3>
 
 <p>如果遇到如下错误信息：</p>
 
@@ -171,30 +259,30 @@ Temporary exceptions can be configured via your app&#39;s Info.plist file.</code
   
     <section class="categories">
   <h1>Categories</h1>
-    <ul id="top-category-list" class="nav nav-list"><li><a href='/blog/categories/ios'>ios (17)</a></li><li><a href='/blog/categories/productivity'>productivity (14)</a></li><li><a href='/blog/categories/objective-c'>objective-c (11)</a></li><li><a href='/blog/categories/android'>android (3)</a></li><li><a href='/blog/categories/python'>python (2)</a></li><li><a href='/blog/categories/javascript'>javascript (2)</a></li><li><a href='/blog/categories/java'>java (1)</a></li><li><a href='/blog/categories/web'>web (1)</a></li><li><a href='/blog/categories/android-studio'>android_studio (1)</a></li><li><a href='/blog/categories/xcode'>xcode (1)</a></li><li><a href='/blog/categories/design-pattern'>design_pattern (1)</a></li><li><a href='/blog/categories/node'>node (1)</a></li></ul>
+    <ul id="top-category-list" class="nav nav-list"><li><a href='/blog/categories/ios'>ios (18)</a></li><li><a href='/blog/categories/productivity'>productivity (14)</a></li><li><a href='/blog/categories/objective-c'>objective-c (13)</a></li><li><a href='/blog/categories/android'>android (3)</a></li><li><a href='/blog/categories/python'>python (2)</a></li><li><a href='/blog/categories/web'>web (2)</a></li><li><a href='/blog/categories/node'>node (2)</a></li><li><a href='/blog/categories/javascript'>javascript (2)</a></li><li><a href='/blog/categories/android-studio'>android_studio (1)</a></li><li><a href='/blog/categories/xcode'>xcode (1)</a></li><li><a href='/blog/categories/design-pattern'>design_pattern (1)</a></li><li><a href='/blog/categories/java'>java (1)</a></li></ul>
 </section>
 <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2015/12/30/implement-https-ios-client-side-using-objective-c/">Https在ios客户端的objective-c实现</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/12/30/implement-https-server-side-using-nodejs/">https在Server端的Nodejs实现</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/12/29/https-workflow/">Https工作过程</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/12/22/generics-in-objective-c/">Generics in Objective-c</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2015/12/19/propety-instance-variable-and-at-synthesize/">Propety, Instance Variable and @synthesize</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/12/17/ios-coding-best-practice/">Ios Coding Best Practice</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/12/06/some-usefull-ios-coding-styles-in-UIViewController/">UIViewController中常见的ios编程习惯</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/12/01/autosizing-and-autolayout/">AutoSizing and AutoLayout</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/11/29/ios-network-request/">Ios进行网络请求</a>
       </li>
     
   </ul>

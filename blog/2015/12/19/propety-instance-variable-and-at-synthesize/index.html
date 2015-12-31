@@ -229,16 +229,26 @@
 <p>  when providing a custom getter implementation for a readonly property, this won&rsquo;t be automatically synthesized</p></li>
 <li><p>@dynamic</p>
 
-<p>  when using @dynamic propertyName, the property won&rsquo;t be automatically synthesized (pretty obvious, since @dynamic and @synthesize are mutually exclusive)</p></li>
+<p>  when using @dynamic propertyName, the property won&rsquo;t be automatically synthesized (pretty obvious, since @dynamic and @synthesize are mutually exclusive).</p>
+
+<p>  @synthesize will generate getter and setter methods for your property. @dynamic just tells the compiler that the getter and setter methods are implemented not by the class itself but somewhere else (like the superclass)</p></li>
 <li><p>properties declared in a @protocol</p>
 
 <p>  when conforming to a protocol, any property the protocol defines won&rsquo;t be automatically synthesized</p></li>
 <li><p>properties declared in a category</p>
 
-<p>  this is a case in which the @synthesize directive is not automatically inserted by the compiler, but this properties cannot be manually synthesized either. While categories can declare properties, they cannot be synthesized at all, since categories cannot create ivars. For the sake of completeness, I&rsquo;ll add that&rsquo;s it&rsquo;s still possible to fake the property synthesis using the Objective-C runtime.</p></li>
+<p>  this is a case in which the @synthesize directive is not automatically inserted by the compiler, but this properties cannot be manually synthesized either. While categories can declare properties, they cannot be synthesized at all, since categories cannot create ivars. For the sake of completeness, I&rsquo;ll add that it&rsquo;s still possible to fake the property synthesis using the Objective-C runtime.</p>
+
+<p>  Actually, <strong>categorie</strong> is best used for adding capability to code you do not own and cannot change. Adding properties via categories is deprecated.</p></li>
 <li><p>overridden properties (new since clang-600.0.51, shipping with Xcode 6, thanks Marc Schlüpmann)</p>
 
-<p>  when you override a property of a superclass, you must explicitly synthesize it</p></li>
+<p>  when you override a property of a superclass, two ways for you:</p>
+
+<ul>
+<li>explicitly synthesize it with a different instance variable name from super class.</li>
+<li>@dynamic the property to tell the compiler that I will use the getter and setter methods in the super class.</li>
+</ul>
+</li>
 </ul>
 
 </div>
@@ -288,6 +298,8 @@
         <a class="basic-alignment left" href="/blog/2015/12/17/ios-coding-best-practice/" title="Previous Post: ios coding best practice">&laquo; ios coding best practice</a>
       
       
+        <a class="basic-alignment right" href="/blog/2015/12/22/generics-in-objective-c/" title="Next Post: generics in objective-c">generics in objective-c &raquo;</a>
+      
     </p>
   </footer>
 </article>
@@ -299,30 +311,30 @@
   
     <section class="categories">
   <h1>Categories</h1>
-    <ul id="top-category-list" class="nav nav-list"><li><a href='/blog/categories/ios'>ios (17)</a></li><li><a href='/blog/categories/productivity'>productivity (14)</a></li><li><a href='/blog/categories/objective-c'>objective-c (11)</a></li><li><a href='/blog/categories/android'>android (3)</a></li><li><a href='/blog/categories/python'>python (2)</a></li><li><a href='/blog/categories/javascript'>javascript (2)</a></li><li><a href='/blog/categories/java'>java (1)</a></li><li><a href='/blog/categories/web'>web (1)</a></li><li><a href='/blog/categories/android-studio'>android_studio (1)</a></li><li><a href='/blog/categories/xcode'>xcode (1)</a></li><li><a href='/blog/categories/design-pattern'>design_pattern (1)</a></li><li><a href='/blog/categories/node'>node (1)</a></li></ul>
+    <ul id="top-category-list" class="nav nav-list"><li><a href='/blog/categories/ios'>ios (18)</a></li><li><a href='/blog/categories/productivity'>productivity (14)</a></li><li><a href='/blog/categories/objective-c'>objective-c (13)</a></li><li><a href='/blog/categories/android'>android (3)</a></li><li><a href='/blog/categories/python'>python (2)</a></li><li><a href='/blog/categories/web'>web (2)</a></li><li><a href='/blog/categories/node'>node (2)</a></li><li><a href='/blog/categories/javascript'>javascript (2)</a></li><li><a href='/blog/categories/android-studio'>android_studio (1)</a></li><li><a href='/blog/categories/xcode'>xcode (1)</a></li><li><a href='/blog/categories/design-pattern'>design_pattern (1)</a></li><li><a href='/blog/categories/java'>java (1)</a></li></ul>
 </section>
 <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2015/12/30/implement-https-ios-client-side-using-objective-c/">Https在ios客户端的objective-c实现</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/12/30/implement-https-server-side-using-nodejs/">https在Server端的Nodejs实现</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/12/29/https-workflow/">Https工作过程</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/12/22/generics-in-objective-c/">Generics in Objective-c</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2015/12/19/propety-instance-variable-and-at-synthesize/">Propety, Instance Variable and @synthesize</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/12/17/ios-coding-best-practice/">Ios Coding Best Practice</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/12/06/some-usefull-ios-coding-styles-in-UIViewController/">UIViewController中常见的ios编程习惯</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/12/01/autosizing-and-autolayout/">AutoSizing and AutoLayout</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/11/29/ios-network-request/">Ios进行网络请求</a>
       </li>
     
   </ul>

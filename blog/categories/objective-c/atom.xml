@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Objective-c | Zhang Hongchao]]></title>
   <link href="http://hongchaozhang.github.io/blog/categories/objective-c/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2015-12-19T16:47:59+08:00</updated>
+  <updated>2015-12-31T23:00:29+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -12,6 +12,73 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Https在ios客户端的objective-c实现]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2015/12/30/implement-https-ios-client-side-using-objective-c/"/>
+    <updated>2015-12-30T21:23:54+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2015/12/30/implement-https-ios-client-side-using-objective-c</id>
+    <content type="html"><![CDATA[<p>ios通过NSURLSession进行网络请求，参考另一篇博客<a href="">ios进行网络请求</a>。</p>
+
+<p>在开发阶段，server端我们会用self-signed证书（省钱啊！）。正式因为不是第三方机构认证的证书，所以客户端都会报警告。我们需要对此进行处理（参考<a href="https://developer.apple.com/library/ios/technotes/tn2232/_index.html#//apple_ref/doc/uid/DTS40012884-CH1-SECNSURLSESSION">NSURLSession in Apple Tech Note</a>和<a href="http://stackoverflow.com/questions/19507207/how-do-i-accept-a-self-signed-ssl-certificate-using-ios-7s-nsurlsession-and-its">How do I accept a self-signed SSL certificate using iOS 7&rsquo;s NSURLSession and its family of delegate methods for development purposes?</a>）:</p>
+
+<!-- more -->
+
+
+<blockquote><p>NSURLSession allows you to customize HTTPS server trust evaluation by implementing the <code>-URLSession:didReceiveChallenge:completionHandler:</code> delegate method. To customize HTTPS server trust evaluation, look for a challenge whose protection space has an authentication method of <code>NSURLAuthenticationMethodServerTrust</code>. For those challenges, resolve them as described below. For other challenges, the ones that you don&rsquo;t care about, call the completion handler block with the <code>NSURLSessionAuthChallengePerformDefaultHandling</code> disposition and a NULL credential.</p>
+
+<p>When dealing with the <code>NSURLAuthenticationMethodServerTrust</code> authentication challenge, you can get the trust object from the challenge&rsquo;s protection space by calling the <code>-serverTrust</code> method. After using the trust object to do your own custom HTTPS server trust evaluation, you must resolve the challenge in one of two ways:</p>
+
+<ul>
+<li>If you want to deny the connection, call the completion handler block with the <code>NSURLSessionAuthChallengeCancelAuthenticationChallenge</code> disposition and a NULL credential.</li>
+<li>If you want to allow the connection, create a credential from your trust object (using <code>+[NSURLCredential credentialForTrust:]</code>) and call the completion handler block with that credential and the <code>NSURLSessionAuthChallengeUseCredential</code> disposition.</li>
+</ul>
+</blockquote>
+
+<p>说了这么多，代码在下面的delegate中实现：</p>
+
+<p><div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno"> 1</span> <span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">URLSession:</span><span class="p">(</span><span class="bp">NSURLSession</span> <span class="o">&lt;</span><span class="n">em</span><span class="o">&gt;</span><span class="p">)</span><span class="nv">session</span> <span class="nf">didReceiveChallenge:</span><span class="p">(</span><span class="bp">NSURLAuthenticationChallenge</span> <span class="o">&lt;/</span><span class="n">em</span><span class="o">&gt;</span><span class="p">)</span><span class="nv">challenge</span> <span class="nf">completionHandler:</span><span class="p">(</span><span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="p">)(</span><span class="n">NSURLSessionAuthChallengeDisposition</span><span class="p">,</span> <span class="bp">NSURLCredential</span> <span class="o">&lt;</span><span class="n">em</span><span class="o">&gt;</span><span class="p">))</span><span class="nv">completionHandler</span> <span class="p">{</span>
+<span class="lineno"> 2</span>     <span class="k">if</span><span class="p">([</span><span class="n">challenge</span><span class="p">.</span><span class="n">protectionSpace</span><span class="p">.</span><span class="n">authenticationMethod</span> <span class="nl">isEqualToString</span><span class="p">:</span><span class="n">NSURLAuthenticationMethodServerTrust</span><span class="p">])</span> <span class="p">{</span>
+<span class="lineno"> 3</span>         <span class="k">if</span><span class="p">([</span><span class="n">challenge</span><span class="p">.</span><span class="n">protectionSpace</span><span class="p">.</span><span class="n">host</span> <span class="nl">isEqualToString</span><span class="p">:@</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">domaintoverride</span><span class="p">.</span><span class="n">com</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;])</span> <span class="p">{</span>
+<span class="lineno"> 4</span>             <span class="bp">NSURLCredential</span> <span class="o">&lt;/</span><span class="n">em</span><span class="o">&gt;</span><span class="n">credential</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSURLCredential</span> <span class="nl">credentialForTrust</span><span class="p">:</span><span class="n">challenge</span><span class="p">.</span><span class="n">protectionSpace</span><span class="p">.</span><span class="n">serverTrust</span><span class="p">];</span>
+<span class="lineno"> 5</span>             <span class="n">completionHandler</span><span class="p">(</span><span class="n">NSURLSessionAuthChallengeUseCredential</span><span class="p">,</span><span class="n">credential</span><span class="p">);</span>
+<span class="lineno"> 6</span>         <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+<span class="lineno"> 7</span>             <span class="n">completionHandler</span><span class="p">(</span><span class="n">NSURLSessionAuthChallengeCancelAuthenticationChallenge</span><span class="p">,</span> <span class="nb">nil</span><span class="p">);</span>
+<span class="lineno"> 8</span>         <span class="p">}</span>
+<span class="lineno"> 9</span>     <span class="p">}</span>
+<span class="lineno">10</span> <span class="p">}</span></code></pre></div></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Generics in Objective-c]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2015/12/22/generics-in-objective-c/"/>
+    <updated>2015-12-22T13:18:48+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2015/12/22/generics-in-objective-c</id>
+    <content type="html"><![CDATA[<p>参考：<a href="http://stackoverflow.com/questions/649483/is-there-any-way-to-enforce-typing-on-nsarray-nsmutablearray-etc">Is there any way to enforce typing on NSArray, NSMutableArray, etc.?</a></p>
+
+<p>参考：<a href="http://drekka.ghost.io/objective-c-generics/">Objective C Generics</a></p>
+
+<p>随着Xcode7的发布，苹果实现了collection类（NSArray，NSDictionary，NSSet）的generics功能。</p>
+
+<!-- more -->
+
+
+<p>以后，可以这样定义Array了：</p>
+
+<p><div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno">1</span> <span class="bp">NSArray</span><span class="o">&lt;</span><span class="n">MyClass</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">myArray</span> <span class="o">=</span> <span class="l">@[</span><span class="p">[</span><span class="n">MyClass</span> <span class="n">new</span><span class="p">],</span> <span class="p">[</span><span class="n">MyClass</span> <span class="n">new</span><span class="p">]</span><span class="l">]</span><span class="p">;</span></code></pre></div></p>
+
+<p>但是，我们仍然可以在Array中加入非MyClass类型的实例，此时xcode会报出警告，但是不会报错，程序仍然可以运行。所以需要我们在写程序时去除所有的警告。</p>
+
+<p>Xcode的提示也会帮助我们避免这些警告：当你试图add一个元素到Array中时，Xcode会提示其中元素的类型<code>void addObject:(nonnull MyClass *)</code>；如果没有用Generics，Xcode的提示是<code>void addObject:(nonnull id)</code>。</p>
+
+<p>但是这个可以给我们带来一个明显的好处：</p>
+
+<p>我们只要看到定义，就能知道其中的元素类型，而不用全局搜索代码，看往其中加入了什么。就冲这一点，就足以让我们毫不犹豫地使用了。</p>
+
+<p>更多的介绍和Generics的局限，请参考：<a href="http://drekka.ghost.io/objective-c-generics/">Objective C Generics</a>。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Propety, Instance Variable and @synthesize]]></title>
@@ -164,16 +231,26 @@
 <p>  when providing a custom getter implementation for a readonly property, this won&rsquo;t be automatically synthesized</p></li>
 <li><p>@dynamic</p>
 
-<p>  when using @dynamic propertyName, the property won&rsquo;t be automatically synthesized (pretty obvious, since @dynamic and @synthesize are mutually exclusive)</p></li>
+<p>  when using @dynamic propertyName, the property won&rsquo;t be automatically synthesized (pretty obvious, since @dynamic and @synthesize are mutually exclusive).</p>
+
+<p>  @synthesize will generate getter and setter methods for your property. @dynamic just tells the compiler that the getter and setter methods are implemented not by the class itself but somewhere else (like the superclass)</p></li>
 <li><p>properties declared in a @protocol</p>
 
 <p>  when conforming to a protocol, any property the protocol defines won&rsquo;t be automatically synthesized</p></li>
 <li><p>properties declared in a category</p>
 
-<p>  this is a case in which the @synthesize directive is not automatically inserted by the compiler, but this properties cannot be manually synthesized either. While categories can declare properties, they cannot be synthesized at all, since categories cannot create ivars. For the sake of completeness, I&rsquo;ll add that&rsquo;s it&rsquo;s still possible to fake the property synthesis using the Objective-C runtime.</p></li>
+<p>  this is a case in which the @synthesize directive is not automatically inserted by the compiler, but this properties cannot be manually synthesized either. While categories can declare properties, they cannot be synthesized at all, since categories cannot create ivars. For the sake of completeness, I&rsquo;ll add that it&rsquo;s still possible to fake the property synthesis using the Objective-C runtime.</p>
+
+<p>  Actually, <strong>categorie</strong> is best used for adding capability to code you do not own and cannot change. Adding properties via categories is deprecated.</p></li>
 <li><p>overridden properties (new since clang-600.0.51, shipping with Xcode 6, thanks Marc Schlüpmann)</p>
 
-<p>  when you override a property of a superclass, you must explicitly synthesize it</p></li>
+<p>  when you override a property of a superclass, two ways for you:</p>
+
+<ul>
+<li>explicitly synthesize it with a different instance variable name from super class.</li>
+<li>@dynamic the property to tell the compiler that I will use the getter and setter methods in the super class.</li>
+</ul>
+</li>
 </ul>
 
 ]]></content>
@@ -298,75 +375,6 @@
 <p>不是delegate方法的，不是event response方法的，不是life cycle方法的，就是private method了。对的，正常情况下ViewController里面一般是不会存在private methods的，这个private methods一般是用于日期换算、图片裁剪啥的这种小功能。这种小功能要么把它写成一个category，要么把他做成一个模块，哪怕这个模块只有一个函数也行。</p>
 
 <p>ViewController基本上是大部分业务的载体，本身代码已经相当复杂，所以跟业务关联不大的东西能不放在ViewController里面就不要放。另外一点，这个private method的功能这时候只是你用得到，但是将来说不定别的地方也会用到，一开始就独立出来，有利于将来的代码复用。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[AutoSizing and AutoLayout]]></title>
-    <link href="http://hongchaozhang.github.io/blog/2015/12/01/autosizing-and-autolayout/"/>
-    <updated>2015-12-01T11:20:38+08:00</updated>
-    <id>http://hongchaozhang.github.io/blog/2015/12/01/autosizing-and-autolayout</id>
-    <content type="html"><![CDATA[<p>参考：</p>
-
-<ul>
-<li><a href="http://objccn.io/issue-3-5/">先进的自动布局工具箱</a></li>
-<li><a href="https://developer.apple.com/library/prerelease/ios/documentation/UserExperience/Conceptual/AutolayoutPG/ProgrammaticallyCreatingConstraints.html#//apple_ref/doc/uid/TP40010853-CH16-SW1">AutoLayout Guide</a></li>
-<li><a href="https://developer.apple.com/library/ios/documentation/UserExperience/Conceptual/AutolayoutPG/WorkingwithSelf-SizingTableViewCells.html">AutoLayout Table View</a></li>
-</ul>
-
-
-<p>摘要：</p>
-
-<ul>
-<li><p>AutoSizing和AutoLayout都是用来自动确定试图大小和位置的方法，区别在于：</p>
-
-<ul>
-<li>AutoSizing: 只针对SuperView</li>
-<li>AutoLayout: 针对SuperView和兄弟View</li>
-</ul>
-</li>
-</ul>
-
-
-<!-- more -->
-
-
-<ul>
-<li><p>Autolayout这边可以考虑使用<a href="https://github.com/SnapKit/Masonry">Masonry</a>，代码的可读性就能好很多。</p></li>
-<li><p>如果还有使用Frame的，可以考虑一下使用<a href="https://github.com/casatwy/HandyAutoLayout">这个项目</a>。</p>
-
-<ul>
-<li>这个项目里面提供了Frame相关的方便方法(UIView+LayoutMethods)，里面的方法也基本涵盖了所有布局的需求，可读性非常好，使用它之后基本可以和CGRectMake说再见了。因为天猫在最近才切换到支持iOS6，所以之前天猫都是用Frame布局的，在天猫App中，首页，范儿部分页面的布局就使用了这些方法。使用这些方便方法能起到事半功倍的效果。</li>
-</ul>
-</li>
-</ul>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Ios进行网络请求]]></title>
-    <link href="http://hongchaozhang.github.io/blog/2015/11/29/ios-network-request/"/>
-    <updated>2015-11-29T15:12:59+08:00</updated>
-    <id>http://hongchaozhang.github.io/blog/2015/11/29/ios-network-request</id>
-    <content type="html"><![CDATA[<p>参考<a href="http://blog.csdn.net/dyllove98/article/details/9050863">IOS网络编程：HTTP</a>。</p>
-
-<!-- more -->
-
-
-<p>如果遇到如下错误信息：</p>
-
-<p><div class="highlight"><pre><code class="language-text" data-lang="text">App Transport Security has blocked a cleartext HTTP (&lt;a href=&quot;http://&quot;&gt;http://&lt;/a&gt;) resource load since it is insecure.
-Temporary exceptions can be configured via your app&amp;rsquo;s Info.plist file.</code></pre></div></p>
-
-<p>打开Info.plist，加入如下字段：</p>
-
-<p><div class="highlight"><pre><code class="language-xml" data-lang="xml"><span class="lineno">1</span> <span class="nt">&lt;key&gt;</span>NSAppTransportSecurity<span class="nt">&lt;/key&gt;</span>
-<span class="lineno">2</span>     <span class="nt">&lt;dict&gt;</span>
-<span class="lineno">3</span>         <span class="c">&lt;!--Include to allow all connections (DANGER)--&gt;</span>
-<span class="lineno">4</span>         <span class="nt">&lt;key&gt;</span>NSAllowsArbitraryLoads<span class="nt">&lt;/key&gt;</span>
-<span class="lineno">5</span>         <span class="nt">&lt;true/&gt;</span>
-<span class="lineno">6</span>     <span class="nt">&lt;/dict&gt;</span></code></pre></div></p>
 ]]></content>
   </entry>
   
