@@ -6,10 +6,9 @@ comments: true
 categories: [objective-c]
 ---
 
-* Use forward declarations
-
 <!-- more -->
 
+* Use forward declarations
 * Move variable declaration out of header
 * Cleanup duplication in import
 * Remove private method declaration in implementation files

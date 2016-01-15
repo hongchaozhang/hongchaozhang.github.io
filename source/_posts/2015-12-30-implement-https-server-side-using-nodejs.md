@@ -111,6 +111,8 @@ http的response数据如下：
 
 ![https-request-charles](/images/https-request-charles.png)
 
+从request中只可以看到URL地址，却看不到参数格式和内容。
+
 https的response数据如下：
 
 ![https-response-charles](/images/https-response-charles.png)

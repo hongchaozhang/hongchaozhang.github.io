@@ -64,6 +64,10 @@ Within a python file:
 		<td>create a breakpoint at line #</td>
 	</tr>
 	<tr>
+		<td><strong>condition</strong> 4 a==3</td>
+		<td>add condition a==3 to the 4th breakpoint</td>
+	</tr>
+	<tr>
 		<td><strong>b</strong></td>
 		<td>list breakpoints and their indices</td>
 	</tr>

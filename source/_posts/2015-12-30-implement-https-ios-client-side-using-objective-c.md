@@ -6,9 +6,9 @@ comments: true
 categories: [objective-c]
 ---
 
-ios通过NSURLSession进行网络请求，参考另一篇博客[ios进行网络请求]()。
+ios通过NSURLSession进行网络请求，参考另一篇博客[ios进行网络请求](http://hongchaozhang.github.io/blog/2015/11/29/ios-network-request/)。
 
-在开发阶段，server端我们会用self-signed证书（省钱啊！）。正式因为不是第三方机构认证的证书，所以客户端都会报警告。我们需要对此进行处理（参考[NSURLSession in Apple Tech Note](https://developer.apple.com/library/ios/technotes/tn2232/_index.html#//apple_ref/doc/uid/DTS40012884-CH1-SECNSURLSESSION)和[How do I accept a self-signed SSL certificate using iOS 7's NSURLSession and its family of delegate methods for development purposes?](http://stackoverflow.com/questions/19507207/how-do-i-accept-a-self-signed-ssl-certificate-using-ios-7s-nsurlsession-and-its)）:
+在开发阶段，server端我们会用self-signed证书（省钱啊！）。正因为不是第三方机构认证的证书，所以客户端都会报警告。我们需要对此进行处理（参考[NSURLSession in Apple Tech Note](https://developer.apple.com/library/ios/technotes/tn2232/_index.html#//apple_ref/doc/uid/DTS40012884-CH1-SECNSURLSESSION)和[How do I accept a self-signed SSL certificate using iOS 7's NSURLSession and its family of delegate methods for development purposes?](http://stackoverflow.com/questions/19507207/how-do-i-accept-a-self-signed-ssl-certificate-using-ios-7s-nsurlsession-and-its)）:
 
 <!-- more -->
 

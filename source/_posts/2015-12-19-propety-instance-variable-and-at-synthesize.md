@@ -6,7 +6,7 @@ comments: true
 categories: [ios, objective-c]
 ---
 
-这一段时间，工作上在做一对不理解代码的重构，重新了解了一下Property、Instance Variable和@synthesize，总结一下。
+这一段时间，在对自己不是很了解的代码进行重构，重新了解了一下Property、Instance Variable和@synthesize，总结一下。
 
 首先需要明白一点：Property和@synthesize是让编译器帮助我们做一些规律性的工作。
 

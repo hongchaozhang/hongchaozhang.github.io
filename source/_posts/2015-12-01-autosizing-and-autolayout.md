@@ -20,11 +20,11 @@ categories: [ios, objective-c]
     * AutoLayout: 针对SuperView和兄弟View
 <!-- more -->
 
-* Autolayout这边可以考虑使用[Masonry](https://github.com/SnapKit/Masonry)，代码的可读性就能好很多。
+* AutoLayout这边可以考虑使用[Masonry](https://github.com/SnapKit/Masonry)，代码的可读性就能好很多。
 
 * ios9.0开始：
     * 可以使用UIStackView（Horizontal / Vertical）帮助进行AutoLayout，因为UIStackView使用AutoLayout进行内部view的布局。
-    * 在进行AutoLayout的时候，可以使用UILayoutGuide帮助布局。UILayoutGuide比UIView轻量级很多，通过UIView的爱到底Lay呕吐Gui的:方法加入。
+    * 在进行AutoLayout的时候，可以使用UILayoutGuide帮助布局。UILayoutGuide比UIView轻量级很多，通过UIView的`addLayoutGuide:`方法加入。
 
 * 如果还有使用Frame的，可以考虑一下使用[这个项目](https://github.com/casatwy/HandyAutoLayout)。
 
