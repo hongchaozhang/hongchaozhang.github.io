@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Objective-c | Zhang Hongchao]]></title>
   <link href="http://hongchaozhang.github.io/blog/categories/objective-c/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2015-12-31T23:00:29+08:00</updated>
+  <updated>2016-01-15T22:41:32+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -18,9 +18,9 @@
     <link href="http://hongchaozhang.github.io/blog/2015/12/30/implement-https-ios-client-side-using-objective-c/"/>
     <updated>2015-12-30T21:23:54+08:00</updated>
     <id>http://hongchaozhang.github.io/blog/2015/12/30/implement-https-ios-client-side-using-objective-c</id>
-    <content type="html"><![CDATA[<p>ios通过NSURLSession进行网络请求，参考另一篇博客<a href="">ios进行网络请求</a>。</p>
+    <content type="html"><![CDATA[<p>ios通过NSURLSession进行网络请求，参考另一篇博客<a href="http://hongchaozhang.github.io/blog/2015/11/29/ios-network-request/">ios进行网络请求</a>。</p>
 
-<p>在开发阶段，server端我们会用self-signed证书（省钱啊！）。正式因为不是第三方机构认证的证书，所以客户端都会报警告。我们需要对此进行处理（参考<a href="https://developer.apple.com/library/ios/technotes/tn2232/_index.html#//apple_ref/doc/uid/DTS40012884-CH1-SECNSURLSESSION">NSURLSession in Apple Tech Note</a>和<a href="http://stackoverflow.com/questions/19507207/how-do-i-accept-a-self-signed-ssl-certificate-using-ios-7s-nsurlsession-and-its">How do I accept a self-signed SSL certificate using iOS 7&rsquo;s NSURLSession and its family of delegate methods for development purposes?</a>）:</p>
+<p>在开发阶段，server端我们会用self-signed证书（省钱啊！）。正因为不是第三方机构认证的证书，所以客户端都会报警告。我们需要对此进行处理（参考<a href="https://developer.apple.com/library/ios/technotes/tn2232/_index.html#//apple_ref/doc/uid/DTS40012884-CH1-SECNSURLSESSION">NSURLSession in Apple Tech Note</a>和<a href="http://stackoverflow.com/questions/19507207/how-do-i-accept-a-self-signed-ssl-certificate-using-ios-7s-nsurlsession-and-its">How do I accept a self-signed SSL certificate using iOS 7&rsquo;s NSURLSession and its family of delegate methods for development purposes?</a>）:</p>
 
 <!-- more -->
 
@@ -85,7 +85,7 @@
     <link href="http://hongchaozhang.github.io/blog/2015/12/19/propety-instance-variable-and-at-synthesize/"/>
     <updated>2015-12-19T15:17:41+08:00</updated>
     <id>http://hongchaozhang.github.io/blog/2015/12/19/propety-instance-variable-and-at-synthesize</id>
-    <content type="html"><![CDATA[<p>这一段时间，工作上在做一对不理解代码的重构，重新了解了一下Property、Instance Variable和@synthesize，总结一下。</p>
+    <content type="html"><![CDATA[<p>这一段时间，在对自己不是很了解的代码进行重构，重新了解了一下Property、Instance Variable和@synthesize，总结一下。</p>
 
 <p>首先需要明白一点：Property和@synthesize是让编译器帮助我们做一些规律性的工作。</p>
 
@@ -261,15 +261,11 @@
     <link href="http://hongchaozhang.github.io/blog/2015/12/17/ios-coding-best-practice/"/>
     <updated>2015-12-17T10:49:54+08:00</updated>
     <id>http://hongchaozhang.github.io/blog/2015/12/17/ios-coding-best-practice</id>
-    <content type="html"><![CDATA[<ul>
-<li>Use forward declarations</li>
-</ul>
-
-
-<!-- more -->
+    <content type="html"><![CDATA[<!-- more -->
 
 
 <ul>
+<li>Use forward declarations</li>
 <li>Move variable declaration out of header</li>
 <li>Cleanup duplication in import</li>
 <li>Remove private method declaration in implementation files</li>

@@ -120,12 +120,12 @@ AutoLayout: &hellip;">
 
 
 <ul>
-<li><p>Autolayout这边可以考虑使用<a href="https://github.com/SnapKit/Masonry">Masonry</a>，代码的可读性就能好很多。</p></li>
+<li><p>AutoLayout这边可以考虑使用<a href="https://github.com/SnapKit/Masonry">Masonry</a>，代码的可读性就能好很多。</p></li>
 <li><p>ios9.0开始：</p>
 
 <ul>
 <li>可以使用UIStackView（Horizontal / Vertical）帮助进行AutoLayout，因为UIStackView使用AutoLayout进行内部view的布局。</li>
-<li>在进行AutoLayout的时候，可以使用UILayoutGuide帮助布局。UILayoutGuide比UIView轻量级很多，通过UIView的爱到底Lay呕吐Gui的:方法加入。</li>
+<li>在进行AutoLayout的时候，可以使用UILayoutGuide帮助布局。UILayoutGuide比UIView轻量级很多，通过UIView的<code>addLayoutGuide:</code>方法加入。</li>
 </ul>
 </li>
 <li><p>如果还有使用Frame的，可以考虑一下使用<a href="https://github.com/casatwy/HandyAutoLayout">这个项目</a>。</p>
@@ -263,7 +263,7 @@ AutoLayout: &hellip;">
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2015 - Zhang Hongchao -
+  Copyright &copy; 2016 - Zhang Hongchao -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>
 

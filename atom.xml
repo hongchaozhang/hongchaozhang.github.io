@@ -4,7 +4,7 @@
   <title><![CDATA[Zhang Hongchao]]></title>
   <link href="http://hongchaozhang.github.io/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2015-12-31T23:00:29+08:00</updated>
+  <updated>2016-01-15T22:41:32+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -18,9 +18,9 @@
     <link href="http://hongchaozhang.github.io/blog/2015/12/30/implement-https-ios-client-side-using-objective-c/"/>
     <updated>2015-12-30T21:23:54+08:00</updated>
     <id>http://hongchaozhang.github.io/blog/2015/12/30/implement-https-ios-client-side-using-objective-c</id>
-    <content type="html"><![CDATA[<p>ios通过NSURLSession进行网络请求，参考另一篇博客<a href="">ios进行网络请求</a>。</p>
+    <content type="html"><![CDATA[<p>ios通过NSURLSession进行网络请求，参考另一篇博客<a href="http://hongchaozhang.github.io/blog/2015/11/29/ios-network-request/">ios进行网络请求</a>。</p>
 
-<p>在开发阶段，server端我们会用self-signed证书（省钱啊！）。正式因为不是第三方机构认证的证书，所以客户端都会报警告。我们需要对此进行处理（参考<a href="https://developer.apple.com/library/ios/technotes/tn2232/_index.html#//apple_ref/doc/uid/DTS40012884-CH1-SECNSURLSESSION">NSURLSession in Apple Tech Note</a>和<a href="http://stackoverflow.com/questions/19507207/how-do-i-accept-a-self-signed-ssl-certificate-using-ios-7s-nsurlsession-and-its">How do I accept a self-signed SSL certificate using iOS 7&rsquo;s NSURLSession and its family of delegate methods for development purposes?</a>）:</p>
+<p>在开发阶段，server端我们会用self-signed证书（省钱啊！）。正因为不是第三方机构认证的证书，所以客户端都会报警告。我们需要对此进行处理（参考<a href="https://developer.apple.com/library/ios/technotes/tn2232/_index.html#//apple_ref/doc/uid/DTS40012884-CH1-SECNSURLSESSION">NSURLSession in Apple Tech Note</a>和<a href="http://stackoverflow.com/questions/19507207/how-do-i-accept-a-self-signed-ssl-certificate-using-ios-7s-nsurlsession-and-its">How do I accept a self-signed SSL certificate using iOS 7&rsquo;s NSURLSession and its family of delegate methods for development purposes?</a>）:</p>
 
 <!-- more -->
 
@@ -171,6 +171,8 @@ An optional company name []:</code></pre></div>
 
 <p><img src="http://hongchaozhang.github.io/images/https-request-charles.png" alt="https-request-charles" /></p>
 
+<p>从request中只可以看到URL地址，却看不到参数格式和内容。</p>
+
 <p>https的response数据如下：</p>
 
 <p><img src="http://hongchaozhang.github.io/images/https-response-charles.png" alt="https-response-charles" /></p>
@@ -273,7 +275,7 @@ An optional company name []:</code></pre></div>
     <link href="http://hongchaozhang.github.io/blog/2015/12/19/propety-instance-variable-and-at-synthesize/"/>
     <updated>2015-12-19T15:17:41+08:00</updated>
     <id>http://hongchaozhang.github.io/blog/2015/12/19/propety-instance-variable-and-at-synthesize</id>
-    <content type="html"><![CDATA[<p>这一段时间，工作上在做一对不理解代码的重构，重新了解了一下Property、Instance Variable和@synthesize，总结一下。</p>
+    <content type="html"><![CDATA[<p>这一段时间，在对自己不是很了解的代码进行重构，重新了解了一下Property、Instance Variable和@synthesize，总结一下。</p>
 
 <p>首先需要明白一点：Property和@synthesize是让编译器帮助我们做一些规律性的工作。</p>
 
@@ -441,15 +443,11 @@ An optional company name []:</code></pre></div>
     <link href="http://hongchaozhang.github.io/blog/2015/12/17/ios-coding-best-practice/"/>
     <updated>2015-12-17T10:49:54+08:00</updated>
     <id>http://hongchaozhang.github.io/blog/2015/12/17/ios-coding-best-practice</id>
-    <content type="html"><![CDATA[<ul>
-<li>Use forward declarations</li>
-</ul>
-
-
-<!-- more -->
+    <content type="html"><![CDATA[<!-- more -->
 
 
 <ul>
+<li>Use forward declarations</li>
 <li>Move variable declaration out of header</li>
 <li>Cleanup duplication in import</li>
 <li>Remove private method declaration in implementation files</li>
@@ -586,12 +584,12 @@ An optional company name []:</code></pre></div>
 
 
 <ul>
-<li><p>Autolayout这边可以考虑使用<a href="https://github.com/SnapKit/Masonry">Masonry</a>，代码的可读性就能好很多。</p></li>
+<li><p>AutoLayout这边可以考虑使用<a href="https://github.com/SnapKit/Masonry">Masonry</a>，代码的可读性就能好很多。</p></li>
 <li><p>ios9.0开始：</p>
 
 <ul>
 <li>可以使用UIStackView（Horizontal / Vertical）帮助进行AutoLayout，因为UIStackView使用AutoLayout进行内部view的布局。</li>
-<li>在进行AutoLayout的时候，可以使用UILayoutGuide帮助布局。UILayoutGuide比UIView轻量级很多，通过UIView的爱到底Lay呕吐Gui的:方法加入。</li>
+<li>在进行AutoLayout的时候，可以使用UILayoutGuide帮助布局。UILayoutGuide比UIView轻量级很多，通过UIView的<code>addLayoutGuide:</code>方法加入。</li>
 </ul>
 </li>
 <li><p>如果还有使用Frame的，可以考虑一下使用<a href="https://github.com/casatwy/HandyAutoLayout">这个项目</a>。</p>
@@ -886,8 +884,16 @@ Temporary exceptions can be configured via your app&#39;s Info.plist file.</code
 </thead>
 <tbody>
 <tr>
+<td><strong>pwd</strong> </td>
+<td> 打印当前工作路径（print working directory）</td>
+</tr>
+<tr>
+<td><strong>touch</strong> fileName </td>
+<td> 创建文件fileName</td>
+</tr>
+<tr>
 <td><strong>ls -a</strong> </td>
-<td> 列出当前文件夹下的所有文件。</td>
+<td> 列出当前文件夹下的所有文件，包括以‘.’开头的隐藏文件。</td>
 </tr>
 <tr>
 <td><strong>vi</strong> <em>file</em> </td>
@@ -916,6 +922,26 @@ Temporary exceptions can be configured via your app&#39;s Info.plist file.</code
 <tr>
 <td><strong>rm</strong> <strong>-R</strong> <em>folder</em> </td>
 <td> 删除文件夹和里面的子文件（夹），R是reverse的意思。</td>
+</tr>
+<tr>
+<td><strong>echo</strong> &ldquo;hello&rdquo; </td>
+<td> 将“hello”字符串输出到terminal中</td>
+</tr>
+<tr>
+<td><strong>echo</strong> &ldquo;hello&rdquo; <strong>></strong> hello.txt </td>
+<td> 将“hello”字符串写进文件hello.txt文件中</td>
+</tr>
+<tr>
+<td><strong>cat</strong> hello.txt </td>
+<td> 将hello.txt文件的内容输出到terminal中</td>
+</tr>
+<tr>
+<td><strong>cat</strong> hello.txt <strong>></strong> dest.txt </td>
+<td> 将hello.txt中的内容<strong>覆盖</strong>dest.txt文件的内容</td>
+</tr>
+<tr>
+<td><strong>cat</strong> hello.txt <strong>>></strong> dest.txt </td>
+<td> 将hello.txt中的内容<strong>追加</strong>到dest.txt文件的内容</td>
 </tr>
 </tbody>
 </table>

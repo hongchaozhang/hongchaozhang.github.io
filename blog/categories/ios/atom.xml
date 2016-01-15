@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ios | Zhang Hongchao]]></title>
   <link href="http://hongchaozhang.github.io/blog/categories/ios/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2015-12-31T23:00:29+08:00</updated>
+  <updated>2016-01-15T22:41:32+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -48,7 +48,7 @@
     <link href="http://hongchaozhang.github.io/blog/2015/12/19/propety-instance-variable-and-at-synthesize/"/>
     <updated>2015-12-19T15:17:41+08:00</updated>
     <id>http://hongchaozhang.github.io/blog/2015/12/19/propety-instance-variable-and-at-synthesize</id>
-    <content type="html"><![CDATA[<p>这一段时间，工作上在做一对不理解代码的重构，重新了解了一下Property、Instance Variable和@synthesize，总结一下。</p>
+    <content type="html"><![CDATA[<p>这一段时间，在对自己不是很了解的代码进行重构，重新了解了一下Property、Instance Variable和@synthesize，总结一下。</p>
 
 <p>首先需要明白一点：Property和@synthesize是让编译器帮助我们做一些规律性的工作。</p>
 
@@ -335,12 +335,12 @@
 
 
 <ul>
-<li><p>Autolayout这边可以考虑使用<a href="https://github.com/SnapKit/Masonry">Masonry</a>，代码的可读性就能好很多。</p></li>
+<li><p>AutoLayout这边可以考虑使用<a href="https://github.com/SnapKit/Masonry">Masonry</a>，代码的可读性就能好很多。</p></li>
 <li><p>ios9.0开始：</p>
 
 <ul>
 <li>可以使用UIStackView（Horizontal / Vertical）帮助进行AutoLayout，因为UIStackView使用AutoLayout进行内部view的布局。</li>
-<li>在进行AutoLayout的时候，可以使用UILayoutGuide帮助布局。UILayoutGuide比UIView轻量级很多，通过UIView的爱到底Lay呕吐Gui的:方法加入。</li>
+<li>在进行AutoLayout的时候，可以使用UILayoutGuide帮助布局。UILayoutGuide比UIView轻量级很多，通过UIView的<code>addLayoutGuide:</code>方法加入。</li>
 </ul>
 </li>
 <li><p>如果还有使用Frame的，可以考虑一下使用<a href="https://github.com/casatwy/HandyAutoLayout">这个项目</a>。</p>

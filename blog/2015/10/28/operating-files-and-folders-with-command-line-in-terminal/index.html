@@ -12,7 +12,7 @@
   <meta name="description" content="为什么需要在命令行进行文件和文件夹的操作： 通过正则表达式批量处理文件（夹）。
 可以用来删除隐藏文件，比如一些以“.”开头的设置文件。
 打不开Finder的情况下。
-强制删除一些顽固的文件。 一些常用命令罗列： 命令 说明 ls -a 列出当前文件夹下的所有文件。 vi file &hellip;">
+强制删除一些顽固的文件。 一些常用命令罗列： 命令 说明 pwd 打印当前工作路径（print working directory &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -118,8 +118,16 @@
 </thead>
 <tbody>
 <tr>
+<td><strong>pwd</strong> </td>
+<td> 打印当前工作路径（print working directory）</td>
+</tr>
+<tr>
+<td><strong>touch</strong> fileName </td>
+<td> 创建文件fileName</td>
+</tr>
+<tr>
 <td><strong>ls -a</strong> </td>
-<td> 列出当前文件夹下的所有文件。</td>
+<td> 列出当前文件夹下的所有文件，包括以‘.’开头的隐藏文件。</td>
 </tr>
 <tr>
 <td><strong>vi</strong> <em>file</em> </td>
@@ -148,6 +156,26 @@
 <tr>
 <td><strong>rm</strong> <strong>-R</strong> <em>folder</em> </td>
 <td> 删除文件夹和里面的子文件（夹），R是reverse的意思。</td>
+</tr>
+<tr>
+<td><strong>echo</strong> &ldquo;hello&rdquo; </td>
+<td> 将“hello”字符串输出到terminal中</td>
+</tr>
+<tr>
+<td><strong>echo</strong> &ldquo;hello&rdquo; <strong>></strong> hello.txt </td>
+<td> 将“hello”字符串写进文件hello.txt文件中</td>
+</tr>
+<tr>
+<td><strong>cat</strong> hello.txt </td>
+<td> 将hello.txt文件的内容输出到terminal中</td>
+</tr>
+<tr>
+<td><strong>cat</strong> hello.txt <strong>></strong> dest.txt </td>
+<td> 将hello.txt中的内容<strong>覆盖</strong>dest.txt文件的内容</td>
+</tr>
+<tr>
+<td><strong>cat</strong> hello.txt <strong>>></strong> dest.txt </td>
+<td> 将hello.txt中的内容<strong>追加</strong>到dest.txt文件的内容</td>
 </tr>
 </tbody>
 </table>
@@ -279,7 +307,7 @@
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2015 - Zhang Hongchao -
+  Copyright &copy; 2016 - Zhang Hongchao -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>
 
