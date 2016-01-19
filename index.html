@@ -9,7 +9,7 @@
   <meta name="author" content="Zhang Hongchao">
 
   
-  <meta name="description" content="ios通过NSURLSession进行网络请求，参考另一篇博客ios进行网络请求。 在开发阶段，server端我们会用self-signed证书（省钱啊！）。正因为不是第三方机构认证的证书，所以客户端都会报警告。我们需要对此进行处理（参考NSURLSession in Apple Tech &hellip;">
+  <meta name="description" content="就像Java有Maven，nodejs有npm一样，ios也有自己的库依赖管理工具：CocoaPods。 ">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -62,6 +62,90 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2016/01/19/cocoapods-for-ios-dependencies-control/">应用CocoaPods管理iOS的依赖库关系</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2016-01-19T13:47:18+08:00" pubdate data-updated="true">Jan 19th, 2016</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>就像Java有Maven，nodejs有npm一样，ios也有自己的库依赖管理工具：CocoaPods。</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2016/01/19/cocoapods-for-ios-dependencies-control/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2016/01/15/python-supports-chinese-charactors/">Python对中文的支持问题</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2016-01-15T23:18:52+08:00" pubdate data-updated="true">Jan 15th, 2016</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>参考<a href="https://www.python.org/dev/peps/pep-0263/">官方文档</a></p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2016/01/15/python-supports-chinese-charactors/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -940,109 +1024,6 @@ $ source ~/.bash_profile</code></pre></div>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/08/26/How-to-Use-Google-Maps-Android-API-Utility-Library-in-Android-Studio/">How to Use Google Maps Android API Utility Library in Android Studio</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-
-<time datetime="2015-08-26T00:00:00+08:00" pubdate data-updated="true">Aug 26th, 2015</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><strong>Google Maps Android API utility library</strong> (the <a href="https://github.com/googlemaps/android-maps-utils">github repo</a> and the <a href="http://googlemaps.github.io/android-maps-utils/">documentation</a>) supplies multiple cool features, including</p>
-
-<ul>
-<li><strong>Marker clustering</strong> — handles the display of a large number of points</li>
-<li><strong>Heat maps</strong> — display a large number of points as a heat map</li>
-<li><strong>IconGenerator</strong> — display text on your Markers</li>
-<li><strong>Poly decoding and encoding</strong> — compact encoding for paths, interoperability with Maps API web services</li>
-<li><strong>Spherical geometry</strong> — for example: computeDistance, computeHeading, computeArea</li>
-<li><strong>KML</strong> — displays KML data (Caution: Beta!)</li>
-<li><strong>GeoJSON</strong> — displays and styles GeoJSON data</li>
-</ul>
-
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2015/08/26/How-to-Use-Google-Maps-Android-API-Utility-Library-in-Android-Studio/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/08/20/Deploy-Environment-for-Android-Map-Developmet/">Deploy Environment for Android Map Development</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-
-<time datetime="2015-08-20T00:00:00+08:00" pubdate data-updated="true">Aug 20th, 2015</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><strong>Contents:</strong></p>
-
-<ul>
-<li><a href="#get_map_key_from_google">Get map key from Google</a></li>
-<li><a href="#install_google_service_in_genymotion_vm">Install Google Service in Genymotion VM</a></li>
-</ul>
-
-
-<p>The following suggestions are all based on Windows. It should be similar on Mac.</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2015/08/20/Deploy-Environment-for-Android-Map-Developmet/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="2">&larr; Older</a>
@@ -1056,11 +1037,19 @@ $ source ~/.bash_profile</code></pre></div>
   
     <section class="categories">
   <h1>Categories</h1>
-    <ul id="top-category-list" class="nav nav-list"><li><a href='/blog/categories/ios'>ios (18)</a></li><li><a href='/blog/categories/productivity'>productivity (14)</a></li><li><a href='/blog/categories/objective-c'>objective-c (13)</a></li><li><a href='/blog/categories/android'>android (3)</a></li><li><a href='/blog/categories/python'>python (2)</a></li><li><a href='/blog/categories/web'>web (2)</a></li><li><a href='/blog/categories/node'>node (2)</a></li><li><a href='/blog/categories/javascript'>javascript (2)</a></li><li><a href='/blog/categories/android-studio'>android_studio (1)</a></li><li><a href='/blog/categories/xcode'>xcode (1)</a></li><li><a href='/blog/categories/design-pattern'>design_pattern (1)</a></li><li><a href='/blog/categories/java'>java (1)</a></li></ul>
+    <ul id="top-category-list" class="nav nav-list"><li><a href='/blog/categories/ios'>ios (19)</a></li><li><a href='/blog/categories/productivity'>productivity (15)</a></li><li><a href='/blog/categories/objective-c'>objective-c (13)</a></li><li><a href='/blog/categories/android'>android (3)</a></li><li><a href='/blog/categories/python'>python (3)</a></li><li><a href='/blog/categories/web'>web (2)</a></li><li><a href='/blog/categories/node'>node (2)</a></li><li><a href='/blog/categories/javascript'>javascript (2)</a></li><li><a href='/blog/categories/android-studio'>android_studio (1)</a></li><li><a href='/blog/categories/xcode'>xcode (1)</a></li><li><a href='/blog/categories/design-pattern'>design_pattern (1)</a></li><li><a href='/blog/categories/java'>java (1)</a></li></ul>
 </section>
 <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/01/19/cocoapods-for-ios-dependencies-control/">应用CocoaPods管理iOS的依赖库关系</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/01/15/python-supports-chinese-charactors/">Python对中文的支持问题</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2015/12/30/implement-https-ios-client-side-using-objective-c/">Https在ios客户端的objective-c实现</a>
@@ -1072,14 +1061,6 @@ $ source ~/.bash_profile</code></pre></div>
     
       <li class="post">
         <a href="/blog/2015/12/29/https-workflow/">Https工作过程</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/12/22/generics-in-objective-c/">Generics in Objective-c</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/12/19/propety-instance-variable-and-at-synthesize/">Propety, Instance Variable and @synthesize</a>
       </li>
     
   </ul>

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Python | Zhang Hongchao]]></title>
   <link href="http://hongchaozhang.github.io/blog/categories/python/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2016-01-15T22:41:32+08:00</updated>
+  <updated>2016-01-19T23:06:34+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -12,6 +12,27 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Python对中文的支持问题]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2016/01/15/python-supports-chinese-charactors/"/>
+    <updated>2016-01-15T23:18:52+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2016/01/15/python-supports-chinese-charactors</id>
+    <content type="html"><![CDATA[<p>参考<a href="https://www.python.org/dev/peps/pep-0263/">官方文档</a></p>
+
+<!-- more -->
+
+
+<p>一种解决方案：在python文件的开头（第一行）加入如下内容：
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="lineno">1</span> <span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+<span class="lineno">2</span> 
+<span class="lineno">3</span> <span class="o">&lt;</span><span class="n">h1</span><span class="o">&gt;</span><span class="err">!</span><span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">python</span><span class="o">&lt;/</span><span class="n">h1</span><span class="o">&gt;</span>
+<span class="lineno">4</span> 
+<span class="lineno">5</span> <span class="o">&lt;</span><span class="n">h1</span><span class="o">&gt;</span><span class="n">coding</span><span class="p">:</span> <span class="n">utf</span><span class="o">-</span><span class="mi">8</span><span class="o">&lt;/</span><span class="n">h1</span><span class="o">&gt;</span>
+<span class="lineno">6</span> 
+<span class="lineno">7</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span></code></pre></div></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Pdb Commands for Python Debugging in Command Line]]></title>

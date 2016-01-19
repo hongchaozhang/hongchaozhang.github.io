@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Productivity | Zhang Hongchao]]></title>
   <link href="http://hongchaozhang.github.io/blog/categories/productivity/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2016-01-15T22:41:32+08:00</updated>
+  <updated>2016-01-19T23:06:34+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -12,6 +12,83 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[应用CocoaPods管理iOS的依赖库关系]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2016/01/19/cocoapods-for-ios-dependencies-control/"/>
+    <updated>2016-01-19T13:47:18+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2016/01/19/cocoapods-for-ios-dependencies-control</id>
+    <content type="html"><![CDATA[<p>就像Java有Maven，nodejs有npm一样，ios也有自己的库依赖管理工具：CocoaPods。</p>
+
+<!-- more -->
+
+
+<p>参考<a href="http://www.cnblogs.com/iyuanxiaojun/p/4465850.html">用CocoaPods做iOS程序的依赖管理</a>。</p>
+
+<h3>安装与设置</h3>
+
+<p>Mac下使用自带的ruby的gem命令进行安装：</p>
+
+<p><div class="highlight"><pre><code class="language-text" data-lang="text">sudo gem install cocoapods</code></pre></div></p>
+
+<p>第一次使用之前需要设置CocoaPods：</p>
+
+<p><div class="highlight"><pre><code class="language-text" data-lang="text">pod setup</code></pre></div></p>
+
+<p>此时需要耐心等待，因为CocoaPods会将这些podspec索引文件更新到本地的 ~/.cocoapods/目录下，这个索引文件比较大，有80M左右，比较慢。</p>
+
+<h3>使用</h3>
+
+<h4>安装依赖库</h4>
+
+<p>使用时需要新建Podfile文件，格式如下：</p>
+
+<p><div class="highlight"><pre><code class="language-text" data-lang="text"><span class="lineno">1</span> platform :ios
+<span class="lineno">2</span> pod &amp;lsquo;JSONKit&amp;rsquo;,       &amp;lsquo;~&gt; 1.4&amp;rsquo;
+<span class="lineno">3</span> pod &amp;lsquo;Reachability&amp;rsquo;,  &amp;lsquo;~&gt; 3.0.0&amp;rsquo;
+<span class="lineno">4</span> pod &amp;lsquo;ASIHTTPRequest&amp;rsquo;
+<span class="lineno">5</span> pod &amp;lsquo;RegexKitLite&amp;rsquo;</code></pre></div></p>
+
+<p>然后你将编辑好的Podfile文件放到你的项目根目录中，执行如下命令即可：</p>
+
+<p><div class="highlight"><pre><code class="language-text" data-lang="text"><span class="lineno">1</span> cd &amp;ldquo;your project home&amp;rdquo;
+<span class="lineno">2</span> pod install</code></pre></div></p>
+
+<p>现在，你的所有第三方库都已经下载完成并且设置好了编译参数和依赖，你只需要记住如下两点即可：</p>
+
+<ul>
+<li>使用CocoaPods生成的 .xcworkspace 文件来打开工程，而不是以前的 .xcodeproj 文件。</li>
+<li>每次更改了Podfile文件，你需要重新执行一次pod update命令。</li>
+</ul>
+
+
+<h4>搜索依赖库</h4>
+
+<p>你如果不知道cocoaPods管理的库中，是否有你想要的库，那么你可以通过</p>
+
+<p><div class="highlight"><pre><code class="language-text" data-lang="text">pod search</code></pre></div></p>
+
+<p>命令进行查找。</p>
+
+<h3>问题</h3>
+
+<p>当我在使用<em>kingpin</em>第三方库的时候，出现了下面的问题：</p>
+
+<p><div class="highlight"><pre><code class="language-text" data-lang="text">Specs satisfying the &lt;code&gt;kingpin&lt;/code&gt; dependency were found, but they required a higher minimum deployment target.</code></pre></div></p>
+
+<p>通过修改Podfile的第一行：</p>
+
+<p><div class="highlight"><pre><code class="language-text" data-lang="text">platform :ios</code></pre></div></p>
+
+<p>为</p>
+
+<p><div class="highlight"><pre><code class="language-text" data-lang="text">platform :ios, &amp;lsquo;7。0&amp;rsquo;</code></pre></div></p>
+
+<p>解决。</p>
+
+<p>原理参考：<a href="https://github.com/CocoaPods/CocoaPods/issues/4373">Unable to satisfy the following requirements with Podfile, but they required a higher minimum deployment target. #4373</a>。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Sublime的一些插件]]></title>
@@ -318,148 +395,6 @@ git pull
 
 
 <blockquote><p><strong>Note:</strong> Never push your source code to <strong>master</strong> branch. <strong>master</strong> branch should only hold your site.</p></blockquote>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Shortcut of Chrome on Windows and Mac]]></title>
-    <link href="http://hongchaozhang.github.io/blog/2015/09/02/Shortcut-of-Chrome-on-Windows-and-Mac/"/>
-    <updated>2015-09-02T00:00:00+08:00</updated>
-    <id>http://hongchaozhang.github.io/blog/2015/09/02/Shortcut-of-Chrome-on-Windows-and-Mac</id>
-    <content type="html"><![CDATA[<p>Use shortcut to improve productivity while using Chrome.</p>
-
-<p>A full page is on Chrome helper:</p>
-
-<ul>
-<li><a href="https://support.google.com/chrome/answer/157179?hl=en">English version</a></li>
-<li><a href="https://support.google.com/chrome/answer/157179?hl=zh-Hans">Chinese version</a></li>
-</ul>
-
-
-<p>I will list some common used ones here by myself.</p>
-
-<!-- more -->
-
-
-<p>Five star recommended:</p>
-
-<table>
-<thead>
-<tr>
-<th>Windows         </th>
-<th> Mac                   </th>
-<th> Function</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Ctrl + F        </td>
-<td> Command + F       </td>
-<td> open search toolbar</td>
-</tr>
-<tr>
-<td>ESC             </td>
-<td> ESC                   </td>
-<td> close search toolbar</td>
-</tr>
-<tr>
-<td>Ctrl + W        </td>
-<td> Command + W       </td>
-<td> close a tab</td>
-</tr>
-<tr>
-<td>Ctrl + T        </td>
-<td> Command + T       </td>
-<td> new a tab</td>
-</tr>
-<tr>
-<td>Ctrl + click a link </td>
-<td> Command + click a link </td>
-<td> open the link in a new tab, but stay in original tab</td>
-</tr>
-<tr>
-<td>Ctrl + Shift + click a link </td>
-<td> Command + Shift + click a link </td>
-<td> open the link in a new tab, and go to the new tab</td>
-</tr>
-<tr>
-<td>Ctrl + Shift + T </td>
-<td> Command + Shift + T </td>
-<td> open last closed tab (10 at the most)</td>
-</tr>
-<tr>
-<td>Ctrl + Tab </td>
-<td> Ctrl + Tab </td>
-<td> move to the next tab</td>
-</tr>
-<tr>
-<td>Backspace </td>
-<td> Backspace </td>
-<td> go to the last history page</td>
-</tr>
-<tr>
-<td>Shift + Backspace </td>
-<td> Shift + Backspace </td>
-<td> go to the next history page</td>
-</tr>
-<tr>
-<td>Space </td>
-<td> Space </td>
-<td> page down</td>
-</tr>
-<tr>
-<td>Home </td>
-<td> Command + up arrow </td>
-<td> go to the start of the page</td>
-</tr>
-<tr>
-<td>End </td>
-<td> Command + down arrow </td>
-<td> go to the end of the page</td>
-</tr>
-</tbody>
-</table>
-
-
-<p>Four star recommended</p>
-
-<table>
-<thead>
-<tr>
-<th>Windows </th>
-<th> Mac </th>
-<th> Function</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Ctrl + N        </td>
-<td> Command + N           </td>
-<td> new a window</td>
-</tr>
-<tr>
-<td>Ctrl + 1 (to 8) </td>
-<td> Ctrl + 1 (to 8) </td>
-<td> go to the 1 (to 8) page</td>
-</tr>
-<tr>
-<td>Ctrl + 9 </td>
-<td> Command + 9 </td>
-<td> go to the last tab</td>
-</tr>
-<tr>
-<td>Ctrl + Shift + B </td>
-<td> Command + Shift + B </td>
-<td> open or close bookmarks bar</td>
-</tr>
-<tr>
-<td>Ctrl + L </td>
-<td> Command + L </td>
-<td> highlight the URL</td>
-</tr>
-</tbody>
-</table>
-
 ]]></content>
   </entry>
   

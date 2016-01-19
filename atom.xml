@@ -4,7 +4,7 @@
   <title><![CDATA[Zhang Hongchao]]></title>
   <link href="http://hongchaozhang.github.io/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2016-01-15T22:41:32+08:00</updated>
+  <updated>2016-01-19T23:06:34+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -12,6 +12,111 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[应用CocoaPods管理iOS的依赖库关系]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2016/01/19/cocoapods-for-ios-dependencies-control/"/>
+    <updated>2016-01-19T13:47:18+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2016/01/19/cocoapods-for-ios-dependencies-control</id>
+    <content type="html"><![CDATA[<p>就像Java有Maven，nodejs有npm一样，ios也有自己的库依赖管理工具：CocoaPods。</p>
+
+<!-- more -->
+
+
+<p>参考<a href="http://www.cnblogs.com/iyuanxiaojun/p/4465850.html">用CocoaPods做iOS程序的依赖管理</a>。</p>
+
+<h3>安装与设置</h3>
+
+<p>Mac下使用自带的ruby的gem命令进行安装：</p>
+
+<div class="highlight"><pre><code class="language-text" data-lang="text">sudo gem install cocoapods</code></pre></div>
+
+
+<p>第一次使用之前需要设置CocoaPods：</p>
+
+<div class="highlight"><pre><code class="language-text" data-lang="text">pod setup</code></pre></div>
+
+
+<p>此时需要耐心等待，因为CocoaPods会将这些podspec索引文件更新到本地的 ~/.cocoapods/目录下，这个索引文件比较大，有80M左右，比较慢。</p>
+
+<h3>使用</h3>
+
+<h4>安装依赖库</h4>
+
+<p>使用时需要新建Podfile文件，格式如下：</p>
+
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span class="lineno">1</span> platform :ios
+<span class="lineno">2</span> pod &#39;JSONKit&#39;,       &#39;~&gt; 1.4&#39;
+<span class="lineno">3</span> pod &#39;Reachability&#39;,  &#39;~&gt; 3.0.0&#39;
+<span class="lineno">4</span> pod &#39;ASIHTTPRequest&#39;
+<span class="lineno">5</span> pod &#39;RegexKitLite&#39;</code></pre></div>
+
+
+<p>然后你将编辑好的Podfile文件放到你的项目根目录中，执行如下命令即可：</p>
+
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span class="lineno">1</span> cd &quot;your project home&quot;
+<span class="lineno">2</span> pod install</code></pre></div>
+
+
+<p>现在，你的所有第三方库都已经下载完成并且设置好了编译参数和依赖，你只需要记住如下两点即可：</p>
+
+<ul>
+<li>使用CocoaPods生成的 .xcworkspace 文件来打开工程，而不是以前的 .xcodeproj 文件。</li>
+<li>每次更改了Podfile文件，你需要重新执行一次pod update命令。</li>
+</ul>
+
+
+<h4>搜索依赖库</h4>
+
+<p>你如果不知道cocoaPods管理的库中，是否有你想要的库，那么你可以通过</p>
+
+<div class="highlight"><pre><code class="language-text" data-lang="text">pod search</code></pre></div>
+
+
+<p>命令进行查找。</p>
+
+<h3>问题</h3>
+
+<p>当我在使用<em>kingpin</em>第三方库的时候，出现了下面的问题：</p>
+
+<div class="highlight"><pre><code class="language-text" data-lang="text">Specs satisfying the `kingpin` dependency were found, but they required a higher minimum deployment target.</code></pre></div>
+
+
+<p>通过修改Podfile的第一行：</p>
+
+<div class="highlight"><pre><code class="language-text" data-lang="text">platform :ios</code></pre></div>
+
+
+<p>为</p>
+
+<div class="highlight"><pre><code class="language-text" data-lang="text">platform :ios, &#39;7。0&#39;</code></pre></div>
+
+
+<p>解决。</p>
+
+<p>原理参考：<a href="https://github.com/CocoaPods/CocoaPods/issues/4373">Unable to satisfy the following requirements with Podfile, but they required a higher minimum deployment target. #4373</a>。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Python对中文的支持问题]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2016/01/15/python-supports-chinese-charactors/"/>
+    <updated>2016-01-15T23:18:52+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2016/01/15/python-supports-chinese-charactors</id>
+    <content type="html"><![CDATA[<p>参考<a href="https://www.python.org/dev/peps/pep-0263/">官方文档</a></p>
+
+<!-- more -->
+
+
+<p>一种解决方案：在python文件的开头（第一行）加入如下内容：</p>
+
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="lineno">1</span> <span class="c">#!/usr/local/bin/python</span>
+<span class="lineno">2</span> <span class="c"># coding: utf-8</span></code></pre></div>
+
+
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Https在ios客户端的objective-c实现]]></title>
@@ -1569,184 +1674,6 @@ git pull
 <p>Attach one image to indicate the place (red circles) to find the warning type:</p>
 
 <p><img src="http://hongchaozhang.github.io/images/006_warning_type_from_build_log.png" alt="006_warning_type_from_build_log.png" /></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[How to Use Google Maps Android API Utility Library in Android Studio]]></title>
-    <link href="http://hongchaozhang.github.io/blog/2015/08/26/How-to-Use-Google-Maps-Android-API-Utility-Library-in-Android-Studio/"/>
-    <updated>2015-08-26T00:00:00+08:00</updated>
-    <id>http://hongchaozhang.github.io/blog/2015/08/26/How-to-Use-Google-Maps-Android-API-Utility-Library-in-Android-Studio</id>
-    <content type="html"><![CDATA[<p><strong>Google Maps Android API utility library</strong> (the <a href="https://github.com/googlemaps/android-maps-utils">github repo</a> and the <a href="http://googlemaps.github.io/android-maps-utils/">documentation</a>) supplies multiple cool features, including</p>
-
-<ul>
-<li><strong>Marker clustering</strong> — handles the display of a large number of points</li>
-<li><strong>Heat maps</strong> — display a large number of points as a heat map</li>
-<li><strong>IconGenerator</strong> — display text on your Markers</li>
-<li><strong>Poly decoding and encoding</strong> — compact encoding for paths, interoperability with Maps API web services</li>
-<li><strong>Spherical geometry</strong> — for example: computeDistance, computeHeading, computeArea</li>
-<li><strong>KML</strong> — displays KML data (Caution: Beta!)</li>
-<li><strong>GeoJSON</strong> — displays and styles GeoJSON data</li>
-</ul>
-
-
-<!-- more -->
-
-
-<p>A simple documentation about the usage of these features based on a demo can be found in <em>Google Developers</em> page <a href="https://developers.google.com/maps/documentation/android/utility/?hl=zh-cn">Google Maps Android API Utility Library</a>. And you can also refer to the <a href="http://googlemaps.github.io/android-maps-utils/javadoc/">javadoc</a>.</p>
-
-<p>When I tried to use the library in my Android Studio (Windows OS) project, I met some problems. It is not as simple as the <a href="http://googlemaps.github.io/android-maps-utils/">document</a> describes. A reference for setting up in Eclipse can be found in the <a href="https://developers.google.com/maps/documentation/android/utility/setup?hl=zh-cn">Google Maps Android API Utilities Setup</a>.</p>
-
-<p>As we know, we have three ways to use a library in Android Studio project: <em>Module dependency</em>, <em>Remote binary dependency</em> and <em>Local binary dependency</em>. (Go to <a href="https://developer.android.com/tools/building/configuring-gradle.html">Configure Gradle Builds</a> for detail). See the following code that we can use in the module <code>build.gradle</code>, not the project <code>build.gradle</code></p>
-
-<pre><code>dependencies {
-    // Module dependency
-    compile project(":lib")
-
-    // Remote binary dependency
-    compile 'com.android.support:appcompat-v7:19.0.1'
-
-    // Local binary dependency
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-}
-</code></pre>
-
-<p>I use the <em>Module dependency</em> method <strong>successfully</strong> in my project, but <strong>failed</strong> with the other two methods. Let&rsquo;s go to the details.</p>
-
-<h2>Module Dependency (Succeeded)</h2>
-
-<ul>
-<li>In your project, <strong>New &ndash;> Module &ndash;> Android Library</strong>, name it with <em>library</em> (not a googd name).</li>
-<li>Go to the exploror, go to <em><your project folder>/library</em>, delete all the files and folders there.</li>
-<li>Go to the <em>library</em> folder in the repository you downloaded from <a href="https://github.com/googlemaps/android-maps-utils">android-maps-utils</a>. Copy all the files and folders, and paste them into your own <em>library</em> folder.</li>
-<li>Open <code>build.gradle</code> under your own module, under <code>dependencies</code> element, add <code>compile project(':library')</code>.</li>
-<li>Sync your project, build and run. Success!</li>
-</ul>
-
-
-<h2>Remote Binary Dependency (Failed)</h2>
-
-<p>The github page suggested this way by</p>
-
-<pre><code>dependencies {
-    compile 'com.google.maps.android:android-maps-utils:x.y.z'
-}
-</code></pre>
-
-<p>But I just can not find the path <code>&lt;Android SDK&gt;/extras/google/m2repository/com/google/map.android/</code>. I am sure that I already installed the <em>Google Repository</em> by SDK manager.</p>
-
-<h2>Local Binary Dependency (Failed)</h2>
-
-<p>To use this way, I tried:</p>
-
-<ul>
-<li>put the <code>library-debug.aar</code> in to the <em>libs</em> folder in my module from <em>&lt;library/build/output/aar/</em> in Android Studio project exploror view.</li>
-<li>add <code>compile fileTree(dir: 'libs', include: ['*.aar'])</code> into my module <code>build.gradle</code> file, <code>dependencies</code> element.</li>
-</ul>
-
-
-<p>Seems that Android studio doesn&rsquo;t support <code>.aar</code> type library.</p>
-
-<p>So I changed to the following way:</p>
-
-<ul>
-<li>unzip the <code>library-debug.aar</code> file, and copy the <code>class.jar</code> file into the <em>libs</em> folder in my module.</li>
-<li>add <code>compile fileTree(dir: 'libs', include: ['*.jar'])</code> in to my module <code>build.gradle</code> file, <code>dependencies</code> element.</li>
-<li>Build passed, but crashed when I run it. I didn&rsquo;t go into it. Maybe the library need some resource that is in the <code>.aar</code> file, which is not in the <code>class.jar</code> file. Just guess.</li>
-</ul>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Deploy Environment for Android Map Development]]></title>
-    <link href="http://hongchaozhang.github.io/blog/2015/08/20/Deploy-Environment-for-Android-Map-Developmet/"/>
-    <updated>2015-08-20T00:00:00+08:00</updated>
-    <id>http://hongchaozhang.github.io/blog/2015/08/20/Deploy-Environment-for-Android-Map-Developmet</id>
-    <content type="html"><![CDATA[<p><strong>Contents:</strong></p>
-
-<ul>
-<li><a href="#get_map_key_from_google">Get map key from Google</a></li>
-<li><a href="#install_google_service_in_genymotion_vm">Install Google Service in Genymotion VM</a></li>
-</ul>
-
-
-<p>The following suggestions are all based on Windows. It should be similar on Mac.</p>
-
-<!-- more -->
-
-
-<p>Reference Google document from <a href="https://developers.google.com/maps/documentation/android/signup">here</a> and <a href="https://developers.google.com/maps/documentation/android/start">here</a>.</p>
-
-<h2><a name="get_map_key_from_google"></a>Get map key from Google</h2>
-
-<h3>Get package name</h3>
-
-<p>For Eclipse, or projects migrated from Eclipse to Android Studio, open <strong>Androidmanifast.xml</strong> and the package name is:</p>
-
-<p><img src="http://hongchaozhang.github.io/images/003_package_name_in_Eclipse.png" alt="003_package_name_in_Eclipse" /></p>
-
-<p>For Android Studio, <strong>TODO</strong></p>
-
-<h3>Get SHA1 fingerprint certificate</h3>
-
-<p>For Eclipse, go to <strong>Windows -> Preferences -> Android -> Build</strong> to find it.</p>
-
-<p>For Android Studio, go to your java(jdk) bin directory, and run:</p>
-
-<pre><code>keytool -list -v -keystore c:\users\&lt;your_user_name&gt;\.android\debug.keystore -alias androiddebugkey -storepass android -keypass android
-</code></pre>
-
-<p>You will get your SHA1 fingerprint from:</p>
-
-<p><img src="http://hongchaozhang.github.io/images/004_SHA1_in_Android_Studio.png" alt="004_SHA1_in_Android_Studio" /></p>
-
-<h3>Generate the key</h3>
-
-<p>With your package name and SHA1 fingerprint, now we can generate your key.</p>
-
-<ol>
-<li>Go to the <a href="https://console.developers.google.com/">Google Developers Console</a>.</li>
-<li>In the sidebar on the left, select <em>Credentials</em>.</li>
-<li>If your project doesn&rsquo;t already have an Android API key, create one new by selecting <strong>Add credentials -> API key -> Android key</strong>.</li>
-<li>In the resulting dialog, enter your app&rsquo;s SHA-1 fingerprint and package name.</li>
-<li>Your new Android API key appears in the list of API keys for your project. An API key is a string of characters, something start with <em>AIza</em>, like <em>AIzaSyBdVl-cTICSwYKrZ95SuvNw7dbMuDt1KG0</em>.</li>
-</ol>
-
-
-<p>If you want to use an existing key, open the key, and click <em>add package name and fingerprint</em>, and then fill your package name and fingerprint.</p>
-
-<h3>Add the Android API key to your application</h3>
-
-<p>For Eclipse, or projects migrated from Eclipse to Android Studio, in <code>AndroidManifest.xml</code>, add the following element as a child of the <code>&lt;application&gt;</code> element. Take the following as an example:</p>
-
-<p><img src="http://hongchaozhang.github.io/images/002_add_key_in_Eclipse.png" alt="002_add_key_in_Eclipse" /></p>
-
-<p>For Android Studio, in res/values/google_maps_api.xml, add your Android API key as the value of <code>google_maps_key</code> element.</p>
-
-<h2><a name="install_google_service_in_genymotion_vm"></a>Install Google Service in Genymotion VM</h2>
-
-<p>Genymotion is a Virtual Android Environment built on x86 and Virtualbox. It&rsquo;s not an ARM emulator so it&rsquo;s performance is better than the Android SDK Emulator. However in their latest update they&rsquo;ve removed both ARM Translation and Google Play Apps.</p>
-
-<p>Sometimes, We need the above two functions for genymotion VM. For example, to run map type apps needs Google play service.</p>
-
-<p>In order to install ARM translation for Genymotion, follow these steps:</p>
-
-<ol>
-<li>Download the zip file from <a href="http://filetrip.net/dl?4SUOrdcMRv">here</a></li>
-<li>Open Genymotion and go to the home screen.</li>
-<li>Drag and Drop the .zip file onto the Genymotion window.</li>
-<li>Restart Genymotion</li>
-</ol>
-
-
-<p>Genymotion can now run applications that require ARM emulation.</p>
-
-<p>It is similar for Google Play Apps, which can be downloaded from <a href="https://www.androidfilehost.com/?fid=95784891001614559">here</a></p>
-
-<p>Go to <a href="http://stackoverflow.com/questions/20121883/how-to-install-google-play-services-in-a-genymotion-vm-with-no-drag-and-drop-su">How to install Google Play Services in a Genymotion VM (with no drag and drop support)?</a> for details.</p>
-
-<p>At last, <strong>Remenber</strong> to make sure that your device can connect to google server, especially when you are in China.</p>
 ]]></content>
   </entry>
   
