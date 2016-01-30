@@ -1,0 +1,385 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>火星坐标导致iOS系统下高德地图定位不准 - Zhang Hongchao</title>
+  <meta name="author" content="Zhang Hongchao">
+
+  
+  <meta name="description" content="首先感慨一下：神奇的国度，神奇的坐标！ 火星坐标系统介绍 我们平时用到的地球坐标系统，叫做WGS-84坐标，这个是国际通用的“准确”的坐标系统。国家保密插件，其实就是对真实坐标系统进行人为的加偏处理，即为GCJ-02坐标，戏称“火星坐标”。于是，我们有了下面的东西： 地球坐标：指WGS84坐标系统 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://hongchaozhang.github.io/blog/2016/01/29/convertion-among-every-geo-system">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Zhang Hongchao" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/libs/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<!--
+<link href='https://fonts.googleapis.com/css?family=Noto+Serif:400,700' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+-->
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Zhang Hongchao</a></h1>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><!--
+<ul class="subscription" data-subscription="rss">
+  
+  
+</ul>
+-->
+
+<!--
+
+-->
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <script type="text/javascript" src="/javascripts/DisableLineNumberCopy.js"></script>
+
+<div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">火星坐标导致iOS系统下高德地图定位不准</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2016-01-29T13:47:42+08:00" pubdate data-updated="true">Jan 29th, 2016</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>首先感慨一下：神奇的国度，神奇的坐标！</p>
+
+<h3>火星坐标系统介绍</h3>
+
+<!-- more -->
+
+
+<p>我们平时用到的地球坐标系统，叫做WGS-84坐标，这个是国际通用的“准确”的坐标系统。国家保密插件，其实就是对真实坐标系统进行人为的加偏处理，即为GCJ-02坐标，戏称“火星坐标”。于是，我们有了下面的东西：</p>
+
+<ul>
+<li>地球坐标：指WGS84坐标系统</li>
+<li>火星坐标：指使用国家保密插件人为偏移后的坐标</li>
+<li>地球地图：指与地球坐标对应的客观真实的地图</li>
+<li>火星地图：指经过加密偏移后的，与火星坐标对应的地图</li>
+</ul>
+
+
+<p>而且，国家龟腚： <strong>国内出版的各种地图系统（包括电子形式），必须至少采用GCJ-02对地理位置进行首次加密。</strong>于是，</p>
+
+<ul>
+<li>谷歌地图的大陆地图、高德国内地图采用GCJ-02对地图进行加偏。</li>
+<li>百度地图更是进一步发挥了天朝特色，除了GCJ-02加偏，自己又在此基础上继续进行加偏，相应的坐标称为BD-09坐标。</li>
+</ul>
+
+
+<p>也就是说，我们平时用到的地图应用都是采用的虚假的坐标，虚假的地图。</p>
+
+<h3>各地图厂商使用的坐标系</h3>
+
+<ul>
+<li>火星坐标
+
+<ul>
+<li>iOS 地图</li>
+<li>Gogole地图</li>
+<li>搜搜、阿里云、高德地图</li>
+</ul>
+</li>
+<li>地球坐标
+
+<ul>
+<li>Google 卫星地图（国外地图应该都是……）</li>
+</ul>
+</li>
+<li>百度坐标
+
+<ul>
+<li>百度地图</li>
+</ul>
+</li>
+</ul>
+
+
+<h3>各坐标系之间的转换</h3>
+
+<p>为了在地图应用开发中准确地定位，需要将准确的WGS-84坐标转换成需要的坐标。在加偏算法不公开的的情况下，各方大神各显神通，有了下面几种方案：</p>
+
+<h4>数据库</h4>
+
+<p>可以列出WGC-84坐标和GCJ-02坐标系统的对应关系，放在数据库中供检索。数据库方案参考：<a href="http://code4app.com/ios/GPS%E7%81%AB%E6%98%9F%E5%9D%90%E6%A0%87%E8%BD%AC%E6%8D%A2/51c2564f6803fa9a29000000">GPS火星坐标转换</a>。</p>
+
+<p>也有一些网站提供转换查询服务，比如<a href="http://www.zdoz.net/">ZDOZ.net</a>，和 <a href="http://lbsyun.baidu.com/index.php?title=webapi/guide/changeposition">坐标转换API - Web服务API</a>。</p>
+
+<h4>近似解析式</h4>
+
+<p>逆向求解近似解析式，不需要大的数据库，不需要进行网络请求，而且精度在10米以内，基本能满足日常需求。</p>
+
+<p>这样的实现很多，具体实现可以参考Objective-C的一种实现：<a href="https://github.com/JackZhouCn/JZLocationConverter">JZLocationConverter</a>。</p>
+
+<h3>iOS系统中坐标系的使用</h3>
+
+<p>iOS（9.0）中的关于地图和位置的接口中有些用的是WGS-84坐标，有的使用的是GCJ-02坐标。比如定位用户位置的时候我们使用的两种方法：</p>
+
+<ul>
+<li>设置MKMapView中的<code>showsUserLocation = YES</code>，然后在<code>- (void)mapView:(MKMapView *)mapView didUpdateUserLocation:(MKUserLocation *)userLocation</code>方法中获得的坐标是GCJ-02坐标。</li>
+<li>通过CLLocationManager的<code>startUpdatingLocation</code>方法，并在<code>- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations</code>方法中获得的坐标是WGS-84坐标。</li>
+</ul>
+
+
+<p>其实在使用iOS的地图应用的时候，只要使用的是非大陆的ip地址（国外用户或者国内用户通过国外代理），使用的都将是准确的WGS-84坐标和准确的地图。但是当在大陆地区使用是，苹果使用的是搞得的地图服务，得到的坐标也都是GCJ-02坐标。</p>
+
+<p>下面具体说一下在下面三个接口中经纬度坐标的使用，下面的内容都是针对iOS中高德地图的使用。</p>
+
+<h4>MKMapView</h4>
+
+<p>通过加到MMKMapView中的UIGestureRecognizer的<code>locationInVieww:</code>获得手势在地图上的CGPoint，然后通过MKMapView的<code>convertPoint:toCoordinateFromView:</code>方法得到的经纬度坐标是GCJ-02坐标，使用的也是高德地图，所以在<code>addAnnotation:</code>等操作的时候，不用进行坐标转换。</p>
+
+<h3>CLLocationManager</h3>
+
+<p>即使使用的是高德地图，CLLocationManager返回的坐标也是WGS-84坐标，所以在定位用户位置的时候是有偏差的，需要我们进行坐标转换。</p>
+
+<h3>CLGeoCoder</h3>
+
+<p>在进行经纬度坐标和地址描述转换的时候，我们需要CLGeoCoder中的转换方法：</p>
+
+<ul>
+<li><p><code>- (void)geocodeAddressString:(NSString *)addressString completionHandler:(CLGeocodeCompletionHandler)completionHandler</code></p>
+
+<p>  该方法没有问题，输入地址的描述，返回该地址对应的GCJ-02坐标（高德地图）。</p></li>
+<li><p><code>- (void)reverseGeocodeLocation:(CLLocation *)location completionHandler:(CLGeocodeCompletionHandler)completionHandler</code></p>
+
+<p>  该方法有问题：当我们直接将得到的GCJ-02坐标传给该接口之后，该接口不能得到正确的地址，而且返回的坐标和输入的坐标有较大的差距，经试验，该返回的坐标是输入坐标经过<code>wgs84ToGcj02:</code>转换之后的坐标，所以，解决方案如下：
+  将得到的坐标先经过<code>gcj02ToWgs84</code>转换成WGS-84坐标，传给接口，返回正确的地址，然后将地址坐标通过<code>wgs84ToGcj02</code>转换之后进行使用。</p></li>
+</ul>
+
+
+<h3>其它系统中用的坐标系</h3>
+
+<p>最近在抓取<a href="http://www.hzbus.cn">hzbus.cn</a>网站中的一些数据时发现：该坐标不是我们前面提到的各种坐标。原来该网站使用的是<a href="http://www.mountor.cn/rjcp_377.html">蒙特的GIS引擎</a>。通过试验各种接口，发现其坐标应该是连续<strong>两次</strong>将WGS-84坐标进行<code>wgs84ToGcj02</code>转换得到的，<strong>两次</strong>。所以将其坐标经过<code>gcj02ToWgs84</code>转换成真正的GCJ-02坐标在iOS的高德地图中使用。</p>
+
+<h3>参考</h3>
+
+<ul>
+<li>这一片文章的结论和我的结论一致，（除了GeoCoding外）：<a href="http://blog.it985.com/7728.html">iOS 火星坐标相关整理及解决方案汇总</a></li>
+<li><a href="http://blog.csdn.net/giswens/article/details/8775121">火星坐标系统简介</a></li>
+<li><a href="http://blog.csdn.net/giswens/article/details/8775267">google map 的地图偏移 火星坐标</a>
+*<a href="http://blog.csdn.net/coolypf/article/details/8686588">地球坐标系 (WGS-84) 到火星坐标系 (GCJ-02) 的转换算法</a></li>
+<li><a href="http://blog.csdn.net/giswens/article/details/8775183">WGS84坐标转火星坐标（iOS篇）</a></li>
+<li>各种坐标体系之间的转换，参考：<a href="http://blog.csdn.net/wildboy2001/article/details/12031351">WGS84、Web墨卡托、火星坐标、百度坐标互转</a></li>
+<li><a href="http://blog.csdn.net/swingpyzf/article/details/16972351">IOS LocationManager定位国内偏移，火星坐标(GCJ-02)解决方法</a></li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Zhang Hongchao</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2016-01-29T13:47:42+08:00" pubdate data-updated="true">Jan 29th, 2016</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ios/'>ios</a>, <a class='category' href='/blog/categories/objective-c/'>objective-c</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2016/01/19/cocoapods-for-ios-dependencies-control/" title="Previous Post: 应用CocoaPods管理iOS的依赖库关系">&laquo; 应用CocoaPods管理iOS的依赖库关系</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+  <aside class="sidebar">
+   
+  
+    <section class="categories">
+  <h1>Categories</h1>
+    <ul id="top-category-list" class="nav nav-list"><li><a href='/blog/categories/ios'>ios (20)</a></li><li><a href='/blog/categories/productivity'>productivity (15)</a></li><li><a href='/blog/categories/objective-c'>objective-c (14)</a></li><li><a href='/blog/categories/android'>android (3)</a></li><li><a href='/blog/categories/python'>python (3)</a></li><li><a href='/blog/categories/web'>web (2)</a></li><li><a href='/blog/categories/node'>node (2)</a></li><li><a href='/blog/categories/javascript'>javascript (2)</a></li><li><a href='/blog/categories/android-studio'>android_studio (1)</a></li><li><a href='/blog/categories/xcode'>xcode (1)</a></li><li><a href='/blog/categories/design-pattern'>design_pattern (1)</a></li><li><a href='/blog/categories/java'>java (1)</a></li></ul>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/01/29/convertion-among-every-geo-system/">火星坐标导致iOS系统下高德地图定位不准</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/01/19/cocoapods-for-ios-dependencies-control/">应用CocoaPods管理iOS的依赖库关系</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/01/15/python-supports-chinese-charactors/">Python对中文的支持问题</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/12/30/implement-https-ios-client-side-using-objective-c/">Https在ios客户端的objective-c实现</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/12/30/implement-https-server-side-using-nodejs/">https在Server端的Nodejs实现</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/hongchaozhang">@hongchaozhang</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'hongchaozhang',
+            count: 10,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+  
+</aside>
+
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - Zhang Hongchao -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+<script>
+  $(document).ready(function() {  
+    var stickyNavTop = $('nav').offset().top;  
+      
+    var stickyNav = function(){  
+      var scrollTop = $(window).scrollTop(); 
+      var navHasClassSticky = $('nav').hasClass('sticky');
+
+      if (scrollTop > stickyNavTop && navHasClassSticky) {   
+        return true;
+      } else if (scrollTop > stickyNavTop) {
+        $('nav').hide();
+        $('nav').addClass('sticky');
+        $('nav').fadeIn('2000');
+      } else {  
+        $('nav').removeClass('sticky');   
+      }  
+    };  
+      
+    stickyNav();  
+      
+    $(window).scroll(function() {  
+      stickyNav();  
+    });  
+  });  
+</script>
+
+
+</body>
+</html>

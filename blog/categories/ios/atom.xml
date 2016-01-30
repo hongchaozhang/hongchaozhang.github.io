@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ios | Zhang Hongchao]]></title>
   <link href="http://hongchaozhang.github.io/blog/categories/ios/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2016-01-19T23:06:34+08:00</updated>
+  <updated>2016-01-30T22:56:39+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -12,6 +12,136 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[火星坐标导致iOS系统下高德地图定位不准]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2016/01/29/convertion-among-every-geo-system/"/>
+    <updated>2016-01-29T13:47:42+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2016/01/29/convertion-among-every-geo-system</id>
+    <content type="html"><![CDATA[<p>首先感慨一下：神奇的国度，神奇的坐标！</p>
+
+<h3>火星坐标系统介绍</h3>
+
+<!-- more -->
+
+
+<p>我们平时用到的地球坐标系统，叫做WGS-84坐标，这个是国际通用的“准确”的坐标系统。国家保密插件，其实就是对真实坐标系统进行人为的加偏处理，即为GCJ-02坐标，戏称“火星坐标”。于是，我们有了下面的东西：</p>
+
+<ul>
+<li>地球坐标：指WGS84坐标系统</li>
+<li>火星坐标：指使用国家保密插件人为偏移后的坐标</li>
+<li>地球地图：指与地球坐标对应的客观真实的地图</li>
+<li>火星地图：指经过加密偏移后的，与火星坐标对应的地图</li>
+</ul>
+
+
+<p>而且，国家龟腚： <strong>国内出版的各种地图系统（包括电子形式），必须至少采用GCJ-02对地理位置进行首次加密。</strong>于是，</p>
+
+<ul>
+<li>谷歌地图的大陆地图、高德国内地图采用GCJ-02对地图进行加偏。</li>
+<li>百度地图更是进一步发挥了天朝特色，除了GCJ-02加偏，自己又在此基础上继续进行加偏，相应的坐标称为BD-09坐标。</li>
+</ul>
+
+
+<p>也就是说，我们平时用到的地图应用都是采用的虚假的坐标，虚假的地图。</p>
+
+<h3>各地图厂商使用的坐标系</h3>
+
+<ul>
+<li>火星坐标
+
+<ul>
+<li>iOS 地图</li>
+<li>Gogole地图</li>
+<li>搜搜、阿里云、高德地图</li>
+</ul>
+</li>
+<li>地球坐标
+
+<ul>
+<li>Google 卫星地图（国外地图应该都是……）</li>
+</ul>
+</li>
+<li>百度坐标
+
+<ul>
+<li>百度地图</li>
+</ul>
+</li>
+</ul>
+
+
+<h3>各坐标系之间的转换</h3>
+
+<p>为了在地图应用开发中准确地定位，需要将准确的WGS-84坐标转换成需要的坐标。在加偏算法不公开的的情况下，各方大神各显神通，有了下面几种方案：</p>
+
+<h4>数据库</h4>
+
+<p>可以列出WGC-84坐标和GCJ-02坐标系统的对应关系，放在数据库中供检索。数据库方案参考：<a href="http://code4app.com/ios/GPS%E7%81%AB%E6%98%9F%E5%9D%90%E6%A0%87%E8%BD%AC%E6%8D%A2/51c2564f6803fa9a29000000">GPS火星坐标转换</a>。</p>
+
+<p>也有一些网站提供转换查询服务，比如<a href="http://www.zdoz.net/">ZDOZ.net</a>，和 <a href="http://lbsyun.baidu.com/index.php?title=webapi/guide/changeposition">坐标转换API - Web服务API</a>。</p>
+
+<h4>近似解析式</h4>
+
+<p>逆向求解近似解析式，不需要大的数据库，不需要进行网络请求，而且精度在10米以内，基本能满足日常需求。</p>
+
+<p>这样的实现很多，具体实现可以参考Objective-C的一种实现：<a href="https://github.com/JackZhouCn/JZLocationConverter">JZLocationConverter</a>。</p>
+
+<h3>iOS系统中坐标系的使用</h3>
+
+<p>iOS（9.0）中的关于地图和位置的接口中有些用的是WGS-84坐标，有的使用的是GCJ-02坐标。比如定位用户位置的时候我们使用的两种方法：</p>
+
+<ul>
+<li>设置MKMapView中的<code>showsUserLocation = YES</code>，然后在<code>- (void)mapView:(MKMapView *)mapView didUpdateUserLocation:(MKUserLocation *)userLocation</code>方法中获得的坐标是GCJ-02坐标。</li>
+<li>通过CLLocationManager的<code>startUpdatingLocation</code>方法，并在<code>- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations</code>方法中获得的坐标是WGS-84坐标。</li>
+</ul>
+
+
+<p>其实在使用iOS的地图应用的时候，只要使用的是非大陆的ip地址（国外用户或者国内用户通过国外代理），使用的都将是准确的WGS-84坐标和准确的地图。但是当在大陆地区使用是，苹果使用的是搞得的地图服务，得到的坐标也都是GCJ-02坐标。</p>
+
+<p>下面具体说一下在下面三个接口中经纬度坐标的使用，下面的内容都是针对iOS中高德地图的使用。</p>
+
+<h4>MKMapView</h4>
+
+<p>通过加到MMKMapView中的UIGestureRecognizer的<code>locationInVieww:</code>获得手势在地图上的CGPoint，然后通过MKMapView的<code>convertPoint:toCoordinateFromView:</code>方法得到的经纬度坐标是GCJ-02坐标，使用的也是高德地图，所以在<code>addAnnotation:</code>等操作的时候，不用进行坐标转换。</p>
+
+<h3>CLLocationManager</h3>
+
+<p>即使使用的是高德地图，CLLocationManager返回的坐标也是WGS-84坐标，所以在定位用户位置的时候是有偏差的，需要我们进行坐标转换。</p>
+
+<h3>CLGeoCoder</h3>
+
+<p>在进行经纬度坐标和地址描述转换的时候，我们需要CLGeoCoder中的转换方法：</p>
+
+<ul>
+<li><p><code>- (void)geocodeAddressString:(NSString *)addressString completionHandler:(CLGeocodeCompletionHandler)completionHandler</code></p>
+
+<p>  该方法没有问题，输入地址的描述，返回该地址对应的GCJ-02坐标（高德地图）。</p></li>
+<li><p><code>- (void)reverseGeocodeLocation:(CLLocation *)location completionHandler:(CLGeocodeCompletionHandler)completionHandler</code></p>
+
+<p>  该方法有问题：当我们直接将得到的GCJ-02坐标传给该接口之后，该接口不能得到正确的地址，而且返回的坐标和输入的坐标有较大的差距，经试验，该返回的坐标是输入坐标经过<code>wgs84ToGcj02:</code>转换之后的坐标，所以，解决方案如下：
+  将得到的坐标先经过<code>gcj02ToWgs84</code>转换成WGS-84坐标，传给接口，返回正确的地址，然后将地址坐标通过<code>wgs84ToGcj02</code>转换之后进行使用。</p></li>
+</ul>
+
+
+<h3>其它系统中用的坐标系</h3>
+
+<p>最近在抓取<a href="http://www.hzbus.cn">hzbus.cn</a>网站中的一些数据时发现：该坐标不是我们前面提到的各种坐标。原来该网站使用的是<a href="http://www.mountor.cn/rjcp_377.html">蒙特的GIS引擎</a>。通过试验各种接口，发现其坐标应该是连续<strong>两次</strong>将WGS-84坐标进行<code>wgs84ToGcj02</code>转换得到的，<strong>两次</strong>。所以将其坐标经过<code>gcj02ToWgs84</code>转换成真正的GCJ-02坐标在iOS的高德地图中使用。</p>
+
+<h3>参考</h3>
+
+<ul>
+<li>这一片文章的结论和我的结论一致，（除了GeoCoding外）：<a href="http://blog.it985.com/7728.html">iOS 火星坐标相关整理及解决方案汇总</a></li>
+<li><a href="http://blog.csdn.net/giswens/article/details/8775121">火星坐标系统简介</a></li>
+<li><a href="http://blog.csdn.net/giswens/article/details/8775267">google map 的地图偏移 火星坐标</a>
+*<a href="http://blog.csdn.net/coolypf/article/details/8686588">地球坐标系 (WGS-84) 到火星坐标系 (GCJ-02) 的转换算法</a></li>
+<li><a href="http://blog.csdn.net/giswens/article/details/8775183">WGS84坐标转火星坐标（iOS篇）</a></li>
+<li>各种坐标体系之间的转换，参考：<a href="http://blog.csdn.net/wildboy2001/article/details/12031351">WGS84、Web墨卡托、火星坐标、百度坐标互转</a></li>
+<li><a href="http://blog.csdn.net/swingpyzf/article/details/16972351">IOS LocationManager定位国内偏移，火星坐标(GCJ-02)解决方法</a></li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[应用CocoaPods管理iOS的依赖库关系]]></title>
@@ -378,56 +508,6 @@
 <p>不是delegate方法的，不是event response方法的，不是life cycle方法的，就是private method了。对的，正常情况下ViewController里面一般是不会存在private methods的，这个private methods一般是用于日期换算、图片裁剪啥的这种小功能。这种小功能要么把它写成一个category，要么把他做成一个模块，哪怕这个模块只有一个函数也行。</p>
 
 <p>ViewController基本上是大部分业务的载体，本身代码已经相当复杂，所以跟业务关联不大的东西能不放在ViewController里面就不要放。另外一点，这个private method的功能这时候只是你用得到，但是将来说不定别的地方也会用到，一开始就独立出来，有利于将来的代码复用。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[AutoSizing and AutoLayout]]></title>
-    <link href="http://hongchaozhang.github.io/blog/2015/12/01/autosizing-and-autolayout/"/>
-    <updated>2015-12-01T11:20:38+08:00</updated>
-    <id>http://hongchaozhang.github.io/blog/2015/12/01/autosizing-and-autolayout</id>
-    <content type="html"><![CDATA[<p>参考：</p>
-
-<ul>
-<li><a href="http://objccn.io/issue-3-5/">先进的自动布局工具箱</a></li>
-<li><a href="https://developer.apple.com/library/prerelease/ios/documentation/UserExperience/Conceptual/AutolayoutPG/ProgrammaticallyCreatingConstraints.html#//apple_ref/doc/uid/TP40010853-CH16-SW1">AutoLayout Guide</a></li>
-<li><a href="https://developer.apple.com/library/ios/documentation/UserExperience/Conceptual/AutolayoutPG/WorkingwithSelf-SizingTableViewCells.html">AutoLayout Table View</a></li>
-</ul>
-
-
-<p>摘要：</p>
-
-<ul>
-<li><p>AutoSizing和AutoLayout都是用来自动确定试图大小和位置的方法，区别在于：</p>
-
-<ul>
-<li>AutoSizing: 只针对SuperView</li>
-<li>AutoLayout: 针对SuperView和兄弟View</li>
-</ul>
-</li>
-</ul>
-
-
-<!-- more -->
-
-
-<ul>
-<li><p>AutoLayout这边可以考虑使用<a href="https://github.com/SnapKit/Masonry">Masonry</a>，代码的可读性就能好很多。</p></li>
-<li><p>ios9.0开始：</p>
-
-<ul>
-<li>可以使用UIStackView（Horizontal / Vertical）帮助进行AutoLayout，因为UIStackView使用AutoLayout进行内部view的布局。</li>
-<li>在进行AutoLayout的时候，可以使用UILayoutGuide帮助布局。UILayoutGuide比UIView轻量级很多，通过UIView的<code>addLayoutGuide:</code>方法加入。</li>
-</ul>
-</li>
-<li><p>如果还有使用Frame的，可以考虑一下使用<a href="https://github.com/casatwy/HandyAutoLayout">这个项目</a>。</p>
-
-<ul>
-<li>这个项目里面提供了Frame相关的方便方法(UIView+LayoutMethods)，里面的方法也基本涵盖了所有布局的需求，可读性非常好，使用它之后基本可以和CGRectMake说再见了。因为天猫在最近才切换到支持iOS6，所以之前天猫都是用Frame布局的，在天猫App中，首页，范儿部分页面的布局就使用了这些方法。使用这些方便方法能起到事半功倍的效果。</li>
-</ul>
-</li>
-</ul>
-
 ]]></content>
   </entry>
   
