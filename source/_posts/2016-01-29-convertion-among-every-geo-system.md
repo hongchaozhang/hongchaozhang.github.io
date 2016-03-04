@@ -60,13 +60,13 @@ iOS（9.0）中的关于地图和位置的接口中有些用的是WGS-84坐标�
 * 设置MKMapView中的`showsUserLocation = YES`，然后在`- (void)mapView:(MKMapView *)mapView didUpdateUserLocation:(MKUserLocation *)userLocation`方法中获得的坐标是GCJ-02坐标。
 * 通过CLLocationManager的`startUpdatingLocation`方法，并在`- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations`方法中获得的坐标是WGS-84坐标。
 
-其实在使用iOS的地图应用的时候，只要使用的是非大陆的ip地址（国外用户或者国内用户通过国外代理），使用的都将是准确的WGS-84坐标和准确的地图。但是当在大陆地区使用是，苹果使用的是搞得的地图服务，得到的坐标也都是GCJ-02坐标。
+其实在使用iOS的地图应用的时候，只要使用的是非大陆的ip地址（国外用户或者国内用户通过国外代理），使用的都将是准确的WGS-84坐标和准确的地图。但是当在大陆地区使用是，苹果使用的是高德的地图服务，得到的坐标也都是GCJ-02坐标。但是有些接口没有本地化，仍然使用WGS-84坐标。
 
 下面具体说一下在下面三个接口中经纬度坐标的使用，下面的内容都是针对iOS中高德地图的使用。
 
 #### MKMapView
 
-通过加到MMKMapView中的UIGestureRecognizer的`locationInVieww:`获得手势在地图上的CGPoint，然后通过MKMapView的`convertPoint:toCoordinateFromView:`方法得到的经纬度坐标是GCJ-02坐标，使用的也是高德地图，所以在`addAnnotation:`等操作的时候，不用进行坐标转换。
+通过加到MKMapView中的UIGestureRecognizer的`locationInVieww:`获得手势在地图上的CGPoint，然后通过MKMapView的`convertPoint:toCoordinateFromView:`方法得到的经纬度坐标是GCJ-02坐标，使用的也是高德地图，所以在`addAnnotation:`等操作的时候，不用进行坐标转换。
 
 ### CLLocationManager
 
@@ -91,7 +91,7 @@ iOS（9.0）中的关于地图和位置的接口中有些用的是WGS-84坐标�
 
 ### 参考
 
-* 这一片文章的结论和我的结论一致，（除了GeoCoding外）：[iOS 火星坐标相关整理及解决方案汇总](http://blog.it985.com/7728.html)
+* 这一篇文章的结论和我的结论一致，（除了GeoCoding外）：[iOS 火星坐标相关整理及解决方案汇总](http://blog.it985.com/7728.html)
 * [火星坐标系统简介](http://blog.csdn.net/giswens/article/details/8775121)
 * [google map 的地图偏移 火星坐标](http://blog.csdn.net/giswens/article/details/8775267)
 *[地球坐标系 (WGS-84) 到火星坐标系 (GCJ-02) 的转换算法](http://blog.csdn.net/coolypf/article/details/8686588)
