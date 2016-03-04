@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Productivity | Zhang Hongchao]]></title>
   <link href="http://hongchaozhang.github.io/blog/categories/productivity/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2016-01-30T22:56:39+08:00</updated>
+  <updated>2016-03-04T15:20:12+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -171,6 +171,24 @@
 <p>用<strong>Astah Community</strong>（Astah还有收费版本：Astah Professional，功能更全，不过Astah Community完全够用了。）来画UML图的class diagram和sequence diagram非常方便，尤其是sequence diagram，相比于之前用的<strong>Dia</strong>，简直是方便太多了，用<strong>Dia</strong>画sequence diagram简直就是噩梦。</p>
 
 <p>对于Astah中定义的UML sequence diagram，参考<a href="http://www.uml.org.cn/oobject/201009081.asp">UML建模之时序图（Sequence Diagram）</a></p>
+
+<h3>图像视频操作</h3>
+
+<h4>LICECap</h4>
+
+<p><a href="http://www.cockos.com/licecap/">LICECap</a>用来快速将屏幕操作等转换成gif动画，比先录屏再转换快太多了。</p>
+
+<p>使用Mac自带的Preview是不能预览gif图片的，可以通过一下两种方式预览：</p>
+
+<ul>
+<li>在Finder中选中gif图片，在右边的预览框中预览。</li>
+<li>将gif用浏览器打开预览，比如Safari。</li>
+</ul>
+
+
+<h4>PicGif Lite</h4>
+
+<p>PicGif用来将视频或者图片转换成gif图片，这种工具很多，还有在线工具，比如<a href="http://www.uupoop.com/gif/">uupoop</a>。<del>我主要用这个来进行gif图的预览。</del></p>
 ]]></content>
   </entry>
   

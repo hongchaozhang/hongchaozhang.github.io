@@ -9,7 +9,8 @@
   <meta name="author" content="Zhang Hongchao">
 
   
-  <meta name="description" content="This article is mainly from the following post: How is a .dSYM file created?. Description A .dSYM file is a debug symbols file. It is generated when &hellip;">
+  <meta name="description" content="Description A .dSYM file is a debug symbols file. It is generated when in xcode: Generate Debug Symbols setting is enabled
+Debug Infomation Format is &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -91,26 +92,64 @@
   </header>
 
 
-<div class="entry-content"><p>This article is mainly from the following post: <a href="http://stackoverflow.com/questions/22460058/how-is-a-dsym-file-created">How is a .dSYM file created?</a>.</p>
+<div class="entry-content"><h3>Description</h3>
 
-<h3>Description</h3>
+<p>A <strong>.dSYM</strong> file is a <em>debug symbols file</em>. It is generated when in xcode:</p>
 
-<p>A <strong>.dSYM</strong> file is a <em>debug symbols file</em>. It is generated when in xcode the <code>Strip Debug Symbols</code> setting is enabled and <code>Debug Infomation Format</code> are set to <code>DWARF with dSYM File</code> in the build settings of your project.</p>
+<ul>
+<li><code>Generate Debug Symbols</code> setting is enabled</li>
+<li><code>Debug Infomation Format</code> is set to <code>DWARF with dSYM File</code> in the build settings of your project.</li>
+</ul>
+
 
 <!-- more -->
 
 
-<h3>Creatation</h3>
+<blockquote><p>Pay attention to the <em>debug/release/distribution</em> mode.</p></blockquote>
 
-<p>Xcode creates the .dSYM file automatically for you when you use the Archive option. The created archive contains your app and its dSYM and is stored in <code>~/Library/Developer/Archive</code>.</p>
+<h3>Where to find</h3>
+
+<p>Reference: <a href="http://stackoverflow.com/questions/7088771/iphone-where-the-dsym-file-is-located-in-crash-report/35619718#35619718">iphone: Where the .dSYM file is located in crash report</a>. The post shows the following two ways.</p>
+
+<h4>&lsquo;build&rsquo; folder</h4>
+
+<ul>
+<li>Build you project for a real device.</li>
+<li><p>In <em>Project Navigator -> Products</em>, right click the app, choose <em>Show in Finder</em>, you will see the app with the coresponding .dSYM file in the same folder.</p>
+
+<blockquote><p>Note: Only if you build your project for real device will the app in Products folder be effective (black color, not red color).</p></blockquote></li>
+</ul>
+
+
+<h4>Archive</h4>
+
+<h5>Use of Archive from officical site:</h5>
+
+<blockquote><p>An archive is a bundle that includes your product along with symbol information. You can build an archive to seed an application for testing or to validate and submit an application to iTunes Connect.</p></blockquote>
+
+<p>Xcode creates the .dSYM file automatically for you when you use the Archive option. The created archive contains your app and its dSYM and is stored in <code>~/Library/Developer/xcode/Archives</code>.</p>
+
+<p>Reference: <a href="http://stackoverflow.com/questions/11880404/dsym-file-from-device">dSYM file from device</a> to find the detailed way to find the dSYM file.</p>
 
 <h3>Usage</h3>
 
+<h4>Safe</h4>
+
 <p>When this setting is enabled, symbol names of your objects are removed from the resulting compiled binary (one of the many countermeasures to try and prevent would be hackers/crackers from reverse engineering your code, amongst other optimisations for binary size, etc.).</p>
+
+<h4>Re-symbolicating</h4>
 
 <p>They are useful for re-symbolicating your crash reports. With a stripped binary, you won&rsquo;t be able to read any crash reports without first re-symbolicating them. Without the dSYM the crash report will just show memory addresses of objects and methods. Xcode uses the dSYM to put the symbols back into the crash report and allow you to read it properly.</p>
 
+<h4>UUID</h4>
+
 <p>dSYMs and executables have an embedded UUID which matches. So every time a build is done will cause both to get a new UUID. The consequence is that symbolication only works if the UUID of the binary that caused a crash matches the UUID of the dSYM that is used for symbolication.</p>
+
+<h3>Reference</h3>
+
+<p>Official reference: <a href="https://developer.apple.com/library/ios/recipes/Instruments_help_articles/RestoringSymbolsWhenTraceShowsOnlyAddresses/RestoringSymbolsWhenTraceShowsOnlyAddresses.html">Restoring Symbols When an Instruments Trace Shows Only Addresses</a>.</p>
+
+<p>This post is mainly from the following post: <a href="http://stackoverflow.com/questions/22460058/how-is-a-dsym-file-created">How is a .dSYM file created?</a>.</p>
 </div>
 
 
@@ -139,7 +178,7 @@
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/ios/'>ios</a>
+    <a class='category' href='/blog/categories/ios/'>ios</a>, <a class='category' href='/blog/categories/xcode/'>xcode</a>
   
 </span>
 
@@ -171,30 +210,30 @@
   
     <section class="categories">
   <h1>Categories</h1>
-    <ul id="top-category-list" class="nav nav-list"><li><a href='/blog/categories/ios'>ios (20)</a></li><li><a href='/blog/categories/productivity'>productivity (15)</a></li><li><a href='/blog/categories/objective-c'>objective-c (14)</a></li><li><a href='/blog/categories/android'>android (3)</a></li><li><a href='/blog/categories/python'>python (3)</a></li><li><a href='/blog/categories/web'>web (2)</a></li><li><a href='/blog/categories/node'>node (2)</a></li><li><a href='/blog/categories/javascript'>javascript (2)</a></li><li><a href='/blog/categories/android-studio'>android_studio (1)</a></li><li><a href='/blog/categories/xcode'>xcode (1)</a></li><li><a href='/blog/categories/design-pattern'>design_pattern (1)</a></li><li><a href='/blog/categories/java'>java (1)</a></li></ul>
+    <ul id="top-category-list" class="nav nav-list"><li><a href='/blog/categories/ios'>ios (23)</a></li><li><a href='/blog/categories/objective-c'>objective-c (17)</a></li><li><a href='/blog/categories/productivity'>productivity (15)</a></li><li><a href='/blog/categories/xcode'>xcode (3)</a></li><li><a href='/blog/categories/node'>node (3)</a></li><li><a href='/blog/categories/android'>android (3)</a></li><li><a href='/blog/categories/python'>python (3)</a></li><li><a href='/blog/categories/web'>web (2)</a></li><li><a href='/blog/categories/javascript'>javascript (2)</a></li><li><a href='/blog/categories/android-studio'>android_studio (1)</a></li><li><a href='/blog/categories/design-pattern'>design_pattern (1)</a></li><li><a href='/blog/categories/java'>java (1)</a></li></ul>
 </section>
 <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2016/03/04/parsing-and-write-excel-file-using-node-module/">使用node-xlsx进行excel文件的读写</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/02/24/ios-memory-managemement-debugging/">Ios内存管理——调试</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/02/22/ios-memory-management-theory/">Ios内存管理——理论</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/02/18/uiview-animation-in-ios/">iOS中的动画——UIView</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2016/01/29/convertion-among-every-geo-system/">火星坐标导致iOS系统下高德地图定位不准</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2016/01/19/cocoapods-for-ios-dependencies-control/">应用CocoaPods管理iOS的依赖库关系</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2016/01/15/python-supports-chinese-charactors/">Python对中文的支持问题</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/12/30/implement-https-ios-client-side-using-objective-c/">Https在ios客户端的objective-c实现</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/12/30/implement-https-server-side-using-nodejs/">https在Server端的Nodejs实现</a>
       </li>
     
   </ul>

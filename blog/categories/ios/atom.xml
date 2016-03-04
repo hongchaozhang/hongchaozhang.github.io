@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ios | Zhang Hongchao]]></title>
   <link href="http://hongchaozhang.github.io/blog/categories/ios/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2016-01-30T22:56:39+08:00</updated>
+  <updated>2016-03-04T15:20:12+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -12,6 +12,292 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Ios内存管理——调试]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2016/02/24/ios-memory-managemement-debugging/"/>
+    <updated>2016-02-24T20:51:01+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2016/02/24/ios-memory-managemement-debugging</id>
+    <content type="html"><![CDATA[<p><a href="http://www.cocoachina.com/ios/20160222/15333.html">iOS/OS X 内存管理(二)：借助工具解决内存问题</a>讲了一些调试技巧，包括：</p>
+
+<!-- more -->
+
+
+<ul>
+<li>启用Zombie Object进行悬挂指针的检测。</li>
+<li>应用<em>Product -> Analysis</em>进行内存泄露的初步检测。</li>
+<li>应用Leak Instrument进行内存泄露查找。</li>
+<li>在以上方法不奏效的情况下，通过查看<code>dealloc</code>是否调用查看某个class是否泄露的问题。</li>
+</ul>
+
+
+<p>补充一下：在<em>Leak</em>页面可以打开<em>Cycles &amp; Roots</em>用图的方式查看ratain cycle的问题，截图如下：</p>
+
+<p><img src="/images/xcode_leak_instrument_cycles_and_roots_view.png" alt="xcode_leak_instrument_cycles_and_roots_view" /></p>
+
+<p>上文没有介绍的，也是比较麻烦的，就是leak instrument没法查出的内存泄露。最近在调试一个这样的问题，写点心得。</p>
+
+<h3>行动前的准备</h3>
+
+<h4>认识工具</h4>
+
+<p>参看<a href="https://developer.apple.com/library/ios/documentation/AnalysisTools/Reference/Instruments_User_Reference/LeaksInstrument/LeaksInstrument.html">Leaks Instrument</a>和<a href="https://developer.apple.com/library/ios/documentation/AnalysisTools/Reference/Instruments_User_Reference/AllocationsInstrument/AllocationsInstrument.html#//apple_ref/doc/uid/TP40011355-CH40-SW1">Allocation Instrument</a>的官方文档。</p>
+
+<p>补充：</p>
+
+<ul>
+<li>Leak Instrument有<em>Cycles &amp; Roots</em>界面，见上。</li>
+<li>Persistent Bytes和#Persistent。#Persistent是object的数量，也就是allocation的次数，而Persistent Bytes是具体的内存大小。<strong>#Persistent是我们需要关注的，内存有没有泄露也是看这个值是不是只增不减。</strong></li>
+<li>Allocation Instrument进行profile的时候，为<em>Launch Configuration for Heap Allocations</em>勾选<em>Record reference counts</em>。</li>
+</ul>
+
+
+<h4>编译参数设置</h4>
+
+<p>为了保证看到代码，而不是一堆无意义的内存地址，参考<a href="http://hongchaozhang.github.io/blog/2015/08/17/the-dSYM-file-in-ios-project/">The .dSYM File in Ios Project</a>进行xcode的设置。</p>
+
+<h3>如果<code>dealloc</code>没有被调用</h3>
+
+<p>通过Allocation Instrument，我们可以得到内存使用情况。为了清楚地看出是哪部分最可能是内存泄露，可以使用<em>Call Trees</em>视图，然后在右边：</p>
+
+<ul>
+<li>勾选<em>Hide System Libraries</em>，排除系统影响。</li>
+<li>勾选<em>Invert Call Tree</em>，使占用内存最多的分支在最前面。</li>
+</ul>
+
+
+<p>通过以上方法，可以大概确定是哪部分内存泄露。然后看看该class是不是被<code>dealloc</code>了。</p>
+
+<ul>
+<li>如果<code>dealloc</code>了，那不是本文要解决的问题。</li>
+<li>如果<code>dealloc</code>没有调用到，继续往下看。</li>
+</ul>
+
+
+<h4>Retain Cycle导致<code>dealloc</code>没有被调用</h4>
+
+<p>在ARC下，<code>dealloc</code>不能被调用，一般是因为存在Retain Cycle，而导致Retain Cycle的情况可能是下面几种可能(参考<a href="http://kkoval.blogspot.com/2014/03/ios-retain-cycle-in-arc.html">iOS Retain Cycle in ARC</a>和<a href="http://stackoverflow.com/questions/9219030/dealloc-not-being-called-on-arc-app">Dealloc not being called on ARC app</a>):</p>
+
+<h5>1. Blocks</h5>
+
+<p>并不是所有在block中引用<code>self</code>都会带来retain cycle，比如下面的代码就不会有内存泄露：</p>
+
+<p><div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno">1</span> <span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">testSelfInCocoaBlocks</span>
+<span class="lineno">2</span> <span class="p">{</span>
+<span class="lineno">3</span>     <span class="bp">NSArray</span> <span class="o">&lt;</span><span class="n">em</span><span class="o">&gt;</span><span class="n">cats</span> <span class="o">=</span> <span class="l">@[</span><span class="p">@</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">Smily</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;,</span> <span class="p">@</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">Garfild</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;,</span> <span class="p">@</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">Other</span> <span class="n">cat</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;];</span>
+<span class="lineno">4</span>     <span class="p">[</span><span class="n">cats</span> <span class="nl">enumerateObjectsUsingBlock</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="bp">NSString</span> <span class="o">&lt;/</span><span class="n">em</span><span class="o">&gt;</span><span class="n">cat</span><span class="p">,</span> <span class="bp">NSUInteger</span> <span class="n">idx</span><span class="p">,</span> <span class="kt">BOOL</span> <span class="o">*</span><span class="n">stop</span><span class="p">)</span> <span class="p">{</span>
+<span class="lineno">5</span>         <span class="p">[</span><span class="nb">self</span> <span class="nl">doSomethingWithCat</span><span class="p">:</span><span class="n">cat</span><span class="p">];</span>
+<span class="lineno">6</span>     <span class="p">}];</span>
+<span class="lineno">7</span> <span class="p">}</span></code></pre></div></p>
+
+<p>因为在上面的代码中，block ratain了self，但是self中没有retain这个block。只有当block中引用了self，并且self又以某种方式（比如用一个具有strong属性的Property指向该block，或者将该block加入了self的一个具有strong属性的array中）强引用了该block，才会引起内存泄露，比如：</p>
+
+<p><div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno">1</span> <span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">testSelfInBlock</span>
+<span class="lineno">2</span> <span class="p">{</span>
+<span class="lineno">3</span>     <span class="nb">self</span><span class="p">.</span><span class="n">block</span> <span class="o">=</span> <span class="o">^</span><span class="p">{</span>
+<span class="lineno">4</span>         <span class="p">[</span><span class="nb">self</span> <span class="nl">doSomethingWithCat</span><span class="p">:@</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">Fat</span> <span class="n">Cat</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;];</span>
+<span class="lineno">5</span>     <span class="p">};</span>
+<span class="lineno">6</span> <span class="p">}</span></code></pre></div></p>
+
+<p>有时候即使没有直接引用self，也可能导致self被retain，这叫做“implicit retain”。一种可能的情况就是在block中引用了self的实例变量，比如：</p>
+
+<p><div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno">1</span> <span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">testHiddenSelfInCocoaBlocks</span>
+<span class="lineno">2</span> <span class="p">{</span>
+<span class="lineno">3</span>     <span class="bp">NSArray</span> <span class="o">&lt;</span><span class="n">em</span><span class="o">&gt;</span><span class="n">cats</span> <span class="o">=</span> <span class="l">@[</span><span class="p">@</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">Smily</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;,</span> <span class="p">@</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">Garfild</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;,</span> <span class="p">@</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">Other</span> <span class="n">cat</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;];</span>
+<span class="lineno">4</span>     <span class="p">[</span><span class="n">cats</span> <span class="nl">enumerateObjectsUsingBlock</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="bp">NSString</span> <span class="o">&lt;/</span><span class="n">em</span><span class="o">&gt;</span><span class="n">cat</span><span class="p">,</span> <span class="bp">NSUInteger</span> <span class="n">idx</span><span class="p">,</span> <span class="kt">BOOL</span> <span class="o">&lt;</span><span class="n">em</span><span class="o">&gt;</span><span class="n">stop</span><span class="p">)</span> <span class="p">{</span>
+<span class="lineno">5</span>         <span class="n">_aCat</span> <span class="o">=</span> <span class="n">cat</span><span class="p">;</span>
+<span class="lineno">6</span>         <span class="o">&lt;/</span><span class="n">em</span><span class="o">&gt;</span><span class="n">stop</span> <span class="o">=</span> <span class="nb">YES</span><span class="p">;</span>
+<span class="lineno">7</span>     <span class="p">}];</span>
+<span class="lineno">8</span> <span class="p">}</span></code></pre></div></p>
+
+<p>这段code在block中引用了self的实例变量<code>_aCat</code>。</p>
+
+<p>为了避免implicit retain，可以在xcode的build setting中打开<em>implicit retain of &lsquo;self&rsquo; within blocks</em>，xcode编译器会给出警告。</p>
+
+<h5>2. NSTimer</h5>
+
+<p>如果在view controller中创建了NSTimer，在消失view controller的时候需要调用<code>invalidate</code>，否则会产生ratain cycle。</p>
+
+<h5>3. Observers/NSNotificationCenter</h5>
+
+<p>当我们在NSNotificationCenter的block中引用self的时候，也会产生retain cycle，比如：</p>
+
+<p><div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno">1</span> <span class="p">[[</span><span class="bp">NSNotificationCenter</span> <span class="n">defaultCenter</span><span class="p">]</span> <span class="nl">addObserverForName</span><span class="p">:@</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">not</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;</span>
+<span class="lineno">2</span>                                                       <span class="nl">object</span><span class="p">:</span><span class="nb">nil</span>
+<span class="lineno">3</span>                                                        <span class="nl">queue</span><span class="p">:[</span><span class="bp">NSOperationQueue</span> <span class="n">mainQueue</span><span class="p">]</span>
+<span class="lineno">4</span>                                                   <span class="nl">usingBlock</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="bp">NSNotification</span> <span class="o">*</span><span class="n">note</span><span class="p">)</span> <span class="p">{</span>
+<span class="lineno">5</span>         <span class="p">[</span><span class="nb">self</span> <span class="nl">doSomethingWithCat</span><span class="p">:@</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">Noty</span> <span class="n">cat</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;];</span>
+<span class="lineno">6</span>     <span class="p">}];</span></code></pre></div></p>
+
+<p>在不用的时候需要将self从NSNotificationCenter中移除。</p>
+
+<h5>4. Array contained reference</h5>
+
+<p>比如在view controller中将self放在了一个array中，而这个array在view controller消失的时候不会被释放，view controller的<code>dealloc</code>就不会被调用。</p>
+
+<h5>5. Delegate</h5>
+
+<p>delegate的属性应该为weak。</p>
+
+<h4>dealloc没被调用的调试</h4>
+
+<p>调试dealloc没有被调用的情况，参考<a href="http://stackoverflow.com/questions/14890402/instruments-allocations-track-alloc-and-dealloc-of-objects-of-user-defined-class/14891837#14891837">Instruments Allocations track alloc and dealloc of objects of user defined classes</a>，可以看到对应实例在整个生命周期中发生的所有和内存有关的事件，包括malloc，ratain，release等和每次事件的call stack。注意其中的两项设置：</p>
+
+<ul>
+<li>勾选Record reference counts，记录retain，release和autorelease事件。</li>
+<li>为Allocation Lifespan选择All Objects Created，如果你想看到已经被dealloc的实例，这个可以不选。</li>
+</ul>
+
+
+<h3>关于ARC下的retainCount</h3>
+
+<p>在ARC之前，我们可以使用<code>retainCount</code>得到一个Object被retain的次数。
+引入ARC之后，这个方法不能在code中使用，可以使用下面的方法获得retain的次数：</p>
+
+<p><div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="n">NSLog</span><span class="p">(@</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">Retain</span> <span class="n">count</span> <span class="n">is</span> <span class="o">%</span><span class="n">ld</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;,</span> <span class="n">CFGetRetainCount</span><span class="p">((</span><span class="k">__bridge</span> <span class="n">CFTypeRef</span><span class="p">)</span><span class="n">myObject</span><span class="p">));</span></code></pre></div></p>
+
+<p>或者通过设置断点，在调试窗口输入如下命令：</p>
+
+<p><div class="highlight"><pre><code class="language-text" data-lang="text">po object.retainCount</code></pre></div></p>
+
+<p>我们什么时候使用retainCount？
+Never！
+参考 <a href="http://stackoverflow.com/questions/4636146/when-to-use-retaincount">When to use -retainCount?</a>。
+但是偶尔在调试的时候用一下，对于一些内存管理概念的理解还是有好处的。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Ios内存管理——理论]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2016/02/22/ios-memory-management-theory/"/>
+    <updated>2016-02-22T20:51:30+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2016/02/22/ios-memory-management-theory</id>
+    <content type="html"><![CDATA[<p><a href="http://www.cocoachina.com/ios/20160219/15330.html">iOS/OS X内存管理(一)：基本概念与原理</a>对内存管理的概念讲的很清楚。</p>
+
+<!-- more -->
+
+
+<p>摘抄一些重要信息。</p>
+
+<p>assign对应就是__unsafe_unretained，它跟__weak相似，被它修饰的变量都不持有对象的所有权，但不相同的是，当变量指向的对象的RC为0时，变量并不设置为nil，而是继续保存对象的地址。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[iOS中的动画——UIView]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2016/02/18/uiview-animation-in-ios/"/>
+    <updated>2016-02-18T11:36:47+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2016/02/18/uiview-animation-in-ios</id>
+    <content type="html"><![CDATA[<p>官方文档<a href="https://developer.apple.com/library/ios/documentation/WindowsViews/Conceptual/ViewPG_iPhoneOS/AnimatingViews/AnimatingViews.html">Animations</a>详细讲述了UIView的animations，
+<a href="http://www.cocoachina.com/ios/20160215/15262.html">iOS 开发之动画篇 - 从 UIView 动画说起</a>也阐述了用UIView进行动画的基本用法。</p>
+
+<!-- more -->
+
+
+<p>总结摘抄一些要点。</p>
+
+<h2>Animate Property Changes in a View</h2>
+
+<h3>Basic Usage</h3>
+
+<p><div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno">1</span> <span class="p">[</span><span class="bp">UIView</span> <span class="nl">animateWithDuration</span><span class="p">:</span><span class="mf">1.0</span> <span class="nl">animations</span><span class="p">:</span><span class="o">^</span><span class="p">{</span>
+<span class="lineno">2</span>     <span class="n">firstView</span><span class="p">.</span><span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">;</span>
+<span class="lineno">3</span>     <span class="n">secondView</span><span class="p">.</span><span class="n">alpha</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">;</span>
+<span class="lineno">4</span> <span class="p">}];</span></code></pre></div></p>
+
+<blockquote><p>NOTE: When this code executes, the specified animations are started immediately on another thread so as to avoid blocking the current thread or your application’s main thread.</p></blockquote>
+
+<h3>Completion Handler</h3>
+
+<p>Usage of Completion Handler</p>
+
+<ul>
+<li>Use a completion handler to signal your application that a specific animation has finished.</li>
+<li>Completion handlers are also the way to link separate animations together.</li>
+</ul>
+
+
+<p>Sample code：</p>
+
+<p><div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno"> 1</span> <span class="p">-</span> <span class="p">(</span><span class="kt">IBAction</span><span class="p">)</span><span class="nf">showHideView:</span><span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nv">sender</span>
+<span class="lineno"> 2</span> <span class="p">{</span>
+<span class="lineno"> 3</span>     <span class="c1">// Fade out the view right away</span>
+<span class="lineno"> 4</span>     <span class="p">[</span><span class="bp">UIView</span> <span class="nl">animateWithDuration</span><span class="p">:</span><span class="mf">1.0</span>
+<span class="lineno"> 5</span>         <span class="nl">delay</span><span class="p">:</span> <span class="mf">0.0</span>
+<span class="lineno"> 6</span>         <span class="nl">options</span><span class="p">:</span> <span class="n">UIViewAnimationOptionCurveEaseIn</span>
+<span class="lineno"> 7</span>         <span class="nl">animations</span><span class="p">:</span><span class="o">^</span><span class="p">{</span>
+<span class="lineno"> 8</span>              <span class="n">thirdView</span><span class="p">.</span><span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">;</span>
+<span class="lineno"> 9</span>         <span class="p">}</span>
+<span class="lineno">10</span>         <span class="nl">completion</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="kt">BOOL</span> <span class="n">finished</span><span class="p">){</span>
+<span class="lineno">11</span>             <span class="c1">// Wait one second and then fade in the view</span>
+<span class="lineno">12</span>             <span class="p">[</span><span class="bp">UIView</span> <span class="nl">animateWithDuration</span><span class="p">:</span><span class="mf">1.0</span>
+<span class="lineno">13</span>                  <span class="nl">delay</span><span class="p">:</span> <span class="mf">1.0</span>
+<span class="lineno">14</span>                  <span class="nl">options</span><span class="p">:</span><span class="n">UIViewAnimationOptionCurveEaseOut</span>
+<span class="lineno">15</span>                  <span class="nl">animations</span><span class="p">:</span><span class="o">^</span><span class="p">{</span>
+<span class="lineno">16</span>                     <span class="n">thirdView</span><span class="p">.</span><span class="n">alpha</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">;</span>
+<span class="lineno">17</span>                  <span class="p">}</span>
+<span class="lineno">18</span>                  <span class="nl">completion</span><span class="p">:</span><span class="nb">nil</span><span class="p">];</span>
+<span class="lineno">19</span>         <span class="p">}];</span>
+<span class="lineno">20</span> <span class="p">}</span></code></pre></div></p>
+
+<h3>Nesting Animation Blocks</h3>
+
+<p>Nested animations are started at the same time as any parent animations.</p>
+
+<p>Sample code:</p>
+
+<p><div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno"> 1</span> <span class="p">[</span><span class="bp">UIView</span> <span class="nl">animateWithDuration</span><span class="p">:</span><span class="mf">1.0</span>
+<span class="lineno"> 2</span>         <span class="nl">delay</span><span class="p">:</span> <span class="mf">1.0</span>
+<span class="lineno"> 3</span>         <span class="nl">options</span><span class="p">:</span><span class="n">UIViewAnimationOptionCurveEaseOut</span>
+<span class="lineno"> 4</span>         <span class="nl">animations</span><span class="p">:</span><span class="o">^</span><span class="p">{</span>
+<span class="lineno"> 5</span>             <span class="n">aView</span><span class="p">.</span><span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">;</span>
+<span class="lineno"> 6</span>             <span class="c1">// Create a nested animation that has a different</span>
+<span class="lineno"> 7</span>             <span class="c1">// duration, timing curve, and configuration.</span>
+<span class="lineno"> 8</span>             <span class="p">[</span><span class="bp">UIView</span> <span class="nl">animateWithDuration</span><span class="p">:</span><span class="mf">0.2</span>
+<span class="lineno"> 9</span>                  <span class="nl">delay</span><span class="p">:</span><span class="mf">0.0</span>
+<span class="lineno">10</span>                  <span class="nl">options</span><span class="p">:</span> <span class="n">UIViewAnimationOptionOverrideInheritedCurve</span> <span class="o">|</span>
+<span class="lineno">11</span>                           <span class="n">UIViewAnimationOptionCurveLinear</span> <span class="o">|</span>
+<span class="lineno">12</span>                           <span class="n">UIViewAnimationOptionOverrideInheritedDuration</span> <span class="o">|</span>
+<span class="lineno">13</span>                           <span class="n">UIViewAnimationOptionRepeat</span> <span class="o">|</span>
+<span class="lineno">14</span>                           <span class="n">UIViewAnimationOptionAutoreverse</span>
+<span class="lineno">15</span>                  <span class="nl">animations</span><span class="p">:</span><span class="o">^</span><span class="p">{</span>
+<span class="lineno">16</span>                       <span class="p">[</span><span class="bp">UIView</span> <span class="nl">setAnimationRepeatCount</span><span class="p">:</span><span class="mf">2.5</span><span class="p">];</span>
+<span class="lineno">17</span>                       <span class="n">anotherView</span><span class="p">.</span><span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">;</span>
+<span class="lineno">18</span>                  <span class="p">}</span>
+<span class="lineno">19</span>                  <span class="nl">completion</span><span class="p">:</span><span class="nb">nil</span><span class="p">];</span>
+<span class="lineno">20</span>         <span class="p">}</span>
+<span class="lineno">21</span>         <span class="nl">completion</span><span class="p">:</span><span class="nb">nil</span><span class="p">];</span></code></pre></div></p>
+
+<h2>Creating Animated Transitions Between Views</h2>
+
+<p>View transitions help you hide sudden changes associated with adding, removing, hiding, or showing views in your view hierarchy. You use view transitions to implement the following types of changes:</p>
+
+<ul>
+<li><strong>Change the visible subviews of an existing view.</strong> You typically choose this option when you want to make relatively small changes to an existing view.</li>
+<li><strong>Replace one view in your view hierarchy with a different view.</strong> You typically choose this option when you want to replace a view hierarchy that spans all or most of the screen.</li>
+</ul>
+
+
+<blockquote><p><strong>Note:</strong> View transitions should not be confused with transitions initiated by view controllers, such as the presentation of modal view controllers or the pushing of new view controllers onto a navigation stack. View transitions affect the view hierarchy only, whereas view-controller transitions change the active view controller as well. Thus, for view transitions, the view controller that was active when you initiated the transition remains active when the transition finishes.</p></blockquote>
+
+<p>Sampel code for replacing a view with a different view:</p>
+
+<p><div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno"> 1</span> <span class="p">-</span> <span class="p">(</span><span class="kt">IBAction</span><span class="p">)</span><span class="nf">toggleMainViews:</span><span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nv">sender</span> <span class="p">{</span>
+<span class="lineno"> 2</span>     <span class="p">[</span><span class="bp">UIView</span> <span class="nl">transitionFromView</span><span class="p">:(</span><span class="n">displayingPrimary</span> <span class="o">?</span> <span class="nl">primaryView</span> <span class="p">:</span> <span class="n">secondaryView</span><span class="p">)</span>
+<span class="lineno"> 3</span>         <span class="nl">toView</span><span class="p">:(</span><span class="n">displayingPrimary</span> <span class="o">?</span> <span class="nl">secondaryView</span> <span class="p">:</span> <span class="n">primaryView</span><span class="p">)</span>
+<span class="lineno"> 4</span>         <span class="nl">duration</span><span class="p">:</span><span class="mf">1.0</span>
+<span class="lineno"> 5</span>         <span class="nl">options</span><span class="p">:(</span><span class="n">displayingPrimary</span> <span class="o">?</span> <span class="nl">UIViewAnimationOptionTransitionFlipFromRight</span> <span class="p">:</span>
+<span class="lineno"> 6</span>                     <span class="n">UIViewAnimationOptionTransitionFlipFromLeft</span><span class="p">)</span>
+<span class="lineno"> 7</span>         <span class="nl">completion</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="kt">BOOL</span> <span class="n">finished</span><span class="p">)</span> <span class="p">{</span>
+<span class="lineno"> 8</span>             <span class="k">if</span> <span class="p">(</span><span class="n">finished</span><span class="p">)</span> <span class="p">{</span>
+<span class="lineno"> 9</span>                 <span class="n">displayingPrimary</span> <span class="o">=</span> <span class="o">!</span><span class="n">displayingPrimary</span><span class="p">;</span>
+<span class="lineno">10</span>             <span class="p">}</span>
+<span class="lineno">11</span>     <span class="p">}];</span>
+<span class="lineno">12</span> <span class="p">}</span></code></pre></div></p>
+
+<blockquote><p><strong>Note:</strong> In addition to swapping out views, your view controller code needs to manage the loading and unloading of both the primary and secondary views.</p></blockquote>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[火星坐标导致iOS系统下高德地图定位不准]]></title>
@@ -97,13 +383,13 @@
 </ul>
 
 
-<p>其实在使用iOS的地图应用的时候，只要使用的是非大陆的ip地址（国外用户或者国内用户通过国外代理），使用的都将是准确的WGS-84坐标和准确的地图。但是当在大陆地区使用是，苹果使用的是搞得的地图服务，得到的坐标也都是GCJ-02坐标。</p>
+<p>其实在使用iOS的地图应用的时候，只要使用的是非大陆的ip地址（国外用户或者国内用户通过国外代理），使用的都将是准确的WGS-84坐标和准确的地图。但是当在大陆地区使用是，苹果使用的是高德的地图服务，得到的坐标也都是GCJ-02坐标。但是有些接口没有本地化，仍然使用WGS-84坐标。</p>
 
 <p>下面具体说一下在下面三个接口中经纬度坐标的使用，下面的内容都是针对iOS中高德地图的使用。</p>
 
 <h4>MKMapView</h4>
 
-<p>通过加到MMKMapView中的UIGestureRecognizer的<code>locationInVieww:</code>获得手势在地图上的CGPoint，然后通过MKMapView的<code>convertPoint:toCoordinateFromView:</code>方法得到的经纬度坐标是GCJ-02坐标，使用的也是高德地图，所以在<code>addAnnotation:</code>等操作的时候，不用进行坐标转换。</p>
+<p>通过加到MKMapView中的UIGestureRecognizer的<code>locationInVieww:</code>获得手势在地图上的CGPoint，然后通过MKMapView的<code>convertPoint:toCoordinateFromView:</code>方法得到的经纬度坐标是GCJ-02坐标，使用的也是高德地图，所以在<code>addAnnotation:</code>等操作的时候，不用进行坐标转换。</p>
 
 <h3>CLLocationManager</h3>
 
@@ -131,7 +417,7 @@
 <h3>参考</h3>
 
 <ul>
-<li>这一片文章的结论和我的结论一致，（除了GeoCoding外）：<a href="http://blog.it985.com/7728.html">iOS 火星坐标相关整理及解决方案汇总</a></li>
+<li>这一篇文章的结论和我的结论一致，（除了GeoCoding外）：<a href="http://blog.it985.com/7728.html">iOS 火星坐标相关整理及解决方案汇总</a></li>
 <li><a href="http://blog.csdn.net/giswens/article/details/8775121">火星坐标系统简介</a></li>
 <li><a href="http://blog.csdn.net/giswens/article/details/8775267">google map 的地图偏移 火星坐标</a>
 *<a href="http://blog.csdn.net/coolypf/article/details/8686588">地球坐标系 (WGS-84) 到火星坐标系 (GCJ-02) 的转换算法</a></li>
@@ -217,297 +503,6 @@
 <p>解决。</p>
 
 <p>原理参考：<a href="https://github.com/CocoaPods/CocoaPods/issues/4373">Unable to satisfy the following requirements with Podfile, but they required a higher minimum deployment target. #4373</a>。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Generics in Objective-c]]></title>
-    <link href="http://hongchaozhang.github.io/blog/2015/12/22/generics-in-objective-c/"/>
-    <updated>2015-12-22T13:18:48+08:00</updated>
-    <id>http://hongchaozhang.github.io/blog/2015/12/22/generics-in-objective-c</id>
-    <content type="html"><![CDATA[<p>参考：<a href="http://stackoverflow.com/questions/649483/is-there-any-way-to-enforce-typing-on-nsarray-nsmutablearray-etc">Is there any way to enforce typing on NSArray, NSMutableArray, etc.?</a></p>
-
-<p>参考：<a href="http://drekka.ghost.io/objective-c-generics/">Objective C Generics</a></p>
-
-<p>随着Xcode7的发布，苹果实现了collection类（NSArray，NSDictionary，NSSet）的generics功能。</p>
-
-<!-- more -->
-
-
-<p>以后，可以这样定义Array了：</p>
-
-<p><div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno">1</span> <span class="bp">NSArray</span><span class="o">&lt;</span><span class="n">MyClass</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">myArray</span> <span class="o">=</span> <span class="l">@[</span><span class="p">[</span><span class="n">MyClass</span> <span class="n">new</span><span class="p">],</span> <span class="p">[</span><span class="n">MyClass</span> <span class="n">new</span><span class="p">]</span><span class="l">]</span><span class="p">;</span></code></pre></div></p>
-
-<p>但是，我们仍然可以在Array中加入非MyClass类型的实例，此时xcode会报出警告，但是不会报错，程序仍然可以运行。所以需要我们在写程序时去除所有的警告。</p>
-
-<p>Xcode的提示也会帮助我们避免这些警告：当你试图add一个元素到Array中时，Xcode会提示其中元素的类型<code>void addObject:(nonnull MyClass *)</code>；如果没有用Generics，Xcode的提示是<code>void addObject:(nonnull id)</code>。</p>
-
-<p>但是这个可以给我们带来一个明显的好处：</p>
-
-<p>我们只要看到定义，就能知道其中的元素类型，而不用全局搜索代码，看往其中加入了什么。就冲这一点，就足以让我们毫不犹豫地使用了。</p>
-
-<p>更多的介绍和Generics的局限，请参考：<a href="http://drekka.ghost.io/objective-c-generics/">Objective C Generics</a>。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Propety, Instance Variable and @synthesize]]></title>
-    <link href="http://hongchaozhang.github.io/blog/2015/12/19/propety-instance-variable-and-at-synthesize/"/>
-    <updated>2015-12-19T15:17:41+08:00</updated>
-    <id>http://hongchaozhang.github.io/blog/2015/12/19/propety-instance-variable-and-at-synthesize</id>
-    <content type="html"><![CDATA[<p>这一段时间，在对自己不是很了解的代码进行重构，重新了解了一下Property、Instance Variable和@synthesize，总结一下。</p>
-
-<p>首先需要明白一点：Property和@synthesize是让编译器帮助我们做一些规律性的工作。</p>
-
-<h3>如果没有Property</h3>
-
-<p>如果没有Property，我们可以这样实现Instance Variable的accessor（getter和setter），示例代码如下：</p>
-
-<!-- more -->
-
-
-<p><div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno"> 1</span> <span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-<span class="lineno"> 2</span> 
-<span class="lineno"> 3</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">@interface</span> <span class="nc">PropertyTester</span><span class="p">()</span> <span class="p">{</span>
-<span class="lineno"> 4</span>     <span class="bp">NSString</span><span class="o">*</span> <span class="n">testString</span><span class="p">;</span>
-<span class="lineno"> 5</span> <span class="p">}</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-<span class="lineno"> 6</span> 
-<span class="lineno"> 7</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">@end</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-<span class="lineno"> 8</span> 
-<span class="lineno"> 9</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">@implementation</span> <span class="nc">PropertyTester</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-<span class="lineno">10</span> 
-<span class="lineno">11</span> <span class="o">&lt;</span><span class="n">ul</span><span class="o">&gt;</span>
-<span class="lineno">12</span> <span class="o">&lt;</span><span class="n">li</span><span class="o">&gt;</span><span class="p">(</span><span class="bp">NSString</span><span class="o">*</span><span class="p">)</span><span class="n">testString</span> <span class="p">{</span>
-<span class="lineno">13</span>   <span class="k">return</span> <span class="n">testString</span><span class="p">;</span>
-<span class="lineno">14</span> <span class="p">}</span><span class="o">&lt;/</span><span class="n">li</span><span class="o">&gt;</span>
-<span class="lineno">15</span> <span class="o">&lt;</span><span class="n">li</span><span class="o">&gt;&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nl">setTestString</span><span class="p">:(</span><span class="bp">NSString</span><span class="o">*</span><span class="p">)</span><span class="n">stringValue</span> <span class="p">{</span>
-<span class="lineno">16</span>   <span class="n">testString</span> <span class="o">=</span> <span class="n">stringValue</span><span class="p">;</span>
-<span class="lineno">17</span> <span class="p">}</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;&lt;/</span><span class="n">li</span><span class="o">&gt;</span>
-<span class="lineno">18</span> <span class="o">&lt;</span><span class="n">li</span><span class="o">&gt;&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">test</span> <span class="p">{</span>
-<span class="lineno">19</span>   <span class="nb">self</span><span class="p">.</span><span class="n">testString</span> <span class="o">=</span> <span class="p">@</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">test</span> <span class="n">proeprty</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;;</span>
-<span class="lineno">20</span>   <span class="n">NSLog</span><span class="p">(@</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="o">%</span><span class="p">@</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;,</span> <span class="nb">self</span><span class="p">.</span><span class="n">testString</span><span class="p">);</span>
-<span class="lineno">21</span> <span class="p">}</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;&lt;/</span><span class="n">li</span><span class="o">&gt;</span>
-<span class="lineno">22</span> <span class="o">&lt;/</span><span class="n">ul</span><span class="o">&gt;</span>
-<span class="lineno">23</span> 
-<span class="lineno">24</span> 
-<span class="lineno">25</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">@end</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-<span class="lineno">26</span> 
-<span class="lineno">27</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span></code></pre></div></p>
-
-<h3>有了Property</h3>
-
-<p>眼看着Instance Variable及其getter和setter函数是如此有规律，于是Property出现了。</p>
-
-<p>Property可以告诉编译器：我声明了一个Property，名字叫做<code>propertyName</code>，你帮我声明一个Instance Variable <code>_propertyName</code>，并帮助我实现其getter和setter函数。于是，上述代码，我们可以写成：</p>
-
-<p><div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno"> 1</span> <span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-<span class="lineno"> 2</span> 
-<span class="lineno"> 3</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">@interface</span> <span class="nc">PropertyTester</span><span class="p">()</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-<span class="lineno"> 4</span> 
-<span class="lineno"> 5</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">@property</span> <span class="p">(</span><span class="k">nonatomic</span><span class="p">,</span> <span class="k">strong</span><span class="p">)</span> <span class="bp">NSString</span><span class="o">*</span> <span class="n">testString</span><span class="p">;</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-<span class="lineno"> 6</span> 
-<span class="lineno"> 7</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">@end</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-<span class="lineno"> 8</span> 
-<span class="lineno"> 9</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">@implementation</span> <span class="nc">PropertyTester</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-<span class="lineno">10</span> 
-<span class="lineno">11</span> <span class="o">&lt;</span><span class="n">ul</span><span class="o">&gt;</span>
-<span class="lineno">12</span> <span class="o">&lt;</span><span class="n">li</span><span class="o">&gt;</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">test</span> <span class="p">{</span>
-<span class="lineno">13</span>   <span class="nb">self</span><span class="p">.</span><span class="n">testString</span> <span class="o">=</span> <span class="p">@</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">test</span> <span class="n">proeprty</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;;</span>
-<span class="lineno">14</span>   <span class="n">NSLog</span><span class="p">(@</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="o">%</span><span class="p">@</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;,</span> <span class="nb">self</span><span class="p">.</span><span class="n">testString</span><span class="p">);</span><span class="o">&lt;/</span><span class="n">li</span><span class="o">&gt;</span>
-<span class="lineno">15</span> <span class="o">&lt;/</span><span class="n">ul</span><span class="o">&gt;</span>
-<span class="lineno">16</span> 
-<span class="lineno">17</span> 
-<span class="lineno">18</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="p">}</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-<span class="lineno">19</span> 
-<span class="lineno">20</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">@end</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-<span class="lineno">21</span> 
-<span class="lineno">22</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span></code></pre></div></p>
-
-<p>看看，是不是简单了很多。</p>
-
-<h3>Auto Synthesize</h3>
-
-<p>其实在上述使用Property的代码中，编译器还帮助我们做了一件事情：</p>
-
-<p><div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno">1</span> <span class="k">@synthesize</span> <span class="n">testString</span> <span class="o">=</span> <span class="n">_testString</span><span class="p">;</span></code></pre></div></p>
-
-<p>从Xcode 4.4和LLVM Compiler 4.0起，有了<strong>auto synthesize</strong>，即@synthesize被更改为默认使用。因此，大多数情况下，你只需要 @property 指令，编译器将为你关心其它的事情。对，是“大多数”，因为在某些情况下，不会进行auto synthesize 。比如，对于上述代码，如果我打算自己实现getter函数：</p>
-
-<p><div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno"> 1</span> <span class="k">@interface</span> <span class="nc">PropertyTester</span><span class="p">()</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-<span class="lineno"> 2</span> 
-<span class="lineno"> 3</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">@property</span> <span class="p">(</span><span class="k">nonatomic</span><span class="p">,</span> <span class="k">strong</span><span class="p">)</span> <span class="bp">NSString</span><span class="o">*</span> <span class="n">testString</span><span class="p">;</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-<span class="lineno"> 4</span> 
-<span class="lineno"> 5</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">@end</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-<span class="lineno"> 6</span> 
-<span class="lineno"> 7</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">@implementation</span> <span class="nc">PropertyTester</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-<span class="lineno"> 8</span> 
-<span class="lineno"> 9</span> <span class="o">&lt;</span><span class="n">ul</span><span class="o">&gt;</span>
-<span class="lineno">10</span> <span class="o">&lt;</span><span class="n">li</span><span class="o">&gt;&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="p">(</span><span class="bp">NSString</span><span class="o">*</span><span class="p">)</span><span class="n">testString</span> <span class="p">{</span>
-<span class="lineno">11</span>   <span class="k">return</span> <span class="n">_testString</span><span class="p">;</span>
-<span class="lineno">12</span> <span class="p">}</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;&lt;/</span><span class="n">li</span><span class="o">&gt;</span>
-<span class="lineno">13</span> <span class="o">&lt;</span><span class="n">li</span><span class="o">&gt;&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">test</span> <span class="p">{</span>
-<span class="lineno">14</span>   <span class="nb">self</span><span class="p">.</span><span class="n">testString</span> <span class="o">=</span> <span class="p">@</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">test</span> <span class="n">proeprty</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;;</span>
-<span class="lineno">15</span>   <span class="n">NSLog</span><span class="p">(@</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="o">%</span><span class="p">@</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;,</span> <span class="nb">self</span><span class="p">.</span><span class="n">testString</span><span class="p">);</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;&lt;/</span><span class="n">li</span><span class="o">&gt;</span>
-<span class="lineno">16</span> <span class="o">&lt;/</span><span class="n">ul</span><span class="o">&gt;</span>
-<span class="lineno">17</span> 
-<span class="lineno">18</span> 
-<span class="lineno">19</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="p">}</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-<span class="lineno">20</span> 
-<span class="lineno">21</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">@end</span></code></pre></div></p>
-
-<p>没有任何问题。</p>
-
-<p>如果我再试图加入setter函数：</p>
-
-<p><div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno"> 1</span> <span class="k">@interface</span> <span class="nc">PropertyTester</span><span class="p">()</span>
-<span class="lineno"> 2</span> <span class="k">@property</span> <span class="p">(</span><span class="k">nonatomic</span><span class="p">,</span> <span class="k">strong</span><span class="p">)</span> <span class="bp">NSString</span><span class="o">*</span> <span class="n">testString</span><span class="p">;</span>
-<span class="lineno"> 3</span> <span class="k">@end</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-<span class="lineno"> 4</span> 
-<span class="lineno"> 5</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">@implementation</span> <span class="nc">PropertyTester</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-<span class="lineno"> 6</span> 
-<span class="lineno"> 7</span> <span class="o">&lt;</span><span class="n">ul</span><span class="o">&gt;</span>
-<span class="lineno"> 8</span> <span class="o">&lt;</span><span class="n">li</span><span class="o">&gt;&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="p">(</span><span class="bp">NSString</span><span class="o">*</span><span class="p">)</span><span class="n">testString</span> <span class="p">{</span>
-<span class="lineno"> 9</span>   <span class="k">return</span> <span class="n">_testString</span><span class="p">;</span>
-<span class="lineno">10</span> <span class="p">}</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;&lt;/</span><span class="n">li</span><span class="o">&gt;</span>
-<span class="lineno">11</span> <span class="o">&lt;</span><span class="n">li</span><span class="o">&gt;&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nl">setTestString</span><span class="p">:(</span><span class="bp">NSString</span> <span class="o">*</span><span class="p">)</span><span class="n">testString</span> <span class="p">{</span>
-<span class="lineno">12</span>   <span class="n">_testString</span> <span class="o">=</span> <span class="n">testString</span><span class="p">;</span>
-<span class="lineno">13</span> <span class="p">}</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;&lt;/</span><span class="n">li</span><span class="o">&gt;</span>
-<span class="lineno">14</span> <span class="o">&lt;</span><span class="n">li</span><span class="o">&gt;&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">test</span> <span class="p">{</span>
-<span class="lineno">15</span>   <span class="nb">self</span><span class="p">.</span><span class="n">testString</span> <span class="o">=</span> <span class="p">@</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">test</span> <span class="n">proeprty</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;;</span>
-<span class="lineno">16</span>   <span class="n">NSLog</span><span class="p">(@</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="o">%</span><span class="p">@</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;,</span> <span class="nb">self</span><span class="p">.</span><span class="n">testString</span><span class="p">);</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;&lt;/</span><span class="n">li</span><span class="o">&gt;</span>
-<span class="lineno">17</span> <span class="o">&lt;/</span><span class="n">ul</span><span class="o">&gt;</span>
-<span class="lineno">18</span> 
-<span class="lineno">19</span> 
-<span class="lineno">20</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="p">}</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-<span class="lineno">21</span> 
-<span class="lineno">22</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">@end</span></code></pre></div></p>
-
-<p>编译器会报错：</p>
-
-<p><div class="highlight"><pre><code class="language-text" data-lang="text">use of undefined identifier &amp;lsquo;_testString&#39;。</code></pre></div></p>
-
-<p>为什么呢？</p>
-
-<p>因为此时auto synthesize没有工作。编译器认为：既然你同时手动接管了getter和setter的实现，那么我就什么也不管了，Instance Variable你也自己声明并起个名字吧。</p>
-
-<p>总结一下auto synthesize不会工作的几种情况（参考<a href="http://stackoverflow.com/questions/19784454/when-should-i-use-synthesize-explicitly">When should I use @synthesize explicitly?</a>）：</p>
-
-<ul>
-<li><p>readwrite property with custom getter and setter</p>
-
-<p>  when providing both a getter and setter custom implementation, the property won&rsquo;t be automatically synthesized</p></li>
-<li><p>readonly property with custom getter</p>
-
-<p>  when providing a custom getter implementation for a readonly property, this won&rsquo;t be automatically synthesized</p></li>
-<li><p>@dynamic</p>
-
-<p>  when using @dynamic propertyName, the property won&rsquo;t be automatically synthesized (pretty obvious, since @dynamic and @synthesize are mutually exclusive).</p>
-
-<p>  @synthesize will generate getter and setter methods for your property. @dynamic just tells the compiler that the getter and setter methods are implemented not by the class itself but somewhere else (like the superclass)</p></li>
-<li><p>properties declared in a @protocol</p>
-
-<p>  when conforming to a protocol, any property the protocol defines won&rsquo;t be automatically synthesized</p></li>
-<li><p>properties declared in a category</p>
-
-<p>  this is a case in which the @synthesize directive is not automatically inserted by the compiler, but this properties cannot be manually synthesized either. While categories can declare properties, they cannot be synthesized at all, since categories cannot create ivars. For the sake of completeness, I&rsquo;ll add that it&rsquo;s still possible to fake the property synthesis using the Objective-C runtime.</p>
-
-<p>  Actually, <strong>categorie</strong> is best used for adding capability to code you do not own and cannot change. Adding properties via categories is deprecated.</p></li>
-<li><p>overridden properties (new since clang-600.0.51, shipping with Xcode 6, thanks Marc Schlüpmann)</p>
-
-<p>  when you override a property of a superclass, two ways for you:</p>
-
-<ul>
-<li>explicitly synthesize it with a different instance variable name from super class.</li>
-<li>@dynamic the property to tell the compiler that I will use the getter and setter methods in the super class.</li>
-</ul>
-</li>
-</ul>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[UIViewController中常见的ios编程习惯]]></title>
-    <link href="http://hongchaozhang.github.io/blog/2015/12/06/some-usefull-ios-coding-styles-in-UIViewController/"/>
-    <updated>2015-12-06T12:55:47+08:00</updated>
-    <id>http://hongchaozhang.github.io/blog/2015/12/06/some-usefull-ios-coding-styles-in-UIViewController</id>
-    <content type="html"><![CDATA[<p>参考<a href="http://www.cocoachina.com/ios/20150525/11919.html">iOS应用架构谈 view层的组织和调用方案</a>。</p>
-
-<h3>所有的属性都使用getter和setter</h3>
-
-<!-- more -->
-
-
-<blockquote><p>不要在viewDidLoad里面初始化你的view然后再add，这样代码就很难看。在viewDidload里面只做addSubview的事情，然后在viewWillAppear里面做布局的事情，最后在viewDidAppear里面做Notification的监听之类的事情。至于属性的初始化，则交给getter去做。</p></blockquote>
-
-<p>不要出现这样的代码：</p>
-
-<p><div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno"> 1</span> <span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">viewDidLoad</span>
-<span class="lineno"> 2</span> <span class="p">{</span>
-<span class="lineno"> 3</span>     <span class="p">[</span><span class="nb">super</span> <span class="n">viewDidLoad</span><span class="p">];</span>
-<span class="lineno"> 4</span>     <span class="nb">self</span><span class="p">.</span><span class="n">textLabel</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">UILabel</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
-<span class="lineno"> 5</span>     <span class="nb">self</span><span class="p">.</span><span class="n">textLabel</span><span class="p">.</span><span class="n">textColor</span> <span class="o">=</span> <span class="p">[</span><span class="bp">UIColor</span> <span class="n">blackColor</span><span class="p">];</span>
-<span class="lineno"> 6</span>     <span class="nb">self</span><span class="p">.</span><span class="n">textLabel</span> <span class="o">&amp;</span><span class="n">hellip</span><span class="p">;</span> <span class="o">&amp;</span><span class="n">hellip</span><span class="p">;</span>
-<span class="lineno"> 7</span>     <span class="nb">self</span><span class="p">.</span><span class="n">textLabel</span> <span class="o">&amp;</span><span class="n">hellip</span><span class="p">;</span> <span class="o">&amp;</span><span class="n">hellip</span><span class="p">;</span>
-<span class="lineno"> 8</span>     <span class="nb">self</span><span class="p">.</span><span class="n">textLabel</span> <span class="o">&amp;</span><span class="n">hellip</span><span class="p">;</span> <span class="o">&amp;</span><span class="n">hellip</span><span class="p">;</span>
-<span class="lineno"> 9</span>     <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">view</span> <span class="nl">addSubview</span><span class="p">:</span><span class="nb">self</span><span class="p">.</span><span class="n">textLabel</span><span class="p">];</span>
-<span class="lineno">10</span> <span class="p">}</span></code></pre></div></p>
-
-<p>而应该是这样的：</p>
-
-<p><div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno"> 1</span> <span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-<span class="lineno"> 2</span> 
-<span class="lineno"> 3</span> <span class="o">&lt;</span><span class="n">h1</span><span class="o">&gt;</span><span class="n">pragma</span> <span class="n">mark</span> <span class="o">-</span> <span class="n">life</span> <span class="n">cycle</span><span class="o">&lt;/</span><span class="n">h1</span><span class="o">&gt;</span>
-<span class="lineno"> 4</span> 
-<span class="lineno"> 5</span> <span class="o">&lt;</span><span class="n">ul</span><span class="o">&gt;</span>
-<span class="lineno"> 6</span> <span class="o">&lt;</span><span class="n">li</span><span class="o">&gt;&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">viewDidLoad</span>
-<span class="lineno"> 7</span> <span class="p">{</span>
-<span class="lineno"> 8</span>   <span class="p">[</span><span class="nb">super</span> <span class="n">viewDidLoad</span><span class="p">];</span>
-<span class="lineno"> 9</span>   <span class="nb">self</span><span class="p">.</span><span class="n">view</span><span class="p">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="p">[</span><span class="bp">UIColor</span> <span class="n">whiteColor</span><span class="p">];</span>
-<span class="lineno">10</span>   <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">view</span> <span class="nl">addSubview</span><span class="p">:</span><span class="nb">self</span><span class="p">.</span><span class="n">firstTableView</span><span class="p">];</span>
-<span class="lineno">11</span>   <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">view</span> <span class="nl">addSubview</span><span class="p">:</span><span class="nb">self</span><span class="p">.</span><span class="n">secondTableView</span><span class="p">];</span>
-<span class="lineno">12</span>   <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">view</span> <span class="nl">addSubview</span><span class="p">:</span><span class="nb">self</span><span class="p">.</span><span class="n">cleanButton</span><span class="p">];</span>
-<span class="lineno">13</span>   <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">view</span> <span class="nl">addSubview</span><span class="p">:</span><span class="nb">self</span><span class="p">.</span><span class="n">originImageView</span><span class="p">];</span>
-<span class="lineno">14</span>   <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">view</span> <span class="nl">addSubview</span><span class="p">:</span><span class="nb">self</span><span class="p">.</span><span class="n">processedImageView</span><span class="p">];</span>
-<span class="lineno">15</span>   <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">view</span> <span class="nl">addSubview</span><span class="p">:</span><span class="nb">self</span><span class="p">.</span><span class="n">activityIndicator</span><span class="p">];</span>
-<span class="lineno">16</span>   <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">view</span> <span class="nl">addSubview</span><span class="p">:</span><span class="nb">self</span><span class="p">.</span><span class="n">takeImageButton</span><span class="p">];</span>
-<span class="lineno">17</span> <span class="p">}</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;&lt;/</span><span class="n">li</span><span class="o">&gt;</span>
-<span class="lineno">18</span> <span class="o">&lt;</span><span class="n">li</span><span class="o">&gt;&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nl">viewWillAppear</span><span class="p">:(</span><span class="kt">BOOL</span><span class="p">)</span><span class="n">animated</span>
-<span class="lineno">19</span> <span class="p">{</span>
-<span class="lineno">20</span>   <span class="p">[</span><span class="nb">super</span> <span class="nl">viewWillAppear</span><span class="p">:</span><span class="n">animated</span><span class="p">];</span>
-<span class="lineno">21</span>   <span class="n">CGFloat</span> <span class="n">width</span> <span class="o">=</span> <span class="p">(</span><span class="nb">self</span><span class="p">.</span><span class="n">view</span><span class="p">.</span><span class="n">width</span> <span class="o">-</span> <span class="mi">30</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.0f</span><span class="p">;</span>
-<span class="lineno">22</span>   <span class="nb">self</span><span class="p">.</span><span class="n">originImageView</span><span class="p">.</span><span class="n">size</span> <span class="o">=</span> <span class="n">CGSizeMake</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">width</span><span class="p">);</span>
-<span class="lineno">23</span>   <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">originImageView</span> <span class="nl">topInContainer</span><span class="p">:</span><span class="mi">70</span> <span class="nl">shouldResize</span><span class="p">:</span><span class="nb">NO</span><span class="p">];</span>
-<span class="lineno">24</span>   <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">originImageView</span> <span class="nl">leftInContainer</span><span class="p">:</span><span class="mi">10</span> <span class="nl">shouldResize</span><span class="p">:</span><span class="nb">NO</span><span class="p">];</span>
-<span class="lineno">25</span>   <span class="nb">self</span><span class="p">.</span><span class="n">processedImageView</span><span class="p">.</span><span class="n">size</span> <span class="o">=</span> <span class="n">CGSizeMake</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">width</span><span class="p">);</span>
-<span class="lineno">26</span>   <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">processedImageView</span> <span class="nl">right</span><span class="p">:</span><span class="mi">10</span> <span class="nl">FromView</span><span class="p">:</span><span class="nb">self</span><span class="p">.</span><span class="n">originImageView</span><span class="p">];</span>
-<span class="lineno">27</span>   <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">processedImageView</span> <span class="nl">topEqualToView</span><span class="p">:</span><span class="nb">self</span><span class="p">.</span><span class="n">originImageView</span><span class="p">];</span>
-<span class="lineno">28</span>   <span class="n">CGFloat</span> <span class="n">labelWidth</span> <span class="o">=</span> <span class="nb">self</span><span class="p">.</span><span class="n">view</span><span class="p">.</span><span class="n">width</span> <span class="o">-</span> <span class="mi">100</span><span class="p">;</span>
-<span class="lineno">29</span>   <span class="nb">self</span><span class="p">.</span><span class="n">firstFilterLabel</span><span class="p">.</span><span class="n">size</span> <span class="o">=</span> <span class="n">CGSizeMake</span><span class="p">(</span><span class="n">labelWidth</span><span class="p">,</span> <span class="mi">20</span><span class="p">);</span>
-<span class="lineno">30</span>   <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">firstFilterLabel</span> <span class="nl">leftInContainer</span><span class="p">:</span><span class="mi">10</span> <span class="nl">shouldResize</span><span class="p">:</span><span class="nb">NO</span><span class="p">];</span>
-<span class="lineno">31</span>   <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">firstFilterLabel</span> <span class="nl">top</span><span class="p">:</span><span class="mi">10</span> <span class="nl">FromView</span><span class="p">:</span><span class="nb">self</span><span class="p">.</span><span class="n">originImageView</span><span class="p">];</span>
-<span class="lineno">32</span>   <span class="o">&amp;</span><span class="n">hellip</span><span class="p">;</span> <span class="o">&amp;</span><span class="n">hellip</span><span class="p">;</span>
-<span class="lineno">33</span> <span class="p">}</span></code></pre></div></p></li>
-</ul>
-
-
-<h4>getter和setter全部都放在最后</h4>
-
-<blockquote><p>因为一个ViewController很有可能会有非常多的view，就像上面给出的代码样例一样，如果getter和setter写在前面，就会把主要逻辑扯到后面去，其他人看的时候就要先划过一长串getter和setter，这样不太好。然后要求业务工程师写代码的时候按照顺序来分配代码块的位置，<strong>先是life cycle，然后是Delegate方法实现，然后是event response，然后才是getters and setters</strong>。这样后来者阅读代码时就能省力很多。</p></blockquote>
-
-<h3>每一个delegate都把对应的protocol名字带上，delegate方法不要到处乱写，写到一块区域里面去</h3>
-
-<blockquote><p>比如UITableViewDelegate的方法集就老老实实写上#pragma mark - UITableViewDelegate。这样有个好处就是，当其他人阅读一个他并不熟悉的Delegate实现方法时，他只要按住command然后去点这个protocol名字，Xcode就能够立刻跳转到对应这个Delegate的protocol定义的那部分代码去，就省得他到处找了。</p></blockquote>
-
-<h3>event response专门开一个代码区域</h3>
-
-<p>所有button、gestureRecognizer的响应事件都放在这个区域里面，不要到处乱放。</p>
-
-<h3>关于private methods，正常情况下ViewController里面不应该写</h3>
-
-<p>不是delegate方法的，不是event response方法的，不是life cycle方法的，就是private method了。对的，正常情况下ViewController里面一般是不会存在private methods的，这个private methods一般是用于日期换算、图片裁剪啥的这种小功能。这种小功能要么把它写成一个category，要么把他做成一个模块，哪怕这个模块只有一个函数也行。</p>
-
-<p>ViewController基本上是大部分业务的载体，本身代码已经相当复杂，所以跟业务关联不大的东西能不放在ViewController里面就不要放。另外一点，这个private method的功能这时候只是你用得到，但是将来说不定别的地方也会用到，一开始就独立出来，有利于将来的代码复用。</p>
 ]]></content>
   </entry>
   

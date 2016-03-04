@@ -4,7 +4,7 @@
   <title><![CDATA[Zhang Hongchao]]></title>
   <link href="http://hongchaozhang.github.io/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2016-01-30T22:56:39+08:00</updated>
+  <updated>2016-03-04T15:20:12+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -12,6 +12,390 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[使用node-xlsx进行excel文件的读写]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2016/03/04/parsing-and-write-excel-file-using-node-module/"/>
+    <updated>2016-03-04T14:54:54+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2016/03/04/parsing-and-write-excel-file-using-node-module</id>
+    <content type="html"><![CDATA[<h3>解析excel文件</h3>
+
+<p>在我的应用中需要对excel文件内容进行搜索，所以需要一个解析excel文件的插件。</p>
+
+<p><a href="https://www.npmjs.com/package/node-xlsx">node-xlsx</a>插件可以让我们解析、修改、新建excel文件。</p>
+
+<!-- more -->
+
+
+<p>安装到所在文件夹：</p>
+
+<div class="highlight"><pre><code class="language-text" data-lang="text">npm install excel node-xlsx</code></pre></div>
+
+
+<p>或者安装为全局应用：</p>
+
+<div class="highlight"><pre><code class="language-text" data-lang="text">npm install -g excel node-xlsx</code></pre></div>
+
+
+<p>然后就可以这样解析excel文件：</p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="lineno">1</span> <span class="kd">var</span> <span class="nx">xlsx</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;node-xlsx&#39;</span><span class="p">);</span>
+<span class="lineno">2</span> <span class="kd">var</span> <span class="nx">obj</span> <span class="o">=</span> <span class="nx">xlsx</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">__dirname</span> <span class="o">+</span> <span class="s1">&#39;/myFile.xlsx&#39;</span><span class="p">);</span> <span class="c1">// parses a file</span></code></pre></div>
+
+
+<p>下面是一段样例代码：</p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="lineno"> 1</span> <span class="c1">// Include modules.</span>
+<span class="lineno"> 2</span> <span class="kd">var</span> <span class="nx">xlsx</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;node-xlsx&#39;</span><span class="p">);</span>
+<span class="lineno"> 3</span> 
+<span class="lineno"> 4</span> <span class="c1">// read xlsx file and analyse</span>
+<span class="lineno"> 5</span> <span class="kd">var</span> <span class="nx">excelObj</span> <span class="o">=</span> <span class="nx">xlsx</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="s1">&#39;fileName.xlsx&#39;</span><span class="p">);</span>
+<span class="lineno"> 6</span> 
+<span class="lineno"> 7</span> <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">sheet</span> <span class="k">in</span> <span class="nx">excelObj</span><span class="p">)</span> <span class="p">{</span>
+<span class="lineno"> 8</span>  <span class="k">if</span> <span class="p">(</span><span class="nx">sheet</span> <span class="o">!==</span> <span class="s1">&#39;0&#39;</span> <span class="o">&amp;&amp;</span> <span class="nx">excelObj</span><span class="p">.</span><span class="nx">hasOwnProperty</span><span class="p">(</span><span class="nx">sheet</span><span class="p">))</span> <span class="p">{</span> <span class="c1">// sheet is &#39;0&#39;, &#39;1&#39;, ...</span>
+<span class="lineno"> 9</span>      <span class="kd">var</span> <span class="nx">sheetData</span> <span class="o">=</span> <span class="nx">excelObj</span><span class="p">[</span><span class="nx">sheet</span><span class="p">].</span><span class="nx">data</span><span class="p">;</span> <span class="c1">// data inside a sheet, which is an two-dimention array</span>
+<span class="lineno">10</span>      <span class="kd">var</span> <span class="nx">rowCount</span> <span class="o">=</span> <span class="nx">sheetData</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span>
+<span class="lineno">11</span>      <span class="nx">activityCountDic</span><span class="p">[</span><span class="nx">sheet</span><span class="p">]</span> <span class="o">=</span> <span class="nx">rowCount</span><span class="p">;</span>
+<span class="lineno">12</span>      <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">rowCount</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+<span class="lineno">13</span>          <span class="kd">var</span> <span class="nx">rowData</span> <span class="o">=</span> <span class="nx">sheetData</span><span class="p">[</span><span class="nx">i</span><span class="p">];</span> <span class="c1">// data inside one row, which is an one-dimention array</span>
+<span class="lineno">14</span>          <span class="kd">var</span> <span class="nx">columnCount</span> <span class="o">=</span> <span class="nx">rowData</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span>
+<span class="lineno">15</span>          <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">j</span> <span class="o">&lt;</span> <span class="nx">columnCount</span><span class="p">;</span> <span class="nx">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+<span class="lineno">16</span>              <span class="kd">var</span> <span class="nx">cellData</span> <span class="o">=</span> <span class="nx">rowData</span><span class="p">[</span><span class="nx">j</span><span class="p">].</span><span class="nx">toString</span><span class="p">();</span> <span class="c1">// data in j column of the given row</span>
+<span class="lineno">17</span>              <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">cellData</span><span class="p">);</span>
+<span class="lineno">18</span>          <span class="p">}</span>
+<span class="lineno">19</span>      <span class="p">}</span>
+<span class="lineno">20</span>  <span class="p">}</span>
+<span class="lineno">21</span> <span class="p">}</span></code></pre></div>
+
+
+<h3>写入excel文件</h3>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="lineno"> 1</span> <span class="c1">// Include modules.</span>
+<span class="lineno"> 2</span> <span class="kd">var</span> <span class="nx">xlsx</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;node-xlsx&#39;</span><span class="p">);</span>
+<span class="lineno"> 3</span> <span class="kd">var</span> <span class="nx">fs</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;fs&#39;</span><span class="p">);</span>
+<span class="lineno"> 4</span> 
+<span class="lineno"> 5</span> <span class="c1">// 写入excel之后是一个一行两列的表格</span>
+<span class="lineno"> 6</span> <span class="kd">var</span> <span class="nx">data1</span> <span class="o">=</span> <span class="p">[</span>
+<span class="lineno"> 7</span> <span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;age&#39;</span><span class="p">]</span>
+<span class="lineno"> 8</span> <span class="p">];</span>
+<span class="lineno"> 9</span> 
+<span class="lineno">10</span> <span class="c1">// 写入excel之后是一个三行两列的表格</span>
+<span class="lineno">11</span> <span class="kd">var</span> <span class="nx">data2</span> <span class="o">=</span> <span class="p">[</span>
+<span class="lineno">12</span> <span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;age&#39;</span><span class="p">],</span> 
+<span class="lineno">13</span> <span class="p">[</span><span class="s1">&#39;zhang san&#39;</span><span class="p">,</span> <span class="s1">&#39;10&#39;</span><span class="p">],</span> 
+<span class="lineno">14</span> <span class="p">[</span><span class="s1">&#39;li si&#39;</span><span class="p">,</span> <span class="s1">&#39;11&#39;</span><span class="p">]</span>
+<span class="lineno">15</span> <span class="p">];</span>
+<span class="lineno">16</span> 
+<span class="lineno">17</span> <span class="kd">var</span> <span class="nx">buffer</span> <span class="o">=</span> <span class="nx">xlsx</span><span class="p">.</span><span class="nx">build</span><span class="p">([</span>
+<span class="lineno">18</span>  <span class="p">{</span>
+<span class="lineno">19</span>      <span class="nx">name</span><span class="o">:</span><span class="s1">&#39;sheet1&#39;</span><span class="p">,</span>
+<span class="lineno">20</span>      <span class="nx">data</span><span class="o">:</span><span class="nx">data1</span>
+<span class="lineno">21</span>  <span class="p">},</span> <span class="p">{</span>
+<span class="lineno">22</span>      <span class="nx">name</span><span class="o">:</span><span class="s1">&#39;sheet2&#39;</span><span class="p">,</span>
+<span class="lineno">23</span>      <span class="nx">data</span><span class="o">:</span><span class="nx">data2</span>
+<span class="lineno">24</span>  <span class="p">}</span>
+<span class="lineno">25</span>  <span class="p">]);</span>
+<span class="lineno">26</span> 
+<span class="lineno">27</span> <span class="nx">fs</span><span class="p">.</span><span class="nx">writeFileSync</span><span class="p">(</span><span class="s1">&#39;book.xlsx&#39;</span><span class="p">,</span> <span class="nx">buffer</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;flag&#39;</span><span class="o">:</span><span class="s1">&#39;w&#39;</span><span class="p">});</span> <span class="c1">// 如果文件存在，覆盖</span></code></pre></div>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Ios内存管理——调试]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2016/02/24/ios-memory-managemement-debugging/"/>
+    <updated>2016-02-24T20:51:01+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2016/02/24/ios-memory-managemement-debugging</id>
+    <content type="html"><![CDATA[<p><a href="http://www.cocoachina.com/ios/20160222/15333.html">iOS/OS X 内存管理(二)：借助工具解决内存问题</a>讲了一些调试技巧，包括：</p>
+
+<!-- more -->
+
+
+<ul>
+<li>启用Zombie Object进行悬挂指针的检测。</li>
+<li>应用<em>Product -> Analysis</em>进行内存泄露的初步检测。</li>
+<li>应用Leak Instrument进行内存泄露查找。</li>
+<li>在以上方法不奏效的情况下，通过查看<code>dealloc</code>是否调用查看某个class是否泄露的问题。</li>
+</ul>
+
+
+<p>补充一下：在<em>Leak</em>页面可以打开<em>Cycles &amp; Roots</em>用图的方式查看ratain cycle的问题，截图如下：</p>
+
+<p><img src="http://hongchaozhang.github.io/images/xcode_leak_instrument_cycles_and_roots_view.png" alt="xcode_leak_instrument_cycles_and_roots_view" /></p>
+
+<p>上文没有介绍的，也是比较麻烦的，就是leak instrument没法查出的内存泄露。最近在调试一个这样的问题，写点心得。</p>
+
+<h3>行动前的准备</h3>
+
+<h4>认识工具</h4>
+
+<p>参看<a href="https://developer.apple.com/library/ios/documentation/AnalysisTools/Reference/Instruments_User_Reference/LeaksInstrument/LeaksInstrument.html">Leaks Instrument</a>和<a href="https://developer.apple.com/library/ios/documentation/AnalysisTools/Reference/Instruments_User_Reference/AllocationsInstrument/AllocationsInstrument.html#//apple_ref/doc/uid/TP40011355-CH40-SW1">Allocation Instrument</a>的官方文档。</p>
+
+<p>补充：</p>
+
+<ul>
+<li>Leak Instrument有<em>Cycles &amp; Roots</em>界面，见上。</li>
+<li>Persistent Bytes和#Persistent。#Persistent是object的数量，也就是allocation的次数，而Persistent Bytes是具体的内存大小。<strong>#Persistent是我们需要关注的，内存有没有泄露也是看这个值是不是只增不减。</strong></li>
+<li>Allocation Instrument进行profile的时候，为<em>Launch Configuration for Heap Allocations</em>勾选<em>Record reference counts</em>。</li>
+</ul>
+
+
+<h4>编译参数设置</h4>
+
+<p>为了保证看到代码，而不是一堆无意义的内存地址，参考<a href="http://hongchaozhang.github.io/blog/2015/08/17/the-dSYM-file-in-ios-project/">The .dSYM File in Ios Project</a>进行xcode的设置。</p>
+
+<h3>如果<code>dealloc</code>没有被调用</h3>
+
+<p>通过Allocation Instrument，我们可以得到内存使用情况。为了清楚地看出是哪部分最可能是内存泄露，可以使用<em>Call Trees</em>视图，然后在右边：</p>
+
+<ul>
+<li>勾选<em>Hide System Libraries</em>，排除系统影响。</li>
+<li>勾选<em>Invert Call Tree</em>，使占用内存最多的分支在最前面。</li>
+</ul>
+
+
+<p>通过以上方法，可以大概确定是哪部分内存泄露。然后看看该class是不是被<code>dealloc</code>了。</p>
+
+<ul>
+<li>如果<code>dealloc</code>了，那不是本文要解决的问题。</li>
+<li>如果<code>dealloc</code>没有调用到，继续往下看。</li>
+</ul>
+
+
+<h4>Retain Cycle导致<code>dealloc</code>没有被调用</h4>
+
+<p>在ARC下，<code>dealloc</code>不能被调用，一般是因为存在Retain Cycle，而导致Retain Cycle的情况可能是下面几种可能(参考<a href="http://kkoval.blogspot.com/2014/03/ios-retain-cycle-in-arc.html">iOS Retain Cycle in ARC</a>和<a href="http://stackoverflow.com/questions/9219030/dealloc-not-being-called-on-arc-app">Dealloc not being called on ARC app</a>):</p>
+
+<h5>1. Blocks</h5>
+
+<p>并不是所有在block中引用<code>self</code>都会带来retain cycle，比如下面的代码就不会有内存泄露：</p>
+
+<div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno">1</span> <span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">testSelfInCocoaBlocks</span>
+<span class="lineno">2</span> <span class="p">{</span>
+<span class="lineno">3</span>     <span class="bp">NSArray</span> <span class="o">*</span><span class="n">cats</span> <span class="o">=</span> <span class="l">@[</span><span class="s">@&quot;Smily&quot;</span><span class="p">,</span> <span class="s">@&quot;Garfild&quot;</span><span class="p">,</span> <span class="s">@&quot;Other cat&quot;</span><span class="l">]</span><span class="p">;</span>
+<span class="lineno">4</span>     <span class="p">[</span><span class="n">cats</span> <span class="nl">enumerateObjectsUsingBlock</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="bp">NSString</span> <span class="o">*</span><span class="n">cat</span><span class="p">,</span> <span class="bp">NSUInteger</span> <span class="n">idx</span><span class="p">,</span> <span class="kt">BOOL</span> <span class="o">*</span><span class="n">stop</span><span class="p">)</span> <span class="p">{</span>
+<span class="lineno">5</span>         <span class="p">[</span><span class="nb">self</span> <span class="nl">doSomethingWithCat</span><span class="p">:</span><span class="n">cat</span><span class="p">];</span>
+<span class="lineno">6</span>     <span class="p">}];</span>
+<span class="lineno">7</span> <span class="p">}</span></code></pre></div>
+
+
+<p>因为在上面的代码中，block ratain了self，但是self中没有retain这个block。只有当block中引用了self，并且self又以某种方式（比如用一个具有strong属性的Property指向该block，或者将该block加入了self的一个具有strong属性的array中）强引用了该block，才会引起内存泄露，比如：</p>
+
+<div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno">1</span> <span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">testSelfInBlock</span>
+<span class="lineno">2</span> <span class="p">{</span>
+<span class="lineno">3</span>     <span class="nb">self</span><span class="p">.</span><span class="n">block</span> <span class="o">=</span> <span class="o">^</span><span class="p">{</span>
+<span class="lineno">4</span>         <span class="p">[</span><span class="nb">self</span> <span class="nl">doSomethingWithCat</span><span class="p">:</span><span class="s">@&quot;Fat Cat&quot;</span><span class="p">];</span>
+<span class="lineno">5</span>     <span class="p">};</span>
+<span class="lineno">6</span> <span class="p">}</span></code></pre></div>
+
+
+<p>有时候即使没有直接引用self，也可能导致self被retain，这叫做“implicit retain”。一种可能的情况就是在block中引用了self的实例变量，比如：</p>
+
+<div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno">1</span> <span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">testHiddenSelfInCocoaBlocks</span>
+<span class="lineno">2</span> <span class="p">{</span>
+<span class="lineno">3</span>     <span class="bp">NSArray</span> <span class="o">*</span><span class="n">cats</span> <span class="o">=</span> <span class="l">@[</span><span class="s">@&quot;Smily&quot;</span><span class="p">,</span> <span class="s">@&quot;Garfild&quot;</span><span class="p">,</span> <span class="s">@&quot;Other cat&quot;</span><span class="l">]</span><span class="p">;</span>
+<span class="lineno">4</span>     <span class="p">[</span><span class="n">cats</span> <span class="nl">enumerateObjectsUsingBlock</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="bp">NSString</span> <span class="o">*</span><span class="n">cat</span><span class="p">,</span> <span class="bp">NSUInteger</span> <span class="n">idx</span><span class="p">,</span> <span class="kt">BOOL</span> <span class="o">*</span><span class="n">stop</span><span class="p">)</span> <span class="p">{</span>
+<span class="lineno">5</span>         <span class="n">_aCat</span> <span class="o">=</span> <span class="n">cat</span><span class="p">;</span>
+<span class="lineno">6</span>         <span class="o">*</span><span class="n">stop</span> <span class="o">=</span> <span class="nb">YES</span><span class="p">;</span>
+<span class="lineno">7</span>     <span class="p">}];</span>
+<span class="lineno">8</span> <span class="p">}</span></code></pre></div>
+
+
+<p>这段code在block中引用了self的实例变量<code>_aCat</code>。</p>
+
+<p>为了避免implicit retain，可以在xcode的build setting中打开<em>implicit retain of &lsquo;self&rsquo; within blocks</em>，xcode编译器会给出警告。</p>
+
+<h5>2. NSTimer</h5>
+
+<p>如果在view controller中创建了NSTimer，在消失view controller的时候需要调用<code>invalidate</code>，否则会产生ratain cycle。</p>
+
+<h5>3. Observers/NSNotificationCenter</h5>
+
+<p>当我们在NSNotificationCenter的block中引用self的时候，也会产生retain cycle，比如：</p>
+
+<div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno">1</span> <span class="p">[[</span><span class="bp">NSNotificationCenter</span> <span class="n">defaultCenter</span><span class="p">]</span> <span class="nl">addObserverForName</span><span class="p">:</span><span class="s">@&quot;not&quot;</span>
+<span class="lineno">2</span>                                                       <span class="nl">object</span><span class="p">:</span><span class="nb">nil</span>
+<span class="lineno">3</span>                                                        <span class="nl">queue</span><span class="p">:[</span><span class="bp">NSOperationQueue</span> <span class="n">mainQueue</span><span class="p">]</span>
+<span class="lineno">4</span>                                                   <span class="nl">usingBlock</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="bp">NSNotification</span> <span class="o">*</span><span class="n">note</span><span class="p">)</span> <span class="p">{</span>
+<span class="lineno">5</span>         <span class="p">[</span><span class="nb">self</span> <span class="nl">doSomethingWithCat</span><span class="p">:</span><span class="s">@&quot;Noty cat&quot;</span><span class="p">];</span>
+<span class="lineno">6</span>     <span class="p">}];</span></code></pre></div>
+
+
+<p>在不用的时候需要将self从NSNotificationCenter中移除。</p>
+
+<h5>4. Array contained reference</h5>
+
+<p>比如在view controller中将self放在了一个array中，而这个array在view controller消失的时候不会被释放，view controller的<code>dealloc</code>就不会被调用。</p>
+
+<h5>5. Delegate</h5>
+
+<p>delegate的属性应该为weak。</p>
+
+<h4>dealloc没被调用的调试</h4>
+
+<p>调试dealloc没有被调用的情况，参考<a href="http://stackoverflow.com/questions/14890402/instruments-allocations-track-alloc-and-dealloc-of-objects-of-user-defined-class/14891837#14891837">Instruments Allocations track alloc and dealloc of objects of user defined classes</a>，可以看到对应实例在整个生命周期中发生的所有和内存有关的事件，包括malloc，ratain，release等和每次事件的call stack。注意其中的两项设置：</p>
+
+<ul>
+<li>勾选Record reference counts，记录retain，release和autorelease事件。</li>
+<li>为Allocation Lifespan选择All Objects Created，如果你想看到已经被dealloc的实例，这个可以不选。</li>
+</ul>
+
+
+<h3>关于ARC下的retainCount</h3>
+
+<p>在ARC之前，我们可以使用<code>retainCount</code>得到一个Object被retain的次数。
+引入ARC之后，这个方法不能在code中使用，可以使用下面的方法获得retain的次数：</p>
+
+<div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Retain count is %ld&quot;</span><span class="p">,</span> <span class="n">CFGetRetainCount</span><span class="p">((</span><span class="k">__bridge</span> <span class="n">CFTypeRef</span><span class="p">)</span><span class="n">myObject</span><span class="p">));</span></code></pre></div>
+
+
+<p>或者通过设置断点，在调试窗口输入如下命令：</p>
+
+<div class="highlight"><pre><code class="language-text" data-lang="text">po object.retainCount</code></pre></div>
+
+
+<p>我们什么时候使用retainCount？
+Never！
+参考 <a href="http://stackoverflow.com/questions/4636146/when-to-use-retaincount">When to use -retainCount?</a>。
+但是偶尔在调试的时候用一下，对于一些内存管理概念的理解还是有好处的。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Ios内存管理——理论]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2016/02/22/ios-memory-management-theory/"/>
+    <updated>2016-02-22T20:51:30+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2016/02/22/ios-memory-management-theory</id>
+    <content type="html"><![CDATA[<p><a href="http://www.cocoachina.com/ios/20160219/15330.html">iOS/OS X内存管理(一)：基本概念与原理</a>对内存管理的概念讲的很清楚。</p>
+
+<!-- more -->
+
+
+<p>摘抄一些重要信息。</p>
+
+<p>assign对应就是__unsafe_unretained，它跟__weak相似，被它修饰的变量都不持有对象的所有权，但不相同的是，当变量指向的对象的RC为0时，变量并不设置为nil，而是继续保存对象的地址。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[iOS中的动画——UIView]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2016/02/18/uiview-animation-in-ios/"/>
+    <updated>2016-02-18T11:36:47+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2016/02/18/uiview-animation-in-ios</id>
+    <content type="html"><![CDATA[<p>官方文档<a href="https://developer.apple.com/library/ios/documentation/WindowsViews/Conceptual/ViewPG_iPhoneOS/AnimatingViews/AnimatingViews.html">Animations</a>详细讲述了UIView的animations，
+<a href="http://www.cocoachina.com/ios/20160215/15262.html">iOS 开发之动画篇 - 从 UIView 动画说起</a>也阐述了用UIView进行动画的基本用法。</p>
+
+<!-- more -->
+
+
+<p>总结摘抄一些要点。</p>
+
+<h2>Animate Property Changes in a View</h2>
+
+<h3>Basic Usage</h3>
+
+<div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno">1</span> <span class="p">[</span><span class="bp">UIView</span> <span class="nl">animateWithDuration</span><span class="p">:</span><span class="mf">1.0</span> <span class="nl">animations</span><span class="p">:</span><span class="o">^</span><span class="p">{</span>
+<span class="lineno">2</span>     <span class="n">firstView</span><span class="p">.</span><span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">;</span>
+<span class="lineno">3</span>     <span class="n">secondView</span><span class="p">.</span><span class="n">alpha</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">;</span>
+<span class="lineno">4</span> <span class="p">}];</span></code></pre></div>
+
+
+<blockquote><p>NOTE: When this code executes, the specified animations are started immediately on another thread so as to avoid blocking the current thread or your application’s main thread.</p></blockquote>
+
+<h3>Completion Handler</h3>
+
+<p>Usage of Completion Handler</p>
+
+<ul>
+<li>Use a completion handler to signal your application that a specific animation has finished.</li>
+<li>Completion handlers are also the way to link separate animations together.</li>
+</ul>
+
+
+<p>Sample code：</p>
+
+<div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno"> 1</span> <span class="p">-</span> <span class="p">(</span><span class="kt">IBAction</span><span class="p">)</span><span class="nf">showHideView:</span><span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nv">sender</span>
+<span class="lineno"> 2</span> <span class="p">{</span>
+<span class="lineno"> 3</span>     <span class="c1">// Fade out the view right away</span>
+<span class="lineno"> 4</span>     <span class="p">[</span><span class="bp">UIView</span> <span class="nl">animateWithDuration</span><span class="p">:</span><span class="mf">1.0</span>
+<span class="lineno"> 5</span>         <span class="nl">delay</span><span class="p">:</span> <span class="mf">0.0</span>
+<span class="lineno"> 6</span>         <span class="nl">options</span><span class="p">:</span> <span class="n">UIViewAnimationOptionCurveEaseIn</span>
+<span class="lineno"> 7</span>         <span class="nl">animations</span><span class="p">:</span><span class="o">^</span><span class="p">{</span>
+<span class="lineno"> 8</span>              <span class="n">thirdView</span><span class="p">.</span><span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">;</span>
+<span class="lineno"> 9</span>         <span class="p">}</span>
+<span class="lineno">10</span>         <span class="nl">completion</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="kt">BOOL</span> <span class="n">finished</span><span class="p">){</span>
+<span class="lineno">11</span>             <span class="c1">// Wait one second and then fade in the view</span>
+<span class="lineno">12</span>             <span class="p">[</span><span class="bp">UIView</span> <span class="nl">animateWithDuration</span><span class="p">:</span><span class="mf">1.0</span>
+<span class="lineno">13</span>                  <span class="nl">delay</span><span class="p">:</span> <span class="mf">1.0</span>
+<span class="lineno">14</span>                  <span class="nl">options</span><span class="p">:</span><span class="n">UIViewAnimationOptionCurveEaseOut</span>
+<span class="lineno">15</span>                  <span class="nl">animations</span><span class="p">:</span><span class="o">^</span><span class="p">{</span>
+<span class="lineno">16</span>                     <span class="n">thirdView</span><span class="p">.</span><span class="n">alpha</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">;</span>
+<span class="lineno">17</span>                  <span class="p">}</span>
+<span class="lineno">18</span>                  <span class="nl">completion</span><span class="p">:</span><span class="nb">nil</span><span class="p">];</span>
+<span class="lineno">19</span>         <span class="p">}];</span>
+<span class="lineno">20</span> <span class="p">}</span></code></pre></div>
+
+
+<h3>Nesting Animation Blocks</h3>
+
+<p>Nested animations are started at the same time as any parent animations.</p>
+
+<p>Sample code:</p>
+
+<div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno"> 1</span> <span class="p">[</span><span class="bp">UIView</span> <span class="nl">animateWithDuration</span><span class="p">:</span><span class="mf">1.0</span>
+<span class="lineno"> 2</span>         <span class="nl">delay</span><span class="p">:</span> <span class="mf">1.0</span>
+<span class="lineno"> 3</span>         <span class="nl">options</span><span class="p">:</span><span class="n">UIViewAnimationOptionCurveEaseOut</span>
+<span class="lineno"> 4</span>         <span class="nl">animations</span><span class="p">:</span><span class="o">^</span><span class="p">{</span>
+<span class="lineno"> 5</span>             <span class="n">aView</span><span class="p">.</span><span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">;</span>
+<span class="lineno"> 6</span>             <span class="c1">// Create a nested animation that has a different</span>
+<span class="lineno"> 7</span>             <span class="c1">// duration, timing curve, and configuration.</span>
+<span class="lineno"> 8</span>             <span class="p">[</span><span class="bp">UIView</span> <span class="nl">animateWithDuration</span><span class="p">:</span><span class="mf">0.2</span>
+<span class="lineno"> 9</span>                  <span class="nl">delay</span><span class="p">:</span><span class="mf">0.0</span>
+<span class="lineno">10</span>                  <span class="nl">options</span><span class="p">:</span> <span class="n">UIViewAnimationOptionOverrideInheritedCurve</span> <span class="o">|</span>
+<span class="lineno">11</span>                           <span class="n">UIViewAnimationOptionCurveLinear</span> <span class="o">|</span>
+<span class="lineno">12</span>                           <span class="n">UIViewAnimationOptionOverrideInheritedDuration</span> <span class="o">|</span>
+<span class="lineno">13</span>                           <span class="n">UIViewAnimationOptionRepeat</span> <span class="o">|</span>
+<span class="lineno">14</span>                           <span class="n">UIViewAnimationOptionAutoreverse</span>
+<span class="lineno">15</span>                  <span class="nl">animations</span><span class="p">:</span><span class="o">^</span><span class="p">{</span>
+<span class="lineno">16</span>                       <span class="p">[</span><span class="bp">UIView</span> <span class="nl">setAnimationRepeatCount</span><span class="p">:</span><span class="mf">2.5</span><span class="p">];</span>
+<span class="lineno">17</span>                       <span class="n">anotherView</span><span class="p">.</span><span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">;</span>
+<span class="lineno">18</span>                  <span class="p">}</span>
+<span class="lineno">19</span>                  <span class="nl">completion</span><span class="p">:</span><span class="nb">nil</span><span class="p">];</span>
+<span class="lineno">20</span>         <span class="p">}</span>
+<span class="lineno">21</span>         <span class="nl">completion</span><span class="p">:</span><span class="nb">nil</span><span class="p">];</span></code></pre></div>
+
+
+<h2>Creating Animated Transitions Between Views</h2>
+
+<p>View transitions help you hide sudden changes associated with adding, removing, hiding, or showing views in your view hierarchy. You use view transitions to implement the following types of changes:</p>
+
+<ul>
+<li><strong>Change the visible subviews of an existing view.</strong> You typically choose this option when you want to make relatively small changes to an existing view.</li>
+<li><strong>Replace one view in your view hierarchy with a different view.</strong> You typically choose this option when you want to replace a view hierarchy that spans all or most of the screen.</li>
+</ul>
+
+
+<blockquote><p><strong>Note:</strong> View transitions should not be confused with transitions initiated by view controllers, such as the presentation of modal view controllers or the pushing of new view controllers onto a navigation stack. View transitions affect the view hierarchy only, whereas view-controller transitions change the active view controller as well. Thus, for view transitions, the view controller that was active when you initiated the transition remains active when the transition finishes.</p></blockquote>
+
+<p>Sampel code for replacing a view with a different view:</p>
+
+<div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno"> 1</span> <span class="p">-</span> <span class="p">(</span><span class="kt">IBAction</span><span class="p">)</span><span class="nf">toggleMainViews:</span><span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nv">sender</span> <span class="p">{</span>
+<span class="lineno"> 2</span>     <span class="p">[</span><span class="bp">UIView</span> <span class="nl">transitionFromView</span><span class="p">:(</span><span class="n">displayingPrimary</span> <span class="o">?</span> <span class="nl">primaryView</span> <span class="p">:</span> <span class="n">secondaryView</span><span class="p">)</span>
+<span class="lineno"> 3</span>         <span class="nl">toView</span><span class="p">:(</span><span class="n">displayingPrimary</span> <span class="o">?</span> <span class="nl">secondaryView</span> <span class="p">:</span> <span class="n">primaryView</span><span class="p">)</span>
+<span class="lineno"> 4</span>         <span class="nl">duration</span><span class="p">:</span><span class="mf">1.0</span>
+<span class="lineno"> 5</span>         <span class="nl">options</span><span class="p">:(</span><span class="n">displayingPrimary</span> <span class="o">?</span> <span class="nl">UIViewAnimationOptionTransitionFlipFromRight</span> <span class="p">:</span>
+<span class="lineno"> 6</span>                     <span class="n">UIViewAnimationOptionTransitionFlipFromLeft</span><span class="p">)</span>
+<span class="lineno"> 7</span>         <span class="nl">completion</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="kt">BOOL</span> <span class="n">finished</span><span class="p">)</span> <span class="p">{</span>
+<span class="lineno"> 8</span>             <span class="k">if</span> <span class="p">(</span><span class="n">finished</span><span class="p">)</span> <span class="p">{</span>
+<span class="lineno"> 9</span>                 <span class="n">displayingPrimary</span> <span class="o">=</span> <span class="o">!</span><span class="n">displayingPrimary</span><span class="p">;</span>
+<span class="lineno">10</span>             <span class="p">}</span>
+<span class="lineno">11</span>     <span class="p">}];</span>
+<span class="lineno">12</span> <span class="p">}</span></code></pre></div>
+
+
+<blockquote><p><strong>Note:</strong> In addition to swapping out views, your view controller code needs to manage the loading and unloading of both the primary and secondary views.</p></blockquote>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[火星坐标导致iOS系统下高德地图定位不准]]></title>
@@ -97,13 +481,13 @@
 </ul>
 
 
-<p>其实在使用iOS的地图应用的时候，只要使用的是非大陆的ip地址（国外用户或者国内用户通过国外代理），使用的都将是准确的WGS-84坐标和准确的地图。但是当在大陆地区使用是，苹果使用的是搞得的地图服务，得到的坐标也都是GCJ-02坐标。</p>
+<p>其实在使用iOS的地图应用的时候，只要使用的是非大陆的ip地址（国外用户或者国内用户通过国外代理），使用的都将是准确的WGS-84坐标和准确的地图。但是当在大陆地区使用是，苹果使用的是高德的地图服务，得到的坐标也都是GCJ-02坐标。但是有些接口没有本地化，仍然使用WGS-84坐标。</p>
 
 <p>下面具体说一下在下面三个接口中经纬度坐标的使用，下面的内容都是针对iOS中高德地图的使用。</p>
 
 <h4>MKMapView</h4>
 
-<p>通过加到MMKMapView中的UIGestureRecognizer的<code>locationInVieww:</code>获得手势在地图上的CGPoint，然后通过MKMapView的<code>convertPoint:toCoordinateFromView:</code>方法得到的经纬度坐标是GCJ-02坐标，使用的也是高德地图，所以在<code>addAnnotation:</code>等操作的时候，不用进行坐标转换。</p>
+<p>通过加到MKMapView中的UIGestureRecognizer的<code>locationInVieww:</code>获得手势在地图上的CGPoint，然后通过MKMapView的<code>convertPoint:toCoordinateFromView:</code>方法得到的经纬度坐标是GCJ-02坐标，使用的也是高德地图，所以在<code>addAnnotation:</code>等操作的时候，不用进行坐标转换。</p>
 
 <h3>CLLocationManager</h3>
 
@@ -131,7 +515,7 @@
 <h3>参考</h3>
 
 <ul>
-<li>这一片文章的结论和我的结论一致，（除了GeoCoding外）：<a href="http://blog.it985.com/7728.html">iOS 火星坐标相关整理及解决方案汇总</a></li>
+<li>这一篇文章的结论和我的结论一致，（除了GeoCoding外）：<a href="http://blog.it985.com/7728.html">iOS 火星坐标相关整理及解决方案汇总</a></li>
 <li><a href="http://blog.csdn.net/giswens/article/details/8775121">火星坐标系统简介</a></li>
 <li><a href="http://blog.csdn.net/giswens/article/details/8775267">google map 的地图偏移 火星坐标</a>
 *<a href="http://blog.csdn.net/coolypf/article/details/8686588">地球坐标系 (WGS-84) 到火星坐标系 (GCJ-02) 的转换算法</a></li>
@@ -1029,7 +1413,7 @@ Temporary exceptions can be configured via your app&#39;s Info.plist file.</code
 <!-- more -->
 
 
-<p><a href="https://github.com/node-inspector/node-inspector">node-inspector</a>是一款非常好用的GUI调试工具，可以让你像调试Web页面一样调试Node.js应用。</p>
+<p><a href="https://github.com/node-inspector/node-inspector">node-inspector</a>是一款非常好用的GUI调试工具，可以让你像调试Web页面一样，在Chrome或者Opera里面调试Node.js应用。</p>
 
 <p>安装</p>
 
@@ -1041,23 +1425,12 @@ Temporary exceptions can be configured via your app&#39;s Info.plist file.</code
 <div class="highlight"><pre><code class="language-text" data-lang="text">$ node-debug app.js</code></pre></div>
 
 
-<h3>解析excel文件</h3>
+<h4>注意</h4>
 
-<p>在我的应用中需要对excel文件内容进行搜索，所以需要一个解析excel文件的插件。</p>
-
-<p><a href="https://www.npmjs.com/package/node-xlsx">node-xlsx</a>插件可以让我们解析、修改、新建excel文件。</p>
-
-<p>安装</p>
-
-<div class="highlight"><pre><code class="language-text" data-lang="text">npm install excel node-xlsx</code></pre></div>
-
-
-<p>然后就可以这样解析excel文件：</p>
-
-<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="lineno">1</span> <span class="kd">var</span> <span class="nx">xlsx</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;node-xlsx&#39;</span><span class="p">);</span>
-<span class="lineno">2</span> <span class="kd">var</span> <span class="nx">obj</span> <span class="o">=</span> <span class="nx">xlsx</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">__dirname</span> <span class="o">+</span> <span class="s1">&#39;/myFile.xlsx&#39;</span><span class="p">);</span> <span class="c1">// parses a file</span></code></pre></div>
-
-
+<ul>
+<li>node-inspector只支持Chrome和Opera，所以至少将其中之一设为你的默认浏览器。</li>
+<li>node-inspector使用127.0.0.1:8080进行调试，所以，保证localhost的8080端口没有被占用。</li>
+</ul>
 
 ]]></content>
   </entry>
@@ -1087,6 +1460,24 @@ Temporary exceptions can be configured via your app&#39;s Info.plist file.</code
 <p>用<strong>Astah Community</strong>（Astah还有收费版本：Astah Professional，功能更全，不过Astah Community完全够用了。）来画UML图的class diagram和sequence diagram非常方便，尤其是sequence diagram，相比于之前用的<strong>Dia</strong>，简直是方便太多了，用<strong>Dia</strong>画sequence diagram简直就是噩梦。</p>
 
 <p>对于Astah中定义的UML sequence diagram，参考<a href="http://www.uml.org.cn/oobject/201009081.asp">UML建模之时序图（Sequence Diagram）</a></p>
+
+<h3>图像视频操作</h3>
+
+<h4>LICECap</h4>
+
+<p><a href="http://www.cockos.com/licecap/">LICECap</a>用来快速将屏幕操作等转换成gif动画，比先录屏再转换快太多了。</p>
+
+<p>使用Mac自带的Preview是不能预览gif图片的，可以通过一下两种方式预览：</p>
+
+<ul>
+<li>在Finder中选中gif图片，在右边的预览框中预览。</li>
+<li>将gif用浏览器打开预览，比如Safari。</li>
+</ul>
+
+
+<h4>PicGif Lite</h4>
+
+<p>PicGif用来将视频或者图片转换成gif图片，这种工具很多，还有在线工具，比如<a href="http://www.uupoop.com/gif/">uupoop</a>。<del>我主要用这个来进行gif图的预览。</del></p>
 ]]></content>
   </entry>
   
@@ -1177,585 +1568,6 @@ Temporary exceptions can be configured via your app&#39;s Info.plist file.</code
 <tr>
 <td><strong>cat</strong> hello.txt <strong>>></strong> dest.txt </td>
 <td> 将hello.txt中的内容<strong>追加</strong>到dest.txt文件的内容</td>
-</tr>
-</tbody>
-</table>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS中的触控事件机制]]></title>
-    <link href="http://hongchaozhang.github.io/blog/2015/10/21/touch-event-in-ios/"/>
-    <updated>2015-10-21T16:55:48+08:00</updated>
-    <id>http://hongchaozhang.github.io/blog/2015/10/21/touch-event-in-ios</id>
-    <content type="html"><![CDATA[<p>在iOS中有三类事件：</p>
-
-<ul>
-<li>触控事件（单点、多点触控以及各种手势操作）</li>
-<li>传感器事件（重力、加速度传感器等）</li>
-<li>远程控制事件（远程遥控iOS设备多媒体播放等）</li>
-</ul>
-
-
-<p>这里要讨论的是<strong>触控事件</strong>的机制。</p>
-
-<p>iOS中主要有两种触控事件：</p>
-
-<ul>
-<li>手势识别类定义的触控事件</li>
-<li>UIResponder中定义的触控事件</li>
-</ul>
-
-
-<!-- more -->
-
-
-<h2>手势识别类——Gesture Recognizer</h2>
-
-<h3>手势识别类的代码添加</h3>
-
-<p>可以通过如下代码，在ViewController中为UIView添加手势识别类，称为Action-Target模式。每一个Gesture Recognizer关联一个View，但是一个View可以关联多个Gesture Recognizer，因为一个View可能还能响应多种触控操作方式。</p>
-
-<div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno"> 1</span> <span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">viewDidLoad</span> <span class="p">{</span>
-<span class="lineno"> 2</span>     <span class="p">[</span><span class="nb">super</span> <span class="n">viewDidLoad</span><span class="p">];</span>
-<span class="lineno"> 3</span> 
-<span class="lineno"> 4</span>     <span class="c1">// 创建并初始化手势对象</span>
-<span class="lineno"> 5</span>     <span class="bp">UITapGestureRecognizer</span> <span class="o">*</span><span class="n">tapRecognizer</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">UITapGestureRecognizer</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithTarget</span><span class="p">:</span><span class="nb">self</span> <span class="nl">action</span><span class="p">:</span><span class="k">@selector</span><span class="p">(</span><span class="nl">respondToTapGesture</span><span class="p">:)];</span>
-<span class="lineno"> 6</span> 
-<span class="lineno"> 7</span>     <span class="c1">// 指定操作为单击一次</span>
-<span class="lineno"> 8</span>     <span class="n">tapRecognizer</span><span class="p">.</span><span class="n">numberOfTapsRequired</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
-<span class="lineno"> 9</span> 
-<span class="lineno">10</span>     <span class="c1">// 为当前View添加GestureRecognizer</span>
-<span class="lineno">11</span>     <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">view</span> <span class="nl">addGestureRecognizer</span><span class="p">:</span><span class="n">tapRecognizer</span><span class="p">];</span>
-<span class="lineno">12</span> 
-<span class="lineno">13</span>     <span class="c1">// ...</span>
-<span class="lineno">14</span> <span class="p">}</span></code></pre></div>
-
-
-<h3>连续和不连续动作</h3>
-
-<p><img src="http://hongchaozhang.github.io/images/011_iOS_event_discrete_vs_continuous.png" alt="011_iOS_event_discrete_vs_continuous.png" /></p>
-
-<p>对于不连续动作，Gesture Recognizer只会给ViewContoller发送一个单一的动作消息(action message)而，对于连续动作，Gesture Recognizer会发送多条动作消息给ViewController，直到所有的事件都结束。</p>
-
-<h3>常见的手势识别类</h3>
-
-<p>UIKit框架中已经提供了诸如UITapGestureRecognizer在内的六种手势识别器：</p>
-
-<table>
-<thead>
-<tr>
-<th>Gesture </th>
-<th> UIKit class</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Tapping (any number of taps)</td>
-<td> UITapGestureRecognizer</td>
-</tr>
-<tr>
-<td>Pinching in and out (for zooming a view) </td>
-<td> UIPinchGestureRecognizer</td>
-</tr>
-<tr>
-<td>Panning or dragging </td>
-<td> UIPanGestureRecognizer</td>
-</tr>
-<tr>
-<td>Swiping (in any direction) </td>
-<td> UISwipeGestureRecognizer</td>
-</tr>
-<tr>
-<td>Rotating (fingers moving in opposite directions) </td>
-<td> UIRotationGestureRecognizer</td>
-</tr>
-<tr>
-<td>Long press (also known as “touch and hold”) </td>
-<td> UILongPressGestureRecognizer</td>
-</tr>
-</tbody>
-</table>
-
-
-<p>如果你需要实现自定义的手势识别器，也可以通过继承UIGestureRecognizer类并重写其中的方法来完成。</p>
-
-<h3>事件识别过程</h3>
-
-<p>在事件处理过程中，连续事件和不连续事件所处的状态又各有不同，首先，所有的触控事件最开始都是处于可用状态(Possible)，对应UIKit里面的UIGestureRecognizerStatePossible类，如果是不连续动作事件，则状态只会从Possible转变为已识别状态(Recognized,UIGestureRecognizerStateRecognized)或者是失败状态(Failed,UIGestureRecognizerStateFailed)。例如一次成功的单击动作，就对应了Possible-Recognized这个过程。</p>
-
-<p><img src="http://hongchaozhang.github.io/images/012_iOS_event_gesture_recognizer_state_transitions.png" alt="012_iOS_event_gesture_recognizer_state_transitions.png" /></p>
-
-<p>如果是连续动作事件，如果事件没有失败并且连续动作的第一个动作被成功识别(Recognized)，则从Possible状态转移到Began(UIGestureRecognizerStateBegan)状态，这里表示连续动作的开始，接着会转变为Changed(UIGestureRecognizerStateChanged)状态，在这个状态下会不断循环的处理连续动作，直到动作执行完成变转变为Recognized已识别状态，最终该动作会处于完成状态(UIGestureRecognizerStateEnded)。另外，连续动作事件的处理状态也可能会从Changed状态转变为Canceled(UIGestureRecognizerStateCancelled)状态，原因是识别器认为当前的动作已经不匹配当初对事件的设定了。每个动作状态的变化，Gesture Recognizer都会发送消息(action message)给Target，也就是ViewController，它可以根据这些动作消息进行相应的处理。例如一次成功的滑动手势动作就包括按下、移动、抬起的过程，分别对应了Possible-Began-Changed-Recognized这个过程。</p>
-
-<h2>UIResponder中定义的触控事件</h2>
-
-<h3>UITouch和UIEvent</h3>
-
-<p><strong>TODO</strong></p>
-
-<p>当UIView中没有添加UIGestureRecognizer的时候，如果对UIView触发Pinch操作，如下四个事件接口函数中的<code>touches</code>都只能接收到一个touch的信息（新加的或者改变的touche）。如果想得到所有touch的信息，可以到<code>event.touches</code>中获取。</p>
-
-<div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno">1</span> <span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">touchesBegan:</span><span class="p">(</span><span class="bp">NSSet</span><span class="o">&lt;</span><span class="bp">UITouch</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">touches</span> <span class="nf">withEvent:</span><span class="p">(</span><span class="bp">UIEvent</span> <span class="o">*</span><span class="p">)</span><span class="nv">event</span>
-<span class="lineno">2</span> <span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">touchesMoved:</span><span class="p">(</span><span class="bp">NSSet</span><span class="o">&lt;</span><span class="bp">UITouch</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">touches</span> <span class="nf">withEvent:</span><span class="p">(</span><span class="bp">UIEvent</span> <span class="o">*</span><span class="p">)</span><span class="nv">event</span>
-<span class="lineno">3</span> <span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">touchesEnded:</span><span class="p">(</span><span class="bp">NSSet</span><span class="o">&lt;</span><span class="bp">UITouch</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">touches</span> <span class="nf">withEvent:</span><span class="p">(</span><span class="bp">UIEvent</span> <span class="o">*</span><span class="p">)</span><span class="nv">event</span>
-<span class="lineno">4</span> <span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">touchesCancelled:</span><span class="p">(</span><span class="bp">NSSet</span><span class="o">&lt;</span><span class="bp">UITouch</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">touches</span> <span class="nf">withEvent:</span><span class="p">(</span><span class="bp">UIEvent</span> <span class="o">*</span><span class="p">)</span><span class="nv">event</span></code></pre></div>
-
-
-<p>每个touch都有自己的<code>phase</code>，其与上述四个接口函数的关系可以从下面的例子中看出：</p>
-
-<p><img src="http://hongchaozhang.github.io/images/014_ios_event_touch_time.png" alt="014_ios_event_touch_time.png" /></p>
-
-<h2>手势识别类和UIResponder定义的事件的传递过程</h2>
-
-<p><img src="http://hongchaozhang.github.io/images/013_iOS_event_path_of_touches.png" alt="013_iOS_event_path_of_touches.png" /></p>
-
-<p>iOS中事件传递首先从App(UIApplication)开始，接着传递到Window(UIWindow)，在接着往下传递到View之前，Window会将事件交给GestureRecognizer，如果在此期间，GestureRecognizer识别了传递过来的事件，则该事件将不会继续传递到View去，而是像我们之前说的那样交给Target(ViewController)进行处理。如果View上没有定义GestureRecognizer，或者GestureRecognizer没有识别出这个动作，那么View中的继承自UIResponder的如下事件方法会被触发：</p>
-
-<ul>
-<li>touchesBegan:withEvent:</li>
-<li>touchesMoved:withEvent:</li>
-<li>touchesEnded:withEvent:</li>
-<li>touchesCancelled:withEvent:</li>
-</ul>
-
-
-<p>比如，</p>
-
-<ul>
-<li>对于非连续行动作（比如Tap），
-
-<ul>
-<li>当View上定义了UITapGestureRecognizer，在View接受用户Tap事件时，touchesBegan:withEvent:和touchesCancelled:withEvent:会被调用，其余事件方法则不会被调用。</li>
-<li>当View上没有定义UIGestureRecognizer时，在View接受用户Tap事件时，touchesBegan:withEvent:和touchesEnded:withEvent:会被调用。</li>
-</ul>
-</li>
-<li>对于连续动作（比如Pinch），
-
-<ul>
-<li>当View上定义了UIPinchGestureRecognizer时，在View接受用户Pinch动作时，
-
-<ul>
-<li>如果Pinch动作被正确地Recognized，那么View上被触发的事件依次是：
-
-<ul>
-<li>touchesBegan</li>
-<li>touchesMoved</li>
-<li>touchesMoved</li>
-<li>&hellip;</li>
-<li>touchesMoved</li>
-<li>pinch (UIGestureRecognizerStateBegan)</li>
-<li>touchesCancelled</li>
-<li>pinch (UIGestureRecognizerStateChanged)</li>
-<li>pinch (UIGestureRecognizerStateChanged)</li>
-<li>&hellip;</li>
-<li>pinch (UIGestureRecognizerStateChanged)</li>
-<li>pinch (UIGestureRecognizerStateEnded / UIGestureRecognizerStateRecognized)</li>
-</ul>
-</li>
-<li>如果Pinch动作Cancelled，猜想：应该和recognized的情况类似，只是最后一步的状态是UIGestureRecognizerStateCancelled。</li>
-</ul>
-</li>
-<li>当View上未定义UIPinchGestureRecognizer时，在View接受Pinch动作时，被触发的事件依次是：
-
-<ul>
-<li>touchesBegan</li>
-<li>touchesMoved</li>
-<li>touchesMoved</li>
-<li>&hellip;</li>
-<li>touchesMoved</li>
-<li>touchesEnded</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-
-
-<p>可以到<a href="https://developer.apple.com/library/ios/documentation/EventHandling/Conceptual/EventHandlingiPhoneOS/GestureRecognizer_basics/GestureRecognizer_basics.html">Gesture Recognizers</a>官方文档中的“Gesture Recognizers Get the First Opportunity to Recognize a Touch”部分了解详细过程。</p>
-
-<p>截一插图放在这里：</p>
-
-<p><img src="http://hongchaozhang.github.io/images/015_iOS_recognize_touch.png" alt="015_iOS_recognize_touch.png" /></p>
-
-<h2>响应者链（Responder Chain）</h2>
-
-<p>在网页上当我们讲到事件，我们会讲到事件响应链，我们会讲到事件的响应者和事件的传递方式(冒泡)，那么在app上，其实也离不开这几个问题。</p>
-
-<p>UIResponder是所有可以响应事件的类的基类(从名字应该就可以看出来了)，其中包括最常见的UIView和UIViewController甚至是UIApplication，所以我们的UIView和UIViewController都是作为响应事件的载体，称为<strong>响应者对象（Responder Object）</strong>。UIResponder部分接口如下：</p>
-
-<div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno"> 1</span> <span class="n">NS_CLASS_AVAILABLE_IOS</span><span class="p">(</span><span class="mi">2</span><span class="n">_0</span><span class="p">)</span> <span class="k">@interface</span> <span class="bp">UIResponder</span> : <span class="bp">NSObject</span>
-<span class="lineno"> 2</span> 
-<span class="lineno"> 3</span> <span class="p">-</span> <span class="p">(</span><span class="n">nullable</span> <span class="bp">UIResponder</span><span class="o">*</span><span class="p">)</span><span class="nf">nextResponder</span><span class="p">;</span>
-<span class="lineno"> 4</span> 
-<span class="lineno"> 5</span> <span class="p">-</span> <span class="p">(</span><span class="kt">BOOL</span><span class="p">)</span><span class="nf">canBecomeFirstResponder</span><span class="p">;</span>    <span class="c1">// default is NO</span>
-<span class="lineno"> 6</span> <span class="p">-</span> <span class="p">(</span><span class="kt">BOOL</span><span class="p">)</span><span class="nf">becomeFirstResponder</span><span class="p">;</span>
-<span class="lineno"> 7</span> 
-<span class="lineno"> 8</span> <span class="p">-</span> <span class="p">(</span><span class="kt">BOOL</span><span class="p">)</span><span class="nf">canResignFirstResponder</span><span class="p">;</span>    <span class="c1">// default is YES</span>
-<span class="lineno"> 9</span> <span class="p">-</span> <span class="p">(</span><span class="kt">BOOL</span><span class="p">)</span><span class="nf">resignFirstResponder</span><span class="p">;</span>
-<span class="lineno">10</span> 
-<span class="lineno">11</span> <span class="p">-</span> <span class="p">(</span><span class="kt">BOOL</span><span class="p">)</span><span class="nf">isFirstResponder</span><span class="p">;</span>
-<span class="lineno">12</span> 
-<span class="lineno">13</span> <span class="c1">// Generally, all responders which do custom touch handling should override all four of these methods.</span>
-<span class="lineno">14</span> <span class="c1">// Your responder will receive either touchesEnded:withEvent: or touchesCancelled:withEvent: for each</span>
-<span class="lineno">15</span> <span class="c1">// touch it is handling (those touches it received in touchesBegan:withEvent:).</span>
-<span class="lineno">16</span> <span class="c1">// *** You must handle cancelled touches to ensure correct behavior in your application.  Failure to</span>
-<span class="lineno">17</span> <span class="c1">// do so is very likely to lead to incorrect behavior or crashes.</span>
-<span class="lineno">18</span> <span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">touchesBegan:</span><span class="p">(</span><span class="bp">NSSet</span><span class="o">&lt;</span><span class="bp">UITouch</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">touches</span> <span class="nf">withEvent:</span><span class="p">(</span><span class="n">nullable</span> <span class="bp">UIEvent</span> <span class="o">*</span><span class="p">)</span><span class="nv">event</span><span class="p">;</span>
-<span class="lineno">19</span> <span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">touchesMoved:</span><span class="p">(</span><span class="bp">NSSet</span><span class="o">&lt;</span><span class="bp">UITouch</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">touches</span> <span class="nf">withEvent:</span><span class="p">(</span><span class="n">nullable</span> <span class="bp">UIEvent</span> <span class="o">*</span><span class="p">)</span><span class="nv">event</span><span class="p">;</span>
-<span class="lineno">20</span> <span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">touchesEnded:</span><span class="p">(</span><span class="bp">NSSet</span><span class="o">&lt;</span><span class="bp">UITouch</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">touches</span> <span class="nf">withEvent:</span><span class="p">(</span><span class="n">nullable</span> <span class="bp">UIEvent</span> <span class="o">*</span><span class="p">)</span><span class="nv">event</span><span class="p">;</span>
-<span class="lineno">21</span> <span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">touchesCancelled:</span><span class="p">(</span><span class="n">nullable</span> <span class="bp">NSSet</span><span class="o">&lt;</span><span class="bp">UITouch</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">touches</span> <span class="nf">withEvent:</span><span class="p">(</span><span class="n">nullable</span> <span class="bp">UIEvent</span> <span class="o">*</span><span class="p">)</span><span class="nv">event</span><span class="p">;</span></code></pre></div>
-
-
-<p>那么响应链跟这个UIResponder有什么关系呢？事实事件响应链的形成和事件的响应和传递，UIResponder都帮我们做了很多事。我们的app中，所有的视图都是按照一定的结构组织起来的，即树状层次结构，每个view都有自己的superView，包括controller的topmost view(controller的self.view)。当一个view被add到superView上的时候，他的nextResponder属性就会被指向它的superView，当controller被初始化的时候，self.view(topmost view)的nextResponder会被指向所在的controller，而controller的nextResponder会被指向self.view的superView，这样，整个app就通过nextResponder串成了一条链，也就是我们所说的响应链。所以响应链就是一条虚拟的链，并没有一个对象来专门存储这样的一条链，而是通过UIResponder的属性nextResponder串连起来的。如下图：</p>
-
-<p><img src="http://hongchaozhang.github.io/images/007_iOS_responder_chain.png" alt="007_iOS_responder_chain.png" /></p>
-
-<p>参考文章：<a href="http://zhoon.github.io/ios/2015/04/12/ios-event.html">深入浅出iOS事件机制</a>。</p>
-
-<h3>hit-test view</h3>
-
-<p>有了事件响应链，接下来的事情就是寻找响应事件的具体响应者了，我们称为hit-testing view，寻找这个view的过程我们称着为hit-test。</p>
-
-<p>每当手指接触屏幕，UIApplication接收到手指的事件之后，就会去调用UIWindow的hitTest:withEvent:</p>
-
-<div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno"> 1</span> <span class="nl">hitTest</span><span class="p">:</span> <span class="p">(</span><span class="bp">CGPoint</span><span class="p">)</span> <span class="n">point</span> <span class="nl">withEvent</span><span class="p">:</span> <span class="p">(</span><span class="bp">UIEvent</span><span class="o">*</span> <span class="p">)</span><span class="n">event</span><span class="p">{</span>
-<span class="lineno"> 2</span> <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nb">self</span><span class="p">.</span><span class="n">isUserInteractionEnabled</span> <span class="o">||</span> <span class="nb">self</span><span class="p">.</span><span class="n">isHidden</span> <span class="o">||</span> <span class="nb">self</span><span class="p">.</span><span class="n">alpha</span> <span class="o">&lt;=</span><span class="mf">0.01</span><span class="p">)</span> <span class="p">{</span>
-<span class="lineno"> 3</span>     <span class="k">return</span> <span class="nb">nil</span><span class="p">;</span>
-<span class="lineno"> 4</span> <span class="p">}</span>
-<span class="lineno"> 5</span> 
-<span class="lineno"> 6</span> <span class="k">for</span> <span class="p">(</span><span class="bp">UIView</span><span class="o">*</span> <span class="n">v</span> <span class="k">in</span> <span class="n">subviews</span><span class="p">){</span>
-<span class="lineno"> 7</span>      <span class="k">if</span> <span class="p">([</span><span class="n">v</span> <span class="nl">pointInside</span><span class="p">:</span><span class="n">point</span> <span class="nl">withEvent</span><span class="p">:</span><span class="n">event</span><span class="p">]){</span>
-<span class="lineno"> 8</span>           <span class="k">return</span> <span class="p">[</span><span class="n">v</span> <span class="nl">hitTest</span><span class="p">:</span><span class="n">point</span> <span class="nl">withEvent</span><span class="p">:</span><span class="n">event</span><span class="p">];</span>
-<span class="lineno"> 9</span>      <span class="p">}</span>
-<span class="lineno">10</span>   <span class="p">}</span>
-<span class="lineno">11</span> <span class="p">}</span></code></pre></div>
-
-
-<p>注意hitTest里面是有判断当前的view是否支持点击事件，比如userInteractionEnabled、hidden、alpha等属性，都会影响一个view是否可以响应事件，如果不响应则直接返回nil。</p>
-
-<p>我们留意到还有一个pointInside:withEvent:方法，这个方法跟hittest:withEvent:一样都是UIView的一个方法，通过他可以判断point是否在view的<strong>bound</strong>范围内。</p>
-
-<p>下面用一幅图说明hit-test的过程：</p>
-
-<p><img src="http://hongchaozhang.github.io/images/009_iOS_hittest_2.png" alt="009_iOS_hittest_2.png" /></p>
-
-<p>参考文章：<a href="http://zhoon.github.io/ios/2015/04/12/ios-event.html">深入浅出iOS事件机制</a>。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Migrate Blog to Octopress]]></title>
-    <link href="http://hongchaozhang.github.io/blog/2015/09/09/migrate-blog-to-octopress/"/>
-    <updated>2015-09-09T10:22:17+08:00</updated>
-    <id>http://hongchaozhang.github.io/blog/2015/09/09/migrate-blog-to-octopress</id>
-    <content type="html"><![CDATA[<p>For basic configuration of octopress blog, go to <a href="http://octopress.org/">official site</a> for references.</p>
-
-<h2>Issue with OS EI Caption (10.11)</h2>
-
-<p>After updating OS to <strong>EI Caption</strong> (10.11), there is some bugs when we run <code>rake preview</code>. You need to update your ruby version, and reinstall dependencies of octopress.</p>
-
-<p>Refer to <a href="http://schalkneethling.github.io/blog/2015/10/16/errno-enoent-no-such-file-or-directory-jekyll-octopress-el-capitan/">Errno::ENOENT: No Such File or Directory - Jekyll ~ Octopress and El Capitan</a> post for more details.</p>
-
-<p>If you can still not update your ruby version using the way in the above post, try the following commands (Refer to <a href="http://misheska.com/blog/2013/06/15/using-rbenv-to-manage-multiple-versions-of-ruby/">Using Rbenv to Manage Multiple Versions of Ruby</a> for more details.) before install new ruby version:</p>
-
-<ul>
-<li>Add rbenv init to your shell to enable shims and autocompletion:</li>
-</ul>
-
-
-<div class="highlight"><pre><code class="language-text" data-lang="text">$ echo &#39;eval &quot;$(rbenv init -)&quot;&#39; &gt;&gt; $HOME/.bash_profile
-$ source ~/.bash_profile</code></pre></div>
-
-
-<ul>
-<li>Restart shell as a login shell so that the PATH changes take effect:</li>
-</ul>
-
-
-<div class="highlight"><pre><code class="language-text" data-lang="text">$ exec $SHELL -l</code></pre></div>
-
-
-<h2>Themes</h2>
-
-<p>Go to <a href="https://github.com/imathis/octopress/wiki/3rd-Party-Octopress-Themes">here</a> to choose the theme you like. Personally, I like the <strong>boldandblue</strong> theme. It is simple and elegant.</p>
-
-<!-- more -->
-
-
-<h2>Code Styles</h2>
-
-<p>目前有以下几种插入代码片段的方法：</p>
-
-<div class="highlight"><pre><code class="language-text" data-lang="text">this is code</code></pre></div>
-
-
-
-
-<div class="highlight"><pre><code class="language-text" data-lang="text"><span class="lineno">1</span> this is code</code></pre></div>
-
-
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>this is code</span></code></pre></td></tr></table></div></figure>
-
-
-<pre><code>this is code
-</code></pre>
-
-<pre><code>this is code
-</code></pre>
-
-<h2>Category list</h2>
-
-<p>Go to <a href="https://github.com/ctdk/octopress-category-list">here</a>, and the guy tells you how to enhance your blog to display the categories.</p>
-
-<h2>code syntax highlight</h2>
-
-<p>Refer to my previous post on write post for project pages (gh-pages) <a href="http://hongchaozhang.github.io/blog/2015/05/20/How-to-write-post-in-github-pages/#to_enable_code_highlight">How to Write Post in Github Pages</a></p>
-
-<h2>Write post</h2>
-
-<ul>
-<li>go to <em>source</em> branch.</li>
-<li>in <em>hongchaozhang.github.io</em> folder, run <code>rake new_post["title"]</code>, and you will find a well named file with <code>md</code> as the extension. Open it and edit.</li>
-</ul>
-
-
-<blockquote><p><strong>Note:</strong>The url of post is generated from the post file name in <em>_post</em> folder, and you shouuld only use English charactors there. But inside your site, the title comes from the <code>title</code> property in the <em>yaml</em> header of your post, and other languages are supported here.</p>
-
-<p>use <code>published: false</code> in the yaml header to disable your post from being displayed in the blog.</p></blockquote>
-
-<ul>
-<li>run <code>rake setup_github_pages</code> if you haven&rsquo;t run it.</li>
-</ul>
-
-
-<blockquote><p>This command help you do the followings:</p>
-
-<ul>
-<li>Ask for and store your Github Pages repository url.</li>
-<li>Rename the remote pointing to imathis/octopress from &lsquo;origin&rsquo; to &lsquo;octopress&rsquo;</li>
-<li>Add your Github Pages repository as the default origin remote.</li>
-<li>Switch the active branch from master to source.</li>
-<li>Configure your blog&rsquo;s url according to your repository.</li>
-<li>Setup a master branch in the _deploy directory for deployment.</li>
-<li>run <code>rake generate</code> to generate your new post.</li>
-<li>run <code>rake preview</code> to start local server at <em>localhost:4000</em> for testing.</li>
-</ul>
-</blockquote>
-
-<ul>
-<li>If everything is OK, run <code>rake deploy</code> to push the generated site in <em>_deploy</em> to <strong>master</strong> branch in github (Do it in <strong>source</strong> branch). In a second, you will see the changes at <em>username</em>.github.io.</li>
-</ul>
-
-
-<blockquote><p>If you meet with the following error while pushing your site to master branch:</p>
-
-<pre><code>To git@github.com:hongchaozhang/hongchaozhang.github.io.git
-! [rejected]        master -&gt; master (non-fast-forward)
-error: failed to push some refs to 'git@github.com:hongchaozhang/hongchaozhang.github.io.git'
-hint: Updates were rejected because the tip of your current branch is behind
-hint: its remote counterpart. Integrate the remote changes (e.g.
-hint: 'git pull ...') before pushing again.
-hint: See the 'Note about fast-forwards' in 'git push --help' for details.
-</code></pre>
-
-<p>Go to <em>_deploy</em> folder, and run the following commands (<a href="http://stackoverflow.com/questions/21356212/failed-to-deploy-to-github-pages-using-octopress">reference</a>):</p>
-
-<pre><code>git config branch.master.remote origin
-git config branch.master.merge refs/heads/master
-git pull
-</code></pre>
-
-<p>For some times, I just run the following:</p>
-
-<pre><code>git pull origin master
-</code></pre></blockquote>
-
-<ul>
-<li>push your source code to <strong>source</strong> branch.</li>
-</ul>
-
-
-<blockquote><p><strong>Note:</strong> Never push your source code to <strong>master</strong> branch. <strong>master</strong> branch should only hold your site.</p></blockquote>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Singleton]]></title>
-    <link href="http://hongchaozhang.github.io/blog/2015/09/07/Singleton/"/>
-    <updated>2015-09-07T00:00:00+08:00</updated>
-    <id>http://hongchaozhang.github.io/blog/2015/09/07/Singleton</id>
-    <content type="html"><![CDATA[<h2>Singleton implementation</h2>
-
-<p><a href="http://cocoa.venj.me/blog/singleton-in-objc/">Objective-C中单例模式的实现</a></p>
-
-<p><a href="http://www.makebetterthings.com/iphone/singleton-design-pattern-for-objective-c/">Singleton Design Pattern for Objective-C</a></p>
-
-<!-- more -->
-
-
-
-
-<div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="p">+</span> <span class="p">(</span><span class="kt">instancetype</span><span class="p">)</span><span class="nf">sharedInstance</span>
-<span class="p">{</span>
-    <span class="k">static</span> <span class="kt">dispatch_once_t</span> <span class="n">once</span><span class="p">;</span>
-    <span class="k">static</span> <span class="kt">id</span> <span class="n">sharedInstance</span><span class="p">;</span>
-    <span class="n">dispatch_once</span><span class="p">(</span><span class="o">&amp;</span><span class="n">once</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
-        <span class="n">sharedInstance</span> <span class="o">=</span> <span class="p">[[</span><span class="nb">self</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
-    <span class="p">});</span>
-    <span class="k">return</span> <span class="n">sharedInstance</span><span class="p">;</span>
-<span class="p">}</span></code></pre></div>
-
-
-<h2>Avoid abusing singleton</h2>
-
-<p><a href="http://objccn.io/issue-13-2/">避免滥用单例</a></p>
-
-<p>Singleton introduces globla variable, which may lead to coupling of far-away components.</p>
-
-<p>Note the life circle of an object, to see if it confirm to &ldquo;will always has one instance&rdquo;. If NO, we can not use Singleton here.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Shortcut of Chrome on Windows and Mac]]></title>
-    <link href="http://hongchaozhang.github.io/blog/2015/09/02/Shortcut-of-Chrome-on-Windows-and-Mac/"/>
-    <updated>2015-09-02T00:00:00+08:00</updated>
-    <id>http://hongchaozhang.github.io/blog/2015/09/02/Shortcut-of-Chrome-on-Windows-and-Mac</id>
-    <content type="html"><![CDATA[<p>Use shortcut to improve productivity while using Chrome.</p>
-
-<p>A full page is on Chrome helper:</p>
-
-<ul>
-<li><a href="https://support.google.com/chrome/answer/157179?hl=en">English version</a></li>
-<li><a href="https://support.google.com/chrome/answer/157179?hl=zh-Hans">Chinese version</a></li>
-</ul>
-
-
-<p>I will list some common used ones here by myself.</p>
-
-<!-- more -->
-
-
-<p>Five star recommended:</p>
-
-<table>
-<thead>
-<tr>
-<th>Windows         </th>
-<th> Mac                   </th>
-<th> Function</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Ctrl + F        </td>
-<td> Command + F       </td>
-<td> open search toolbar</td>
-</tr>
-<tr>
-<td>ESC             </td>
-<td> ESC                   </td>
-<td> close search toolbar</td>
-</tr>
-<tr>
-<td>Ctrl + W        </td>
-<td> Command + W       </td>
-<td> close a tab</td>
-</tr>
-<tr>
-<td>Ctrl + T        </td>
-<td> Command + T       </td>
-<td> new a tab</td>
-</tr>
-<tr>
-<td>Ctrl + click a link </td>
-<td> Command + click a link </td>
-<td> open the link in a new tab, but stay in original tab</td>
-</tr>
-<tr>
-<td>Ctrl + Shift + click a link </td>
-<td> Command + Shift + click a link </td>
-<td> open the link in a new tab, and go to the new tab</td>
-</tr>
-<tr>
-<td>Ctrl + Shift + T </td>
-<td> Command + Shift + T </td>
-<td> open last closed tab (10 at the most)</td>
-</tr>
-<tr>
-<td>Ctrl + Tab </td>
-<td> Ctrl + Tab </td>
-<td> move to the next tab</td>
-</tr>
-<tr>
-<td>Backspace </td>
-<td> Backspace </td>
-<td> go to the last history page</td>
-</tr>
-<tr>
-<td>Shift + Backspace </td>
-<td> Shift + Backspace </td>
-<td> go to the next history page</td>
-</tr>
-<tr>
-<td>Space </td>
-<td> Space </td>
-<td> page down</td>
-</tr>
-<tr>
-<td>Home </td>
-<td> Command + up arrow </td>
-<td> go to the start of the page</td>
-</tr>
-<tr>
-<td>End </td>
-<td> Command + down arrow </td>
-<td> go to the end of the page</td>
-</tr>
-</tbody>
-</table>
-
-
-<p>Four star recommended</p>
-
-<table>
-<thead>
-<tr>
-<th>Windows </th>
-<th> Mac </th>
-<th> Function</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Ctrl + N        </td>
-<td> Command + N           </td>
-<td> new a window</td>
-</tr>
-<tr>
-<td>Ctrl + 1 (to 8) </td>
-<td> Ctrl + 1 (to 8) </td>
-<td> go to the 1 (to 8) page</td>
-</tr>
-<tr>
-<td>Ctrl + 9 </td>
-<td> Command + 9 </td>
-<td> go to the last tab</td>
-</tr>
-<tr>
-<td>Ctrl + Shift + B </td>
-<td> Command + Shift + B </td>
-<td> open or close bookmarks bar</td>
-</tr>
-<tr>
-<td>Ctrl + L </td>
-<td> Command + L </td>
-<td> highlight the URL</td>
 </tr>
 </tbody>
 </table>

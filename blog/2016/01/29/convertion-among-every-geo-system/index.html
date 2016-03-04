@@ -170,13 +170,13 @@
 </ul>
 
 
-<p>其实在使用iOS的地图应用的时候，只要使用的是非大陆的ip地址（国外用户或者国内用户通过国外代理），使用的都将是准确的WGS-84坐标和准确的地图。但是当在大陆地区使用是，苹果使用的是搞得的地图服务，得到的坐标也都是GCJ-02坐标。</p>
+<p>其实在使用iOS的地图应用的时候，只要使用的是非大陆的ip地址（国外用户或者国内用户通过国外代理），使用的都将是准确的WGS-84坐标和准确的地图。但是当在大陆地区使用是，苹果使用的是高德的地图服务，得到的坐标也都是GCJ-02坐标。但是有些接口没有本地化，仍然使用WGS-84坐标。</p>
 
 <p>下面具体说一下在下面三个接口中经纬度坐标的使用，下面的内容都是针对iOS中高德地图的使用。</p>
 
 <h4>MKMapView</h4>
 
-<p>通过加到MMKMapView中的UIGestureRecognizer的<code>locationInVieww:</code>获得手势在地图上的CGPoint，然后通过MKMapView的<code>convertPoint:toCoordinateFromView:</code>方法得到的经纬度坐标是GCJ-02坐标，使用的也是高德地图，所以在<code>addAnnotation:</code>等操作的时候，不用进行坐标转换。</p>
+<p>通过加到MKMapView中的UIGestureRecognizer的<code>locationInVieww:</code>获得手势在地图上的CGPoint，然后通过MKMapView的<code>convertPoint:toCoordinateFromView:</code>方法得到的经纬度坐标是GCJ-02坐标，使用的也是高德地图，所以在<code>addAnnotation:</code>等操作的时候，不用进行坐标转换。</p>
 
 <h3>CLLocationManager</h3>
 
@@ -204,7 +204,7 @@
 <h3>参考</h3>
 
 <ul>
-<li>这一片文章的结论和我的结论一致，（除了GeoCoding外）：<a href="http://blog.it985.com/7728.html">iOS 火星坐标相关整理及解决方案汇总</a></li>
+<li>这一篇文章的结论和我的结论一致，（除了GeoCoding外）：<a href="http://blog.it985.com/7728.html">iOS 火星坐标相关整理及解决方案汇总</a></li>
 <li><a href="http://blog.csdn.net/giswens/article/details/8775121">火星坐标系统简介</a></li>
 <li><a href="http://blog.csdn.net/giswens/article/details/8775267">google map 的地图偏移 火星坐标</a>
 *<a href="http://blog.csdn.net/coolypf/article/details/8686588">地球坐标系 (WGS-84) 到火星坐标系 (GCJ-02) 的转换算法</a></li>
@@ -260,6 +260,8 @@
         <a class="basic-alignment left" href="/blog/2016/01/19/cocoapods-for-ios-dependencies-control/" title="Previous Post: 应用CocoaPods管理iOS的依赖库关系">&laquo; 应用CocoaPods管理iOS的依赖库关系</a>
       
       
+        <a class="basic-alignment right" href="/blog/2016/02/18/uiview-animation-in-ios/" title="Next Post: iOS中的动画——UIView">iOS中的动画——UIView &raquo;</a>
+      
     </p>
   </footer>
 </article>
@@ -271,30 +273,30 @@
   
     <section class="categories">
   <h1>Categories</h1>
-    <ul id="top-category-list" class="nav nav-list"><li><a href='/blog/categories/ios'>ios (20)</a></li><li><a href='/blog/categories/productivity'>productivity (15)</a></li><li><a href='/blog/categories/objective-c'>objective-c (14)</a></li><li><a href='/blog/categories/android'>android (3)</a></li><li><a href='/blog/categories/python'>python (3)</a></li><li><a href='/blog/categories/web'>web (2)</a></li><li><a href='/blog/categories/node'>node (2)</a></li><li><a href='/blog/categories/javascript'>javascript (2)</a></li><li><a href='/blog/categories/android-studio'>android_studio (1)</a></li><li><a href='/blog/categories/xcode'>xcode (1)</a></li><li><a href='/blog/categories/design-pattern'>design_pattern (1)</a></li><li><a href='/blog/categories/java'>java (1)</a></li></ul>
+    <ul id="top-category-list" class="nav nav-list"><li><a href='/blog/categories/ios'>ios (23)</a></li><li><a href='/blog/categories/objective-c'>objective-c (17)</a></li><li><a href='/blog/categories/productivity'>productivity (15)</a></li><li><a href='/blog/categories/xcode'>xcode (3)</a></li><li><a href='/blog/categories/node'>node (3)</a></li><li><a href='/blog/categories/android'>android (3)</a></li><li><a href='/blog/categories/python'>python (3)</a></li><li><a href='/blog/categories/web'>web (2)</a></li><li><a href='/blog/categories/javascript'>javascript (2)</a></li><li><a href='/blog/categories/android-studio'>android_studio (1)</a></li><li><a href='/blog/categories/design-pattern'>design_pattern (1)</a></li><li><a href='/blog/categories/java'>java (1)</a></li></ul>
 </section>
 <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2016/03/04/parsing-and-write-excel-file-using-node-module/">使用node-xlsx进行excel文件的读写</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/02/24/ios-memory-managemement-debugging/">Ios内存管理——调试</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/02/22/ios-memory-management-theory/">Ios内存管理——理论</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/02/18/uiview-animation-in-ios/">iOS中的动画——UIView</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2016/01/29/convertion-among-every-geo-system/">火星坐标导致iOS系统下高德地图定位不准</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2016/01/19/cocoapods-for-ios-dependencies-control/">应用CocoaPods管理iOS的依赖库关系</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2016/01/15/python-supports-chinese-charactors/">Python对中文的支持问题</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/12/30/implement-https-ios-client-side-using-objective-c/">Https在ios客户端的objective-c实现</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/12/30/implement-https-server-side-using-nodejs/">https在Server端的Nodejs实现</a>
       </li>
     
   </ul>

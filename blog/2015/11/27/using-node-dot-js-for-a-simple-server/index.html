@@ -106,7 +106,7 @@
 <!-- more -->
 
 
-<p><a href="https://github.com/node-inspector/node-inspector">node-inspector</a>是一款非常好用的GUI调试工具，可以让你像调试Web页面一样调试Node.js应用。</p>
+<p><a href="https://github.com/node-inspector/node-inspector">node-inspector</a>是一款非常好用的GUI调试工具，可以让你像调试Web页面一样，在Chrome或者Opera里面调试Node.js应用。</p>
 
 <p>安装</p>
 
@@ -118,23 +118,12 @@
 <div class="highlight"><pre><code class="language-text" data-lang="text">$ node-debug app.js</code></pre></div>
 
 
-<h3>解析excel文件</h3>
+<h4>注意</h4>
 
-<p>在我的应用中需要对excel文件内容进行搜索，所以需要一个解析excel文件的插件。</p>
-
-<p><a href="https://www.npmjs.com/package/node-xlsx">node-xlsx</a>插件可以让我们解析、修改、新建excel文件。</p>
-
-<p>安装</p>
-
-<div class="highlight"><pre><code class="language-text" data-lang="text">npm install excel node-xlsx</code></pre></div>
-
-
-<p>然后就可以这样解析excel文件：</p>
-
-<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="lineno">1</span> <span class="kd">var</span> <span class="nx">xlsx</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;node-xlsx&#39;</span><span class="p">);</span>
-<span class="lineno">2</span> <span class="kd">var</span> <span class="nx">obj</span> <span class="o">=</span> <span class="nx">xlsx</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">__dirname</span> <span class="o">+</span> <span class="s1">&#39;/myFile.xlsx&#39;</span><span class="p">);</span> <span class="c1">// parses a file</span></code></pre></div>
-
-
+<ul>
+<li>node-inspector只支持Chrome和Opera，所以至少将其中之一设为你的默认浏览器。</li>
+<li>node-inspector使用127.0.0.1:8080进行调试，所以，保证localhost的8080端口没有被占用。</li>
+</ul>
 
 </div>
 
@@ -196,30 +185,30 @@
   
     <section class="categories">
   <h1>Categories</h1>
-    <ul id="top-category-list" class="nav nav-list"><li><a href='/blog/categories/ios'>ios (20)</a></li><li><a href='/blog/categories/productivity'>productivity (15)</a></li><li><a href='/blog/categories/objective-c'>objective-c (14)</a></li><li><a href='/blog/categories/android'>android (3)</a></li><li><a href='/blog/categories/python'>python (3)</a></li><li><a href='/blog/categories/web'>web (2)</a></li><li><a href='/blog/categories/node'>node (2)</a></li><li><a href='/blog/categories/javascript'>javascript (2)</a></li><li><a href='/blog/categories/android-studio'>android_studio (1)</a></li><li><a href='/blog/categories/xcode'>xcode (1)</a></li><li><a href='/blog/categories/design-pattern'>design_pattern (1)</a></li><li><a href='/blog/categories/java'>java (1)</a></li></ul>
+    <ul id="top-category-list" class="nav nav-list"><li><a href='/blog/categories/ios'>ios (23)</a></li><li><a href='/blog/categories/objective-c'>objective-c (17)</a></li><li><a href='/blog/categories/productivity'>productivity (15)</a></li><li><a href='/blog/categories/xcode'>xcode (3)</a></li><li><a href='/blog/categories/node'>node (3)</a></li><li><a href='/blog/categories/android'>android (3)</a></li><li><a href='/blog/categories/python'>python (3)</a></li><li><a href='/blog/categories/web'>web (2)</a></li><li><a href='/blog/categories/javascript'>javascript (2)</a></li><li><a href='/blog/categories/android-studio'>android_studio (1)</a></li><li><a href='/blog/categories/design-pattern'>design_pattern (1)</a></li><li><a href='/blog/categories/java'>java (1)</a></li></ul>
 </section>
 <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2016/03/04/parsing-and-write-excel-file-using-node-module/">使用node-xlsx进行excel文件的读写</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/02/24/ios-memory-managemement-debugging/">Ios内存管理——调试</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/02/22/ios-memory-management-theory/">Ios内存管理——理论</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/02/18/uiview-animation-in-ios/">iOS中的动画——UIView</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2016/01/29/convertion-among-every-geo-system/">火星坐标导致iOS系统下高德地图定位不准</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2016/01/19/cocoapods-for-ios-dependencies-control/">应用CocoaPods管理iOS的依赖库关系</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2016/01/15/python-supports-chinese-charactors/">Python对中文的支持问题</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/12/30/implement-https-ios-client-side-using-objective-c/">Https在ios客户端的objective-c实现</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/12/30/implement-https-server-side-using-nodejs/">https在Server端的Nodejs实现</a>
       </li>
     
   </ul>
