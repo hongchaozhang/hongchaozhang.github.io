@@ -119,4 +119,4 @@ https的response数据如下：
 
 即使网络传输中被截获，也不会造成信息泄露。
 
-但是还有一个不安全的地方：对于上面的情况，我们使用的是https的get方法从server获取数据，需要在地址栏中输入查询参数，而这些参数可能通过浏览器的历史纪录泄露。这一点可以通过使用https的post方法解决，参考[http https get post 的区别，定义/安全性/性能](http://cuishen.iteye.com/blog/2019925)。
+但是还有一个不安全的地方：对于上面的情况，我们使用的是https的get方法从server获取数据，需要在地址栏中输入查询参数，而这些参数可能通过浏览器的历史记录泄露。这一点可以通过使用https的post方法解决，参考[http https get post 的区别，定义/安全性/性能](http://cuishen.iteye.com/blog/2019925)。

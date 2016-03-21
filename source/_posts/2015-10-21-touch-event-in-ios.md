@@ -178,7 +178,7 @@ NS_CLASS_AVAILABLE_IOS(2_0) @interface UIResponder : NSObject
 
 ### hit-test view
 
-有了事件响应链，接下来的事情就是寻找响应事件的具体响应者了，我们称为hit-testing view，寻找这个view的过程我们称着为hit-test。
+事件响应链工作的前提是找到**initial view**，我们称为hit-testing view，寻找这个view的过程我们称着为hit-test。确定了hit-TestView之后，才会开始进行下一步的事件分发。
 
 每当手指接触屏幕，UIApplication接收到手指的事件之后，就会去调用UIWindow的hitTest:withEvent:
 
@@ -196,6 +196,32 @@ for (UIView* v in subviews){
 }
 {% endhighlight %}
 
+完整版本：
+
+{% highlight objc linenos %}
+- (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
+    if (self.alpha <= 0.01 || !self.userInteractionEnabled || self.hidden) {
+        return nil;
+    }
+    
+    UIView *hitView = nil;
+    if ([self pointInside:point withEvent:event]) {
+        NSEnumerator *enumerator = [self.subviews reverseObjectEnumerator];
+        for (UIView *subview in enumerator) {
+            CGPoint convertedPoint = [subview convertPoint:point fromView:self];
+            hitView = [subview hitTest:convertedPoint withEvent:event];
+            if (hitView) {
+                return hitView;
+            }
+        }
+
+        return self;
+    } else {
+        return nil;
+    }
+}
+{% endhighlight %}
+
 注意hitTest里面是有判断当前的view是否支持点击事件，比如userInteractionEnabled、hidden、alpha等属性，都会影响一个view是否可以响应事件，如果不响应则直接返回nil。
 
 我们留意到还有一个pointInside:withEvent:方法，这个方法跟hittest:withEvent:一样都是UIView的一个方法，通过他可以判断point是否在view的**bound**范围内。
@@ -204,7 +230,7 @@ for (UIView* v in subviews){
 
 ![009_iOS_hittest_2.png](/images/009_iOS_hittest_2.png)
 
-参考文章：[深入浅出iOS事件机制](http://zhoon.github.io/ios/2015/04/12/ios-event.html)。
+参考文章：[深入浅出iOS事件机制](http://zhoon.github.io/ios/2015/04/12/ios-event.html)，其中还讲述了一些hitTest的应用。
 
 
 

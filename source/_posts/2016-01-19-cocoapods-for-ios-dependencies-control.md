@@ -27,6 +27,8 @@ pod setup
 
 此时需要耐心等待，因为CocoaPods会将这些podspec索引文件更新到本地的 ~/.cocoapods/目录下，这个索引文件比较大，有80M左右，比较慢。
 
+> 如果你等太久，可以试着cd到那个目录，用du -sh *来查看下载进度。
+
 ### 使用
 
 #### 安装依赖库
@@ -65,7 +67,9 @@ pod search
 
 ### 问题
 
-当我在使用*kingpin*第三方库的时候，出现了下面的问题：
+#### 1. required a higher minimum deployment target
+
+当我在使用*[kingpin](https://github.com/itsbonczek/kingpin)*第三方库的时候，出现了下面的问题：
 
 {% highlight text %}
 Specs satisfying the `kingpin` dependency were found, but they required a higher minimum deployment target.
@@ -80,9 +84,56 @@ platform :ios
 为
 
 {% highlight text %}
-platform :ios, '7。0'
+platform :ios, '7.0'
 {% endhighlight %}
 
 解决。
+
+如果问题仍然存在，将'7.0'改成'8.0'或者'9.0'，直到没有错误。
+
+#### 2. 在Objective-C中引用swift写的CocoaPod库
+
+当我在用*[ios-charts](https://github.com/danielgindi/ios-charts)*库的时候，首先出现了问题1。解决问题1之后，又出现了下面的问题：
+
+{% highlight text %}
+[!] Pods written in Swift can only be integrated as frameworks; add `use_frameworks!` to your Podfile or target to opt into using it. The Swift Pod being used is: Charts
+{% endhighlight %}
+
+于是，将Podfile从
+
+{% highlight text %}
+platform :ios, '9.0'
+pod 'Charts'
+{% endhighlight %}
+
+改成
+
+{% highlight text %}
+platform :ios, '9.0'
+use_frameworks!
+pod 'Charts'
+{% endhighlight %}
+
+解决了这个问题。接着就是如何在Objective-C的project中使用这个swift库了。
+
+首先是官方文档[Swift and Objective-C in the Same Project](https://developer.apple.com/library/ios/documentation/Swift/Conceptual/BuildingCocoaApps/MixandMatch.html#//apple_ref/doc/uid/TP40014216-CH10-XID_77)，有点看不懂。
+
+一些人说的：
+
+{% highlight objc linenos %}
+@import Charts;
+{% endhighlight %}
+
+会报错。
+
+很庆幸，StackOverflow上有人遇到了相同的问题：[Module not found error when importing Swift pod into Objective-C project](http://stackoverflow.com/questions/33931517/module-not-found-error-when-importing-swift-pod-into-objective-c-project)，在需要用到Charts库中的类的文件中，加入下面代码：
+
+{% highlight objc linenos %}
+#import "Charts-Swift.h"
+{% endhighlight %}
+
+另外，注意，在Storyboard中使用库中类的时候，在*Module*框中填上*Charts*，如下：
+
+![using_lib_class_in_storyboard](/images/using_lib_class_in_storyboard.jpg)
 
 原理参考：[Unable to satisfy the following requirements with Podfile, but they required a higher minimum deployment target. #4373](https://github.com/CocoaPods/CocoaPods/issues/4373)。
