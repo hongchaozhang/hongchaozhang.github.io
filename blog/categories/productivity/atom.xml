@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Productivity | Zhang Hongchao]]></title>
   <link href="http://hongchaozhang.github.io/blog/categories/productivity/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2016-03-04T15:20:12+08:00</updated>
+  <updated>2016-03-15T00:06:06+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -36,6 +36,8 @@
 <p><div class="highlight"><pre><code class="language-text" data-lang="text">pod setup</code></pre></div></p>
 
 <p>此时需要耐心等待，因为CocoaPods会将这些podspec索引文件更新到本地的 ~/.cocoapods/目录下，这个索引文件比较大，有80M左右，比较慢。</p>
+
+<blockquote><p>如果你等太久，可以试着cd到那个目录，用du -sh *来查看下载进度。</p></blockquote>
 
 <h3>使用</h3>
 
@@ -72,7 +74,9 @@
 
 <h3>问题</h3>
 
-<p>当我在使用<em>kingpin</em>第三方库的时候，出现了下面的问题：</p>
+<h4>1. required a higher minimum deployment target</h4>
+
+<p>当我在使用<em><a href="https://github.com/itsbonczek/kingpin">kingpin</a></em>第三方库的时候，出现了下面的问题：</p>
 
 <p><div class="highlight"><pre><code class="language-text" data-lang="text">Specs satisfying the &lt;code&gt;kingpin&lt;/code&gt; dependency were found, but they required a higher minimum deployment target.</code></pre></div></p>
 
@@ -82,9 +86,50 @@
 
 <p>为</p>
 
-<p><div class="highlight"><pre><code class="language-text" data-lang="text">platform :ios, &amp;lsquo;7。0&amp;rsquo;</code></pre></div></p>
+<p><div class="highlight"><pre><code class="language-text" data-lang="text">platform :ios, &amp;lsquo;7.0&amp;rsquo;</code></pre></div></p>
 
 <p>解决。</p>
+
+<p>如果问题仍然存在，将'7.0'改成'8.0'或者'9.0'，直到没有错误。</p>
+
+<h4>2. 在Objective-C中引用swift写的CocoaPod库</h4>
+
+<p>当我在用<em><a href="https://github.com/danielgindi/ios-charts">ios-charts</a></em>库的时候，首先出现了问题1。解决问题1之后，又出现了下面的问题：</p>
+
+<p><div class="highlight"><pre><code class="language-text" data-lang="text">[!] Pods written in Swift can only be integrated as frameworks; add &lt;code&gt;use_frameworks!&lt;/code&gt; to your Podfile or target to opt into using it. The Swift Pod being used is: Charts</code></pre></div></p>
+
+<p>于是，将Podfile从</p>
+
+<p><div class="highlight"><pre><code class="language-text" data-lang="text">platform :ios, &amp;lsquo;9.0&amp;rsquo;
+pod &amp;lsquo;Charts&amp;rsquo;</code></pre></div></p>
+
+<p>改成</p>
+
+<p><div class="highlight"><pre><code class="language-text" data-lang="text">platform :ios, &amp;lsquo;9.0&amp;rsquo;
+use_frameworks!
+pod &amp;lsquo;Charts&amp;rsquo;</code></pre></div></p>
+
+<p>解决了这个问题。接着就是如何在Objective-C的project中使用这个swift库了。</p>
+
+<p>首先是官方文档<a href="https://developer.apple.com/library/ios/documentation/Swift/Conceptual/BuildingCocoaApps/MixandMatch.html#//apple_ref/doc/uid/TP40014216-CH10-XID_77">Swift and Objective-C in the Same Project</a>，有点看不懂。</p>
+
+<p>一些人说的：</p>
+
+<p><div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno">1</span> <span class="p">@</span><span class="n">import</span> <span class="n">Charts</span><span class="p">;</span></code></pre></div></p>
+
+<p>会报错。</p>
+
+<p>很庆幸，StackOverflow上有人遇到了相同的问题：<a href="http://stackoverflow.com/questions/33931517/module-not-found-error-when-importing-swift-pod-into-objective-c-project">Module not found error when importing Swift pod into Objective-C project</a>，在需要用到Charts库中的类的文件中，加入下面代码：</p>
+
+<p><div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno">1</span> <span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+<span class="lineno">2</span> 
+<span class="lineno">3</span> <span class="o">&lt;</span><span class="n">h1</span><span class="o">&gt;</span><span class="n">import</span> <span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">Charts</span><span class="o">-</span><span class="n">Swift</span><span class="p">.</span><span class="n">h</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;</span><span class="o">&lt;/</span><span class="n">h1</span><span class="o">&gt;</span>
+<span class="lineno">4</span> 
+<span class="lineno">5</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span></code></pre></div></p>
+
+<p>另外，注意，在Storyboard中使用库中类的时候，在<em>Module</em>框中填上<em>Charts</em>，如下：</p>
+
+<p><img src="/images/using_lib_class_in_storyboard.jpg" alt="using_lib_class_in_storyboard" /></p>
 
 <p>原理参考：<a href="https://github.com/CocoaPods/CocoaPods/issues/4373">Unable to satisfy the following requirements with Podfile, but they required a higher minimum deployment target. #4373</a>。</p>
 ]]></content>

@@ -321,7 +321,7 @@ UIResponder中定义的触控事件 手势识别类—— &hellip;">
 
 <h3>hit-test view</h3>
 
-<p>有了事件响应链，接下来的事情就是寻找响应事件的具体响应者了，我们称为hit-testing view，寻找这个view的过程我们称着为hit-test。</p>
+<p>事件响应链工作的前提是找到<strong>initial view</strong>，我们称为hit-testing view，寻找这个view的过程我们称着为hit-test。确定了hit-TestView之后，才会开始进行下一步的事件分发。</p>
 
 <p>每当手指接触屏幕，UIApplication接收到手指的事件之后，就会去调用UIWindow的hitTest:withEvent:</p>
 
@@ -338,6 +338,31 @@ UIResponder中定义的触控事件 手势识别类—— &hellip;">
 <span class="lineno">11</span> <span class="p">}</span></code></pre></div>
 
 
+<p>完整版本：</p>
+
+<div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno"> 1</span> <span class="p">-</span> <span class="p">(</span><span class="bp">UIView</span> <span class="o">*</span><span class="p">)</span><span class="nf">hitTest:</span><span class="p">(</span><span class="bp">CGPoint</span><span class="p">)</span><span class="nv">point</span> <span class="nf">withEvent:</span><span class="p">(</span><span class="bp">UIEvent</span> <span class="o">*</span><span class="p">)</span><span class="nv">event</span> <span class="p">{</span>
+<span class="lineno"> 2</span>     <span class="k">if</span> <span class="p">(</span><span class="nb">self</span><span class="p">.</span><span class="n">alpha</span> <span class="o">&lt;=</span> <span class="mf">0.01</span> <span class="o">||</span> <span class="o">!</span><span class="nb">self</span><span class="p">.</span><span class="n">userInteractionEnabled</span> <span class="o">||</span> <span class="nb">self</span><span class="p">.</span><span class="n">hidden</span><span class="p">)</span> <span class="p">{</span>
+<span class="lineno"> 3</span>         <span class="k">return</span> <span class="nb">nil</span><span class="p">;</span>
+<span class="lineno"> 4</span>     <span class="p">}</span>
+<span class="lineno"> 5</span>     
+<span class="lineno"> 6</span>     <span class="bp">UIView</span> <span class="o">*</span><span class="n">hitView</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
+<span class="lineno"> 7</span>     <span class="k">if</span> <span class="p">([</span><span class="nb">self</span> <span class="nl">pointInside</span><span class="p">:</span><span class="n">point</span> <span class="nl">withEvent</span><span class="p">:</span><span class="n">event</span><span class="p">])</span> <span class="p">{</span>
+<span class="lineno"> 8</span>         <span class="bp">NSEnumerator</span> <span class="o">*</span><span class="n">enumerator</span> <span class="o">=</span> <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">subviews</span> <span class="n">reverseObjectEnumerator</span><span class="p">];</span>
+<span class="lineno"> 9</span>         <span class="k">for</span> <span class="p">(</span><span class="bp">UIView</span> <span class="o">*</span><span class="n">subview</span> <span class="k">in</span> <span class="n">enumerator</span><span class="p">)</span> <span class="p">{</span>
+<span class="lineno">10</span>             <span class="bp">CGPoint</span> <span class="n">convertedPoint</span> <span class="o">=</span> <span class="p">[</span><span class="n">subview</span> <span class="nl">convertPoint</span><span class="p">:</span><span class="n">point</span> <span class="nl">fromView</span><span class="p">:</span><span class="nb">self</span><span class="p">];</span>
+<span class="lineno">11</span>             <span class="n">hitView</span> <span class="o">=</span> <span class="p">[</span><span class="n">subview</span> <span class="nl">hitTest</span><span class="p">:</span><span class="n">convertedPoint</span> <span class="nl">withEvent</span><span class="p">:</span><span class="n">event</span><span class="p">];</span>
+<span class="lineno">12</span>             <span class="k">if</span> <span class="p">(</span><span class="n">hitView</span><span class="p">)</span> <span class="p">{</span>
+<span class="lineno">13</span>                 <span class="k">return</span> <span class="n">hitView</span><span class="p">;</span>
+<span class="lineno">14</span>             <span class="p">}</span>
+<span class="lineno">15</span>         <span class="p">}</span>
+<span class="lineno">16</span> 
+<span class="lineno">17</span>         <span class="k">return</span> <span class="nb">self</span><span class="p">;</span>
+<span class="lineno">18</span>     <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+<span class="lineno">19</span>         <span class="k">return</span> <span class="nb">nil</span><span class="p">;</span>
+<span class="lineno">20</span>     <span class="p">}</span>
+<span class="lineno">21</span> <span class="p">}</span></code></pre></div>
+
+
 <p>注意hitTest里面是有判断当前的view是否支持点击事件，比如userInteractionEnabled、hidden、alpha等属性，都会影响一个view是否可以响应事件，如果不响应则直接返回nil。</p>
 
 <p>我们留意到还有一个pointInside:withEvent:方法，这个方法跟hittest:withEvent:一样都是UIView的一个方法，通过他可以判断point是否在view的<strong>bound</strong>范围内。</p>
@@ -346,7 +371,7 @@ UIResponder中定义的触控事件 手势识别类—— &hellip;">
 
 <p><img src="/images/009_iOS_hittest_2.png" alt="009_iOS_hittest_2.png" /></p>
 
-<p>参考文章：<a href="http://zhoon.github.io/ios/2015/04/12/ios-event.html">深入浅出iOS事件机制</a>。</p>
+<p>参考文章：<a href="http://zhoon.github.io/ios/2015/04/12/ios-event.html">深入浅出iOS事件机制</a>，其中还讲述了一些hitTest的应用。</p>
 </div>
 
 
