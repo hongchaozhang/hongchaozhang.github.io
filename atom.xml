@@ -4,7 +4,7 @@
   <title><![CDATA[Zhang Hongchao]]></title>
   <link href="http://hongchaozhang.github.io/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2016-03-15T00:06:06+08:00</updated>
+  <updated>2016-03-27T17:46:39+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -12,6 +12,88 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Ios MultiplePagesViewController Usage]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2016/03/27/ios-multiple-page-view-controller-usage/"/>
+    <updated>2016-03-27T16:58:54+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2016/03/27/ios-multiple-page-view-controller-usage</id>
+    <content type="html"><![CDATA[<p>先上截图：</p>
+
+<p><img src="http://hongchaozhang.github.io/images/multiple_pages_view_controller_demo.gif" alt="multiple_pages_view_controller_demo.gif" /></p>
+
+<p>demo地址：<a href="https://github.com/hongchaozhang/MultiplePagesViewControllerDemo.git">MultiplePagesViewControllerDemo</a></p>
+
+<h3>demo解释</h3>
+
+<p>首先，创建<code>MultiplePagesViewController</code>的实例，并将其和其view加入到需要的view controller 中：</p>
+
+<div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno">1</span> <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">view</span> <span class="nl">addSubview</span><span class="p">:</span><span class="nb">self</span><span class="p">.</span><span class="n">multiplePagesViewController</span><span class="p">.</span><span class="n">view</span><span class="p">];</span>
+<span class="lineno">2</span> <span class="p">[</span><span class="nb">self</span> <span class="nl">addChildViewController</span><span class="p">:</span><span class="nb">self</span><span class="p">.</span><span class="n">multiplePagesViewController</span><span class="p">];</span></code></pre></div>
+
+
+<p>其中，<code>self.multiplePagesViewController</code>对应的getter函数如下：</p>
+
+<div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno">1</span> <span class="p">-</span> <span class="p">(</span><span class="n">MultiplePagesViewController</span><span class="o">*</span><span class="p">)</span><span class="nf">multiplePagesViewController</span> <span class="p">{</span>
+<span class="lineno">2</span>     <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">_multiplePagesViewController</span><span class="p">)</span> <span class="p">{</span>
+<span class="lineno">3</span>         <span class="n">_multiplePagesViewController</span> <span class="o">=</span> <span class="p">[[</span><span class="n">MultiplePagesViewController</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
+<span class="lineno">4</span>         <span class="n">_multiplePagesViewController</span><span class="p">.</span><span class="n">view</span><span class="p">.</span><span class="n">frame</span> <span class="o">=</span> <span class="nb">self</span><span class="p">.</span><span class="n">view</span><span class="p">.</span><span class="n">frame</span><span class="p">;</span>
+<span class="lineno">5</span>         <span class="n">_multiplePagesViewController</span><span class="p">.</span><span class="n">delegate</span> <span class="o">=</span> <span class="nb">self</span><span class="p">;</span>
+<span class="lineno">6</span>     <span class="p">}</span>
+<span class="lineno">7</span>     
+<span class="lineno">8</span>     <span class="k">return</span> <span class="n">_multiplePagesViewController</span><span class="p">;</span>
+<span class="lineno">9</span> <span class="p">}</span></code></pre></div>
+
+
+<p>并且，在<code>viewDidLayoutSubviews</code>中重新调整view的大小，以解决转屏等问题：</p>
+
+<div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno">1</span> <span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">viewDidLayoutSubviews</span> <span class="p">{</span>
+<span class="lineno">2</span>     <span class="p">[</span><span class="nb">super</span> <span class="n">viewDidLayoutSubviews</span><span class="p">];</span>
+<span class="lineno">3</span>     
+<span class="lineno">4</span>     <span class="nb">self</span><span class="p">.</span><span class="n">multiplePagesViewController</span><span class="p">.</span><span class="n">view</span><span class="p">.</span><span class="n">frame</span> <span class="o">=</span> <span class="nb">self</span><span class="p">.</span><span class="n">view</span><span class="p">.</span><span class="n">frame</span><span class="p">;</span>
+<span class="lineno">5</span> <span class="p">}</span></code></pre></div>
+
+
+<p>然后，只需要将你的UIViewController的实例加入<code>self.multiplePagesViewController</code>就可以了：</p>
+
+<div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno">1</span> <span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">addDefaultPageViewControllers</span> <span class="p">{</span>
+<span class="lineno">2</span>     <span class="bp">NSInteger</span> <span class="n">vcCount</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span>
+<span class="lineno">3</span>     <span class="k">for</span> <span class="p">(</span><span class="bp">NSInteger</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">vcCount</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+<span class="lineno">4</span>         <span class="n">SampleViewController</span> <span class="o">*</span><span class="n">svc</span> <span class="o">=</span> <span class="p">[[</span><span class="n">SampleViewController</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithText</span><span class="p">:[</span><span class="bp">NSString</span> <span class="nl">stringWithFormat</span><span class="p">:</span><span class="s">@&quot;%ld&quot;</span><span class="p">,</span> <span class="n">i</span><span class="p">]];</span>
+<span class="lineno">5</span>         <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">multiplePagesViewController</span> <span class="nl">addViewController</span><span class="p">:</span><span class="n">svc</span><span class="p">];</span>
+<span class="lineno">6</span>     <span class="p">}</span>
+<span class="lineno">7</span> <span class="p">}</span></code></pre></div>
+
+
+<p><code>MultiplePagesViewController</code>主要的两个接口如下：</p>
+
+<div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno"> 1</span> <span class="cm">/**</span>
+<span class="lineno"> 2</span> <span class="cm"> *  add a new &lt;UIViewController*&gt; instance</span>
+<span class="lineno"> 3</span> <span class="cm"> *</span>
+<span class="lineno"> 4</span> <span class="cm"> *  @param viewController</span>
+<span class="lineno"> 5</span> <span class="cm"> */</span>
+<span class="lineno"> 6</span> <span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">addViewController:</span><span class="p">(</span><span class="bp">UIViewController</span><span class="o">*</span><span class="p">)</span><span class="nv">viewController</span><span class="p">;</span>
+<span class="lineno"> 7</span> 
+<span class="lineno"> 8</span> <span class="cm">/**</span>
+<span class="lineno"> 9</span> <span class="cm"> *  remove an existing view controller by index</span>
+<span class="lineno">10</span> <span class="cm"> *</span>
+<span class="lineno">11</span> <span class="cm"> *  @param viewControllerIndex</span>
+<span class="lineno">12</span> <span class="cm"> */</span>
+<span class="lineno">13</span> <span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">removeViewController:</span><span class="p">(</span><span class="bp">NSUInteger</span><span class="p">)</span><span class="nv">viewControllerIndex</span><span class="p">;</span></code></pre></div>
+
+
+<p>另外，可以在<code>MultiplePagesViewController</code>的父view controller中实现下面接口，当切换page的时候做些其它事情，比如更新view controller的title信息等。</p>
+
+<div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno">1</span> <span class="k">@protocol</span> <span class="nc">MultiplePagesViewControllerDelegate</span> <span class="o">&lt;</span><span class="bp">NSObject</span><span class="o">&gt;</span>
+<span class="lineno">2</span> 
+<span class="lineno">3</span> <span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nl">pageChangedTo</span><span class="p">:(</span><span class="bp">NSInteger</span><span class="p">)</span><span class="n">pageIndex</span><span class="p">;</span>
+<span class="lineno">4</span> 
+<span class="lineno">5</span> <span class="k">@end</span></code></pre></div>
+
+
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[使用node-xlsx进行excel文件的读写]]></title>
@@ -1524,100 +1606,6 @@ Temporary exceptions can be configured via your app&#39;s Info.plist file.</code
 <h4>PicGif Lite</h4>
 
 <p>PicGif用来将视频或者图片转换成gif图片，这种工具很多，还有在线工具，比如<a href="http://www.uupoop.com/gif/">uupoop</a>。<del>我主要用这个来进行gif图的预览。</del></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Operating Files and Folders With Command Line in Terminal]]></title>
-    <link href="http://hongchaozhang.github.io/blog/2015/10/28/operating-files-and-folders-with-command-line-in-terminal/"/>
-    <updated>2015-10-28T16:26:14+08:00</updated>
-    <id>http://hongchaozhang.github.io/blog/2015/10/28/operating-files-and-folders-with-command-line-in-terminal</id>
-    <content type="html"><![CDATA[<p>为什么需要在命令行进行文件和文件夹的操作：</p>
-
-<!-- more -->
-
-
-<ul>
-<li>通过正则表达式批量处理文件（夹）。</li>
-<li>可以用来删除隐藏文件，比如一些以“.”开头的设置文件。</li>
-<li>打不开Finder的情况下。</li>
-<li>强制删除一些顽固的文件。</li>
-</ul>
-
-
-<p>一些常用命令罗列：</p>
-
-<table>
-<thead>
-<tr>
-<th>命令 </th>
-<th> 说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>pwd</strong> </td>
-<td> 打印当前工作路径（print working directory）</td>
-</tr>
-<tr>
-<td><strong>touch</strong> fileName </td>
-<td> 创建文件fileName</td>
-</tr>
-<tr>
-<td><strong>ls -a</strong> </td>
-<td> 列出当前文件夹下的所有文件，包括以‘.’开头的隐藏文件。</td>
-</tr>
-<tr>
-<td><strong>vi</strong> <em>file</em> </td>
-<td> 在当前位置用vim打开file，如果已经存在，直接打开。</td>
-</tr>
-<tr>
-<td><strong>mkdir</strong> <em>folder</em> </td>
-<td> 创建文件夹。</td>
-</tr>
-<tr>
-<td><strong>cp</strong> <em>sourceFile</em> <em>destFolder</em> </td>
-<td> 将sourceFile拷贝到destFolder下。</td>
-</tr>
-<tr>
-<td><strong>cp</strong> <strong>-R</strong> <em>sourceFolder</em> <em>destFolder</em> </td>
-<td> 将sourceFolder及其下面的所有资源拷贝到destFolder下，R是reverse的意思。</td>
-</tr>
-<tr>
-<td><strong>mv</strong> <em>sourceFile</em> <em>destFolder</em> </td>
-<td> 将sourceFile移动到destFolder下。</td>
-</tr>
-<tr>
-<td><strong>rm</strong> <em>file.txt</em> </td>
-<td> 删除文件。</td>
-</tr>
-<tr>
-<td><strong>rm</strong> <strong>-R</strong> <em>folder</em> </td>
-<td> 删除文件夹和里面的子文件（夹），R是reverse的意思。</td>
-</tr>
-<tr>
-<td><strong>echo</strong> &ldquo;hello&rdquo; </td>
-<td> 将“hello”字符串输出到terminal中</td>
-</tr>
-<tr>
-<td><strong>echo</strong> &ldquo;hello&rdquo; <strong>></strong> hello.txt </td>
-<td> 将“hello”字符串写进文件hello.txt文件中</td>
-</tr>
-<tr>
-<td><strong>cat</strong> hello.txt </td>
-<td> 将hello.txt文件的内容输出到terminal中</td>
-</tr>
-<tr>
-<td><strong>cat</strong> hello.txt <strong>></strong> dest.txt </td>
-<td> 将hello.txt中的内容<strong>覆盖</strong>dest.txt文件的内容</td>
-</tr>
-<tr>
-<td><strong>cat</strong> hello.txt <strong>>></strong> dest.txt </td>
-<td> 将hello.txt中的内容<strong>追加</strong>到dest.txt文件的内容</td>
-</tr>
-</tbody>
-</table>
-
 ]]></content>
   </entry>
   

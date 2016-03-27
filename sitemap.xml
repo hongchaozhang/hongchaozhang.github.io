@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>http://hongchaozhang.github.io/blog/2016/03/27/ios-multiple-page-view-controller-usage/</loc>
+    <lastmod>2016-03-27T16:58:54+08:00</lastmod>
+  </url>
+  <url>
     <loc>http://hongchaozhang.github.io/blog/2016/03/04/parsing-and-write-excel-file-using-node-module/</loc>
     <lastmod>2016-03-04T14:54:54+08:00</lastmod>
   </url>
@@ -241,5 +245,11 @@
   </url>
   <url>
     <loc>http://hongchaozhang.github.io/blog/categories/node/</loc>
+  </url>
+  <url>
+    <loc>http://hongchaozhang.github.io/posts/2/</loc>
+  </url>
+  <url>
+    <loc>http://hongchaozhang.github.io/posts/3/</loc>
   </url>
 </urlset>

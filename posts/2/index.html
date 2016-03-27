@@ -9,10 +9,7 @@
   <meta name="author" content="Zhang Hongchao">
 
   
-  <meta name="description" content="在iOS中有三类事件： 触控事件（单点、多点触控以及各种手势操作）
-传感器事件（重力、加速度传感器等）
-远程控制事件（远程遥控iOS设备多媒体播放等） 这里要讨论的是触控事件的机制。 iOS中主要有两种触控事件： 手势识别类定义的触控事件
-UIResponder中定义的触控事件 ">
+  <meta name="description" content="为什么需要在命令行进行文件和文件夹的操作： ">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -65,6 +62,48 @@ UIResponder中定义的触控事件 ">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/10/28/operating-files-and-folders-with-command-line-in-terminal/">Operating Files and Folders With Command Line in Terminal</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2015-10-28T16:26:14+08:00" pubdate data-updated="true">Oct 28th, 2015</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>为什么需要在命令行进行文件和文件夹的操作：</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2015/10/28/operating-files-and-folders-with-command-line-in-terminal/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -1061,52 +1100,6 @@ With these comments, we can alt+click a used function to see some useful info.</
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/07/14/use-MKOverlay-and-MKOverlayRenderer/">Use MKOverlay and MKOverlayRenderer</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-
-<time datetime="2015-07-14T00:00:00+08:00" pubdate data-updated="true">Jul 14th, 2015</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h3>MKOverlay</h3>
-
-<p>Write your own overlay class (for example, <code>MapOverlay</code>) confirm to <code>MKOverlay</code>, synthesize <code>coordinate</code> and <code>boundingMapRect</code>, so that we can assign value to them while initializing it.</p>
-
-<p>Note that the type of <code>coordinate</code> is <code>CLLocationCoordinate2D</code> with <code>latitude</code> and <code>longitude</code>, while <code>boundingMapRect</code> is <code>MKMapRect</code>. And we need to use <code>MKMapPointForCoordinate</code> method to convert a <code>CLLocationCoordinate2D</code> type data to <code>MKMapPoint</code> type data. If we assign the <code>CLLocationCoordinate2D</code> data directly to <code>boundingMapRect</code>, the overlay will be too small to draw, and the <code>mapView:rendererForOverlay:</code> method will not be called at all. It is very hard for debugging.</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2015/07/14/use-MKOverlay-and-MKOverlayRenderer/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="3">&larr; Older</a>
@@ -1122,11 +1115,15 @@ With these comments, we can alt+click a used function to see some useful info.</
   
     <section class="categories">
   <h1>Categories</h1>
-    <ul id="top-category-list" class="nav nav-list"><li><a href='/blog/categories/ios'>ios (23)</a></li><li><a href='/blog/categories/objective-c'>objective-c (17)</a></li><li><a href='/blog/categories/productivity'>productivity (15)</a></li><li><a href='/blog/categories/xcode'>xcode (3)</a></li><li><a href='/blog/categories/node'>node (3)</a></li><li><a href='/blog/categories/android'>android (3)</a></li><li><a href='/blog/categories/python'>python (3)</a></li><li><a href='/blog/categories/web'>web (2)</a></li><li><a href='/blog/categories/javascript'>javascript (2)</a></li><li><a href='/blog/categories/android-studio'>android_studio (1)</a></li><li><a href='/blog/categories/design-pattern'>design_pattern (1)</a></li><li><a href='/blog/categories/java'>java (1)</a></li></ul>
+    <ul id="top-category-list" class="nav nav-list"><li><a href='/blog/categories/ios'>ios (24)</a></li><li><a href='/blog/categories/objective-c'>objective-c (18)</a></li><li><a href='/blog/categories/productivity'>productivity (15)</a></li><li><a href='/blog/categories/xcode'>xcode (3)</a></li><li><a href='/blog/categories/node'>node (3)</a></li><li><a href='/blog/categories/android'>android (3)</a></li><li><a href='/blog/categories/python'>python (3)</a></li><li><a href='/blog/categories/web'>web (2)</a></li><li><a href='/blog/categories/javascript'>javascript (2)</a></li><li><a href='/blog/categories/android-studio'>android_studio (1)</a></li><li><a href='/blog/categories/design-pattern'>design_pattern (1)</a></li><li><a href='/blog/categories/java'>java (1)</a></li></ul>
 </section>
 <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/03/27/ios-multiple-page-view-controller-usage/">Ios MultiplePagesViewController Usage</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2016/03/04/parsing-and-write-excel-file-using-node-module/">使用node-xlsx进行excel文件的读写</a>
@@ -1142,10 +1139,6 @@ With these comments, we can alt+click a used function to see some useful info.</
     
       <li class="post">
         <a href="/blog/2016/02/18/uiview-animation-in-ios/">iOS中的动画——UIView</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2016/01/29/convertion-among-every-geo-system/">火星坐标导致iOS系统下高德地图定位不准</a>
       </li>
     
   </ul>
