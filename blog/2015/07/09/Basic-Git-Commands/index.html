@@ -260,15 +260,19 @@ Using git stash Git commands can be searched everywheere. Here I will list only 
 <li>install <em>kdiff3</em> in your mac</li>
 <li><p>As the new version of git has build-in support for <em>kdiff3</em>, so there is no need for manually configuration, just run</p>
 
-<pre><code> $ git config --global merge.tool *kdiff3*
+<pre><code>$ git config --global merge.tool *kdiff3*
 </code></pre></li>
 <li><p>If <em>kdiff3</em> is not in your path, run</p>
 
-<pre><code> $ git config --global mergetool.kdiff3.path /Applications/kdiff3.app/Contents/MacOS/kdiff3
+<pre><code>$ git config --global mergetool.kdiff3.path /Applications/kdiff3.app/Contents/MacOS/kdiff3
 </code></pre></li>
-<li>Use <code>git difftool</code> instead of <code>git diff</code> to let git launch <em>kdiff3</em> for the difference. Also use <code>git mergetool</code> instead of <code>git merge</code> for merging files.</li>
+<li><p>Use <code>git difftool</code> instead of <code>git diff</code> to let git launch <em>kdiff3</em> for the difference. Also use <code>git mergetool</code> instead of <code>git merge</code> for merging files.</p>
+
+<blockquote><p>Notice: <code>git mergetool</code> should be used after <code>git merge branch_name</code> and there are some merge conflicts. Use <code>get help mergetool</code> for detail.</p></blockquote></li>
 </ol>
 
+
+<p>To check the configuration result, open <em>~/.gitignore</em>.</p>
 </div>
 
 

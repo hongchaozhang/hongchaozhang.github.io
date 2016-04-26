@@ -9,7 +9,7 @@
   <meta name="author" content="Zhang Hongchao">
 
   
-  <meta name="description" content="先上截图： demo地址：MultiplePagesViewControllerDemo demo解释 首先，创建MultiplePagesViewController的实例，并将其和其view加入到需要的view controller 中： 1 [self.view addSubview: &hellip;">
+  <meta name="description" content="先上截图： demo地址：MultiplePagesViewControllerDemo ">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -98,76 +98,12 @@
 
 <p>demo地址：<a href="https://github.com/hongchaozhang/MultiplePagesViewControllerDemo.git">MultiplePagesViewControllerDemo</a></p>
 
-<h3>demo解释</h3>
-
-<p>首先，创建<code>MultiplePagesViewController</code>的实例，并将其和其view加入到需要的view controller 中：</p>
-
-<div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno">1</span> <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">view</span> <span class="nl">addSubview</span><span class="p">:</span><span class="nb">self</span><span class="p">.</span><span class="n">multiplePagesViewController</span><span class="p">.</span><span class="n">view</span><span class="p">];</span>
-<span class="lineno">2</span> <span class="p">[</span><span class="nb">self</span> <span class="nl">addChildViewController</span><span class="p">:</span><span class="nb">self</span><span class="p">.</span><span class="n">multiplePagesViewController</span><span class="p">];</span></code></pre></div>
-
-
-<p>其中，<code>self.multiplePagesViewController</code>对应的getter函数如下：</p>
-
-<div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno">1</span> <span class="p">-</span> <span class="p">(</span><span class="n">MultiplePagesViewController</span><span class="o">*</span><span class="p">)</span><span class="nf">multiplePagesViewController</span> <span class="p">{</span>
-<span class="lineno">2</span>     <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">_multiplePagesViewController</span><span class="p">)</span> <span class="p">{</span>
-<span class="lineno">3</span>         <span class="n">_multiplePagesViewController</span> <span class="o">=</span> <span class="p">[[</span><span class="n">MultiplePagesViewController</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
-<span class="lineno">4</span>         <span class="n">_multiplePagesViewController</span><span class="p">.</span><span class="n">view</span><span class="p">.</span><span class="n">frame</span> <span class="o">=</span> <span class="nb">self</span><span class="p">.</span><span class="n">view</span><span class="p">.</span><span class="n">frame</span><span class="p">;</span>
-<span class="lineno">5</span>         <span class="n">_multiplePagesViewController</span><span class="p">.</span><span class="n">delegate</span> <span class="o">=</span> <span class="nb">self</span><span class="p">;</span>
-<span class="lineno">6</span>     <span class="p">}</span>
-<span class="lineno">7</span>     
-<span class="lineno">8</span>     <span class="k">return</span> <span class="n">_multiplePagesViewController</span><span class="p">;</span>
-<span class="lineno">9</span> <span class="p">}</span></code></pre></div>
-
-
-<p>并且，在<code>viewDidLayoutSubviews</code>中重新调整view的大小，以解决转屏等问题：</p>
-
-<div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno">1</span> <span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">viewDidLayoutSubviews</span> <span class="p">{</span>
-<span class="lineno">2</span>     <span class="p">[</span><span class="nb">super</span> <span class="n">viewDidLayoutSubviews</span><span class="p">];</span>
-<span class="lineno">3</span>     
-<span class="lineno">4</span>     <span class="nb">self</span><span class="p">.</span><span class="n">multiplePagesViewController</span><span class="p">.</span><span class="n">view</span><span class="p">.</span><span class="n">frame</span> <span class="o">=</span> <span class="nb">self</span><span class="p">.</span><span class="n">view</span><span class="p">.</span><span class="n">frame</span><span class="p">;</span>
-<span class="lineno">5</span> <span class="p">}</span></code></pre></div>
-
-
-<p>然后，只需要将你的UIViewController的实例加入<code>self.multiplePagesViewController</code>就可以了：</p>
-
-<div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno">1</span> <span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">addDefaultPageViewControllers</span> <span class="p">{</span>
-<span class="lineno">2</span>     <span class="bp">NSInteger</span> <span class="n">vcCount</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span>
-<span class="lineno">3</span>     <span class="k">for</span> <span class="p">(</span><span class="bp">NSInteger</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">vcCount</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-<span class="lineno">4</span>         <span class="n">SampleViewController</span> <span class="o">*</span><span class="n">svc</span> <span class="o">=</span> <span class="p">[[</span><span class="n">SampleViewController</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithText</span><span class="p">:[</span><span class="bp">NSString</span> <span class="nl">stringWithFormat</span><span class="p">:</span><span class="s">@&quot;%ld&quot;</span><span class="p">,</span> <span class="n">i</span><span class="p">]];</span>
-<span class="lineno">5</span>         <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">multiplePagesViewController</span> <span class="nl">addViewController</span><span class="p">:</span><span class="n">svc</span><span class="p">];</span>
-<span class="lineno">6</span>     <span class="p">}</span>
-<span class="lineno">7</span> <span class="p">}</span></code></pre></div>
-
-
-<p><code>MultiplePagesViewController</code>主要的两个接口如下：</p>
-
-<div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno"> 1</span> <span class="cm">/**</span>
-<span class="lineno"> 2</span> <span class="cm"> *  add a new &lt;UIViewController*&gt; instance</span>
-<span class="lineno"> 3</span> <span class="cm"> *</span>
-<span class="lineno"> 4</span> <span class="cm"> *  @param viewController</span>
-<span class="lineno"> 5</span> <span class="cm"> */</span>
-<span class="lineno"> 6</span> <span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">addViewController:</span><span class="p">(</span><span class="bp">UIViewController</span><span class="o">*</span><span class="p">)</span><span class="nv">viewController</span><span class="p">;</span>
-<span class="lineno"> 7</span> 
-<span class="lineno"> 8</span> <span class="cm">/**</span>
-<span class="lineno"> 9</span> <span class="cm"> *  remove an existing view controller by index</span>
-<span class="lineno">10</span> <span class="cm"> *</span>
-<span class="lineno">11</span> <span class="cm"> *  @param viewControllerIndex</span>
-<span class="lineno">12</span> <span class="cm"> */</span>
-<span class="lineno">13</span> <span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">removeViewController:</span><span class="p">(</span><span class="bp">NSUInteger</span><span class="p">)</span><span class="nv">viewControllerIndex</span><span class="p">;</span></code></pre></div>
-
-
-<p>另外，可以在<code>MultiplePagesViewController</code>的父view controller中实现下面接口，当切换page的时候做些其它事情，比如更新view controller的title信息等。</p>
-
-<div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno">1</span> <span class="k">@protocol</span> <span class="nc">MultiplePagesViewControllerDelegate</span> <span class="o">&lt;</span><span class="bp">NSObject</span><span class="o">&gt;</span>
-<span class="lineno">2</span> 
-<span class="lineno">3</span> <span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nl">pageChangedTo</span><span class="p">:(</span><span class="bp">NSInteger</span><span class="p">)</span><span class="n">pageIndex</span><span class="p">;</span>
-<span class="lineno">4</span> 
-<span class="lineno">5</span> <span class="k">@end</span></code></pre></div>
-
-
-
 </div>
   
+  
+    <footer>
+      <a rel="full-article" href="/blog/2016/03/27/ios-multiple-page-view-controller-usage/">Read on &rarr;</a>
+    </footer>
   
 
 
