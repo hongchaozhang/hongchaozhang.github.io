@@ -12,6 +12,8 @@ categories: [ios, objective-c]
 
 demo地址：[MultiplePagesViewControllerDemo](https://github.com/hongchaozhang/MultiplePagesViewControllerDemo.git)
 
+<!-- more -->
+
 ### demo解释
 
 首先，创建`MultiplePagesViewController`的实例，并将其和其view加入到需要的view controller 中：

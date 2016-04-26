@@ -133,14 +133,16 @@ When you run `git diff`, the difference will be listed in the command window. If
 1. install *kdiff3* in your mac
 2. As the new version of git has build-in support for *kdiff3*, so there is no need for manually configuration, just run 
 
-		$ git config --global merge.tool *kdiff3*
+	   $ git config --global merge.tool *kdiff3*
 
 3. If *kdiff3* is not in your path, run 
 
-		$ git config --global mergetool.kdiff3.path /Applications/kdiff3.app/Contents/MacOS/kdiff3
+	   $ git config --global mergetool.kdiff3.path /Applications/kdiff3.app/Contents/MacOS/kdiff3
+		
 4. Use `git difftool` instead of `git diff` to let git launch *kdiff3* for the difference. Also use `git mergetool` instead of `git merge` for merging files.
 
+    > Notice: `git mergetool` should be used after `git merge branch_name` and there are some merge conflicts. Use `get help mergetool` for detail.
 
-
+To check the configuration result, open *~/.gitignore*.
 
 

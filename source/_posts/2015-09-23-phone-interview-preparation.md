@@ -15,6 +15,8 @@ categories: [algorithm]
 Contents
 
 * [Concepts of Stack and Queue](#stack_and_queue)
+* [用两个stack模拟一个queue](#simulate_queue_with_two_stacks)
+* [用三个stack进行排序](#sort_with_three_stacks)
 * [覆盖(Overriding)和重载(Overloading)的区别是什么？](#override_andoverload)
 * [迭代(Iteration)和递归(Recursion)有什么区别？](#iteration_and_recursion)
 * [Concepts of some kinds of tree](#tree_concepts)
@@ -73,6 +75,67 @@ private:
 * 出队时，将s1的元素逐个“倒入”（弹出并压入）s2，将s2的顶元素弹出作为出队元素，之后再将s2剩下的元素逐个“倒回”s1。
 
 > Words: enqueue, dequeue
+
+
+### <a name="simulate_queue_with_two_stacks"></a>用两个stack模拟一个queue
+
+#### Solution 1
+
+Someone might provide a O(n) method for deQueue at the very begining, which is pop all the elements from S1 and push them to S2 and then pop up the top and then pop all the elements back to S1. Need to push to get a better solution as solution 2.
+
+* Ranking: normal
+
+
+
+#### Solution 2
+The key point is to use two stacks to implement the FIFO enqueue/dequeue operation. For enqueue, we just push the element into stack 1. For deque, we’ll first check if stack 2 is empty or not. If stack 2 is empty, we first pop elements from stack 1 and push it to stack 2 one by one till there is no elements in stack 1. Then we pop up the first one from stack 2. If stack 2 is not empty, we just pop up the first one for stack 2.
+
+
+
+{% highlight java linenos %}
+
+public class MyQueue<T> {
+    private Stack<T>  stack1;
+    private Stack<T> stack2;
+    
+    public MyQueue() {
+        stack1 = new Stack<>();
+        stack2 = new Stack<>();
+    }
+    
+    public void enQueue(T element) {
+        stack1.push(element);
+    }
+    
+    public T deQueue() {
+        if (stack2.empty()) {
+            while(!stack1.isEmpty()) {
+                stack2.push(stack1.pop());
+            }
+        }
+        return stack2.pop();
+    }
+
+}
+
+{% endhighlight %}
+
+* Rank: Excellent
+* Key points: 
+	* FIFO
+	* enQueue and deQueue should all O(1) complexity
+	* Be able to analysis the time complexity
+
+
+### <a name="sort_with_three_stacks"></a>用三个stack进行排序
+
+**Question**
+
+With a stack with unsorted numbers and two empty stacks, sort and leave the numbers in the first stack. Sorting in increasing or decreasing order are both OK. Describe the algorithm. No codes is needed. Describe the time complexity of the algorithm.
+
+**Answer**
+
+There are many solutions. Any solution with O(N^2) complexity is OK. One possible solution is first pop all numbers into second stack and remember the smallest one. Then pop all numbers into third, except the smallest number is pop into the first, and remember the second least one. Continue the progress to pick the remaining smallest number into first stack until all numbers are in the first stack.
 
 ### <a name="override_andoverload"></a>覆盖(Overriding)和重载(Overloading)的区别是什么？  (detailed answer)
 
