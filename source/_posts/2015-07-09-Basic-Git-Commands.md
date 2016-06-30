@@ -7,10 +7,12 @@ title: Basic Git Commands
 
 # Contents
 
+* [Check Current Status](#check_status)
 * [Branch Operation](#branch_operation)
 * [Check commit history](#check_commit_history)
 * [.gitignore](#git_ignore)
 * [Using *git stash*](#git_stash)
+* [Use *kdiff3* as the default tool for git](#kdiff3)
 
 <!-- more -->
 
@@ -22,6 +24,10 @@ First of all, try the following commands first:
 
 * **git help COMMAND:** get help of a command.
 
+## <a name="check_status"></a>Check Current Status
+
+### origin
+Use 'git config --get remote.origin.url' to get current origin address.
 
 ## <a name="branch_operation"></a>Branch Operation
 
@@ -29,6 +35,7 @@ To checkout a new branch from remote repo: When you want to change to a branch t
 
 ## <a name="check_commit_history"></a>Check commit history
 
+#### search
 First, use `git log` to find the commit we want. We can use `git log --author=<someone>` to narrow the scope.
 
 Then, use **git diff COMMIT^ COMMIT** to get all the changes of one commit.
@@ -37,9 +44,10 @@ More useful commands on `git log`
 
 git commands| in GUI *SourceTree* | comments
 ---|---|---
-`git log --author=<someone>` | on the top left, select *Log* view | list all commits <someone> made
+`git log --author=<someone>` | on the top left, select *Search* view | list all commits *someone* made
 `git log --name-only` | on the top left, select *Log* view |  list all commits and each modified or new created files
 `git log -- <file>` | right click a file and select *log selected...* | list all commits on a file
+`git log -g --grep=<key words>` | on the top left, select *Search* view |  find the commits which contains the *key words* in the commit messages. **Note:**use double quotes for key words with blank spaces.
 
 ## <a name="git_ignore"></a>.gitignore
 
@@ -126,7 +134,7 @@ stash@{3}: WIP on newbranch: 6995c80 checkin changes to test.txt
 {% endhighlight %}
 If you want to roll back the last stash in newbranch, in #5 step, run `git stash pop stash@{1}`. If you don't use the index `stash@{1}`, the top stash in the stash stack will be popped out.
 
-## Use *kdiff3* as the default tool for git
+## <a name="kdiff3"></a>Use *kdiff3* as the default tool for git
 
 When you run `git diff`, the difference will be listed in the command window. If you want to see the difference in a visual window (for exmple, *kdiff3*):
 
