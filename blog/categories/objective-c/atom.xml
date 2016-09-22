@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Objective-c | Zhang Hongchao]]></title>
   <link href="http://hongchaozhang.github.io/blog/categories/objective-c/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2016-04-07T22:23:35+08:00</updated>
+  <updated>2016-09-22T09:57:57+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -259,6 +259,8 @@
 <ul>
 <li>勾选Record reference counts，记录retain，release和autorelease事件。</li>
 <li>为Allocation Lifespan选择All Objects Created，如果你想看到已经被dealloc的实例，这个可以不选。</li>
+<li>在<em>Allocation List -> All Allocations</em> 中可以搜索自己感兴趣的class。</li>
+<li>在reference count页面，注意使用<em>All</em>、<em>uppair</em>等进行过滤。</li>
 </ul>
 
 
@@ -273,10 +275,12 @@
 
 <p><div class="highlight"><pre><code class="language-text" data-lang="text">po object.retainCount</code></pre></div></p>
 
-<p>我们什么时候使用retainCount？
-Never！
-参考 <a href="http://stackoverflow.com/questions/4636146/when-to-use-retaincount">When to use -retainCount?</a>。
-但是偶尔在调试的时候用一下，对于一些内存管理概念的理解还是有好处的。</p>
+<blockquote><p> <strong>我们什么时候使用retainCount？</strong></p>
+
+<p><strong>Never！</strong></p></blockquote>
+
+<p>参考 <a href="http://stackoverflow.com/questions/4636146/when-to-use-retaincount">When to use -retainCount?</a>。
+但是偶尔在调试的时候用一下，对于一些内存管理概念的理解还是有好处的，仅此而已。</p>
 ]]></content>
   </entry>
   

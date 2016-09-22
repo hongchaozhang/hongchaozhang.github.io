@@ -9,10 +9,13 @@
   <meta name="author" content="Zhang Hongchao">
 
   
-  <meta name="description" content="Contents Branch Operation
+  <meta name="description" content="Contents Check Current Status
+Branch Operation
+Use git commit &ndash;amend
 Check commit history
 .gitignore
-Using git stash Git commands can be searched everywheere. Here I will list only the &hellip;">
+Using git stash
+Use kdiff3 as the default &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -97,10 +100,13 @@ Using git stash Git commands can be searched everywheere. Here I will list only 
 <div class="entry-content"><h1>Contents</h1>
 
 <ul>
+<li><a href="#check_status">Check Current Status</a></li>
 <li><a href="#branch_operation">Branch Operation</a></li>
+<li><a href="#git_commit_amend">Use <em>git commit &ndash;amend</em></a></li>
 <li><a href="#check_commit_history">Check commit history</a></li>
 <li><a href="#git_ignore">.gitignore</a></li>
 <li><a href="#git_stash">Using <em>git stash</em></a></li>
+<li><a href="#kdiff3">Use <em>kdiff3</em> as the default tool for git</a></li>
 </ul>
 
 
@@ -117,11 +123,38 @@ Using git stash Git commands can be searched everywheere. Here I will list only 
 </ul>
 
 
+<h2><a name="check_status"></a>Check Current Status</h2>
+
+<h3>Origin</h3>
+
+<p>Use <code>git config --get remote.origin.url</code> to get current origin address.</p>
+
+<h3>Branch Info</h3>
+
+<p>Use <code>git branch -vv</code> to get all your local branchs' tracking branch. You can also use <code>git show remote origin</code> to get the tracking info, but with a lot of trivial info.</p>
+
 <h2><a name="branch_operation"></a>Branch Operation</h2>
 
-<p>To checkout a new branch from remote repo: When you want to change to a branch that is not in your local side, use <code>git branch -a</code> to list all the branches, and find the one you want to checkout in the remote. Then run <code>git checkout --track origin/&lt;branch_name&gt;</code>, and you will get the branch. Use <code>git branch</code> to check it.</p>
+<p>To checkout a new branch from remote repo: When you want to change to a branch that is not in your local side,</p>
+
+<ul>
+<li>use <code>git branch -a</code> to list all the branches, and find the one you want to checkout in the remote.</li>
+<li>If the branch you are looking for is not there, or you want to make sure that the branch is up-to-date, run <code>git pull</code> first before you do checkout.</li>
+<li>Then run <code>git checkout  origin/&lt;branch_name&gt;</code>, and you will get the branch, and change to the branch.</li>
+</ul>
+
+
+<h2><a name="git_commit_amend"></a>Use <code>git commit --amend</code></h2>
+
+<p>The <code>git commit --amend</code> command is a convenient way to fix up the most recent commit. <strong>It lets you combine staged changes with the previous commit instead of committing it as an entirely new snapshot.</strong> It can also be used to simply edit the previous commit message without changing its snapshot.</p>
+
+<p>But, amending doesn’t just alter the most recent commit—it replaces it entirely. To Git, it will look like a brand new commit. It’s important to keep this in mind when working with public repositories.</p>
+
+<p><code>git commit --amend</code> will open your editor, allowing you to change the commit message of the most recent commit. Additionally, you can set the commit message directly in the command line with: <code>git commit --amend -m "New commit message"</code>.</p>
 
 <h2><a name="check_commit_history"></a>Check commit history</h2>
+
+<h4>search</h4>
 
 <p>First, use <code>git log</code> to find the commit we want. We can use <code>git log --author=&lt;someone&gt;</code> to narrow the scope.</p>
 
@@ -140,8 +173,8 @@ Using git stash Git commands can be searched everywheere. Here I will list only 
 <tbody>
 <tr>
 <td><code>git log --author=&lt;someone&gt;</code> </td>
-<td> on the top left, select <em>Log</em> view </td>
-<td> list all commits <someone> made</td>
+<td> on the top left, select <em>Search</em> view </td>
+<td> list all commits <em>someone</em> made</td>
 </tr>
 <tr>
 <td><code>git log --name-only</code> </td>
@@ -152,6 +185,11 @@ Using git stash Git commands can be searched everywheere. Here I will list only 
 <td><code>git log -- &lt;file&gt;</code> </td>
 <td> right click a file and select <em>log selected&hellip;</em> </td>
 <td> list all commits on a file</td>
+</tr>
+<tr>
+<td><code>git log -g --grep=&lt;key words&gt;</code> </td>
+<td> on the top left, select <em>Search</em> view </td>
+<td>  find the commits which contains the <em>key words</em> in the commit messages. <strong>Note:</strong>use double quotes for key words with blank spaces.</td>
 </tr>
 </tbody>
 </table>
@@ -252,7 +290,7 @@ Using git stash Git commands can be searched everywheere. Here I will list only 
 
 <p>If you want to roll back the last stash in newbranch, in #5 step, run <code>git stash pop stash@{1}</code>. If you don&rsquo;t use the index <code>stash@{1}</code>, the top stash in the stash stack will be popped out.</p>
 
-<h2>Use <em>kdiff3</em> as the default tool for git</h2>
+<h2><a name="kdiff3"></a>Use <em>kdiff3</em> as the default tool for git</h2>
 
 <p>When you run <code>git diff</code>, the difference will be listed in the command window. If you want to see the difference in a visual window (for exmple, <em>kdiff3</em>):</p>
 
@@ -333,30 +371,30 @@ Using git stash Git commands can be searched everywheere. Here I will list only 
   
     <section class="categories">
   <h1>Categories</h1>
-    <ul id="top-category-list" class="nav nav-list"><li><a href='/blog/categories/ios'>ios (24)</a></li><li><a href='/blog/categories/objective-c'>objective-c (18)</a></li><li><a href='/blog/categories/productivity'>productivity (15)</a></li><li><a href='/blog/categories/xcode'>xcode (3)</a></li><li><a href='/blog/categories/node'>node (3)</a></li><li><a href='/blog/categories/android'>android (3)</a></li><li><a href='/blog/categories/python'>python (3)</a></li><li><a href='/blog/categories/web'>web (2)</a></li><li><a href='/blog/categories/javascript'>javascript (2)</a></li><li><a href='/blog/categories/android-studio'>android_studio (1)</a></li><li><a href='/blog/categories/design-pattern'>design_pattern (1)</a></li><li><a href='/blog/categories/java'>java (1)</a></li></ul>
+    <ul id="top-category-list" class="nav nav-list"><li><a href='/blog/categories/ios'>ios (25)</a></li><li><a href='/blog/categories/objective-c'>objective-c (18)</a></li><li><a href='/blog/categories/productivity'>productivity (15)</a></li><li><a href='/blog/categories/android'>android (4)</a></li><li><a href='/blog/categories/xcode'>xcode (4)</a></li><li><a href='/blog/categories/python'>python (3)</a></li><li><a href='/blog/categories/node'>node (3)</a></li><li><a href='/blog/categories/java'>java (2)</a></li><li><a href='/blog/categories/javascript'>javascript (2)</a></li><li><a href='/blog/categories/web'>web (2)</a></li><li><a href='/blog/categories/android-studio'>android_studio (1)</a></li><li><a href='/blog/categories/design-pattern'>design_pattern (1)</a></li><li><a href='/blog/categories/reading'>reading (1)</a></li><li><a href='/blog/categories/philosophy'>philosophy (1)</a></li></ul>
 </section>
 <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2016/09/16/summerize-of-sohpie-world/">《苏菲的世界》读后小结</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/08/25/android-unit-test-with-junit/">Android Unit Test With Junit</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/08/02/asynchronously-load-online-images-into-uitableviewcells/">在UITableViewCell中异步加载图片</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/04/19/documenting-in-xcode-e-with-headerdoc-tutorial/">Documenting in Xcode With HeaderDoc Tutorial</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2016/03/27/ios-multiple-page-view-controller-usage/">Ios MultiplePagesViewController Usage</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2016/03/04/parsing-and-write-excel-file-using-node-module/">使用node-xlsx进行excel文件的读写</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2016/02/24/ios-memory-managemement-debugging/">Ios内存管理——调试</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2016/02/22/ios-memory-management-theory/">Ios内存管理——理论</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2016/02/18/uiview-animation-in-ios/">iOS中的动画——UIView</a>
       </li>
     
   </ul>

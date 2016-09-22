@@ -9,7 +9,8 @@
   <meta name="author" content="Zhang Hongchao">
 
   
-  <meta name="description" content="MKOverlay Write your own overlay class (for example, MapOverlay) confirm to MKOverlay, synthesize coordinate and boundingMapRect, so that we can &hellip;">
+  <meta name="description" content="All the attributes of a property defines how the compiler generate the getter and setter accessors. atomic / nonatomic
+strong / weak: used for ARC. &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -62,6 +63,246 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/07/27/Property-and-its-Attributes-in-Objective-C/">Property and Its Attributes in Objective-C</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2015-07-27T00:00:00+08:00" pubdate data-updated="true">Jul 27th, 2015</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>All the attributes of a property defines how the compiler generate the <code>getter</code> and <code>setter</code> accessors.</p>
+
+<ul>
+<li>atomic / nonatomic</li>
+<li>strong / weak: used for ARC.</li>
+<li>assign / retain / copy: go to <a href="http://blog.csdn.net/jiarusun000/article/details/6991249">here</a> for reference. These properties define how the compiler generate the <code>setter</code> accessor.</li>
+<li>readonly / readwrite: if a property is declared as <code>readonly</code>, the compiler will only declare the getter accessor, so that you can not call setter accessor.</li>
+</ul>
+
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2015/07/27/Property-and-its-Attributes-in-Objective-C/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/07/22/Property-vs-Instance-Variable(iVar)-in-Objective-C/">Property vs Instance Variable (iVar) in Objective-c</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2015-07-22T00:00:00+08:00" pubdate data-updated="true">Jul 22nd, 2015</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>This post is deprecated. Refer to <a href="http://hongchaozhang.github.io/blog/2015/12/19/propety-instance-variable-and-at-synthesize/">Propety, Instance Variable and @synthesize</a>.</p>
+
+<h2>Description</h2>
+
+<p>To declare a variable in a objective-c class, we have the following two ways:</p>
+
+<ul>
+<li>Property</li>
+</ul>
+
+
+<div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno">1</span> <span class="k">@interface</span> <span class="nc">Photo</span> : <span class="bp">NSObject</span>
+<span class="lineno">2</span> <span class="k">@property</span> <span class="p">(</span><span class="k">nonatomic</span><span class="p">,</span> <span class="k">strong</span><span class="p">)</span> <span class="bp">NSString</span> <span class="o">*</span><span class="n">photographer</span><span class="p">;</span>
+<span class="lineno">3</span> <span class="k">@end</span></code></pre></div>
+
+
+<ul>
+<li>Instance Variable (iVar)</li>
+</ul>
+
+
+<div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno">1</span> <span class="k">@interface</span> <span class="nc">Photo</span> : <span class="bp">NSObject</span> <span class="p">{</span>
+<span class="lineno">2</span>     <span class="bp">NSString</span> <span class="o">*</span><span class="n">photographer</span><span class="p">;</span>
+<span class="lineno">3</span> <span class="p">}</span>
+<span class="lineno">4</span> <span class="k">@end</span></code></pre></div>
+
+
+<p>Then, what&rsquo;s the difference?</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2015/07/22/Property-vs-Instance-Variable(iVar)-in-Objective-C/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/07/21/Use-Current-Location-Service-in-Map/">Use Current Location Service in Map</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2015-07-21T00:00:00+08:00" pubdate data-updated="true">Jul 21st, 2015</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>Location Service Authorization</h2>
+
+<h3>1. Set <em>info.plist</em></h3>
+
+<p>For iOS SDK 8.0 and later, we need to set <code>NSLocationWhenInUseUsageDescription</code> and &lsquo;NSLocationAlwaysUsageDescription&rsquo; in <em>info.plist</em> file. A sample case is:</p>
+
+<div class="highlight"><pre><code class="language-xml" data-lang="xml"><span class="lineno">1</span> <span class="nt">&lt;key&gt;</span>NSLocationWhenInUseUsageDescription<span class="nt">&lt;/key&gt;</span>
+<span class="lineno">2</span> <span class="nt">&lt;string&gt;</span>Do you allow the app to use your location?<span class="nt">&lt;/string&gt;</span>
+<span class="lineno">3</span> <span class="nt">&lt;key&gt;</span>NSLocationAlwaysUsageDescription<span class="nt">&lt;/key&gt;</span>
+<span class="lineno">4</span> <span class="nt">&lt;string&gt;</span>Are you willing to allow the app to use your location?<span class="nt">&lt;/string&gt;</span></code></pre></div>
+
+
+<p>The <code>string</code> will appear in the popup dialog. You can leave it as empty, and only the system message will appear in the popup.</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2015/07/21/Use-Current-Location-Service-in-Map/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/07/20/Some-Useful-Tools-for-Coding/">Some Useful Tools for Coding</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2015-07-20T00:00:00+08:00" pubdate data-updated="true">Jul 20th, 2015</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>Using Plugins for Xcode</h2>
+
+<p>Using <a href="http://alcatraz.io/">Alcatraz</a> to manage plugins in Xcode.</p>
+
+<p>Some recommended plugins:</p>
+
+<ul>
+<li><p><a href="https://github.com/NorthernRealities/ColorSenseRainbow">ColorSenseRainBow</a></p>
+
+<p>  A plugin for Xcode that shows colours and allows you to modify them. It works for both UIColor and NSColor in Swift and Objective-C.</p></li>
+<li><p><a href="https://github.com/chiahsien/AutoHighlightSymbol">AutoHighlightSymbol</a></p>
+
+<p>  Xcode can highlight instances of selected symbol, but what it does is to add dash lines under the instances, which is hard to be noticed.</p>
+
+<p>  AutoHighlightSymbol is a plugin for Xcode, it adds background highlight color to those instances. It&rsquo;s super useful while you&rsquo;re tracing codes, especially when you want to figure out where a specific variable is used in a certain method.</p></li>
+<li><p><a href="https://github.com/limejelly/Backlight-for-XCode">Backlight-for_Xcode</a></p>
+
+<p>  Highlights the current editing line in Xcode.</p></li>
+<li><p><a href="https://github.com/onevcat/VVDocumenter-Xcode">VVDocument-Xcode</a></p>
+
+<p>  Use this plug-in for xcode to enable xcode support automatically adding comments to our code, using Javadoc style.
+With these comments, we can alt+click a used function to see some useful info.</p></li>
+</ul>
+
+
+<h2>kdiff</h2>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2015/07/20/Some-Useful-Tools-for-Coding/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -193,10 +434,13 @@
   <div class="entry-content"><h1>Contents</h1>
 
 <ul>
+<li><a href="#check_status">Check Current Status</a></li>
 <li><a href="#branch_operation">Branch Operation</a></li>
+<li><a href="#git_commit_amend">Use <em>git commit &ndash;amend</em></a></li>
 <li><a href="#check_commit_history">Check commit history</a></li>
 <li><a href="#git_ignore">.gitignore</a></li>
 <li><a href="#git_stash">Using <em>git stash</em></a></li>
+<li><a href="#kdiff3">Use <em>kdiff3</em> as the default tool for git</a></li>
 </ul>
 
 
@@ -618,30 +862,30 @@
   
     <section class="categories">
   <h1>Categories</h1>
-    <ul id="top-category-list" class="nav nav-list"><li><a href='/blog/categories/ios'>ios (24)</a></li><li><a href='/blog/categories/objective-c'>objective-c (18)</a></li><li><a href='/blog/categories/productivity'>productivity (15)</a></li><li><a href='/blog/categories/xcode'>xcode (3)</a></li><li><a href='/blog/categories/node'>node (3)</a></li><li><a href='/blog/categories/android'>android (3)</a></li><li><a href='/blog/categories/python'>python (3)</a></li><li><a href='/blog/categories/web'>web (2)</a></li><li><a href='/blog/categories/javascript'>javascript (2)</a></li><li><a href='/blog/categories/android-studio'>android_studio (1)</a></li><li><a href='/blog/categories/design-pattern'>design_pattern (1)</a></li><li><a href='/blog/categories/java'>java (1)</a></li></ul>
+    <ul id="top-category-list" class="nav nav-list"><li><a href='/blog/categories/ios'>ios (25)</a></li><li><a href='/blog/categories/objective-c'>objective-c (18)</a></li><li><a href='/blog/categories/productivity'>productivity (15)</a></li><li><a href='/blog/categories/android'>android (4)</a></li><li><a href='/blog/categories/xcode'>xcode (4)</a></li><li><a href='/blog/categories/python'>python (3)</a></li><li><a href='/blog/categories/node'>node (3)</a></li><li><a href='/blog/categories/java'>java (2)</a></li><li><a href='/blog/categories/javascript'>javascript (2)</a></li><li><a href='/blog/categories/web'>web (2)</a></li><li><a href='/blog/categories/android-studio'>android_studio (1)</a></li><li><a href='/blog/categories/design-pattern'>design_pattern (1)</a></li><li><a href='/blog/categories/reading'>reading (1)</a></li><li><a href='/blog/categories/philosophy'>philosophy (1)</a></li></ul>
 </section>
 <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2016/09/16/summerize-of-sohpie-world/">《苏菲的世界》读后小结</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/08/25/android-unit-test-with-junit/">Android Unit Test With Junit</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/08/02/asynchronously-load-online-images-into-uitableviewcells/">在UITableViewCell中异步加载图片</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/04/19/documenting-in-xcode-e-with-headerdoc-tutorial/">Documenting in Xcode With HeaderDoc Tutorial</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2016/03/27/ios-multiple-page-view-controller-usage/">Ios MultiplePagesViewController Usage</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2016/03/04/parsing-and-write-excel-file-using-node-module/">使用node-xlsx进行excel文件的读写</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2016/02/24/ios-memory-managemement-debugging/">Ios内存管理——调试</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2016/02/22/ios-memory-management-theory/">Ios内存管理——理论</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2016/02/18/uiview-animation-in-ios/">iOS中的动画——UIView</a>
       </li>
     
   </ul>

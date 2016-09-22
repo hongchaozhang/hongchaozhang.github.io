@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Java | Zhang Hongchao]]></title>
   <link href="http://hongchaozhang.github.io/blog/categories/java/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2016-04-07T22:23:35+08:00</updated>
+  <updated>2016-09-22T09:57:57+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -12,6 +12,179 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Android Unit Test With Junit]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2016/08/25/android-unit-test-with-junit/"/>
+    <updated>2016-08-25T13:27:16+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2016/08/25/android-unit-test-with-junit</id>
+    <content type="html"><![CDATA[<h2>Test Types</h2>
+
+<p>When using Android Studio to write any of your tests, your test code must go into one of two different code directories (source sets). For each module in your project, Android Studio includes both source sets, corresponding to the following test types:</p>
+
+<!-- more -->
+
+
+<h3>Local unit tests</h3>
+
+<p>Located at <em>module-name/src/test/java/</em>.
+These tests run on the local JVM and do not have access to functional Android framework APIs.</p>
+
+<h3>Instrumented tests</h3>
+
+<p>Located at <em>module-name/src/androidTest/java/</em>.
+These are all tests that must run on an Android hardware device or an Android emulator.</p>
+
+<p>In the following, we will only focus on local unit test.</p>
+
+<h2>Set Up Your Testing Environment</h2>
+
+<p>In your app&rsquo;s top-level build.gradle file, you need to specify these libraries as dependencies:</p>
+
+<p><div class="highlight"><pre><code class="language-text" data-lang="text"><span class="lineno">1</span> dependencies {
+<span class="lineno">2</span>     // Required &amp;ndash; JUnit 4 framework
+<span class="lineno">3</span>     testCompile &amp;lsquo;junit:junit:4.12&amp;rsquo;
+<span class="lineno">4</span>     // Optional &amp;ndash; Mockito framework
+<span class="lineno">5</span>     testCompile &amp;lsquo;org.mockito:mockito-core:1.10.19&amp;rsquo;
+<span class="lineno">6</span> }</code></pre></div></p>
+
+<h2>Create a Local Unit Test Class</h2>
+
+<h3>Manualy create junit4 unit test</h3>
+
+<p>Your local unit test class should be written as a JUnit 4 test class. <a href="http://junit.org/junit4/">JUnit</a> is the most popular and widely-used unit testing framework for Java. The latest version of this framework, JUnit 4, allows you to write tests in a cleaner and more flexible way than its predecessor versions. Unlike the previous approach to Android unit testing based on JUnit 3, with JUnit 4, you do not need to extend the junit.framework.TestCase class. You also do not need to prefix your test method name with the ‘test’ keyword, or use any classes in the junit.framework or junit.extensions package.</p>
+
+<p>To create a basic JUnit 4 test class, create a Java class that contains one or more test methods. A test method begins with the @Test annotation and contains the code to exercise and verify a single functionality in the component that you want to test.</p>
+
+<p><div class="highlight"><pre><code class="language-java" data-lang="java"><span class="lineno"> 1</span> <span class="kn">import</span> <span class="nn">org.junit.Test</span><span class="o">;</span>
+<span class="lineno"> 2</span> <span class="kn">import</span> <span class="nn">java.util.regex.Pattern</span><span class="o">;</span>
+<span class="lineno"> 3</span> <span class="kn">import</span> <span class="nn">static</span> <span class="n">org</span><span class="o">.</span><span class="na">junit</span><span class="o">.</span><span class="na">Assert</span><span class="o">.</span><span class="na">assertFalse</span><span class="o">;</span>
+<span class="lineno"> 4</span> <span class="kn">import</span> <span class="nn">static</span> <span class="n">org</span><span class="o">.</span><span class="na">junit</span><span class="o">.</span><span class="na">Assert</span><span class="o">.</span><span class="na">assertTrue</span><span class="o">;&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+<span class="lineno"> 5</span> 
+<span class="lineno"> 6</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">EmailValidatorTest</span> <span class="o">{&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+<span class="lineno"> 7</span> 
+<span class="lineno"> 8</span> <span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="nd">@Test</span>
+<span class="lineno"> 9</span> <span class="kd">public</span> <span class="kt">void</span> <span class="nf">emailValidator_CorrectEmailSimple_ReturnsTrue</span><span class="o">()</span> <span class="o">{</span>
+<span class="lineno">10</span>     <span class="n">assertThat</span><span class="o">(</span><span class="n">EmailValidator</span><span class="o">.</span><span class="na">isValidEmail</span><span class="o">(</span><span class="s">&quot;name@email.com&quot;</span><span class="o">),</span> <span class="n">is</span><span class="o">(</span><span class="kc">true</span><span class="o">));</span>
+<span class="lineno">11</span> <span class="o">}</span>
+<span class="lineno">12</span> <span class="o">...</span>
+<span class="lineno">13</span> <span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+<span class="lineno">14</span> 
+<span class="lineno">15</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;}</span></code></pre></div></p>
+
+<h3>Auto create junit4 unit test with the help of Android Studio</h3>
+
+<p>Right click inside the class you are to test, and select <em>Go to -> Test</em> (Shift + Command + T), then select <em>create new test&hellip;</em>. You will see:</p>
+
+<p><img src="/images/auto_create_junit4_unit_test.png" alt="auto_create_junit4_unit_test.png" /></p>
+
+<p>In the above window, select the test class name, the methods you want to test, and some other helper methods like <code>setUp</code> and <code>tearDown</code>.</p>
+
+<p>Then fill out all the test cases.</p>
+
+<h3>Some annotations</h3>
+
+<table>
+<thead>
+<tr>
+<th>Annotation </th>
+<th> Meaning </th>
+<th> Note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>@Test </td>
+<td> for test cases </td>
+<td></td>
+</tr>
+<tr>
+<td>@Before </td>
+<td> excute before every test case </td>
+<td></td>
+</tr>
+<tr>
+<td>@After </td>
+<td> excute after every test case </td>
+<td></td>
+</tr>
+<tr>
+<td>@BeforeClass </td>
+<td> static, excute only once, before the first test case begin </td>
+<td></td>
+</tr>
+<tr>
+<td>@AfterClass </td>
+<td> see @BeforeClass </td>
+<td></td>
+</tr>
+<tr>
+<td>@Rule </td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+
+<h2><code>Mock</code> and <code>Spy</code></h2>
+
+<h4>Difference between mock and spy</h4>
+
+<p><strong>Mock</strong>: Mock will wrap the Class of an Type, not from an actual instance. The mock simply creates a bare-bones shell instance of the Class. In that case, each method implementation is mocked, unless specify <code>thenCallRealMethod()</code> in the <code>when(..)</code> clause.</p>
+
+<p><strong>Spy</strong>: Spy will wrap an existing instance. In this case, all method implementation are the real one, expect if you have defined a mocked behaviour with <code>when(..)</code>.</p>
+
+<p>For <code>mock</code>:</p>
+
+<p><div class="highlight"><pre><code class="language-java" data-lang="java"><span class="lineno">1</span> <span class="n">Stock</span> <span class="n">stock</span> <span class="o">=</span> <span class="n">mock</span><span class="o">(</span><span class="n">Stock</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+<span class="lineno">2</span> <span class="n">when</span><span class="o">(</span><span class="n">stock</span><span class="o">.</span><span class="na">getPrice</span><span class="o">()).</span><span class="na">thenReturn</span><span class="o">(</span><span class="mf">100.00</span><span class="o">);</span>    <span class="c1">// Mock implementation</span>
+<span class="lineno">3</span> <span class="n">when</span><span class="o">(</span><span class="n">stock</span><span class="o">.</span><span class="na">getQuantity</span><span class="o">()).</span><span class="na">thenReturn</span><span class="o">(</span><span class="mi">200</span><span class="o">);</span>    <span class="c1">// Mock implementation</span>
+<span class="lineno">4</span> <span class="n">when</span><span class="o">(</span><span class="n">stock</span><span class="o">.</span><span class="na">getValue</span><span class="o">()).</span><span class="na">thenCallRealMethod</span><span class="o">();</span>  <span class="c1">// Real implementation</span></code></pre></div></p>
+
+<p>In that case, each method implementation is mocked, unless specify <code>thenCallRealMethod()</code> in the <code>when(..)</code> clause.</p>
+
+<p>For <code>spy</code>:</p>
+
+<p><div class="highlight"><pre><code class="language-java" data-lang="java"><span class="lineno">1</span> <span class="n">Stock</span> <span class="n">stock</span> <span class="o">=</span> <span class="n">spy</span><span class="o">(</span><span class="k">new</span> <span class="nf">Stock</span><span class="o">());</span>
+<span class="lineno">2</span> <span class="n">when</span><span class="o">(</span><span class="n">stock</span><span class="o">.</span><span class="na">getPrice</span><span class="o">()).</span><span class="na">thenReturn</span><span class="o">(</span><span class="mf">100.00</span><span class="o">);</span>    <span class="c1">// Mock implementation</span>
+<span class="lineno">3</span> <span class="n">when</span><span class="o">(</span><span class="n">stock</span><span class="o">.</span><span class="na">getQuantity</span><span class="o">()).</span><span class="na">thenReturn</span><span class="o">(</span><span class="mi">200</span><span class="o">);</span>    <span class="c1">// Mock implementation</span>
+<span class="lineno">4</span> <span class="c1">// All other method call will use the real implementations</span></code></pre></div></p>
+
+<p>In that case, all method implementation are the real one, expect if you have defined a mocked behaviour with <code>when(..)</code>.</p>
+
+<p>There is one important pitfall when you use <code>when(Object)</code> with spy like in the previous example. The real method will be called (because <code>stock.getPrice()</code> is evaluated before <code>when(..)</code> at runtime). This can be a problem if your method contains logic that should not be called. You can write the previous example like this:</p>
+
+<p><div class="highlight"><pre><code class="language-java" data-lang="java"><span class="lineno">1</span> <span class="n">Stock</span> <span class="n">stock</span> <span class="o">=</span> <span class="n">spy</span><span class="o">(</span><span class="k">new</span> <span class="nf">Stock</span><span class="o">());</span>
+<span class="lineno">2</span> <span class="n">doReturn</span><span class="o">(</span><span class="mf">100.00</span><span class="o">).</span><span class="na">when</span><span class="o">(</span><span class="n">stock</span><span class="o">).</span><span class="na">getPrice</span><span class="o">();</span>    <span class="c1">// Mock implementation</span>
+<span class="lineno">3</span> <span class="n">doReturn</span><span class="o">(</span><span class="mi">200</span><span class="o">).</span><span class="na">when</span><span class="o">(</span><span class="n">stock</span><span class="o">).</span><span class="na">getQuantity</span><span class="o">();</span>    <span class="c1">// Mock implementation</span>
+<span class="lineno">4</span> <span class="c1">// All other method call will use the real implementations</span></code></pre></div></p>
+
+<h2>Mock Android Dependencies</h2>
+
+<p>To do.</p>
+
+<h2>Use Hamcrest for Assertion</h2>
+
+<p>Use <a href="https://github.com/hamcrest/hamcrest-junit">hamcrest</a> to make the code more readable.</p>
+
+<p>Instead of using:</p>
+
+<p><div class="highlight"><pre><code class="language-java" data-lang="java"><span class="lineno">1</span> <span class="n">assertEquals</span><span class="o">(</span><span class="n">expected</span><span class="o">,</span> <span class="o">&amp;</span><span class="n">ldquo</span><span class="o">;</span><span class="n">the</span> <span class="n">two</span> <span class="n">values</span> <span class="n">should</span> <span class="n">be</span> <span class="n">the</span> <span class="n">same</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="o">;);</span>
+<span class="lineno">2</span> <span class="n">assertNotNull</span><span class="o">(</span><span class="n">object</span><span class="o">);</span></code></pre></div></p>
+
+<p>we can use:</p>
+
+<p><div class="highlight"><pre><code class="language-java" data-lang="java"><span class="lineno">1</span> <span class="n">assertThat</span><span class="o">(</span><span class="n">expected</span><span class="o">,</span> <span class="n">equalTo</span><span class="o">(&amp;</span><span class="n">ldquo</span><span class="o">;</span><span class="n">the</span> <span class="n">two</span> <span class="n">values</span> <span class="n">should</span> <span class="n">be</span> <span class="n">the</span> <span class="n">same</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="o">;));</span>
+<span class="lineno">2</span> <span class="n">assertThat</span><span class="o">(</span><span class="n">object</span><span class="o">,</span> <span class="n">is</span><span class="o">(</span><span class="n">NotNullValue</span><span class="o">()));</span></code></pre></div></p>
+
+<h2>References</h2>
+
+<p><a href="https://developer.android.com/training/testing/start/index.html">Getting Started with Testing</a>: official site from Google.</p>
+
+<p><a href="http://stackoverflow.com/questions/14970516/use-mockito-to-mock-some-methods-but-not-others">Use Mockito to mock some methods but not others</a>讲解Mock和Spy的用法，简单易懂。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Communication Between WebView and Native Android]]></title>
