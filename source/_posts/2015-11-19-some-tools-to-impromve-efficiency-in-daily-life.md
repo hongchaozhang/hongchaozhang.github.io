@@ -20,6 +20,10 @@ categories: [productivity]
 
 可以用来监督你一天之中分别有多少时间花在什么地方。在上淘宝的时候都想快点结束，不然一天下来数据会很难看。
 
+### EuDic
+
+Mac上的这个词典好过系统自带的Dictionary很多。引用推荐人的一句话：这是Mac上最好用的词典，没有之一。
+
 ### Astah
 
 用**Astah Community**（Astah还有收费版本：Astah Professional，功能更全，不过Astah Community完全够用了。）来画UML图的class diagram和sequence diagram非常方便，尤其是sequence diagram，相比于之前用的**Dia**，简直是方便太多了，用**Dia**画sequence diagram简直就是噩梦。

@@ -129,6 +129,8 @@ delegate的属性应该为weak。
 
 * 勾选Record reference counts，记录retain，release和autorelease事件。
 * 为Allocation Lifespan选择All Objects Created，如果你想看到已经被dealloc的实例，这个可以不选。
+* 在*Allocation List -> All Allocations* 中可以搜索自己感兴趣的class。
+* 在reference count页面，注意使用*All*、*uppair*等进行过滤。
 
 
 ### 关于ARC下的retainCount
@@ -146,7 +148,10 @@ NSLog(@"Retain count is %ld", CFGetRetainCount((__bridge CFTypeRef)myObject));
 po object.retainCount
 {% endhighlight %}
 
-我们什么时候使用retainCount？
-Never！
+>
+ **我们什么时候使用retainCount？**
+>
+**Never！**
+
 参考 [When to use -retainCount?](http://stackoverflow.com/questions/4636146/when-to-use-retaincount)。
-但是偶尔在调试的时候用一下，对于一些内存管理概念的理解还是有好处的。
+但是偶尔在调试的时候用一下，对于一些内存管理概念的理解还是有好处的，仅此而已。

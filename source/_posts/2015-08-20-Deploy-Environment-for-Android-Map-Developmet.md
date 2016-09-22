@@ -29,6 +29,8 @@ For Android Studio, **TODO**
 
 ### Get SHA1 fingerprint certificate
 
+#### Windows
+
 For Eclipse, go to **Windows -> Preferences -> Android -> Build** to find it.
 
 For Android Studio, go to your java(jdk) bin directory, and run:
@@ -38,6 +40,12 @@ For Android Studio, go to your java(jdk) bin directory, and run:
 You will get your SHA1 fingerprint from:
 
 ![004_SHA1_in_Android_Studio](/images/004_SHA1_in_Android_Studio.png)
+
+#### Mac
+
+For Android Studio, go to your java home directory (/usr/libexec/), and run the following command to get SHA1 fingerprint:
+
+    keytool -list -v -keystore ~/.android/debug.keystore -alias androiddebugkey -storepass android -keypass android
 
 ### Generate the key
 

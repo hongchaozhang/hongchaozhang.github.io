@@ -4,22 +4,24 @@ title: "Objective-C里Category和Inheritence中的Property和Method的可见性"
 date: 2016-06-16 21:48:54 +0800
 comments: true
 categories: [ios, objective-c]
+published: false
 ---
 [Objective-C - Private vs Protected vs Public](http://stackoverflow.com/questions/4869935/objective-c-private-vs-protected-vs-public)
 
 
 CONCLUSION：
-    /*!
-     *  Dot(.) operation is for property only, and has nothing to do with ivar.
-     *  And I think -> operation is for ivar only, and has nothing to do with property.
-     */
-ivar中的关键字public、private和protected只对ivar有效，表明的是ivar的可见性，默认protected。子类中想用继承来的ivar，需要使用->操作符，不能使用dot操作符（dot操作符只用于property）。实例中想用ivar，只能用具有public属性的ivar。
 
+1. **点操作(.)只和property有关和iVar没有关系。**
+2. **->操作只和iVar有关，和property无关。**
+3. **ivar中的关键字public、private和protected只对ivar有效，表明的是ivar的可见性，默认protected。子类中想用继承来的ivar，需要使用->操作符，不能使用dot操作符（dot操作符只用于property）。实例中想用ivar，只能用具有public属性的ivar。**
+
+<!-- more -->
 
 [实现public、private和protected属性和方法](http://stackoverflow.com/questions/12633627/expose-a-private-objective-c-method-or-property-to-subclasses)
 
 [很好的例子:](http://stackoverflow.com/questions/3725857/protected-methods-in-objective-c)
-```objc
+
+{% highlight objc linenos %}
 /////// SuperClass.h
 @interface SuperClass
 
@@ -46,7 +48,7 @@ ivar中的关键字public、private和protected只对ivar有效，表明的是iv
   [self protectedMethod] ; // this will not generate warning
 } 
 @end
-```
+{% endhighlight %}
 
 [另外一个例子](http://bootstragram.com/blog/simulating-protected-modifier-with-objective-c/)
 

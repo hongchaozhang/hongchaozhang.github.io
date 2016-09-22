@@ -5,7 +5,7 @@ categories: [productivity]
 title: Some Useful Tools for Coding
 ---
 
-## Using plugins for Xcode
+## Using Plugins for Xcode
 
 Using [Alcatraz](http://alcatraz.io/) to manage plugins in Xcode.
 
@@ -37,7 +37,7 @@ With these comments, we can alt+click a used function to see some useful info.
 
 Use **kdiff** for comparing and merging files or folders.
 
-## goagent for VPN
+## Goagent for VPN
 
 For Mac, refer to [this post](http://blog.csdn.net/yanzi1225627/article/details/42886391).
 
@@ -45,3 +45,12 @@ If you meet with httplib.BadStatusLine error while running `python uploader.py`,
 
 * 关闭谷歌账户的两部验证功能。
 * 并且到 [这里](https://www.google.com/settings/security/lesssecureapps) 确认"不够安全的应用的访问权限"已启用。
+
+## Debugging Network
+
+### Charles
+用Charles设置代理，抓取数据包。
+
+### Network Link Conditioner
+设置网络状态，比如Edge，3G，wifi等。设置界面：
+![network_link_conditioner.png](/images/network_link_conditioner.png)

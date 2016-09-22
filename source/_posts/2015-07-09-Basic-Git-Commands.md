@@ -9,6 +9,7 @@ title: Basic Git Commands
 
 * [Check Current Status](#check_status)
 * [Branch Operation](#branch_operation)
+* [Use *git commit --amend*](#git_commit_amend)
 * [Check commit history](#check_commit_history)
 * [.gitignore](#git_ignore)
 * [Using *git stash*](#git_stash)
@@ -26,12 +27,29 @@ First of all, try the following commands first:
 
 ## <a name="check_status"></a>Check Current Status
 
-### origin
-Use 'git config --get remote.origin.url' to get current origin address.
+### Origin
+Use `git config --get remote.origin.url` to get current origin address.
+
+### Branch Info
+Use `git branch -vv` to get all your local branchs' tracking branch. You can also use `git show remote origin` to get the tracking info, but with a lot of trivial info.
+
+
 
 ## <a name="branch_operation"></a>Branch Operation
 
-To checkout a new branch from remote repo: When you want to change to a branch that is not in your local side, use `git branch -a` to list all the branches, and find the one you want to checkout in the remote. Then run `git checkout --track origin/<branch_name>`, and you will get the branch. Use `git branch` to check it.
+To checkout a new branch from remote repo: When you want to change to a branch that is not in your local side, 
+
+* use `git branch -a` to list all the branches, and find the one you want to checkout in the remote. 
+* If the branch you are looking for is not there, or you want to make sure that the branch is up-to-date, run `git pull` first before you do checkout.
+* Then run `git checkout  origin/<branch_name>`, and you will get the branch, and change to the branch.
+
+## <a name="git_commit_amend"></a>Use `git commit --amend`
+
+The `git commit --amend` command is a convenient way to fix up the most recent commit. **It lets you combine staged changes with the previous commit instead of committing it as an entirely new snapshot.** It can also be used to simply edit the previous commit message without changing its snapshot.
+
+But, amending doesn’t just alter the most recent commit—it replaces it entirely. To Git, it will look like a brand new commit. It’s important to keep this in mind when working with public repositories.
+
+`git commit --amend` will open your editor, allowing you to change the commit message of the most recent commit. Additionally, you can set the commit message directly in the command line with: `git commit --amend -m "New commit message"`.
 
 ## <a name="check_commit_history"></a>Check commit history
 

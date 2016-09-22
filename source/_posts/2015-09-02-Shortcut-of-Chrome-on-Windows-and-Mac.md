@@ -28,6 +28,7 @@ Ctrl + click a link | Command + click a link | open the link in a new tab, but s
 Ctrl + Shift + click a link | Command + Shift + click a link | open the link in a new tab, and go to the new tab
 Ctrl + Shift + T | Command + Shift + T | open last closed tab (10 at the most)
 Ctrl + Tab | Ctrl + Tab | move to the next tab
+Ctrl + Shift + Tab | Ctrl + Shift+ Tab | move to the previous tab
 Backspace | Backspace | go to the last history page
 Shift + Backspace | Shift + Backspace | go to the next history page
 Space | Space | page down

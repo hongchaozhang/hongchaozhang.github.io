@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Documenting in Xcode e with HeaderDoc Tutorial"
+title: "Documenting in Xcode with HeaderDoc Tutorial"
 date: 2016-04-19 10:50:00 +0800
 comments: true
 categories: [xcode]
