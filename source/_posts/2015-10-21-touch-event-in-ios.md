@@ -230,6 +230,28 @@ for (UIView* v in subviews){
 
 ![009_iOS_hittest_2.png](/images/009_iOS_hittest_2.png)
 
+#### hitTest被调用两次的issue
+
+对于一次tap，hitTest会被调用两次。这个问题在Apple Mailing List [Re: -hitTest:withEvent: called twice?](http://lists.apple.com/archives/cocoa-dev/2014/Feb/msg00118.html)里面有描述：
+
+* Yes, it’s normal. The system may tweak the point being hit tested between the calls. Since hitTest should be a pure function with no side-effects, this should be fine.
+
+当我们在UIView中重写`hitTest`也可以发现：这两次调用的timestamp都是相同的，并且两次`hitTest`先被调用之后才调用了`touchesBegan`和`touchesEnded`：
+
+{% highlight text linenos %}
+2016-10-12 17:08:24.692843 OCPlayground[1707:973553] timestamp: 164999.282347
+2016-10-12 17:08:24.692962 OCPlayground[1707:973553] hitTest is called from EventPropagationViewer
+
+2016-10-12 17:08:24.693520 OCPlayground[1707:973553] timestamp: 164999.282347
+2016-10-12 17:08:24.693575 OCPlayground[1707:973553] hitTest is called from EventPropagationViewer
+
+2016-10-12 17:08:24.696633 OCPlayground[1707:973553] timestamp: 164999.282347
+2016-10-12 17:08:24.696710 OCPlayground[1707:973553] touchesBegan from EventPropagationViewer
+
+2016-10-12 17:08:24.709334 OCPlayground[1707:973553] timestamp: 164999.299077
+2016-10-12 17:08:24.709447 OCPlayground[1707:973553] touchesEnded from EventPropagationViewer
+{% endhighlight %}
+
 参考文章：[深入浅出iOS事件机制](http://zhoon.github.io/ios/2015/04/12/ios-event.html)，其中还讲述了一些hitTest的应用。
 
 
