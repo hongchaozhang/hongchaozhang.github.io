@@ -1,0 +1,394 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Android开发中使用的度量单位px、dp、sp、pt、in、mm - Zhang Hongchao</title>
+  <meta name="author" content="Zhang Hongchao">
+
+  
+  <meta name="description" content="关于多屏的支持，最好的文章当然是官方文档：Supporting Multiple Screens。一篇文章，从概念到解决方案，非常全面。 下面主要讨论一下开发过程中使用的度量单位的问题。 单位的意义及其之间的转换 对于不同的度量单位（px、dp、sp、pt、in、mm）， &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://hongchaozhang.github.io/blog/2016/10/25/supporting-multiple-screens-for-android">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Zhang Hongchao" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/libs/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<!--
+<link href='https://fonts.googleapis.com/css?family=Noto+Serif:400,700' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+-->
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Zhang Hongchao</a></h1>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><!--
+<ul class="subscription" data-subscription="rss">
+  
+  
+</ul>
+-->
+
+<!--
+
+-->
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <script type="text/javascript" src="/javascripts/DisableLineNumberCopy.js"></script>
+
+<div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Android开发中使用的度量单位px、dp、sp、pt、in、mm</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2016-10-25T17:10:08+08:00" pubdate data-updated="true">Oct 25th, 2016</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>关于多屏的支持，最好的文章当然是官方文档：<a href="https://developer.android.com/guide/practices/screens_support.html#testing">Supporting Multiple Screens</a>。一篇文章，从概念到解决方案，非常全面。</p>
+
+<p>下面主要讨论一下开发过程中使用的度量单位的问题。</p>
+
+<!-- more -->
+
+
+<h2>单位的意义及其之间的转换</h2>
+
+<p>对于不同的度量单位（<code>px</code>、<code>dp</code>、<code>sp</code>、<code>pt</code>、<code>in</code>、<code>mm</code>），可以从下面一张图看出它们之间的关系：</p>
+
+<p><img src="/images/android_font_size_tesst.png" alt="android_font_size_tesst" /></p>
+
+<p>左上->右上->左下->右下，依次为ldpi->mdpi->hdpi->xhdpi（其大小不代表绝对大小，只用关注它们之间的相对大小即可）。结论如下：</p>
+
+<h3><code>px</code></h3>
+
+<p><code>px</code>是唯一一个显示大小与dpi有关系的单位，其它单位的显示大小都与dpi无关。</p>
+
+<h3><code>dp</code></h3>
+
+<p><code>dp</code>也叫<code>dip</code>，即<em>density-independent-pixel</em>，在dpi等于160的时候，其大小与px相等。因此，我们可以算出1dp等于<code>densityDpi / DENSITY_DEFAULT(160)） px</code>，也就是<code>density px</code>。具体关系参考下面介绍<code>DisplayMetrics</code>中属性的表格。</p>
+
+<h3><code>sp</code></h3>
+
+<p>除了具有<code>dp</code>的特征之外，<code>sp</code>还可以响应用户的font size preference设置其值像dp一样，也只能取一些离散的值。font size preference的设置界面如下：</p>
+
+<p><img src="/images/android_font_preference_setting.png" alt="android_font_preference_setting" /></p>
+
+<h3><code>pt</code>、<code>in</code>、<code>mm</code></h3>
+
+<p>这几个单位都是长度单位，其中pt等于1/72inch，都是用户最终看到的大小。这些值都是根据设备真实物理像素密度（<code>xdpi</code>和<code>ydpi</code>）算出来的，不会像<code>dp</code>和<code>sp</code>一样，只有几个离散的值。</p>
+
+<p>在TypedValue.java中有所有单位到<code>px</code>的转换方法：</p>
+
+<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="lineno"> 1</span> <span class="cm">/**</span>
+<span class="lineno"> 2</span> <span class="cm"> * Converts an unpacked complex data value holding a dimension to its final floating </span>
+<span class="lineno"> 3</span> <span class="cm"> * point value. The two parameters &lt;var&gt;unit&lt;/var&gt; and &lt;var&gt;value&lt;/var&gt;</span>
+<span class="lineno"> 4</span> <span class="cm"> * are as in {@link #TYPE_DIMENSION}.</span>
+<span class="lineno"> 5</span> <span class="cm"> *  </span>
+<span class="lineno"> 6</span> <span class="cm"> * @param unit The unit to convert from.</span>
+<span class="lineno"> 7</span> <span class="cm"> * @param value The value to apply the unit to.</span>
+<span class="lineno"> 8</span> <span class="cm"> * @param metrics Current display metrics to use in the conversion -- </span>
+<span class="lineno"> 9</span> <span class="cm"> *                supplies display density and scaling information.</span>
+<span class="lineno">10</span> <span class="cm"> * </span>
+<span class="lineno">11</span> <span class="cm"> * @return The complex floating point value multiplied by the appropriate </span>
+<span class="lineno">12</span> <span class="cm"> * metrics depending on its unit. </span>
+<span class="lineno">13</span> <span class="cm"> */</span>
+<span class="lineno">14</span> <span class="kd">public</span> <span class="kd">static</span> <span class="kt">float</span> <span class="nf">applyDimension</span><span class="o">(</span><span class="kt">int</span> <span class="n">unit</span><span class="o">,</span> <span class="kt">float</span> <span class="n">value</span><span class="o">,</span>
+<span class="lineno">15</span>                                    <span class="n">DisplayMetrics</span> <span class="n">metrics</span><span class="o">)</span>
+<span class="lineno">16</span> <span class="o">{</span>
+<span class="lineno">17</span>     <span class="k">switch</span> <span class="o">(</span><span class="n">unit</span><span class="o">)</span> <span class="o">{</span>
+<span class="lineno">18</span>     <span class="k">case</span> <span class="nl">COMPLEX_UNIT_PX:</span>
+<span class="lineno">19</span>         <span class="k">return</span> <span class="n">value</span><span class="o">;</span>
+<span class="lineno">20</span>     <span class="k">case</span> <span class="nl">COMPLEX_UNIT_DIP:</span>
+<span class="lineno">21</span>         <span class="k">return</span> <span class="n">value</span> <span class="o">*</span> <span class="n">metrics</span><span class="o">.</span><span class="na">density</span><span class="o">;</span>
+<span class="lineno">22</span>     <span class="k">case</span> <span class="nl">COMPLEX_UNIT_SP:</span>
+<span class="lineno">23</span>         <span class="k">return</span> <span class="n">value</span> <span class="o">*</span> <span class="n">metrics</span><span class="o">.</span><span class="na">scaledDensity</span><span class="o">;</span>
+<span class="lineno">24</span>     <span class="k">case</span> <span class="nl">COMPLEX_UNIT_PT:</span>
+<span class="lineno">25</span>         <span class="k">return</span> <span class="n">value</span> <span class="o">*</span> <span class="n">metrics</span><span class="o">.</span><span class="na">xdpi</span> <span class="o">*</span> <span class="o">(</span><span class="mf">1.0f</span><span class="o">/</span><span class="mi">72</span><span class="o">);</span>
+<span class="lineno">26</span>     <span class="k">case</span> <span class="nl">COMPLEX_UNIT_IN:</span>
+<span class="lineno">27</span>         <span class="k">return</span> <span class="n">value</span> <span class="o">*</span> <span class="n">metrics</span><span class="o">.</span><span class="na">xdpi</span><span class="o">;</span>
+<span class="lineno">28</span>     <span class="k">case</span> <span class="nl">COMPLEX_UNIT_MM:</span>
+<span class="lineno">29</span>         <span class="k">return</span> <span class="n">value</span> <span class="o">*</span> <span class="n">metrics</span><span class="o">.</span><span class="na">xdpi</span> <span class="o">*</span> <span class="o">(</span><span class="mf">1.0f</span><span class="o">/</span><span class="mf">25.4f</span><span class="o">);</span>
+<span class="lineno">30</span>     <span class="o">}</span>
+<span class="lineno">31</span>     <span class="k">return</span> <span class="mi">0</span><span class="o">;</span>
+<span class="lineno">32</span> <span class="o">}</span></code></pre></div>
+
+
+<p>该函数将所有的单位转换为px，其中参数意义如下：</p>
+
+<table>
+<thead>
+<tr>
+<th>属性 </th>
+<th> 意义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>metrics.density</code> </td>
+<td> 默认值为<code>densityDpi / (float) DENSITY_DEFAULT</code>。该值为归整之后的值：比如150dpi的设备，<code>density</code>值为1，即按照160dpi进行处理。<code>density</code>的典型值为0.75、1.0、1.5、2.0、3.0等。</td>
+</tr>
+<tr>
+<td><code>metrics.densityDpi</code> </td>
+<td> 设备物理像素密度，非精确的归整值，可取值为<code>DENSITY_LOW(120)</code>、<code>DENSITY_MEDIUM(160)</code>、<code>DENSITY_HIGH(240)</code>等。<code>density</code>的值是根据<code>densityDpi / DENSITY_DEFAULT</code>计算出来的，所以取值也是一些典型的离散值。</td>
+</tr>
+<tr>
+<td><code>metrics.scaledDensity</code> </td>
+<td> 具有<code>density</code>所有的特征，如果用户设置了font size preference，还需要乘以一个scale系数。</td>
+</tr>
+<tr>
+<td><code>metrics.xdpi</code> </td>
+<td> <code>x</code>方向的物理像素密度，精确的值，单位px/inch。同样的有<code>ydpi</code>。</td>
+</tr>
+<tr>
+<td><code>DENSITY_DEFAULT</code> </td>
+<td> dpi的参考值，值为160px/inch。</td>
+</tr>
+</tbody>
+</table>
+
+
+<h3><code>dp</code>转换为<code>px</code></h3>
+
+<p>有时候我们必须使用<code>px</code>作为单位，比如某个api接受的参数只能是<code>px</code>。这个时候，需要将<code>dp</code>转化为<code>px</code>。在code中我们可以使用下面的方法将<code>dp</code>转化为<code>px</code>：</p>
+
+<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="lineno">1</span> <span class="c1">// The gesture threshold expressed in dp</span>
+<span class="lineno">2</span> <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">float</span> <span class="n">GESTURE_THRESHOLD_DP</span> <span class="o">=</span> <span class="mf">16.0f</span><span class="o">;</span>
+<span class="lineno">3</span> 
+<span class="lineno">4</span> <span class="c1">// Get the screen&#39;s density scale</span>
+<span class="lineno">5</span> <span class="kd">final</span> <span class="kt">float</span> <span class="n">scale</span> <span class="o">=</span> <span class="n">getResources</span><span class="o">().</span><span class="na">getDisplayMetrics</span><span class="o">().</span><span class="na">density</span><span class="o">;</span>
+<span class="lineno">6</span> <span class="c1">// Convert the dps to pixels, based on density scale</span>
+<span class="lineno">7</span> <span class="n">mGestureThreshold</span> <span class="o">=</span> <span class="o">(</span><span class="kt">int</span><span class="o">)</span> <span class="o">(</span><span class="n">GESTURE_THRESHOLD_DP</span> <span class="o">*</span> <span class="n">scale</span> <span class="o">+</span> <span class="mf">0.5f</span><span class="o">);</span>
+<span class="lineno">8</span> 
+<span class="lineno">9</span> <span class="c1">// Use mGestureThreshold as a distance in pixels...</span></code></pre></div>
+
+
+<h2>Best Practice</h2>
+
+<ol>
+<li>Use <code>wrap_content</code>, <code>match_parent</code>, or <code>dp</code> units when specifying dimensions in an XML layout file</li>
+<li>Do not use hard coded pixel values in your application code</li>
+<li>Do not use <code>AbsoluteLayout</code> (it&rsquo;s deprecated). Use <code>RelativeLayout</code> instead.</li>
+<li>Supply alternative bitmap drawables for different screen densities</li>
+</ol>
+
+
+<p>另外一篇关于网页上字体大小单位的讨论：<a href="http://hongchaozhang.github.io/blog/2015/08/03/Font-size-in-Html/">Font Size in Html - Px, Em, Rem</a>。</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Zhang Hongchao</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2016-10-25T17:10:08+08:00" pubdate data-updated="true">Oct 25th, 2016</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/androoid/'>androoid</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2016/09/16/summerize-of-sohpie-world/" title="Previous Post: 《苏菲的世界》读后小结">&laquo; 《苏菲的世界》读后小结</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2016/10/31/sync-between-multiplele-threads-tasks-in-ios-app/" title="Next Post: iOS中多线程任务之间的同步">iOS中多线程任务之间的同步 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+  <aside class="sidebar">
+   
+  
+    <section class="categories">
+  <h1>Categories</h1>
+    <ul id="top-category-list" class="nav nav-list"><li><a href='/blog/categories/ios'>ios (27)</a></li><li><a href='/blog/categories/objective-c'>objective-c (19)</a></li><li><a href='/blog/categories/productivity'>productivity (15)</a></li><li><a href='/blog/categories/xcode'>xcode (4)</a></li><li><a href='/blog/categories/android'>android (4)</a></li><li><a href='/blog/categories/node'>node (3)</a></li><li><a href='/blog/categories/python'>python (3)</a></li><li><a href='/blog/categories/javascript'>javascript (2)</a></li><li><a href='/blog/categories/java'>java (2)</a></li><li><a href='/blog/categories/web'>web (2)</a></li><li><a href='/blog/categories/android-studio'>android_studio (1)</a></li><li><a href='/blog/categories/design-pattern'>design_pattern (1)</a></li><li><a href='/blog/categories/reading'>reading (1)</a></li><li><a href='/blog/categories/philosophy'>philosophy (1)</a></li><li><a href='/blog/categories/androoid'>androoid (1)</a></li></ul>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/10/31/sync-between-multiplele-threads-tasks-in-ios-app/">iOS中多线程任务之间的同步</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/10/25/supporting-multiple-screens-for-android/">Android开发中使用的度量单位px、dp、sp、pt、in、mm</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/09/16/summerize-of-sohpie-world/">《苏菲的世界》读后小结</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/08/25/android-unit-test-with-junit/">Android Unit Test With Junit</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/08/02/asynchronously-load-online-images-into-uitableviewcells/">在UITableViewCell中异步加载图片</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/hongchaozhang">@hongchaozhang</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'hongchaozhang',
+            count: 10,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+  
+</aside>
+
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - Zhang Hongchao -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+<script>
+  $(document).ready(function() {  
+    var stickyNavTop = $('nav').offset().top;  
+      
+    var stickyNav = function(){  
+      var scrollTop = $(window).scrollTop(); 
+      var navHasClassSticky = $('nav').hasClass('sticky');
+
+      if (scrollTop > stickyNavTop && navHasClassSticky) {   
+        return true;
+      } else if (scrollTop > stickyNavTop) {
+        $('nav').hide();
+        $('nav').addClass('sticky');
+        $('nav').fadeIn('2000');
+      } else {  
+        $('nav').removeClass('sticky');   
+      }  
+    };  
+      
+    stickyNav();  
+      
+    $(window).scroll(function() {  
+      stickyNav();  
+    });  
+  });  
+</script>
+
+
+</body>
+</html>

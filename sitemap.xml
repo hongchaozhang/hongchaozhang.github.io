@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>http://hongchaozhang.github.io/blog/2016/10/31/sync-between-multiplele-threads-tasks-in-ios-app/</loc>
+    <lastmod>2016-10-31T10:41:27+08:00</lastmod>
+  </url>
+  <url>
+    <loc>http://hongchaozhang.github.io/blog/2016/10/25/supporting-multiple-screens-for-android/</loc>
+    <lastmod>2016-10-25T17:10:08+08:00</lastmod>
+  </url>
+  <url>
     <loc>http://hongchaozhang.github.io/blog/2016/09/16/summerize-of-sohpie-world/</loc>
     <lastmod>2016-09-16T16:29:04+08:00</lastmod>
   </url>
@@ -11,6 +19,10 @@
   <url>
     <loc>http://hongchaozhang.github.io/blog/2016/08/02/asynchronously-load-online-images-into-uitableviewcells/</loc>
     <lastmod>2016-08-02T16:13:00+08:00</lastmod>
+  </url>
+  <url>
+    <loc>http://hongchaozhang.github.io/blog/2016/06/16/property-and-method-visuability-of-category-and-inheritence-in-objective-c/</loc>
+    <lastmod>2016-06-16T21:48:54+08:00</lastmod>
   </url>
   <url>
     <loc>http://hongchaozhang.github.io/blog/2016/04/19/documenting-in-xcode-e-with-headerdoc-tutorial/</loc>
@@ -267,5 +279,8 @@
   </url>
   <url>
     <loc>http://hongchaozhang.github.io/blog/categories/philosophy/</loc>
+  </url>
+  <url>
+    <loc>http://hongchaozhang.github.io/blog/categories/androoid/</loc>
   </url>
 </urlset>

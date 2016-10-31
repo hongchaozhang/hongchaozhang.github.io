@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Androoid | Zhang Hongchao]]></title>
+  <link href="http://hongchaozhang.github.io/blog/categories/androoid/atom.xml" rel="self"/>
+  <link href="http://hongchaozhang.github.io/"/>
+  <updated>2016-10-31T22:20:59+08:00</updated>
+  <id>http://hongchaozhang.github.io/</id>
+  <author>
+    <name><![CDATA[Zhang Hongchao]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Android开发中使用的度量单位px、dp、sp、pt、in、mm]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2016/10/25/supporting-multiple-screens-for-android/"/>
+    <updated>2016-10-25T17:10:08+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2016/10/25/supporting-multiple-screens-for-android</id>
+    <content type="html"><![CDATA[<p>关于多屏的支持，最好的文章当然是官方文档：<a href="https://developer.android.com/guide/practices/screens_support.html#testing">Supporting Multiple Screens</a>。一篇文章，从概念到解决方案，非常全面。</p>
+
+<p>下面主要讨论一下开发过程中使用的度量单位的问题。</p>
+
+<!-- more -->
+
+
+<h2>单位的意义及其之间的转换</h2>
+
+<p>对于不同的度量单位（<code>px</code>、<code>dp</code>、<code>sp</code>、<code>pt</code>、<code>in</code>、<code>mm</code>），可以从下面一张图看出它们之间的关系：</p>
+
+<p><img src="/images/android_font_size_tesst.png" alt="android_font_size_tesst" /></p>
+
+<p>左上->右上->左下->右下，依次为ldpi->mdpi->hdpi->xhdpi（其大小不代表绝对大小，只用关注它们之间的相对大小即可）。结论如下：</p>
+
+<h3><code>px</code></h3>
+
+<p><code>px</code>是唯一一个显示大小与dpi有关系的单位，其它单位的显示大小都与dpi无关。</p>
+
+<h3><code>dp</code></h3>
+
+<p><code>dp</code>也叫<code>dip</code>，即<em>density-independent-pixel</em>，在dpi等于160的时候，其大小与px相等。因此，我们可以算出1dp等于<code>densityDpi / DENSITY_DEFAULT(160)） px</code>，也就是<code>density px</code>。具体关系参考下面介绍<code>DisplayMetrics</code>中属性的表格。</p>
+
+<h3><code>sp</code></h3>
+
+<p>除了具有<code>dp</code>的特征之外，<code>sp</code>还可以响应用户的font size preference设置其值像dp一样，也只能取一些离散的值。font size preference的设置界面如下：</p>
+
+<p><img src="/images/android_font_preference_setting.png" alt="android_font_preference_setting" /></p>
+
+<h3><code>pt</code>、<code>in</code>、<code>mm</code></h3>
+
+<p>这几个单位都是长度单位，其中pt等于1/72inch，都是用户最终看到的大小。这些值都是根据设备真实物理像素密度（<code>xdpi</code>和<code>ydpi</code>）算出来的，不会像<code>dp</code>和<code>sp</code>一样，只有几个离散的值。</p>
+
+<p>在TypedValue.java中有所有单位到<code>px</code>的转换方法：</p>
+
+<p><div class="highlight"><pre><code class="language-java" data-lang="java"><span class="lineno"> 1</span> <span class="o">/&lt;</span><span class="n">em</span><span class="o">&gt;*</span>
+<span class="lineno"> 2</span>  <span class="o">*</span> <span class="n">Converts</span> <span class="n">an</span> <span class="n">unpacked</span> <span class="n">complex</span> <span class="n">data</span> <span class="n">value</span> <span class="n">holding</span> <span class="n">a</span> <span class="n">dimension</span> <span class="n">to</span> <span class="n">its</span> <span class="kd">final</span> <span class="n">floating</span>
+<span class="lineno"> 3</span>  <span class="o">*</span> <span class="n">point</span> <span class="n">value</span><span class="o">.</span> <span class="n">The</span> <span class="n">two</span> <span class="n">parameters</span> <span class="o">&lt;</span><span class="n">var</span><span class="o">&gt;</span><span class="n">unit</span><span class="o">&lt;/</span><span class="n">var</span><span class="o">&gt;</span> <span class="n">and</span> <span class="o">&lt;</span><span class="n">var</span><span class="o">&gt;</span><span class="n">value</span><span class="o">&lt;/</span><span class="n">var</span><span class="o">&gt;</span>
+<span class="lineno"> 4</span>  <span class="o">*</span> <span class="n">are</span> <span class="n">as</span> <span class="n">in</span> <span class="o">{</span><span class="nd">@link</span> <span class="err">#</span><span class="n">TYPE_DIMENSION</span><span class="o">}.</span>
+<span class="lineno"> 5</span>  <span class="o">*&lt;</span><span class="n">br</span><span class="o">/&gt;</span>
+<span class="lineno"> 6</span>  <span class="o">*</span> <span class="nd">@param</span> <span class="n">unit</span> <span class="n">The</span> <span class="n">unit</span> <span class="n">to</span> <span class="n">convert</span> <span class="n">from</span><span class="o">.</span>
+<span class="lineno"> 7</span>  <span class="o">*</span> <span class="nd">@param</span> <span class="n">value</span> <span class="n">The</span> <span class="n">value</span> <span class="n">to</span> <span class="n">apply</span> <span class="n">the</span> <span class="n">unit</span> <span class="n">to</span><span class="o">.</span>
+<span class="lineno"> 8</span>  <span class="o">*</span> <span class="nd">@param</span> <span class="n">metrics</span> <span class="n">Current</span> <span class="n">display</span> <span class="n">metrics</span> <span class="n">to</span> <span class="n">use</span> <span class="n">in</span> <span class="n">the</span> <span class="n">conversion</span> <span class="o">&amp;</span><span class="n">ndash</span><span class="o">;</span>
+<span class="lineno"> 9</span>  <span class="o">*</span>                <span class="n">supplies</span> <span class="n">display</span> <span class="n">density</span> <span class="n">and</span> <span class="n">scaling</span> <span class="n">information</span><span class="o">.</span>
+<span class="lineno">10</span>  <span class="o">*</span>
+<span class="lineno">11</span>  <span class="o">*</span> <span class="nd">@return</span> <span class="n">The</span> <span class="n">complex</span> <span class="n">floating</span> <span class="n">point</span> <span class="n">value</span> <span class="n">multiplied</span> <span class="n">by</span> <span class="n">the</span> <span class="n">appropriate</span>
+<span class="lineno">12</span>  <span class="o">*</span> <span class="n">metrics</span> <span class="n">depending</span> <span class="n">on</span> <span class="n">its</span> <span class="n">unit</span><span class="o">.</span>
+<span class="lineno">13</span>  <span class="o">&lt;/</span><span class="n">em</span><span class="o">&gt;/</span>
+<span class="lineno">14</span> <span class="kd">public</span> <span class="kd">static</span> <span class="kt">float</span> <span class="nf">applyDimension</span><span class="o">(</span><span class="kt">int</span> <span class="n">unit</span><span class="o">,</span> <span class="kt">float</span> <span class="n">value</span><span class="o">,</span>
+<span class="lineno">15</span>                                    <span class="n">DisplayMetrics</span> <span class="n">metrics</span><span class="o">)</span>
+<span class="lineno">16</span> <span class="o">{</span>
+<span class="lineno">17</span>     <span class="k">switch</span> <span class="o">(</span><span class="n">unit</span><span class="o">)</span> <span class="o">{</span>
+<span class="lineno">18</span>     <span class="k">case</span> <span class="nl">COMPLEX_UNIT_PX:</span>
+<span class="lineno">19</span>         <span class="k">return</span> <span class="n">value</span><span class="o">;</span>
+<span class="lineno">20</span>     <span class="k">case</span> <span class="nl">COMPLEX_UNIT_DIP:</span>
+<span class="lineno">21</span>         <span class="k">return</span> <span class="n">value</span> <span class="o">*</span> <span class="n">metrics</span><span class="o">.</span><span class="na">density</span><span class="o">;</span>
+<span class="lineno">22</span>     <span class="k">case</span> <span class="nl">COMPLEX_UNIT_SP:</span>
+<span class="lineno">23</span>         <span class="k">return</span> <span class="n">value</span> <span class="o">*</span> <span class="n">metrics</span><span class="o">.</span><span class="na">scaledDensity</span><span class="o">;</span>
+<span class="lineno">24</span>     <span class="k">case</span> <span class="nl">COMPLEX_UNIT_PT:</span>
+<span class="lineno">25</span>         <span class="k">return</span> <span class="n">value</span> <span class="o">*</span> <span class="n">metrics</span><span class="o">.</span><span class="na">xdpi</span> <span class="o">*</span> <span class="o">(</span><span class="mf">1.0f</span><span class="o">/</span><span class="mi">72</span><span class="o">);</span>
+<span class="lineno">26</span>     <span class="k">case</span> <span class="nl">COMPLEX_UNIT_IN:</span>
+<span class="lineno">27</span>         <span class="k">return</span> <span class="n">value</span> <span class="o">*</span> <span class="n">metrics</span><span class="o">.</span><span class="na">xdpi</span><span class="o">;</span>
+<span class="lineno">28</span>     <span class="k">case</span> <span class="nl">COMPLEX_UNIT_MM:</span>
+<span class="lineno">29</span>         <span class="k">return</span> <span class="n">value</span> <span class="o">*</span> <span class="n">metrics</span><span class="o">.</span><span class="na">xdpi</span> <span class="o">*</span> <span class="o">(</span><span class="mf">1.0f</span><span class="o">/</span><span class="mf">25.4f</span><span class="o">);</span>
+<span class="lineno">30</span>     <span class="o">}</span>
+<span class="lineno">31</span>     <span class="k">return</span> <span class="mi">0</span><span class="o">;</span>
+<span class="lineno">32</span> <span class="o">}</span></code></pre></div></p>
+
+<p>该函数将所有的单位转换为px，其中参数意义如下：</p>
+
+<table>
+<thead>
+<tr>
+<th>属性 </th>
+<th> 意义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>metrics.density</code> </td>
+<td> 默认值为<code>densityDpi / (float) DENSITY_DEFAULT</code>。该值为归整之后的值：比如150dpi的设备，<code>density</code>值为1，即按照160dpi进行处理。<code>density</code>的典型值为0.75、1.0、1.5、2.0、3.0等。</td>
+</tr>
+<tr>
+<td><code>metrics.densityDpi</code> </td>
+<td> 设备物理像素密度，非精确的归整值，可取值为<code>DENSITY_LOW(120)</code>、<code>DENSITY_MEDIUM(160)</code>、<code>DENSITY_HIGH(240)</code>等。<code>density</code>的值是根据<code>densityDpi / DENSITY_DEFAULT</code>计算出来的，所以取值也是一些典型的离散值。</td>
+</tr>
+<tr>
+<td><code>metrics.scaledDensity</code> </td>
+<td> 具有<code>density</code>所有的特征，如果用户设置了font size preference，还需要乘以一个scale系数。</td>
+</tr>
+<tr>
+<td><code>metrics.xdpi</code> </td>
+<td> <code>x</code>方向的物理像素密度，精确的值，单位px/inch。同样的有<code>ydpi</code>。</td>
+</tr>
+<tr>
+<td><code>DENSITY_DEFAULT</code> </td>
+<td> dpi的参考值，值为160px/inch。</td>
+</tr>
+</tbody>
+</table>
+
+
+<h3><code>dp</code>转换为<code>px</code></h3>
+
+<p>有时候我们必须使用<code>px</code>作为单位，比如某个api接受的参数只能是<code>px</code>。这个时候，需要将<code>dp</code>转化为<code>px</code>。在code中我们可以使用下面的方法将<code>dp</code>转化为<code>px</code>：</p>
+
+<p><div class="highlight"><pre><code class="language-java" data-lang="java"><span class="lineno">1</span> <span class="c1">// The gesture threshold expressed in dp</span>
+<span class="lineno">2</span> <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">float</span> <span class="n">GESTURE_THRESHOLD_DP</span> <span class="o">=</span> <span class="mf">16.0f</span><span class="o">;&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+<span class="lineno">3</span> 
+<span class="lineno">4</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="c1">// Get the screen&amp;rsquo;s density scale</span>
+<span class="lineno">5</span> <span class="kd">final</span> <span class="kt">float</span> <span class="n">scale</span> <span class="o">=</span> <span class="n">getResources</span><span class="o">().</span><span class="na">getDisplayMetrics</span><span class="o">().</span><span class="na">density</span><span class="o">;</span>
+<span class="lineno">6</span> <span class="c1">// Convert the dps to pixels, based on density scale</span>
+<span class="lineno">7</span> <span class="n">mGestureThreshold</span> <span class="o">=</span> <span class="o">(</span><span class="kt">int</span><span class="o">)</span> <span class="o">(</span><span class="n">GESTURE_THRESHOLD_DP</span> <span class="o">*</span> <span class="n">scale</span> <span class="o">+</span> <span class="mf">0.5f</span><span class="o">);&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+<span class="lineno">8</span> 
+<span class="lineno">9</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="c1">// Use mGestureThreshold as a distance in pixels&amp;hellip;</span></code></pre></div></p>
+
+<h2>Best Practice</h2>
+
+<ol>
+<li>Use <code>wrap_content</code>, <code>match_parent</code>, or <code>dp</code> units when specifying dimensions in an XML layout file</li>
+<li>Do not use hard coded pixel values in your application code</li>
+<li>Do not use <code>AbsoluteLayout</code> (it&rsquo;s deprecated). Use <code>RelativeLayout</code> instead.</li>
+<li>Supply alternative bitmap drawables for different screen densities</li>
+</ol>
+
+
+<p>另外一篇关于网页上字体大小单位的讨论：<a href="http://hongchaozhang.github.io/blog/2015/08/03/Font-size-in-Html/">Font Size in Html - Px, Em, Rem</a>。</p>
+]]></content>
+  </entry>
+  
+</feed>

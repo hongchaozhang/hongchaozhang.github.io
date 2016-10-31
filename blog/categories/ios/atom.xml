@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ios | Zhang Hongchao]]></title>
   <link href="http://hongchaozhang.github.io/blog/categories/ios/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2016-09-22T09:57:57+08:00</updated>
+  <updated>2016-10-31T22:20:59+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -12,6 +12,268 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS中多线程任务之间的同步]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2016/10/31/sync-between-multiplele-threads-tasks-in-ios-app/"/>
+    <updated>2016-10-31T10:41:27+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2016/10/31/sync-between-multiplele-threads-tasks-in-ios-app</id>
+    <content type="html"><![CDATA[<p>当我们使用iOS的多线程并发执行一些任务的时候，有时候需要考虑任务之间的同步问题，比如任务1和任务2执行完之后，才可以执行任务3，原因可能是任务3需要任务1和任务2执行得到的结果。</p>
+
+<p>部分内容参考：
+<a href="http://stackoverflow.com/questions/11909629/waiting-until-two-async-blocks-are-executed-before-starting-another-block">Waiting until two async blocks are executed before starting another block</a></p>
+
+<h3>dispatch_group_notify</h3>
+
+<p>当group中所有的block都执行完之后，<code>dispatch_group_notify</code>对应的block才会执行。并且放在同一个group中的block可以是不同queue里面的block。</p>
+
+<p>例子：</p>
+
+<p><div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno"> 1</span> <span class="kt">dispatch_group_t</span> <span class="n">group</span> <span class="o">=</span> <span class="n">dispatch_group_create</span><span class="p">();</span>
+<span class="lineno"> 2</span> <span class="kt">dispatch_queue_t</span> <span class="n">queue</span> <span class="o">=</span> <span class="n">dispatch_get_global_queue</span><span class="p">(</span><span class="n">DISPATCH_QUEUE_PRIORITY_HIGH</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+<span class="lineno"> 3</span> 
+<span class="lineno"> 4</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="n">dispatch_group_async</span><span class="p">(</span><span class="n">group</span><span class="p">,</span> <span class="n">queue</span><span class="p">,</span> <span class="o">^</span> <span class="p">{</span>
+<span class="lineno"> 5</span>     <span class="c1">// block1</span>
+<span class="lineno"> 6</span>     <span class="n">NSLog</span><span class="p">(@</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">Block1</span> <span class="n">Start</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;);</span>
+<span class="lineno"> 7</span>     <span class="p">[</span><span class="bp">NSThread</span> <span class="nl">sleepForTimeInterval</span><span class="p">:</span><span class="mf">2.0</span><span class="p">];</span>
+<span class="lineno"> 8</span>     <span class="n">NSLog</span><span class="p">(@</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">Block1</span> <span class="n">End</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;);</span>
+<span class="lineno"> 9</span> <span class="p">});</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+<span class="lineno">10</span> 
+<span class="lineno">11</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="n">dispatch_group_async</span><span class="p">(</span><span class="n">group</span><span class="p">,</span> <span class="n">queue</span><span class="p">,</span> <span class="o">^</span> <span class="p">{</span>
+<span class="lineno">12</span>     <span class="c1">// block2</span>
+<span class="lineno">13</span>     <span class="n">NSLog</span><span class="p">(@</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">Block2</span> <span class="n">Start</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;);</span>
+<span class="lineno">14</span>     <span class="p">[</span><span class="bp">NSThread</span> <span class="nl">sleepForTimeInterval</span><span class="p">:</span><span class="mf">1.0</span><span class="p">];</span>
+<span class="lineno">15</span>     <span class="n">NSLog</span><span class="p">(@</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">Block2</span> <span class="n">End</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;);</span>
+<span class="lineno">16</span> <span class="p">});</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+<span class="lineno">17</span> 
+<span class="lineno">18</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="n">dispatch_group_notify</span><span class="p">(</span><span class="n">group</span><span class="p">,</span> <span class="n">queue</span><span class="p">,</span> <span class="o">^</span> <span class="p">{</span>
+<span class="lineno">19</span>     <span class="c1">// block3</span>
+<span class="lineno">20</span>     <span class="n">NSLog</span><span class="p">(@</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">Block3</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;);</span>
+<span class="lineno">21</span> <span class="p">});</span></code></pre></div></p>
+
+<p>输出：</p>
+
+<p><div class="highlight"><pre><code class="language-text" data-lang="text"><span class="lineno">1</span> 2016-10-31 11:14:28.076 OCPlayground[82366:5830581] Block2 Start
+<span class="lineno">2</span> 2016-10-31 11:14:28.076 OCPlayground[82366:5830578] Block1 Start
+<span class="lineno">3</span> 2016-10-31 11:14:29.081 OCPlayground[82366:5830581] Block2 End
+<span class="lineno">4</span> 2016-10-31 11:14:30.078 OCPlayground[82366:5830578] Block1 End
+<span class="lineno">5</span> 2016-10-31 11:14:30.078 OCPlayground[82366:5830578] Block3</code></pre></div></p>
+
+<h3>dispatch_barrier_async</h3>
+
+<p><code>dispatch_barrier_async</code>函数的作用与barrier的意思相同，在线程任务管理中起到一个栅栏的作用,它等待所有位于barrier函数之前的操作执行完毕后执行，并且在barrier函数执行之后，barrier函数之后的操作才会得到执行，该函数需要同<code>dispatch_queue_create</code>函数生成的并行队列一起使用，不能同<code>dispatch_get_global_queue</code>返回的并行队列一起使用。</p>
+
+<p>例子：</p>
+
+<p><div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno"> 1</span> <span class="c1">// dispatch_barrier_async can not be used together with dispatch_get_global_queue</span>
+<span class="lineno"> 2</span> <span class="c1">// dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0);</span>
+<span class="lineno"> 3</span> <span class="kt">dispatch_queue_t</span> <span class="n">queue</span> <span class="o">=</span> <span class="n">dispatch_queue_create</span><span class="p">(</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">com</span><span class="p">.</span><span class="n">company</span><span class="p">.</span><span class="n">app</span><span class="p">.</span><span class="n">queue</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;,</span> <span class="n">DISPATCH_QUEUE_CONCURRENT</span><span class="p">);</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+<span class="lineno"> 4</span> 
+<span class="lineno"> 5</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="n">dispatch_async</span><span class="p">(</span><span class="n">queue</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
+<span class="lineno"> 6</span>     <span class="c1">// block1</span>
+<span class="lineno"> 7</span>     <span class="n">NSLog</span><span class="p">(@</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">Block1</span> <span class="n">Start</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;);</span>
+<span class="lineno"> 8</span>     <span class="p">[</span><span class="bp">NSThread</span> <span class="nl">sleepForTimeInterval</span><span class="p">:</span><span class="mf">2.0</span><span class="p">];</span>
+<span class="lineno"> 9</span>     <span class="n">NSLog</span><span class="p">(@</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">Block1</span> <span class="n">End</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;);</span>
+<span class="lineno">10</span> <span class="p">});</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+<span class="lineno">11</span> 
+<span class="lineno">12</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="n">dispatch_async</span><span class="p">(</span><span class="n">queue</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
+<span class="lineno">13</span>     <span class="c1">// block2</span>
+<span class="lineno">14</span>     <span class="n">NSLog</span><span class="p">(@</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">Block2</span> <span class="n">Start</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;);</span>
+<span class="lineno">15</span>     <span class="p">[</span><span class="bp">NSThread</span> <span class="nl">sleepForTimeInterval</span><span class="p">:</span><span class="mf">1.0</span><span class="p">];</span>
+<span class="lineno">16</span>     <span class="n">NSLog</span><span class="p">(@</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">Block2</span> <span class="n">End</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;);</span>
+<span class="lineno">17</span> <span class="p">});</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+<span class="lineno">18</span> 
+<span class="lineno">19</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="n">dispatch_barrier_async</span><span class="p">(</span><span class="n">queue</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
+<span class="lineno">20</span>     <span class="c1">// block3</span>
+<span class="lineno">21</span>     <span class="n">NSLog</span><span class="p">(@</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">Block3</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;);</span>
+<span class="lineno">22</span> <span class="p">});</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+<span class="lineno">23</span> 
+<span class="lineno">24</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="n">dispatch_async</span><span class="p">(</span><span class="n">queue</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
+<span class="lineno">25</span>     <span class="c1">// block4</span>
+<span class="lineno">26</span>     <span class="n">NSLog</span><span class="p">(@</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">Block4</span> <span class="n">Start</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;);</span>
+<span class="lineno">27</span>     <span class="p">[</span><span class="bp">NSThread</span> <span class="nl">sleepForTimeInterval</span><span class="p">:</span><span class="mf">3.0</span><span class="p">];</span>
+<span class="lineno">28</span>     <span class="n">NSLog</span><span class="p">(@</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">Block4</span> <span class="n">End</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;);</span>
+<span class="lineno">29</span> <span class="p">});</span></code></pre></div></p>
+
+<p>输出：</p>
+
+<p><div class="highlight"><pre><code class="language-text" data-lang="text"><span class="lineno">1</span> 2016-10-31 12:02:08.468 OCPlayground[83918:5867777] Block1 Start
+<span class="lineno">2</span> 2016-10-31 12:02:08.468 OCPlayground[83918:5867807] Block2 Start
+<span class="lineno">3</span> 2016-10-31 12:02:09.474 OCPlayground[83918:5867807] Block2 End
+<span class="lineno">4</span> 2016-10-31 12:02:10.469 OCPlayground[83918:5867777] Block1 End
+<span class="lineno">5</span> 2016-10-31 12:02:10.469 OCPlayground[83918:5867777] Block3
+<span class="lineno">6</span> 2016-10-31 12:02:10.470 OCPlayground[83918:5867777] Block4 Start
+<span class="lineno">7</span> 2016-10-31 12:02:13.473 OCPlayground[83918:5867777] Block4 End</code></pre></div></p>
+
+<h3>addDependency</h3>
+
+<p>苹果对GCD进行了封装，有了自己的<code>NSOperationQueue</code>和<code>NSBlockOperation</code>。其中<code>NSBlockOperation</code>中添加了<code>addDepencency:</code>方法可以指定operation block之间的依赖关系。</p>
+
+<p>例子：</p>
+
+<p><div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno"> 1</span> <span class="bp">NSOperationQueue</span> <span class="o">*</span><span class="n">queue</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">NSOperationQueue</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+<span class="lineno"> 2</span> 
+<span class="lineno"> 3</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="bp">NSOperation</span> <span class="o">*</span><span class="n">completionOperation</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSBlockOperation</span> <span class="nl">blockOperationWithBlock</span><span class="p">:</span><span class="o">^</span><span class="p">{</span>
+<span class="lineno"> 4</span>     <span class="c1">// block3</span>
+<span class="lineno"> 5</span>     <span class="n">NSLog</span><span class="p">(@</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">Block3</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;);</span>
+<span class="lineno"> 6</span> <span class="p">}];</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+<span class="lineno"> 7</span> 
+<span class="lineno"> 8</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="bp">NSOperation</span> <span class="o">*</span><span class="n">operation</span><span class="p">;</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+<span class="lineno"> 9</span> 
+<span class="lineno">10</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="n">operation</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSBlockOperation</span> <span class="nl">blockOperationWithBlock</span><span class="p">:</span><span class="o">^</span><span class="p">{</span>
+<span class="lineno">11</span>     <span class="c1">// block1</span>
+<span class="lineno">12</span>     <span class="n">NSLog</span><span class="p">(@</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">Block1</span> <span class="n">Start</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;);</span>
+<span class="lineno">13</span>     <span class="p">[</span><span class="bp">NSThread</span> <span class="nl">sleepForTimeInterval</span><span class="p">:</span><span class="mf">2.0</span><span class="p">];</span>
+<span class="lineno">14</span>     <span class="n">NSLog</span><span class="p">(@</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">Block1</span> <span class="n">End</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;);</span>
+<span class="lineno">15</span> <span class="p">}];</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+<span class="lineno">16</span> 
+<span class="lineno">17</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="p">[</span><span class="n">completionOperation</span> <span class="nl">addDependency</span><span class="p">:</span><span class="n">operation</span><span class="p">];</span>
+<span class="lineno">18</span> <span class="p">[</span><span class="n">queue</span> <span class="nl">addOperation</span><span class="p">:</span><span class="n">operation</span><span class="p">];</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+<span class="lineno">19</span> 
+<span class="lineno">20</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="n">operation</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSBlockOperation</span> <span class="nl">blockOperationWithBlock</span><span class="p">:</span><span class="o">^</span><span class="p">{</span>
+<span class="lineno">21</span>     <span class="c1">// block2</span>
+<span class="lineno">22</span>     <span class="n">NSLog</span><span class="p">(@</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">Block2</span> <span class="n">Start</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;);</span>
+<span class="lineno">23</span>     <span class="p">[</span><span class="bp">NSThread</span> <span class="nl">sleepForTimeInterval</span><span class="p">:</span><span class="mf">1.0</span><span class="p">];</span>
+<span class="lineno">24</span>     <span class="n">NSLog</span><span class="p">(@</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">Block2</span> <span class="n">End</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;);</span>
+<span class="lineno">25</span> <span class="p">}];</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+<span class="lineno">26</span> 
+<span class="lineno">27</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="p">[</span><span class="n">completionOperation</span> <span class="nl">addDependency</span><span class="p">:</span><span class="n">operation</span><span class="p">];</span>
+<span class="lineno">28</span> <span class="p">[</span><span class="n">queue</span> <span class="nl">addOperation</span><span class="p">:</span><span class="n">operation</span><span class="p">];</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+<span class="lineno">29</span> 
+<span class="lineno">30</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="p">[</span><span class="n">queue</span> <span class="nl">addOperation</span><span class="p">:</span><span class="n">completionOperation</span><span class="p">];</span></code></pre></div></p>
+
+<p>输出：</p>
+
+<p><div class="highlight"><pre><code class="language-text" data-lang="text"><span class="lineno">1</span> 2016-10-31 12:22:49.774 OCPlayground[84061:5887605] Block1 Start
+<span class="lineno">2</span> 2016-10-31 12:22:49.774 OCPlayground[84061:5887572] Block2 Start
+<span class="lineno">3</span> 2016-10-31 12:22:50.776 OCPlayground[84061:5887572] Block2 End
+<span class="lineno">4</span> 2016-10-31 12:22:51.848 OCPlayground[84061:5887605] Block1 End
+<span class="lineno">5</span> 2016-10-31 12:22:51.849 OCPlayground[84061:5887605] Block3</code></pre></div></p>
+
+<h3>dispatch_semaphore</h3>
+
+<p><a href="http://www.cnblogs.com/snailHL/p/3906112.html">关于dispatch_semaphore的使用</a>讲解的很详细。</p>
+
+<p>dispatch_semaphore是GCD用来同步的一种方式，与他相关的共有三个函数，分别是<code>dispatch_semaphore_create</code>、<code>dispatch_semaphore_signal</code>和<code>dispatch_semaphore_wait</code>。</p>
+
+<p>下面我们逐一介绍三个函数：</p>
+
+<p>（1）<code>dispatch_semaphore_create</code>的声明为：<code>dispatch_semaphore_t  dispatch_semaphore_create(long value);</code>
+返回一个<code>dispatch_semaphore_t</code>类型且值为<code>value</code>的信号量。这里的传入的参数<code>value</code>必须大于或等于0，否则<code>dispatch_semaphore_create</code>会返回<code>NULL</code>。</p>
+
+<p>（2）<code>dispatch_semaphore_signal</code>的声明为：<code>long dispatch_semaphore_signal(dispatch_semaphore_t dsema);</code>这个函数会使传入的信号量<code>dsema</code>的值加1。（至于返回值，参考<a href="http://www.cnblogs.com/snailHL/p/3906112.html">关于dispatch_semaphore的使用</a>。）</p>
+
+<p> (3) <code>dispatch_semaphore_wait</code>的声明为：<code>long dispatch_semaphore_wait(dispatch_semaphore_t dsema, dispatch_time_t timeout)；</code>这个函数会使传入的信号量<code>dsema</code>的值减1。这个函数的作用是这样的：</p>
+
+<ul>
+<li>如果<code>dsema</code>信号量的值大于0，该函数所处线程就继续执行下面的语句，并且将信号量的值减1；</li>
+<li>如果<code>dsema</code>的值为0，那么这个函数就阻塞当前线程等待timeout，如果等待期间<code>dsema</code>的值被<code>dispatch_semaphore_signal</code>函数加1了，且该函数（即<code>dispatch_semaphore_wait</code>）所处线程获得了信号量，那么就继续向下执行并将信号量减1。</li>
+<li>如果等待期间没有获取到信号量或者信号量的值一直为0，那么等到timeout时，其所处线程自动执行其后语句。</li>
+</ul>
+
+
+<p>例子：</p>
+
+<p><div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno"> 1</span> <span class="kt">dispatch_queue_t</span> <span class="n">queue</span> <span class="o">=</span> <span class="n">dispatch_queue_create</span><span class="p">(</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">my</span><span class="p">.</span><span class="n">conQ</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;,</span> <span class="n">DISPATCH_QUEUE_CONCURRENT</span><span class="p">);</span>
+<span class="lineno"> 2</span> <span class="kt">dispatch_semaphore_t</span> <span class="n">mySem</span> <span class="o">=</span> <span class="n">dispatch_semaphore_create</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+<span class="lineno"> 3</span> 
+<span class="lineno"> 4</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="n">dispatch_async</span><span class="p">(</span><span class="n">queue</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
+<span class="lineno"> 5</span>     <span class="c1">// block1</span>
+<span class="lineno"> 6</span>     <span class="n">NSLog</span><span class="p">(@</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">Block1</span> <span class="n">Start</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;);</span>
+<span class="lineno"> 7</span>     <span class="p">[</span><span class="bp">NSThread</span> <span class="nl">sleepForTimeInterval</span><span class="p">:</span><span class="mf">2.0</span><span class="p">];</span>
+<span class="lineno"> 8</span>     <span class="n">NSLog</span><span class="p">(@</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">Block1</span> <span class="n">End</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;);</span>
+<span class="lineno"> 9</span>     <span class="n">dispatch_semaphore_signal</span><span class="p">(</span><span class="n">mySem</span><span class="p">);</span>
+<span class="lineno">10</span> <span class="p">});</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+<span class="lineno">11</span> 
+<span class="lineno">12</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="n">dispatch_async</span><span class="p">(</span><span class="n">queue</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
+<span class="lineno">13</span>     <span class="c1">// block2</span>
+<span class="lineno">14</span>     <span class="n">NSLog</span><span class="p">(@</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">Block2</span> <span class="n">Start</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;);</span>
+<span class="lineno">15</span>     <span class="p">[</span><span class="bp">NSThread</span> <span class="nl">sleepForTimeInterval</span><span class="p">:</span><span class="mf">1.0</span><span class="p">];</span>
+<span class="lineno">16</span>     <span class="n">NSLog</span><span class="p">(@</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">Block2</span> <span class="n">End</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;);</span>
+<span class="lineno">17</span>     <span class="n">dispatch_semaphore_signal</span><span class="p">(</span><span class="n">mySem</span><span class="p">);</span>
+<span class="lineno">18</span> <span class="p">});</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+<span class="lineno">19</span> 
+<span class="lineno">20</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="n">dispatch_async</span><span class="p">(</span><span class="n">queue</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
+<span class="lineno">21</span>     <span class="n">dispatch_semaphore_wait</span><span class="p">(</span><span class="n">mySem</span><span class="p">,</span> <span class="n">DISPATCH_TIME_FOREVER</span><span class="p">);</span>
+<span class="lineno">22</span>     <span class="n">dispatch_semaphore_wait</span><span class="p">(</span><span class="n">mySem</span><span class="p">,</span> <span class="n">DISPATCH_TIME_FOREVER</span><span class="p">);</span>
+<span class="lineno">23</span>     <span class="c1">// block3</span>
+<span class="lineno">24</span>     <span class="n">NSLog</span><span class="p">(@</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">Block3</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;);</span>
+<span class="lineno">25</span> <span class="p">});</span></code></pre></div></p>
+
+<p>输出：</p>
+
+<p><div class="highlight"><pre><code class="language-text" data-lang="text"><span class="lineno">1</span> 2016-10-31 22:16:34.402 OCPlayground[85158:6133417] Block1 Start
+<span class="lineno">2</span> 2016-10-31 22:16:34.402 OCPlayground[85158:6133423] Block2 Start
+<span class="lineno">3</span> 2016-10-31 22:16:35.405 OCPlayground[85158:6133423] Block2 End
+<span class="lineno">4</span> 2016-10-31 22:16:36.403 OCPlayground[85158:6133417] Block1 End
+<span class="lineno">5</span> 2016-10-31 22:16:36.404 OCPlayground[85158:6133426] Block3</code></pre></div></p>
+
+<h3>dispatch_group_enter和dispatch_group_leave</h3>
+
+<p>当我们碰到block里面有嵌套的block的时候，简单地使用<code>dispatch_group_notify</code>就不能解决问题了：<code>dispatch_group_notify</code>不会等到嵌套的block执行完再执行。对于这种情况，如果还坚持用<code>dispatch_group_notify</code>，可以有两种解决方案：</p>
+
+<p><strong>方案1：</strong></p>
+
+<p>对于嵌套的block，仍然使用<code>dispatch_group_async</code>将block放入对应的group。比如下面的例子，对于Block1里面的Block4，我们仍然使用<code>dispatch_group_async</code>将Block4放入对应的group，即可以保证Block3在Block4之后执行。也就是说，只要是在<code>dispatch_group_notify</code>对应的Block3执行之前加入group的block，都需要执行，然后才能执行<code>dispatch_group_notify</code>对应的Block3，即，当<code>dispatch_group_notify</code>对应的Block3执行的时候，group中不能有任何没有执行的其它block存在。</p>
+
+<p><div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno">1</span> <span class="n">dispatch_group_async</span><span class="p">(</span><span class="n">group</span><span class="p">,</span> <span class="n">queue</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
+<span class="lineno">2</span>     <span class="c1">// block4 inside block 1</span>
+<span class="lineno">3</span>     <span class="n">NSLog</span><span class="p">(@</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">Block4</span> <span class="n">inside</span> <span class="n">Block1</span> <span class="n">Start</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;);</span>
+<span class="lineno">4</span>     <span class="p">[</span><span class="bp">NSThread</span> <span class="nl">sleepForTimeInterval</span><span class="p">:</span><span class="mf">1.0</span><span class="p">];</span>
+<span class="lineno">5</span>     <span class="n">NSLog</span><span class="p">(@</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">Block4</span> <span class="n">inside</span> <span class="n">Block1</span> <span class="n">End</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;);</span>
+<span class="lineno">6</span> <span class="p">});</span></code></pre></div></p>
+
+<p>如果嵌套的block对应的是服务器请求的callback（比如<code>onSuccess:</code>和<code>onFailure:</code>），就不方便将其加入对应的group中。这时候就需要使用方案2。</p>
+
+<p><strong>方案2：</strong>
+通过<code>dispatch_group_enter</code>和<code>dispatch_group_leave</code>手动管理group关联的block的运行状态（或计数）。但是需要注意：进入和退出group次数必须匹配，不仅是code书写方面一致，code执行也要保证一致，否则<code>dispatch_group_notify</code>对应的Block3就不会执行到。</p>
+
+<p>例子：</p>
+
+<p><div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno"> 1</span> <span class="kt">dispatch_group_t</span> <span class="n">group</span> <span class="o">=</span> <span class="n">dispatch_group_create</span><span class="p">();</span>
+<span class="lineno"> 2</span> <span class="kt">dispatch_queue_t</span> <span class="n">queue</span> <span class="o">=</span> <span class="n">dispatch_get_global_queue</span><span class="p">(</span><span class="n">DISPATCH_QUEUE_PRIORITY_HIGH</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+<span class="lineno"> 3</span> 
+<span class="lineno"> 4</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="n">dispatch_group_async</span><span class="p">(</span><span class="n">group</span><span class="p">,</span> <span class="n">queue</span><span class="p">,</span> <span class="o">^</span> <span class="p">{</span>
+<span class="lineno"> 5</span>     <span class="c1">// block1</span>
+<span class="lineno"> 6</span>     <span class="n">NSLog</span><span class="p">(@</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">Block1</span> <span class="n">Start</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;);</span>
+<span class="lineno"> 7</span>     <span class="p">[</span><span class="bp">NSThread</span> <span class="nl">sleepForTimeInterval</span><span class="p">:</span><span class="mf">2.0</span><span class="p">];</span>
+<span class="lineno"> 8</span>     <span class="n">NSLog</span><span class="p">(@</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">Block1</span> <span class="n">End</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;);</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+<span class="lineno"> 9</span> 
+<span class="lineno">10</span> <span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="n">dispatch_group_enter</span><span class="p">(</span><span class="n">group</span><span class="p">);</span>
+<span class="lineno">11</span> <span class="n">dispatch_async</span><span class="p">(</span><span class="n">queue</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
+<span class="lineno">12</span>     <span class="c1">// block4 inside block 1</span>
+<span class="lineno">13</span>     <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Block4 inside Block1 Start&quot;</span><span class="p">);</span>
+<span class="lineno">14</span>     <span class="p">[</span><span class="bp">NSThread</span> <span class="nl">sleepForTimeInterval</span><span class="p">:</span><span class="mf">1.0</span><span class="p">];</span>
+<span class="lineno">15</span>     <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Block4 inside Block1 End&quot;</span><span class="p">);</span>
+<span class="lineno">16</span>     <span class="n">dispatch_group_leave</span><span class="p">(</span><span class="n">group</span><span class="p">);</span>
+<span class="lineno">17</span> <span class="p">});</span>
+<span class="lineno">18</span> <span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+<span class="lineno">19</span> 
+<span class="lineno">20</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="p">});</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+<span class="lineno">21</span> 
+<span class="lineno">22</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="n">dispatch_group_async</span><span class="p">(</span><span class="n">group</span><span class="p">,</span> <span class="n">queue</span><span class="p">,</span> <span class="o">^</span> <span class="p">{</span>
+<span class="lineno">23</span>     <span class="c1">// block2</span>
+<span class="lineno">24</span>     <span class="n">NSLog</span><span class="p">(@</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">Block2</span> <span class="n">Start</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;);</span>
+<span class="lineno">25</span>     <span class="p">[</span><span class="bp">NSThread</span> <span class="nl">sleepForTimeInterval</span><span class="p">:</span><span class="mf">1.0</span><span class="p">];</span>
+<span class="lineno">26</span>     <span class="n">NSLog</span><span class="p">(@</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">Block2</span> <span class="n">End</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;);</span>
+<span class="lineno">27</span> <span class="p">});</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+<span class="lineno">28</span> 
+<span class="lineno">29</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="n">dispatch_group_notify</span><span class="p">(</span><span class="n">group</span><span class="p">,</span> <span class="n">queue</span><span class="p">,</span> <span class="o">^</span> <span class="p">{</span>
+<span class="lineno">30</span>     <span class="c1">// block3</span>
+<span class="lineno">31</span>     <span class="n">NSLog</span><span class="p">(@</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">Block3</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;);</span>
+<span class="lineno">32</span> <span class="p">});</span></code></pre></div></p>
+
+<p>输出：</p>
+
+<p><div class="highlight"><pre><code class="language-text" data-lang="text"><span class="lineno">1</span> 2016-10-31 13:51:23.512 OCPlayground[84646:5947063] Block2 Start
+<span class="lineno">2</span> 2016-10-31 13:51:23.512 OCPlayground[84646:5947080] Block1 Start
+<span class="lineno">3</span> 2016-10-31 13:51:24.518 OCPlayground[84646:5947063] Block2 End
+<span class="lineno">4</span> 2016-10-31 13:51:25.518 OCPlayground[84646:5947080] Block1 End
+<span class="lineno">5</span> 2016-10-31 13:51:25.518 OCPlayground[84646:5947080] Block4 inside Block1 Start
+<span class="lineno">6</span> 2016-10-31 13:51:26.521 OCPlayground[84646:5947080] Block4 inside Block1 End
+<span class="lineno">7</span> 2016-10-31 13:51:26.522 OCPlayground[84646:5947063] Block3</code></pre></div></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[在UITableViewCell中异步加载图片]]></title>
@@ -147,6 +409,98 @@
 <p>这是一个神奇的网站！可以在线定制图片颜色和内容，然后生成对应的url。参考：<a href="http://dummyimage.com/">Dynamic Dummy Image Generator</a>。所以才会有下面的效果，方便检查每个cell的图片是否正确：</p>
 
 <p><img src="/images/async_load_online_images_into_uitableviewcells.png" alt="async_load_online_images_into_uitableviewcells.png" /></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Objective-C中Property和Method的可见性]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2016/06/16/property-and-method-visuability-of-category-and-inheritence-in-objective-c/"/>
+    <updated>2016-06-16T21:48:54+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2016/06/16/property-and-method-visuability-of-category-and-inheritence-in-objective-c</id>
+    <content type="html"><![CDATA[<h2>说明</h2>
+
+<p>本来只想思考一下<em>Objective-C里Category和Inheritence中的Property和Method的可见性</em>，搜着搜着，主题有些变化，所以题目也改了。</p>
+
+<p>这里只是一些来自参考博客的结论和自己测试得到的结论。</p>
+
+<!-- more -->
+
+
+<p>具体参考博客如下：</p>
+
+<ul>
+<li><a href="http://stackoverflow.com/questions/4869935/objective-c-private-vs-protected-vs-public">Objective-C - Private vs Protected vs Public</a></li>
+<li><a href="http://stackoverflow.com/questions/12633627/expose-a-private-objective-c-method-or-property-to-subclasses">实现public、private和protected属性和方法</a></li>
+<li><a href="http://stackoverflow.com/questions/3725857/protected-methods-in-objective-c">Protected methods in Objective-C</a></li>
+<li><a href="http://bootstragram.com/blog/simulating-protected-modifier-with-objective-c/">Simulating protected properties and selectors in Objective-C</a></li>
+</ul>
+
+
+<p>自己的测试代码为：OCPlayground。</p>
+
+<h2>结论</h2>
+
+<h3>来自参考博客的结论</h3>
+
+<ol>
+<li>点操作(.)只和property有关和iVar没有关系。</li>
+<li><code>-&gt;</code>操作只和iVar有关，和property无关。</li>
+<li>ivar中的关键字<code>public</code>、<code>private</code>和<code>protected</code>只对ivar有效，表明的是ivar的可见性，默认<code>protected</code>。子类中想用继承来的ivar，需要使用->操作符，不能使用dot操作符（dot操作符只用于property）。实例中想用ivar，只能用具有<code>public</code>属性的ivar。</li>
+</ol>
+
+
+<h3>来自代码测试的结论</h3>
+
+<h4>结论1</h4>
+
+<p>We can use <code>@property</code> in Extension the same way as <em>.h</em> file of the class. Compiler can generate the setter and getter methods for us. But in Category, compiler will not generate the setter and getter methods for us, you need to implement them manually or by using <code>@dynamic</code> to tell the compiler that the setter and getter methods are implemented somewhere else.</p>
+
+<p>The difference comes from the fact that instance variables can be added into Extension but not Category.</p>
+
+<h4>结论2</h4>
+
+<p>to define whether a category can use the extended class&rsquo;s property or method, just define whether the property or method is in one &ldquo;interface&rdquo; that the category can &ldquo;see&rdquo;.</p>
+
+<h4>结论3</h4>
+
+<p>visibility(<code>private</code>, <code>public</code>, <code>protected</code>) does not affect methods. methods are as good as public when visible to clients (and potential pitfalls/bugs when invisible to clients). instead, visibility affects instance variables.</p>
+
+<h4>结论4</h4>
+
+<p>The same priciple as Category: to define whether I can use a property or method (in super class), just define whether the property or method is in an &ldquo;@interface&rdquo; the context (where you are trying to use the property or method) can &ldquo;see&rdquo;.</p>
+
+<p>One exception: <code>performSelector:</code> can run method that are not ready in compile time but ready in runtime. However there will be one warning from the compiler. You can dismiss the warning by declaring a method with the same name in the class in which you are coding, but will introduce another warning saying that &ldquo;Method definition for *** is not found&rdquo;.</p>
+
+<h3>Protected method</h3>
+
+<p>来自<a href="http://stackoverflow.com/questions/3725857/protected-methods-in-objective-c">Protected methods in Objective-C</a>的protected method的实现：</p>
+
+<p><div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno"> 1</span> <span class="c1">/////// SuperClass.h</span>
+<span class="lineno"> 2</span> <span class="k">@interface</span> <span class="nc">SuperClass</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+<span class="lineno"> 3</span> 
+<span class="lineno"> 4</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">@end</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+<span class="lineno"> 5</span> 
+<span class="lineno"> 6</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="c1">/////// SuperClass.m</span>
+<span class="lineno"> 7</span> <span class="k">@implementation</span> <span class="nc">SuperClass</span>
+<span class="lineno"> 8</span> <span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="nf">protectedMethod</span>
+<span class="lineno"> 9</span> <span class="p">{}</span>
+<span class="lineno">10</span> <span class="k">@end</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+<span class="lineno">11</span> 
+<span class="lineno">12</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="c1">/////// SubClass.h</span>
+<span class="lineno">13</span> <span class="k">@interface</span> <span class="nc">SubClass</span> : <span class="nc">SuperClass</span>
+<span class="lineno">14</span> <span class="k">@end</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+<span class="lineno">15</span> 
+<span class="lineno">16</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="c1">/////// SubClass.m</span>
+<span class="lineno">17</span> <span class="k">@interface</span> <span class="nc">SubClass</span> <span class="nl">(Protected)</span>
+<span class="lineno">18</span> <span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="nf">protectedMethod</span> <span class="p">;</span>
+<span class="lineno">19</span> <span class="k">@end</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+<span class="lineno">20</span> 
+<span class="lineno">21</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">@implementation</span> <span class="nc">SubClass</span>
+<span class="lineno">22</span> <span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="nf">callerOfProtectedMethod</span>
+<span class="lineno">23</span> <span class="p">{</span>
+<span class="lineno">24</span>   <span class="p">[</span><span class="nb">self</span> <span class="n">protectedMethod</span><span class="p">]</span> <span class="p">;</span> <span class="c1">// this will not generate warning</span>
+<span class="lineno">25</span> <span class="p">}</span>
+<span class="lineno">26</span> <span class="k">@end</span></code></pre></div></p>
 ]]></content>
   </entry>
   
@@ -418,138 +772,6 @@
 
 <p>参考 <a href="http://stackoverflow.com/questions/4636146/when-to-use-retaincount">When to use -retainCount?</a>。
 但是偶尔在调试的时候用一下，对于一些内存管理概念的理解还是有好处的，仅此而已。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Ios内存管理——理论]]></title>
-    <link href="http://hongchaozhang.github.io/blog/2016/02/22/ios-memory-management-theory/"/>
-    <updated>2016-02-22T20:51:30+08:00</updated>
-    <id>http://hongchaozhang.github.io/blog/2016/02/22/ios-memory-management-theory</id>
-    <content type="html"><![CDATA[<p><a href="http://www.cocoachina.com/ios/20160219/15330.html">iOS/OS X内存管理(一)：基本概念与原理</a>对内存管理的概念讲的很清楚。</p>
-
-<!-- more -->
-
-
-<p>摘抄一些重要信息。</p>
-
-<p>assign对应就是__unsafe_unretained，它跟__weak相似，被它修饰的变量都不持有对象的所有权，但不相同的是，当变量指向的对象的RC为0时，变量并不设置为nil，而是继续保存对象的地址。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS中的动画——UIView]]></title>
-    <link href="http://hongchaozhang.github.io/blog/2016/02/18/uiview-animation-in-ios/"/>
-    <updated>2016-02-18T11:36:47+08:00</updated>
-    <id>http://hongchaozhang.github.io/blog/2016/02/18/uiview-animation-in-ios</id>
-    <content type="html"><![CDATA[<p>官方文档<a href="https://developer.apple.com/library/ios/documentation/WindowsViews/Conceptual/ViewPG_iPhoneOS/AnimatingViews/AnimatingViews.html">Animations</a>详细讲述了UIView的animations，
-<a href="http://www.cocoachina.com/ios/20160215/15262.html">iOS 开发之动画篇 - 从 UIView 动画说起</a>也阐述了用UIView进行动画的基本用法。</p>
-
-<!-- more -->
-
-
-<p>总结摘抄一些要点。</p>
-
-<h2>Animate Property Changes in a View</h2>
-
-<h3>Basic Usage</h3>
-
-<p><div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno">1</span> <span class="p">[</span><span class="bp">UIView</span> <span class="nl">animateWithDuration</span><span class="p">:</span><span class="mf">1.0</span> <span class="nl">animations</span><span class="p">:</span><span class="o">^</span><span class="p">{</span>
-<span class="lineno">2</span>     <span class="n">firstView</span><span class="p">.</span><span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">;</span>
-<span class="lineno">3</span>     <span class="n">secondView</span><span class="p">.</span><span class="n">alpha</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">;</span>
-<span class="lineno">4</span> <span class="p">}];</span></code></pre></div></p>
-
-<blockquote><p>NOTE: When this code executes, the specified animations are started immediately on another thread so as to avoid blocking the current thread or your application’s main thread.</p></blockquote>
-
-<h3>Completion Handler</h3>
-
-<p>Usage of Completion Handler</p>
-
-<ul>
-<li>Use a completion handler to signal your application that a specific animation has finished.</li>
-<li>Completion handlers are also the way to link separate animations together.</li>
-</ul>
-
-
-<p>Sample code：</p>
-
-<p><div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno"> 1</span> <span class="p">-</span> <span class="p">(</span><span class="kt">IBAction</span><span class="p">)</span><span class="nf">showHideView:</span><span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nv">sender</span>
-<span class="lineno"> 2</span> <span class="p">{</span>
-<span class="lineno"> 3</span>     <span class="c1">// Fade out the view right away</span>
-<span class="lineno"> 4</span>     <span class="p">[</span><span class="bp">UIView</span> <span class="nl">animateWithDuration</span><span class="p">:</span><span class="mf">1.0</span>
-<span class="lineno"> 5</span>         <span class="nl">delay</span><span class="p">:</span> <span class="mf">0.0</span>
-<span class="lineno"> 6</span>         <span class="nl">options</span><span class="p">:</span> <span class="n">UIViewAnimationOptionCurveEaseIn</span>
-<span class="lineno"> 7</span>         <span class="nl">animations</span><span class="p">:</span><span class="o">^</span><span class="p">{</span>
-<span class="lineno"> 8</span>              <span class="n">thirdView</span><span class="p">.</span><span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">;</span>
-<span class="lineno"> 9</span>         <span class="p">}</span>
-<span class="lineno">10</span>         <span class="nl">completion</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="kt">BOOL</span> <span class="n">finished</span><span class="p">){</span>
-<span class="lineno">11</span>             <span class="c1">// Wait one second and then fade in the view</span>
-<span class="lineno">12</span>             <span class="p">[</span><span class="bp">UIView</span> <span class="nl">animateWithDuration</span><span class="p">:</span><span class="mf">1.0</span>
-<span class="lineno">13</span>                  <span class="nl">delay</span><span class="p">:</span> <span class="mf">1.0</span>
-<span class="lineno">14</span>                  <span class="nl">options</span><span class="p">:</span><span class="n">UIViewAnimationOptionCurveEaseOut</span>
-<span class="lineno">15</span>                  <span class="nl">animations</span><span class="p">:</span><span class="o">^</span><span class="p">{</span>
-<span class="lineno">16</span>                     <span class="n">thirdView</span><span class="p">.</span><span class="n">alpha</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">;</span>
-<span class="lineno">17</span>                  <span class="p">}</span>
-<span class="lineno">18</span>                  <span class="nl">completion</span><span class="p">:</span><span class="nb">nil</span><span class="p">];</span>
-<span class="lineno">19</span>         <span class="p">}];</span>
-<span class="lineno">20</span> <span class="p">}</span></code></pre></div></p>
-
-<h3>Nesting Animation Blocks</h3>
-
-<p>Nested animations are started at the same time as any parent animations.</p>
-
-<p>Sample code:</p>
-
-<p><div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno"> 1</span> <span class="p">[</span><span class="bp">UIView</span> <span class="nl">animateWithDuration</span><span class="p">:</span><span class="mf">1.0</span>
-<span class="lineno"> 2</span>         <span class="nl">delay</span><span class="p">:</span> <span class="mf">1.0</span>
-<span class="lineno"> 3</span>         <span class="nl">options</span><span class="p">:</span><span class="n">UIViewAnimationOptionCurveEaseOut</span>
-<span class="lineno"> 4</span>         <span class="nl">animations</span><span class="p">:</span><span class="o">^</span><span class="p">{</span>
-<span class="lineno"> 5</span>             <span class="n">aView</span><span class="p">.</span><span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">;</span>
-<span class="lineno"> 6</span>             <span class="c1">// Create a nested animation that has a different</span>
-<span class="lineno"> 7</span>             <span class="c1">// duration, timing curve, and configuration.</span>
-<span class="lineno"> 8</span>             <span class="p">[</span><span class="bp">UIView</span> <span class="nl">animateWithDuration</span><span class="p">:</span><span class="mf">0.2</span>
-<span class="lineno"> 9</span>                  <span class="nl">delay</span><span class="p">:</span><span class="mf">0.0</span>
-<span class="lineno">10</span>                  <span class="nl">options</span><span class="p">:</span> <span class="n">UIViewAnimationOptionOverrideInheritedCurve</span> <span class="o">|</span>
-<span class="lineno">11</span>                           <span class="n">UIViewAnimationOptionCurveLinear</span> <span class="o">|</span>
-<span class="lineno">12</span>                           <span class="n">UIViewAnimationOptionOverrideInheritedDuration</span> <span class="o">|</span>
-<span class="lineno">13</span>                           <span class="n">UIViewAnimationOptionRepeat</span> <span class="o">|</span>
-<span class="lineno">14</span>                           <span class="n">UIViewAnimationOptionAutoreverse</span>
-<span class="lineno">15</span>                  <span class="nl">animations</span><span class="p">:</span><span class="o">^</span><span class="p">{</span>
-<span class="lineno">16</span>                       <span class="p">[</span><span class="bp">UIView</span> <span class="nl">setAnimationRepeatCount</span><span class="p">:</span><span class="mf">2.5</span><span class="p">];</span>
-<span class="lineno">17</span>                       <span class="n">anotherView</span><span class="p">.</span><span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">;</span>
-<span class="lineno">18</span>                  <span class="p">}</span>
-<span class="lineno">19</span>                  <span class="nl">completion</span><span class="p">:</span><span class="nb">nil</span><span class="p">];</span>
-<span class="lineno">20</span>         <span class="p">}</span>
-<span class="lineno">21</span>         <span class="nl">completion</span><span class="p">:</span><span class="nb">nil</span><span class="p">];</span></code></pre></div></p>
-
-<h2>Creating Animated Transitions Between Views</h2>
-
-<p>View transitions help you hide sudden changes associated with adding, removing, hiding, or showing views in your view hierarchy. You use view transitions to implement the following types of changes:</p>
-
-<ul>
-<li><strong>Change the visible subviews of an existing view.</strong> You typically choose this option when you want to make relatively small changes to an existing view.</li>
-<li><strong>Replace one view in your view hierarchy with a different view.</strong> You typically choose this option when you want to replace a view hierarchy that spans all or most of the screen.</li>
-</ul>
-
-
-<blockquote><p><strong>Note:</strong> View transitions should not be confused with transitions initiated by view controllers, such as the presentation of modal view controllers or the pushing of new view controllers onto a navigation stack. View transitions affect the view hierarchy only, whereas view-controller transitions change the active view controller as well. Thus, for view transitions, the view controller that was active when you initiated the transition remains active when the transition finishes.</p></blockquote>
-
-<p>Sampel code for replacing a view with a different view:</p>
-
-<p><div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno"> 1</span> <span class="p">-</span> <span class="p">(</span><span class="kt">IBAction</span><span class="p">)</span><span class="nf">toggleMainViews:</span><span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nv">sender</span> <span class="p">{</span>
-<span class="lineno"> 2</span>     <span class="p">[</span><span class="bp">UIView</span> <span class="nl">transitionFromView</span><span class="p">:(</span><span class="n">displayingPrimary</span> <span class="o">?</span> <span class="nl">primaryView</span> <span class="p">:</span> <span class="n">secondaryView</span><span class="p">)</span>
-<span class="lineno"> 3</span>         <span class="nl">toView</span><span class="p">:(</span><span class="n">displayingPrimary</span> <span class="o">?</span> <span class="nl">secondaryView</span> <span class="p">:</span> <span class="n">primaryView</span><span class="p">)</span>
-<span class="lineno"> 4</span>         <span class="nl">duration</span><span class="p">:</span><span class="mf">1.0</span>
-<span class="lineno"> 5</span>         <span class="nl">options</span><span class="p">:(</span><span class="n">displayingPrimary</span> <span class="o">?</span> <span class="nl">UIViewAnimationOptionTransitionFlipFromRight</span> <span class="p">:</span>
-<span class="lineno"> 6</span>                     <span class="n">UIViewAnimationOptionTransitionFlipFromLeft</span><span class="p">)</span>
-<span class="lineno"> 7</span>         <span class="nl">completion</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="kt">BOOL</span> <span class="n">finished</span><span class="p">)</span> <span class="p">{</span>
-<span class="lineno"> 8</span>             <span class="k">if</span> <span class="p">(</span><span class="n">finished</span><span class="p">)</span> <span class="p">{</span>
-<span class="lineno"> 9</span>                 <span class="n">displayingPrimary</span> <span class="o">=</span> <span class="o">!</span><span class="n">displayingPrimary</span><span class="p">;</span>
-<span class="lineno">10</span>             <span class="p">}</span>
-<span class="lineno">11</span>     <span class="p">}];</span>
-<span class="lineno">12</span> <span class="p">}</span></code></pre></div></p>
-
-<blockquote><p><strong>Note:</strong> In addition to swapping out views, your view controller code needs to manage the loading and unloading of both the primary and secondary views.</p></blockquote>
 ]]></content>
   </entry>
   

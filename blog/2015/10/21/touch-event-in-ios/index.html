@@ -371,6 +371,30 @@ UIResponder中定义的触控事件 手势识别类—— &hellip;">
 
 <p><img src="/images/009_iOS_hittest_2.png" alt="009_iOS_hittest_2.png" /></p>
 
+<h4>hitTest被调用两次的issue</h4>
+
+<p>对于一次tap，hitTest会被调用两次。这个问题在Apple Mailing List <a href="http://lists.apple.com/archives/cocoa-dev/2014/Feb/msg00118.html">Re: -hitTest:withEvent: called twice?</a>里面有描述：</p>
+
+<ul>
+<li>Yes, it’s normal. The system may tweak the point being hit tested between the calls. Since hitTest should be a pure function with no side-effects, this should be fine.</li>
+</ul>
+
+
+<p>当我们在UIView中重写<code>hitTest</code>也可以发现：这两次调用的timestamp都是相同的，并且两次<code>hitTest</code>先被调用之后才调用了<code>touchesBegan</code>和<code>touchesEnded</code>：</p>
+
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span class="lineno"> 1</span> 2016-10-12 17:08:24.692843 OCPlayground[1707:973553] timestamp: 164999.282347
+<span class="lineno"> 2</span> 2016-10-12 17:08:24.692962 OCPlayground[1707:973553] hitTest is called from EventPropagationViewer
+<span class="lineno"> 3</span> 
+<span class="lineno"> 4</span> 2016-10-12 17:08:24.693520 OCPlayground[1707:973553] timestamp: 164999.282347
+<span class="lineno"> 5</span> 2016-10-12 17:08:24.693575 OCPlayground[1707:973553] hitTest is called from EventPropagationViewer
+<span class="lineno"> 6</span> 
+<span class="lineno"> 7</span> 2016-10-12 17:08:24.696633 OCPlayground[1707:973553] timestamp: 164999.282347
+<span class="lineno"> 8</span> 2016-10-12 17:08:24.696710 OCPlayground[1707:973553] touchesBegan from EventPropagationViewer
+<span class="lineno"> 9</span> 
+<span class="lineno">10</span> 2016-10-12 17:08:24.709334 OCPlayground[1707:973553] timestamp: 164999.299077
+<span class="lineno">11</span> 2016-10-12 17:08:24.709447 OCPlayground[1707:973553] touchesEnded from EventPropagationViewer</code></pre></div>
+
+
 <p>参考文章：<a href="http://zhoon.github.io/ios/2015/04/12/ios-event.html">深入浅出iOS事件机制</a>，其中还讲述了一些hitTest的应用。</p>
 </div>
 
@@ -432,11 +456,19 @@ UIResponder中定义的触控事件 手势识别类—— &hellip;">
   
     <section class="categories">
   <h1>Categories</h1>
-    <ul id="top-category-list" class="nav nav-list"><li><a href='/blog/categories/ios'>ios (25)</a></li><li><a href='/blog/categories/objective-c'>objective-c (18)</a></li><li><a href='/blog/categories/productivity'>productivity (15)</a></li><li><a href='/blog/categories/android'>android (4)</a></li><li><a href='/blog/categories/xcode'>xcode (4)</a></li><li><a href='/blog/categories/python'>python (3)</a></li><li><a href='/blog/categories/node'>node (3)</a></li><li><a href='/blog/categories/java'>java (2)</a></li><li><a href='/blog/categories/javascript'>javascript (2)</a></li><li><a href='/blog/categories/web'>web (2)</a></li><li><a href='/blog/categories/android-studio'>android_studio (1)</a></li><li><a href='/blog/categories/design-pattern'>design_pattern (1)</a></li><li><a href='/blog/categories/reading'>reading (1)</a></li><li><a href='/blog/categories/philosophy'>philosophy (1)</a></li></ul>
+    <ul id="top-category-list" class="nav nav-list"><li><a href='/blog/categories/ios'>ios (27)</a></li><li><a href='/blog/categories/objective-c'>objective-c (19)</a></li><li><a href='/blog/categories/productivity'>productivity (15)</a></li><li><a href='/blog/categories/xcode'>xcode (4)</a></li><li><a href='/blog/categories/android'>android (4)</a></li><li><a href='/blog/categories/node'>node (3)</a></li><li><a href='/blog/categories/python'>python (3)</a></li><li><a href='/blog/categories/javascript'>javascript (2)</a></li><li><a href='/blog/categories/java'>java (2)</a></li><li><a href='/blog/categories/web'>web (2)</a></li><li><a href='/blog/categories/android-studio'>android_studio (1)</a></li><li><a href='/blog/categories/design-pattern'>design_pattern (1)</a></li><li><a href='/blog/categories/reading'>reading (1)</a></li><li><a href='/blog/categories/philosophy'>philosophy (1)</a></li><li><a href='/blog/categories/androoid'>androoid (1)</a></li></ul>
 </section>
 <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/10/31/sync-between-multiplele-threads-tasks-in-ios-app/">iOS中多线程任务之间的同步</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/10/25/supporting-multiple-screens-for-android/">Android开发中使用的度量单位px、dp、sp、pt、in、mm</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2016/09/16/summerize-of-sohpie-world/">《苏菲的世界》读后小结</a>
@@ -448,14 +480,6 @@ UIResponder中定义的触控事件 手势识别类—— &hellip;">
     
       <li class="post">
         <a href="/blog/2016/08/02/asynchronously-load-online-images-into-uitableviewcells/">在UITableViewCell中异步加载图片</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2016/04/19/documenting-in-xcode-e-with-headerdoc-tutorial/">Documenting in Xcode With HeaderDoc Tutorial</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2016/03/27/ios-multiple-page-view-controller-usage/">Ios MultiplePagesViewController Usage</a>
       </li>
     
   </ul>
