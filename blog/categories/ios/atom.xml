@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ios | Zhang Hongchao]]></title>
   <link href="http://hongchaozhang.github.io/blog/categories/ios/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2016-10-31T22:20:59+08:00</updated>
+  <updated>2016-11-03T13:00:08+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -19,6 +19,9 @@
     <updated>2016-10-31T10:41:27+08:00</updated>
     <id>http://hongchaozhang.github.io/blog/2016/10/31/sync-between-multiplele-threads-tasks-in-ios-app</id>
     <content type="html"><![CDATA[<p>当我们使用iOS的多线程并发执行一些任务的时候，有时候需要考虑任务之间的同步问题，比如任务1和任务2执行完之后，才可以执行任务3，原因可能是任务3需要任务1和任务2执行得到的结果。</p>
+
+<!-- more -->
+
 
 <p>部分内容参考：
 <a href="http://stackoverflow.com/questions/11909629/waiting-until-two-async-blocks-are-executed-before-starting-another-block">Waiting until two async blocks are executed before starting another block</a></p>
@@ -61,7 +64,7 @@
 
 <h3>dispatch_barrier_async</h3>
 
-<p><code>dispatch_barrier_async</code>函数的作用与barrier的意思相同，在线程任务管理中起到一个栅栏的作用,它等待所有位于barrier函数之前的操作执行完毕后执行，并且在barrier函数执行之后，barrier函数之后的操作才会得到执行，该函数需要同<code>dispatch_queue_create</code>函数生成的并行队列一起使用，不能同<code>dispatch_get_global_queue</code>返回的并行队列一起使用。</p>
+<p><code>dispatch_barrier_async</code>函数的作用与barrier的意思相同，在线程任务管理中起到一个栅栏的作用，它等待所有位于barrier函数之前的操作执行完毕后执行，并且在barrier函数执行之后，barrier函数之后的操作才会得到执行，该函数需要同<code>dispatch_queue_create</code>函数生成的并行队列一起使用，不能同<code>dispatch_get_global_queue</code>返回的并行队列一起使用。</p>
 
 <p>例子：</p>
 
