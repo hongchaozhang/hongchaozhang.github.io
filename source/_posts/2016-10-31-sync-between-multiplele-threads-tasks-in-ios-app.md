@@ -8,6 +8,8 @@ categories: [ios]
 
 当我们使用iOS的多线程并发执行一些任务的时候，有时候需要考虑任务之间的同步问题，比如任务1和任务2执行完之后，才可以执行任务3，原因可能是任务3需要任务1和任务2执行得到的结果。
 
+<!-- more -->
+
 部分内容参考：
 [Waiting until two async blocks are executed before starting another block](http://stackoverflow.com/questions/11909629/waiting-until-two-async-blocks-are-executed-before-starting-another-block)
 
@@ -53,7 +55,7 @@ dispatch_group_notify(group, queue, ^ {
 
 ### dispatch_barrier_async
 
-`dispatch_barrier_async`函数的作用与barrier的意思相同，在线程任务管理中起到一个栅栏的作用,它等待所有位于barrier函数之前的操作执行完毕后执行，并且在barrier函数执行之后，barrier函数之后的操作才会得到执行，该函数需要同`dispatch_queue_create`函数生成的并行队列一起使用，不能同`dispatch_get_global_queue`返回的并行队列一起使用。
+`dispatch_barrier_async`函数的作用与barrier的意思相同，在线程任务管理中起到一个栅栏的作用，它等待所有位于barrier函数之前的操作执行完毕后执行，并且在barrier函数执行之后，barrier函数之后的操作才会得到执行，该函数需要同`dispatch_queue_create`函数生成的并行队列一起使用，不能同`dispatch_get_global_queue`返回的并行队列一起使用。
 
 例子：
 
