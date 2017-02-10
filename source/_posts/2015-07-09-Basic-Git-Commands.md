@@ -28,7 +28,7 @@ First of all, try the following commands first:
 ## <a name="check_status"></a>Check Current Status
 
 ### Origin
-Use `git config --get remote.origin.url` to get current origin address.
+Use`git remote -v` or `git config --get remote.origin.url` to get current origin info.
 
 ### Branch Info
 Use `git branch -vv` to get all your local branchs' tracking branch. You can also use `git show remote origin` to get the tracking info, but with a lot of trivial info.
