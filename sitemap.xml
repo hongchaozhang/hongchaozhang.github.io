@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>http://hongchaozhang.github.io/blog/2017/02/21/indoor-position/</loc>
+    <lastmod>2017-02-21T13:37:02+08:00</lastmod>
+  </url>
+  <url>
     <loc>http://hongchaozhang.github.io/blog/2017/02/08/voice-command-implementation-for-ios/</loc>
     <lastmod>2017-02-08T22:53:14+08:00</lastmod>
   </url>
@@ -277,6 +281,9 @@
   </url>
   <url>
     <loc>http://hongchaozhang.github.io/blog/categories/node/</loc>
+  </url>
+  <url>
+    <loc>http://hongchaozhang.github.io/blog/categories/map-tech/</loc>
   </url>
   <url>
     <loc>http://hongchaozhang.github.io/blog/categories/reading/</loc>

@@ -4,7 +4,7 @@
   <title><![CDATA[Zhang Hongchao]]></title>
   <link href="http://hongchaozhang.github.io/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2017-02-09T11:08:05+08:00</updated>
+  <updated>2017-02-23T00:51:44+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -12,6 +12,289 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[室内定位技术调研]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2017/02/21/indoor-position/"/>
+    <updated>2017-02-21T13:37:02+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2017/02/21/indoor-position</id>
+    <content type="html"><![CDATA[<h2>室内定位技术简介</h2>
+
+<h3>室内地图</h3>
+
+<p>要进行室内定位，首先需要有室内地图。</p>
+
+<!-- more -->
+
+
+<h3>室内定位技术</h3>
+
+<table>
+<thead>
+<tr>
+<th>&mdash; </th>
+<th> GPS </th>
+<th> 基站定位 </th>
+<th> Wi-Fi </th>
+<th> 蓝牙 </th>
+<th> RFID </th>
+<th> 地磁 </th>
+<th> NFC </th>
+<th> 陀螺 </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>配置密度 </td>
+<td> 全球 </td>
+<td> 200米-2000米 </td>
+<td> 20米-50米 </td>
+<td> 1米-50米 </td>
+<td> 1厘米-100米 </td>
+<td> 全球 </td>
+<td> &mdash; </td>
+<td> 不限 </td>
+</tr>
+<tr>
+<td>可接入（1-5） </td>
+<td> 4 </td>
+<td> 4 </td>
+<td> 3 </td>
+<td> 4 </td>
+<td> 2 </td>
+<td> 2 </td>
+<td> 3 </td>
+<td> 4 </td>
+</tr>
+<tr>
+<td>精度（1-5） </td>
+<td> 1：10米 </td>
+<td> 0.5：100米 </td>
+<td> 3：3-5米 </td>
+<td> 4：1-3米 </td>
+<td> 5：厘米级别 </td>
+<td> &mdash; </td>
+<td> 5：厘米级别 </td>
+<td> 0.5： 10米／100米 </td>
+</tr>
+<tr>
+<td>隐私安全（1-5） </td>
+<td> 3 </td>
+<td> 3 </td>
+<td> 2 </td>
+<td> 3 </td>
+<td> 4 </td>
+<td> 5 </td>
+<td> 4.5 </td>
+<td> 5 </td>
+</tr>
+<tr>
+<td>代价（1-5） </td>
+<td> 5 </td>
+<td> 5 </td>
+<td> 3 </td>
+<td> 4 </td>
+<td> 2 </td>
+<td> 1.5 </td>
+<td> 3 </td>
+<td> 1 </td>
+</tr>
+</tbody>
+</table>
+
+
+<table>
+<thead>
+<tr>
+<th>&mdash; </th>
+<th> 工作原理 </th>
+<th> 应用场合</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GPS </td>
+<td> 接收多个卫星信号计算位置，信号中包含卫星信息和时间戳，根据时间差计算距离。</td>
+<td> 室外定位跟踪，农业和军事应用</td>
+</tr>
+<tr>
+<td>基站定位 </td>
+<td> 接收多个基站信号，信号中包含基站信息，根据信号强度计算距离。</td>
+<td> &mdash; </td>
+</tr>
+<tr>
+<td>Wi-Fi </td>
+<td> 接收多个Wi-Fi信号，根据强度计算距离。</td>
+<td> 室内定位</td>
+</tr>
+<tr>
+<td>蓝牙 </td>
+<td> 接收低功耗蓝牙beacon发射的信号获取beacon信息，通过信号强度计算距离。</td>
+<td> 室内定位</td>
+</tr>
+<tr>
+<td>RFID </td>
+<td> &mdash; </td>
+<td> 存货跟踪，厘米级精度定位要求 </td>
+</tr>
+<tr>
+<td>地磁 </td>
+<td> 在地磁指纹采集的基础上，通过磁感应器和网络请求获取位置信息。</td>
+<td> &mdash; </td>
+</tr>
+<tr>
+<td>NFC </td>
+<td> &mdash; </td>
+<td> 支付／票务 </td>
+</tr>
+<tr>
+<td>陀螺 </td>
+<td> 在初始状态已知的情况下，通过积分计算未来状态。</td>
+<td> 和其它定位方式结合使用，在保证一定精度的基础上，降低功耗。</td>
+</tr>
+</tbody>
+</table>
+
+
+<p> <strong>指纹技术</strong></p>
+
+<p> 直接根据Wi-Fi或者蓝牙的信号强度计算距离会有比较大的误差，因为每个接入点的信号强度衰减模型不统一，并且受所在环境（遮挡等）的影响比较大。所以，就实地采集每个位置处每个接入点的信号强度，并存入服务器供后续定位请求使用。</p>
+
+<h2>各厂商实现的室内定位技术</h2>
+
+<h3>苹果</h3>
+
+<p>苹果在2014年的WWDC上（Taking Core Location Indoors）推出了iBeacon技术和协议，以及对应的SDK，实现室内定位。</p>
+
+<p>关于iBeacon的几个问题。</p>
+
+<ul>
+<li><p>我部署的iBeacon节点是否会被别的商家使用？</p>
+
+<p>  回答是Yes！由于iBeacon协议开放，而且易于伪造，你部署的节点完全可以被竞争企业使用。甚至是伪造一个跟你的ID完全相同的Beacon。防止冒用蹭用是一个课题。</p>
+
+<p>  设备商应该会给出一个解决方案，但截止目前还是可以被冒用。由于现在还没大规模部署，还有时间去解决这个问题。</p></li>
+<li><p>iBeacon的耗电量如何？</p>
+
+<p>  现在市售方案除Estimote比较特殊外，基本上都是采用的TI2540或2541方案。Beacon作为蓝牙基站发射时间特别短只有4mS左右。</p>
+
+<p>  Beacon的发射周期可调，比如苹果规定100mS发射一次，也就是说100mS里只发射4ms。不同的使用场景可以根据实际需要调整发射周期、发射频率，功耗也会有差别，短的半年，长的3-4年。</p></li>
+</ul>
+
+
+<h3>高德</h3>
+
+<p>高德地图支持Wi-Fi和蓝牙iBeacon室内定位。如果是iOS系统，只能用iBeacon定位，因为iOS系统不提供Wi-Fi底层数据接口。</p>
+
+<table>
+<thead>
+<tr>
+<th>设备 </th>
+<th> 精度 </th>
+<th> 支持系统 </th>
+<th> 部署密度 </th>
+<th> 设备单价 </th>
+<th> 支持标准</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>WIFI </td>
+<td> 3~8米 </td>
+<td> Android 4.0及以上 </td>
+<td> 间隔30米部署，700平米1个 </td>
+<td> 上百元 </td>
+<td> 标准2.4G/5G频段</td>
+</tr>
+<tr>
+<td>蓝牙 </td>
+<td> 1~5米 </td>
+<td> Android 4.3及以上，iOS 8及以上 </td>
+<td> 间隔 8米部署，50平1个 </td>
+<td> 数十元 </td>
+<td> 标准蓝牙4.0广播协议</td>
+</tr>
+</tbody>
+</table>
+
+
+<p>应用高德进行室内定位的步骤：</p>
+
+<ol>
+<li>准备室内地图（使用高德已有的或者自己制作）。</li>
+<li>铺设Wi-Fi或iBeacon接入点。</li>
+<li>使用高德提供的定位数据采集工具进行数据采集。</li>
+<li>数据采集完毕编译后，上传至服务器。</li>
+<li>使用高德提供的定位数据检测工具现场体验定位效果。</li>
+<li>开发应用，使用高德室内定位SDK获取位置，包括经纬度和楼层信息。</li>
+</ol>
+
+
+<p>关于室内地图：</p>
+
+<ol>
+<li><p>高德已覆盖数据</p>
+
+<p> 高德已有室内地图数据，可免费申请使用。</p></li>
+<li><p>高德未覆盖数据</p>
+
+<p> 若为高德未覆盖室内地图数据，提供如下两种数据生产方案：</p>
+
+<ul>
+<li>委托与高德合作的第三方生产。</li>
+<li>申请自主生产。</li>
+</ul>
+</li>
+</ol>
+
+
+<h3>百度</h3>
+
+<p>大型商超内寻找店铺、停车场内反向寻车等业务的发展基础都是室内高精度定位。利用三角定位技术、增强WiFi指纹模型技术、地磁技术、蓝牙技术等， 提供精度1-3m的室内高精度定位服务。结合百度室内图服务，更好帮助开发者解决室内定位难题。</p>
+
+<h3>识途</h3>
+
+<p>特色：地磁定位技术。</p>
+
+<p><a href="http://www.ubirouting.com/creator.php">定位和采集工具：识途 Creator</a></p>
+
+<h2>闲谈</h2>
+
+<ul>
+<li><p>GPS不是泛指，是特指。</p>
+
+<p>  我们一提到定位，大家印象中最熟悉的技术可能就是GPS定位。其实更为准确的说法是GNSS(Global Navigation Satellite System)定位，中文含义就是全球卫星定位系统。GPS只是GNSS中的一种实现方法，该系统是由美国部署的。另外，还有其他类型的定位系统，例如，俄罗斯的格洛纳斯（GLONASS），欧洲的伽利略和中国的北斗。关系如下：</p>
+
+<ul>
+<li>GNSS
+
+<ul>
+<li>GPS（美国）</li>
+<li>GLONASS（俄罗斯）</li>
+<li>北斗（中国）</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+
+<h2>参考</h2>
+
+<ul>
+<li><p><a href="http://lighthouse.io/indoor-location-technologies-compared/">Indoor location technologies compared</a></p></li>
+<li><p><a href="http://bbs.lbsyun.baidu.com/forum.php?mod=viewthread&amp;tid=116547&amp;extra=page%3D1">定位算法</a></p></li>
+<li><p><a href="https://senion.com/indoor-positioning-for-retail/">室内定位应用场合</a></p></li>
+<li><p><a href="http://www.voidcn.com/blog/u012716788/article/p-4590383.html">iBeacon能否精确室内定位等10个技术问题</a></p></li>
+<li><p><a href="https://lbs.amap.com/getting-started/locate">高德室外定位技术</a></p></li>
+<li><a href="https://lbs.amap.com/getting-started/indoorlocation/">高德室内定位方案</a></li>
+<li><p><a href="https://lbs.amap.com/getting-started/indoorintro">高德室内地图数据</a></p></li>
+<li><p><a href="http://www.ubirouting.com/%E8%AF%86%E9%80%94%E5%AE%A4%E5%86%85%E5%AE%9A%E4%BD%8D%E6%8A%80%E6%9C%AF%E7%BB%BC%E8%BF%B0.pdf">识途室内定位技术综述</a></p></li>
+<li><a href="http://ubirouting.com/%E8%AF%86%E9%80%94%E5%AE%A4%E5%86%85%E5%9C%B0%E7%A3%81%E7%8E%AF%E5%A2%83%E6%95%B0%E6%8D%AE%E9%87%87%E9%9B%86%E6%96%B9%E6%B3%95%E5%8F%8A%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9.pdf">识途室内地磁环境数据采集方法及注意事项</a></li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS语音控制系统]]></title>
@@ -26,6 +309,9 @@
 <li>Siri</li>
 <li>通过键盘的麦克风按钮，进入听写模式</li>
 </ol>
+
+
+<!-- more -->
 
 
 <p><strong>Siri</strong></p>
@@ -137,9 +423,9 @@
 
 <h2>通过扬声器发声</h2>
 
-<p>需要设置<code>AVAudioSession</code>的状态，保证既可以录音，也可以发声。</p>
+<p>需要设置<code>AVAudioSession</code>的状态，保证既可以录音，也可以发声，同时发出的声音不应该再被录入。</p>
 
-<p>应该可以通过<code>AVSpeechSynthesizerDelegate</code>中下面的方法实现：</p>
+<p>这个需求应该可以通过<code>AVSpeechSynthesizerDelegate</code>中下面的方法实现：</p>
 
 <div class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="n">public</span> <span class="k">func</span> <span class="n">speechSynthesizer</span><span class="p">(</span><span class="n">_</span> <span class="nl">synthesizer</span><span class="p">:</span> <span class="bp">AVSpeechSynthesizer</span><span class="p">,</span> <span class="n">didFinish</span> <span class="nl">utterance</span><span class="p">:</span> <span class="bp">AVSpeechUtterance</span><span class="p">)</span></code></pre></div>
 
@@ -2798,37 +3084,6 @@ An optional company name []:</code></pre></div>
 <p>https/http/get/post: 请参考<a href="http://cuishen.iteye.com/blog/2019925">http https get post 的区别，定义/安全性/性能</a>和<a href="http://www.cnblogs.com/hyddd/archive/2009/03/31/1426026.html">浅谈HTTP中Get与Post的区别</a></p>
 
 <p>其实百度百科中关于<a href="http://baike.baidu.com/view/14121.htm">https</a>的解释也是十分清楚了。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Generics in Objective-c]]></title>
-    <link href="http://hongchaozhang.github.io/blog/2015/12/22/generics-in-objective-c/"/>
-    <updated>2015-12-22T13:18:48+08:00</updated>
-    <id>http://hongchaozhang.github.io/blog/2015/12/22/generics-in-objective-c</id>
-    <content type="html"><![CDATA[<p>参考：<a href="http://stackoverflow.com/questions/649483/is-there-any-way-to-enforce-typing-on-nsarray-nsmutablearray-etc">Is there any way to enforce typing on NSArray, NSMutableArray, etc.?</a></p>
-
-<p>参考：<a href="http://drekka.ghost.io/objective-c-generics/">Objective C Generics</a></p>
-
-<p>随着Xcode7的发布，苹果实现了collection类（NSArray，NSDictionary，NSSet）的generics功能。</p>
-
-<!-- more -->
-
-
-<p>以后，可以这样定义Array了：</p>
-
-<div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno">1</span> <span class="bp">NSArray</span><span class="o">&lt;</span><span class="n">MyClass</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">myArray</span> <span class="o">=</span> <span class="l">@[</span><span class="p">[</span><span class="n">MyClass</span> <span class="n">new</span><span class="p">],</span> <span class="p">[</span><span class="n">MyClass</span> <span class="n">new</span><span class="p">]</span><span class="l">]</span><span class="p">;</span></code></pre></div>
-
-
-<p>但是，我们仍然可以在Array中加入非MyClass类型的实例，此时xcode会报出警告，但是不会报错，程序仍然可以运行。所以需要我们在写程序时去除所有的警告。</p>
-
-<p>Xcode的提示也会帮助我们避免这些警告：当你试图add一个元素到Array中时，Xcode会提示其中元素的类型<code>void addObject:(nonnull MyClass *)</code>；如果没有用Generics，Xcode的提示是<code>void addObject:(nonnull id)</code>。</p>
-
-<p>但是这个可以给我们带来一个明显的好处：</p>
-
-<p>我们只要看到定义，就能知道其中的元素类型，而不用全局搜索代码，看往其中加入了什么。就冲这一点，就足以让我们毫不犹豫地使用了。</p>
-
-<p>更多的介绍和Generics的局限，请参考：<a href="http://drekka.ghost.io/objective-c-generics/">Objective C Generics</a>。</p>
 ]]></content>
   </entry>
   

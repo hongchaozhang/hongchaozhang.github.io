@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ios | Zhang Hongchao]]></title>
   <link href="http://hongchaozhang.github.io/blog/categories/ios/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2017-02-09T11:08:05+08:00</updated>
+  <updated>2017-02-23T00:51:44+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -26,6 +26,9 @@
 <li>Siri</li>
 <li>通过键盘的麦克风按钮，进入听写模式</li>
 </ol>
+
+
+<!-- more -->
 
 
 <p><strong>Siri</strong></p>
@@ -137,9 +140,9 @@
 
 <h2>通过扬声器发声</h2>
 
-<p>需要设置<code>AVAudioSession</code>的状态，保证既可以录音，也可以发声。</p>
+<p>需要设置<code>AVAudioSession</code>的状态，保证既可以录音，也可以发声，同时发出的声音不应该再被录入。</p>
 
-<p>应该可以通过<code>AVSpeechSynthesizerDelegate</code>中下面的方法实现：</p>
+<p>这个需求应该可以通过<code>AVSpeechSynthesizerDelegate</code>中下面的方法实现：</p>
 
 <p><div class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="n">public</span> <span class="k">func</span> <span class="n">speechSynthesizer</span><span class="p">(</span><span class="n">_</span> <span class="nl">synthesizer</span><span class="p">:</span> <span class="bp">AVSpeechSynthesizer</span><span class="p">,</span> <span class="n">didFinish</span> <span class="nl">utterance</span><span class="p">:</span> <span class="bp">AVSpeechUtterance</span><span class="p">)</span></code></pre></div></p>
 ]]></content>
