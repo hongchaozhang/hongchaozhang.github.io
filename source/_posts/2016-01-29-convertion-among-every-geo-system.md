@@ -3,7 +3,7 @@ layout: post
 title: "火星坐标导致iOS系统下高德地图定位不准"
 date: 2016-01-29 13:47:42 +0800
 comments: true
-categories: [ios, objective-c]
+categories: [ios, objective-c, map tech]
 ---
 
 首先感慨一下：神奇的国度，神奇的坐标！
