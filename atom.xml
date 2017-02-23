@@ -4,7 +4,7 @@
   <title><![CDATA[Zhang Hongchao]]></title>
   <link href="http://hongchaozhang.github.io/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2017-02-23T00:51:44+08:00</updated>
+  <updated>2017-02-23T10:29:49+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -14,7 +14,7 @@
 
   
   <entry>
-    <title type="html"><![CDATA[室内定位技术调研]]></title>
+    <title type="html"><![CDATA[室内定位技术现状]]></title>
     <link href="http://hongchaozhang.github.io/blog/2017/02/21/indoor-position/"/>
     <updated>2017-02-21T13:37:02+08:00</updated>
     <id>http://hongchaozhang.github.io/blog/2017/02/21/indoor-position</id>
@@ -28,80 +28,6 @@
 
 
 <h3>室内定位技术</h3>
-
-<table>
-<thead>
-<tr>
-<th>&mdash; </th>
-<th> GPS </th>
-<th> 基站定位 </th>
-<th> Wi-Fi </th>
-<th> 蓝牙 </th>
-<th> RFID </th>
-<th> 地磁 </th>
-<th> NFC </th>
-<th> 陀螺 </th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>配置密度 </td>
-<td> 全球 </td>
-<td> 200米-2000米 </td>
-<td> 20米-50米 </td>
-<td> 1米-50米 </td>
-<td> 1厘米-100米 </td>
-<td> 全球 </td>
-<td> &mdash; </td>
-<td> 不限 </td>
-</tr>
-<tr>
-<td>可接入（1-5） </td>
-<td> 4 </td>
-<td> 4 </td>
-<td> 3 </td>
-<td> 4 </td>
-<td> 2 </td>
-<td> 2 </td>
-<td> 3 </td>
-<td> 4 </td>
-</tr>
-<tr>
-<td>精度（1-5） </td>
-<td> 1：10米 </td>
-<td> 0.5：100米 </td>
-<td> 3：3-5米 </td>
-<td> 4：1-3米 </td>
-<td> 5：厘米级别 </td>
-<td> &mdash; </td>
-<td> 5：厘米级别 </td>
-<td> 0.5： 10米／100米 </td>
-</tr>
-<tr>
-<td>隐私安全（1-5） </td>
-<td> 3 </td>
-<td> 3 </td>
-<td> 2 </td>
-<td> 3 </td>
-<td> 4 </td>
-<td> 5 </td>
-<td> 4.5 </td>
-<td> 5 </td>
-</tr>
-<tr>
-<td>代价（1-5） </td>
-<td> 5 </td>
-<td> 5 </td>
-<td> 3 </td>
-<td> 4 </td>
-<td> 2 </td>
-<td> 1.5 </td>
-<td> 3 </td>
-<td> 1 </td>
-</tr>
-</tbody>
-</table>
-
 
 <table>
 <thead>
@@ -156,9 +82,87 @@
 </table>
 
 
+<table>
+<thead>
+<tr>
+<th>&mdash; </th>
+<th> GPS </th>
+<th> 基站定位 </th>
+<th> Wi-Fi </th>
+<th> 蓝牙 </th>
+<th> RFID </th>
+<th> 地磁 </th>
+<th> NFC </th>
+<th> 陀螺 </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>配置密度 </td>
+<td> 全球 </td>
+<td> 200米-2000米 </td>
+<td> 20米-50米 </td>
+<td> 1米-50米 </td>
+<td> 1厘米-100米 </td>
+<td> 全球 </td>
+<td> &mdash; </td>
+<td> 不限 </td>
+</tr>
+<tr>
+<td>可接入（1-5） </td>
+<td> 4 </td>
+<td> 4 </td>
+<td> 3 </td>
+<td> 4 </td>
+<td> 2 </td>
+<td> 2 </td>
+<td> 3 </td>
+<td> 4 </td>
+</tr>
+<tr>
+<td>精度（1-5） </td>
+<td> 1(10米) </td>
+<td> 0.5(100米) </td>
+<td> 3(3-5米) </td>
+<td> 4(1-3米) </td>
+<td> 5(厘米级别) </td>
+<td> &mdash; </td>
+<td> 5(厘米级别) </td>
+<td> 0.5(10米／100米) </td>
+</tr>
+<tr>
+<td>隐私安全（1-5） </td>
+<td> 3 </td>
+<td> 3 </td>
+<td> 2 </td>
+<td> 3 </td>
+<td> 4 </td>
+<td> 5 </td>
+<td> 4.5 </td>
+<td> 5 </td>
+</tr>
+<tr>
+<td>代价（1-5） </td>
+<td> 5 </td>
+<td> 5 </td>
+<td> 3 </td>
+<td> 4 </td>
+<td> 2 </td>
+<td> 1.5 </td>
+<td> 3 </td>
+<td> 1 </td>
+</tr>
+</tbody>
+</table>
+
+
+<p> 参考：<a href="http://lighthouse.io/indoor-location-technologies-compared/">Indoor location technologies compared</a></p>
+
 <p> <strong>指纹技术</strong></p>
 
 <p> 直接根据Wi-Fi或者蓝牙的信号强度计算距离会有比较大的误差，因为每个接入点的信号强度衰减模型不统一，并且受所在环境（遮挡等）的影响比较大。所以，就实地采集每个位置处每个接入点的信号强度，并存入服务器供后续定位请求使用。</p>
+
+<p> 其它定位原理参考<a href="http://bbs.lbsyun.baidu.com/forum.php?mod=viewthread&amp;tid=116547&amp;extra=page%3D1">室内定位技术原理揭秘</a>。</p>
 
 <h2>各厂商实现的室内定位技术</h2>
 
@@ -179,6 +183,13 @@
 <p>  现在市售方案除Estimote比较特殊外，基本上都是采用的TI2540或2541方案。Beacon作为蓝牙基站发射时间特别短只有4mS左右。</p>
 
 <p>  Beacon的发射周期可调，比如苹果规定100mS发射一次，也就是说100mS里只发射4ms。不同的使用场景可以根据实际需要调整发射周期、发射频率，功耗也会有差别，短的半年，长的3-4年。</p></li>
+</ul>
+
+
+<p><strong>参考</strong></p>
+
+<ul>
+<li><a href="http://www.voidcn.com/blog/u012716788/article/p-4590383.html">iBeacon能否精确室内定位等10个技术问题</a></li>
 </ul>
 
 
@@ -248,6 +259,15 @@
 </ol>
 
 
+<p><strong>参考</strong></p>
+
+<ul>
+<li><a href="https://lbs.amap.com/getting-started/locate">高德室外定位技术</a></li>
+<li><a href="https://lbs.amap.com/getting-started/indoorlocation/">高德室内定位方案</a></li>
+<li><a href="https://lbs.amap.com/getting-started/indoorintro">高德室内地图数据</a></li>
+</ul>
+
+
 <h3>百度</h3>
 
 <p>大型商超内寻找店铺、停车场内反向寻车等业务的发展基础都是室内高精度定位。利用三角定位技术、增强WiFi指纹模型技术、地磁技术、蓝牙技术等， 提供精度1-3m的室内高精度定位服务。结合百度室内图服务，更好帮助开发者解决室内定位难题。</p>
@@ -257,6 +277,25 @@
 <p>特色：地磁定位技术。</p>
 
 <p><a href="http://www.ubirouting.com/creator.php">定位和采集工具：识途 Creator</a></p>
+
+<p>仅通过上面的视频很难理解其采集原理，但是，识途提出了采集过程中以下几点注意事项：</p>
+
+<ol>
+<li>在按下采集按钮开始采集的时候，请<strong>即刻</strong>开始行走；在到达终点停止行走后，请<strong>即刻</strong>按下采集按钮结束采集。</li>
+<li>在采集过程中请保持<strong>统一、稳定、自然</strong>的行走速度, 尽可能保持在道路的中央行走，并且采集过程中尽可能避免晃动手机。</li>
+<li>如果在某段路径受到了外界的严重干扰，无法保持一致的行走速度或预定的行走方向，务必针对这段路径进行重新采集。</li>
+</ol>
+
+
+<p>从上面的注意事项，可以大致猜测他是如何做到测量的地磁信号和地理位置的对应。</p>
+
+<p><strong>参考</strong></p>
+
+<ul>
+<li><a href="http://www.ubirouting.com/%E8%AF%86%E9%80%94%E5%AE%A4%E5%86%85%E5%AE%9A%E4%BD%8D%E6%8A%80%E6%9C%AF%E7%BB%BC%E8%BF%B0.pdf">识途室内定位技术综述</a></li>
+<li><a href="http://ubirouting.com/%E8%AF%86%E9%80%94%E5%AE%A4%E5%86%85%E5%9C%B0%E7%A3%81%E7%8E%AF%E5%A2%83%E6%95%B0%E6%8D%AE%E9%87%87%E9%9B%86%E6%96%B9%E6%B3%95%E5%8F%8A%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9.pdf">识途室内地磁环境数据采集方法及注意事项</a></li>
+</ul>
+
 
 <h2>闲谈</h2>
 
@@ -282,15 +321,7 @@
 <h2>参考</h2>
 
 <ul>
-<li><p><a href="http://lighthouse.io/indoor-location-technologies-compared/">Indoor location technologies compared</a></p></li>
-<li><p><a href="http://bbs.lbsyun.baidu.com/forum.php?mod=viewthread&amp;tid=116547&amp;extra=page%3D1">定位算法</a></p></li>
-<li><p><a href="https://senion.com/indoor-positioning-for-retail/">室内定位应用场合</a></p></li>
-<li><p><a href="http://www.voidcn.com/blog/u012716788/article/p-4590383.html">iBeacon能否精确室内定位等10个技术问题</a></p></li>
-<li><p><a href="https://lbs.amap.com/getting-started/locate">高德室外定位技术</a></p></li>
-<li><a href="https://lbs.amap.com/getting-started/indoorlocation/">高德室内定位方案</a></li>
-<li><p><a href="https://lbs.amap.com/getting-started/indoorintro">高德室内地图数据</a></p></li>
-<li><p><a href="http://www.ubirouting.com/%E8%AF%86%E9%80%94%E5%AE%A4%E5%86%85%E5%AE%9A%E4%BD%8D%E6%8A%80%E6%9C%AF%E7%BB%BC%E8%BF%B0.pdf">识途室内定位技术综述</a></p></li>
-<li><a href="http://ubirouting.com/%E8%AF%86%E9%80%94%E5%AE%A4%E5%86%85%E5%9C%B0%E7%A3%81%E7%8E%AF%E5%A2%83%E6%95%B0%E6%8D%AE%E9%87%87%E9%9B%86%E6%96%B9%E6%B3%95%E5%8F%8A%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9.pdf">识途室内地磁环境数据采集方法及注意事项</a></li>
+<li><a href="https://senion.com/indoor-positioning-for-retail/">室内定位应用场合</a></li>
 </ul>
 
 ]]></content>
