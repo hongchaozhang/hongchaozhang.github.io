@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Map Tech | Zhang Hongchao]]></title>
   <link href="http://hongchaozhang.github.io/blog/categories/map-tech/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2017-02-23T10:29:49+08:00</updated>
+  <updated>2017-03-14T10:21:00+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -19,6 +19,8 @@
     <updated>2017-02-21T13:37:02+08:00</updated>
     <id>http://hongchaozhang.github.io/blog/2017/02/21/indoor-position</id>
     <content type="html"><![CDATA[<h2>室内定位技术简介</h2>
+
+<p>室内定位的应用场景，参见<a href="https://senion.com/indoor-positioning-for-retail/">室内定位应用场合</a>。</p>
 
 <h3>室内地图</h3>
 
@@ -319,11 +321,6 @@
 
 
 <h2>参考</h2>
-
-<ul>
-<li><a href="https://senion.com/indoor-positioning-for-retail/">室内定位应用场合</a></li>
-</ul>
-
 ]]></content>
   </entry>
   

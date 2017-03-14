@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Objective-c | Zhang Hongchao]]></title>
   <link href="http://hongchaozhang.github.io/blog/categories/objective-c/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2017-02-23T10:29:49+08:00</updated>
+  <updated>2017-03-14T10:21:00+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -12,6 +12,67 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[如何处理多个手势之间的关系]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2017/03/03/relation-among-m-multiple-gestures/"/>
+    <updated>2017-03-03T13:11:55+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2017/03/03/relation-among-m-multiple-gestures</id>
+    <content type="html"><![CDATA[<ol>
+<li>可以为同一个view添加两个相同类型的手势吗？比如添加两个<code>UITapGestureRecognizer</code>到同一个view。</li>
+<li>如果一个view中有多个手势（<code>UIGestureRecognizer</code>），应该怎么处理它们之间的关系？</li>
+<li>如果子view和父view中都有手势，这些手势之间的关系又是怎么样的呢？</li>
+</ol>
+
+
+<!-- more -->
+
+
+<p>单个手势的响应过程参考<a href="http://hongchaozhang.github.io/blog/2015/10/21/touch-event-in-ios/">iOS中的触控事件机制</a>。但是上面几个问题需要考虑多个手势之间的关系，超出了上面文章的讨论范围。下面，我们就来讨论一下上面几个问题。</p>
+
+<h3>1. 可以为同一个view添加两个相同类型的手势吗？比如添加两个UITapGestureRecognizer到同一个view。</h3>
+
+<p>可以为view添加多个不同的<code>UIGestureRecognizer</code>，比如pan和tap，可以同时起作用，但是如果你想<strong>加入两个tap手势，第二个会将第一个手势覆盖</strong>。这个时候，至少需要为其中一个tap手势添加delegate，并实现下面的方法，为两个tap同时存在的情况返回true：</p>
+
+<p><div class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="n">optional</span> <span class="n">public</span> <span class="k">func</span> <span class="n">gestureRecognizer</span><span class="p">(</span><span class="n">_</span> <span class="nl">gestureRecognizer</span><span class="p">:</span> <span class="bp">UIGestureRecognizer</span><span class="p">,</span> <span class="n">shouldRecognizeSimultaneouslyWith</span> <span class="nl">otherGestureRecognizer</span><span class="p">:</span> <span class="bp">UIGestureRecognizer</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bool</span></code></pre></div></p>
+
+<blockquote><p>returning YES is guaranteed to allow simultaneous recognition. returning NO is not guaranteed to prevent simultaneous recognition, as the other gesture&rsquo;s delegate may return YES.</p></blockquote>
+
+<h3>2. 如果一个view中有多个手势（<code>UIGestureRecognizer</code>），应该怎么处理它们之间的关系？</h3>
+
+<p>如果两个手势之间没有识别上的困难，那么不用任何处理，比如tap和pan，但是如果有关系，比如single tap和double tap，rotate和pinch，这需要明确两者之间的关系。</p>
+
+<p>如果不希望在double tap的同时触发两次single tap，需要在single tap的delegate中实现方法</p>
+
+<p><div class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="n">optional</span> <span class="n">public</span> <span class="k">func</span> <span class="n">gestureRecognizer</span><span class="p">(</span><span class="n">_</span> <span class="nl">gestureRecognizer</span><span class="p">:</span> <span class="bp">UIGestureRecognizer</span><span class="p">,</span> <span class="n">shouldRequireFailureOf</span> <span class="nl">otherGestureRecognizer</span><span class="p">:</span> <span class="bp">UIGestureRecognizer</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bool</span></code></pre></div></p>
+
+<p>这样，可以保证single tap会等待double tap失败之后再被触发。缺点是single tap反应迟钝。</p>
+
+<p>如果希望在rotate的同时可以进行pinch，需要在pinch或者rotate的手势的delegate中实现方法：</p>
+
+<p><div class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="n">optional</span> <span class="n">public</span> <span class="k">func</span> <span class="n">gestureRecognizer</span><span class="p">(</span><span class="n">_</span> <span class="nl">gestureRecognizer</span><span class="p">:</span> <span class="bp">UIGestureRecognizer</span><span class="p">,</span> <span class="n">shouldRecognizeSimultaneouslyWith</span> <span class="nl">otherGestureRecognizer</span><span class="p">:</span> <span class="bp">UIGestureRecognizer</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bool</span></code></pre></div></p>
+
+<p>这样，rotate和pinch就能同时被识别。</p>
+
+<h3>3. 如果子view和父view中都有手势，这些手势之间的关系又是怎么样的呢？</h3>
+
+<p><code>UIGestureRecognizerDelegate</code>中的方法并没有限制在同一个view之中，所以，不同view之间的手势关系与1和2的处理相同。</p>
+
+<h3>注意</h3>
+
+<p>如果为手势实现了delegate方法，那么<code>UIGestureRecognizer</code>里面的响应的方法将不再起作用。比如：</p>
+
+<p>如果设置了</p>
+
+<p><div class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="n">singleTap</span><span class="p">.</span><span class="n">delegate</span> <span class="o">=</span> <span class="nb">self</span><span class="p">.</span><span class="n">singleTapOnMapWidgetViewerGestureRecognizerDelegate</span></code></pre></div></p>
+
+<p>那么</p>
+
+<p><div class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="n">singleTap</span><span class="p">.</span><span class="n">require</span><span class="p">(</span><span class="nl">toFail</span><span class="p">:</span> <span class="n">doubleTap</span><span class="p">)</span></code></pre></div></p>
+
+<p>就不起作用了，必须通过<code>UIGestureRecognizerDelegate</code>里面的方法实现。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Objective-C中Property和Method的可见性]]></title>
@@ -389,122 +450,6 @@
 <p>摘抄一些重要信息。</p>
 
 <p>assign对应就是__unsafe_unretained，它跟__weak相似，被它修饰的变量都不持有对象的所有权，但不相同的是，当变量指向的对象的RC为0时，变量并不设置为nil，而是继续保存对象的地址。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS中的动画——UIView]]></title>
-    <link href="http://hongchaozhang.github.io/blog/2016/02/18/uiview-animation-in-ios/"/>
-    <updated>2016-02-18T11:36:47+08:00</updated>
-    <id>http://hongchaozhang.github.io/blog/2016/02/18/uiview-animation-in-ios</id>
-    <content type="html"><![CDATA[<p>官方文档<a href="https://developer.apple.com/library/ios/documentation/WindowsViews/Conceptual/ViewPG_iPhoneOS/AnimatingViews/AnimatingViews.html">Animations</a>详细讲述了UIView的animations，
-<a href="http://www.cocoachina.com/ios/20160215/15262.html">iOS 开发之动画篇 - 从 UIView 动画说起</a>也阐述了用UIView进行动画的基本用法。</p>
-
-<!-- more -->
-
-
-<p>总结摘抄一些要点。</p>
-
-<h2>Animate Property Changes in a View</h2>
-
-<h3>Basic Usage</h3>
-
-<p><div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno">1</span> <span class="p">[</span><span class="bp">UIView</span> <span class="nl">animateWithDuration</span><span class="p">:</span><span class="mf">1.0</span> <span class="nl">animations</span><span class="p">:</span><span class="o">^</span><span class="p">{</span>
-<span class="lineno">2</span>     <span class="n">firstView</span><span class="p">.</span><span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">;</span>
-<span class="lineno">3</span>     <span class="n">secondView</span><span class="p">.</span><span class="n">alpha</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">;</span>
-<span class="lineno">4</span> <span class="p">}];</span></code></pre></div></p>
-
-<blockquote><p>NOTE: When this code executes, the specified animations are started immediately on another thread so as to avoid blocking the current thread or your application’s main thread.</p></blockquote>
-
-<h3>Completion Handler</h3>
-
-<p>Usage of Completion Handler</p>
-
-<ul>
-<li>Use a completion handler to signal your application that a specific animation has finished.</li>
-<li>Completion handlers are also the way to link separate animations together.</li>
-</ul>
-
-
-<p>Sample code：</p>
-
-<p><div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno"> 1</span> <span class="p">-</span> <span class="p">(</span><span class="kt">IBAction</span><span class="p">)</span><span class="nf">showHideView:</span><span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nv">sender</span>
-<span class="lineno"> 2</span> <span class="p">{</span>
-<span class="lineno"> 3</span>     <span class="c1">// Fade out the view right away</span>
-<span class="lineno"> 4</span>     <span class="p">[</span><span class="bp">UIView</span> <span class="nl">animateWithDuration</span><span class="p">:</span><span class="mf">1.0</span>
-<span class="lineno"> 5</span>         <span class="nl">delay</span><span class="p">:</span> <span class="mf">0.0</span>
-<span class="lineno"> 6</span>         <span class="nl">options</span><span class="p">:</span> <span class="n">UIViewAnimationOptionCurveEaseIn</span>
-<span class="lineno"> 7</span>         <span class="nl">animations</span><span class="p">:</span><span class="o">^</span><span class="p">{</span>
-<span class="lineno"> 8</span>              <span class="n">thirdView</span><span class="p">.</span><span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">;</span>
-<span class="lineno"> 9</span>         <span class="p">}</span>
-<span class="lineno">10</span>         <span class="nl">completion</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="kt">BOOL</span> <span class="n">finished</span><span class="p">){</span>
-<span class="lineno">11</span>             <span class="c1">// Wait one second and then fade in the view</span>
-<span class="lineno">12</span>             <span class="p">[</span><span class="bp">UIView</span> <span class="nl">animateWithDuration</span><span class="p">:</span><span class="mf">1.0</span>
-<span class="lineno">13</span>                  <span class="nl">delay</span><span class="p">:</span> <span class="mf">1.0</span>
-<span class="lineno">14</span>                  <span class="nl">options</span><span class="p">:</span><span class="n">UIViewAnimationOptionCurveEaseOut</span>
-<span class="lineno">15</span>                  <span class="nl">animations</span><span class="p">:</span><span class="o">^</span><span class="p">{</span>
-<span class="lineno">16</span>                     <span class="n">thirdView</span><span class="p">.</span><span class="n">alpha</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">;</span>
-<span class="lineno">17</span>                  <span class="p">}</span>
-<span class="lineno">18</span>                  <span class="nl">completion</span><span class="p">:</span><span class="nb">nil</span><span class="p">];</span>
-<span class="lineno">19</span>         <span class="p">}];</span>
-<span class="lineno">20</span> <span class="p">}</span></code></pre></div></p>
-
-<h3>Nesting Animation Blocks</h3>
-
-<p>Nested animations are started at the same time as any parent animations.</p>
-
-<p>Sample code:</p>
-
-<p><div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno"> 1</span> <span class="p">[</span><span class="bp">UIView</span> <span class="nl">animateWithDuration</span><span class="p">:</span><span class="mf">1.0</span>
-<span class="lineno"> 2</span>         <span class="nl">delay</span><span class="p">:</span> <span class="mf">1.0</span>
-<span class="lineno"> 3</span>         <span class="nl">options</span><span class="p">:</span><span class="n">UIViewAnimationOptionCurveEaseOut</span>
-<span class="lineno"> 4</span>         <span class="nl">animations</span><span class="p">:</span><span class="o">^</span><span class="p">{</span>
-<span class="lineno"> 5</span>             <span class="n">aView</span><span class="p">.</span><span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">;</span>
-<span class="lineno"> 6</span>             <span class="c1">// Create a nested animation that has a different</span>
-<span class="lineno"> 7</span>             <span class="c1">// duration, timing curve, and configuration.</span>
-<span class="lineno"> 8</span>             <span class="p">[</span><span class="bp">UIView</span> <span class="nl">animateWithDuration</span><span class="p">:</span><span class="mf">0.2</span>
-<span class="lineno"> 9</span>                  <span class="nl">delay</span><span class="p">:</span><span class="mf">0.0</span>
-<span class="lineno">10</span>                  <span class="nl">options</span><span class="p">:</span> <span class="n">UIViewAnimationOptionOverrideInheritedCurve</span> <span class="o">|</span>
-<span class="lineno">11</span>                           <span class="n">UIViewAnimationOptionCurveLinear</span> <span class="o">|</span>
-<span class="lineno">12</span>                           <span class="n">UIViewAnimationOptionOverrideInheritedDuration</span> <span class="o">|</span>
-<span class="lineno">13</span>                           <span class="n">UIViewAnimationOptionRepeat</span> <span class="o">|</span>
-<span class="lineno">14</span>                           <span class="n">UIViewAnimationOptionAutoreverse</span>
-<span class="lineno">15</span>                  <span class="nl">animations</span><span class="p">:</span><span class="o">^</span><span class="p">{</span>
-<span class="lineno">16</span>                       <span class="p">[</span><span class="bp">UIView</span> <span class="nl">setAnimationRepeatCount</span><span class="p">:</span><span class="mf">2.5</span><span class="p">];</span>
-<span class="lineno">17</span>                       <span class="n">anotherView</span><span class="p">.</span><span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">;</span>
-<span class="lineno">18</span>                  <span class="p">}</span>
-<span class="lineno">19</span>                  <span class="nl">completion</span><span class="p">:</span><span class="nb">nil</span><span class="p">];</span>
-<span class="lineno">20</span>         <span class="p">}</span>
-<span class="lineno">21</span>         <span class="nl">completion</span><span class="p">:</span><span class="nb">nil</span><span class="p">];</span></code></pre></div></p>
-
-<h2>Creating Animated Transitions Between Views</h2>
-
-<p>View transitions help you hide sudden changes associated with adding, removing, hiding, or showing views in your view hierarchy. You use view transitions to implement the following types of changes:</p>
-
-<ul>
-<li><strong>Change the visible subviews of an existing view.</strong> You typically choose this option when you want to make relatively small changes to an existing view.</li>
-<li><strong>Replace one view in your view hierarchy with a different view.</strong> You typically choose this option when you want to replace a view hierarchy that spans all or most of the screen.</li>
-</ul>
-
-
-<blockquote><p><strong>Note:</strong> View transitions should not be confused with transitions initiated by view controllers, such as the presentation of modal view controllers or the pushing of new view controllers onto a navigation stack. View transitions affect the view hierarchy only, whereas view-controller transitions change the active view controller as well. Thus, for view transitions, the view controller that was active when you initiated the transition remains active when the transition finishes.</p></blockquote>
-
-<p>Sampel code for replacing a view with a different view:</p>
-
-<p><div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno"> 1</span> <span class="p">-</span> <span class="p">(</span><span class="kt">IBAction</span><span class="p">)</span><span class="nf">toggleMainViews:</span><span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nv">sender</span> <span class="p">{</span>
-<span class="lineno"> 2</span>     <span class="p">[</span><span class="bp">UIView</span> <span class="nl">transitionFromView</span><span class="p">:(</span><span class="n">displayingPrimary</span> <span class="o">?</span> <span class="nl">primaryView</span> <span class="p">:</span> <span class="n">secondaryView</span><span class="p">)</span>
-<span class="lineno"> 3</span>         <span class="nl">toView</span><span class="p">:(</span><span class="n">displayingPrimary</span> <span class="o">?</span> <span class="nl">secondaryView</span> <span class="p">:</span> <span class="n">primaryView</span><span class="p">)</span>
-<span class="lineno"> 4</span>         <span class="nl">duration</span><span class="p">:</span><span class="mf">1.0</span>
-<span class="lineno"> 5</span>         <span class="nl">options</span><span class="p">:(</span><span class="n">displayingPrimary</span> <span class="o">?</span> <span class="nl">UIViewAnimationOptionTransitionFlipFromRight</span> <span class="p">:</span>
-<span class="lineno"> 6</span>                     <span class="n">UIViewAnimationOptionTransitionFlipFromLeft</span><span class="p">)</span>
-<span class="lineno"> 7</span>         <span class="nl">completion</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="kt">BOOL</span> <span class="n">finished</span><span class="p">)</span> <span class="p">{</span>
-<span class="lineno"> 8</span>             <span class="k">if</span> <span class="p">(</span><span class="n">finished</span><span class="p">)</span> <span class="p">{</span>
-<span class="lineno"> 9</span>                 <span class="n">displayingPrimary</span> <span class="o">=</span> <span class="o">!</span><span class="n">displayingPrimary</span><span class="p">;</span>
-<span class="lineno">10</span>             <span class="p">}</span>
-<span class="lineno">11</span>     <span class="p">}];</span>
-<span class="lineno">12</span> <span class="p">}</span></code></pre></div></p>
-
-<blockquote><p><strong>Note:</strong> In addition to swapping out views, your view controller code needs to manage the loading and unloading of both the primary and secondary views.</p></blockquote>
 ]]></content>
   </entry>
   

@@ -4,7 +4,7 @@
   <title><![CDATA[Zhang Hongchao]]></title>
   <link href="http://hongchaozhang.github.io/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2017-02-23T10:29:49+08:00</updated>
+  <updated>2017-03-14T10:21:00+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -14,11 +14,79 @@
 
   
   <entry>
+    <title type="html"><![CDATA[如何处理多个手势之间的关系]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2017/03/03/relation-among-m-multiple-gestures/"/>
+    <updated>2017-03-03T13:11:55+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2017/03/03/relation-among-m-multiple-gestures</id>
+    <content type="html"><![CDATA[<ol>
+<li>可以为同一个view添加两个相同类型的手势吗？比如添加两个<code>UITapGestureRecognizer</code>到同一个view。</li>
+<li>如果一个view中有多个手势（<code>UIGestureRecognizer</code>），应该怎么处理它们之间的关系？</li>
+<li>如果子view和父view中都有手势，这些手势之间的关系又是怎么样的呢？</li>
+</ol>
+
+
+<!-- more -->
+
+
+<p>单个手势的响应过程参考<a href="http://hongchaozhang.github.io/blog/2015/10/21/touch-event-in-ios/">iOS中的触控事件机制</a>。但是上面几个问题需要考虑多个手势之间的关系，超出了上面文章的讨论范围。下面，我们就来讨论一下上面几个问题。</p>
+
+<h3>1. 可以为同一个view添加两个相同类型的手势吗？比如添加两个UITapGestureRecognizer到同一个view。</h3>
+
+<p>可以为view添加多个不同的<code>UIGestureRecognizer</code>，比如pan和tap，可以同时起作用，但是如果你想<strong>加入两个tap手势，第二个会将第一个手势覆盖</strong>。这个时候，至少需要为其中一个tap手势添加delegate，并实现下面的方法，为两个tap同时存在的情况返回true：</p>
+
+<div class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="n">optional</span> <span class="n">public</span> <span class="k">func</span> <span class="n">gestureRecognizer</span><span class="p">(</span><span class="n">_</span> <span class="nl">gestureRecognizer</span><span class="p">:</span> <span class="bp">UIGestureRecognizer</span><span class="p">,</span> <span class="n">shouldRecognizeSimultaneouslyWith</span> <span class="nl">otherGestureRecognizer</span><span class="p">:</span> <span class="bp">UIGestureRecognizer</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bool</span></code></pre></div>
+
+
+<blockquote><p>returning YES is guaranteed to allow simultaneous recognition. returning NO is not guaranteed to prevent simultaneous recognition, as the other gesture&rsquo;s delegate may return YES.</p></blockquote>
+
+<h3>2. 如果一个view中有多个手势（<code>UIGestureRecognizer</code>），应该怎么处理它们之间的关系？</h3>
+
+<p>如果两个手势之间没有识别上的困难，那么不用任何处理，比如tap和pan，但是如果有关系，比如single tap和double tap，rotate和pinch，这需要明确两者之间的关系。</p>
+
+<p>如果不希望在double tap的同时触发两次single tap，需要在single tap的delegate中实现方法</p>
+
+<div class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="n">optional</span> <span class="n">public</span> <span class="k">func</span> <span class="n">gestureRecognizer</span><span class="p">(</span><span class="n">_</span> <span class="nl">gestureRecognizer</span><span class="p">:</span> <span class="bp">UIGestureRecognizer</span><span class="p">,</span> <span class="n">shouldRequireFailureOf</span> <span class="nl">otherGestureRecognizer</span><span class="p">:</span> <span class="bp">UIGestureRecognizer</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bool</span></code></pre></div>
+
+
+<p>这样，可以保证single tap会等待double tap失败之后再被触发。缺点是single tap反应迟钝。</p>
+
+<p>如果希望在rotate的同时可以进行pinch，需要在pinch或者rotate的手势的delegate中实现方法：</p>
+
+<div class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="n">optional</span> <span class="n">public</span> <span class="k">func</span> <span class="n">gestureRecognizer</span><span class="p">(</span><span class="n">_</span> <span class="nl">gestureRecognizer</span><span class="p">:</span> <span class="bp">UIGestureRecognizer</span><span class="p">,</span> <span class="n">shouldRecognizeSimultaneouslyWith</span> <span class="nl">otherGestureRecognizer</span><span class="p">:</span> <span class="bp">UIGestureRecognizer</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bool</span></code></pre></div>
+
+
+<p>这样，rotate和pinch就能同时被识别。</p>
+
+<h3>3. 如果子view和父view中都有手势，这些手势之间的关系又是怎么样的呢？</h3>
+
+<p><code>UIGestureRecognizerDelegate</code>中的方法并没有限制在同一个view之中，所以，不同view之间的手势关系与1和2的处理相同。</p>
+
+<h3>注意</h3>
+
+<p>如果为手势实现了delegate方法，那么<code>UIGestureRecognizer</code>里面的响应的方法将不再起作用。比如：</p>
+
+<p>如果设置了</p>
+
+<div class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="n">singleTap</span><span class="p">.</span><span class="n">delegate</span> <span class="o">=</span> <span class="nb">self</span><span class="p">.</span><span class="n">singleTapOnMapWidgetViewerGestureRecognizerDelegate</span></code></pre></div>
+
+
+<p>那么</p>
+
+<div class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="n">singleTap</span><span class="p">.</span><span class="n">require</span><span class="p">(</span><span class="nl">toFail</span><span class="p">:</span> <span class="n">doubleTap</span><span class="p">)</span></code></pre></div>
+
+
+<p>就不起作用了，必须通过<code>UIGestureRecognizerDelegate</code>里面的方法实现。</p>
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[室内定位技术现状]]></title>
     <link href="http://hongchaozhang.github.io/blog/2017/02/21/indoor-position/"/>
     <updated>2017-02-21T13:37:02+08:00</updated>
     <id>http://hongchaozhang.github.io/blog/2017/02/21/indoor-position</id>
     <content type="html"><![CDATA[<h2>室内定位技术简介</h2>
+
+<p>室内定位的应用场景，参见<a href="https://senion.com/indoor-positioning-for-retail/">室内定位应用场合</a>。</p>
 
 <h3>室内地图</h3>
 
@@ -319,11 +387,6 @@
 
 
 <h2>参考</h2>
-
-<ul>
-<li><a href="https://senion.com/indoor-positioning-for-retail/">室内定位应用场合</a></li>
-</ul>
-
 ]]></content>
   </entry>
   
@@ -462,6 +525,218 @@
 
 
 
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[微信小程序]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2017/01/12/wechat-micro-program/"/>
+    <updated>2017-01-12T14:18:20+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2017/01/12/wechat-micro-program</id>
+    <content type="html"><![CDATA[<h2>背景</h2>
+
+<p>微信小程序项目2016.1.9启动，一年后的2017.1.9发布，正好是乔布斯发布iPhone（2007.1.9）整整十年后的同一天（12月28日微信公开课时，张小龙曾说发布日期是随便挑了一天）。</p>
+
+<!-- more -->
+
+
+<p><strong>版本需求</strong>：微信更新至iOS6.5.3版本或Android6.5.3版本。</p>
+
+<p><img src="http://hongchaozhang.github.io/images/wechat_micro_program_1.png" alt="wechat_zhangxiaolong" width="360"></p>
+
+<p><img src="http://hongchaozhang.github.io/images/wechat_micro_program_2.png" alt="wechat_zhangxiaolong_comment" width="360"></p>
+
+<h2>小程序简介</h2>
+
+<h3>小程序入口</h3>
+
+<ol>
+<li><p>小程序入口在哪？</p>
+
+<p> 发现->小程序</p>
+
+<p> <img src="http://hongchaozhang.github.io/images/wechat_micro_program_7.jpg" alt="where is micro program" width="360"></p></li>
+<li><p>我怎么看不到小程序入口？</p>
+
+<p> 至少使用一个。</p></li>
+<li><p>怎么使用第一个？</p>
+
+<p> 搜索或者扫描二维码。</p></li>
+</ol>
+
+
+<h3>关于小程序的几个问题</h3>
+
+<ol>
+<li><p>小程序的入口在哪里？</p>
+
+<p> 哦，小程序在微信是没有官方入口的。如果你没有运行任何一个小程序的话，就没有入口，就像你没有订阅公众号就看不到入口一样。二维码是小程序的入口之一。</p></li>
+<li><p>小程序商店？</p>
+
+<p> 哦，对不起，这个也没有。微信一直秉承去中心化的原则，没有下载中心，没有分类，没有排行，也不会有推荐。与公众号的朋友圈分享类似，未来小程序也会依赖社会化推荐，那是一种不同形态的推荐，不会因为你用过一次日程管理软件而不停的给你推荐类似的软件。</p></li>
+<li><p>小程序会有订阅关系吗？</p>
+
+<p> 也没有。用户和小程序只有访问关系，而不是粉丝关系。</p></li>
+<li><p>小程序能否搜到呢？</p>
+
+<p> 能搜到，但是会限制搜索的能力，避免滥用。小程序不是基于流量分发的模式，只有在需要的时候才用到。至少在现在看来，微信能索引到的小程序数据太少了，就是简单的标题和最多 5 个 tag（标题还必须是精准匹配，但是腾讯自己的小程序好像不是这样。），用这点数据想准确描述小程序的能力，太不现实了。比如，我做了个小程序，提供各个城市攻略，但当用户想找北京攻略，进行搜索，很可能完全找不到它，因为我没法告诉微信，我都能支持哪些城市有哪些方面的攻略（只有 5 个 tag 嘛），那微信当然就不能帮用户找到它所需的小程序，这种搜索能力和大搜索、各种搜索 One Box 相比，太受限了。</p></li>
+</ol>
+
+
+<h3>小程序与公众号的区别</h3>
+
+<table>
+<thead>
+<tr>
+<th>&mdash; </th>
+<th> 公众号 </th>
+<th> 小程序 </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>定位 </td>
+<td> 服务于营销与信息传递 </td>
+<td> 面向产品与服务</td>
+</tr>
+<tr>
+<td>实现技术 </td>
+<td> 基于H5 </td>
+<td> 基于微信自身开发环境与开发语言</td>
+</tr>
+<tr>
+<td>体验 </td>
+<td> 延迟较大 </td>
+<td> 接近原生app</td>
+</tr>
+<tr>
+<td>推送 </td>
+<td> 能 </td>
+<td> 否</td>
+</tr>
+<tr>
+<td>订阅关系 </td>
+<td> 有 </td>
+<td> 无</td>
+</tr>
+<tr>
+<td>能够搜索到 </td>
+<td> 无限制 </td>
+<td> 有限制</td>
+</tr>
+<tr>
+<td>分享范围 </td>
+<td> 好友、群、朋友圈 </td>
+<td> 好友、群</td>
+</tr>
+<tr>
+<td>桌面图标 </td>
+<td> 有（android可以，ios不可以） </td>
+<td> 有（android可以，ios不可以）</td>
+</tr>
+<tr>
+<td>长按二维码识别 </td>
+<td> 可以 </td>
+<td> 不可以</td>
+</tr>
+<tr>
+<td><em>外链</em> </td>
+<td> <em>允许</em> </td>
+<td> <em>禁止</em></td>
+</tr>
+</tbody>
+</table>
+
+
+<p>最重要的应该是最后一条，这也能说明微信试图通过小程序构建自己的生态圈。</p>
+
+<h2>技术与开发</h2>
+
+<p>微信小程序的提出就不是技术导向的，他和微软开发一个新的语言不同，也和 Facebook 的 React 不同，他的产品色彩和利益相关更浓厚，更像是为了构建微信生态。</p>
+
+<p>以下内容来自<a href="https://mp.weixin.qq.com/debug/wxadoc/dev/">官方开发文档</a>。</p>
+
+<p><strong>运行环境：</strong></p>
+
+<p>微信小程序运行在三端：iOS、Android 和 用于调试的开发者工具。</p>
+
+<p>三端的脚本执行环境聚以及用于渲染非原生组件的环境是各不相同的：</p>
+
+<ul>
+<li>在 iOS 上，小程序的 javascript 代码是运行在 JavaScriptCore 中，是由 WKWebView 来渲染的，环境有 iOS8、iOS9、iOS10。</li>
+<li>在 Android 上，小程序的 javascript 代码是通过 X5 JSCore来解析，是由 X5 基于 Mobile Chrome 37 内核来渲染的。</li>
+<li>在开发工具上，小程序的 javascript 代码是运行在 nwjs 中，是由 Chrome Webview 来渲染的。</li>
+</ul>
+
+
+<p><strong>对javascript库的支持：</strong></p>
+
+<p>用到window对象和document对象的库，都无法使用，比如jquery。</p>
+
+<h2>几个问题</h2>
+
+<h3>苹果审核问题</h3>
+
+<p>应用号的入口是在发现 tab 购物游戏下面，之所以叫小程序是因为 App Store 审核不通过应用号三个字，并且已经和苹果约法三章应用号不能做游戏产品，以及，一个用户只能添加 20 个。
+作为一个只写 Script 语言的人我是很支持腾讯干掉 PhoneGap/Cordova/Ionic。不过我就想问一件事，苹果能允许么？</p>
+
+<p>小程序安装或者升级的话要不要苹果再审核一遍？这就跟用 ReactJS Live Update 一样，属于苹果的灰色地带，一个普通 App 这么做可以睁一只眼闭一只眼，有潜力做成 OS 的话苹果能答应么？</p>
+
+<blockquote><p>Apple’s guidelines explicitly permit you to push executable code directly to your app, bypassing the App Store, under these two conditions:
+The code is run by Apple’s built-in WebKit framework or JavascriptCore.
+The code does not provide, unlock or enable additional features or functionality.</p></blockquote>
+
+<p>安装一个 App 就相当于微信不用苹果审核就增加一项功能，这比加个 Patch 快速修复一个 Bug 可过份*多了。</p>
+
+<p>鉴于微信在苹果发布会上出现的频率，微信团队很可能跟苹果沟通过了，所以像 360 那样被下架的可能性比较小，不过如果别的厂子看见了也蠢蠢欲动，那可是动摇了 App Store 的根基啊。</p>
+
+<p><strong>可能与此相关的事情：</strong></p>
+
+<ol>
+<li>应用号改名小程序。</li>
+<li>苹果系统上面的小程序，不能放置图标到桌面。</li>
+<li>没有应用商店。没有下载中心，没有分类，没有排行，没有推荐。</li>
+</ol>
+
+
+<h3>微信关系链问题</h3>
+
+<p>当前一些应用使用微信号登陆时可以获取的权限大致如下：</p>
+
+<p><img src="http://hongchaozhang.github.io/images/wechat_micro_program_3.png" alt="wechat_privillage" /></p>
+
+<ol>
+<li><p>只开放公开信息
+ 昵称、头像，其实也就是登陆 ID，所有的开发者都可以接入，比如航旅纵横。</p></li>
+<li><p>有条件开放
+ 开放共同使用的好友。比如大众点评。所以基于大众点评，你可以看到有好友去哪。比如美团外卖，可以看到好友头条，比如 58 同城旗下的转转，能看到好友在卖，但很抱歉，这个关系链的开放，目前只有腾讯投资的公司，才能享受如此特权。</p></li>
+<li><p>更大程度的开放
+ 除了登陆和好友关系，还开放了朋友圈权限，能把一些操作直接输送到朋友圈做动作，这个很抱歉，只有腾讯自由的产品才有，比如，QQ 音乐、腾讯视频等。</p></li>
+</ol>
+
+
+<p>大概的逻辑是：</p>
+
+<ol>
+<li>亲儿子，能得到全部关系。</li>
+<li>干儿子，能得到重合的关系，你用，我也用，相互能看到，我用你不用，我不能跟你发生联系。</li>
+<li>外人，只能刷个脸，其他的免谈。</li>
+</ol>
+
+
+<p><em>目前小程序只开放公开信息。</em></p>
+
+<h3>什么类型的产品适合接入小程序</h3>
+
+<p><img src="http://hongchaozhang.github.io/images/wechat_micro_program_4.png" alt="what is situable for micro program 1" width="480"></p>
+
+<p><img src="http://hongchaozhang.github.io/images/wechat_micro_program_5.png" alt="what is situabel for micro program 2" width="480"></p>
+
+<h3>小程序是否向个人开放</h3>
+
+<p>申请过程中可以看到下面的页面，可以看出现在<strong>小程序是不向个人开放的</strong>。</p>
+
+<p><img src="http://hongchaozhang.github.io/images/wechat_micro_program_6.png" alt="do_not_open_to_individual" /></p>
 ]]></content>
   </entry>
   
@@ -2929,192 +3204,6 @@ pod &#39;Charts&#39;</code></pre></div>
 
 
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[https在Server端的Nodejs实现]]></title>
-    <link href="http://hongchaozhang.github.io/blog/2015/12/30/implement-https-server-side-using-nodejs/"/>
-    <updated>2015-12-30T21:23:19+08:00</updated>
-    <id>http://hongchaozhang.github.io/blog/2015/12/30/implement-https-server-side-using-nodejs</id>
-    <content type="html"><![CDATA[<p>服务器端利用Nodejs创建https的Server，请参考<a href="http://blog.fens.me/nodejs-https-server/">Nodejs创建HTTPS服务器</a></p>
-
-<!-- more -->
-
-
-<p>首先确保已经安装nodejs、nodejs-https组件和openssl。</p>
-
-<h3>用openssl生成密钥</h3>
-
-<ul>
-<li>cd到你的server路径。</li>
-<li>生成私钥key文件privatekey.pem</li>
-</ul>
-
-
-<div class="highlight"><pre><code class="language-text" data-lang="text">openssl genrsa -out privatekey.pem 1024</code></pre></div>
-
-
-<ul>
-<li>通过私钥生成CSR证书签名</li>
-</ul>
-
-
-<div class="highlight"><pre><code class="language-text" data-lang="text">openssl req -new -key privatekey.pem -out certrequest.csr</code></pre></div>
-
-
-<p>填写一些证书信息：</p>
-
-<blockquote><p>You are about to be asked to enter information that will be incorporated
-into your certificate request.</p>
-
-<p>What you are about to enter is what is called a Distinguished Name or a DN.
-There are quite a few fields but you can leave some blank
-For some fields there will be a default value,
-If you enter &lsquo;.&rsquo;, the field will be left blank.</p></blockquote>
-
-<div class="highlight"><pre><code class="language-text" data-lang="text">Country Name (2 letter code) [AU]:CN
-State or Province Name (full name) [Some-State]:Zhejiang
-Locality Name (eg, city) []:Hangzhou
-Organization Name (eg, company) [Internet Widgits Pty Ltd]:Organization
-Organizational Unit Name (eg, section) []:Organization
-Common Name (eg, YOUR name) []:Name Zhang
-Email Address []:Name@gmail.com
-
-Please enter the following &#39;extra&#39; attributes
-to be sent with your certificate request
-A challenge password []:
-An optional company name []:</code></pre></div>
-
-
-<ul>
-<li>通过私钥和证书签名生成证书文件</li>
-</ul>
-
-
-<div class="highlight"><pre><code class="language-text" data-lang="text">openssl x509 -req -in certrequest.csr -signkey privatekey.pem -out certificate.pem</code></pre></div>
-
-
-<p>至此，我们有了三个文件：</p>
-
-<ul>
-<li>privatekey.pem: 私钥</li>
-<li>certrequest.csr: CSR证书签名</li>
-<li>certificate.pem: 证书文件</li>
-</ul>
-
-
-<h3>实现服务器端app</h3>
-
-<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="lineno"> 1</span> <span class="kd">var</span> <span class="nx">https</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;https&#39;</span><span class="p">)</span><span class="err">，</span>
-<span class="lineno"> 2</span>     <span class="nx">fs</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;fs&quot;</span><span class="p">);</span>
-<span class="lineno"> 3</span> 
-<span class="lineno"> 4</span> <span class="kd">var</span> <span class="nx">options</span> <span class="o">=</span> <span class="p">{</span>
-<span class="lineno"> 5</span>     <span class="nx">key</span><span class="o">:</span> <span class="nx">fs</span><span class="p">.</span><span class="nx">readFileSync</span><span class="p">(</span><span class="s1">&#39;./privatekey.pem&#39;</span><span class="p">),</span>
-<span class="lineno"> 6</span>     <span class="nx">cert</span><span class="o">:</span> <span class="nx">fs</span><span class="p">.</span><span class="nx">readFileSync</span><span class="p">(</span><span class="s1">&#39;./certificate.pem&#39;</span><span class="p">)</span>
-<span class="lineno"> 7</span> <span class="p">};</span>
-<span class="lineno"> 8</span> 
-<span class="lineno"> 9</span> <span class="nx">https</span><span class="p">.</span><span class="nx">createServer</span><span class="p">(</span><span class="nx">options</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">request</span><span class="p">,</span> <span class="nx">response</span><span class="p">)</span> <span class="p">{</span>
-<span class="lineno">10</span>     <span class="nx">response</span><span class="p">.</span><span class="nx">writeHead</span><span class="p">(</span><span class="mi">200</span><span class="p">);</span>
-<span class="lineno">11</span>     <span class="nx">response</span><span class="p">.</span><span class="nx">end</span><span class="p">(</span><span class="s2">&quot;hello world\n&quot;</span><span class="p">);</span>
-<span class="lineno">12</span> <span class="p">}).</span><span class="nx">listen</span><span class="p">(</span><span class="mi">8181</span><span class="p">);</span>
-<span class="lineno">13</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Https server listening on port &#39;</span> <span class="o">+</span> <span class="mi">8181</span><span class="p">);</span></code></pre></div>
-
-
-<p>在Safari中选择信任证书之后，就可以看到下面的页面了：</p>
-
-<p><img src="http://hongchaozhang.github.io/images/https-browser-screenshot.png" alt="003_package_name_in_Eclipse" /></p>
-
-<h3>https的安全性</h3>
-
-<p>对于http的server，在浏览器中看是这样的：</p>
-
-<p><img src="http://hongchaozhang.github.io/images/http-browser-sample.png" alt="http-browser-sample" /></p>
-
-<p>用Charles抓取网络传输中的数据，可以看出：http的request数据如下：</p>
-
-<p><img src="http://hongchaozhang.github.io/images/http-request-charles.png" alt="http-request-charles" /></p>
-
-<p>http的response数据如下：</p>
-
-<p><img src="http://hongchaozhang.github.io/images/http-response-charles.png" alt="http-response-charles" /></p>
-
-<p>可以看出，所有东西都是明文传送，如果被截取，必然造成信息泄露。</p>
-
-<p>同样地，看一下https的server传输中的数据。
-浏览器中看到的是这样的：</p>
-
-<p><img src="http://hongchaozhang.github.io/images/https-browser-sample.png" alt="https-browser-sample" /></p>
-
-<p>用Charles抓取网络传输中的数据，可以看出：https的request数据如下：</p>
-
-<p><img src="http://hongchaozhang.github.io/images/https-request-charles.png" alt="https-request-charles" /></p>
-
-<p>从request中只可以看到URL地址，却看不到参数格式和内容。</p>
-
-<p>https的response数据如下：</p>
-
-<p><img src="http://hongchaozhang.github.io/images/https-response-charles.png" alt="https-response-charles" /></p>
-
-<p>即使网络传输中被截获，也不会造成信息泄露。</p>
-
-<p>但是还有一个不安全的地方：对于上面的情况，我们使用的是https的get方法从server获取数据，需要在地址栏中输入查询参数，而这些参数可能通过浏览器的历史记录泄露。这一点可以通过使用https的post方法解决，参考<a href="http://cuishen.iteye.com/blog/2019925">http https get post 的区别，定义/安全性/性能</a>。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Https工作过程]]></title>
-    <link href="http://hongchaozhang.github.io/blog/2015/12/29/https-workflow/"/>
-    <updated>2015-12-29T16:21:19+08:00</updated>
-    <id>http://hongchaozhang.github.io/blog/2015/12/29/https-workflow</id>
-    <content type="html"><![CDATA[<p>摘录在此，备忘。</p>
-
-<p>HTTPS其实是有两部分组成：HTTP + SSL / TLS，也就是在HTTP上又加了一层处理加密信息的模块。服务端和客户端的信息传输都会通过TLS进行加密，所以传输的数据都是加密后的数据。</p>
-
-<p>具体的加密过程看下图：</p>
-
-<!-- more -->
-
-
-<p><img src="http://hongchaozhang.github.io/images/https-workflow.png" alt="https-workflow" /></p>
-
-<ol>
-<li><p>客户端发起HTTPS请求</p>
-
-<p> 用户在浏览器里输入一个https网址，然后连接到server的443端口。</p></li>
-<li><p>服务端的配置</p>
-
-<p> 采用HTTPS协议的服务器必须要有一套数字证书，可以自己制作，也可以向组织申请。区别就是自己颁发的证书需要客户端验证通过，才可以继续访问，而使用受信任的公司申请的证书则不会弹出提示页面。这套证书其实就是一对公钥和私钥。如果对公钥和私钥不太理解，可以想象成一把钥匙和一个锁头，只是全世界只有你一个人有这把钥匙，你可以把锁头给别人，别人可以用这个锁把重要的东西锁起来，然后发给你，因为只有你一个人有这把钥匙，所以只有你才能看到被这把锁锁起来的东西。</p></li>
-<li><p>传送证书</p>
-
-<p> 这个证书其实就是公钥，只是包含了很多信息，如证书的颁发机构，过期时间等等。</p></li>
-<li><p>客户端解析证书</p>
-
-<p> 这部分工作是有客户端的TLS来完成的，首先会验证公钥是否有效，比如颁发机构，过期时间等等，如果发现异常，则会弹出一个警告框，提示证书存在问题。如果证书没有问题，那么就生成一个随机值。然后用证书对该随机值进行加密。就好像上面说的，把随机值用锁头锁起来，这样除非有钥匙，不然看不到被锁住的内容。</p></li>
-<li><p>传送加密信息</p>
-
-<p> 这部分传送的是用证书加密后的随机值，目的就是让服务端得到这个随机值，以后客户端和服务端的通信就可以通过这个随机值来进行加密解密了。</p></li>
-<li><p>服务段解密信息</p>
-
-<p> 服务端用自己的私钥解密后，得到了客户端传过来的随机值，然后把内容通过该值进行对称加密。所谓对称加密就是，将信息和随机值通过某种算法混合在一起，这样除非知道随机值，不然无法获取内容，而正好客户端和服务端都知道这个随机值，所以只要加密算法够彪悍，这个随机值够复杂，数据就够安全。</p></li>
-<li><p>传输加密后的信息</p>
-
-<p> 这部分信息是服务段用客户端传过来的随机值加密后的信息，可以在客户端被还原。</p></li>
-<li><p>客户端解密信息</p>
-
-<p> 客户端用之前生成的随机值解密服务段传过来的信息，于是获取了解密后的内容。整个过程第三方即使监听到了数据，也束手无策。</p></li>
-</ol>
-
-
-<h3>References</h3>
-
-<p><del>https的基本概念，请参考</del><a href="http://www.cnblogs.com/P_Chou/archive/2010/12/27/https-ssl-certification.html"><del>浅谈https\ssl\数字证书</del></a></p>
-
-<p>https的传输过程，请参考：<a href="http://www.jb51.net/network/68135.html">图解HTTPS协议加密解密全过程</a></p>
-
-<p>https/http/get/post: 请参考<a href="http://cuishen.iteye.com/blog/2019925">http https get post 的区别，定义/安全性/性能</a>和<a href="http://www.cnblogs.com/hyddd/archive/2009/03/31/1426026.html">浅谈HTTP中Get与Post的区别</a></p>
-
-<p>其实百度百科中关于<a href="http://baike.baidu.com/view/14121.htm">https</a>的解释也是十分清楚了。</p>
 ]]></content>
   </entry>
   
