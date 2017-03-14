@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "室内定位技术调研"
+title: "室内定位技术现状"
 date: 2017-02-21 13:37:02 +0800
 comments: true
 categories: [map tech]
@@ -8,6 +8,8 @@ categories: [map tech]
 
 
 ## 室内定位技术简介
+
+室内定位的应用场景，参见[室内定位应用场合](https://senion.com/indoor-positioning-for-retail/)。
 
 ### 室内地图
 
@@ -17,14 +19,6 @@ categories: [map tech]
 
 ### 室内定位技术
 
---- | GPS | 基站定位 | Wi-Fi | 蓝牙 | RFID | 地磁 | NFC | 陀螺 |
- --- | --- | --- | --- | --- | --- | --- | --- | --- |
- 配置密度 | 全球 | 200米-2000米 | 20米-50米 | 1米-50米 | 1厘米-100米 | 全球 | --- | 不限 |
- 可接入（1-5） | 4 | 4 | 3 | 4 | 2 | 2 | 3 | 4 |
- 精度（1-5） | 1：10米 | 0.5：100米 | 3：3-5米 | 4：1-3米 | 5：厘米级别 | --- | 5：厘米级别 | 0.5： 10米／100米 |
- 隐私安全（1-5） | 3 | 3 | 2 | 3 | 4 | 5 | 4.5 | 5 |
- 代价（1-5） | 5 | 5 | 3 | 4 | 2 | 1.5 | 3 | 1 |
-  
 --- | 工作原理 | 应用场合|
 --- | --- | --- |
 GPS | 接收多个卫星信号计算位置，信号中包含卫星信息和时间戳，根据时间差计算距离。| 室外定位跟踪，农业和军事应用|
@@ -36,10 +30,21 @@ RFID | --- | 存货跟踪，厘米级精度定位要求 |
 NFC | --- | 支付／票务 |
 陀螺 | 在初始状态已知的情况下，通过积分计算未来状态。| 和其它定位方式结合使用，在保证一定精度的基础上，降低功耗。|
 
+--- | GPS | 基站定位 | Wi-Fi | 蓝牙 | RFID | 地磁 | NFC | 陀螺 |
+ --- | --- | --- | --- | --- | --- | --- | --- | --- |
+ 配置密度 | 全球 | 200米-2000米 | 20米-50米 | 1米-50米 | 1厘米-100米 | 全球 | --- | 不限 |
+ 可接入（1-5） | 4 | 4 | 3 | 4 | 2 | 2 | 3 | 4 |
+ 精度（1-5） | 1(10米) | 0.5(100米) | 3(3-5米) | 4(1-3米) | 5(厘米级别) | --- | 5(厘米级别) | 0.5(10米／100米) |
+ 隐私安全（1-5） | 3 | 3 | 2 | 3 | 4 | 5 | 4.5 | 5 |
+ 代价（1-5） | 5 | 5 | 3 | 4 | 2 | 1.5 | 3 | 1 |
+ 
+ 参考：[Indoor location technologies compared](http://lighthouse.io/indoor-location-technologies-compared/)
  
  **指纹技术**
  
  直接根据Wi-Fi或者蓝牙的信号强度计算距离会有比较大的误差，因为每个接入点的信号强度衰减模型不统一，并且受所在环境（遮挡等）的影响比较大。所以，就实地采集每个位置处每个接入点的信号强度，并存入服务器供后续定位请求使用。
+ 
+ 其它定位原理参考[室内定位技术原理揭秘](http://bbs.lbsyun.baidu.com/forum.php?mod=viewthread&tid=116547&extra=page%3D1)。
 
 ## 各厂商实现的室内定位技术
 
@@ -60,6 +65,10 @@ NFC | --- | 支付／票务 |
     现在市售方案除Estimote比较特殊外，基本上都是采用的TI2540或2541方案。Beacon作为蓝牙基站发射时间特别短只有4mS左右。
 
     Beacon的发射周期可调，比如苹果规定100mS发射一次，也就是说100mS里只发射4ms。不同的使用场景可以根据实际需要调整发射周期、发射频率，功耗也会有差别，短的半年，长的3-4年。
+    
+**参考**
+
+* [iBeacon能否精确室内定位等10个技术问题](http://www.voidcn.com/blog/u012716788/article/p-4590383.html)
 
 ### 高德
 
@@ -91,6 +100,12 @@ WIFI | 3~8米 | Android 4.0及以上 | 间隔30米部署，700平米1个 | 上�
     * 委托与高德合作的第三方生产。
     * 申请自主生产。
 
+**参考**
+
+* [高德室外定位技术](https://lbs.amap.com/getting-started/locate)
+* [高德室内定位方案](https://lbs.amap.com/getting-started/indoorlocation/)
+* [高德室内地图数据](https://lbs.amap.com/getting-started/indoorintro)
+
 ### 百度
 
 大型商超内寻找店铺、停车场内反向寻车等业务的发展基础都是室内高精度定位。利用三角定位技术、增强WiFi指纹模型技术、地磁技术、蓝牙技术等， 提供精度1-3m的室内高精度定位服务。结合百度室内图服务，更好帮助开发者解决室内定位难题。
@@ -101,6 +116,18 @@ WIFI | 3~8米 | Android 4.0及以上 | 间隔30米部署，700平米1个 | 上�
 
 [定位和采集工具：识途 Creator](http://www.ubirouting.com/creator.php)
 
+仅通过上面的视频很难理解其采集原理，但是，识途提出了采集过程中以下几点注意事项：
+
+1. 在按下采集按钮开始采集的时候，请**即刻**开始行走；在到达终点停止行走后，请**即刻**按下采集按钮结束采集。
+2. 在采集过程中请保持**统一、稳定、自然**的行走速度, 尽可能保持在道路的中央行走，并且采集过程中尽可能避免晃动手机。
+3. 如果在某段路径受到了外界的严重干扰，无法保持一致的行走速度或预定的行走方向，务必针对这段路径进行重新采集。
+
+从上面的注意事项，可以大致猜测他是如何做到测量的地磁信号和地理位置的对应。
+
+**参考**
+
+* [识途室内定位技术综述](http://www.ubirouting.com/%E8%AF%86%E9%80%94%E5%AE%A4%E5%86%85%E5%AE%9A%E4%BD%8D%E6%8A%80%E6%9C%AF%E7%BB%BC%E8%BF%B0.pdf)
+* [识途室内地磁环境数据采集方法及注意事项](http://ubirouting.com/%E8%AF%86%E9%80%94%E5%AE%A4%E5%86%85%E5%9C%B0%E7%A3%81%E7%8E%AF%E5%A2%83%E6%95%B0%E6%8D%AE%E9%87%87%E9%9B%86%E6%96%B9%E6%B3%95%E5%8F%8A%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9.pdf)
 
 ## 闲谈
 
@@ -115,18 +142,9 @@ WIFI | 3~8米 | Android 4.0及以上 | 间隔30米部署，700平米1个 | 上�
 
 ## 参考
 
-* [Indoor location technologies compared](http://lighthouse.io/indoor-location-technologies-compared/)
 
-* [定位算法](http://bbs.lbsyun.baidu.com/forum.php?mod=viewthread&tid=116547&extra=page%3D1)
 
-* [室内定位应用场合](https://senion.com/indoor-positioning-for-retail/)
 
-* [iBeacon能否精确室内定位等10个技术问题](http://www.voidcn.com/blog/u012716788/article/p-4590383.html)
 
-* [高德室外定位技术](https://lbs.amap.com/getting-started/locate)
-* [高德室内定位方案](https://lbs.amap.com/getting-started/indoorlocation/)
-* [高德室内地图数据](https://lbs.amap.com/getting-started/indoorintro)
 
-* [识途室内定位技术综述](http://www.ubirouting.com/%E8%AF%86%E9%80%94%E5%AE%A4%E5%86%85%E5%AE%9A%E4%BD%8D%E6%8A%80%E6%9C%AF%E7%BB%BC%E8%BF%B0.pdf)
-* [识途室内地磁环境数据采集方法及注意事项](http://ubirouting.com/%E8%AF%86%E9%80%94%E5%AE%A4%E5%86%85%E5%9C%B0%E7%A3%81%E7%8E%AF%E5%A2%83%E6%95%B0%E6%8D%AE%E9%87%87%E9%9B%86%E6%96%B9%E6%B3%95%E5%8F%8A%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9.pdf)
 
