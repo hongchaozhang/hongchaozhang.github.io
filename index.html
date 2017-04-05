@@ -9,10 +9,7 @@
   <meta name="author" content="Zhang Hongchao">
 
   
-  <meta name="description" content="
-可以为同一个view添加两个相同类型的手势吗？比如添加两个UITapGestureRecognizer到同一个view。
-如果一个view中有多个手势（UIGestureRecognizer），应该怎么处理它们之间的关系？
-如果子view和父view中都有手势，这些手势之间的关系又是怎么样的呢？ ">
+  <meta name="description" content="layoutSubviews什么时候被调用？ 为了方便描述，假设视图结构如下： ">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -35,6 +32,19 @@
 <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
 -->
   
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-62806905-2']);
+    _gaq.push(['_setDomainName','github.io']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
 
 </head>
 
@@ -71,6 +81,53 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2017/03/28/when-is-layoutsubviews-called/">layoutSubviews的调用机制</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2017-03-28T09:25:06+08:00" pubdate data-updated="true">Mar 28th, 2017</time>
+        
+           | <a href="/blog/2017/03/28/when-is-layoutsubviews-called/#disqus_thread"
+             data-disqus-identifier="http://hongchaozhang.github.io/blog/2017/03/28/when-is-layoutsubviews-called/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2><code>layoutSubviews</code>什么时候被调用？</h2>
+
+<p>为了方便描述，假设视图结构如下：</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2017/03/28/when-is-layoutsubviews-called/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2017/03/03/relation-among-m-multiple-gestures/">如何处理多个手势之间的关系</a></h1>
     
     
@@ -89,6 +146,9 @@
 
 
 <time datetime="2017-03-03T13:11:55+08:00" pubdate data-updated="true">Mar 3rd, 2017</time>
+        
+           | <a href="/blog/2017/03/03/relation-among-m-multiple-gestures/#disqus_thread"
+             data-disqus-identifier="http://hongchaozhang.github.io/blog/2017/03/03/relation-among-m-multiple-gestures/">Comments</a>
         
       </p>
     
@@ -137,6 +197,9 @@
 
 <time datetime="2017-02-21T13:37:02+08:00" pubdate data-updated="true">Feb 21st, 2017</time>
         
+           | <a href="/blog/2017/02/21/indoor-position/#disqus_thread"
+             data-disqus-identifier="http://hongchaozhang.github.io/blog/2017/02/21/indoor-position/">Comments</a>
+        
       </p>
     
   </header>
@@ -184,6 +247,9 @@
 
 
 <time datetime="2017-02-08T22:53:14+08:00" pubdate data-updated="true">Feb 8th, 2017</time>
+        
+           | <a href="/blog/2017/02/08/voice-command-implementation-for-ios/#disqus_thread"
+             data-disqus-identifier="http://hongchaozhang.github.io/blog/2017/02/08/voice-command-implementation-for-ios/">Comments</a>
         
       </p>
     
@@ -235,6 +301,9 @@
 
 <time datetime="2017-01-12T14:18:20+08:00" pubdate data-updated="true">Jan 12th, 2017</time>
         
+           | <a href="/blog/2017/01/12/wechat-micro-program/#disqus_thread"
+             data-disqus-identifier="http://hongchaozhang.github.io/blog/2017/01/12/wechat-micro-program/">Comments</a>
+        
       </p>
     
   </header>
@@ -279,6 +348,9 @@
 
 <time datetime="2016-10-31T10:41:27+08:00" pubdate data-updated="true">Oct 31st, 2016</time>
         
+           | <a href="/blog/2016/10/31/sync-between-multiplele-threads-tasks-in-ios-app/#disqus_thread"
+             data-disqus-identifier="http://hongchaozhang.github.io/blog/2016/10/31/sync-between-multiplele-threads-tasks-in-ios-app/">Comments</a>
+        
       </p>
     
   </header>
@@ -320,6 +392,9 @@
 
 
 <time datetime="2016-10-25T17:10:08+08:00" pubdate data-updated="true">Oct 25th, 2016</time>
+        
+           | <a href="/blog/2016/10/25/supporting-multiple-screens-for-android/#disqus_thread"
+             data-disqus-identifier="http://hongchaozhang.github.io/blog/2016/10/25/supporting-multiple-screens-for-android/">Comments</a>
         
       </p>
     
@@ -365,6 +440,9 @@
 
 <time datetime="2016-09-16T16:29:04+08:00" pubdate data-updated="true">Sep 16th, 2016</time>
         
+           | <a href="/blog/2016/09/16/summerize-of-sohpie-world/#disqus_thread"
+             data-disqus-identifier="http://hongchaozhang.github.io/blog/2016/09/16/summerize-of-sohpie-world/">Comments</a>
+        
       </p>
     
   </header>
@@ -408,6 +486,9 @@
 
 
 <time datetime="2016-08-25T13:27:16+08:00" pubdate data-updated="true">Aug 25th, 2016</time>
+        
+           | <a href="/blog/2016/08/25/android-unit-test-with-junit/#disqus_thread"
+             data-disqus-identifier="http://hongchaozhang.github.io/blog/2016/08/25/android-unit-test-with-junit/">Comments</a>
         
       </p>
     
@@ -453,6 +534,9 @@
 
 <time datetime="2016-08-02T16:13:00+08:00" pubdate data-updated="true">Aug 2nd, 2016</time>
         
+           | <a href="/blog/2016/08/02/asynchronously-load-online-images-into-uitableviewcells/#disqus_thread"
+             data-disqus-identifier="http://hongchaozhang.github.io/blog/2016/08/02/asynchronously-load-online-images-into-uitableviewcells/">Comments</a>
+        
       </p>
     
   </header>
@@ -496,6 +580,9 @@
 
 
 <time datetime="2016-06-16T21:48:54+08:00" pubdate data-updated="true">Jun 16th, 2016</time>
+        
+           | <a href="/blog/2016/06/16/property-and-method-visuability-of-category-and-inheritence-in-objective-c/#disqus_thread"
+             data-disqus-identifier="http://hongchaozhang.github.io/blog/2016/06/16/property-and-method-visuability-of-category-and-inheritence-in-objective-c/">Comments</a>
         
       </p>
     
@@ -543,6 +630,9 @@
 
 <time datetime="2016-04-19T10:50:00+08:00" pubdate data-updated="true">Apr 19th, 2016</time>
         
+           | <a href="/blog/2016/04/19/documenting-in-xcode-e-with-headerdoc-tutorial/#disqus_thread"
+             data-disqus-identifier="http://hongchaozhang.github.io/blog/2016/04/19/documenting-in-xcode-e-with-headerdoc-tutorial/">Comments</a>
+        
       </p>
     
   </header>
@@ -581,6 +671,9 @@
 
 
 <time datetime="2016-03-27T16:58:54+08:00" pubdate data-updated="true">Mar 27th, 2016</time>
+        
+           | <a href="/blog/2016/03/27/ios-multiple-page-view-controller-usage/#disqus_thread"
+             data-disqus-identifier="http://hongchaozhang.github.io/blog/2016/03/27/ios-multiple-page-view-controller-usage/">Comments</a>
         
       </p>
     
@@ -628,6 +721,9 @@
 
 <time datetime="2016-03-04T14:54:54+08:00" pubdate data-updated="true">Mar 4th, 2016</time>
         
+           | <a href="/blog/2016/03/04/parsing-and-write-excel-file-using-node-module/#disqus_thread"
+             data-disqus-identifier="http://hongchaozhang.github.io/blog/2016/03/04/parsing-and-write-excel-file-using-node-module/">Comments</a>
+        
       </p>
     
   </header>
@@ -674,6 +770,9 @@
 
 <time datetime="2016-02-24T20:51:01+08:00" pubdate data-updated="true">Feb 24th, 2016</time>
         
+           | <a href="/blog/2016/02/24/ios-memory-managemement-debugging/#disqus_thread"
+             data-disqus-identifier="http://hongchaozhang.github.io/blog/2016/02/24/ios-memory-managemement-debugging/">Comments</a>
+        
       </p>
     
   </header>
@@ -715,6 +814,9 @@
 
 
 <time datetime="2016-02-22T20:51:30+08:00" pubdate data-updated="true">Feb 22nd, 2016</time>
+        
+           | <a href="/blog/2016/02/22/ios-memory-management-theory/#disqus_thread"
+             data-disqus-identifier="http://hongchaozhang.github.io/blog/2016/02/22/ios-memory-management-theory/">Comments</a>
         
       </p>
     
@@ -758,6 +860,9 @@
 
 <time datetime="2016-02-18T11:36:47+08:00" pubdate data-updated="true">Feb 18th, 2016</time>
         
+           | <a href="/blog/2016/02/18/uiview-animation-in-ios/#disqus_thread"
+             data-disqus-identifier="http://hongchaozhang.github.io/blog/2016/02/18/uiview-animation-in-ios/">Comments</a>
+        
       </p>
     
   </header>
@@ -800,6 +905,9 @@
 
 
 <time datetime="2016-01-29T13:47:42+08:00" pubdate data-updated="true">Jan 29th, 2016</time>
+        
+           | <a href="/blog/2016/01/29/convertion-among-every-geo-system/#disqus_thread"
+             data-disqus-identifier="http://hongchaozhang.github.io/blog/2016/01/29/convertion-among-every-geo-system/">Comments</a>
         
       </p>
     
@@ -845,6 +953,9 @@
 
 <time datetime="2016-01-19T13:47:18+08:00" pubdate data-updated="true">Jan 19th, 2016</time>
         
+           | <a href="/blog/2016/01/19/cocoapods-for-ios-dependencies-control/#disqus_thread"
+             data-disqus-identifier="http://hongchaozhang.github.io/blog/2016/01/19/cocoapods-for-ios-dependencies-control/">Comments</a>
+        
       </p>
     
   </header>
@@ -887,6 +998,9 @@
 
 <time datetime="2016-01-15T23:18:52+08:00" pubdate data-updated="true">Jan 15th, 2016</time>
         
+           | <a href="/blog/2016/01/15/python-supports-chinese-charactors/#disqus_thread"
+             data-disqus-identifier="http://hongchaozhang.github.io/blog/2016/01/15/python-supports-chinese-charactors/">Comments</a>
+        
       </p>
     
   </header>
@@ -899,50 +1013,6 @@
   
     <footer>
       <a rel="full-article" href="/blog/2016/01/15/python-supports-chinese-charactors/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/12/30/implement-https-ios-client-side-using-objective-c/">Https在ios客户端的objective-c实现</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-
-<time datetime="2015-12-30T21:23:54+08:00" pubdate data-updated="true">Dec 30th, 2015</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>ios通过NSURLSession进行网络请求，参考另一篇博客<a href="http://hongchaozhang.github.io/blog/2015/11/29/ios-network-request/">ios进行网络请求</a>。</p>
-
-<p>在开发阶段，server端我们会用self-signed证书（省钱啊！）。正因为不是第三方机构认证的证书，所以客户端都会报警告。我们需要对此进行处理（参考<a href="https://developer.apple.com/library/ios/technotes/tn2232/_index.html#//apple_ref/doc/uid/DTS40012884-CH1-SECNSURLSESSION">NSURLSession in Apple Tech Note</a>和<a href="http://stackoverflow.com/questions/19507207/how-do-i-accept-a-self-signed-ssl-certificate-using-ios-7s-nsurlsession-and-its">How do I accept a self-signed SSL certificate using iOS 7&rsquo;s NSURLSession and its family of delegate methods for development purposes?</a>）:</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2015/12/30/implement-https-ios-client-side-using-objective-c/">Read on &rarr;</a>
     </footer>
   
 
@@ -962,11 +1032,15 @@
   
     <section class="categories">
   <h1>Categories</h1>
-    <ul id="top-category-list" class="nav nav-list"><li><a href='/blog/categories/ios'>ios (29)</a></li><li><a href='/blog/categories/objective-c'>objective-c (20)</a></li><li><a href='/blog/categories/productivity'>productivity (15)</a></li><li><a href='/blog/categories/android'>android (4)</a></li><li><a href='/blog/categories/xcode'>xcode (4)</a></li><li><a href='/blog/categories/python'>python (3)</a></li><li><a href='/blog/categories/node'>node (3)</a></li><li><a href='/blog/categories/map-tech'>map tech (2)</a></li><li><a href='/blog/categories/java'>java (2)</a></li><li><a href='/blog/categories/javascript'>javascript (2)</a></li><li><a href='/blog/categories/web'>web (2)</a></li><li><a href='/blog/categories/android-studio'>android_studio (1)</a></li><li><a href='/blog/categories/design-pattern'>design_pattern (1)</a></li><li><a href='/blog/categories/reading'>reading (1)</a></li><li><a href='/blog/categories/philosophy'>philosophy (1)</a></li><li><a href='/blog/categories/androoid'>androoid (1)</a></li><li><a href='/blog/categories/mobile'>mobile (1)</a></li><li><a href='/blog/categories/swift'>swift (1)</a></li></ul>
+    <ul id="top-category-list" class="nav nav-list"><li><a href='/blog/categories/ios'>ios (30)</a></li><li><a href='/blog/categories/objective-c'>objective-c (20)</a></li><li><a href='/blog/categories/productivity'>productivity (15)</a></li><li><a href='/blog/categories/android'>android (4)</a></li><li><a href='/blog/categories/xcode'>xcode (4)</a></li><li><a href='/blog/categories/python'>python (3)</a></li><li><a href='/blog/categories/node'>node (3)</a></li><li><a href='/blog/categories/map-tech'>map tech (2)</a></li><li><a href='/blog/categories/java'>java (2)</a></li><li><a href='/blog/categories/javascript'>javascript (2)</a></li><li><a href='/blog/categories/web'>web (2)</a></li><li><a href='/blog/categories/android-studio'>android_studio (1)</a></li><li><a href='/blog/categories/design-pattern'>design_pattern (1)</a></li><li><a href='/blog/categories/reading'>reading (1)</a></li><li><a href='/blog/categories/philosophy'>philosophy (1)</a></li><li><a href='/blog/categories/androoid'>androoid (1)</a></li><li><a href='/blog/categories/mobile'>mobile (1)</a></li><li><a href='/blog/categories/swift'>swift (1)</a></li></ul>
 </section>
 <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2017/03/28/when-is-layoutsubviews-called/">layoutSubviews的调用机制</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2017/03/03/relation-among-m-multiple-gestures/">如何处理多个手势之间的关系</a>
@@ -982,10 +1056,6 @@
     
       <li class="post">
         <a href="/blog/2017/01/12/wechat-micro-program/">微信小程序</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2016/10/31/sync-between-multiplele-threads-tasks-in-ios-app/">iOS中多线程任务之间的同步</a>
       </li>
     
   </ul>
@@ -1034,6 +1104,19 @@
 
 </footer>
   
+
+<script type="text/javascript">
+      var disqus_shortname = 'zhanghongchao';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
 
 
 

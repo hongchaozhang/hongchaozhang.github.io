@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ios | Zhang Hongchao]]></title>
   <link href="http://hongchaozhang.github.io/blog/categories/ios/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2017-03-14T10:21:00+08:00</updated>
+  <updated>2017-04-05T12:00:42+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -12,6 +12,48 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[layoutSubviews的调用机制]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2017/03/28/when-is-layoutsubviews-called/"/>
+    <updated>2017-03-28T09:25:06+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2017/03/28/when-is-layoutsubviews-called</id>
+    <content type="html"><![CDATA[<h2><code>layoutSubviews</code>什么时候被调用？</h2>
+
+<p>为了方便描述，假设视图结构如下：</p>
+
+<!-- more -->
+
+
+<p><em>父视图</em>包含<em>子视图1</em>和<em>子视图2</em>。</p>
+
+<ol>
+<li><code>init</code>不会调用<code>layoutSubviews</code>，即使使用了<code>init(frame: CGRect)</code>进行初始化。</li>
+<li>当调用<code>addSubview(:)</code>将子视图2加入父视图的时候，子视图2和父视图的<code>layoutSubviews</code>会被调用，但是子视图1的<code>layoutSubviews</code>方法不会被调用。</li>
+<li>当我们设置子视图2的<code>frame</code>的时候，如果<code>frame</code>的<code>size</code>有变化，同结论2<code>addSubview</code>；如果<code>frame</code>的<code>size</code>没有变化，则不会有<code>layoutSubviews</code>被调用。</li>
+<li>当调用<code>removeFromSuperview</code>将视图2从父视图中删除的时候，只有父视图的<code>layoutSubviews</code>会被调用。</li>
+<li>当旋转设备的时候，只有根视图的<code>layoutSubviews</code>会被调用。</li>
+<li>当滑动<code>UIScrollView</code>的时候，<code>UIScrollView</code>的<code>layoutSubviews</code>会被调用。</li>
+</ol>
+
+
+<h2>auto layout和autoSizing</h2>
+
+<p>以上结论有个前提：视图通过设置<code>frame</code>或者autoSizing机制确定位置和大小，不使用auto layout。</p>
+
+<blockquote><p><strong>auto layout和autoSizing的区别</strong>：autoSizing确定的是子视图和父视图之间的位置大小关系，auto layout确定的是子视图、父视图以及兄弟视图之间的位置大小关系。</p></blockquote>
+
+<p>在使用auto layout的时候，当调用<code>addSubview(:)</code>将子视图2加入父视图的时候，子视图2和父视图的<code>layoutSubviews</code>会被调用，同时子视图1的<code>layoutSubviews</code>方法也会被调用。设置<code>frame</code>和<code>removeFromSuperview</code>有类似的结论。</p>
+
+<h2><code>setNeedsLayout</code>和<code>layoutIfNeeded</code></h2>
+
+<ul>
+<li><code>setNeedsLayout</code>：如果一个视图调用了<code>setNeedsLayout</code>，那么在下一个绘制周期该视图的<code>layoutSubviews</code>会被调用。</li>
+<li><code>layoutIfNeeded</code>：如果一个视图调用了<code>layoutIfNeeded</code>，那么该视图的<code>layoutSubviews</code>会被<strong>立刻</strong>调用。</li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[如何处理多个手势之间的关系]]></title>
@@ -608,98 +650,6 @@
 <p>这是一个神奇的网站！可以在线定制图片颜色和内容，然后生成对应的url。参考：<a href="http://dummyimage.com/">Dynamic Dummy Image Generator</a>。所以才会有下面的效果，方便检查每个cell的图片是否正确：</p>
 
 <p><img src="/images/async_load_online_images_into_uitableviewcells.png" alt="async_load_online_images_into_uitableviewcells.png" /></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Objective-C中Property和Method的可见性]]></title>
-    <link href="http://hongchaozhang.github.io/blog/2016/06/16/property-and-method-visuability-of-category-and-inheritence-in-objective-c/"/>
-    <updated>2016-06-16T21:48:54+08:00</updated>
-    <id>http://hongchaozhang.github.io/blog/2016/06/16/property-and-method-visuability-of-category-and-inheritence-in-objective-c</id>
-    <content type="html"><![CDATA[<h2>说明</h2>
-
-<p>本来只想思考一下<em>Objective-C里Category和Inheritence中的Property和Method的可见性</em>，搜着搜着，主题有些变化，所以题目也改了。</p>
-
-<p>这里只是一些来自参考博客的结论和自己测试得到的结论。</p>
-
-<!-- more -->
-
-
-<p>具体参考博客如下：</p>
-
-<ul>
-<li><a href="http://stackoverflow.com/questions/4869935/objective-c-private-vs-protected-vs-public">Objective-C - Private vs Protected vs Public</a></li>
-<li><a href="http://stackoverflow.com/questions/12633627/expose-a-private-objective-c-method-or-property-to-subclasses">实现public、private和protected属性和方法</a></li>
-<li><a href="http://stackoverflow.com/questions/3725857/protected-methods-in-objective-c">Protected methods in Objective-C</a></li>
-<li><a href="http://bootstragram.com/blog/simulating-protected-modifier-with-objective-c/">Simulating protected properties and selectors in Objective-C</a></li>
-</ul>
-
-
-<p>自己的测试代码为：OCPlayground。</p>
-
-<h2>结论</h2>
-
-<h3>来自参考博客的结论</h3>
-
-<ol>
-<li>点操作(.)只和property有关和iVar没有关系。</li>
-<li><code>-&gt;</code>操作只和iVar有关，和property无关。</li>
-<li>ivar中的关键字<code>public</code>、<code>private</code>和<code>protected</code>只对ivar有效，表明的是ivar的可见性，默认<code>protected</code>。子类中想用继承来的ivar，需要使用->操作符，不能使用dot操作符（dot操作符只用于property）。实例中想用ivar，只能用具有<code>public</code>属性的ivar。</li>
-</ol>
-
-
-<h3>来自代码测试的结论</h3>
-
-<h4>结论1</h4>
-
-<p>We can use <code>@property</code> in Extension the same way as <em>.h</em> file of the class. Compiler can generate the setter and getter methods for us. But in Category, compiler will not generate the setter and getter methods for us, you need to implement them manually or by using <code>@dynamic</code> to tell the compiler that the setter and getter methods are implemented somewhere else.</p>
-
-<p>The difference comes from the fact that instance variables can be added into Extension but not Category.</p>
-
-<h4>结论2</h4>
-
-<p>to define whether a category can use the extended class&rsquo;s property or method, just define whether the property or method is in one &ldquo;interface&rdquo; that the category can &ldquo;see&rdquo;.</p>
-
-<h4>结论3</h4>
-
-<p>visibility(<code>private</code>, <code>public</code>, <code>protected</code>) does not affect methods. methods are as good as public when visible to clients (and potential pitfalls/bugs when invisible to clients). instead, visibility affects instance variables.</p>
-
-<h4>结论4</h4>
-
-<p>The same priciple as Category: to define whether I can use a property or method (in super class), just define whether the property or method is in an &ldquo;@interface&rdquo; the context (where you are trying to use the property or method) can &ldquo;see&rdquo;.</p>
-
-<p>One exception: <code>performSelector:</code> can run method that are not ready in compile time but ready in runtime. However there will be one warning from the compiler. You can dismiss the warning by declaring a method with the same name in the class in which you are coding, but will introduce another warning saying that &ldquo;Method definition for *** is not found&rdquo;.</p>
-
-<h3>Protected method</h3>
-
-<p>来自<a href="http://stackoverflow.com/questions/3725857/protected-methods-in-objective-c">Protected methods in Objective-C</a>的protected method的实现：</p>
-
-<p><div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno"> 1</span> <span class="c1">/////// SuperClass.h</span>
-<span class="lineno"> 2</span> <span class="k">@interface</span> <span class="nc">SuperClass</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-<span class="lineno"> 3</span> 
-<span class="lineno"> 4</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">@end</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-<span class="lineno"> 5</span> 
-<span class="lineno"> 6</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="c1">/////// SuperClass.m</span>
-<span class="lineno"> 7</span> <span class="k">@implementation</span> <span class="nc">SuperClass</span>
-<span class="lineno"> 8</span> <span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="nf">protectedMethod</span>
-<span class="lineno"> 9</span> <span class="p">{}</span>
-<span class="lineno">10</span> <span class="k">@end</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-<span class="lineno">11</span> 
-<span class="lineno">12</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="c1">/////// SubClass.h</span>
-<span class="lineno">13</span> <span class="k">@interface</span> <span class="nc">SubClass</span> : <span class="nc">SuperClass</span>
-<span class="lineno">14</span> <span class="k">@end</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-<span class="lineno">15</span> 
-<span class="lineno">16</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="c1">/////// SubClass.m</span>
-<span class="lineno">17</span> <span class="k">@interface</span> <span class="nc">SubClass</span> <span class="nl">(Protected)</span>
-<span class="lineno">18</span> <span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="nf">protectedMethod</span> <span class="p">;</span>
-<span class="lineno">19</span> <span class="k">@end</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-<span class="lineno">20</span> 
-<span class="lineno">21</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">@implementation</span> <span class="nc">SubClass</span>
-<span class="lineno">22</span> <span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="nf">callerOfProtectedMethod</span>
-<span class="lineno">23</span> <span class="p">{</span>
-<span class="lineno">24</span>   <span class="p">[</span><span class="nb">self</span> <span class="n">protectedMethod</span><span class="p">]</span> <span class="p">;</span> <span class="c1">// this will not generate warning</span>
-<span class="lineno">25</span> <span class="p">}</span>
-<span class="lineno">26</span> <span class="k">@end</span></code></pre></div></p>
 ]]></content>
   </entry>
   

@@ -4,7 +4,7 @@
   <title><![CDATA[Zhang Hongchao]]></title>
   <link href="http://hongchaozhang.github.io/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2017-03-14T10:21:00+08:00</updated>
+  <updated>2017-04-05T12:00:42+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -12,6 +12,48 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[layoutSubviews的调用机制]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2017/03/28/when-is-layoutsubviews-called/"/>
+    <updated>2017-03-28T09:25:06+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2017/03/28/when-is-layoutsubviews-called</id>
+    <content type="html"><![CDATA[<h2><code>layoutSubviews</code>什么时候被调用？</h2>
+
+<p>为了方便描述，假设视图结构如下：</p>
+
+<!-- more -->
+
+
+<p><em>父视图</em>包含<em>子视图1</em>和<em>子视图2</em>。</p>
+
+<ol>
+<li><code>init</code>不会调用<code>layoutSubviews</code>，即使使用了<code>init(frame: CGRect)</code>进行初始化。</li>
+<li>当调用<code>addSubview(:)</code>将子视图2加入父视图的时候，子视图2和父视图的<code>layoutSubviews</code>会被调用，但是子视图1的<code>layoutSubviews</code>方法不会被调用。</li>
+<li>当我们设置子视图2的<code>frame</code>的时候，如果<code>frame</code>的<code>size</code>有变化，同结论2<code>addSubview</code>；如果<code>frame</code>的<code>size</code>没有变化，则不会有<code>layoutSubviews</code>被调用。</li>
+<li>当调用<code>removeFromSuperview</code>将视图2从父视图中删除的时候，只有父视图的<code>layoutSubviews</code>会被调用。</li>
+<li>当旋转设备的时候，只有根视图的<code>layoutSubviews</code>会被调用。</li>
+<li>当滑动<code>UIScrollView</code>的时候，<code>UIScrollView</code>的<code>layoutSubviews</code>会被调用。</li>
+</ol>
+
+
+<h2>auto layout和autoSizing</h2>
+
+<p>以上结论有个前提：视图通过设置<code>frame</code>或者autoSizing机制确定位置和大小，不使用auto layout。</p>
+
+<blockquote><p><strong>auto layout和autoSizing的区别</strong>：autoSizing确定的是子视图和父视图之间的位置大小关系，auto layout确定的是子视图、父视图以及兄弟视图之间的位置大小关系。</p></blockquote>
+
+<p>在使用auto layout的时候，当调用<code>addSubview(:)</code>将子视图2加入父视图的时候，子视图2和父视图的<code>layoutSubviews</code>会被调用，同时子视图1的<code>layoutSubviews</code>方法也会被调用。设置<code>frame</code>和<code>removeFromSuperview</code>有类似的结论。</p>
+
+<h2><code>setNeedsLayout</code>和<code>layoutIfNeeded</code></h2>
+
+<ul>
+<li><code>setNeedsLayout</code>：如果一个视图调用了<code>setNeedsLayout</code>，那么在下一个绘制周期该视图的<code>layoutSubviews</code>会被调用。</li>
+<li><code>layoutIfNeeded</code>：如果一个视图调用了<code>layoutIfNeeded</code>，那么该视图的<code>layoutSubviews</code>会被<strong>立刻</strong>调用。</li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[如何处理多个手势之间的关系]]></title>
@@ -3161,46 +3203,6 @@ pod &#39;Charts&#39;</code></pre></div>
 
 <div class="highlight"><pre><code class="language-python" data-lang="python"><span class="lineno">1</span> <span class="c">#!/usr/local/bin/python</span>
 <span class="lineno">2</span> <span class="c"># coding: utf-8</span></code></pre></div>
-
-
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Https在ios客户端的objective-c实现]]></title>
-    <link href="http://hongchaozhang.github.io/blog/2015/12/30/implement-https-ios-client-side-using-objective-c/"/>
-    <updated>2015-12-30T21:23:54+08:00</updated>
-    <id>http://hongchaozhang.github.io/blog/2015/12/30/implement-https-ios-client-side-using-objective-c</id>
-    <content type="html"><![CDATA[<p>ios通过NSURLSession进行网络请求，参考另一篇博客<a href="http://hongchaozhang.github.io/blog/2015/11/29/ios-network-request/">ios进行网络请求</a>。</p>
-
-<p>在开发阶段，server端我们会用self-signed证书（省钱啊！）。正因为不是第三方机构认证的证书，所以客户端都会报警告。我们需要对此进行处理（参考<a href="https://developer.apple.com/library/ios/technotes/tn2232/_index.html#//apple_ref/doc/uid/DTS40012884-CH1-SECNSURLSESSION">NSURLSession in Apple Tech Note</a>和<a href="http://stackoverflow.com/questions/19507207/how-do-i-accept-a-self-signed-ssl-certificate-using-ios-7s-nsurlsession-and-its">How do I accept a self-signed SSL certificate using iOS 7&rsquo;s NSURLSession and its family of delegate methods for development purposes?</a>）:</p>
-
-<!-- more -->
-
-
-<blockquote><p>NSURLSession allows you to customize HTTPS server trust evaluation by implementing the <code>-URLSession:didReceiveChallenge:completionHandler:</code> delegate method. To customize HTTPS server trust evaluation, look for a challenge whose protection space has an authentication method of <code>NSURLAuthenticationMethodServerTrust</code>. For those challenges, resolve them as described below. For other challenges, the ones that you don&rsquo;t care about, call the completion handler block with the <code>NSURLSessionAuthChallengePerformDefaultHandling</code> disposition and a NULL credential.</p>
-
-<p>When dealing with the <code>NSURLAuthenticationMethodServerTrust</code> authentication challenge, you can get the trust object from the challenge&rsquo;s protection space by calling the <code>-serverTrust</code> method. After using the trust object to do your own custom HTTPS server trust evaluation, you must resolve the challenge in one of two ways:</p>
-
-<ul>
-<li>If you want to deny the connection, call the completion handler block with the <code>NSURLSessionAuthChallengeCancelAuthenticationChallenge</code> disposition and a NULL credential.</li>
-<li>If you want to allow the connection, create a credential from your trust object (using <code>+[NSURLCredential credentialForTrust:]</code>) and call the completion handler block with that credential and the <code>NSURLSessionAuthChallengeUseCredential</code> disposition.</li>
-</ul>
-</blockquote>
-
-<p>说了这么多，代码在下面的delegate中实现：</p>
-
-<div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno"> 1</span> <span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">URLSession:</span><span class="p">(</span><span class="bp">NSURLSession</span> <span class="o">*</span><span class="p">)</span><span class="nv">session</span> <span class="nf">didReceiveChallenge:</span><span class="p">(</span><span class="bp">NSURLAuthenticationChallenge</span> <span class="o">*</span><span class="p">)</span><span class="nv">challenge</span> <span class="nf">completionHandler:</span><span class="p">(</span><span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="p">)(</span><span class="n">NSURLSessionAuthChallengeDisposition</span><span class="p">,</span> <span class="bp">NSURLCredential</span> <span class="o">*</span><span class="p">))</span><span class="nv">completionHandler</span> <span class="p">{</span>
-<span class="lineno"> 2</span>     <span class="k">if</span><span class="p">([</span><span class="n">challenge</span><span class="p">.</span><span class="n">protectionSpace</span><span class="p">.</span><span class="n">authenticationMethod</span> <span class="nl">isEqualToString</span><span class="p">:</span><span class="n">NSURLAuthenticationMethodServerTrust</span><span class="p">])</span> <span class="p">{</span>
-<span class="lineno"> 3</span>         <span class="k">if</span><span class="p">([</span><span class="n">challenge</span><span class="p">.</span><span class="n">protectionSpace</span><span class="p">.</span><span class="n">host</span> <span class="nl">isEqualToString</span><span class="p">:</span><span class="s">@&quot;domaintoverride.com&quot;</span><span class="p">])</span> <span class="p">{</span>
-<span class="lineno"> 4</span>             <span class="bp">NSURLCredential</span> <span class="o">*</span><span class="n">credential</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSURLCredential</span> <span class="nl">credentialForTrust</span><span class="p">:</span><span class="n">challenge</span><span class="p">.</span><span class="n">protectionSpace</span><span class="p">.</span><span class="n">serverTrust</span><span class="p">];</span>
-<span class="lineno"> 5</span>             <span class="n">completionHandler</span><span class="p">(</span><span class="n">NSURLSessionAuthChallengeUseCredential</span><span class="p">,</span><span class="n">credential</span><span class="p">);</span>
-<span class="lineno"> 6</span>         <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-<span class="lineno"> 7</span>             <span class="n">completionHandler</span><span class="p">(</span><span class="n">NSURLSessionAuthChallengeCancelAuthenticationChallenge</span><span class="p">,</span> <span class="nb">nil</span><span class="p">);</span>
-<span class="lineno"> 8</span>         <span class="p">}</span>
-<span class="lineno"> 9</span>     <span class="p">}</span>
-<span class="lineno">10</span> <span class="p">}</span></code></pre></div>
 
 
 
