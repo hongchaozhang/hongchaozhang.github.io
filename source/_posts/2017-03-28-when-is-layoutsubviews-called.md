@@ -13,7 +13,7 @@ categories: [ios]
 
 <!-- more -->
 
-*父视图*包含*子视图1*和*子视图2*。
+**父视图**包含**子视图1**和**子视图2**。
 
 1. `init`不会调用`layoutSubviews`，即使使用了`init(frame: CGRect)`进行初始化。
 2. 当调用`addSubview(:)`将子视图2加入父视图的时候，子视图2和父视图的`layoutSubviews`会被调用，但是子视图1的`layoutSubviews`方法不会被调用。
@@ -32,5 +32,5 @@ categories: [ios]
 
 ## `setNeedsLayout`和`layoutIfNeeded`
 
-* `setNeedsLayout`：如果一个视图调用了`setNeedsLayout`，那么在下一个绘制周期该视图的`layoutSubviews`会被调用。
+* `setNeedsLayout`：如果一个视图调用了`setNeedsLayout`，那么在下一个更新周期该视图的`layoutSubviews`会被调用。
 * `layoutIfNeeded`：如果一个视图调用了`layoutIfNeeded `，那么该视图的`layoutSubviews`会被**立刻**调用。
