@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ios | Zhang Hongchao]]></title>
   <link href="http://hongchaozhang.github.io/blog/categories/ios/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2017-04-05T12:00:42+08:00</updated>
+  <updated>2017-05-02T17:51:40+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -25,7 +25,7 @@
 <!-- more -->
 
 
-<p><em>父视图</em>包含<em>子视图1</em>和<em>子视图2</em>。</p>
+<p><strong>父视图</strong>包含<strong>子视图1</strong>和<strong>子视图2</strong>。</p>
 
 <ol>
 <li><code>init</code>不会调用<code>layoutSubviews</code>，即使使用了<code>init(frame: CGRect)</code>进行初始化。</li>
@@ -48,7 +48,7 @@
 <h2><code>setNeedsLayout</code>和<code>layoutIfNeeded</code></h2>
 
 <ul>
-<li><code>setNeedsLayout</code>：如果一个视图调用了<code>setNeedsLayout</code>，那么在下一个绘制周期该视图的<code>layoutSubviews</code>会被调用。</li>
+<li><code>setNeedsLayout</code>：如果一个视图调用了<code>setNeedsLayout</code>，那么在下一个更新周期该视图的<code>layoutSubviews</code>会被调用。</li>
 <li><code>layoutIfNeeded</code>：如果一个视图调用了<code>layoutIfNeeded</code>，那么该视图的<code>layoutSubviews</code>会被<strong>立刻</strong>调用。</li>
 </ul>
 

@@ -115,7 +115,7 @@
 <!-- more -->
 
 
-<p><em>父视图</em>包含<em>子视图1</em>和<em>子视图2</em>。</p>
+<p><strong>父视图</strong>包含<strong>子视图1</strong>和<strong>子视图2</strong>。</p>
 
 <ol>
 <li><code>init</code>不会调用<code>layoutSubviews</code>，即使使用了<code>init(frame: CGRect)</code>进行初始化。</li>
@@ -138,7 +138,7 @@
 <h2><code>setNeedsLayout</code>和<code>layoutIfNeeded</code></h2>
 
 <ul>
-<li><code>setNeedsLayout</code>：如果一个视图调用了<code>setNeedsLayout</code>，那么在下一个绘制周期该视图的<code>layoutSubviews</code>会被调用。</li>
+<li><code>setNeedsLayout</code>：如果一个视图调用了<code>setNeedsLayout</code>，那么在下一个更新周期该视图的<code>layoutSubviews</code>会被调用。</li>
 <li><code>layoutIfNeeded</code>：如果一个视图调用了<code>layoutIfNeeded</code>，那么该视图的<code>layoutSubviews</code>会被<strong>立刻</strong>调用。</li>
 </ul>
 
@@ -189,6 +189,8 @@
         <a class="basic-alignment left" href="/blog/2017/03/03/relation-among-m-multiple-gestures/" title="Previous Post: 如何处理多个手势之间的关系">&laquo; 如何处理多个手势之间的关系</a>
       
       
+        <a class="basic-alignment right" href="/blog/2017/04/05/what-are-philosophers-doing/" title="Next Post: 《哲学家们都干了些什么？》读后小结">《哲学家们都干了些什么？》读后小结 &raquo;</a>
+      
     </p>
   </footer>
 </article>
@@ -206,11 +208,15 @@
   
     <section class="categories">
   <h1>Categories</h1>
-    <ul id="top-category-list" class="nav nav-list"><li><a href='/blog/categories/ios'>ios (30)</a></li><li><a href='/blog/categories/objective-c'>objective-c (20)</a></li><li><a href='/blog/categories/productivity'>productivity (15)</a></li><li><a href='/blog/categories/android'>android (4)</a></li><li><a href='/blog/categories/xcode'>xcode (4)</a></li><li><a href='/blog/categories/python'>python (3)</a></li><li><a href='/blog/categories/node'>node (3)</a></li><li><a href='/blog/categories/map-tech'>map tech (2)</a></li><li><a href='/blog/categories/java'>java (2)</a></li><li><a href='/blog/categories/javascript'>javascript (2)</a></li><li><a href='/blog/categories/web'>web (2)</a></li><li><a href='/blog/categories/android-studio'>android_studio (1)</a></li><li><a href='/blog/categories/design-pattern'>design_pattern (1)</a></li><li><a href='/blog/categories/reading'>reading (1)</a></li><li><a href='/blog/categories/philosophy'>philosophy (1)</a></li><li><a href='/blog/categories/androoid'>androoid (1)</a></li><li><a href='/blog/categories/mobile'>mobile (1)</a></li><li><a href='/blog/categories/swift'>swift (1)</a></li></ul>
+    <ul id="top-category-list" class="nav nav-list"><li><a href='/blog/categories/ios'>ios (30)</a></li><li><a href='/blog/categories/objective-c'>objective-c (20)</a></li><li><a href='/blog/categories/productivity'>productivity (15)</a></li><li><a href='/blog/categories/xcode'>xcode (4)</a></li><li><a href='/blog/categories/android'>android (4)</a></li><li><a href='/blog/categories/node'>node (3)</a></li><li><a href='/blog/categories/python'>python (3)</a></li><li><a href='/blog/categories/philosophy'>philosophy (2)</a></li><li><a href='/blog/categories/reading'>reading (2)</a></li><li><a href='/blog/categories/map-tech'>map tech (2)</a></li><li><a href='/blog/categories/web'>web (2)</a></li><li><a href='/blog/categories/java'>java (2)</a></li><li><a href='/blog/categories/javascript'>javascript (2)</a></li><li><a href='/blog/categories/android-studio'>android_studio (1)</a></li><li><a href='/blog/categories/design-pattern'>design_pattern (1)</a></li><li><a href='/blog/categories/androoid'>androoid (1)</a></li><li><a href='/blog/categories/mobile'>mobile (1)</a></li><li><a href='/blog/categories/swift'>swift (1)</a></li></ul>
 </section>
 <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2017/04/05/what-are-philosophers-doing/">《哲学家们都干了些什么？》读后小结</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2017/03/28/when-is-layoutsubviews-called/">layoutSubviews的调用机制</a>
@@ -226,10 +232,6 @@
     
       <li class="post">
         <a href="/blog/2017/02/08/voice-command-implementation-for-ios/">iOS语音控制系统</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2017/01/12/wechat-micro-program/">微信小程序</a>
       </li>
     
   </ul>

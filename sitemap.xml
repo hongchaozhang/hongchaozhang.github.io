@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>http://hongchaozhang.github.io/blog/2017/04/05/what-are-philosophers-doing/</loc>
+    <lastmod>2017-04-05T13:18:00+08:00</lastmod>
+  </url>
+  <url>
     <loc>http://hongchaozhang.github.io/blog/2017/03/28/when-is-layoutsubviews-called/</loc>
     <lastmod>2017-03-28T09:25:06+08:00</lastmod>
   </url>
@@ -311,5 +315,14 @@
   </url>
   <url>
     <loc>http://hongchaozhang.github.io/blog/categories/swift/</loc>
+  </url>
+  <url>
+    <loc>http://hongchaozhang.github.io/posts/2/</loc>
+  </url>
+  <url>
+    <loc>http://hongchaozhang.github.io/posts/3/</loc>
+  </url>
+  <url>
+    <loc>http://hongchaozhang.github.io/posts/4/</loc>
   </url>
 </urlset>
