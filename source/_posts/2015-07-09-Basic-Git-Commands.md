@@ -64,7 +64,8 @@ git commands| in GUI *SourceTree* | comments
 ---|---|---
 `git log --author=<someone>` | on the top left, select *Search* view | list all commits *someone* made
 `git log --name-only` | on the top left, select *Log* view |  list all commits and each modified or new created files
-`git log -- <file>` | right click a file and select *log selected...* | list all commits on a file
+`git log -- <file>` | right click a file and select *log selected...* | list all commits on a file that exist
+`git log --all -- <path-to-file>` | -- | list all commits on a **deleted** file. If you want to restor the file, use `git checkout <commit>^ -- <path-to-file>`
 `git log -g --grep=<key words>` | on the top left, select *Search* view |  find the commits which contains the *key words* in the commit messages. **Note:**use double quotes for key words with blank spaces.
 
 ## <a name="git_ignore"></a>.gitignore
