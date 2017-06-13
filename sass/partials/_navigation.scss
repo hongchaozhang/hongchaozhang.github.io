@@ -96,12 +96,6 @@ body > nav {
       width: $sidebar-width-wide - $pad-wide - $sidebar-pad-wide*2 - 58px;
     }
   }
-  // Brand: website or project name
-  // -------------------------
-  .brand {
-    float: left;
-    display: block;
-  }
 }
 .no-placeholder {
   body > nav .search {

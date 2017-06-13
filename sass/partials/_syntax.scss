@@ -1,6 +1,6 @@
 .highlight, html .gist .gist-file .gist-syntax .gist-highlight {
   table td.code { width: 100%; }
-  border: 1px solid #A5A5A5 !important;
+  border: 1px solid $pre-border !important;
 }
 .highlight .line-numbers, html .gist .gist-file .gist-syntax .highlight .line_numbers {
   text-align: right;
@@ -84,7 +84,7 @@ pre {
   background: $pre-bg $noise-bg;
   @include border-radius(.4em);
   @extend .mono;
-  border: 1px solid #A5A5A5;
+  border: 1px solid $pre-border;
   line-height: 1.45em;
   font-size: 13px;
   margin-bottom: 2.1em;
@@ -111,7 +111,7 @@ p, li {
     padding: 0 .3em;
     margin: -1px 0;
   }
-  pre code { font-size: 1em !important; background: none; border: none; color: inherit; }
+  pre code { font-size: 1em !important; background: none; border: none; }
 }
 
 .pre-code {
@@ -122,7 +122,7 @@ p, li {
   padding: .8em;
   overflow-x: auto;
   line-height: 1.45em;
-  background: #F5F5F5 $noise-bg !important;
+  background: $base03 $noise-bg !important;
   color: $base1 !important;
   span { color: $base1 !important; }
   span { font-style: normal !important; font-weight: normal !important; }
@@ -213,7 +213,7 @@ pre, .highlight, .gist-highlight {
   &::-webkit-scrollbar-thumb:horizontal { background: $solar-scroll-thumb;  -webkit-border-radius: 4px; border-radius: 4px }
 }
 
-.highlight code {
+.highlight code { 
   @extend .pre-code; background: #000;
 }
 figure.code {
@@ -258,26 +258,4 @@ figure.code {
   font-size: 13px;
   text-shadow: #cbcccc 0 1px 0;
   padding-left: 3em;
-}
-
-.highlight .lineno  /* line number class and make it unselectable */
-{ 
-    color: #ccc; 
-    display:inline-block; 
-    padding: 0 5px; 
-    border-right:1px solid #ccc; 
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-
-}
-.highlight pre code 
-{ 
-    display: block; 
-    white-space: pre; 
-    overflow-x: auto; 
-    word-wrap: normal; 
 }
