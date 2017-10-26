@@ -3,7 +3,7 @@ layout: post
 title: "Android开发中使用的度量单位px、dp、sp、pt、in、mm"
 date: 2016-10-25 17:10:08 +0800
 comments: true
-categories: [androoid]
+categories: [android]
 ---
 
 关于多屏的支持，最好的文章当然是官方文档：[Supporting Multiple Screens](https://developer.android.com/guide/practices/screens_support.html#testing)。一篇文章，从概念到解决方案，非常全面。

@@ -51,7 +51,7 @@ optional public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer,
     
 ### 注意
 
-如果为手势实现了delegate方法，那么`UIGestureRecognizer`里面的响应的方法将不再起作用。比如：
+如果为手势实现了delegate方法，那么`UIGestureRecognizer`里面的类似的方法将不再起作用。比如：
 
 如果设置了
 

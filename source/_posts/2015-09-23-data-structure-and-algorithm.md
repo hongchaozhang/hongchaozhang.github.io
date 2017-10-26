@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "phone interview preparation"
+title: "面试题——数据结构和算法"
 date: 2015-09-23 11:02:18 +0800
 comments: true
 published: false
@@ -39,12 +39,12 @@ Contents
 
 ### <a name="stack_and_queue"></a>Concepts of Stack and Queue
 
-* Stack
-* Queue
+1. What is the difference between **Stack** and **Queue**?
 
-**Question:** How to implement a **Queue** using two **Stack**s?
+    * Stack: first in last out
+    * Queue: first in first out
 
-**Answer:**
+2. How to implement a **Queue** using two **Stack**s?
  
 {% highlight c++ linenos %}
 class Stack
@@ -141,6 +141,8 @@ There are many solutions. Any solution with O(N^2) complexity is OK. One possibl
 
 覆盖在运行时决定，重载是在编译时决定。并且覆盖和重载的机制不同，例如在Java中，重载方法的签名必须不同于原先方法的，但对于覆盖签名必须相同。
 
+Overload（重载）相同函数名，但是不同参数个数或者类型。只有返回值类型不同不能构成重载，如果两个函数只有返回值类型不一样，当你调用时，怎么判断去调用哪个？！
+
 > Words: take effect in compile / running phase
 
 ### <a name="iteration_and_recursion"></a>迭代(Iteration)和递归(Recursion)有什么区别？(detailed answer)
@@ -150,13 +152,34 @@ There are many solutions. Any solution with O(N^2) complexity is OK. One possibl
 ### <a name="tree_concepts"></a>Concept of Tree
 
 * 二叉树(Binary Tree)
+    * 每个结点至多只有两个子树，并且子树有左右之分。
 * 二叉查找树(Binary Search Tree) (二叉排序树(Binary Sort Tree))
+    * 二叉查找树是有序的二叉树，所有节点（例如根节点）的左子树节点的值都小于或等于该节点的值，右子树节点的值都大于或等于该节点的值。它是一个重要的数据结构，可以用来表示有序的数据。
 * 平衡二叉树(Balanced Binary Tree)
 * 满二叉树(Full Binary Tree)
+    * 深度为k，且有2^k-1个结点的二叉树为满二叉树。满二叉树每一层上面的结点数都达到最大。
 
-二叉查找树是有序的二叉树，所有节点（例如根节点）的左子树节点的值都小于或等于该节点的值，右子树节点的值都大于或等于该节点的值。它是一个重要的数据结构，可以用来表示有序的数据。
+#### 二叉树的遍历（Traversing Binary Tree）
+用L、D、R分别表示遍历左子树、遍历根结点、遍历右子树，那么在保证先左后右的前提下，我们有三种遍历顺序：
 
-二叉排序树又叫做二叉查找树
+* DLR：先（根）序遍历
+* LDR：中（根）序遍历
+* LRD：后（根）序遍历
+
+根据二叉树的递归定义，我们可以得到上述三种遍历方法的递归定义如下：
+
+* 先序遍历（DLR）
+    * 访问根结点
+    * 先序遍历左子树
+    * 先序遍历右子树
+* 中序遍历（LDR）
+    * 中序遍历左子树
+    * 访问根结点
+    * 中序遍历右结点
+* 后续遍历（LRD）
+    * 后续遍历左子树
+    * 后续遍历右子树
+    * 访问根结点
 
 ### <a name="linked_list_and_array"></a>链表(Linked List)和数组(Array)有哪些重要区别？(detailed answer)
 
@@ -182,7 +205,7 @@ Like arrays, Linked List is a linear data structure. Unlike arrays, linked list 
 
 Given the header pointer of a linked list, and a pointer to a non-null node, How can you delete the node?
 
- 办法很简单，首先是放p中数据,然后将p->next的数据copy入p中，接下来删除p->next即可。
+ 办法很简单，首先保存p中数据,然后将p->next的数据copy入p中，接下来删除p->next即可。
 
 > 类似的：只给定单链表中某个结点p(非空结点)，在p前面插入一个结点。
 > 
@@ -209,7 +232,7 @@ In a interger array, there are two elements which appear only once, and for all 
 * 任何一个数字异或它自己都等于0。
 * 任何一个数字异或0还等于它自身。
 
-也就是说，如果我们从头到尾依次异或数组中的每一个数字，那么最终的结果刚好是那个只出现依次的数字，因为那些出现两次的数字全部在异或中抵消掉了。
+也就是说，如果我们从头到尾依次异或数组中的每一个数字，那么最终的结果刚好是那个只出现一次的数字，因为那些出现两次的数字全部在异或中抵消掉了。
 
 有了上面简单问题的解决方案之后，我们回到原始的问题。如果能够把原数组分为两个子数组。在每个子数组中，包含一个只出现一次的数字，而其他数字都出现两次。如果能够这样拆分原数组，按照前面的办法就是分别求出这两个只出现一次的数字了。
 
@@ -219,6 +242,80 @@ In a interger array, there are two elements which appear only once, and for all 
 * 只出现一次的两个数字被划分到不同的数组中。
 
 现在我们已经把原数组分成了两个子数组，每个子数组都包含一个只出现一次的数字，而其他数字都出现了两次。因此到此为止，所有的问题我们都已经解决。
+
+**Further question**
+
+Given an array of integers, every element appears three times except for one. Find that single one.
+
+Note: Your algorithm should have a linear runtime complexity. Could you implement it without using extra memory?
+
+**Solution 1**
+
+{% highlight java lineno %}
+
+// Time complexity O (n), space complexity O(1)
+int findSingleNumber2(int[] array) {
+	int result = -1;
+	if (array != null && array.length > 0) {
+		int size = 32; // assume int needs 4 bytes in java
+		int[] count = new int[size];
+		for (int i = 0; i < count.length; i ++) {
+			count[i] = 0;
+		}
+		    
+		// count[j] remembers the times 1 appears on the j th bit.
+		for (int i = 0; i < array.length; i ++){
+			for (int j = 0; j < size; j ++) {
+				count[j] += (array[i] >> j) & 0x01;
+				count[j] %= 3;
+			}
+		}
+		    
+		result = 0;
+		for (int i = 0; i < size; i ++) {
+			result += (count[i] << i);
+		}
+	}
+	 
+	return result;
+}
+{% endhighlight %}
+
+* explaination: 
+	- This question also needs bit operation, but is a little different.
+	- create an array  whose length is sizeof(int) e.g. count[sizeof(int)], count[i] remembers the times that 1 appears on the i th bit. If count[i] can divide 3 without a remainder, then just ignore it, else use the number to compute the result.
+
+**Solution 2**
+
+{% highlight java lineno %}
+// Time complexity O(n), space complexity O(1)
+int findSingleNumber22(int[] array) {
+	int result = -1;
+	if (array != null && array.length > 0) {
+		int one = 0;
+		int two = 0;
+		int three = 0;
+		    
+		for (int i = 0; i < array.length; i ++) {
+			two |= (one & array[i]);
+			one ^= array[i];
+			three = ~(one & two);
+			one &= three;
+			two &= three;
+		}
+		    
+		result = one;
+	}
+	 
+	return result;
+}
+{% endhighlight %}
+
+* explaination:
+	- use binary to simulate ternary(三进制). Number 'one' records which bits has appeared 1 one time (times mod 3), Number 'two' records which bits has appeared 1 two times (times mod 3). When the same bit of 'one' and 'two' has appeared 1,then the bit needs to be set to 0, finally 'one' is the result.
+
+* Rank: excellent
+* Key points: code structure and syntax, correct output, understand the complexity and ternary.
 
 
 ### <a name="conflicts_while_hashing"></a>在哈希表中处理冲突的方法都有哪些？
@@ -233,7 +330,7 @@ In a interger array, there are two elements which appear only once, and for all 
 
 reference [here](http://dongxicheng.org/structure/sort/)
 
-#### Stable of sorting
+#### Stability of sorting
 
 Some sorting algorithms are stable by nature like **Insertion sort**, **Merge Sort**, **Bubble Sort**, etc. And some sorting algorithms are not, like **Heap Sort**, **Quick Sort**, etc.
 
@@ -246,6 +343,204 @@ Some sorting algorithms are stable by nature like **Insertion sort**, **Merge So
 	3. Push **left** (<del>right for Postorder</del>) child of popped item to stack
 
 Right child is pushed before left child to make sure that left subtree is processed first.
+
+[二叉树的非递归遍历](http://www.cnblogs.com/dolphin0520/archive/2011/08/25/2153720.html)阐述了三种遍历顺序的非递归遍历方法。难易程度从简单到复杂依次是：先序遍历、中序遍历、后续遍历。
+
+#### 前序遍历
+
+前序遍历按照“根结点-左孩子-右孩子”的顺序进行访问。
+
+**递归实现**
+
+{% highlight cpp lineno %}
+void preOrder1(BinTree *root)     //递归前序遍历 
+{
+    if(root!=NULL)
+    {
+        cout<<root->data<<" ";
+        preOrder1(root->lchild);
+        preOrder1(root->rchild);
+    }
+}
+{% endhighlight %}
+
+**非递归实现**
+
+根据前序遍历访问的顺序，优先访问根结点，然后再分别访问左孩子和右孩子。即对于任一结点，其可看做是根结点，因此可以直接访问，访问完之后，若其左孩子不为空，按相同规则访问它的左子树；当访问其左子树时，再访问它的右子树。因此其处理过程如下：
+
+对于任一结点P：
+
+1. 访问结点P，并将结点P入栈;
+2. 判断结点P的左孩子是否为空，若为空，则取栈顶结点并进行出栈操作，并将栈顶结点的右孩子置为当前的结点P，循环至1;若不为空，则将P的左孩子置为当前的结点P;
+3. 直到P为NULL并且栈为空，则遍历结束。
+     
+{% highlight cpp lineno %}
+void preOrder2(BinTree *root)     //非递归前序遍历 
+{
+    stack<BinTree*> s;
+    BinTree *p=root;
+    while(p!=NULL||!s.empty())
+    {
+        while(p!=NULL)
+        {
+            cout<<p->data<<" ";
+            s.push(p);
+            p=p->lchild;
+        }
+        if(!s.empty())
+        {
+            p=s.top();
+            s.pop();
+            p=p->rchild;
+        }
+    }
+}
+{% endhighlight %}
+
+#### 中序遍历
+
+中序遍历按照“左孩子-根结点-右孩子”的顺序进行访问。
+
+**递归实现**
+
+{% highlight cpp lineno %}
+void inOrder1(BinTree *root)      //递归中序遍历
+{
+    if(root!=NULL)
+    {
+        inOrder1(root->lchild);
+        cout<<root->data<<" ";
+        inOrder1(root->rchild);
+    }
+}
+{% endhighlight %}
+
+**非递归实现**
+
+根据中序遍历的顺序，对于任一结点，优先访问其左孩子，而左孩子结点又可以看做一根结点，然后继续访问其左孩子结点，直到遇到左孩子结点为空的结点才进行访问，然后按相同的规则访问其右子树。因此其处理过程如下：
+
+对于任一结点P，
+
+1. 若其左孩子不为空，则将P入栈并将P的左孩子置为当前的P，然后对当前结点P再进行相同的处理；
+2. 若其左孩子为空，则取栈顶元素并进行出栈操作，访问该栈顶结点，然后将当前的P置为栈顶结点的右孩子；
+3. 直到P为NULL并且栈为空则遍历结束
+
+{% highlight cpp lineno %}
+void inOrder2(BinTree *root)      //非递归中序遍历
+{
+    stack<BinTree*> s;
+    BinTree *p=root;
+    while(p!=NULL||!s.empty())
+    {
+        while(p!=NULL)
+        {
+            s.push(p);
+            p=p->lchild;
+        }
+        if(!s.empty())
+        {
+            p=s.top();
+            cout<<p->data<<" ";
+            s.pop();
+            p=p->rchild;
+        }
+    }    
+}
+{% endhighlight %}
+
+#### 后续遍历
+
+后序遍历按照“左孩子-右孩子-根结点”的顺序进行访问。
+
+**递归实现**
+
+{% highlight cpp lineno %}
+void postOrder1(BinTree *root)    //递归后序遍历
+{
+    if(root!=NULL)
+    {
+        postOrder1(root->lchild);
+        postOrder1(root->rchild);
+        cout<<root->data<<" ";
+    }    
+}
+{% endhighlight %}
+
+**非递归实现**
+
+后序遍历的非递归实现是三种遍历方式中最难的一种。因为在后序遍历中，要保证左孩子和右孩子都已被访问并且左孩子在右孩子前访问才能访问根结点，这就为流程的控制带来了难题。下面介绍两种思路。
+
+第一种思路：
+
+对于任一结点P，将其入栈，然后沿其左子树一直往下搜索，直到搜索到没有左孩子的结点，此时该结点出现在栈顶，但是此时不能将其出栈并访问，因此其右孩子还为被访问。所以接下来按照相同的规则对其右子树进行相同的处理，当访问完其右孩子时，该结点又出现在栈顶，此时可以将其出栈并访问。这样就保证了正确的访问顺序。可以看出，在这个过程中，每个结点都两次出现在栈顶，只有在第二次出现在栈顶时，才能访问它。因此需要多设置一个变量标识该结点是否是第一次出现在栈顶。
+
+{% highlight cpp lineno %}
+void postOrder2(BinTree *root)    //非递归后序遍历
+{
+    stack<BTNode*> s;
+    BinTree *p=root;
+    BTNode *temp;
+    while(p!=NULL||!s.empty())
+    {
+        while(p!=NULL)              //沿左子树一直往下搜索，直至出现没有左子树的结点 
+        {
+            BTNode *btn=(BTNode *)malloc(sizeof(BTNode));
+            btn->btnode=p;
+            btn->isFirst=true;
+            s.push(btn);
+            p=p->lchild;
+        }
+        if(!s.empty())
+        {
+            temp=s.top();
+            s.pop();
+            if(temp->isFirst==true)     //表示是第一次出现在栈顶 
+             {
+                temp->isFirst=false;
+                s.push(temp);
+                p=temp->btnode->rchild;    
+            }
+            else                        //第二次出现在栈顶 
+             {
+                cout<<temp->btnode->data<<" ";
+                p=NULL;
+            }
+        }
+    }    
+}
+{% endhighlight %}
+
+第二种思路：
+
+要保证根结点在左孩子和右孩子访问之后才能访问，因此对于任一结点P，先将其入栈。如果P不存在左孩子和右孩子，则可以直接访问它；或者P存在左孩子或者右孩子，但是其左孩子和右孩子都已被访问过了，则同样可以直接访问该结点。若非上述两种情况，则将P的右孩子和左孩子依次入栈，这样就保证了每次取栈顶元素的时候，左孩子在右孩子前面被访问，左孩子和右孩子都在根结点前面被访问。
+
+{% highlight cpp lineno %}
+void postOrder3(BinTree *root)     //非递归后序遍历
+{
+    stack<BinTree*> s;
+    BinTree *cur;                      //当前结点 
+    BinTree *pre=NULL;                 //前一次访问的结点 
+    s.push(root);
+    while(!s.empty())
+    {
+        cur=s.top();
+        if((cur->lchild==NULL&&cur->rchild==NULL)||
+           (pre!=NULL&&(pre==cur->lchild||pre==cur->rchild)))
+        {
+            cout<<cur->data<<" ";  //如果当前结点没有孩子结点或者孩子节点都已被访问过 
+              s.pop();
+            pre=cur; 
+        }
+        else
+        {
+            if(cur->rchild!=NULL)
+                s.push(cur->rchild);
+            if(cur->lchild!=NULL)    
+                s.push(cur->lchild);
+        }
+    }    
+}
+{% endhighlight %}
 
 ### <a name="reverse_binary_tree"></a>Reverse Binary Tree
 
@@ -279,10 +574,47 @@ public class Solution {
 
 {% endhighlight %}
 
+或者一种更简洁的方式：
+
+{% highlight cpp lineno %}
+
+ TreeNode* invertTree(TreeNode* root) {  
+        if(root==NULL)  
+            return NULL;  
+        TreeNode * ptmpNode = root->left;  
+        root->left = invertTree(root->right);  
+        root->right = invertTree(ptmpNode);  
+        return root;  
+  } 
+  
+{% endhighlight %}
+
 #### Iterative method: 
 
-to do ...
+{% highlight cpp lineno %}
 
+TreeNode* invertTree2(TreeNode* root) {  
+        queue<TreeNode*> tree_queue;  
+        if (root == NULL)  
+            return root;  
+        tree_queue.push(root);  
+        while(tree_queue.size() > 0){  
+            TreeNode * pNode = tree_queue.front();  
+            tree_queue.pop();  
+            TreeNode * pLeft = pNode->left;  
+            pNode->left = pNode->right;  
+            pNode->right = pLeft;  
+            if (pNode->left)  
+                tree_queue.push(pNode->left);  
+            if (pNode->right)  
+                tree_queue.push(pNode->right);  
+        }  
+        return root;  
+    } 
+    
+{% endhighlight %}
+
+这里用Queue还是Stack都可以，区别是先反转左子树，还是先反转右子树，这个对结果没有区别。
 
 ### <a name="lucky_number"></a>Lucky Numbers
 
@@ -317,7 +649,9 @@ Before every iteration, if we calculate position of the given number, then in a 
 **Code:**
 
 {% highlight c linenos %}
+
 #include <stdio.h>
+
 #define bool int
 
 /* Returns 1 if n is a lucky number, ohterwise returns 0*/

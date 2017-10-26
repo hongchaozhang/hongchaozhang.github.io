@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "经典算法智力题"
+title: "面试题——经典算法智力题"
 date: 2015-09-14 20:46:22 +0800
 comments: true
 published: false
@@ -18,6 +18,7 @@ categories: [algorithm]
 9. [赛马问题](#9)
 10. [火车运煤问题](#10)
 11. [Measure 9 minutes with two hourglasses](#hourglass)
+12. [Ten balls in a box](#ten_balls_in_a_box)
 
 
 <!-- more -->
@@ -93,7 +94,7 @@ Omohundro的贡献是他把这一问题扩大到有500名海盗的情形，即50
 
 ### <a name="2"></a>飞机加油问题
 
-参考[飞机加油智力题](http://blog.csdn.net/athenaer/article/details/8612536)
+参考[飞机加油智力题](http://blog.csdn.net/athenaer/article/details/8612536)这个页面给出的答案是“3架飞机，6架次”，下面的分析中给出了“3架飞机，5架次”的更优的方案。
 
 #### Question
 On Bagshot Island, there is an airport. The airport is the home base of an unlimited number of identical airplanes. Each airplane has a fuel capacity to allow it to fly exactly 1/2 way around the world, along a great circle. The planes have the ability to refuel in flight without loss of speed or spillage of fuel. Though the fuel is unlimited, the island is the only source of fuel.
@@ -117,15 +118,23 @@ When C gets to the base, gets fully refueled and takes off in the other directio
 #### 问题
 
 每个飞机只有一个油箱，飞机之间可以相互加油，注意是相互，没有加油机，一箱油可供一架飞机绕地球飞半圈。      
-为使至少一架飞机绕地球一圈回到起飞时的飞机场，至少需要出动几架飞机？  
-A:所有飞机从同一机场起飞，而且必须安全返回机场，不允许中途降落，中间没有飞机场
-B:所有飞机从同一机场,同一方向起飞，而且必须安全返回机场，不允许中途降落，中间没有飞机场
+为使至少一架飞机绕地球一圈回到起飞时的飞机场，在下面两种情况下，分别至少需要出动几架飞机？起飞多少次？
+
+A: 所有飞机从同一机场起飞，而且必须安全返回机场，不允许中途降落，中间没有飞机场。起飞降落和加油时间忽略。
+
+B: 所有飞机从同一机场，**同一方向起飞**，而且必须安全返回机场，不允许中途降落，中间没有飞机场。起飞降落和加油时间忽略。
 
 #### 答案
 
 三架飞机，五架次。
-> 提示：刚开始三架同时飞，另一方向一架一架次去接。
 
+
+> **提示：**
+> 
+> 1. 刚开始三架同时飞，另一方向一架一架次去接。
+> 2. 为了在电话或者视频面试中便于交流，可以将地球一圈想象为一个钟，用钟点来说明位置，同时说明此时各飞机中的油量。比如：“A、B 2架飞机同时从6点钟位置出发，沿顺时针方向出发。到达8点钟位置的时候，A、B的油量分别为A2/3，B2/3。此时B将1/3桶油给A，此时油量为A1，B1/3。B掉头返回机场，A继续往前飞。”
+
+在B条件下，即“同一方向起飞”，是没有办法实现目标的。结论是：n架飞机（包含最终需要飞整圈的飞机）同时同方向起飞，可以将A安全飞行n-1/n+1圈。
 ### <a name="3"></a>蚂蚁爬杆
 
 #### 问题
@@ -394,7 +403,7 @@ Question:
 最优运送方案如下：
 
 * 将1000n吨煤运送到全程的1/(2n-1)处，此时还有1000(n-1)吨煤。
-* 将1000(n-1)吨煤再往前运送全程的1/(2n-3)，即全程的1/(2n-1)+1/(2n-3)处，此时还剩1000(n-2)吨煤。
+* 将1000(n-1)吨煤再往前运送全程的1/(2n-3)，即全程的1/(2n-1)+1/(2n-3)位置处，此时还剩1000(n-2)吨煤。
 * ...
 * 将2000吨煤再往前运送全程的1/3，即全程的1/(2n-1)+1/(2n-3)+...+1/3处，此时还剩1000吨煤。
 * 将1000吨煤运送到目的地，还需要消耗1000{1-[1/(2n-1)+1/(2n-3)+...+1/3]}吨煤，所以运送达目的地的煤量为1000[1/(2n-1)+1/(2n-3)+...+1/3]吨。
@@ -422,4 +431,25 @@ How to measure 9 minutes with two hourglasses: 4 minutes and 7 minutes?
 
 **Analytics:**
 
-Start both timers together. When the 4 minute timer is done, flip it. 7 minute timer will have 3 minutes left. When the 7 minute timer is done, the 4 minute timer will have 1 minute left. Now you can count to 9 minutes by simply leaving the 4 minute to expire (1 min), flip it and let it expire (4 min), flip it again and let it expire (4 min). 1 + 4 + 4 = 9.
+方法1:
+
+Start both timers together. When the 4 minute timer is done, flip it. 7 minute timer will have 3 minutes left. When the 7 minute timer is done, the 4 minute timer will have 1 minute left. Now you can count to 9 minutes by simply leaving the 4 minute to expire (1 min), flip it and let it expire (4 min), flip it again and let it expire (4 min). 1 + 4 + 4 = 9. It takes us 16 (= 7 + 4 + 4) minutes to get 9 minutes.
+
+当然，还有一些其他方法，比如：7*3 - 4*3 = 16，需要21分钟。4*4 - 7 = 16，需要16分钟。
+
+方法2（总耗时：9分钟）: 
+
+1. 同时开始计时，并作为9分钟等起始时刻。
+2. 4分钟沙漏结束立即反转，此时7分钟沙漏还有3分钟。
+3. 等7分钟计时器结束立即反转，此时4分钟沙漏还有1分钟。
+4. 等4分钟沙漏结束，7分钟刚漏下1分钟的沙子，此时立即翻转7分钟沙漏，漏完1分钟，正好得到9分钟。
+
+**引申**
+
+
+
+## <a name="ten_balls_in_a_box"></a>Ten balls in a box
+
+**Question**
+
+There are balls in a box with 4 different colors. You can pick up two of them one time. How many times do you need to ensure that you get the same result 10 times? 
