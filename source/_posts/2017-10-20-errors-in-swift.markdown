@@ -2,15 +2,10 @@
 layout: post
 title: "Swift中的Error"
 date: 2017-10-20 16:24:35 +0800
-comments: true
+comments: false
 categories: [swift, ios]
 published: true
 ---
-
-## ToDo：
-
-1. Debug Swift Error Breakpoint
-2. fatalError, assert, precondition
 
 ## Swift Error基本使用
 
