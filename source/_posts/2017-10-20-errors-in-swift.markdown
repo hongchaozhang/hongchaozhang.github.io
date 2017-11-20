@@ -188,7 +188,8 @@ func buyFavoriteSnack(person: String, vendingMachine: VendingMachine) throws {
 ```
 
 在这个例子中，因为`buyFavoriteSnack(person: vendingMachine:)`使用`try`调用了一个被标记为throws的接口`vend(itemNamed:)`，错误会继续传播，因此，该方法也需要标记为thorws。
-
+<!-->
+-->
 <!--
 ## `throws`技术内幕
 参考[Swift 2 throws 全解析 - 从原理到实践](https://onevcat.com/2016/03/swift-throws/)。
