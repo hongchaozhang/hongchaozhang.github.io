@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Node | Zhang Hongchao]]></title>
+  <link href="http://hongchaozhang.github.io/blog/categories/node/atom.xml" rel="self"/>
+  <link href="http://hongchaozhang.github.io/"/>
+  <updated>2017-11-20T23:01:18+08:00</updated>
+  <id>http://hongchaozhang.github.io/</id>
+  <author>
+    <name><![CDATA[Zhang Hongchao]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[使用node-xlsx进行excel文件的读写]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2016/03/04/parsing-and-write-excel-file-using-node-module/"/>
+    <updated>2016-03-04T14:54:54+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2016/03/04/parsing-and-write-excel-file-using-node-module</id>
+    <content type="html"><![CDATA[<h3>解析excel文件</h3>
+
+<p>在我的应用中需要对excel文件内容进行搜索，所以需要一个解析excel文件的插件。</p>
+
+<p><a href="https://www.npmjs.com/package/node-xlsx">node-xlsx</a>插件可以让我们解析、修改、新建excel文件。</p>
+
+<!-- more -->
+
+
+<p>安装到所在文件夹：</p>
+
+<p><div class="highlight"><pre><code class="language-text" data-lang="text">npm install excel node-xlsx</code></pre></div></p>
+
+<p>或者安装为全局应用：</p>
+
+<p><div class="highlight"><pre><code class="language-text" data-lang="text">npm install -g excel node-xlsx</code></pre></div></p>
+
+<p>然后就可以这样解析excel文件：</p>
+
+<p><div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="lineno">1</span> <span class="kd">var</span> <span class="nx">xlsx</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">lsquo</span><span class="p">;</span><span class="nx">node</span><span class="o">-</span><span class="nx">xlsx</span><span class="o">&amp;</span><span class="nx">rsquo</span><span class="p">;);</span>
+<span class="lineno">2</span> <span class="kd">var</span> <span class="nx">obj</span> <span class="o">=</span> <span class="nx">xlsx</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">__dirname</span> <span class="o">+</span> <span class="o">&amp;</span><span class="nx">lsquo</span><span class="p">;</span><span class="sr">/myFile.xlsx&amp;rsquo;); /</span><span class="o">/</span> <span class="nx">parses</span> <span class="nx">a</span> <span class="nx">file</span></code></pre></div></p>
+
+<p>下面是一段样例代码：</p>
+
+<p><div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="lineno"> 1</span> <span class="o">&lt;</span><span class="err">/p&gt;</span>
+<span class="lineno"> 2</span> 
+<span class="lineno"> 3</span> <span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span><span class="c1">// Include modules.</span>
+<span class="lineno"> 4</span> <span class="kd">var</span> <span class="nx">xlsx</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">lsquo</span><span class="p">;</span><span class="nx">node</span><span class="o">-</span><span class="nx">xlsx</span><span class="o">&amp;</span><span class="nx">rsquo</span><span class="p">;);</span><span class="o">&lt;</span><span class="err">/p&gt;</span>
+<span class="lineno"> 5</span> 
+<span class="lineno"> 6</span> <span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span><span class="c1">// read xlsx file and analyse</span>
+<span class="lineno"> 7</span> <span class="kd">var</span> <span class="nx">excelObj</span> <span class="o">=</span> <span class="nx">xlsx</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">lsquo</span><span class="p">;</span><span class="nx">fileName</span><span class="p">.</span><span class="nx">xlsx</span><span class="o">&amp;</span><span class="nx">rsquo</span><span class="p">;);</span><span class="o">&lt;</span><span class="err">/p&gt;</span>
+<span class="lineno"> 8</span> 
+<span class="lineno"> 9</span> <span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span><span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">sheet</span> <span class="k">in</span> <span class="nx">excelObj</span><span class="p">)</span> <span class="p">{</span>
+<span class="lineno">10</span>     <span class="k">if</span> <span class="p">(</span><span class="nx">sheet</span> <span class="o">!==</span> <span class="o">&amp;</span><span class="nx">lsquo</span><span class="p">;</span><span class="mi">0</span><span class="o">&amp;</span><span class="nx">rsquo</span><span class="p">;</span> <span class="o">&amp;</span><span class="nx">amp</span><span class="p">;</span><span class="o">&amp;</span><span class="nx">amp</span><span class="p">;</span> <span class="nx">excelObj</span><span class="p">.</span><span class="nx">hasOwnProperty</span><span class="p">(</span><span class="nx">sheet</span><span class="p">))</span> <span class="p">{</span> <span class="c1">// sheet is &amp;lsquo;0&amp;rsquo;, &amp;lsquo;1&amp;rsquo;, &amp;hellip;</span>
+<span class="lineno">11</span>         <span class="kd">var</span> <span class="nx">sheetData</span> <span class="o">=</span> <span class="nx">excelObj</span><span class="p">[</span><span class="nx">sheet</span><span class="p">].</span><span class="nx">data</span><span class="p">;</span> <span class="c1">// data inside a sheet, which is an two-dimention array</span>
+<span class="lineno">12</span>         <span class="kd">var</span> <span class="nx">rowCount</span> <span class="o">=</span> <span class="nx">sheetData</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span>
+<span class="lineno">13</span>         <span class="nx">activityCountDic</span><span class="p">[</span><span class="nx">sheet</span><span class="p">]</span> <span class="o">=</span> <span class="nx">rowCount</span><span class="p">;</span>
+<span class="lineno">14</span>         <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&amp;</span><span class="nx">lt</span><span class="p">;</span> <span class="nx">rowCount</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+<span class="lineno">15</span>             <span class="kd">var</span> <span class="nx">rowData</span> <span class="o">=</span> <span class="nx">sheetData</span><span class="p">[</span><span class="nx">i</span><span class="p">];</span> <span class="c1">// data inside one row, which is an one-dimention array</span>
+<span class="lineno">16</span>             <span class="kd">var</span> <span class="nx">columnCount</span> <span class="o">=</span> <span class="nx">rowData</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span>
+<span class="lineno">17</span>             <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">j</span> <span class="o">&amp;</span><span class="nx">lt</span><span class="p">;</span> <span class="nx">columnCount</span><span class="p">;</span> <span class="nx">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+<span class="lineno">18</span>                 <span class="kd">var</span> <span class="nx">cellData</span> <span class="o">=</span> <span class="nx">rowData</span><span class="p">[</span><span class="nx">j</span><span class="p">].</span><span class="nx">toString</span><span class="p">();</span> <span class="c1">// data in j column of the given row</span>
+<span class="lineno">19</span>                 <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">cellData</span><span class="p">);</span>
+<span class="lineno">20</span>             <span class="p">}</span>
+<span class="lineno">21</span>         <span class="p">}</span>
+<span class="lineno">22</span>     <span class="p">}</span>
+<span class="lineno">23</span> <span class="p">}</span></code></pre></div></p>
+
+<h3>写入excel文件</h3>
+
+<p><div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="lineno"> 1</span> <span class="c1">// Include modules.</span>
+<span class="lineno"> 2</span> <span class="kd">var</span> <span class="nx">xlsx</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">lsquo</span><span class="p">;</span><span class="nx">node</span><span class="o">-</span><span class="nx">xlsx</span><span class="o">&amp;</span><span class="nx">rsquo</span><span class="p">;);</span>
+<span class="lineno"> 3</span> <span class="kd">var</span> <span class="nx">fs</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">lsquo</span><span class="p">;</span><span class="nx">fs</span><span class="o">&amp;</span><span class="nx">rsquo</span><span class="p">;);</span><span class="o">&lt;</span><span class="err">/p&gt;</span>
+<span class="lineno"> 4</span> 
+<span class="lineno"> 5</span> <span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span><span class="c1">// 写入excel之后是一个一行两列的表格</span>
+<span class="lineno"> 6</span> <span class="kd">var</span> <span class="nx">data1</span> <span class="o">=</span> <span class="p">[</span>
+<span class="lineno"> 7</span> <span class="p">[</span><span class="o">&amp;</span><span class="nx">lsquo</span><span class="p">;</span><span class="nx">name</span><span class="o">&amp;</span><span class="nx">rsquo</span><span class="p">;,</span> <span class="o">&amp;</span><span class="nx">lsquo</span><span class="p">;</span><span class="nx">age</span><span class="o">&amp;</span><span class="nx">rsquo</span><span class="p">;]</span>
+<span class="lineno"> 8</span> <span class="p">];</span><span class="o">&lt;</span><span class="err">/p&gt;</span>
+<span class="lineno"> 9</span> 
+<span class="lineno">10</span> <span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span><span class="c1">// 写入excel之后是一个三行两列的表格</span>
+<span class="lineno">11</span> <span class="kd">var</span> <span class="nx">data2</span> <span class="o">=</span> <span class="p">[</span>
+<span class="lineno">12</span> <span class="p">[</span><span class="o">&amp;</span><span class="nx">lsquo</span><span class="p">;</span><span class="nx">name</span><span class="o">&amp;</span><span class="nx">rsquo</span><span class="p">;,</span> <span class="o">&amp;</span><span class="nx">lsquo</span><span class="p">;</span><span class="nx">age</span><span class="o">&amp;</span><span class="nx">rsquo</span><span class="p">;],</span>
+<span class="lineno">13</span> <span class="p">[</span><span class="o">&amp;</span><span class="nx">lsquo</span><span class="p">;</span><span class="nx">zhang</span> <span class="nx">san</span><span class="o">&amp;</span><span class="nx">rsquo</span><span class="p">;,</span> <span class="o">&amp;</span><span class="nx">lsquo</span><span class="p">;</span><span class="mi">10</span><span class="o">&amp;</span><span class="nx">rsquo</span><span class="p">;],</span>
+<span class="lineno">14</span> <span class="p">[</span><span class="o">&amp;</span><span class="nx">lsquo</span><span class="p">;</span><span class="nx">li</span> <span class="nx">si</span><span class="o">&amp;</span><span class="nx">rsquo</span><span class="p">;,</span> <span class="o">&amp;</span><span class="nx">lsquo</span><span class="p">;</span><span class="mi">11</span><span class="o">&amp;</span><span class="nx">rsquo</span><span class="p">;]</span>
+<span class="lineno">15</span> <span class="p">];</span><span class="o">&lt;</span><span class="err">/p&gt;</span>
+<span class="lineno">16</span> 
+<span class="lineno">17</span> <span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span><span class="kd">var</span> <span class="nx">buffer</span> <span class="o">=</span> <span class="nx">xlsx</span><span class="p">.</span><span class="nx">build</span><span class="p">([</span>
+<span class="lineno">18</span>     <span class="p">{</span>
+<span class="lineno">19</span>         <span class="nx">name</span><span class="o">:&amp;</span><span class="nx">lsquo</span><span class="p">;</span><span class="nx">sheet1</span><span class="o">&amp;</span><span class="nx">rsquo</span><span class="p">;,</span>
+<span class="lineno">20</span>         <span class="nx">data</span><span class="o">:</span><span class="nx">data1</span>
+<span class="lineno">21</span>     <span class="p">},</span> <span class="p">{</span>
+<span class="lineno">22</span>         <span class="nx">name</span><span class="o">:&amp;</span><span class="nx">lsquo</span><span class="p">;</span><span class="nx">sheet2</span><span class="o">&amp;</span><span class="nx">rsquo</span><span class="p">;,</span>
+<span class="lineno">23</span>         <span class="nx">data</span><span class="o">:</span><span class="nx">data2</span>
+<span class="lineno">24</span>     <span class="p">}</span>
+<span class="lineno">25</span>     <span class="p">]);</span><span class="o">&lt;</span><span class="err">/p&gt;</span>
+<span class="lineno">26</span> 
+<span class="lineno">27</span> <span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span><span class="nx">fs</span><span class="p">.</span><span class="nx">writeFileSync</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">lsquo</span><span class="p">;</span><span class="nx">book</span><span class="p">.</span><span class="nx">xlsx</span><span class="o">&amp;</span><span class="nx">rsquo</span><span class="p">;,</span> <span class="nx">buffer</span><span class="p">,</span> <span class="p">{</span><span class="o">&amp;</span><span class="nx">lsquo</span><span class="p">;</span><span class="nx">flag</span><span class="o">&amp;</span><span class="nx">rsquo</span><span class="p">;</span><span class="o">:&amp;</span><span class="nx">lsquo</span><span class="p">;</span><span class="nx">w</span><span class="o">&amp;</span><span class="nx">rsquo</span><span class="p">;});</span> <span class="c1">// 如果文件存在，覆盖</span></code></pre></div></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[https在Server端的Nodejs实现]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2015/12/30/implement-https-server-side-using-nodejs/"/>
+    <updated>2015-12-30T21:23:19+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2015/12/30/implement-https-server-side-using-nodejs</id>
+    <content type="html"><![CDATA[<p>服务器端利用Nodejs创建https的Server，请参考<a href="http://blog.fens.me/nodejs-https-server/">Nodejs创建HTTPS服务器</a></p>
+
+<!-- more -->
+
+
+<p>首先确保已经安装nodejs、nodejs-https组件和openssl。</p>
+
+<h3>用openssl生成密钥</h3>
+
+<ul>
+<li>cd到你的server路径。</li>
+<li>生成私钥key文件privatekey.pem</li>
+</ul>
+
+
+<p><div class="highlight"><pre><code class="language-text" data-lang="text">openssl genrsa -out privatekey.pem 1024</code></pre></div></p>
+
+<ul>
+<li>通过私钥生成CSR证书签名</li>
+</ul>
+
+
+<p><div class="highlight"><pre><code class="language-text" data-lang="text">openssl req -new -key privatekey.pem -out certrequest.csr</code></pre></div></p>
+
+<p>填写一些证书信息：</p>
+
+<blockquote><p>You are about to be asked to enter information that will be incorporated
+into your certificate request.</p>
+
+<p>What you are about to enter is what is called a Distinguished Name or a DN.
+There are quite a few fields but you can leave some blank
+For some fields there will be a default value,
+If you enter &lsquo;.&rsquo;, the field will be left blank.</p></blockquote>
+
+<p><div class="highlight"><pre><code class="language-text" data-lang="text">Country Name (2 letter code) [AU]:CN
+State or Province Name (full name) [Some-State]:Zhejiang
+Locality Name (eg, city) []:Hangzhou
+Organization Name (eg, company) [Internet Widgits Pty Ltd]:Organization
+Organizational Unit Name (eg, section) []:Organization
+Common Name (eg, YOUR name) []:Name Zhang
+Email Address []:&lt;a href=&quot;&amp;#109;&amp;#97;&amp;#x69;&amp;#x6c;&amp;#116;&amp;#x6f;&amp;#58;&amp;#78;&amp;#x61;&amp;#x6d;&amp;#101;&amp;#64;&amp;#x67;&amp;#109;&amp;#x61;&amp;#105;&amp;#108;&amp;#x2e;&amp;#x63;&amp;#111;&amp;#x6d;&quot;&gt;&amp;#x4e;&amp;#x61;&amp;#109;&amp;#x65;&amp;#x40;&amp;#103;&amp;#x6d;&amp;#97;&amp;#x69;&amp;#x6c;&amp;#46;&amp;#x63;&amp;#x6f;&amp;#x6d;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Please enter the following &amp;lsquo;extra&amp;rsquo; attributes
+to be sent with your certificate request
+A challenge password []:
+An optional company name []:</code></pre></div></p>
+
+<ul>
+<li>通过私钥和证书签名生成证书文件</li>
+</ul>
+
+
+<p><div class="highlight"><pre><code class="language-text" data-lang="text">openssl x509 -req -in certrequest.csr -signkey privatekey.pem -out certificate.pem</code></pre></div></p>
+
+<p>至此，我们有了三个文件：</p>
+
+<ul>
+<li>privatekey.pem: 私钥</li>
+<li>certrequest.csr: CSR证书签名</li>
+<li>certificate.pem: 证书文件</li>
+</ul>
+
+
+<h3>实现服务器端app</h3>
+
+<p><div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="lineno"> 1</span> <span class="kd">var</span> <span class="nx">https</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">lsquo</span><span class="p">;</span><span class="nx">https</span><span class="o">&amp;</span><span class="nx">rsquo</span><span class="p">;)</span><span class="err">，</span>
+<span class="lineno"> 2</span>     <span class="nx">fs</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">ldquo</span><span class="p">;</span><span class="nx">fs</span><span class="o">&amp;</span><span class="nx">rdquo</span><span class="p">;);</span><span class="o">&lt;</span><span class="err">/p&gt;</span>
+<span class="lineno"> 3</span> 
+<span class="lineno"> 4</span> <span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span><span class="kd">var</span> <span class="nx">options</span> <span class="o">=</span> <span class="p">{</span>
+<span class="lineno"> 5</span>     <span class="nx">key</span><span class="o">:</span> <span class="nx">fs</span><span class="p">.</span><span class="nx">readFileSync</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">lsquo</span><span class="p">;.</span><span class="o">/</span><span class="nx">privatekey</span><span class="p">.</span><span class="nx">pem</span><span class="o">&amp;</span><span class="nx">rsquo</span><span class="p">;),</span>
+<span class="lineno"> 6</span>     <span class="nx">cert</span><span class="o">:</span> <span class="nx">fs</span><span class="p">.</span><span class="nx">readFileSync</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">lsquo</span><span class="p">;.</span><span class="o">/</span><span class="nx">certificate</span><span class="p">.</span><span class="nx">pem</span><span class="o">&amp;</span><span class="nx">rsquo</span><span class="p">;)</span>
+<span class="lineno"> 7</span> <span class="p">};</span><span class="o">&lt;</span><span class="err">/p&gt;</span>
+<span class="lineno"> 8</span> 
+<span class="lineno"> 9</span> <span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span><span class="nx">https</span><span class="p">.</span><span class="nx">createServer</span><span class="p">(</span><span class="nx">options</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">request</span><span class="p">,</span> <span class="nx">response</span><span class="p">)</span> <span class="p">{</span>
+<span class="lineno">10</span>     <span class="nx">response</span><span class="p">.</span><span class="nx">writeHead</span><span class="p">(</span><span class="mi">200</span><span class="p">);</span>
+<span class="lineno">11</span>     <span class="nx">response</span><span class="p">.</span><span class="nx">end</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">ldquo</span><span class="p">;</span><span class="nx">hello</span> <span class="nx">world</span><span class="err">\</span><span class="nx">n</span><span class="o">&amp;</span><span class="nx">rdquo</span><span class="p">;);</span>
+<span class="lineno">12</span> <span class="p">}).</span><span class="nx">listen</span><span class="p">(</span><span class="mi">8181</span><span class="p">);</span>
+<span class="lineno">13</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">lsquo</span><span class="p">;</span><span class="nx">Https</span> <span class="nx">server</span> <span class="nx">listening</span> <span class="nx">on</span> <span class="nx">port</span> <span class="o">&amp;</span><span class="nx">rsquo</span><span class="p">;</span> <span class="o">+</span> <span class="mi">8181</span><span class="p">);</span></code></pre></div></p>
+
+<p>在Safari中选择信任证书之后，就可以看到下面的页面了：</p>
+
+<p><img src="/images/https-browser-screenshot.png" alt="003_package_name_in_Eclipse" /></p>
+
+<h3>https的安全性</h3>
+
+<p>对于http的server，在浏览器中看是这样的：</p>
+
+<p><img src="/images/http-browser-sample.png" alt="http-browser-sample" /></p>
+
+<p>用Charles抓取网络传输中的数据，可以看出：http的request数据如下：</p>
+
+<p><img src="/images/http-request-charles.png" alt="http-request-charles" /></p>
+
+<p>http的response数据如下：</p>
+
+<p><img src="/images/http-response-charles.png" alt="http-response-charles" /></p>
+
+<p>可以看出，所有东西都是明文传送，如果被截取，必然造成信息泄露。</p>
+
+<p>同样地，看一下https的server传输中的数据。
+浏览器中看到的是这样的：</p>
+
+<p><img src="/images/https-browser-sample.png" alt="https-browser-sample" /></p>
+
+<p>用Charles抓取网络传输中的数据，可以看出：https的request数据如下：</p>
+
+<p><img src="/images/https-request-charles.png" alt="https-request-charles" /></p>
+
+<p>从request中只可以看到URL地址，却看不到参数格式和内容。</p>
+
+<p>https的response数据如下：</p>
+
+<p><img src="/images/https-response-charles.png" alt="https-response-charles" /></p>
+
+<p>即使网络传输中被截获，也不会造成信息泄露。</p>
+
+<p>但是还有一个不安全的地方：对于上面的情况，我们使用的是https的get方法从server获取数据，需要在地址栏中输入查询参数，而这些参数可能通过浏览器的历史记录泄露。这一点可以通过使用https的post方法解决，参考<a href="http://cuishen.iteye.com/blog/2019925">http https get post 的区别，定义/安全性/性能</a>。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[应用Node.js搭建一个简单的服务器]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2015/11/27/using-node-dot-js-for-a-simple-server/"/>
+    <updated>2015-11-27T16:45:10+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2015/11/27/using-node-dot-js-for-a-simple-server</id>
+    <content type="html"><![CDATA[<h3>第一个简单应用</h3>
+
+<p>参考<a href="http://code.tutsplus.com/tutorials/nodejs-for-beginners--net-26314">Node.js for Beginners</a>. 去除以下代码：</p>
+
+<p><div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="lineno">1</span> <span class="nx">request</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">ldquo</span><span class="p">;</span><span class="nx">end</span><span class="o">&amp;</span><span class="nx">rdquo</span><span class="p">;,</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span><span class="o">&lt;</span><span class="err">/p&gt;</span>
+<span class="lineno">2</span> 
+<span class="lineno">3</span> <span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span><span class="p">});</span></code></pre></div></p>
+
+<h3>如何调试Node.js在服务器上的应用</h3>
+
+<!-- more -->
+
+
+<p><a href="https://github.com/node-inspector/node-inspector">node-inspector</a>是一款非常好用的GUI调试工具，可以让你像调试Web页面一样，在Chrome或者Opera里面调试Node.js应用。</p>
+
+<p>安装</p>
+
+<p><div class="highlight"><pre><code class="language-text" data-lang="text">$ npm install -g node-inspector</code></pre></div></p>
+
+<p>打开</p>
+
+<p><div class="highlight"><pre><code class="language-text" data-lang="text">$ node-debug app.js</code></pre></div></p>
+
+<h4>注意</h4>
+
+<ul>
+<li>node-inspector只支持Chrome和Opera，所以至少将其中之一设为你的默认浏览器。</li>
+<li>node-inspector使用127.0.0.1:8080进行调试，所以，保证localhost的8080端口没有被占用。</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+</feed>

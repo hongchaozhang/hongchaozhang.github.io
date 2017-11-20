@@ -1,0 +1,573 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>iOS中多线程任务之间的同步 - Zhang Hongchao</title>
+  <meta name="author" content="Zhang Hongchao">
+
+  
+  <meta name="description" content="当我们使用iOS的多线程并发执行一些任务的时候，有时候需要考虑任务之间的同步问题，比如任务1和任务2执行完之后，才可以执行任务3，原因可能是任务3需要任务1和任务2执行得到的结果。 部分内容参考：
+Waiting until two async blocks are executed before &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://hongchaozhang.github.io/blog/2016/10/31/sync-between-multiplele-threads-tasks-in-ios-app">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Zhang Hongchao" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/libs/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<!--
+<link href='https://fonts.googleapis.com/css?family=Noto+Serif:400,700' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+-->
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-62806905-2']);
+    _gaq.push(['_setDomainName','github.io']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Zhang Hongchao</a></h1>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><!--
+<ul class="subscription" data-subscription="rss">
+  
+  
+</ul>
+-->
+
+<!--
+
+-->
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <script type="text/javascript" src="/javascripts/DisableLineNumberCopy.js"></script>
+
+<div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">iOS中多线程任务之间的同步</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2016-10-31T10:41:27+08:00" pubdate data-updated="true">Oct 31st, 2016</time>
+        
+           | <a href="#disqus_thread"
+             data-disqus-identifier="http://hongchaozhang.github.io">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>当我们使用iOS的多线程并发执行一些任务的时候，有时候需要考虑任务之间的同步问题，比如任务1和任务2执行完之后，才可以执行任务3，原因可能是任务3需要任务1和任务2执行得到的结果。</p>
+
+<!-- more -->
+
+
+<p>部分内容参考：
+<a href="http://stackoverflow.com/questions/11909629/waiting-until-two-async-blocks-are-executed-before-starting-another-block">Waiting until two async blocks are executed before starting another block</a></p>
+
+<h3>dispatch_group_notify</h3>
+
+<p>当group中所有的block都执行完之后，<code>dispatch_group_notify</code>对应的block才会执行。并且放在同一个group中的block可以是不同queue里面的block。</p>
+
+<p>例子：</p>
+
+<div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno"> 1</span> <span class="kt">dispatch_group_t</span> <span class="n">group</span> <span class="o">=</span> <span class="n">dispatch_group_create</span><span class="p">();</span>
+<span class="lineno"> 2</span> <span class="kt">dispatch_queue_t</span> <span class="n">queue</span> <span class="o">=</span> <span class="n">dispatch_get_global_queue</span><span class="p">(</span><span class="n">DISPATCH_QUEUE_PRIORITY_HIGH</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+<span class="lineno"> 3</span>     
+<span class="lineno"> 4</span> <span class="n">dispatch_group_async</span><span class="p">(</span><span class="n">group</span><span class="p">,</span> <span class="n">queue</span><span class="p">,</span> <span class="o">^</span> <span class="p">{</span>
+<span class="lineno"> 5</span>     <span class="c1">// block1</span>
+<span class="lineno"> 6</span>     <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Block1 Start&quot;</span><span class="p">);</span>
+<span class="lineno"> 7</span>     <span class="p">[</span><span class="bp">NSThread</span> <span class="nl">sleepForTimeInterval</span><span class="p">:</span><span class="mf">2.0</span><span class="p">];</span>
+<span class="lineno"> 8</span>     <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Block1 End&quot;</span><span class="p">);</span>
+<span class="lineno"> 9</span> <span class="p">});</span>
+<span class="lineno">10</span>     
+<span class="lineno">11</span> <span class="n">dispatch_group_async</span><span class="p">(</span><span class="n">group</span><span class="p">,</span> <span class="n">queue</span><span class="p">,</span> <span class="o">^</span> <span class="p">{</span>
+<span class="lineno">12</span>     <span class="c1">// block2</span>
+<span class="lineno">13</span>     <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Block2 Start&quot;</span><span class="p">);</span>
+<span class="lineno">14</span>     <span class="p">[</span><span class="bp">NSThread</span> <span class="nl">sleepForTimeInterval</span><span class="p">:</span><span class="mf">1.0</span><span class="p">];</span>
+<span class="lineno">15</span>     <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Block2 End&quot;</span><span class="p">);</span>
+<span class="lineno">16</span> <span class="p">});</span>
+<span class="lineno">17</span>     
+<span class="lineno">18</span> <span class="n">dispatch_group_notify</span><span class="p">(</span><span class="n">group</span><span class="p">,</span> <span class="n">queue</span><span class="p">,</span> <span class="o">^</span> <span class="p">{</span>
+<span class="lineno">19</span>     <span class="c1">// block3</span>
+<span class="lineno">20</span>     <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Block3&quot;</span><span class="p">);</span>
+<span class="lineno">21</span> <span class="p">});</span></code></pre></div>
+
+
+<p>输出：</p>
+
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span class="lineno">1</span> 2016-10-31 11:14:28.076 OCPlayground[82366:5830581] Block2 Start
+<span class="lineno">2</span> 2016-10-31 11:14:28.076 OCPlayground[82366:5830578] Block1 Start
+<span class="lineno">3</span> 2016-10-31 11:14:29.081 OCPlayground[82366:5830581] Block2 End
+<span class="lineno">4</span> 2016-10-31 11:14:30.078 OCPlayground[82366:5830578] Block1 End
+<span class="lineno">5</span> 2016-10-31 11:14:30.078 OCPlayground[82366:5830578] Block3</code></pre></div>
+
+
+<h3>dispatch_barrier_async</h3>
+
+<p><code>dispatch_barrier_async</code>函数的作用与barrier的意思相同，在线程任务管理中起到一个栅栏的作用，它等待所有位于barrier函数之前的操作执行完毕后执行，并且在barrier函数执行之后，barrier函数之后的操作才会得到执行，该函数需要同<code>dispatch_queue_create</code>函数生成的并行队列一起使用，不能同<code>dispatch_get_global_queue</code>返回的并行队列一起使用。</p>
+
+<p>例子：</p>
+
+<div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno"> 1</span> <span class="c1">// dispatch_barrier_async can not be used together with dispatch_get_global_queue</span>
+<span class="lineno"> 2</span> <span class="c1">// dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0);</span>
+<span class="lineno"> 3</span> <span class="kt">dispatch_queue_t</span> <span class="n">queue</span> <span class="o">=</span> <span class="n">dispatch_queue_create</span><span class="p">(</span><span class="s">&quot;com.company.app.queue&quot;</span><span class="p">,</span> <span class="n">DISPATCH_QUEUE_CONCURRENT</span><span class="p">);</span>
+<span class="lineno"> 4</span>     
+<span class="lineno"> 5</span> <span class="n">dispatch_async</span><span class="p">(</span><span class="n">queue</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
+<span class="lineno"> 6</span>     <span class="c1">// block1</span>
+<span class="lineno"> 7</span>     <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Block1 Start&quot;</span><span class="p">);</span>
+<span class="lineno"> 8</span>     <span class="p">[</span><span class="bp">NSThread</span> <span class="nl">sleepForTimeInterval</span><span class="p">:</span><span class="mf">2.0</span><span class="p">];</span>
+<span class="lineno"> 9</span>     <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Block1 End&quot;</span><span class="p">);</span>
+<span class="lineno">10</span> <span class="p">});</span>
+<span class="lineno">11</span>     
+<span class="lineno">12</span> <span class="n">dispatch_async</span><span class="p">(</span><span class="n">queue</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
+<span class="lineno">13</span>     <span class="c1">// block2</span>
+<span class="lineno">14</span>     <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Block2 Start&quot;</span><span class="p">);</span>
+<span class="lineno">15</span>     <span class="p">[</span><span class="bp">NSThread</span> <span class="nl">sleepForTimeInterval</span><span class="p">:</span><span class="mf">1.0</span><span class="p">];</span>
+<span class="lineno">16</span>     <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Block2 End&quot;</span><span class="p">);</span>
+<span class="lineno">17</span> <span class="p">});</span>
+<span class="lineno">18</span>     
+<span class="lineno">19</span> <span class="n">dispatch_barrier_async</span><span class="p">(</span><span class="n">queue</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
+<span class="lineno">20</span>     <span class="c1">// block3</span>
+<span class="lineno">21</span>     <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Block3&quot;</span><span class="p">);</span>
+<span class="lineno">22</span> <span class="p">});</span>
+<span class="lineno">23</span>     
+<span class="lineno">24</span> <span class="n">dispatch_async</span><span class="p">(</span><span class="n">queue</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
+<span class="lineno">25</span>     <span class="c1">// block4</span>
+<span class="lineno">26</span>     <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Block4 Start&quot;</span><span class="p">);</span>
+<span class="lineno">27</span>     <span class="p">[</span><span class="bp">NSThread</span> <span class="nl">sleepForTimeInterval</span><span class="p">:</span><span class="mf">3.0</span><span class="p">];</span>
+<span class="lineno">28</span>     <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Block4 End&quot;</span><span class="p">);</span>
+<span class="lineno">29</span> <span class="p">});</span></code></pre></div>
+
+
+<p>输出：</p>
+
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span class="lineno">1</span> 2016-10-31 12:02:08.468 OCPlayground[83918:5867777] Block1 Start
+<span class="lineno">2</span> 2016-10-31 12:02:08.468 OCPlayground[83918:5867807] Block2 Start
+<span class="lineno">3</span> 2016-10-31 12:02:09.474 OCPlayground[83918:5867807] Block2 End
+<span class="lineno">4</span> 2016-10-31 12:02:10.469 OCPlayground[83918:5867777] Block1 End
+<span class="lineno">5</span> 2016-10-31 12:02:10.469 OCPlayground[83918:5867777] Block3
+<span class="lineno">6</span> 2016-10-31 12:02:10.470 OCPlayground[83918:5867777] Block4 Start
+<span class="lineno">7</span> 2016-10-31 12:02:13.473 OCPlayground[83918:5867777] Block4 End</code></pre></div>
+
+
+<h3>addDependency</h3>
+
+<p>苹果对GCD进行了封装，有了自己的<code>NSOperationQueue</code>和<code>NSBlockOperation</code>。其中<code>NSBlockOperation</code>中添加了<code>addDepencency:</code>方法可以指定operation block之间的依赖关系。</p>
+
+<p>例子：</p>
+
+<div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno"> 1</span> <span class="bp">NSOperationQueue</span> <span class="o">*</span><span class="n">queue</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">NSOperationQueue</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
+<span class="lineno"> 2</span>     
+<span class="lineno"> 3</span> <span class="bp">NSOperation</span> <span class="o">*</span><span class="n">completionOperation</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSBlockOperation</span> <span class="nl">blockOperationWithBlock</span><span class="p">:</span><span class="o">^</span><span class="p">{</span>
+<span class="lineno"> 4</span>     <span class="c1">// block3</span>
+<span class="lineno"> 5</span>     <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Block3&quot;</span><span class="p">);</span>
+<span class="lineno"> 6</span> <span class="p">}];</span>
+<span class="lineno"> 7</span>     
+<span class="lineno"> 8</span> <span class="bp">NSOperation</span> <span class="o">*</span><span class="n">operation</span><span class="p">;</span>
+<span class="lineno"> 9</span>     
+<span class="lineno">10</span> <span class="n">operation</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSBlockOperation</span> <span class="nl">blockOperationWithBlock</span><span class="p">:</span><span class="o">^</span><span class="p">{</span>
+<span class="lineno">11</span>     <span class="c1">// block1</span>
+<span class="lineno">12</span>     <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Block1 Start&quot;</span><span class="p">);</span>
+<span class="lineno">13</span>     <span class="p">[</span><span class="bp">NSThread</span> <span class="nl">sleepForTimeInterval</span><span class="p">:</span><span class="mf">2.0</span><span class="p">];</span>
+<span class="lineno">14</span>     <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Block1 End&quot;</span><span class="p">);</span>
+<span class="lineno">15</span> <span class="p">}];</span>
+<span class="lineno">16</span>     
+<span class="lineno">17</span> <span class="p">[</span><span class="n">completionOperation</span> <span class="nl">addDependency</span><span class="p">:</span><span class="n">operation</span><span class="p">];</span>
+<span class="lineno">18</span> <span class="p">[</span><span class="n">queue</span> <span class="nl">addOperation</span><span class="p">:</span><span class="n">operation</span><span class="p">];</span>
+<span class="lineno">19</span>     
+<span class="lineno">20</span> <span class="n">operation</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSBlockOperation</span> <span class="nl">blockOperationWithBlock</span><span class="p">:</span><span class="o">^</span><span class="p">{</span>
+<span class="lineno">21</span>     <span class="c1">// block2</span>
+<span class="lineno">22</span>     <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Block2 Start&quot;</span><span class="p">);</span>
+<span class="lineno">23</span>     <span class="p">[</span><span class="bp">NSThread</span> <span class="nl">sleepForTimeInterval</span><span class="p">:</span><span class="mf">1.0</span><span class="p">];</span>
+<span class="lineno">24</span>     <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Block2 End&quot;</span><span class="p">);</span>
+<span class="lineno">25</span> <span class="p">}];</span>
+<span class="lineno">26</span>     
+<span class="lineno">27</span> <span class="p">[</span><span class="n">completionOperation</span> <span class="nl">addDependency</span><span class="p">:</span><span class="n">operation</span><span class="p">];</span>
+<span class="lineno">28</span> <span class="p">[</span><span class="n">queue</span> <span class="nl">addOperation</span><span class="p">:</span><span class="n">operation</span><span class="p">];</span>
+<span class="lineno">29</span>     
+<span class="lineno">30</span> <span class="p">[</span><span class="n">queue</span> <span class="nl">addOperation</span><span class="p">:</span><span class="n">completionOperation</span><span class="p">];</span></code></pre></div>
+
+
+<p>输出：</p>
+
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span class="lineno">1</span> 2016-10-31 12:22:49.774 OCPlayground[84061:5887605] Block1 Start
+<span class="lineno">2</span> 2016-10-31 12:22:49.774 OCPlayground[84061:5887572] Block2 Start
+<span class="lineno">3</span> 2016-10-31 12:22:50.776 OCPlayground[84061:5887572] Block2 End
+<span class="lineno">4</span> 2016-10-31 12:22:51.848 OCPlayground[84061:5887605] Block1 End
+<span class="lineno">5</span> 2016-10-31 12:22:51.849 OCPlayground[84061:5887605] Block3</code></pre></div>
+
+
+<h3>dispatch_semaphore</h3>
+
+<p><a href="http://www.cnblogs.com/snailHL/p/3906112.html">关于dispatch_semaphore的使用</a>讲解的很详细。</p>
+
+<p>dispatch_semaphore是GCD用来同步的一种方式，与他相关的共有三个函数，分别是<code>dispatch_semaphore_create</code>、<code>dispatch_semaphore_signal</code>和<code>dispatch_semaphore_wait</code>。</p>
+
+<p>下面我们逐一介绍三个函数：</p>
+
+<p>（1）<code>dispatch_semaphore_create</code>的声明为：<code>dispatch_semaphore_t  dispatch_semaphore_create(long value);</code>
+返回一个<code>dispatch_semaphore_t</code>类型且值为<code>value</code>的信号量。这里的传入的参数<code>value</code>必须大于或等于0，否则<code>dispatch_semaphore_create</code>会返回<code>NULL</code>。</p>
+
+<p>（2）<code>dispatch_semaphore_signal</code>的声明为：<code>long dispatch_semaphore_signal(dispatch_semaphore_t dsema);</code>这个函数会使传入的信号量<code>dsema</code>的值加1。（至于返回值，参考<a href="http://www.cnblogs.com/snailHL/p/3906112.html">关于dispatch_semaphore的使用</a>。）</p>
+
+<p> (3) <code>dispatch_semaphore_wait</code>的声明为：<code>long dispatch_semaphore_wait(dispatch_semaphore_t dsema, dispatch_time_t timeout)；</code>这个函数会使传入的信号量<code>dsema</code>的值减1。这个函数的作用是这样的：</p>
+
+<ul>
+<li>如果<code>dsema</code>信号量的值大于0，该函数所处线程就继续执行下面的语句，并且将信号量的值减1；</li>
+<li>如果<code>dsema</code>的值为0，那么这个函数就阻塞当前线程等待timeout，如果等待期间<code>dsema</code>的值被<code>dispatch_semaphore_signal</code>函数加1了，且该函数（即<code>dispatch_semaphore_wait</code>）所处线程获得了信号量，那么就继续向下执行并将信号量减1。</li>
+<li>如果等待期间没有获取到信号量或者信号量的值一直为0，那么等到timeout时，其所处线程自动执行其后语句。</li>
+</ul>
+
+
+<p>例子：</p>
+
+<div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno"> 1</span> <span class="kt">dispatch_queue_t</span> <span class="n">queue</span> <span class="o">=</span> <span class="n">dispatch_queue_create</span><span class="p">(</span><span class="s">&quot;my.conQ&quot;</span><span class="p">,</span> <span class="n">DISPATCH_QUEUE_CONCURRENT</span><span class="p">);</span>
+<span class="lineno"> 2</span> <span class="kt">dispatch_semaphore_t</span> <span class="n">mySem</span> <span class="o">=</span> <span class="n">dispatch_semaphore_create</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+<span class="lineno"> 3</span>     
+<span class="lineno"> 4</span> <span class="n">dispatch_async</span><span class="p">(</span><span class="n">queue</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
+<span class="lineno"> 5</span>     <span class="c1">// block1</span>
+<span class="lineno"> 6</span>     <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Block1 Start&quot;</span><span class="p">);</span>
+<span class="lineno"> 7</span>     <span class="p">[</span><span class="bp">NSThread</span> <span class="nl">sleepForTimeInterval</span><span class="p">:</span><span class="mf">2.0</span><span class="p">];</span>
+<span class="lineno"> 8</span>     <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Block1 End&quot;</span><span class="p">);</span>
+<span class="lineno"> 9</span>     <span class="n">dispatch_semaphore_signal</span><span class="p">(</span><span class="n">mySem</span><span class="p">);</span>
+<span class="lineno">10</span> <span class="p">});</span>
+<span class="lineno">11</span>     
+<span class="lineno">12</span> <span class="n">dispatch_async</span><span class="p">(</span><span class="n">queue</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
+<span class="lineno">13</span>     <span class="c1">// block2</span>
+<span class="lineno">14</span>     <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Block2 Start&quot;</span><span class="p">);</span>
+<span class="lineno">15</span>     <span class="p">[</span><span class="bp">NSThread</span> <span class="nl">sleepForTimeInterval</span><span class="p">:</span><span class="mf">1.0</span><span class="p">];</span>
+<span class="lineno">16</span>     <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Block2 End&quot;</span><span class="p">);</span>
+<span class="lineno">17</span>     <span class="n">dispatch_semaphore_signal</span><span class="p">(</span><span class="n">mySem</span><span class="p">);</span>
+<span class="lineno">18</span> <span class="p">});</span>
+<span class="lineno">19</span>     
+<span class="lineno">20</span> <span class="n">dispatch_async</span><span class="p">(</span><span class="n">queue</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
+<span class="lineno">21</span>     <span class="n">dispatch_semaphore_wait</span><span class="p">(</span><span class="n">mySem</span><span class="p">,</span> <span class="n">DISPATCH_TIME_FOREVER</span><span class="p">);</span>
+<span class="lineno">22</span>     <span class="n">dispatch_semaphore_wait</span><span class="p">(</span><span class="n">mySem</span><span class="p">,</span> <span class="n">DISPATCH_TIME_FOREVER</span><span class="p">);</span>
+<span class="lineno">23</span>     <span class="c1">// block3</span>
+<span class="lineno">24</span>     <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Block3&quot;</span><span class="p">);</span>
+<span class="lineno">25</span> <span class="p">});</span></code></pre></div>
+
+
+<p>输出：</p>
+
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span class="lineno">1</span> 2016-10-31 22:16:34.402 OCPlayground[85158:6133417] Block1 Start
+<span class="lineno">2</span> 2016-10-31 22:16:34.402 OCPlayground[85158:6133423] Block2 Start
+<span class="lineno">3</span> 2016-10-31 22:16:35.405 OCPlayground[85158:6133423] Block2 End
+<span class="lineno">4</span> 2016-10-31 22:16:36.403 OCPlayground[85158:6133417] Block1 End
+<span class="lineno">5</span> 2016-10-31 22:16:36.404 OCPlayground[85158:6133426] Block3</code></pre></div>
+
+
+<h3>dispatch_group_enter和dispatch_group_leave</h3>
+
+<p>当我们碰到block里面有嵌套的block的时候，简单地使用<code>dispatch_group_notify</code>就不能解决问题了：<code>dispatch_group_notify</code>不会等到嵌套的block执行完再执行。对于这种情况，如果还坚持用<code>dispatch_group_notify</code>，可以有两种解决方案：</p>
+
+<p><strong>方案1：</strong></p>
+
+<p>对于嵌套的block，仍然使用<code>dispatch_group_async</code>将block放入对应的group。比如下面的例子，对于Block1里面的Block4，我们仍然使用<code>dispatch_group_async</code>将Block4放入对应的group，即可以保证Block3在Block4之后执行。也就是说，只要是在<code>dispatch_group_notify</code>对应的Block3执行之前加入group的block，都需要执行，然后才能执行<code>dispatch_group_notify</code>对应的Block3，即，当<code>dispatch_group_notify</code>对应的Block3执行的时候，group中不能有任何没有执行的其它block存在。</p>
+
+<div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno">1</span> <span class="n">dispatch_group_async</span><span class="p">(</span><span class="n">group</span><span class="p">,</span> <span class="n">queue</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
+<span class="lineno">2</span>     <span class="c1">// block4 inside block 1</span>
+<span class="lineno">3</span>     <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Block4 inside Block1 Start&quot;</span><span class="p">);</span>
+<span class="lineno">4</span>     <span class="p">[</span><span class="bp">NSThread</span> <span class="nl">sleepForTimeInterval</span><span class="p">:</span><span class="mf">1.0</span><span class="p">];</span>
+<span class="lineno">5</span>     <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Block4 inside Block1 End&quot;</span><span class="p">);</span>
+<span class="lineno">6</span> <span class="p">});</span></code></pre></div>
+
+
+<p>如果嵌套的block对应的是服务器请求的callback（比如<code>onSuccess:</code>和<code>onFailure:</code>），就不方便将其加入对应的group中。这时候就需要使用方案2。</p>
+
+<p><strong>方案2：</strong>
+通过<code>dispatch_group_enter</code>和<code>dispatch_group_leave</code>手动管理group关联的block的运行状态（或计数）。但是需要注意：进入和退出group次数必须匹配，不仅是code书写方面一致，code执行也要保证一致，否则<code>dispatch_group_notify</code>对应的Block3就不会执行到。</p>
+
+<p>例子：</p>
+
+<div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno"> 1</span> <span class="kt">dispatch_group_t</span> <span class="n">group</span> <span class="o">=</span> <span class="n">dispatch_group_create</span><span class="p">();</span>
+<span class="lineno"> 2</span> <span class="kt">dispatch_queue_t</span> <span class="n">queue</span> <span class="o">=</span> <span class="n">dispatch_get_global_queue</span><span class="p">(</span><span class="n">DISPATCH_QUEUE_PRIORITY_HIGH</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+<span class="lineno"> 3</span>     
+<span class="lineno"> 4</span> <span class="n">dispatch_group_async</span><span class="p">(</span><span class="n">group</span><span class="p">,</span> <span class="n">queue</span><span class="p">,</span> <span class="o">^</span> <span class="p">{</span>
+<span class="lineno"> 5</span>     <span class="c1">// block1</span>
+<span class="lineno"> 6</span>     <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Block1 Start&quot;</span><span class="p">);</span>
+<span class="lineno"> 7</span>     <span class="p">[</span><span class="bp">NSThread</span> <span class="nl">sleepForTimeInterval</span><span class="p">:</span><span class="mf">2.0</span><span class="p">];</span>
+<span class="lineno"> 8</span>     <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Block1 End&quot;</span><span class="p">);</span>
+<span class="lineno"> 9</span> 
+<span class="lineno">10</span>     <span class="n">dispatch_group_enter</span><span class="p">(</span><span class="n">group</span><span class="p">);</span>
+<span class="lineno">11</span>     <span class="n">dispatch_async</span><span class="p">(</span><span class="n">queue</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
+<span class="lineno">12</span>         <span class="c1">// block4 inside block 1</span>
+<span class="lineno">13</span>         <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Block4 inside Block1 Start&quot;</span><span class="p">);</span>
+<span class="lineno">14</span>         <span class="p">[</span><span class="bp">NSThread</span> <span class="nl">sleepForTimeInterval</span><span class="p">:</span><span class="mf">1.0</span><span class="p">];</span>
+<span class="lineno">15</span>         <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Block4 inside Block1 End&quot;</span><span class="p">);</span>
+<span class="lineno">16</span>         <span class="n">dispatch_group_leave</span><span class="p">(</span><span class="n">group</span><span class="p">);</span>
+<span class="lineno">17</span>     <span class="p">});</span>
+<span class="lineno">18</span> <span class="p">});</span>
+<span class="lineno">19</span>     
+<span class="lineno">20</span>     
+<span class="lineno">21</span> <span class="n">dispatch_group_async</span><span class="p">(</span><span class="n">group</span><span class="p">,</span> <span class="n">queue</span><span class="p">,</span> <span class="o">^</span> <span class="p">{</span>
+<span class="lineno">22</span>     <span class="c1">// block2</span>
+<span class="lineno">23</span>     <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Block2 Start&quot;</span><span class="p">);</span>
+<span class="lineno">24</span>     <span class="p">[</span><span class="bp">NSThread</span> <span class="nl">sleepForTimeInterval</span><span class="p">:</span><span class="mf">1.0</span><span class="p">];</span>
+<span class="lineno">25</span>     <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Block2 End&quot;</span><span class="p">);</span>
+<span class="lineno">26</span> <span class="p">});</span>
+<span class="lineno">27</span>     
+<span class="lineno">28</span> <span class="n">dispatch_group_notify</span><span class="p">(</span><span class="n">group</span><span class="p">,</span> <span class="n">queue</span><span class="p">,</span> <span class="o">^</span> <span class="p">{</span>
+<span class="lineno">29</span>     <span class="c1">// block3</span>
+<span class="lineno">30</span>     <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Block3&quot;</span><span class="p">);</span>
+<span class="lineno">31</span> <span class="p">});</span></code></pre></div>
+
+
+<p>输出：</p>
+
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span class="lineno">1</span> 2016-10-31 13:51:23.512 OCPlayground[84646:5947063] Block2 Start
+<span class="lineno">2</span> 2016-10-31 13:51:23.512 OCPlayground[84646:5947080] Block1 Start
+<span class="lineno">3</span> 2016-10-31 13:51:24.518 OCPlayground[84646:5947063] Block2 End
+<span class="lineno">4</span> 2016-10-31 13:51:25.518 OCPlayground[84646:5947080] Block1 End
+<span class="lineno">5</span> 2016-10-31 13:51:25.518 OCPlayground[84646:5947080] Block4 inside Block1 Start
+<span class="lineno">6</span> 2016-10-31 13:51:26.521 OCPlayground[84646:5947080] Block4 inside Block1 End
+<span class="lineno">7</span> 2016-10-31 13:51:26.522 OCPlayground[84646:5947063] Block3</code></pre></div>
+
+
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Zhang Hongchao</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2016-10-31T10:41:27+08:00" pubdate data-updated="true">Oct 31st, 2016</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ios/'>ios</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2016/10/25/supporting-multiple-screens-for-android/" title="Previous Post: Android开发中使用的度量单位px、dp、sp、pt、in、mm">&laquo; Android开发中使用的度量单位px、dp、sp、pt、in、mm</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2017/01/12/wechat-micro-program/" title="Next Post: 微信小程序">微信小程序 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+  <aside class="sidebar">
+   
+  
+    <section class="categories">
+  <h1>Categories</h1>
+    <ul id="top-category-list" class="nav nav-list"><li><a href='/blog/categories/ios'>ios (32)</a></li><li><a href='/blog/categories/objective-c'>objective-c (20)</a></li><li><a href='/blog/categories/productivity'>productivity (16)</a></li><li><a href='/blog/categories/xcode'>xcode (5)</a></li><li><a href='/blog/categories/android'>android (5)</a></li><li><a href='/blog/categories/node'>node (3)</a></li><li><a href='/blog/categories/python'>python (3)</a></li><li><a href='/blog/categories/swift'>swift (2)</a></li><li><a href='/blog/categories/javascript'>javascript (2)</a></li><li><a href='/blog/categories/web'>web (2)</a></li><li><a href='/blog/categories/java'>java (2)</a></li><li><a href='/blog/categories/philosophy'>philosophy (2)</a></li><li><a href='/blog/categories/reading'>reading (2)</a></li><li><a href='/blog/categories/map-tech'>map tech (2)</a></li><li><a href='/blog/categories/design-pattern'>design_pattern (1)</a></li><li><a href='/blog/categories/mobile'>mobile (1)</a></li><li><a href='/blog/categories/android-studio'>android_studio (1)</a></li></ul>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2017/10/20/errors-in-swift/">Swift中的Error</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/05/08/tools-for-detecting-duplicated-code/">iOS代码查重工具</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/04/05/what-are-philosophers-doing/">《哲学家们都干了些什么？》读后小结</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/03/28/when-is-layoutsubviews-called/">layoutSubviews的调用机制</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/03/03/relation-among-m-multiple-gestures/">如何处理多个手势之间的关系</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/hongchaozhang">@hongchaozhang</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'hongchaozhang',
+            count: 10,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+  
+</aside>
+
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2017 - Zhang Hongchao -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'zhanghongchao';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://hongchaozhang.github.io/blog/2016/10/31/sync-between-multiplele-threads-tasks-in-ios-app/';
+        var disqus_url = 'http://hongchaozhang.github.io/blog/2016/10/31/sync-between-multiplele-threads-tasks-in-ios-app/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+
+
+<script>
+  $(document).ready(function() {  
+    var stickyNavTop = $('nav').offset().top;  
+      
+    var stickyNav = function(){  
+      var scrollTop = $(window).scrollTop(); 
+      var navHasClassSticky = $('nav').hasClass('sticky');
+
+      if (scrollTop > stickyNavTop && navHasClassSticky) {   
+        return true;
+      } else if (scrollTop > stickyNavTop) {
+        $('nav').hide();
+        $('nav').addClass('sticky');
+        $('nav').fadeIn('2000');
+      } else {  
+        $('nav').removeClass('sticky');   
+      }  
+    };  
+      
+    stickyNav();  
+      
+    $(window).scroll(function() {  
+      stickyNav();  
+    });  
+  });  
+</script>
+
+
+</body>
+</html>

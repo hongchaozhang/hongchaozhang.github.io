@@ -1,0 +1,349 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>自动引用计数(ARC)和垃圾回收(GC) - Zhang Hongchao</title>
+  <meta name="author" content="Zhang Hongchao">
+
+  
+  <meta name="description" content="在Java或者Javascript的开发中，我们会碰到垃圾回收（Garbage Collection，GC），它和iOS中的自动引用计数（Auto Reference Count，ARC）有什么区别呢？ 垃圾回收简介 参考iOS 面试题（16）：解释垃圾回收的原理。 作为 iOS 开发者， &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://hongchaozhang.github.io/blog/2015/08/14/ARC-and-Memory-Leak">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Zhang Hongchao" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/libs/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<!--
+<link href='https://fonts.googleapis.com/css?family=Noto+Serif:400,700' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+-->
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-62806905-2']);
+    _gaq.push(['_setDomainName','github.io']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Zhang Hongchao</a></h1>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><!--
+<ul class="subscription" data-subscription="rss">
+  
+  
+</ul>
+-->
+
+<!--
+
+-->
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <script type="text/javascript" src="/javascripts/DisableLineNumberCopy.js"></script>
+
+<div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">自动引用计数(ARC)和垃圾回收(GC)</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2015-08-14T00:00:00+08:00" pubdate data-updated="true">Aug 14th, 2015</time>
+        
+           | <a href="#disqus_thread"
+             data-disqus-identifier="http://hongchaozhang.github.io">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>在Java或者Javascript的开发中，我们会碰到垃圾回收（Garbage Collection，GC），它和iOS中的自动引用计数（Auto Reference Count，ARC）有什么区别呢？</p>
+
+<!-- more -->
+
+
+<h2>垃圾回收简介</h2>
+
+<p>参考<a href="https://mp.weixin.qq.com/s?__biz=MjM5NTIyNTUyMQ==&amp;mid=2709545319&amp;idx=1&amp;sn=42783a72aa6c884b9292054edf2e416e&amp;chksm=828f0bb9b5f882af12a903ba9f0f9063deecf6710f6ab50b3ebcaf6c1b49d52b3f3fb56bada1&amp;scene=0&amp;pass_ticket=Rv%2Fk3YeUUuKkXhjvYLryk470ImsKulGNm6K1MyPs5tU9Oxl6j2olw0D25oUcORSu#rd">iOS 面试题（16）：解释垃圾回收的原理</a>。</p>
+
+<p>作为 iOS 开发者，了解一下这个世界上除了 ARC 之外最流行的内存管理方式，还是挺有价值的。</p>
+
+<p>垃圾回收这种内存管理机制最早由图灵奖获得者John McCarthy在1959年提出，垃圾回收的理论主要基于一个事实：<strong>大部分的对象的生命期都很短</strong>。</p>
+
+<p>所以，GC 将内存中的对象主要分成两个区域：Young区和Old区。对象先在Young区被创建，然后如果经过一段时间还存活着，则被移动到Old区。（其实还有一个Perm区，但是内存回收算法通常不涉及这个区域）</p>
+
+<p>Young区和Old区因为对象的特点不一样，所以采用了两种完全不同的内存回收算法。</p>
+
+<p>Young区的对象因为大部分生命期都很短，每次回收之后只有少部分能够存活，所以采用的算法叫Copying算法，简单说来就是直接把活着的对象复制到另一个地方。Young区内部又分成了三块区域Eden区、From区、To 区。每次执行Copying算法时，即将存活的对象从Eden区和From区复制到 To 区，然后交换From区和To区的名字（即From区变成To区，To区变成From区）。</p>
+
+<p>Old区的对象因为都是存活下来的老司机了，所以如果用Copying算法的话，很可能90%的对象都得复制一遍了，不划算啊！所以Old区的回收算法叫Mark-Sweep算法。简单来说，就是只是把不用的对象先标记（Mark）出来，然后回收（Sweep），活着的对象就不动它了。因为大部分对象都活着，所以回收下来的对象并不多。但是这个算法会有一个问题：它会产生内存碎片，所以它一般还会带有整理内存碎片的逻辑，在算法中叫做Compact。如何整理呢？早年用过Windows的硬盘碎片整理程序的朋友可能能理解，其实就是把对象插到这些空的位置里。这里面还涉及很多优化的细节，我就不一一展开了。</p>
+
+<p>讲完主要的算法，接下来GC需要解决的问题就只剩下如何找出需要回收的垃圾对象了。为了避免ARC解决不了的循环引用问题，GC引入了一个叫做<strong>可达性</strong>的概念，应用这个概念，即使是有循环引用的垃圾对象，也可以被回收掉。下面就给大家介绍一下这个概念。</p>
+
+<p>当GC工作时，GC认为当前的一些对象是有效的，这些对象包括：<strong>全局变量</strong>，<strong>栈里面的变量</strong>等，然后GC从这些变量出发，去标记这些变量“<strong>可达</strong>”的其它变量，这个标记是一个递归的过程，最后就像从树根的内存对象开始，把所有的树枝和树叶都记成可达的了。那除了这些可达的变量，别的变量就都需要被回收了。这就解决了<strong>循环引用</strong>带来的内存泄漏问题。</p>
+
+<p>听起来很牛逼对不对？那为什么苹果不用呢？实际上苹果在OSX10.5的时候还真用了，不过在10.7的时候把GC换成了ARC。那么，GC有什么问题让苹果不能忍，这就是：<strong>垃圾回收的时候，整个程序需要暂停</strong>，英文把这个过程叫做：Stop the World。所以说，你知道Android手机有时候为什么会卡吧，GC就相当于春运的最后一天返城高峰。当所有的对象都需要一起回收时，那种体验肯定是当时还在世的乔布斯忍受不了的。</p>
+
+<h2>总结</h2>
+
+<h3>ARC相对于GC的优点</h3>
+
+<p>ARC工作在编译期，在运行时没有额外开销。
+ARC的内存回收是平稳进行的，对象不被使用时会立即被回收。而GC的内存回收是一阵一阵的，回收时需要暂停程序，会有一定的卡顿。</p>
+
+<h3>ARC相对于GC的缺点</h3>
+
+<p>GC真的是太简单了，基本上完全不用处理内存管理问题，而ARC还是需要处理类似循环引用这种内存管理问题。
+GC一类的语言相对来说学习起来更简单。</p>
+
+<p>另外，还可以参考：</p>
+
+<ul>
+<li><a href="http://docs.elementscompiler.com/Concepts/ARCvsGC/">ARC vs GC</a></li>
+<li><a href="http://lists.apple.com/archives/objc-language/2011/Jun/msg00013.html">Re: ARC replacing GC? from Chris Lattner&rsquo;s mail list</a>.</li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Zhang Hongchao</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2015-08-14T00:00:00+08:00" pubdate data-updated="true">Aug 14th, 2015</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ios/'>ios</a>, <a class='category' href='/blog/categories/objective-c/'>objective-c</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/08/13/Understanding-KVC-and-KVO/" title="Previous Post: Understanding KVC and KVO in Objective-C">&laquo; Understanding KVC and KVO in Objective-C</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/08/17/the-dSYM-file-in-ios-project/" title="Next Post: the .dSYM file in ios project">the .dSYM file in ios project &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+  <aside class="sidebar">
+   
+  
+    <section class="categories">
+  <h1>Categories</h1>
+    <ul id="top-category-list" class="nav nav-list"><li><a href='/blog/categories/ios'>ios (32)</a></li><li><a href='/blog/categories/objective-c'>objective-c (20)</a></li><li><a href='/blog/categories/productivity'>productivity (16)</a></li><li><a href='/blog/categories/xcode'>xcode (5)</a></li><li><a href='/blog/categories/android'>android (5)</a></li><li><a href='/blog/categories/node'>node (3)</a></li><li><a href='/blog/categories/python'>python (3)</a></li><li><a href='/blog/categories/swift'>swift (2)</a></li><li><a href='/blog/categories/javascript'>javascript (2)</a></li><li><a href='/blog/categories/web'>web (2)</a></li><li><a href='/blog/categories/java'>java (2)</a></li><li><a href='/blog/categories/philosophy'>philosophy (2)</a></li><li><a href='/blog/categories/reading'>reading (2)</a></li><li><a href='/blog/categories/map-tech'>map tech (2)</a></li><li><a href='/blog/categories/design-pattern'>design_pattern (1)</a></li><li><a href='/blog/categories/mobile'>mobile (1)</a></li><li><a href='/blog/categories/android-studio'>android_studio (1)</a></li></ul>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2017/10/20/errors-in-swift/">Swift中的Error</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/05/08/tools-for-detecting-duplicated-code/">iOS代码查重工具</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/04/05/what-are-philosophers-doing/">《哲学家们都干了些什么？》读后小结</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/03/28/when-is-layoutsubviews-called/">layoutSubviews的调用机制</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/03/03/relation-among-m-multiple-gestures/">如何处理多个手势之间的关系</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/hongchaozhang">@hongchaozhang</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'hongchaozhang',
+            count: 10,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+  
+</aside>
+
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2017 - Zhang Hongchao -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'zhanghongchao';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://hongchaozhang.github.io/blog/2015/08/14/ARC-and-Memory-Leak/';
+        var disqus_url = 'http://hongchaozhang.github.io/blog/2015/08/14/ARC-and-Memory-Leak/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+
+
+<script>
+  $(document).ready(function() {  
+    var stickyNavTop = $('nav').offset().top;  
+      
+    var stickyNav = function(){  
+      var scrollTop = $(window).scrollTop(); 
+      var navHasClassSticky = $('nav').hasClass('sticky');
+
+      if (scrollTop > stickyNavTop && navHasClassSticky) {   
+        return true;
+      } else if (scrollTop > stickyNavTop) {
+        $('nav').hide();
+        $('nav').addClass('sticky');
+        $('nav').fadeIn('2000');
+      } else {  
+        $('nav').removeClass('sticky');   
+      }  
+    };  
+      
+    stickyNav();  
+      
+    $(window).scroll(function() {  
+      stickyNav();  
+    });  
+  });  
+</script>
+
+
+</body>
+</html>

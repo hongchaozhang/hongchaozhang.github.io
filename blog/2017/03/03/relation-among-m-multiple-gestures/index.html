@@ -1,0 +1,363 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>如何处理多个手势之间的关系 - Zhang Hongchao</title>
+  <meta name="author" content="Zhang Hongchao">
+
+  
+  <meta name="description" content="可以为同一个view添加两个相同类型的手势吗？比如添加两个UITapGestureRecognizer到同一个view。
+如果一个view中有多个手势（UIGestureRecognizer），应该怎么处理它们之间的关系？
+如果子view和父view中都有手势，这些手势之间的关系又是怎么样的呢 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://hongchaozhang.github.io/blog/2017/03/03/relation-among-m-multiple-gestures">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Zhang Hongchao" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/libs/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<!--
+<link href='https://fonts.googleapis.com/css?family=Noto+Serif:400,700' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+-->
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-62806905-2']);
+    _gaq.push(['_setDomainName','github.io']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Zhang Hongchao</a></h1>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><!--
+<ul class="subscription" data-subscription="rss">
+  
+  
+</ul>
+-->
+
+<!--
+
+-->
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <script type="text/javascript" src="/javascripts/DisableLineNumberCopy.js"></script>
+
+<div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">如何处理多个手势之间的关系</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2017-03-03T13:11:55+08:00" pubdate data-updated="true">Mar 3rd, 2017</time>
+        
+           | <a href="#disqus_thread"
+             data-disqus-identifier="http://hongchaozhang.github.io">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><ol>
+<li>可以为同一个view添加两个相同类型的手势吗？比如添加两个<code>UITapGestureRecognizer</code>到同一个view。</li>
+<li>如果一个view中有多个手势（<code>UIGestureRecognizer</code>），应该怎么处理它们之间的关系？</li>
+<li>如果子view和父view中都有手势，这些手势之间的关系又是怎么样的呢？</li>
+</ol>
+
+
+<!-- more -->
+
+
+<p>单个手势的响应过程参考<a href="http://hongchaozhang.github.io/blog/2015/10/21/touch-event-in-ios/">iOS中的触控事件机制</a>。但是上面几个问题需要考虑多个手势之间的关系，超出了上面文章的讨论范围。下面，我们就来讨论一下上面几个问题。</p>
+
+<h3>1. 可以为同一个view添加两个相同类型的手势吗？比如添加两个UITapGestureRecognizer到同一个view。</h3>
+
+<p>可以为view添加多个不同的<code>UIGestureRecognizer</code>，比如pan和tap，可以同时起作用，但是如果你想<strong>加入两个tap手势，第二个会将第一个手势覆盖</strong>。这个时候，至少需要为其中一个tap手势添加delegate，并实现下面的方法，为两个tap同时存在的情况返回true：</p>
+
+<div class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="n">optional</span> <span class="n">public</span> <span class="k">func</span> <span class="n">gestureRecognizer</span><span class="p">(</span><span class="n">_</span> <span class="nl">gestureRecognizer</span><span class="p">:</span> <span class="bp">UIGestureRecognizer</span><span class="p">,</span> <span class="n">shouldRecognizeSimultaneouslyWith</span> <span class="nl">otherGestureRecognizer</span><span class="p">:</span> <span class="bp">UIGestureRecognizer</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bool</span></code></pre></div>
+
+
+<blockquote><p>returning YES is guaranteed to allow simultaneous recognition. returning NO is not guaranteed to prevent simultaneous recognition, as the other gesture&rsquo;s delegate may return YES.</p></blockquote>
+
+<h3>2. 如果一个view中有多个手势（<code>UIGestureRecognizer</code>），应该怎么处理它们之间的关系？</h3>
+
+<p>如果两个手势之间没有识别上的困难，那么不用任何处理，比如tap和pan，但是如果有关系，比如single tap和double tap，rotate和pinch，这需要明确两者之间的关系。</p>
+
+<p>如果不希望在double tap的同时触发两次single tap，需要在single tap的delegate中实现方法</p>
+
+<div class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="n">optional</span> <span class="n">public</span> <span class="k">func</span> <span class="n">gestureRecognizer</span><span class="p">(</span><span class="n">_</span> <span class="nl">gestureRecognizer</span><span class="p">:</span> <span class="bp">UIGestureRecognizer</span><span class="p">,</span> <span class="n">shouldRequireFailureOf</span> <span class="nl">otherGestureRecognizer</span><span class="p">:</span> <span class="bp">UIGestureRecognizer</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bool</span></code></pre></div>
+
+
+<p>这样，可以保证single tap会等待double tap失败之后再被触发。缺点是single tap反应迟钝。</p>
+
+<p>如果希望在rotate的同时可以进行pinch，需要在pinch或者rotate的手势的delegate中实现方法：</p>
+
+<div class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="n">optional</span> <span class="n">public</span> <span class="k">func</span> <span class="n">gestureRecognizer</span><span class="p">(</span><span class="n">_</span> <span class="nl">gestureRecognizer</span><span class="p">:</span> <span class="bp">UIGestureRecognizer</span><span class="p">,</span> <span class="n">shouldRecognizeSimultaneouslyWith</span> <span class="nl">otherGestureRecognizer</span><span class="p">:</span> <span class="bp">UIGestureRecognizer</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bool</span></code></pre></div>
+
+
+<p>这样，rotate和pinch就能同时被识别。</p>
+
+<h3>3. 如果子view和父view中都有手势，这些手势之间的关系又是怎么样的呢？</h3>
+
+<p><code>UIGestureRecognizerDelegate</code>中的方法并没有限制在同一个view之中，所以，不同view之间的手势关系与1和2的处理相同。</p>
+
+<h3>注意</h3>
+
+<p>如果为手势实现了delegate方法，那么<code>UIGestureRecognizer</code>里面的类似的方法将不再起作用。比如：</p>
+
+<p>如果设置了</p>
+
+<div class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="n">singleTap</span><span class="p">.</span><span class="n">delegate</span> <span class="o">=</span> <span class="nb">self</span><span class="p">.</span><span class="n">singleTapOnMapWidgetViewerGestureRecognizerDelegate</span></code></pre></div>
+
+
+<p>那么</p>
+
+<div class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="n">singleTap</span><span class="p">.</span><span class="n">require</span><span class="p">(</span><span class="nl">toFail</span><span class="p">:</span> <span class="n">doubleTap</span><span class="p">)</span></code></pre></div>
+
+
+<p>就不起作用了，必须通过<code>UIGestureRecognizerDelegate</code>里面的方法实现。</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Zhang Hongchao</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2017-03-03T13:11:55+08:00" pubdate data-updated="true">Mar 3rd, 2017</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ios/'>ios</a>, <a class='category' href='/blog/categories/objective-c/'>objective-c</a>, <a class='category' href='/blog/categories/swift/'>swift</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2017/02/21/indoor-position/" title="Previous Post: 室内定位技术现状">&laquo; 室内定位技术现状</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2017/03/28/when-is-layoutsubviews-called/" title="Next Post: layoutSubviews的调用机制">layoutSubviews的调用机制 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+  <aside class="sidebar">
+   
+  
+    <section class="categories">
+  <h1>Categories</h1>
+    <ul id="top-category-list" class="nav nav-list"><li><a href='/blog/categories/ios'>ios (32)</a></li><li><a href='/blog/categories/objective-c'>objective-c (20)</a></li><li><a href='/blog/categories/productivity'>productivity (16)</a></li><li><a href='/blog/categories/xcode'>xcode (5)</a></li><li><a href='/blog/categories/android'>android (5)</a></li><li><a href='/blog/categories/node'>node (3)</a></li><li><a href='/blog/categories/python'>python (3)</a></li><li><a href='/blog/categories/swift'>swift (2)</a></li><li><a href='/blog/categories/javascript'>javascript (2)</a></li><li><a href='/blog/categories/web'>web (2)</a></li><li><a href='/blog/categories/java'>java (2)</a></li><li><a href='/blog/categories/philosophy'>philosophy (2)</a></li><li><a href='/blog/categories/reading'>reading (2)</a></li><li><a href='/blog/categories/map-tech'>map tech (2)</a></li><li><a href='/blog/categories/design-pattern'>design_pattern (1)</a></li><li><a href='/blog/categories/mobile'>mobile (1)</a></li><li><a href='/blog/categories/android-studio'>android_studio (1)</a></li></ul>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2017/10/20/errors-in-swift/">Swift中的Error</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/05/08/tools-for-detecting-duplicated-code/">iOS代码查重工具</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/04/05/what-are-philosophers-doing/">《哲学家们都干了些什么？》读后小结</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/03/28/when-is-layoutsubviews-called/">layoutSubviews的调用机制</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/03/03/relation-among-m-multiple-gestures/">如何处理多个手势之间的关系</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/hongchaozhang">@hongchaozhang</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'hongchaozhang',
+            count: 10,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+  
+</aside>
+
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2017 - Zhang Hongchao -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'zhanghongchao';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://hongchaozhang.github.io/blog/2017/03/03/relation-among-m-multiple-gestures/';
+        var disqus_url = 'http://hongchaozhang.github.io/blog/2017/03/03/relation-among-m-multiple-gestures/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+
+
+<script>
+  $(document).ready(function() {  
+    var stickyNavTop = $('nav').offset().top;  
+      
+    var stickyNav = function(){  
+      var scrollTop = $(window).scrollTop(); 
+      var navHasClassSticky = $('nav').hasClass('sticky');
+
+      if (scrollTop > stickyNavTop && navHasClassSticky) {   
+        return true;
+      } else if (scrollTop > stickyNavTop) {
+        $('nav').hide();
+        $('nav').addClass('sticky');
+        $('nav').fadeIn('2000');
+      } else {  
+        $('nav').removeClass('sticky');   
+      }  
+    };  
+      
+    stickyNav();  
+      
+    $(window).scroll(function() {  
+      stickyNav();  
+    });  
+  });  
+</script>
+
+
+</body>
+</html>

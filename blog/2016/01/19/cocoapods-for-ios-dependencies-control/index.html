@@ -1,0 +1,426 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>应用CocoaPods管理iOS的依赖库关系 - Zhang Hongchao</title>
+  <meta name="author" content="Zhang Hongchao">
+
+  
+  <meta name="description" content="就像Java有Maven，nodejs有npm一样，ios也有自己的库依赖管理工具：CocoaPods。 参考用CocoaPods做iOS程序的依赖管理。 安装与设置 Mac下使用自带的ruby的gem命令进行安装： sudo gem install cocoapods &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://hongchaozhang.github.io/blog/2016/01/19/cocoapods-for-ios-dependencies-control">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Zhang Hongchao" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/libs/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<!--
+<link href='https://fonts.googleapis.com/css?family=Noto+Serif:400,700' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+-->
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-62806905-2']);
+    _gaq.push(['_setDomainName','github.io']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Zhang Hongchao</a></h1>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><!--
+<ul class="subscription" data-subscription="rss">
+  
+  
+</ul>
+-->
+
+<!--
+
+-->
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <script type="text/javascript" src="/javascripts/DisableLineNumberCopy.js"></script>
+
+<div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">应用CocoaPods管理iOS的依赖库关系</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2016-01-19T13:47:18+08:00" pubdate data-updated="true">Jan 19th, 2016</time>
+        
+           | <a href="#disqus_thread"
+             data-disqus-identifier="http://hongchaozhang.github.io">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>就像Java有Maven，nodejs有npm一样，ios也有自己的库依赖管理工具：CocoaPods。</p>
+
+<!-- more -->
+
+
+<p>参考<a href="http://www.cnblogs.com/iyuanxiaojun/p/4465850.html">用CocoaPods做iOS程序的依赖管理</a>。</p>
+
+<h3>安装与设置</h3>
+
+<p>Mac下使用自带的ruby的gem命令进行安装：</p>
+
+<div class="highlight"><pre><code class="language-text" data-lang="text">sudo gem install cocoapods</code></pre></div>
+
+
+<p>第一次使用之前需要设置CocoaPods：</p>
+
+<div class="highlight"><pre><code class="language-text" data-lang="text">pod setup</code></pre></div>
+
+
+<p>此时需要耐心等待，因为CocoaPods会将这些podspec索引文件更新到本地的 ~/.cocoapods/目录下，这个索引文件比较大，有80M左右，比较慢。</p>
+
+<blockquote><p>如果你等太久，可以试着cd到那个目录，用du -sh *来查看下载进度。</p></blockquote>
+
+<h3>使用</h3>
+
+<h4>安装依赖库</h4>
+
+<p>使用时需要新建Podfile文件，格式如下：</p>
+
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span class="lineno">1</span> platform :ios
+<span class="lineno">2</span> pod &#39;JSONKit&#39;,       &#39;~&gt; 1.4&#39;
+<span class="lineno">3</span> pod &#39;Reachability&#39;,  &#39;~&gt; 3.0.0&#39;
+<span class="lineno">4</span> pod &#39;ASIHTTPRequest&#39;
+<span class="lineno">5</span> pod &#39;RegexKitLite&#39;</code></pre></div>
+
+
+<p>然后你将编辑好的Podfile文件放到你的项目根目录中，执行如下命令即可：</p>
+
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span class="lineno">1</span> cd &quot;your project home&quot;
+<span class="lineno">2</span> pod install</code></pre></div>
+
+
+<p>现在，你的所有第三方库都已经下载完成并且设置好了编译参数和依赖，你只需要记住如下两点即可：</p>
+
+<ul>
+<li>使用CocoaPods生成的 .xcworkspace 文件来打开工程，而不是以前的 .xcodeproj 文件。</li>
+<li>每次更改了Podfile文件，你需要重新执行一次pod update命令。</li>
+</ul>
+
+
+<h4>搜索依赖库</h4>
+
+<p>你如果不知道cocoaPods管理的库中，是否有你想要的库，那么你可以通过</p>
+
+<div class="highlight"><pre><code class="language-text" data-lang="text">pod search</code></pre></div>
+
+
+<p>命令进行查找。</p>
+
+<h3>问题</h3>
+
+<h4>1. required a higher minimum deployment target</h4>
+
+<p>当我在使用<em><a href="https://github.com/itsbonczek/kingpin">kingpin</a></em>第三方库的时候，出现了下面的问题：</p>
+
+<div class="highlight"><pre><code class="language-text" data-lang="text">Specs satisfying the `kingpin` dependency were found, but they required a higher minimum deployment target.</code></pre></div>
+
+
+<p>通过修改Podfile的第一行：</p>
+
+<div class="highlight"><pre><code class="language-text" data-lang="text">platform :ios</code></pre></div>
+
+
+<p>为</p>
+
+<div class="highlight"><pre><code class="language-text" data-lang="text">platform :ios, &#39;7.0&#39;</code></pre></div>
+
+
+<p>解决。</p>
+
+<p>如果问题仍然存在，将'7.0'改成'8.0'或者'9.0'，直到没有错误。</p>
+
+<h4>2. 在Objective-C中引用swift写的CocoaPod库</h4>
+
+<p>当我在用<em><a href="https://github.com/danielgindi/ios-charts">ios-charts</a></em>库的时候，首先出现了问题1。解决问题1之后，又出现了下面的问题：</p>
+
+<div class="highlight"><pre><code class="language-text" data-lang="text">[!] Pods written in Swift can only be integrated as frameworks; add `use_frameworks!` to your Podfile or target to opt into using it. The Swift Pod being used is: Charts</code></pre></div>
+
+
+<p>于是，将Podfile从</p>
+
+<div class="highlight"><pre><code class="language-text" data-lang="text">platform :ios, &#39;9.0&#39;
+pod &#39;Charts&#39;</code></pre></div>
+
+
+<p>改成</p>
+
+<div class="highlight"><pre><code class="language-text" data-lang="text">platform :ios, &#39;9.0&#39;
+use_frameworks!
+pod &#39;Charts&#39;</code></pre></div>
+
+
+<p>解决了这个问题。接着就是如何在Objective-C的project中使用这个swift库了。</p>
+
+<p>首先是官方文档<a href="https://developer.apple.com/library/ios/documentation/Swift/Conceptual/BuildingCocoaApps/MixandMatch.html#//apple_ref/doc/uid/TP40014216-CH10-XID_77">Swift and Objective-C in the Same Project</a>，有点看不懂。</p>
+
+<p>一些人说的：</p>
+
+<div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno">1</span> <span class="p">@</span><span class="n">import</span> <span class="n">Charts</span><span class="p">;</span></code></pre></div>
+
+
+<p>会报错。</p>
+
+<p>很庆幸，StackOverflow上有人遇到了相同的问题：<a href="http://stackoverflow.com/questions/33931517/module-not-found-error-when-importing-swift-pod-into-objective-c-project">Module not found error when importing Swift pod into Objective-C project</a>，在需要用到Charts库中的类的文件中，加入下面代码：</p>
+
+<div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno">1</span> <span class="cp">#import &quot;Charts-Swift.h&quot;</span></code></pre></div>
+
+
+<p>另外，注意，在Storyboard中使用库中类的时候，在<em>Module</em>框中填上<em>Charts</em>，如下：</p>
+
+<p><img src="/images/using_lib_class_in_storyboard.jpg" alt="using_lib_class_in_storyboard" /></p>
+
+<p>原理参考：<a href="https://github.com/CocoaPods/CocoaPods/issues/4373">Unable to satisfy the following requirements with Podfile, but they required a higher minimum deployment target. #4373</a>。</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Zhang Hongchao</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2016-01-19T13:47:18+08:00" pubdate data-updated="true">Jan 19th, 2016</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ios/'>ios</a>, <a class='category' href='/blog/categories/productivity/'>productivity</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2016/01/15/python-supports-chinese-charactors/" title="Previous Post: python对中文的支持问题">&laquo; python对中文的支持问题</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2016/01/29/convertion-among-every-geo-system/" title="Next Post: 火星坐标导致iOS系统下高德地图定位不准">火星坐标导致iOS系统下高德地图定位不准 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+  <aside class="sidebar">
+   
+  
+    <section class="categories">
+  <h1>Categories</h1>
+    <ul id="top-category-list" class="nav nav-list"><li><a href='/blog/categories/ios'>ios (32)</a></li><li><a href='/blog/categories/objective-c'>objective-c (20)</a></li><li><a href='/blog/categories/productivity'>productivity (16)</a></li><li><a href='/blog/categories/xcode'>xcode (5)</a></li><li><a href='/blog/categories/android'>android (5)</a></li><li><a href='/blog/categories/node'>node (3)</a></li><li><a href='/blog/categories/python'>python (3)</a></li><li><a href='/blog/categories/swift'>swift (2)</a></li><li><a href='/blog/categories/javascript'>javascript (2)</a></li><li><a href='/blog/categories/web'>web (2)</a></li><li><a href='/blog/categories/java'>java (2)</a></li><li><a href='/blog/categories/philosophy'>philosophy (2)</a></li><li><a href='/blog/categories/reading'>reading (2)</a></li><li><a href='/blog/categories/map-tech'>map tech (2)</a></li><li><a href='/blog/categories/design-pattern'>design_pattern (1)</a></li><li><a href='/blog/categories/mobile'>mobile (1)</a></li><li><a href='/blog/categories/android-studio'>android_studio (1)</a></li></ul>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2017/10/20/errors-in-swift/">Swift中的Error</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/05/08/tools-for-detecting-duplicated-code/">iOS代码查重工具</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/04/05/what-are-philosophers-doing/">《哲学家们都干了些什么？》读后小结</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/03/28/when-is-layoutsubviews-called/">layoutSubviews的调用机制</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/03/03/relation-among-m-multiple-gestures/">如何处理多个手势之间的关系</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/hongchaozhang">@hongchaozhang</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'hongchaozhang',
+            count: 10,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+  
+</aside>
+
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2017 - Zhang Hongchao -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'zhanghongchao';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://hongchaozhang.github.io/blog/2016/01/19/cocoapods-for-ios-dependencies-control/';
+        var disqus_url = 'http://hongchaozhang.github.io/blog/2016/01/19/cocoapods-for-ios-dependencies-control/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+
+
+<script>
+  $(document).ready(function() {  
+    var stickyNavTop = $('nav').offset().top;  
+      
+    var stickyNav = function(){  
+      var scrollTop = $(window).scrollTop(); 
+      var navHasClassSticky = $('nav').hasClass('sticky');
+
+      if (scrollTop > stickyNavTop && navHasClassSticky) {   
+        return true;
+      } else if (scrollTop > stickyNavTop) {
+        $('nav').hide();
+        $('nav').addClass('sticky');
+        $('nav').fadeIn('2000');
+      } else {  
+        $('nav').removeClass('sticky');   
+      }  
+    };  
+      
+    stickyNav();  
+      
+    $(window).scroll(function() {  
+      stickyNav();  
+    });  
+  });  
+</script>
+
+
+</body>
+</html>

@@ -1,0 +1,606 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>室内定位技术现状 - Zhang Hongchao</title>
+  <meta name="author" content="Zhang Hongchao">
+
+  
+  <meta name="description" content="室内定位技术简介 室内定位的应用场景，参见室内定位应用场合。 室内地图 要进行室内定位，首先需要有室内地图。 室内定位技术 &mdash; 工作原理 应用场合 GPS 接收多个卫星信号计算位置，信号中包含卫星信息和时间戳，根据时间差计算距离。 室外定位跟踪，农业和军事应用 基站定位 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://hongchaozhang.github.io/blog/2017/02/21/indoor-position">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Zhang Hongchao" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/libs/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<!--
+<link href='https://fonts.googleapis.com/css?family=Noto+Serif:400,700' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+-->
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-62806905-2']);
+    _gaq.push(['_setDomainName','github.io']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Zhang Hongchao</a></h1>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><!--
+<ul class="subscription" data-subscription="rss">
+  
+  
+</ul>
+-->
+
+<!--
+
+-->
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <script type="text/javascript" src="/javascripts/DisableLineNumberCopy.js"></script>
+
+<div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">室内定位技术现状</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2017-02-21T13:37:02+08:00" pubdate data-updated="true">Feb 21st, 2017</time>
+        
+           | <a href="#disqus_thread"
+             data-disqus-identifier="http://hongchaozhang.github.io">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h2>室内定位技术简介</h2>
+
+<p>室内定位的应用场景，参见<a href="https://senion.com/indoor-positioning-for-retail/">室内定位应用场合</a>。</p>
+
+<h3>室内地图</h3>
+
+<p>要进行室内定位，首先需要有室内地图。</p>
+
+<!-- more -->
+
+
+<h3>室内定位技术</h3>
+
+<table>
+<thead>
+<tr>
+<th>&mdash; </th>
+<th> 工作原理 </th>
+<th> 应用场合</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GPS </td>
+<td> 接收多个卫星信号计算位置，信号中包含卫星信息和时间戳，根据时间差计算距离。</td>
+<td> 室外定位跟踪，农业和军事应用</td>
+</tr>
+<tr>
+<td>基站定位 </td>
+<td> 接收多个基站信号，信号中包含基站信息，根据信号强度计算距离。</td>
+<td> &mdash; </td>
+</tr>
+<tr>
+<td>Wi-Fi </td>
+<td> 接收多个Wi-Fi信号，根据强度计算距离。</td>
+<td> 室内定位</td>
+</tr>
+<tr>
+<td>蓝牙 </td>
+<td> 接收低功耗蓝牙beacon发射的信号获取beacon信息，通过信号强度计算距离。</td>
+<td> 室内定位</td>
+</tr>
+<tr>
+<td>RFID </td>
+<td> &mdash; </td>
+<td> 存货跟踪，厘米级精度定位要求 </td>
+</tr>
+<tr>
+<td>地磁 </td>
+<td> 在地磁指纹采集的基础上，通过磁感应器和网络请求获取位置信息。</td>
+<td> &mdash; </td>
+</tr>
+<tr>
+<td>NFC </td>
+<td> &mdash; </td>
+<td> 支付／票务 </td>
+</tr>
+<tr>
+<td>陀螺 </td>
+<td> 在初始状态已知的情况下，通过积分计算未来状态。</td>
+<td> 和其它定位方式结合使用，在保证一定精度的基础上，降低功耗。</td>
+</tr>
+</tbody>
+</table>
+
+
+<table>
+<thead>
+<tr>
+<th>&mdash; </th>
+<th> GPS </th>
+<th> 基站定位 </th>
+<th> Wi-Fi </th>
+<th> 蓝牙 </th>
+<th> RFID </th>
+<th> 地磁 </th>
+<th> NFC </th>
+<th> 陀螺 </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>配置密度 </td>
+<td> 全球 </td>
+<td> 200米-2000米 </td>
+<td> 20米-50米 </td>
+<td> 1米-50米 </td>
+<td> 1厘米-100米 </td>
+<td> 全球 </td>
+<td> &mdash; </td>
+<td> 不限 </td>
+</tr>
+<tr>
+<td>可接入（1-5） </td>
+<td> 4 </td>
+<td> 4 </td>
+<td> 3 </td>
+<td> 4 </td>
+<td> 2 </td>
+<td> 2 </td>
+<td> 3 </td>
+<td> 4 </td>
+</tr>
+<tr>
+<td>精度（1-5） </td>
+<td> 1(10米) </td>
+<td> 0.5(100米) </td>
+<td> 3(3-5米) </td>
+<td> 4(1-3米) </td>
+<td> 5(厘米级别) </td>
+<td> &mdash; </td>
+<td> 5(厘米级别) </td>
+<td> 0.5(10米／100米) </td>
+</tr>
+<tr>
+<td>隐私安全（1-5） </td>
+<td> 3 </td>
+<td> 3 </td>
+<td> 2 </td>
+<td> 3 </td>
+<td> 4 </td>
+<td> 5 </td>
+<td> 4.5 </td>
+<td> 5 </td>
+</tr>
+<tr>
+<td>代价（1-5） </td>
+<td> 5 </td>
+<td> 5 </td>
+<td> 3 </td>
+<td> 4 </td>
+<td> 2 </td>
+<td> 1.5 </td>
+<td> 3 </td>
+<td> 1 </td>
+</tr>
+</tbody>
+</table>
+
+
+<p> 参考：<a href="http://lighthouse.io/indoor-location-technologies-compared/">Indoor location technologies compared</a></p>
+
+<p> <strong>指纹技术</strong></p>
+
+<p> 直接根据Wi-Fi或者蓝牙的信号强度计算距离会有比较大的误差，因为每个接入点的信号强度衰减模型不统一，并且受所在环境（遮挡等）的影响比较大。所以，就实地采集每个位置处每个接入点的信号强度，并存入服务器供后续定位请求使用。</p>
+
+<p> 其它定位原理参考<a href="http://bbs.lbsyun.baidu.com/forum.php?mod=viewthread&amp;tid=116547&amp;extra=page%3D1">室内定位技术原理揭秘</a>。</p>
+
+<h2>各厂商实现的室内定位技术</h2>
+
+<h3>苹果</h3>
+
+<p>苹果在2014年的WWDC上（Taking Core Location Indoors）推出了iBeacon技术和协议，以及对应的SDK，实现室内定位。</p>
+
+<p>关于iBeacon的几个问题。</p>
+
+<ul>
+<li><p>我部署的iBeacon节点是否会被别的商家使用？</p>
+
+<p>  回答是Yes！由于iBeacon协议开放，而且易于伪造，你部署的节点完全可以被竞争企业使用。甚至是伪造一个跟你的ID完全相同的Beacon。防止冒用蹭用是一个课题。</p>
+
+<p>  设备商应该会给出一个解决方案，但截止目前还是可以被冒用。由于现在还没大规模部署，还有时间去解决这个问题。</p></li>
+<li><p>iBeacon的耗电量如何？</p>
+
+<p>  现在市售方案除Estimote比较特殊外，基本上都是采用的TI2540或2541方案。Beacon作为蓝牙基站发射时间特别短只有4mS左右。</p>
+
+<p>  Beacon的发射周期可调，比如苹果规定100mS发射一次，也就是说100mS里只发射4ms。不同的使用场景可以根据实际需要调整发射周期、发射频率，功耗也会有差别，短的半年，长的3-4年。</p></li>
+</ul>
+
+
+<p><strong>参考</strong></p>
+
+<ul>
+<li><a href="http://www.voidcn.com/blog/u012716788/article/p-4590383.html">iBeacon能否精确室内定位等10个技术问题</a></li>
+</ul>
+
+
+<h3>高德</h3>
+
+<p>高德地图支持Wi-Fi和蓝牙iBeacon室内定位。如果是iOS系统，只能用iBeacon定位，因为iOS系统不提供Wi-Fi底层数据接口。</p>
+
+<table>
+<thead>
+<tr>
+<th>设备 </th>
+<th> 精度 </th>
+<th> 支持系统 </th>
+<th> 部署密度 </th>
+<th> 设备单价 </th>
+<th> 支持标准</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>WIFI </td>
+<td> 3~8米 </td>
+<td> Android 4.0及以上 </td>
+<td> 间隔30米部署，700平米1个 </td>
+<td> 上百元 </td>
+<td> 标准2.4G/5G频段</td>
+</tr>
+<tr>
+<td>蓝牙 </td>
+<td> 1~5米 </td>
+<td> Android 4.3及以上，iOS 8及以上 </td>
+<td> 间隔 8米部署，50平1个 </td>
+<td> 数十元 </td>
+<td> 标准蓝牙4.0广播协议</td>
+</tr>
+</tbody>
+</table>
+
+
+<p>应用高德进行室内定位的步骤：</p>
+
+<ol>
+<li>准备室内地图（使用高德已有的或者自己制作）。</li>
+<li>铺设Wi-Fi或iBeacon接入点。</li>
+<li>使用高德提供的定位数据采集工具进行数据采集。</li>
+<li>数据采集完毕编译后，上传至服务器。</li>
+<li>使用高德提供的定位数据检测工具现场体验定位效果。</li>
+<li>开发应用，使用高德室内定位SDK获取位置，包括经纬度和楼层信息。</li>
+</ol>
+
+
+<p>关于室内地图：</p>
+
+<ol>
+<li><p>高德已覆盖数据</p>
+
+<p> 高德已有室内地图数据，可免费申请使用。</p></li>
+<li><p>高德未覆盖数据</p>
+
+<p> 若为高德未覆盖室内地图数据，提供如下两种数据生产方案：</p>
+
+<ul>
+<li>委托与高德合作的第三方生产。</li>
+<li>申请自主生产。</li>
+</ul>
+</li>
+</ol>
+
+
+<p><strong>参考</strong></p>
+
+<ul>
+<li><a href="https://lbs.amap.com/getting-started/locate">高德室外定位技术</a></li>
+<li><a href="https://lbs.amap.com/getting-started/indoorlocation/">高德室内定位方案</a></li>
+<li><a href="https://lbs.amap.com/getting-started/indoorintro">高德室内地图数据</a></li>
+</ul>
+
+
+<h3>百度</h3>
+
+<p>大型商超内寻找店铺、停车场内反向寻车等业务的发展基础都是室内高精度定位。利用三角定位技术、增强WiFi指纹模型技术、地磁技术、蓝牙技术等， 提供精度1-3m的室内高精度定位服务。结合百度室内图服务，更好帮助开发者解决室内定位难题。</p>
+
+<h3>识途</h3>
+
+<p>特色：地磁定位技术。</p>
+
+<p><a href="http://www.ubirouting.com/creator.php">定位和采集工具：识途 Creator</a></p>
+
+<p>仅通过上面的视频很难理解其采集原理，但是，识途提出了采集过程中以下几点注意事项：</p>
+
+<ol>
+<li>在按下采集按钮开始采集的时候，请<strong>即刻</strong>开始行走；在到达终点停止行走后，请<strong>即刻</strong>按下采集按钮结束采集。</li>
+<li>在采集过程中请保持<strong>统一、稳定、自然</strong>的行走速度, 尽可能保持在道路的中央行走，并且采集过程中尽可能避免晃动手机。</li>
+<li>如果在某段路径受到了外界的严重干扰，无法保持一致的行走速度或预定的行走方向，务必针对这段路径进行重新采集。</li>
+</ol>
+
+
+<p>从上面的注意事项，可以大致猜测他是如何做到测量的地磁信号和地理位置的对应。</p>
+
+<p><strong>参考</strong></p>
+
+<ul>
+<li><a href="http://www.ubirouting.com/%E8%AF%86%E9%80%94%E5%AE%A4%E5%86%85%E5%AE%9A%E4%BD%8D%E6%8A%80%E6%9C%AF%E7%BB%BC%E8%BF%B0.pdf">识途室内定位技术综述</a></li>
+<li><a href="http://ubirouting.com/%E8%AF%86%E9%80%94%E5%AE%A4%E5%86%85%E5%9C%B0%E7%A3%81%E7%8E%AF%E5%A2%83%E6%95%B0%E6%8D%AE%E9%87%87%E9%9B%86%E6%96%B9%E6%B3%95%E5%8F%8A%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9.pdf">识途室内地磁环境数据采集方法及注意事项</a></li>
+</ul>
+
+
+<h2>闲谈</h2>
+
+<ul>
+<li><p>GPS不是泛指，是特指。</p>
+
+<p>  我们一提到定位，大家印象中最熟悉的技术可能就是GPS定位。其实更为准确的说法是GNSS(Global Navigation Satellite System)定位，中文含义就是全球卫星定位系统。GPS只是GNSS中的一种实现方法，该系统是由美国部署的。另外，还有其他类型的定位系统，例如，俄罗斯的格洛纳斯（GLONASS），欧洲的伽利略和中国的北斗。关系如下：</p>
+
+<ul>
+<li>GNSS
+
+<ul>
+<li>GPS（美国）</li>
+<li>GLONASS（俄罗斯）</li>
+<li>北斗（中国）</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+
+<h2>参考</h2>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Zhang Hongchao</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2017-02-21T13:37:02+08:00" pubdate data-updated="true">Feb 21st, 2017</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/map-tech/'>map tech</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2017/02/08/voice-command-implementation-for-ios/" title="Previous Post: iOS语音控制系统">&laquo; iOS语音控制系统</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2017/03/03/relation-among-m-multiple-gestures/" title="Next Post: 如何处理多个手势之间的关系">如何处理多个手势之间的关系 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+  <aside class="sidebar">
+   
+  
+    <section class="categories">
+  <h1>Categories</h1>
+    <ul id="top-category-list" class="nav nav-list"><li><a href='/blog/categories/ios'>ios (32)</a></li><li><a href='/blog/categories/objective-c'>objective-c (20)</a></li><li><a href='/blog/categories/productivity'>productivity (16)</a></li><li><a href='/blog/categories/xcode'>xcode (5)</a></li><li><a href='/blog/categories/android'>android (5)</a></li><li><a href='/blog/categories/node'>node (3)</a></li><li><a href='/blog/categories/python'>python (3)</a></li><li><a href='/blog/categories/swift'>swift (2)</a></li><li><a href='/blog/categories/javascript'>javascript (2)</a></li><li><a href='/blog/categories/web'>web (2)</a></li><li><a href='/blog/categories/java'>java (2)</a></li><li><a href='/blog/categories/philosophy'>philosophy (2)</a></li><li><a href='/blog/categories/reading'>reading (2)</a></li><li><a href='/blog/categories/map-tech'>map tech (2)</a></li><li><a href='/blog/categories/design-pattern'>design_pattern (1)</a></li><li><a href='/blog/categories/mobile'>mobile (1)</a></li><li><a href='/blog/categories/android-studio'>android_studio (1)</a></li></ul>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2017/10/20/errors-in-swift/">Swift中的Error</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/05/08/tools-for-detecting-duplicated-code/">iOS代码查重工具</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/04/05/what-are-philosophers-doing/">《哲学家们都干了些什么？》读后小结</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/03/28/when-is-layoutsubviews-called/">layoutSubviews的调用机制</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/03/03/relation-among-m-multiple-gestures/">如何处理多个手势之间的关系</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/hongchaozhang">@hongchaozhang</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'hongchaozhang',
+            count: 10,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+  
+</aside>
+
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2017 - Zhang Hongchao -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'zhanghongchao';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://hongchaozhang.github.io/blog/2017/02/21/indoor-position/';
+        var disqus_url = 'http://hongchaozhang.github.io/blog/2017/02/21/indoor-position/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+
+
+<script>
+  $(document).ready(function() {  
+    var stickyNavTop = $('nav').offset().top;  
+      
+    var stickyNav = function(){  
+      var scrollTop = $(window).scrollTop(); 
+      var navHasClassSticky = $('nav').hasClass('sticky');
+
+      if (scrollTop > stickyNavTop && navHasClassSticky) {   
+        return true;
+      } else if (scrollTop > stickyNavTop) {
+        $('nav').hide();
+        $('nav').addClass('sticky');
+        $('nav').fadeIn('2000');
+      } else {  
+        $('nav').removeClass('sticky');   
+      }  
+    };  
+      
+    stickyNav();  
+      
+    $(window).scroll(function() {  
+      stickyNav();  
+    });  
+  });  
+</script>
+
+
+</body>
+</html>

@@ -1,0 +1,471 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Productivity | Zhang Hongchao]]></title>
+  <link href="http://hongchaozhang.github.io/blog/categories/productivity/atom.xml" rel="self"/>
+  <link href="http://hongchaozhang.github.io/"/>
+  <updated>2017-11-20T23:01:18+08:00</updated>
+  <id>http://hongchaozhang.github.io/</id>
+  <author>
+    <name><![CDATA[Zhang Hongchao]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[iOS代码查重工具]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2017/05/08/tools-for-detecting-duplicated-code/"/>
+    <updated>2017-05-08T17:52:24+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2017/05/08/tools-for-detecting-duplicated-code</id>
+    <content type="html"><![CDATA[<p>代码查重工具</p>
+
+<!-- more -->
+
+
+<h2>jscpd</h2>
+
+<p><a href="https://github.com/kucherenko/jscpd">jscpd</a></p>
+
+<p>Supported languages：</p>
+
+<p>JavaScript  Java    YAML
+CoffeeScript    C++ Haxe
+PHP C#  TypeScript
+Go  Python  Mixed HTML
+Ruby    C   SCSS
+Less    CSS erlang
+<strong>Swift</strong>   xml/xslt    <strong>Objective-C</strong>
+Puppet  Twig    Vue.js</p>
+
+<h3>优点</h3>
+
+<ul>
+<li>安装使用简单</li>
+<li>运行速度快。</li>
+</ul>
+
+
+<h3>缺点：</h3>
+
+<ul>
+<li>没有GUI</li>
+<li>复制1行，修改其中的一行，就不会被认为复制。</li>
+</ul>
+
+
+<h2>PMD</h2>
+
+<p><a href="https://pmd.github.io/">PMD</a></p>
+
+<h3>Supported IDEs</h3>
+
+<p>没有Xcode的插件，所以只能用命令行。</p>
+
+<p>PMD is integrated with JDeveloper, Eclipse, JEdit, JBuilder, BlueJ, CodeGuide, NetBeans/Sun Java Studio Enterprise/Creator, IntelliJ IDEA, TextPad, Maven, Ant, Gel, JCreator, and Emacs.</p>
+
+<ul>
+<li>Maven PMD plugin</li>
+<li>Gradle: The PMD Plugin</li>
+<li>Eclipse plugin</li>
+<li>NetBeans plugin</li>
+<li>JBuilder plugin</li>
+<li>JDeveloper plugin</li>
+<li>IntelliJ IDEA plugin</li>
+</ul>
+
+
+<h3>Supported Languages of PMD commonded line:</h3>
+
+<ul>
+<li>java</li>
+<li>ecmascript (JavaScript)</li>
+<li>jsp</li>
+<li>plsql</li>
+<li>vm (Apache Velocity)</li>
+<li>xml and xsl</li>
+</ul>
+
+
+<h3>Supported Languages of CPD:</h3>
+
+<ul>
+<li>cs</li>
+<li>cpp</li>
+<li>ecmascript (JavaScript)</li>
+<li>fortran</li>
+<li>go</li>
+<li>java</li>
+<li>jsp</li>
+<li>matlab</li>
+<li>objectivec</li>
+<li>php</li>
+<li>plsql</li>
+<li>python</li>
+<li>ruby</li>
+<li>scala</li>
+<li>swift</li>
+</ul>
+
+
+<h3>CPD has GUI</h3>
+
+<p>On Mac, display the GUI by running:</p>
+
+<p><div class="highlight"><pre><code class="language-text" data-lang="text">./run.sh cpdgui</code></pre></div></p>
+
+<p>The screen shot is like:</p>
+
+<p><img src="/images/screenshot_cpd.png" alt="screenshot_cpd" /></p>
+
+<h3>将CPD集成到XCode里面</h3>
+
+<p><a href="https://habrahabr.ru/post/137875/">Интегрируем Copy-Paste-Detection в Xcode, и не только</a>将CPD集成到了XCode里面。</p>
+
+<h2>JenkinsCI-iOS</h2>
+
+<p><a href="https://github.com/cyupa/JenkinsCI-iOS">JenkinsCI-iOS</a></p>
+
+<p>The CPD in PMD is the core of JenkinsCI-iOS.</p>
+
+<h2>NiCad4 Clone Detector</h2>
+
+<p><a href="http://www.txl.ca/nicaddownload.html">NiCad4 Clone Detector</a></p>
+
+<p>NiCad handles a range of languages, including C, Java, Python, and C#, and provides a range of normalizations, filters and abstractions.</p>
+
+<h2>AppCode</h2>
+
+<h2>Code Clone Detection</h2>
+
+<p>Visual Studio Enterprise有自己的code clone analysis，see <a href="https://msdn.microsoft.com/en-us/library/hh205279.aspx">Finding Duplicate Code by using Code Clone Detection</a>。copy一段code，然后改了某个变量名称，仍然可以被检测出重复。</p>
+
+<h2>Simian - Similarity Analyser</h2>
+
+<p><a href="http://www.harukizaemon.com/simian/">Simian - Similarity Analyser</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[应用CocoaPods管理iOS的依赖库关系]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2016/01/19/cocoapods-for-ios-dependencies-control/"/>
+    <updated>2016-01-19T13:47:18+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2016/01/19/cocoapods-for-ios-dependencies-control</id>
+    <content type="html"><![CDATA[<p>就像Java有Maven，nodejs有npm一样，ios也有自己的库依赖管理工具：CocoaPods。</p>
+
+<!-- more -->
+
+
+<p>参考<a href="http://www.cnblogs.com/iyuanxiaojun/p/4465850.html">用CocoaPods做iOS程序的依赖管理</a>。</p>
+
+<h3>安装与设置</h3>
+
+<p>Mac下使用自带的ruby的gem命令进行安装：</p>
+
+<p><div class="highlight"><pre><code class="language-text" data-lang="text">sudo gem install cocoapods</code></pre></div></p>
+
+<p>第一次使用之前需要设置CocoaPods：</p>
+
+<p><div class="highlight"><pre><code class="language-text" data-lang="text">pod setup</code></pre></div></p>
+
+<p>此时需要耐心等待，因为CocoaPods会将这些podspec索引文件更新到本地的 ~/.cocoapods/目录下，这个索引文件比较大，有80M左右，比较慢。</p>
+
+<blockquote><p>如果你等太久，可以试着cd到那个目录，用du -sh *来查看下载进度。</p></blockquote>
+
+<h3>使用</h3>
+
+<h4>安装依赖库</h4>
+
+<p>使用时需要新建Podfile文件，格式如下：</p>
+
+<p><div class="highlight"><pre><code class="language-text" data-lang="text"><span class="lineno">1</span> platform :ios
+<span class="lineno">2</span> pod &amp;lsquo;JSONKit&amp;rsquo;,       &amp;lsquo;~&gt; 1.4&amp;rsquo;
+<span class="lineno">3</span> pod &amp;lsquo;Reachability&amp;rsquo;,  &amp;lsquo;~&gt; 3.0.0&amp;rsquo;
+<span class="lineno">4</span> pod &amp;lsquo;ASIHTTPRequest&amp;rsquo;
+<span class="lineno">5</span> pod &amp;lsquo;RegexKitLite&amp;rsquo;</code></pre></div></p>
+
+<p>然后你将编辑好的Podfile文件放到你的项目根目录中，执行如下命令即可：</p>
+
+<p><div class="highlight"><pre><code class="language-text" data-lang="text"><span class="lineno">1</span> cd &amp;ldquo;your project home&amp;rdquo;
+<span class="lineno">2</span> pod install</code></pre></div></p>
+
+<p>现在，你的所有第三方库都已经下载完成并且设置好了编译参数和依赖，你只需要记住如下两点即可：</p>
+
+<ul>
+<li>使用CocoaPods生成的 .xcworkspace 文件来打开工程，而不是以前的 .xcodeproj 文件。</li>
+<li>每次更改了Podfile文件，你需要重新执行一次pod update命令。</li>
+</ul>
+
+
+<h4>搜索依赖库</h4>
+
+<p>你如果不知道cocoaPods管理的库中，是否有你想要的库，那么你可以通过</p>
+
+<p><div class="highlight"><pre><code class="language-text" data-lang="text">pod search</code></pre></div></p>
+
+<p>命令进行查找。</p>
+
+<h3>问题</h3>
+
+<h4>1. required a higher minimum deployment target</h4>
+
+<p>当我在使用<em><a href="https://github.com/itsbonczek/kingpin">kingpin</a></em>第三方库的时候，出现了下面的问题：</p>
+
+<p><div class="highlight"><pre><code class="language-text" data-lang="text">Specs satisfying the &lt;code&gt;kingpin&lt;/code&gt; dependency were found, but they required a higher minimum deployment target.</code></pre></div></p>
+
+<p>通过修改Podfile的第一行：</p>
+
+<p><div class="highlight"><pre><code class="language-text" data-lang="text">platform :ios</code></pre></div></p>
+
+<p>为</p>
+
+<p><div class="highlight"><pre><code class="language-text" data-lang="text">platform :ios, &amp;lsquo;7.0&amp;rsquo;</code></pre></div></p>
+
+<p>解决。</p>
+
+<p>如果问题仍然存在，将'7.0'改成'8.0'或者'9.0'，直到没有错误。</p>
+
+<h4>2. 在Objective-C中引用swift写的CocoaPod库</h4>
+
+<p>当我在用<em><a href="https://github.com/danielgindi/ios-charts">ios-charts</a></em>库的时候，首先出现了问题1。解决问题1之后，又出现了下面的问题：</p>
+
+<p><div class="highlight"><pre><code class="language-text" data-lang="text">[!] Pods written in Swift can only be integrated as frameworks; add &lt;code&gt;use_frameworks!&lt;/code&gt; to your Podfile or target to opt into using it. The Swift Pod being used is: Charts</code></pre></div></p>
+
+<p>于是，将Podfile从</p>
+
+<p><div class="highlight"><pre><code class="language-text" data-lang="text">platform :ios, &amp;lsquo;9.0&amp;rsquo;
+pod &amp;lsquo;Charts&amp;rsquo;</code></pre></div></p>
+
+<p>改成</p>
+
+<p><div class="highlight"><pre><code class="language-text" data-lang="text">platform :ios, &amp;lsquo;9.0&amp;rsquo;
+use_frameworks!
+pod &amp;lsquo;Charts&amp;rsquo;</code></pre></div></p>
+
+<p>解决了这个问题。接着就是如何在Objective-C的project中使用这个swift库了。</p>
+
+<p>首先是官方文档<a href="https://developer.apple.com/library/ios/documentation/Swift/Conceptual/BuildingCocoaApps/MixandMatch.html#//apple_ref/doc/uid/TP40014216-CH10-XID_77">Swift and Objective-C in the Same Project</a>，有点看不懂。</p>
+
+<p>一些人说的：</p>
+
+<p><div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno">1</span> <span class="p">@</span><span class="n">import</span> <span class="n">Charts</span><span class="p">;</span></code></pre></div></p>
+
+<p>会报错。</p>
+
+<p>很庆幸，StackOverflow上有人遇到了相同的问题：<a href="http://stackoverflow.com/questions/33931517/module-not-found-error-when-importing-swift-pod-into-objective-c-project">Module not found error when importing Swift pod into Objective-C project</a>，在需要用到Charts库中的类的文件中，加入下面代码：</p>
+
+<p><div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno">1</span> <span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+<span class="lineno">2</span> 
+<span class="lineno">3</span> <span class="o">&lt;</span><span class="n">h1</span><span class="o">&gt;</span><span class="n">import</span> <span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">Charts</span><span class="o">-</span><span class="n">Swift</span><span class="p">.</span><span class="n">h</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;</span><span class="o">&lt;/</span><span class="n">h1</span><span class="o">&gt;</span>
+<span class="lineno">4</span> 
+<span class="lineno">5</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span></code></pre></div></p>
+
+<p>另外，注意，在Storyboard中使用库中类的时候，在<em>Module</em>框中填上<em>Charts</em>，如下：</p>
+
+<p><img src="/images/using_lib_class_in_storyboard.jpg" alt="using_lib_class_in_storyboard" /></p>
+
+<p>原理参考：<a href="https://github.com/CocoaPods/CocoaPods/issues/4373">Unable to satisfy the following requirements with Podfile, but they required a higher minimum deployment target. #4373</a>。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Sublime的一些插件]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2015/11/28/some-useful-plugins-for-sublime/"/>
+    <updated>2015-11-28T23:45:59+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2015/11/28/some-useful-plugins-for-sublime</id>
+    <content type="html"><![CDATA[<h3>Package Control</h3>
+
+<p><a href="https://packagecontrol.io/installation#st2">Package Control</a>是Sublime中用于插件管理的工具。安装之后，其它插件基本上可以通过它进行管理：安装、删除、禁用等。</p>
+
+<h3>JSFormat</h3>
+
+<!-- more -->
+
+
+<p>可以对Javascript和json文件进行格式化。</p>
+
+<p>对于json，如果不想用本地插件，可以用<a href="http://jsonviewer.stack.hu/">Online Json Viewer</a>。</p>
+
+<h3>JSHint Guntter</h3>
+
+<ul>
+<li>Run JSHint: Command+Shift+J</li>
+<li>Clear Annotations: Command+Escape</li>
+</ul>
+
+
+<p>对于一些关键字，比如node中的<code>require</code>，在.jshintrc文件中通过设置<code>predef</code>进行排除。.jshintrc通过Preferrences->Package Settings->JSHint Gunter->Set Linting Preferences打开。</p>
+
+<h3>Sublime ​Code​Intel</h3>
+
+<ul>
+<li><p>自动代码补全功能</p></li>
+<li><p>代码间跳转</p>
+
+<ul>
+<li>Jump to definition = Control+Click</li>
+<li>Go back = Control+Alt+Command+Left</li>
+</ul>
+</li>
+</ul>
+
+
+<h3>Bracket Highlighter</h3>
+
+<p>可以对括号（圆括号，方括号，花括号，尖括号等）和标签（html tag等）进行自定义高亮。</p>
+
+<p>自定义方法：</p>
+
+<ul>
+<li>打开Preferences->Package Settings->Bracket Highlighter->Brakets Settings - <strong>Default</strong>，复制。这个文件无法修改。</li>
+<li>打开Preferences->Package Settings->Bracket Highlighter->Brakets Settings - <strong>User</strong>，粘贴。修改<code>bracket styles</code>。此文件中的设置将覆盖<strong>Default</strong>中的设置。</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Some Tools to Impromve Efficiency in Daily Life]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2015/11/19/some-tools-to-impromve-efficiency-in-daily-life/"/>
+    <updated>2015-11-19T16:16:22+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2015/11/19/some-tools-to-impromve-efficiency-in-daily-life</id>
+    <content type="html"><![CDATA[<h3>Everything</h3>
+
+<p>瞬间搜索全机器文件。但是只支持文件名搜索，不支持文件内容搜索。结合DocFetcher应用，可以大大提高搜索文件的效率。</p>
+
+<h3>DocFetcher</h3>
+
+<p>支持文件内容搜索。但是索引文件较大，最好分目录进行索引，不要索引整台计算机。结合Everything应用，可以大大提高搜索文件的效率。</p>
+
+<!-- more -->
+
+
+<h3>RescueTime</h3>
+
+<p>可以用来监督你一天之中分别有多少时间花在什么地方。在上淘宝的时候都想快点结束，不然一天下来数据会很难看。</p>
+
+<h3>EuDic</h3>
+
+<p>Mac上的这个词典好过系统自带的Dictionary很多。引用推荐人的一句话：这是Mac上最好用的词典，没有之一。</p>
+
+<h3>Astah</h3>
+
+<p>用<strong>Astah Community</strong>（Astah还有收费版本：Astah Professional，功能更全，不过Astah Community完全够用了。）来画UML图的class diagram和sequence diagram非常方便，尤其是sequence diagram，相比于之前用的<strong>Dia</strong>，简直是方便太多了，用<strong>Dia</strong>画sequence diagram简直就是噩梦。</p>
+
+<p>对于Astah中定义的UML sequence diagram，参考<a href="http://www.uml.org.cn/oobject/201009081.asp">UML建模之时序图（Sequence Diagram）</a></p>
+
+<h3>图像视频操作</h3>
+
+<h4>LICECap</h4>
+
+<p><a href="http://www.cockos.com/licecap/">LICECap</a>用来快速将屏幕操作等转换成gif动画，比先录屏再转换快太多了。</p>
+
+<p>使用Mac自带的Preview是不能预览gif图片的，可以通过一下两种方式预览：</p>
+
+<ul>
+<li>在Finder中选中gif图片，在右边的预览框中预览。</li>
+<li>将gif用浏览器打开预览，比如Safari。</li>
+</ul>
+
+
+<h4>PicGif Lite</h4>
+
+<p>PicGif用来将视频或者图片转换成gif图片，这种工具很多，还有在线工具，比如<a href="http://www.uupoop.com/gif/">uupoop</a>。<del>我主要用这个来进行gif图的预览。</del></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Operating Files and Folders With Command Line in Terminal]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2015/10/28/operating-files-and-folders-with-command-line-in-terminal/"/>
+    <updated>2015-10-28T16:26:14+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2015/10/28/operating-files-and-folders-with-command-line-in-terminal</id>
+    <content type="html"><![CDATA[<p>为什么需要在命令行进行文件和文件夹的操作：</p>
+
+<!-- more -->
+
+
+<ul>
+<li>通过正则表达式批量处理文件（夹）。</li>
+<li>可以用来删除隐藏文件，比如一些以“.”开头的设置文件。</li>
+<li>打不开Finder的情况下。</li>
+<li>强制删除一些顽固的文件。</li>
+</ul>
+
+
+<p>一些常用命令罗列：</p>
+
+<table>
+<thead>
+<tr>
+<th>命令 </th>
+<th> 说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>pwd</strong> </td>
+<td> 打印当前工作路径（print working directory）</td>
+</tr>
+<tr>
+<td><strong>touch</strong> fileName </td>
+<td> 创建文件fileName</td>
+</tr>
+<tr>
+<td><strong>ls -a</strong> </td>
+<td> 列出当前文件夹下的所有文件，包括以‘.’开头的隐藏文件。</td>
+</tr>
+<tr>
+<td><strong>vi</strong> <em>file</em> </td>
+<td> 在当前位置用vim打开file，如果已经存在，直接打开。</td>
+</tr>
+<tr>
+<td><strong>mkdir</strong> <em>folder</em> </td>
+<td> 创建文件夹。</td>
+</tr>
+<tr>
+<td><strong>cp</strong> <em>sourceFile</em> <em>destFolder</em> </td>
+<td> 将sourceFile拷贝到destFolder下。</td>
+</tr>
+<tr>
+<td><strong>cp</strong> <strong>-R</strong> <em>sourceFolder</em> <em>destFolder</em> </td>
+<td> 将sourceFolder及其下面的所有资源拷贝到destFolder下，R是reverse的意思。</td>
+</tr>
+<tr>
+<td><strong>mv</strong> <em>sourceFile</em> <em>destFolder</em> </td>
+<td> 将sourceFile移动到destFolder下。</td>
+</tr>
+<tr>
+<td><strong>rm</strong> <em>file.txt</em> </td>
+<td> 删除文件。</td>
+</tr>
+<tr>
+<td><strong>rm</strong> <strong>-R</strong> <em>folder</em> </td>
+<td> 删除文件夹和里面的子文件（夹），R是reverse的意思。</td>
+</tr>
+<tr>
+<td><strong>echo</strong> &ldquo;hello&rdquo; </td>
+<td> 将“hello”字符串输出到terminal中</td>
+</tr>
+<tr>
+<td><strong>echo</strong> &ldquo;hello&rdquo; <strong>></strong> hello.txt </td>
+<td> 将“hello”字符串写进文件hello.txt文件中</td>
+</tr>
+<tr>
+<td><strong>cat</strong> hello.txt </td>
+<td> 将hello.txt文件的内容输出到terminal中</td>
+</tr>
+<tr>
+<td><strong>cat</strong> hello.txt <strong>></strong> dest.txt </td>
+<td> 将hello.txt中的内容<strong>覆盖</strong>dest.txt文件的内容</td>
+</tr>
+<tr>
+<td><strong>cat</strong> hello.txt <strong>>></strong> dest.txt </td>
+<td> 将hello.txt中的内容<strong>追加</strong>到dest.txt文件的内容</td>
+</tr>
+</tbody>
+</table>
+
+]]></content>
+  </entry>
+  
+</feed>

@@ -1,0 +1,528 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Basic Git Commands - Zhang Hongchao</title>
+  <meta name="author" content="Zhang Hongchao">
+
+  
+  <meta name="description" content="Contents Check Current Status
+Branch Operation
+Use git commit &ndash;amend
+Check commit history
+.gitignore
+Using git stash
+Use kdiff3 as the default &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://hongchaozhang.github.io/blog/2015/07/09/Basic-Git-Commands">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Zhang Hongchao" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/libs/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<!--
+<link href='https://fonts.googleapis.com/css?family=Noto+Serif:400,700' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+-->
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-62806905-2']);
+    _gaq.push(['_setDomainName','github.io']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Zhang Hongchao</a></h1>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><!--
+<ul class="subscription" data-subscription="rss">
+  
+  
+</ul>
+-->
+
+<!--
+
+-->
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <script type="text/javascript" src="/javascripts/DisableLineNumberCopy.js"></script>
+
+<div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Basic Git Commands</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2015-07-09T00:00:00+08:00" pubdate data-updated="true">Jul 9th, 2015</time>
+        
+           | <a href="#disqus_thread"
+             data-disqus-identifier="http://hongchaozhang.github.io">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h1>Contents</h1>
+
+<ul>
+<li><a href="#check_status">Check Current Status</a></li>
+<li><a href="#branch_operation">Branch Operation</a></li>
+<li><a href="#git_commit_amend">Use <em>git commit &ndash;amend</em></a></li>
+<li><a href="#check_commit_history">Check commit history</a></li>
+<li><a href="#git_ignore">.gitignore</a></li>
+<li><a href="#git_stash">Using <em>git stash</em></a></li>
+<li><a href="#kdiff3">Use <em>kdiff3</em> as the default tool for git</a></li>
+</ul>
+
+
+<!-- more -->
+
+
+<p><strong>Git</strong> commands can be searched everywheere. Here I will list only the commonly used ones in <strong>my</strong> development.</p>
+
+<p>First of all, try the following commands first:</p>
+
+<ul>
+<li><p><strong>git help:</strong> get git basic commands.</p></li>
+<li><p><strong>git help COMMAND:</strong> get help of a command.</p></li>
+</ul>
+
+
+<h2><a name="check_status"></a>Check Current Status</h2>
+
+<h3>Origin</h3>
+
+<p>Use<code>git remote -v</code> or <code>git config --get remote.origin.url</code> to get current origin info.</p>
+
+<h3>Branch Info</h3>
+
+<p>Use <code>git branch -vv</code> to get all your local branchs' tracking branch. You can also use <code>git show remote origin</code> to get the tracking info, but with a lot of trivial info.</p>
+
+<h2><a name="branch_operation"></a>Branch Operation</h2>
+
+<p>To checkout a new branch from remote repo: When you want to change to a branch that is not in your local side,</p>
+
+<ul>
+<li>use <code>git branch -a</code> to list all the branches, and find the one you want to checkout in the remote.</li>
+<li>If the branch you are looking for is not there, or you want to make sure that the branch is up-to-date, run <code>git pull</code> first before you do checkout.</li>
+<li>Then run <code>git checkout  origin/&lt;branch_name&gt;</code>, and you will get the branch, and change to the branch.</li>
+</ul>
+
+
+<h2><a name="git_commit_amend"></a>Use <code>git commit --amend</code></h2>
+
+<p>The <code>git commit --amend</code> command is a convenient way to fix up the most recent commit. <strong>It lets you combine staged changes with the previous commit instead of committing it as an entirely new snapshot.</strong> It can also be used to simply edit the previous commit message without changing its snapshot.</p>
+
+<p>But, amending doesn’t just alter the most recent commit—it replaces it entirely. To Git, it will look like a brand new commit. It’s important to keep this in mind when working with public repositories.</p>
+
+<p><code>git commit --amend</code> will open your editor, allowing you to change the commit message of the most recent commit. Additionally, you can set the commit message directly in the command line with: <code>git commit --amend -m "New commit message"</code>.</p>
+
+<h2><a name="check_commit_history"></a>Check commit history</h2>
+
+<h4>search</h4>
+
+<p>First, use <code>git log</code> to find the commit we want. We can use <code>git log --author=&lt;someone&gt;</code> to narrow the scope.</p>
+
+<p>Then, use <strong>git diff COMMIT^ COMMIT</strong> to get all the changes of one commit.</p>
+
+<p>More useful commands on <code>git log</code></p>
+
+<table>
+<thead>
+<tr>
+<th>git commands</th>
+<th> in GUI <em>SourceTree</em> </th>
+<th> comments</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>git log --author=&lt;someone&gt;</code> </td>
+<td> on the top left, select <em>Search</em> view </td>
+<td> list all commits <em>someone</em> made</td>
+</tr>
+<tr>
+<td><code>git log --name-only</code> </td>
+<td> on the top left, select <em>Log</em> view </td>
+<td>  list all commits and each modified or new created files</td>
+</tr>
+<tr>
+<td><code>git log -- &lt;file&gt;</code> </td>
+<td> right click a file and select <em>log selected&hellip;</em> </td>
+<td> list all commits on a file that exist</td>
+</tr>
+<tr>
+<td><code>git log --all -- &lt;path-to-file&gt;</code> </td>
+<td> &ndash; </td>
+<td> list all commits on a <strong>deleted</strong> file. If you want to restor the file, use <code>git checkout &lt;commit&gt;^ -- &lt;path-to-file&gt;</code></td>
+</tr>
+<tr>
+<td><code>git log -g --grep=&lt;key words&gt;</code> </td>
+<td> on the top left, select <em>Search</em> view </td>
+<td>  find the commits which contains the <em>key words</em> in the commit messages. <strong>Note:</strong>use double quotes for key words with blank spaces.</td>
+</tr>
+</tbody>
+</table>
+
+
+<h2><a name="git_ignore"></a>.gitignore</h2>
+
+<p>Sometimes we want to ignore some files/folders from being tracked by git. We can use <strong>.gitignore</strong> file to do this. But this only works for the untracked items. If you have done <em>git add file</em> to the file once, .gitignore will not exclude this file from being tracked. For this case, we can use the following two ways to ignore the file:</p>
+
+<h5><code>git rm \-\-cached file</code></h5>
+
+<p>This command will remove the file from the stage, and if you exclude the file in the <strong>.gitignore</strong>, it will not appear in the <em>untrancked files</em> list. But you will get a <em>deleted: file</em> in the <em>changes to be commited</em> list, and the next time you commit, the file in the repo will be deleted.</p>
+
+<p>If this is not what you want, and you only want to ignore the file locally, and don&rsquo;t want to remove it in the repo, because someone else may need this file, go to the second method.</p>
+
+<h5><code>git update-index \-\-assume-unchanged file</code></h5>
+
+<p>This method doesn&rsquo;t need <strong>.gitignore</strong>, and will not delete the file in the repo. The disadvantage is: when you clone the repo in other places, you need to run the command again.</p>
+
+<h2><a name="git_stash"></a>Using <code>git stash</code></h2>
+
+<p>Reference:</p>
+
+<ul>
+<li><a href="http://www.cppblog.com/deercoder/archive/2011/11/13/160007.html">here</a>: Chinese version</li>
+<li><a href="http://www.gitguys.com/topics/switching-branches-without-committing/">here</a>: provide a good scenario for using <code>git stash</code>.</li>
+</ul>
+
+
+<h3>Description</h3>
+
+<p>When you are woring on a <code>newbranch</code> which is based on an <code>oldbranch</code>, and have some uncommitted changes in <code>newbranch</code>. But now your manager notice you that there is an urgent issue needs to be fixed in the <code>oldbranch</code> right now, and you don&rsquo;t want to commit your changes in <code>newbranch</code>, what should we do here?</p>
+
+<h3>Solution</h3>
+
+<p>When we trying to checkout <code>oldbranch</code> using <code>git checkout oldbranch</code>, what is <em>git</em> doing? There may be three ways:</p>
+
+<ol>
+<li>Ignore the uncommitted working directory changes in <code>newbranch</code>, and set the working directory to the files in the <code>oldbranch</code>. The uncommited changes in the <code>newbranch</code> will be lost.</li>
+<li>Ignore the state of the files in <code>oldbranch</code>, and use the working directory files in <code>newbranch</code>. Completely wrong! This will not confirm with the original <code>oldbranch</code>.</li>
+<li>Attempt to merge in the changes from the working directory in <code>newbranch</code> into the files in <code>oldbranch</code>.</li>
+</ol>
+
+
+<p><em>Git</em> actually tries to use <em>#3</em> method.</p>
+
+<h5>With no confilicts</h5>
+
+<p>checkout <code>oldbranch</code> from <code>newbranch</code> with uncommitted changes in <code>newbranch</code>, but <strong>NO Conflicts</strong> between the two branches</p>
+
+<p>The sample log:</p>
+
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span class="lineno">1</span> M    test.txt
+<span class="lineno">2</span> Switched to branch &#39;oldbranch&#39;</code></pre></div>
+
+
+<p>And the <code>M</code> means the <code>test.txt</code> is successfully merged.</p>
+
+<h5>With Conflicts</h5>
+
+<p>checkout <code>oldbranch</code> from <code>newbranch</code> with uncommitted changes in <code>newbranch</code>, but <strong>With Conflict</strong> between the two branches. In this situation, if you want to checkout <code>oldbranch</code> any way, use <code>git checkout -m oldbranch</code> which will let git list all the conflicts, as follows:</p>
+
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span class="lineno"> 1</span> $ git checkout -m oldbranch
+<span class="lineno"> 2</span> M   test.txt
+<span class="lineno"> 3</span> Switched to branch &#39;oldbranch&#39;
+<span class="lineno"> 4</span> $ cat test.txt
+<span class="lineno"> 5</span> This is the test file.
+<span class="lineno"> 6</span> &lt;&lt;&lt;&lt;&lt;&lt;&lt; oldbranch
+<span class="lineno"> 7</span> Second line added from the &#39;oldbranch&#39; branch.
+<span class="lineno"> 8</span> =======
+<span class="lineno"> 9</span> A conflicted line added on the test branch.
+<span class="lineno">10</span> &gt;&gt;&gt;&gt;&gt;&gt;&gt; local
+<span class="lineno">11</span> $ git branch
+<span class="lineno">12</span> * oldbranch
+<span class="lineno">13</span>   newbranch</code></pre></div>
+
+
+<h5><code>git stash</code></h5>
+
+<p>But most of the time, we want to keep the uncommited changes staying in <code>newbranch</code>, and <code>oldbranch</code> as it was. And when we finish the work in <code>oldbranch</code> and get back to <code>newbranch</code>, the uncommited changes is still there. For this purpose, we need <code>git stash</code>:</p>
+
+<ol>
+<li>in <code>newbranch</code>, run <code>git stash</code>. Check <code>git status</code>, and there will be nothing changed.</li>
+<li><code>git checkout oldbranch</code>.</li>
+<li>Work in <code>oldbranch</code>, and commit the changes.</li>
+<li><code>git checkout newbranch</code></li>
+<li><code>git stash pop</code></li>
+</ol>
+
+
+<p><em>Git</em> will hold a stash stack for all the stashes in all branches. That is to say, no matter how many branches you have, you will have only one stash stack. So when you run <code>git stash pop</code>, you should check the stash stack using <code>git stash list</code>, you will get:</p>
+
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span class="lineno">1</span> stash@{0}: WIP on oldbranch: 6ed44e2 checkin a new file
+<span class="lineno">2</span> stash@{1}: WIP on newbranch: 7a51723 checkin
+<span class="lineno">3</span> stash@{2}: WIP on oldbranch: 022cbf7 first checkin
+<span class="lineno">4</span> stash@{3}: WIP on newbranch: 6995c80 checkin changes to test.txt</code></pre></div>
+
+
+<p>If you want to roll back the last stash in newbranch, in #5 step, run <code>git stash pop stash@{1}</code>. If you don&rsquo;t use the index <code>stash@{1}</code>, the top stash in the stash stack will be popped out.</p>
+
+<h2><a name="kdiff3"></a>Use <em>kdiff3</em> as the default tool for git</h2>
+
+<p>When you run <code>git diff</code>, the difference will be listed in the command window. If you want to see the difference in a visual window (for exmple, <em>kdiff3</em>):</p>
+
+<ol>
+<li>install <em>kdiff3</em> in your mac</li>
+<li><p>As the new version of git has build-in support for <em>kdiff3</em>, so there is no need for manually configuration, just run</p>
+
+<pre><code>$ git config --global merge.tool *kdiff3*
+</code></pre></li>
+<li><p>If <em>kdiff3</em> is not in your path, run</p>
+
+<pre><code>$ git config --global mergetool.kdiff3.path /Applications/kdiff3.app/Contents/MacOS/kdiff3
+</code></pre></li>
+<li><p>Use <code>git difftool</code> instead of <code>git diff</code> to let git launch <em>kdiff3</em> for the difference. Also use <code>git mergetool</code> instead of <code>git merge</code> for merging files.</p>
+
+<blockquote><p>Notice: <code>git mergetool</code> should be used after <code>git merge branch_name</code> and there are some merge conflicts. Use <code>get help mergetool</code> for detail.</p></blockquote></li>
+</ol>
+
+
+<p>To check the configuration result, open <em>~/.gitignore</em>.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Zhang Hongchao</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2015-07-09T00:00:00+08:00" pubdate data-updated="true">Jul 9th, 2015</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/productivity/'>productivity</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/06/27/some-useful-links-for-building-github-pages/" title="Previous Post: Some useful links for building Github Pages blog">&laquo; Some useful links for building Github Pages blog</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/07/14/How-to-add-category-or-tag-to-github-pages-posts/" title="Next Post: How to add category or tag to github page posts">How to add category or tag to github page posts &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+  <aside class="sidebar">
+   
+  
+    <section class="categories">
+  <h1>Categories</h1>
+    <ul id="top-category-list" class="nav nav-list"><li><a href='/blog/categories/ios'>ios (32)</a></li><li><a href='/blog/categories/objective-c'>objective-c (20)</a></li><li><a href='/blog/categories/productivity'>productivity (16)</a></li><li><a href='/blog/categories/xcode'>xcode (5)</a></li><li><a href='/blog/categories/android'>android (5)</a></li><li><a href='/blog/categories/node'>node (3)</a></li><li><a href='/blog/categories/python'>python (3)</a></li><li><a href='/blog/categories/swift'>swift (2)</a></li><li><a href='/blog/categories/javascript'>javascript (2)</a></li><li><a href='/blog/categories/web'>web (2)</a></li><li><a href='/blog/categories/java'>java (2)</a></li><li><a href='/blog/categories/philosophy'>philosophy (2)</a></li><li><a href='/blog/categories/reading'>reading (2)</a></li><li><a href='/blog/categories/map-tech'>map tech (2)</a></li><li><a href='/blog/categories/design-pattern'>design_pattern (1)</a></li><li><a href='/blog/categories/mobile'>mobile (1)</a></li><li><a href='/blog/categories/android-studio'>android_studio (1)</a></li></ul>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2017/10/20/errors-in-swift/">Swift中的Error</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/05/08/tools-for-detecting-duplicated-code/">iOS代码查重工具</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/04/05/what-are-philosophers-doing/">《哲学家们都干了些什么？》读后小结</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/03/28/when-is-layoutsubviews-called/">layoutSubviews的调用机制</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/03/03/relation-among-m-multiple-gestures/">如何处理多个手势之间的关系</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/hongchaozhang">@hongchaozhang</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'hongchaozhang',
+            count: 10,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+  
+</aside>
+
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2017 - Zhang Hongchao -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'zhanghongchao';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://hongchaozhang.github.io/blog/2015/07/09/Basic-Git-Commands/';
+        var disqus_url = 'http://hongchaozhang.github.io/blog/2015/07/09/Basic-Git-Commands/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+
+
+<script>
+  $(document).ready(function() {  
+    var stickyNavTop = $('nav').offset().top;  
+      
+    var stickyNav = function(){  
+      var scrollTop = $(window).scrollTop(); 
+      var navHasClassSticky = $('nav').hasClass('sticky');
+
+      if (scrollTop > stickyNavTop && navHasClassSticky) {   
+        return true;
+      } else if (scrollTop > stickyNavTop) {
+        $('nav').hide();
+        $('nav').addClass('sticky');
+        $('nav').fadeIn('2000');
+      } else {  
+        $('nav').removeClass('sticky');   
+      }  
+    };  
+      
+    stickyNav();  
+      
+    $(window).scroll(function() {  
+      stickyNav();  
+    });  
+  });  
+</script>
+
+
+</body>
+</html>
