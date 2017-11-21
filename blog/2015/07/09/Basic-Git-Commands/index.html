@@ -263,8 +263,10 @@ Use kdiff3 as the default &hellip;">
 
 <p>The sample log:</p>
 
-<div class="highlight"><pre><code class="language-text" data-lang="text"><span class="lineno">1</span> M    test.txt
-<span class="lineno">2</span> Switched to branch &#39;oldbranch&#39;</code></pre></div>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>M    test.txt
+</span><span class='line'>Switched to branch 'oldbranch'</span></code></pre></td></tr></table></div></figure>
 
 
 <p>And the <code>M</code> means the <code>test.txt</code> is successfully merged.</p>
@@ -273,19 +275,32 @@ Use kdiff3 as the default &hellip;">
 
 <p>checkout <code>oldbranch</code> from <code>newbranch</code> with uncommitted changes in <code>newbranch</code>, but <strong>With Conflict</strong> between the two branches. In this situation, if you want to checkout <code>oldbranch</code> any way, use <code>git checkout -m oldbranch</code> which will let git list all the conflicts, as follows:</p>
 
-<div class="highlight"><pre><code class="language-text" data-lang="text"><span class="lineno"> 1</span> $ git checkout -m oldbranch
-<span class="lineno"> 2</span> M   test.txt
-<span class="lineno"> 3</span> Switched to branch &#39;oldbranch&#39;
-<span class="lineno"> 4</span> $ cat test.txt
-<span class="lineno"> 5</span> This is the test file.
-<span class="lineno"> 6</span> &lt;&lt;&lt;&lt;&lt;&lt;&lt; oldbranch
-<span class="lineno"> 7</span> Second line added from the &#39;oldbranch&#39; branch.
-<span class="lineno"> 8</span> =======
-<span class="lineno"> 9</span> A conflicted line added on the test branch.
-<span class="lineno">10</span> &gt;&gt;&gt;&gt;&gt;&gt;&gt; local
-<span class="lineno">11</span> $ git branch
-<span class="lineno">12</span> * oldbranch
-<span class="lineno">13</span>   newbranch</code></pre></div>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ git checkout -m oldbranch
+</span><span class='line'>M   test.txt
+</span><span class='line'>Switched to branch 'oldbranch'
+</span><span class='line'>$ cat test.txt
+</span><span class='line'>This is the test file.
+</span><span class='line'>&lt;&lt;&lt;&lt;&lt;&lt;&lt; oldbranch
+</span><span class='line'>Second line added from the 'oldbranch' branch.
+</span><span class='line'>=======
+</span><span class='line'>A conflicted line added on the test branch.
+</span><span class='line'>&gt;&gt;&gt;&gt;&gt;&gt;&gt; local
+</span><span class='line'>$ git branch
+</span><span class='line'>* oldbranch
+</span><span class='line'>  newbranch</span></code></pre></td></tr></table></div></figure>
 
 
 <h5><code>git stash</code></h5>
@@ -303,10 +318,14 @@ Use kdiff3 as the default &hellip;">
 
 <p><em>Git</em> will hold a stash stack for all the stashes in all branches. That is to say, no matter how many branches you have, you will have only one stash stack. So when you run <code>git stash pop</code>, you should check the stash stack using <code>git stash list</code>, you will get:</p>
 
-<div class="highlight"><pre><code class="language-text" data-lang="text"><span class="lineno">1</span> stash@{0}: WIP on oldbranch: 6ed44e2 checkin a new file
-<span class="lineno">2</span> stash@{1}: WIP on newbranch: 7a51723 checkin
-<span class="lineno">3</span> stash@{2}: WIP on oldbranch: 022cbf7 first checkin
-<span class="lineno">4</span> stash@{3}: WIP on newbranch: 6995c80 checkin changes to test.txt</code></pre></div>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>stash@{0}: WIP on oldbranch: 6ed44e2 checkin a new file
+</span><span class='line'>stash@{1}: WIP on newbranch: 7a51723 checkin
+</span><span class='line'>stash@{2}: WIP on oldbranch: 022cbf7 first checkin
+</span><span class='line'>stash@{3}: WIP on newbranch: 6995c80 checkin changes to test.txt</span></code></pre></td></tr></table></div></figure>
 
 
 <p>If you want to roll back the last stash in newbranch, in #5 step, run <code>git stash pop stash@{1}</code>. If you don&rsquo;t use the index <code>stash@{1}</code>, the top stash in the stash stack will be popped out.</p>
@@ -398,11 +417,15 @@ Use kdiff3 as the default &hellip;">
   
     <section class="categories">
   <h1>Categories</h1>
-    <ul id="top-category-list" class="nav nav-list"><li><a href='/blog/categories/ios'>ios (32)</a></li><li><a href='/blog/categories/objective-c'>objective-c (20)</a></li><li><a href='/blog/categories/productivity'>productivity (16)</a></li><li><a href='/blog/categories/xcode'>xcode (5)</a></li><li><a href='/blog/categories/android'>android (5)</a></li><li><a href='/blog/categories/node'>node (3)</a></li><li><a href='/blog/categories/python'>python (3)</a></li><li><a href='/blog/categories/swift'>swift (2)</a></li><li><a href='/blog/categories/javascript'>javascript (2)</a></li><li><a href='/blog/categories/web'>web (2)</a></li><li><a href='/blog/categories/java'>java (2)</a></li><li><a href='/blog/categories/philosophy'>philosophy (2)</a></li><li><a href='/blog/categories/reading'>reading (2)</a></li><li><a href='/blog/categories/map-tech'>map tech (2)</a></li><li><a href='/blog/categories/design-pattern'>design_pattern (1)</a></li><li><a href='/blog/categories/mobile'>mobile (1)</a></li><li><a href='/blog/categories/android-studio'>android_studio (1)</a></li></ul>
+    <ul id="top-category-list" class="nav nav-list"><li><a href='/blog/categories/ios'>ios (32)</a></li><li><a href='/blog/categories/objective-c'>objective-c (20)</a></li><li><a href='/blog/categories/productivity'>productivity (17)</a></li><li><a href='/blog/categories/xcode'>xcode (5)</a></li><li><a href='/blog/categories/android'>android (5)</a></li><li><a href='/blog/categories/node'>node (3)</a></li><li><a href='/blog/categories/python'>python (3)</a></li><li><a href='/blog/categories/swift'>swift (2)</a></li><li><a href='/blog/categories/javascript'>javascript (2)</a></li><li><a href='/blog/categories/web'>web (2)</a></li><li><a href='/blog/categories/java'>java (2)</a></li><li><a href='/blog/categories/philosophy'>philosophy (2)</a></li><li><a href='/blog/categories/reading'>reading (2)</a></li><li><a href='/blog/categories/map-tech'>map tech (2)</a></li><li><a href='/blog/categories/design-pattern'>design_pattern (1)</a></li><li><a href='/blog/categories/mobile'>mobile (1)</a></li><li><a href='/blog/categories/android-studio'>android_studio (1)</a></li></ul>
 </section>
 <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2017/11/21/some-tips-on-markdown-usage/">Some Tips on Markdown Usage</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2017/10/20/errors-in-swift/">Swift中的Error</a>
@@ -418,10 +441,6 @@ Use kdiff3 as the default &hellip;">
     
       <li class="post">
         <a href="/blog/2017/03/28/when-is-layoutsubviews-called/">layoutSubviews的调用机制</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2017/03/03/relation-among-m-multiple-gestures/">如何处理多个手势之间的关系</a>
       </li>
     
   </ul>

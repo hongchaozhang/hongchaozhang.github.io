@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Javascript | Zhang Hongchao]]></title>
   <link href="http://hongchaozhang.github.io/blog/categories/javascript/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2017-11-20T23:01:18+08:00</updated>
+  <updated>2017-11-21T11:11:28+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -29,35 +29,34 @@
 
 <h4>Code:</h4>
 
-<p><div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="lineno"> 1</span> <span class="kd">var</span> <span class="nx">addTimer</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">widget</span><span class="p">)</span> <span class="p">{</span>
-<span class="lineno"> 2</span>     <span class="kd">var</span> <span class="nx">prop</span><span class="p">;</span>
-<span class="lineno"> 3</span>     <span class="k">for</span> <span class="p">(</span><span class="nx">prop</span> <span class="k">in</span> <span class="nx">widget</span><span class="p">)</span> <span class="p">{</span>
-<span class="lineno"> 4</span>         <span class="k">if</span> <span class="p">(</span><span class="k">typeof</span> <span class="nx">widget</span><span class="p">[</span><span class="nx">prop</span><span class="p">]</span> <span class="o">===</span> <span class="o">&amp;</span><span class="nx">lsquo</span><span class="p">;</span><span class="kd">function</span><span class="o">&amp;</span><span class="nx">rsquo</span><span class="p">;)</span> <span class="p">{</span>
-<span class="lineno"> 5</span>             <span class="kd">var</span> <span class="nx">backupFunc</span> <span class="o">=</span> <span class="nx">widget</span><span class="p">[</span><span class="nx">prop</span><span class="p">];</span>
-<span class="lineno"> 6</span>             <span class="c1">// the same problem with the following code</span>
-<span class="lineno"> 7</span>             <span class="c1">//backupFunc = (function () {</span>
-<span class="lineno"> 8</span>             <span class="c1">//    return widget[prop];</span>
-<span class="lineno"> 9</span>             <span class="c1">//})();&lt;/p&gt;</span>
-<span class="lineno">10</span> 
-<span class="lineno">11</span> <span class="o">&lt;</span><span class="nx">pre</span><span class="o">&gt;&lt;</span><span class="nx">code</span><span class="o">&gt;</span>        <span class="c1">// try a deep copy here to make bakcupFunc not changed with prop</span>
-<span class="lineno">12</span>         <span class="nx">widget</span><span class="p">[</span><span class="nx">prop</span><span class="p">]</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
-<span class="lineno">13</span>             <span class="nx">console</span><span class="p">.</span><span class="nx">time</span><span class="p">(</span><span class="s2">&quot;from timer &quot;</span> <span class="o">+</span> <span class="nx">prop</span><span class="p">);</span>
-<span class="lineno">14</span>             <span class="nx">backupFunc</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="nx">arguments</span><span class="p">);</span>
-<span class="lineno">15</span>             <span class="nx">console</span><span class="p">.</span><span class="nx">timeEnd</span><span class="p">(</span><span class="s2">&quot;from timer &quot;</span> <span class="o">+</span> <span class="nx">prop</span><span class="p">);</span>
-<span class="lineno">16</span>         <span class="p">};</span>
-<span class="lineno">17</span>         <span class="c1">// the same problem with the following code</span>
-<span class="lineno">18</span>         <span class="c1">//widget[prop] = (function () {</span>
-<span class="lineno">19</span>         <span class="c1">//    return function () {</span>
-<span class="lineno">20</span>         <span class="c1">//        console.time(prop);</span>
-<span class="lineno">21</span>         <span class="c1">//        backupFunc.apply(this, arguments);</span>
-<span class="lineno">22</span>         <span class="c1">//        console.timeEnd(prop);</span>
-<span class="lineno">23</span>         <span class="c1">//    };</span>
-<span class="lineno">24</span>         <span class="c1">//})();</span>
-<span class="lineno">25</span>     <span class="p">}</span>
-<span class="lineno">26</span> <span class="p">}</span>
-<span class="lineno">27</span> <span class="o">&lt;</span><span class="err">/code&gt;&lt;/pre&gt;</span>
-<span class="lineno">28</span> 
-<span class="lineno">29</span> <span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span><span class="p">}</span></code></pre></div></p>
+<pre><code class="javascript">var addTimer = function (widget) {
+    var prop;
+    for (prop in widget) {
+        if (typeof widget[prop] === 'function') {
+            var backupFunc = widget[prop];
+            // the same problem with the following code
+            //backupFunc = (function () {
+            //    return widget[prop];
+            //})();
+
+            // try a deep copy here to make bakcupFunc not changed with prop
+            widget[prop] = function () {
+                console.time("from timer " + prop);
+                backupFunc.apply(this, arguments);
+                console.timeEnd("from timer " + prop);
+            };
+            // the same problem with the following code
+            //widget[prop] = (function () {
+            //    return function () {
+            //        console.time(prop);
+            //        backupFunc.apply(this, arguments);
+            //        console.timeEnd(prop);
+            //    };
+            //})();
+        }
+    }
+}
+</code></pre>
 
 <h4>Problem</h4>
 
@@ -69,21 +68,22 @@
 
 <h4>Code:</h4>
 
-<p><div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="lineno"> 1</span> <span class="kd">var</span> <span class="nx">addTimer</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">widget</span><span class="p">)</span> <span class="p">{</span>
-<span class="lineno"> 2</span>     <span class="kd">var</span> <span class="nx">prop</span><span class="p">;</span>
-<span class="lineno"> 3</span>     <span class="kd">var</span> <span class="nx">getFuncWithTimer</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">prop</span><span class="p">)</span> <span class="p">{</span>
-<span class="lineno"> 4</span>         <span class="k">return</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
-<span class="lineno"> 5</span>             <span class="nx">console</span><span class="p">.</span><span class="nx">time</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">ldquo</span><span class="p">;</span><span class="nx">from</span> <span class="nx">timer</span> <span class="o">&amp;</span><span class="nx">rdquo</span><span class="p">;</span> <span class="o">+</span> <span class="nx">prop</span><span class="p">);</span>
-<span class="lineno"> 6</span>             <span class="nx">widget</span><span class="p">[</span><span class="nx">prop</span><span class="p">].</span><span class="nx">apply</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="nx">arguments</span><span class="p">);</span>
-<span class="lineno"> 7</span>             <span class="nx">console</span><span class="p">.</span><span class="nx">timeEnd</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">ldquo</span><span class="p">;</span><span class="nx">from</span> <span class="nx">timer</span> <span class="o">&amp;</span><span class="nx">rdquo</span><span class="p">;</span> <span class="o">+</span> <span class="nx">prop</span><span class="p">);</span>
-<span class="lineno"> 8</span>         <span class="p">};</span>
-<span class="lineno"> 9</span>     <span class="p">};</span>
-<span class="lineno">10</span>     <span class="k">for</span> <span class="p">(</span><span class="nx">prop</span> <span class="k">in</span> <span class="nx">widget</span><span class="p">)</span> <span class="p">{</span>
-<span class="lineno">11</span>         <span class="k">if</span> <span class="p">(</span><span class="k">typeof</span> <span class="nx">widget</span><span class="p">[</span><span class="nx">prop</span><span class="p">]</span> <span class="o">===</span> <span class="o">&amp;</span><span class="nx">lsquo</span><span class="p">;</span><span class="kd">function</span><span class="o">&amp;</span><span class="nx">rsquo</span><span class="p">;)</span> <span class="p">{</span>
-<span class="lineno">12</span>             <span class="nx">widget</span><span class="p">[</span><span class="nx">prop</span><span class="p">]</span> <span class="o">=</span> <span class="nx">getFuncWithTimer</span><span class="p">(</span><span class="nx">prop</span><span class="p">);</span>
-<span class="lineno">13</span>         <span class="p">}</span>
-<span class="lineno">14</span>     <span class="p">}</span>
-<span class="lineno">15</span> <span class="p">};</span></code></pre></div></p>
+<pre><code class="javascript">var addTimer = function (widget) {
+    var prop;
+    var getFuncWithTimer = function (prop) {
+        return function () {
+            console.time("from timer " + prop);
+            widget[prop].apply(this, arguments);
+            console.timeEnd("from timer " + prop);
+        };
+    };
+    for (prop in widget) {
+        if (typeof widget[prop] === 'function') {
+            widget[prop] = getFuncWithTimer(prop);
+        }
+    }
+};
+</code></pre>
 
 <h4>Problem</h4>
 
@@ -93,22 +93,23 @@
 
 <h4>Code:</h4>
 
-<p><div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="lineno"> 1</span> <span class="kd">var</span> <span class="nx">addTimer</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">widget</span><span class="p">)</span> <span class="p">{</span>
-<span class="lineno"> 2</span>     <span class="kd">var</span> <span class="nx">prop</span><span class="p">;</span>
-<span class="lineno"> 3</span>     <span class="kd">var</span> <span class="nx">getFuncWithTimer</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">prop</span><span class="p">)</span> <span class="p">{</span>
-<span class="lineno"> 4</span>         <span class="kd">var</span> <span class="nx">backupFunc</span> <span class="o">=</span> <span class="nx">widget</span><span class="p">[</span><span class="nx">prop</span><span class="p">];</span>
-<span class="lineno"> 5</span>         <span class="k">return</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
-<span class="lineno"> 6</span>             <span class="nx">console</span><span class="p">.</span><span class="nx">time</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">ldquo</span><span class="p">;</span><span class="nx">from</span> <span class="nx">timer</span> <span class="o">&amp;</span><span class="nx">rdquo</span><span class="p">;</span> <span class="o">+</span> <span class="nx">prop</span><span class="p">);</span>
-<span class="lineno"> 7</span>             <span class="nx">backupFunc</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="nx">arguments</span><span class="p">);</span>
-<span class="lineno"> 8</span>             <span class="nx">console</span><span class="p">.</span><span class="nx">timeEnd</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">ldquo</span><span class="p">;</span><span class="nx">from</span> <span class="nx">timer</span> <span class="o">&amp;</span><span class="nx">rdquo</span><span class="p">;</span> <span class="o">+</span> <span class="nx">prop</span><span class="p">);</span>
-<span class="lineno"> 9</span>         <span class="p">};</span>
-<span class="lineno">10</span>     <span class="p">};</span>
-<span class="lineno">11</span>     <span class="k">for</span> <span class="p">(</span><span class="nx">prop</span> <span class="k">in</span> <span class="nx">widget</span><span class="p">)</span> <span class="p">{</span>
-<span class="lineno">12</span>         <span class="k">if</span> <span class="p">(</span><span class="k">typeof</span> <span class="nx">widget</span><span class="p">[</span><span class="nx">prop</span><span class="p">]</span> <span class="o">===</span> <span class="o">&amp;</span><span class="nx">lsquo</span><span class="p">;</span><span class="kd">function</span><span class="o">&amp;</span><span class="nx">rsquo</span><span class="p">;)</span> <span class="p">{</span>
-<span class="lineno">13</span>             <span class="nx">widget</span><span class="p">[</span><span class="nx">prop</span><span class="p">]</span> <span class="o">=</span> <span class="nx">getFuncWithTimer</span><span class="p">(</span><span class="nx">prop</span><span class="p">);</span>
-<span class="lineno">14</span>         <span class="p">}</span>
-<span class="lineno">15</span>     <span class="p">}</span>
-<span class="lineno">16</span> <span class="p">};</span></code></pre></div></p>
+<pre><code class="javascript">var addTimer = function (widget) {
+    var prop;
+    var getFuncWithTimer = function (prop) {
+        var backupFunc = widget[prop];
+        return function () {
+            console.time("from timer " + prop);
+            backupFunc.apply(this, arguments);
+            console.timeEnd("from timer " + prop);
+        };
+    };
+    for (prop in widget) {
+        if (typeof widget[prop] === 'function') {
+            widget[prop] = getFuncWithTimer(prop);
+        }
+    }
+};
+</code></pre>
 
 <h4>Problem</h4>
 
@@ -118,23 +119,24 @@
 
 <h4>Code:</h4>
 
-<p><div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="lineno"> 1</span> <span class="kd">var</span> <span class="nx">addTimer</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">widget</span><span class="p">)</span> <span class="p">{</span>
-<span class="lineno"> 2</span>     <span class="kd">var</span> <span class="nx">prop</span><span class="p">;</span>
-<span class="lineno"> 3</span>     <span class="kd">var</span> <span class="nx">getFuncWithTimer</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">prop</span><span class="p">)</span> <span class="p">{</span>
-<span class="lineno"> 4</span>         <span class="kd">var</span> <span class="nx">backupFunc</span> <span class="o">=</span> <span class="nx">widget</span><span class="p">[</span><span class="nx">prop</span><span class="p">];</span>
-<span class="lineno"> 5</span>         <span class="k">return</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
-<span class="lineno"> 6</span>             <span class="nx">console</span><span class="p">.</span><span class="nx">time</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">ldquo</span><span class="p">;</span><span class="nx">from</span> <span class="nx">timer</span> <span class="o">&amp;</span><span class="nx">rdquo</span><span class="p">;</span> <span class="o">+</span> <span class="nx">prop</span><span class="p">);</span>
-<span class="lineno"> 7</span>             <span class="kd">var</span> <span class="nx">ret</span> <span class="o">=</span> <span class="nx">backupFunc</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="nx">arguments</span><span class="p">);</span>
-<span class="lineno"> 8</span>             <span class="nx">console</span><span class="p">.</span><span class="nx">timeEnd</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">ldquo</span><span class="p">;</span><span class="nx">from</span> <span class="nx">timer</span> <span class="o">&amp;</span><span class="nx">rdquo</span><span class="p">;</span> <span class="o">+</span> <span class="nx">prop</span><span class="p">);</span>
-<span class="lineno"> 9</span>             <span class="k">return</span> <span class="nx">ret</span><span class="p">;</span>
-<span class="lineno">10</span>         <span class="p">};</span>
-<span class="lineno">11</span>     <span class="p">};</span>
-<span class="lineno">12</span>     <span class="k">for</span> <span class="p">(</span><span class="nx">prop</span> <span class="k">in</span> <span class="nx">widget</span><span class="p">)</span> <span class="p">{</span>
-<span class="lineno">13</span>         <span class="k">if</span> <span class="p">(</span><span class="k">typeof</span> <span class="nx">widget</span><span class="p">[</span><span class="nx">prop</span><span class="p">]</span> <span class="o">===</span> <span class="o">&amp;</span><span class="nx">lsquo</span><span class="p">;</span><span class="kd">function</span><span class="o">&amp;</span><span class="nx">rsquo</span><span class="p">;)</span> <span class="p">{</span>
-<span class="lineno">14</span>             <span class="nx">widget</span><span class="p">[</span><span class="nx">prop</span><span class="p">]</span> <span class="o">=</span> <span class="nx">getFuncWithTimer</span><span class="p">(</span><span class="nx">prop</span><span class="p">);</span>
-<span class="lineno">15</span>         <span class="p">}</span>
-<span class="lineno">16</span>     <span class="p">}</span>
-<span class="lineno">17</span> <span class="p">};</span></code></pre></div></p>
+<pre><code class="javascript">var addTimer = function (widget) {
+    var prop;
+    var getFuncWithTimer = function (prop) {
+        var backupFunc = widget[prop];
+        return function () {
+            console.time("from timer " + prop);
+            var ret = backupFunc.apply(this, arguments);
+            console.timeEnd("from timer " + prop);
+            return ret;
+        };
+    };
+    for (prop in widget) {
+        if (typeof widget[prop] === 'function') {
+            widget[prop] = getFuncWithTimer(prop);
+        }
+    }
+};
+</code></pre>
 ]]></content>
   </entry>
   
@@ -143,14 +145,15 @@
     <link href="http://hongchaozhang.github.io/blog/2015/05/09/How-to-Add-a-Clone-function-to-Function/"/>
     <updated>2015-05-09T00:00:00+08:00</updated>
     <id>http://hongchaozhang.github.io/blog/2015/05/09/How-to-Add-a-Clone-function-to-Function</id>
-    <content type="html"><![CDATA[<p><div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="lineno">1</span> <span class="nb">Function</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">clone</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-<span class="lineno">2</span>     <span class="kd">var</span> <span class="nx">that</span> <span class="o">=</span> <span class="k">this</span><span class="p">;</span>
-<span class="lineno">3</span>     <span class="kd">var</span> <span class="nx">temp</span> <span class="o">=</span> <span class="kd">function</span> <span class="nx">temporary</span><span class="p">()</span> <span class="p">{</span> <span class="k">return</span> <span class="nx">that</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="nx">arguments</span><span class="p">);</span> <span class="p">};</span>
-<span class="lineno">4</span>     <span class="k">for</span><span class="p">(</span> <span class="nx">key</span> <span class="k">in</span> <span class="k">this</span> <span class="p">)</span> <span class="p">{</span>
-<span class="lineno">5</span>         <span class="nx">temp</span><span class="p">[</span><span class="nx">key</span><span class="p">]</span> <span class="o">=</span> <span class="k">this</span><span class="p">[</span><span class="nx">key</span><span class="p">];</span>
-<span class="lineno">6</span>     <span class="p">}</span>
-<span class="lineno">7</span>     <span class="k">return</span> <span class="nx">temp</span><span class="p">;</span>
-<span class="lineno">8</span> <span class="p">};</span></code></pre></div></p>
+    <content type="html"><![CDATA[<pre><code class="javascript">Function.prototype.clone = function() {
+    var that = this;
+    var temp = function temporary() { return that.apply(this, arguments); };
+    for( key in this ) {
+        temp[key] = this[key];
+    }
+    return temp;
+};
+</code></pre>
 ]]></content>
   </entry>
   

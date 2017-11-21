@@ -130,94 +130,183 @@
 
 <p>主要代码：</p>
 
-<div class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="lineno"> 1</span> <span class="k">class</span> <span class="nl">ViewController</span><span class="p">:</span> <span class="bp">UIViewController</span><span class="p">,</span> <span class="bp">UITableViewDelegate</span><span class="p">,</span> <span class="bp">UITableViewDataSource</span><span class="p">,</span> <span class="bp">UIScrollViewDelegate</span> <span class="p">{</span>
-<span class="lineno"> 2</span> 
-<span class="lineno"> 3</span>     <span class="k">var</span> <span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="n">String</span><span class="p">]()</span>
-<span class="lineno"> 4</span>     <span class="k">var</span> <span class="n">rowIndexToOperationDictionary</span> <span class="o">=</span> <span class="p">[</span><span class="nl">String</span><span class="p">:</span><span class="bp">NSBlockOperation</span><span class="p">]()</span>
-<span class="lineno"> 5</span>     <span class="k">let</span> <span class="nl">downloadImageOperationQueue</span><span class="p">:</span> <span class="bp">NSOperationQueue</span> <span class="o">=</span> <span class="p">{</span>
-<span class="lineno"> 6</span>         <span class="k">var</span> <span class="n">queue</span> <span class="o">=</span> <span class="bp">NSOperationQueue</span><span class="p">()</span>
-<span class="lineno"> 7</span>         <span class="n">queue</span><span class="p">.</span><span class="n">name</span> <span class="o">=</span> <span class="s">&quot;download image queue&quot;</span>
-<span class="lineno"> 8</span>         <span class="n">queue</span><span class="p">.</span><span class="n">maxConcurrentOperationCount</span> <span class="o">=</span> <span class="mi">4</span>
-<span class="lineno"> 9</span>         <span class="k">return</span> <span class="n">queue</span>
-<span class="lineno">10</span>     <span class="p">}()</span>
-<span class="lineno">11</span>     
-<span class="lineno">12</span>     <span class="kr">override</span> <span class="k">func</span> <span class="n">viewDidLoad</span><span class="p">()</span> <span class="p">{</span>
-<span class="lineno">13</span>         <span class="nb">super</span><span class="p">.</span><span class="n">viewDidLoad</span><span class="p">()</span>
-<span class="lineno">14</span>         <span class="c1">// Do any additional setup after loading the view, typically from a nib.</span>
-<span class="lineno">15</span>         
-<span class="lineno">16</span>         <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mf">1.</span><span class="p">.</span><span class="o">&lt;</span><span class="mi">100</span> <span class="p">{</span>
-<span class="lineno">17</span>             <span class="n">data</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="s">&quot;\(i)&quot;</span><span class="p">)</span>
-<span class="lineno">18</span>         <span class="p">}</span>
-<span class="lineno">19</span>         <span class="k">let</span> <span class="n">tableView</span> <span class="o">=</span> <span class="bp">UITableView</span><span class="p">(</span><span class="nl">frame</span><span class="p">:</span> <span class="nb">self</span><span class="p">.</span><span class="n">view</span><span class="p">.</span><span class="n">bounds</span><span class="p">)</span>
-<span class="lineno">20</span>         <span class="n">tableView</span><span class="p">.</span><span class="n">dataSource</span> <span class="o">=</span> <span class="nb">self</span>
-<span class="lineno">21</span>         <span class="n">tableView</span><span class="p">.</span><span class="n">delegate</span> <span class="o">=</span> <span class="nb">self</span>
-<span class="lineno">22</span>         <span class="nb">self</span><span class="p">.</span><span class="n">view</span><span class="p">.</span><span class="n">addSubview</span><span class="p">(</span><span class="n">tableView</span><span class="p">)</span>
-<span class="lineno">23</span>     <span class="p">}</span>
-<span class="lineno">24</span>     
-<span class="lineno">25</span>     <span class="c1">// when table view disappears, cancel all operations</span>
-<span class="lineno">26</span>     <span class="kr">override</span> <span class="k">func</span> <span class="n">viewDidDisappear</span><span class="p">(</span><span class="nl">animated</span><span class="p">:</span> <span class="n">Bool</span><span class="p">)</span> <span class="p">{</span>
-<span class="lineno">27</span>         <span class="n">downloadImageOperationQueue</span><span class="p">.</span><span class="n">cancelAllOperations</span><span class="p">()</span>
-<span class="lineno">28</span>     <span class="p">}</span>
-<span class="lineno">29</span>     
-<span class="lineno">30</span>     <span class="k">func</span> <span class="n">tableView</span><span class="p">(</span><span class="nl">tableView</span><span class="p">:</span> <span class="bp">UITableView</span><span class="p">,</span> <span class="n">heightForRowAtIndexPath</span> <span class="nl">indexPath</span><span class="p">:</span> <span class="bp">NSIndexPath</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">CGFloat</span> <span class="p">{</span>
-<span class="lineno">31</span>         <span class="k">return</span> <span class="mi">100</span>
-<span class="lineno">32</span>     <span class="p">}</span>
-<span class="lineno">33</span>     
-<span class="lineno">34</span>     <span class="k">func</span> <span class="n">tableView</span><span class="p">(</span><span class="nl">tableView</span><span class="p">:</span> <span class="bp">UITableView</span><span class="p">,</span> <span class="n">numberOfRowsInSection</span> <span class="nl">section</span><span class="p">:</span> <span class="n">Int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Int</span> <span class="p">{</span>
-<span class="lineno">35</span>         <span class="k">return</span> <span class="n">data</span><span class="p">.</span><span class="n">count</span>
-<span class="lineno">36</span>     <span class="p">}</span>
-<span class="lineno">37</span>     
-<span class="lineno">38</span>     <span class="k">func</span> <span class="n">tableView</span><span class="p">(</span><span class="nl">tableView</span><span class="p">:</span> <span class="bp">UITableView</span><span class="p">,</span> <span class="n">cellForRowAtIndexPath</span> <span class="nl">indexPath</span><span class="p">:</span> <span class="bp">NSIndexPath</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">UITableViewCell</span> <span class="p">{</span>
-<span class="lineno">39</span>         <span class="k">var</span> <span class="n">cell</span> <span class="o">=</span> <span class="n">tableView</span><span class="p">.</span><span class="n">dequeueReusableCellWithIdentifier</span><span class="p">(</span><span class="s">&quot;cell&quot;</span><span class="p">)</span>
-<span class="lineno">40</span>         <span class="k">if</span> <span class="n">cell</span> <span class="o">==</span> <span class="nb">nil</span> <span class="p">{</span>
-<span class="lineno">41</span>             <span class="n">cell</span> <span class="o">=</span> <span class="bp">UITableViewCell</span><span class="p">(</span><span class="nl">style</span><span class="p">:</span> <span class="p">.</span><span class="n">Default</span><span class="p">,</span> <span class="nl">reuseIdentifier</span><span class="p">:</span> <span class="s">&quot;cell&quot;</span><span class="p">)</span>
-<span class="lineno">42</span>         <span class="p">}</span>
-<span class="lineno">43</span>         
-<span class="lineno">44</span>         <span class="n">cell</span><span class="o">!</span><span class="p">.</span><span class="n">textLabel</span><span class="o">!</span><span class="p">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">indexPath</span><span class="p">.</span><span class="n">row</span><span class="p">]</span>
-<span class="lineno">45</span>         
-<span class="lineno">46</span>         <span class="k">let</span> <span class="n">loadImageInfoCellOperation</span> <span class="o">=</span> <span class="bp">NSBlockOperation</span><span class="p">()</span>
-<span class="lineno">47</span>         <span class="k">weak</span> <span class="k">var</span> <span class="n">weakLoadImageInfoCellOperation</span> <span class="o">=</span> <span class="n">loadImageInfoCellOperation</span>
-<span class="lineno">48</span>         <span class="k">func</span> <span class="n">loadImageOperationBlock</span><span class="p">()</span> <span class="p">{</span>
-<span class="lineno">49</span>             <span class="k">let</span> <span class="n">imageData</span> <span class="o">=</span> <span class="bp">NSData</span><span class="p">(</span><span class="nl">contentsOfURL</span><span class="p">:</span> <span class="bp">NSURL</span><span class="p">(</span><span class="nl">string</span><span class="p">:</span> <span class="s">&quot;http://dummyimage.com/100x100/222/fff.png&amp;text=&quot;</span><span class="o">+</span><span class="n">data</span><span class="p">[</span><span class="n">indexPath</span><span class="p">.</span><span class="n">row</span><span class="p">])</span><span class="o">!</span><span class="p">)</span>
-<span class="lineno">50</span>             <span class="k">var</span> <span class="nl">imageIcon</span><span class="p">:</span><span class="bp">UIImage</span><span class="o">?</span>
-<span class="lineno">51</span>             <span class="k">if</span> <span class="k">let</span> <span class="n">imageData</span> <span class="o">=</span> <span class="n">imageData</span> <span class="p">{</span>
-<span class="lineno">52</span>                 <span class="n">imageIcon</span> <span class="o">=</span> <span class="bp">UIImage</span><span class="p">(</span><span class="nl">data</span><span class="p">:</span> <span class="n">imageData</span><span class="p">)</span>
-<span class="lineno">53</span>             <span class="p">}</span>
-<span class="lineno">54</span> 
-<span class="lineno">55</span>             <span class="k">func</span> <span class="n">updateImageOperationBlock</span><span class="p">()</span> <span class="p">{</span>
-<span class="lineno">56</span>                 <span class="k">if</span> <span class="k">let</span> <span class="n">operation</span> <span class="o">=</span> <span class="n">weakLoadImageInfoCellOperation</span> <span class="p">{</span>
-<span class="lineno">57</span>                     <span class="k">if</span> <span class="n">operation</span><span class="p">.</span><span class="n">cancelled</span> <span class="p">{</span>
-<span class="lineno">58</span>                         <span class="n">rowIndexToOperationDictionary</span><span class="p">.</span><span class="n">removeValueForKey</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">indexPath</span><span class="p">.</span><span class="n">row</span><span class="p">])</span>
-<span class="lineno">59</span>                     <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-<span class="lineno">60</span>                         <span class="k">let</span> <span class="n">theCell</span> <span class="o">=</span> <span class="n">tableView</span><span class="p">.</span><span class="n">cellForRowAtIndexPath</span><span class="p">(</span><span class="n">indexPath</span><span class="p">)</span>
-<span class="lineno">61</span>                         <span class="n">theCell</span><span class="o">?</span><span class="p">.</span><span class="n">imageView</span><span class="o">!</span><span class="p">.</span><span class="n">image</span> <span class="o">=</span> <span class="n">imageIcon</span>
-<span class="lineno">62</span>                         <span class="n">theCell</span><span class="o">?</span><span class="p">.</span><span class="n">setNeedsLayout</span><span class="p">()</span>
-<span class="lineno">63</span>                         <span class="n">rowIndexToOperationDictionary</span><span class="p">.</span><span class="n">removeValueForKey</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">indexPath</span><span class="p">.</span><span class="n">row</span><span class="p">])</span>
-<span class="lineno">64</span>                     <span class="p">}</span>
-<span class="lineno">65</span>                 <span class="p">}</span>
-<span class="lineno">66</span>             <span class="p">}</span>
-<span class="lineno">67</span>             <span class="bp">NSOperationQueue</span><span class="p">.</span><span class="n">mainQueue</span><span class="p">().</span><span class="n">addOperationWithBlock</span><span class="p">(</span><span class="n">updateImageOperationBlock</span><span class="p">)</span>
-<span class="lineno">68</span>         <span class="p">}</span>
-<span class="lineno">69</span>         <span class="n">loadImageInfoCellOperation</span><span class="p">.</span><span class="n">addExecutionBlock</span><span class="p">(</span><span class="n">loadImageOperationBlock</span><span class="p">)</span>
-<span class="lineno">70</span>         
-<span class="lineno">71</span>         <span class="n">rowIndexToOperationDictionary</span><span class="p">[</span><span class="n">data</span><span class="p">[</span><span class="n">indexPath</span><span class="p">.</span><span class="n">row</span><span class="p">]]</span> <span class="o">=</span> <span class="n">loadImageInfoCellOperation</span>
-<span class="lineno">72</span>         <span class="n">downloadImageOperationQueue</span><span class="p">.</span><span class="n">addOperation</span><span class="p">(</span><span class="n">loadImageInfoCellOperation</span><span class="p">)</span>
-<span class="lineno">73</span>         <span class="n">cell</span><span class="o">?</span><span class="p">.</span><span class="n">imageView</span><span class="o">!</span><span class="p">.</span><span class="n">image</span> <span class="o">=</span> <span class="nb">nil</span>
-<span class="lineno">74</span>         
-<span class="lineno">75</span>         <span class="k">return</span> <span class="n">cell</span><span class="o">!</span>
-<span class="lineno">76</span>     <span class="p">}</span>
-<span class="lineno">77</span>     
-<span class="lineno">78</span>     <span class="c1">// when cell is out of scene, cancel the operation</span>
-<span class="lineno">79</span>     <span class="k">func</span> <span class="n">tableView</span><span class="p">(</span><span class="nl">tableView</span><span class="p">:</span> <span class="bp">UITableView</span><span class="p">,</span> <span class="n">didEndDisplayingCell</span> <span class="nl">cell</span><span class="p">:</span> <span class="bp">UITableViewCell</span><span class="p">,</span> <span class="n">forRowAtIndexPath</span> <span class="nl">indexPath</span><span class="p">:</span> <span class="bp">NSIndexPath</span><span class="p">)</span> <span class="p">{</span>
-<span class="lineno">80</span>         <span class="k">let</span> <span class="nl">loadImageInfoCellOperation</span><span class="p">:</span><span class="bp">NSBlockOperation</span><span class="o">?</span> <span class="o">=</span> <span class="n">rowIndexToOperationDictionary</span><span class="p">[</span><span class="n">data</span><span class="p">[</span><span class="n">indexPath</span><span class="p">.</span><span class="n">row</span><span class="p">]]</span>
-<span class="lineno">81</span>         <span class="k">if</span> <span class="k">let</span> <span class="n">op</span> <span class="o">=</span> <span class="n">loadImageInfoCellOperation</span> <span class="p">{</span>
-<span class="lineno">82</span>             <span class="n">op</span><span class="p">.</span><span class="n">cancel</span><span class="p">()</span>
-<span class="lineno">83</span>             <span class="n">rowIndexToOperationDictionary</span><span class="p">.</span><span class="n">removeValueForKey</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">indexPath</span><span class="p">.</span><span class="n">row</span><span class="p">])</span>
-<span class="lineno">84</span>         <span class="p">}</span>
-<span class="lineno">85</span>         
-<span class="lineno">86</span>     <span class="p">}</span>
-<span class="lineno">87</span> 
-<span class="lineno">88</span> <span class="p">}</span></code></pre></div>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+<span class='line-number'>88</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">class</span> <span class="nl">ViewController</span><span class="p">:</span> <span class="bp">UIViewController</span><span class="p">,</span> <span class="bp">UITableViewDelegate</span><span class="p">,</span> <span class="bp">UITableViewDataSource</span><span class="p">,</span> <span class="bp">UIScrollViewDelegate</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">var</span> <span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="n">String</span><span class="p">]()</span>
+</span><span class='line'>    <span class="k">var</span> <span class="n">rowIndexToOperationDictionary</span> <span class="o">=</span> <span class="p">[</span><span class="nl">String</span><span class="p">:</span><span class="bp">NSBlockOperation</span><span class="p">]()</span>
+</span><span class='line'>    <span class="k">let</span> <span class="nl">downloadImageOperationQueue</span><span class="p">:</span> <span class="bp">NSOperationQueue</span> <span class="o">=</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">var</span> <span class="n">queue</span> <span class="o">=</span> <span class="bp">NSOperationQueue</span><span class="p">()</span>
+</span><span class='line'>        <span class="n">queue</span><span class="p">.</span><span class="n">name</span> <span class="o">=</span> <span class="s">&quot;download image queue&quot;</span>
+</span><span class='line'>        <span class="n">queue</span><span class="p">.</span><span class="n">maxConcurrentOperationCount</span> <span class="o">=</span> <span class="mi">4</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">queue</span>
+</span><span class='line'>    <span class="p">}()</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kr">override</span> <span class="k">func</span> <span class="n">viewDidLoad</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nb">super</span><span class="p">.</span><span class="n">viewDidLoad</span><span class="p">()</span>
+</span><span class='line'>        <span class="c1">// Do any additional setup after loading the view, typically from a nib.</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mf">1.</span><span class="p">.</span><span class="o">&lt;</span><span class="mi">100</span> <span class="p">{</span>
+</span><span class='line'>            <span class="n">data</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="s">&quot;\(i)&quot;</span><span class="p">)</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="k">let</span> <span class="n">tableView</span> <span class="o">=</span> <span class="bp">UITableView</span><span class="p">(</span><span class="nl">frame</span><span class="p">:</span> <span class="nb">self</span><span class="p">.</span><span class="n">view</span><span class="p">.</span><span class="n">bounds</span><span class="p">)</span>
+</span><span class='line'>        <span class="n">tableView</span><span class="p">.</span><span class="n">dataSource</span> <span class="o">=</span> <span class="nb">self</span>
+</span><span class='line'>        <span class="n">tableView</span><span class="p">.</span><span class="n">delegate</span> <span class="o">=</span> <span class="nb">self</span>
+</span><span class='line'>        <span class="nb">self</span><span class="p">.</span><span class="n">view</span><span class="p">.</span><span class="n">addSubview</span><span class="p">(</span><span class="n">tableView</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">// when table view disappears, cancel all operations</span>
+</span><span class='line'>    <span class="kr">override</span> <span class="k">func</span> <span class="n">viewDidDisappear</span><span class="p">(</span><span class="nl">animated</span><span class="p">:</span> <span class="n">Bool</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">downloadImageOperationQueue</span><span class="p">.</span><span class="n">cancelAllOperations</span><span class="p">()</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">func</span> <span class="n">tableView</span><span class="p">(</span><span class="nl">tableView</span><span class="p">:</span> <span class="bp">UITableView</span><span class="p">,</span> <span class="n">heightForRowAtIndexPath</span> <span class="nl">indexPath</span><span class="p">:</span> <span class="bp">NSIndexPath</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">CGFloat</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="mi">100</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">func</span> <span class="n">tableView</span><span class="p">(</span><span class="nl">tableView</span><span class="p">:</span> <span class="bp">UITableView</span><span class="p">,</span> <span class="n">numberOfRowsInSection</span> <span class="nl">section</span><span class="p">:</span> <span class="n">Int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Int</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">data</span><span class="p">.</span><span class="n">count</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">func</span> <span class="n">tableView</span><span class="p">(</span><span class="nl">tableView</span><span class="p">:</span> <span class="bp">UITableView</span><span class="p">,</span> <span class="n">cellForRowAtIndexPath</span> <span class="nl">indexPath</span><span class="p">:</span> <span class="bp">NSIndexPath</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">UITableViewCell</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">var</span> <span class="n">cell</span> <span class="o">=</span> <span class="n">tableView</span><span class="p">.</span><span class="n">dequeueReusableCellWithIdentifier</span><span class="p">(</span><span class="s">&quot;cell&quot;</span><span class="p">)</span>
+</span><span class='line'>        <span class="k">if</span> <span class="n">cell</span> <span class="o">==</span> <span class="nb">nil</span> <span class="p">{</span>
+</span><span class='line'>            <span class="n">cell</span> <span class="o">=</span> <span class="bp">UITableViewCell</span><span class="p">(</span><span class="nl">style</span><span class="p">:</span> <span class="p">.</span><span class="n">Default</span><span class="p">,</span> <span class="nl">reuseIdentifier</span><span class="p">:</span> <span class="s">&quot;cell&quot;</span><span class="p">)</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">cell</span><span class="o">!</span><span class="p">.</span><span class="n">textLabel</span><span class="o">!</span><span class="p">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">indexPath</span><span class="p">.</span><span class="n">row</span><span class="p">]</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">let</span> <span class="n">loadImageInfoCellOperation</span> <span class="o">=</span> <span class="bp">NSBlockOperation</span><span class="p">()</span>
+</span><span class='line'>        <span class="k">weak</span> <span class="k">var</span> <span class="n">weakLoadImageInfoCellOperation</span> <span class="o">=</span> <span class="n">loadImageInfoCellOperation</span>
+</span><span class='line'>        <span class="k">func</span> <span class="n">loadImageOperationBlock</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">let</span> <span class="n">imageData</span> <span class="o">=</span> <span class="bp">NSData</span><span class="p">(</span><span class="nl">contentsOfURL</span><span class="p">:</span> <span class="bp">NSURL</span><span class="p">(</span><span class="nl">string</span><span class="p">:</span> <span class="s">&quot;http://dummyimage.com/100x100/222/fff.png&amp;text=&quot;</span><span class="o">+</span><span class="n">data</span><span class="p">[</span><span class="n">indexPath</span><span class="p">.</span><span class="n">row</span><span class="p">])</span><span class="o">!</span><span class="p">)</span>
+</span><span class='line'>            <span class="k">var</span> <span class="nl">imageIcon</span><span class="p">:</span><span class="bp">UIImage</span><span class="o">?</span>
+</span><span class='line'>            <span class="k">if</span> <span class="k">let</span> <span class="n">imageData</span> <span class="o">=</span> <span class="n">imageData</span> <span class="p">{</span>
+</span><span class='line'>                <span class="n">imageIcon</span> <span class="o">=</span> <span class="bp">UIImage</span><span class="p">(</span><span class="nl">data</span><span class="p">:</span> <span class="n">imageData</span><span class="p">)</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>            <span class="k">func</span> <span class="n">updateImageOperationBlock</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>                <span class="k">if</span> <span class="k">let</span> <span class="n">operation</span> <span class="o">=</span> <span class="n">weakLoadImageInfoCellOperation</span> <span class="p">{</span>
+</span><span class='line'>                    <span class="k">if</span> <span class="n">operation</span><span class="p">.</span><span class="n">cancelled</span> <span class="p">{</span>
+</span><span class='line'>                        <span class="n">rowIndexToOperationDictionary</span><span class="p">.</span><span class="n">removeValueForKey</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">indexPath</span><span class="p">.</span><span class="n">row</span><span class="p">])</span>
+</span><span class='line'>                    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>                        <span class="k">let</span> <span class="n">theCell</span> <span class="o">=</span> <span class="n">tableView</span><span class="p">.</span><span class="n">cellForRowAtIndexPath</span><span class="p">(</span><span class="n">indexPath</span><span class="p">)</span>
+</span><span class='line'>                        <span class="n">theCell</span><span class="o">?</span><span class="p">.</span><span class="n">imageView</span><span class="o">!</span><span class="p">.</span><span class="n">image</span> <span class="o">=</span> <span class="n">imageIcon</span>
+</span><span class='line'>                        <span class="n">theCell</span><span class="o">?</span><span class="p">.</span><span class="n">setNeedsLayout</span><span class="p">()</span>
+</span><span class='line'>                        <span class="n">rowIndexToOperationDictionary</span><span class="p">.</span><span class="n">removeValueForKey</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">indexPath</span><span class="p">.</span><span class="n">row</span><span class="p">])</span>
+</span><span class='line'>                    <span class="p">}</span>
+</span><span class='line'>                <span class="p">}</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>            <span class="bp">NSOperationQueue</span><span class="p">.</span><span class="n">mainQueue</span><span class="p">().</span><span class="n">addOperationWithBlock</span><span class="p">(</span><span class="n">updateImageOperationBlock</span><span class="p">)</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="n">loadImageInfoCellOperation</span><span class="p">.</span><span class="n">addExecutionBlock</span><span class="p">(</span><span class="n">loadImageOperationBlock</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">rowIndexToOperationDictionary</span><span class="p">[</span><span class="n">data</span><span class="p">[</span><span class="n">indexPath</span><span class="p">.</span><span class="n">row</span><span class="p">]]</span> <span class="o">=</span> <span class="n">loadImageInfoCellOperation</span>
+</span><span class='line'>        <span class="n">downloadImageOperationQueue</span><span class="p">.</span><span class="n">addOperation</span><span class="p">(</span><span class="n">loadImageInfoCellOperation</span><span class="p">)</span>
+</span><span class='line'>        <span class="n">cell</span><span class="o">?</span><span class="p">.</span><span class="n">imageView</span><span class="o">!</span><span class="p">.</span><span class="n">image</span> <span class="o">=</span> <span class="nb">nil</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">return</span> <span class="n">cell</span><span class="o">!</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">// when cell is out of scene, cancel the operation</span>
+</span><span class='line'>    <span class="k">func</span> <span class="n">tableView</span><span class="p">(</span><span class="nl">tableView</span><span class="p">:</span> <span class="bp">UITableView</span><span class="p">,</span> <span class="n">didEndDisplayingCell</span> <span class="nl">cell</span><span class="p">:</span> <span class="bp">UITableViewCell</span><span class="p">,</span> <span class="n">forRowAtIndexPath</span> <span class="nl">indexPath</span><span class="p">:</span> <span class="bp">NSIndexPath</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">let</span> <span class="nl">loadImageInfoCellOperation</span><span class="p">:</span><span class="bp">NSBlockOperation</span><span class="o">?</span> <span class="o">=</span> <span class="n">rowIndexToOperationDictionary</span><span class="p">[</span><span class="n">data</span><span class="p">[</span><span class="n">indexPath</span><span class="p">.</span><span class="n">row</span><span class="p">]]</span>
+</span><span class='line'>        <span class="k">if</span> <span class="k">let</span> <span class="n">op</span> <span class="o">=</span> <span class="n">loadImageInfoCellOperation</span> <span class="p">{</span>
+</span><span class='line'>            <span class="n">op</span><span class="p">.</span><span class="n">cancel</span><span class="p">()</span>
+</span><span class='line'>            <span class="n">rowIndexToOperationDictionary</span><span class="p">.</span><span class="n">removeValueForKey</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">indexPath</span><span class="p">.</span><span class="n">row</span><span class="p">])</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <h3>其它问题</h3>
@@ -300,11 +389,15 @@
   
     <section class="categories">
   <h1>Categories</h1>
-    <ul id="top-category-list" class="nav nav-list"><li><a href='/blog/categories/ios'>ios (32)</a></li><li><a href='/blog/categories/objective-c'>objective-c (20)</a></li><li><a href='/blog/categories/productivity'>productivity (16)</a></li><li><a href='/blog/categories/xcode'>xcode (5)</a></li><li><a href='/blog/categories/android'>android (5)</a></li><li><a href='/blog/categories/node'>node (3)</a></li><li><a href='/blog/categories/python'>python (3)</a></li><li><a href='/blog/categories/swift'>swift (2)</a></li><li><a href='/blog/categories/javascript'>javascript (2)</a></li><li><a href='/blog/categories/web'>web (2)</a></li><li><a href='/blog/categories/java'>java (2)</a></li><li><a href='/blog/categories/philosophy'>philosophy (2)</a></li><li><a href='/blog/categories/reading'>reading (2)</a></li><li><a href='/blog/categories/map-tech'>map tech (2)</a></li><li><a href='/blog/categories/design-pattern'>design_pattern (1)</a></li><li><a href='/blog/categories/mobile'>mobile (1)</a></li><li><a href='/blog/categories/android-studio'>android_studio (1)</a></li></ul>
+    <ul id="top-category-list" class="nav nav-list"><li><a href='/blog/categories/ios'>ios (32)</a></li><li><a href='/blog/categories/objective-c'>objective-c (20)</a></li><li><a href='/blog/categories/productivity'>productivity (17)</a></li><li><a href='/blog/categories/xcode'>xcode (5)</a></li><li><a href='/blog/categories/android'>android (5)</a></li><li><a href='/blog/categories/node'>node (3)</a></li><li><a href='/blog/categories/python'>python (3)</a></li><li><a href='/blog/categories/swift'>swift (2)</a></li><li><a href='/blog/categories/javascript'>javascript (2)</a></li><li><a href='/blog/categories/web'>web (2)</a></li><li><a href='/blog/categories/java'>java (2)</a></li><li><a href='/blog/categories/philosophy'>philosophy (2)</a></li><li><a href='/blog/categories/reading'>reading (2)</a></li><li><a href='/blog/categories/map-tech'>map tech (2)</a></li><li><a href='/blog/categories/design-pattern'>design_pattern (1)</a></li><li><a href='/blog/categories/mobile'>mobile (1)</a></li><li><a href='/blog/categories/android-studio'>android_studio (1)</a></li></ul>
 </section>
 <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2017/11/21/some-tips-on-markdown-usage/">Some Tips on Markdown Usage</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2017/10/20/errors-in-swift/">Swift中的Error</a>
@@ -320,10 +413,6 @@
     
       <li class="post">
         <a href="/blog/2017/03/28/when-is-layoutsubviews-called/">layoutSubviews的调用机制</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2017/03/03/relation-among-m-multiple-gestures/">如何处理多个手势之间的关系</a>
       </li>
     
   </ul>

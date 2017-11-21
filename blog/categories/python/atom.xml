@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Python | Zhang Hongchao]]></title>
   <link href="http://hongchaozhang.github.io/blog/categories/python/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2017-11-20T23:01:18+08:00</updated>
+  <updated>2017-11-21T11:11:28+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -24,13 +24,13 @@
 
 
 <p>一种解决方案：在python文件的开头（第一行）加入如下内容：
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="lineno">1</span> <span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-<span class="lineno">2</span> 
-<span class="lineno">3</span> <span class="o">&lt;</span><span class="n">h1</span><span class="o">&gt;</span><span class="err">!</span><span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">python</span><span class="o">&lt;/</span><span class="n">h1</span><span class="o">&gt;</span>
-<span class="lineno">4</span> 
-<span class="lineno">5</span> <span class="o">&lt;</span><span class="n">h1</span><span class="o">&gt;</span><span class="n">coding</span><span class="p">:</span> <span class="n">utf</span><span class="o">-</span><span class="mi">8</span><span class="o">&lt;/</span><span class="n">h1</span><span class="o">&gt;</span>
-<span class="lineno">6</span> 
-<span class="lineno">7</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span></code></pre></div></p>
+```python</p>
+
+<h1>!/usr/local/bin/python</h1>
+
+<h1>coding: utf-8</h1>
+
+<p>```</p>
 ]]></content>
   </entry>
   

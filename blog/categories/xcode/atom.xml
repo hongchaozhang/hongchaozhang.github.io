@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Xcode | Zhang Hongchao]]></title>
   <link href="http://hongchaozhang.github.io/blog/categories/xcode/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2017-11-20T23:01:18+08:00</updated>
+  <updated>2017-11-21T11:11:28+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -112,7 +112,8 @@ Puppet  Twig    Vue.js</p>
 
 <p>On Mac, display the GUI by running:</p>
 
-<p><div class="highlight"><pre><code class="language-text" data-lang="text">./run.sh cpdgui</code></pre></div></p>
+<pre><code>./run.sh cpdgui
+</code></pre>
 
 <p>The screen shot is like:</p>
 
@@ -226,33 +227,36 @@ Puppet  Twig    Vue.js</p>
 
 <p>并不是所有在block中引用<code>self</code>都会带来retain cycle，比如下面的代码就不会有内存泄露：</p>
 
-<p><div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno">1</span> <span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">testSelfInCocoaBlocks</span>
-<span class="lineno">2</span> <span class="p">{</span>
-<span class="lineno">3</span>     <span class="bp">NSArray</span> <span class="o">&lt;</span><span class="n">em</span><span class="o">&gt;</span><span class="n">cats</span> <span class="o">=</span> <span class="l">@[</span><span class="p">@</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">Smily</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;,</span> <span class="p">@</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">Garfild</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;,</span> <span class="p">@</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">Other</span> <span class="n">cat</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;];</span>
-<span class="lineno">4</span>     <span class="p">[</span><span class="n">cats</span> <span class="nl">enumerateObjectsUsingBlock</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="bp">NSString</span> <span class="o">&lt;/</span><span class="n">em</span><span class="o">&gt;</span><span class="n">cat</span><span class="p">,</span> <span class="bp">NSUInteger</span> <span class="n">idx</span><span class="p">,</span> <span class="kt">BOOL</span> <span class="o">*</span><span class="n">stop</span><span class="p">)</span> <span class="p">{</span>
-<span class="lineno">5</span>         <span class="p">[</span><span class="nb">self</span> <span class="nl">doSomethingWithCat</span><span class="p">:</span><span class="n">cat</span><span class="p">];</span>
-<span class="lineno">6</span>     <span class="p">}];</span>
-<span class="lineno">7</span> <span class="p">}</span></code></pre></div></p>
+<pre><code class="objc">- (void)testSelfInCocoaBlocks
+{
+    NSArray *cats = @[@"Smily", @"Garfild", @"Other cat"];
+    [cats enumerateObjectsUsingBlock:^(NSString *cat, NSUInteger idx, BOOL *stop) {
+        [self doSomethingWithCat:cat];
+    }];
+}
+</code></pre>
 
 <p>因为在上面的代码中，block ratain了self，但是self中没有retain这个block。只有当block中引用了self，并且self又以某种方式（比如用一个具有strong属性的Property指向该block，或者将该block加入了self的一个具有strong属性的array中）强引用了该block，才会引起内存泄露，比如：</p>
 
-<p><div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno">1</span> <span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">testSelfInBlock</span>
-<span class="lineno">2</span> <span class="p">{</span>
-<span class="lineno">3</span>     <span class="nb">self</span><span class="p">.</span><span class="n">block</span> <span class="o">=</span> <span class="o">^</span><span class="p">{</span>
-<span class="lineno">4</span>         <span class="p">[</span><span class="nb">self</span> <span class="nl">doSomethingWithCat</span><span class="p">:@</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">Fat</span> <span class="n">Cat</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;];</span>
-<span class="lineno">5</span>     <span class="p">};</span>
-<span class="lineno">6</span> <span class="p">}</span></code></pre></div></p>
+<pre><code class="objc">- (void)testSelfInBlock
+{
+    self.block = ^{
+        [self doSomethingWithCat:@"Fat Cat"];
+    };
+}
+</code></pre>
 
 <p>有时候即使没有直接引用self，也可能导致self被retain，这叫做“implicit retain”。一种可能的情况就是在block中引用了self的实例变量，比如：</p>
 
-<p><div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno">1</span> <span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">testHiddenSelfInCocoaBlocks</span>
-<span class="lineno">2</span> <span class="p">{</span>
-<span class="lineno">3</span>     <span class="bp">NSArray</span> <span class="o">&lt;</span><span class="n">em</span><span class="o">&gt;</span><span class="n">cats</span> <span class="o">=</span> <span class="l">@[</span><span class="p">@</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">Smily</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;,</span> <span class="p">@</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">Garfild</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;,</span> <span class="p">@</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">Other</span> <span class="n">cat</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;];</span>
-<span class="lineno">4</span>     <span class="p">[</span><span class="n">cats</span> <span class="nl">enumerateObjectsUsingBlock</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="bp">NSString</span> <span class="o">&lt;/</span><span class="n">em</span><span class="o">&gt;</span><span class="n">cat</span><span class="p">,</span> <span class="bp">NSUInteger</span> <span class="n">idx</span><span class="p">,</span> <span class="kt">BOOL</span> <span class="o">&lt;</span><span class="n">em</span><span class="o">&gt;</span><span class="n">stop</span><span class="p">)</span> <span class="p">{</span>
-<span class="lineno">5</span>         <span class="n">_aCat</span> <span class="o">=</span> <span class="n">cat</span><span class="p">;</span>
-<span class="lineno">6</span>         <span class="o">&lt;/</span><span class="n">em</span><span class="o">&gt;</span><span class="n">stop</span> <span class="o">=</span> <span class="nb">YES</span><span class="p">;</span>
-<span class="lineno">7</span>     <span class="p">}];</span>
-<span class="lineno">8</span> <span class="p">}</span></code></pre></div></p>
+<pre><code class="objc">- (void)testHiddenSelfInCocoaBlocks
+{
+    NSArray *cats = @[@"Smily", @"Garfild", @"Other cat"];
+    [cats enumerateObjectsUsingBlock:^(NSString *cat, NSUInteger idx, BOOL *stop) {
+        _aCat = cat;
+        *stop = YES;
+    }];
+}
+</code></pre>
 
 <p>这段code在block中引用了self的实例变量<code>_aCat</code>。</p>
 
@@ -266,12 +270,13 @@ Puppet  Twig    Vue.js</p>
 
 <p>当我们在NSNotificationCenter的block中引用self的时候，也会产生retain cycle，比如：</p>
 
-<p><div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno">1</span> <span class="p">[[</span><span class="bp">NSNotificationCenter</span> <span class="n">defaultCenter</span><span class="p">]</span> <span class="nl">addObserverForName</span><span class="p">:@</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">not</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;</span>
-<span class="lineno">2</span>                                                       <span class="nl">object</span><span class="p">:</span><span class="nb">nil</span>
-<span class="lineno">3</span>                                                        <span class="nl">queue</span><span class="p">:[</span><span class="bp">NSOperationQueue</span> <span class="n">mainQueue</span><span class="p">]</span>
-<span class="lineno">4</span>                                                   <span class="nl">usingBlock</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="bp">NSNotification</span> <span class="o">*</span><span class="n">note</span><span class="p">)</span> <span class="p">{</span>
-<span class="lineno">5</span>         <span class="p">[</span><span class="nb">self</span> <span class="nl">doSomethingWithCat</span><span class="p">:@</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">Noty</span> <span class="n">cat</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;];</span>
-<span class="lineno">6</span>     <span class="p">}];</span></code></pre></div></p>
+<pre><code class="objc">[[NSNotificationCenter defaultCenter] addObserverForName:@"not"
+                                                      object:nil
+                                                       queue:[NSOperationQueue mainQueue]
+                                                  usingBlock:^(NSNotification *note) {
+        [self doSomethingWithCat:@"Noty cat"];
+    }];
+</code></pre>
 
 <p>在不用的时候需要将self从NSNotificationCenter中移除。</p>
 
@@ -300,11 +305,13 @@ Puppet  Twig    Vue.js</p>
 <p>在ARC之前，我们可以使用<code>retainCount</code>得到一个Object被retain的次数。
 引入ARC之后，这个方法不能在code中使用，可以使用下面的方法获得retain的次数：</p>
 
-<p><div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="n">NSLog</span><span class="p">(@</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">Retain</span> <span class="n">count</span> <span class="n">is</span> <span class="o">%</span><span class="n">ld</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;,</span> <span class="n">CFGetRetainCount</span><span class="p">((</span><span class="k">__bridge</span> <span class="n">CFTypeRef</span><span class="p">)</span><span class="n">myObject</span><span class="p">));</span></code></pre></div></p>
+<pre><code class="objc">NSLog(@"Retain count is %ld", CFGetRetainCount((__bridge CFTypeRef)myObject));
+</code></pre>
 
 <p>或者通过设置断点，在调试窗口输入如下命令：</p>
 
-<p><div class="highlight"><pre><code class="language-text" data-lang="text">po object.retainCount</code></pre></div></p>
+<pre><code>po object.retainCount
+</code></pre>
 
 <blockquote><p> <strong>我们什么时候使用retainCount？</strong></p>
 

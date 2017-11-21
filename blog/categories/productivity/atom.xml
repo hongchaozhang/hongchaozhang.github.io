@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Productivity | Zhang Hongchao]]></title>
   <link href="http://hongchaozhang.github.io/blog/categories/productivity/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2017-11-20T23:01:18+08:00</updated>
+  <updated>2017-11-21T11:11:28+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -12,6 +12,42 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Some Tips on Markdown Usage]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2017/11/21/some-tips-on-markdown-usage/"/>
+    <updated>2017-11-21T10:13:28+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2017/11/21/some-tips-on-markdown-usage</id>
+    <content type="html"><![CDATA[<p>Collect some markdown usage tips.</p>
+
+<!-- more -->
+
+
+<h2>insert an image</h2>
+
+<p>To insert the image, just use the path under the base url, for me, it is <em>/GitBlogs/images/<image_name>.png</em>, for example</p>
+
+<pre><code>![image annotation](/images/001_ios_frameworks.png)
+</code></pre>
+
+<h2>show content while click</h2>
+
+<p>Using the following block of code for hiding some content and show the content while click.</p>
+
+<pre><code class="html">&lt;details&gt; 
+  &lt;summary&gt;Q1: What is the best Language in the World? &lt;/summary&gt;
+   A1: Swift 
+&lt;/details&gt;
+</code></pre>
+
+<p>You will get:</p>
+
+<p><details>
+  <summary><em>Question: What is the best Language in the World?</em></summary>
+   Answer: Swift
+</details></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS代码查重工具]]></title>
@@ -112,7 +148,8 @@ Puppet  Twig    Vue.js</p>
 
 <p>On Mac, display the GUI by running:</p>
 
-<p><div class="highlight"><pre><code class="language-text" data-lang="text">./run.sh cpdgui</code></pre></div></p>
+<pre><code>./run.sh cpdgui
+</code></pre>
 
 <p>The screen shot is like:</p>
 
@@ -162,11 +199,13 @@ Puppet  Twig    Vue.js</p>
 
 <p>Mac下使用自带的ruby的gem命令进行安装：</p>
 
-<p><div class="highlight"><pre><code class="language-text" data-lang="text">sudo gem install cocoapods</code></pre></div></p>
+<pre><code>sudo gem install cocoapods
+</code></pre>
 
 <p>第一次使用之前需要设置CocoaPods：</p>
 
-<p><div class="highlight"><pre><code class="language-text" data-lang="text">pod setup</code></pre></div></p>
+<pre><code>pod setup
+</code></pre>
 
 <p>此时需要耐心等待，因为CocoaPods会将这些podspec索引文件更新到本地的 ~/.cocoapods/目录下，这个索引文件比较大，有80M左右，比较慢。</p>
 
@@ -178,16 +217,18 @@ Puppet  Twig    Vue.js</p>
 
 <p>使用时需要新建Podfile文件，格式如下：</p>
 
-<p><div class="highlight"><pre><code class="language-text" data-lang="text"><span class="lineno">1</span> platform :ios
-<span class="lineno">2</span> pod &amp;lsquo;JSONKit&amp;rsquo;,       &amp;lsquo;~&gt; 1.4&amp;rsquo;
-<span class="lineno">3</span> pod &amp;lsquo;Reachability&amp;rsquo;,  &amp;lsquo;~&gt; 3.0.0&amp;rsquo;
-<span class="lineno">4</span> pod &amp;lsquo;ASIHTTPRequest&amp;rsquo;
-<span class="lineno">5</span> pod &amp;lsquo;RegexKitLite&amp;rsquo;</code></pre></div></p>
+<pre><code>platform :ios
+pod 'JSONKit',       '~&gt; 1.4'
+pod 'Reachability',  '~&gt; 3.0.0'
+pod 'ASIHTTPRequest'
+pod 'RegexKitLite'
+</code></pre>
 
 <p>然后你将编辑好的Podfile文件放到你的项目根目录中，执行如下命令即可：</p>
 
-<p><div class="highlight"><pre><code class="language-text" data-lang="text"><span class="lineno">1</span> cd &amp;ldquo;your project home&amp;rdquo;
-<span class="lineno">2</span> pod install</code></pre></div></p>
+<pre><code>cd "your project home"
+pod install
+</code></pre>
 
 <p>现在，你的所有第三方库都已经下载完成并且设置好了编译参数和依赖，你只需要记住如下两点即可：</p>
 
@@ -201,7 +242,8 @@ Puppet  Twig    Vue.js</p>
 
 <p>你如果不知道cocoaPods管理的库中，是否有你想要的库，那么你可以通过</p>
 
-<p><div class="highlight"><pre><code class="language-text" data-lang="text">pod search</code></pre></div></p>
+<pre><code>pod search
+</code></pre>
 
 <p>命令进行查找。</p>
 
@@ -211,15 +253,18 @@ Puppet  Twig    Vue.js</p>
 
 <p>当我在使用<em><a href="https://github.com/itsbonczek/kingpin">kingpin</a></em>第三方库的时候，出现了下面的问题：</p>
 
-<p><div class="highlight"><pre><code class="language-text" data-lang="text">Specs satisfying the &lt;code&gt;kingpin&lt;/code&gt; dependency were found, but they required a higher minimum deployment target.</code></pre></div></p>
+<pre><code>Specs satisfying the `kingpin` dependency were found, but they required a higher minimum deployment target.
+</code></pre>
 
 <p>通过修改Podfile的第一行：</p>
 
-<p><div class="highlight"><pre><code class="language-text" data-lang="text">platform :ios</code></pre></div></p>
+<pre><code>platform :ios
+</code></pre>
 
 <p>为</p>
 
-<p><div class="highlight"><pre><code class="language-text" data-lang="text">platform :ios, &amp;lsquo;7.0&amp;rsquo;</code></pre></div></p>
+<pre><code>platform :ios, '7.0'
+</code></pre>
 
 <p>解决。</p>
 
@@ -229,18 +274,21 @@ Puppet  Twig    Vue.js</p>
 
 <p>当我在用<em><a href="https://github.com/danielgindi/ios-charts">ios-charts</a></em>库的时候，首先出现了问题1。解决问题1之后，又出现了下面的问题：</p>
 
-<p><div class="highlight"><pre><code class="language-text" data-lang="text">[!] Pods written in Swift can only be integrated as frameworks; add &lt;code&gt;use_frameworks!&lt;/code&gt; to your Podfile or target to opt into using it. The Swift Pod being used is: Charts</code></pre></div></p>
+<pre><code>[!] Pods written in Swift can only be integrated as frameworks; add `use_frameworks!` to your Podfile or target to opt into using it. The Swift Pod being used is: Charts
+</code></pre>
 
 <p>于是，将Podfile从</p>
 
-<p><div class="highlight"><pre><code class="language-text" data-lang="text">platform :ios, &amp;lsquo;9.0&amp;rsquo;
-pod &amp;lsquo;Charts&amp;rsquo;</code></pre></div></p>
+<pre><code>platform :ios, '9.0'
+pod 'Charts'
+</code></pre>
 
 <p>改成</p>
 
-<p><div class="highlight"><pre><code class="language-text" data-lang="text">platform :ios, &amp;lsquo;9.0&amp;rsquo;
+<pre><code>platform :ios, '9.0'
 use_frameworks!
-pod &amp;lsquo;Charts&amp;rsquo;</code></pre></div></p>
+pod 'Charts'
+</code></pre>
 
 <p>解决了这个问题。接着就是如何在Objective-C的project中使用这个swift库了。</p>
 
@@ -248,17 +296,15 @@ pod &amp;lsquo;Charts&amp;rsquo;</code></pre></div></p>
 
 <p>一些人说的：</p>
 
-<p><div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno">1</span> <span class="p">@</span><span class="n">import</span> <span class="n">Charts</span><span class="p">;</span></code></pre></div></p>
+<pre><code class="objc">@import Charts;
+</code></pre>
 
 <p>会报错。</p>
 
 <p>很庆幸，StackOverflow上有人遇到了相同的问题：<a href="http://stackoverflow.com/questions/33931517/module-not-found-error-when-importing-swift-pod-into-objective-c-project">Module not found error when importing Swift pod into Objective-C project</a>，在需要用到Charts库中的类的文件中，加入下面代码：</p>
 
-<p><div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno">1</span> <span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-<span class="lineno">2</span> 
-<span class="lineno">3</span> <span class="o">&lt;</span><span class="n">h1</span><span class="o">&gt;</span><span class="n">import</span> <span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">Charts</span><span class="o">-</span><span class="n">Swift</span><span class="p">.</span><span class="n">h</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;</span><span class="o">&lt;/</span><span class="n">h1</span><span class="o">&gt;</span>
-<span class="lineno">4</span> 
-<span class="lineno">5</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span></code></pre></div></p>
+<pre><code class="objc">#import "Charts-Swift.h"
+</code></pre>
 
 <p>另外，注意，在Storyboard中使用库中类的时候，在<em>Module</em>框中填上<em>Charts</em>，如下：</p>
 
@@ -371,100 +417,6 @@ pod &amp;lsquo;Charts&amp;rsquo;</code></pre></div></p>
 <h4>PicGif Lite</h4>
 
 <p>PicGif用来将视频或者图片转换成gif图片，这种工具很多，还有在线工具，比如<a href="http://www.uupoop.com/gif/">uupoop</a>。<del>我主要用这个来进行gif图的预览。</del></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Operating Files and Folders With Command Line in Terminal]]></title>
-    <link href="http://hongchaozhang.github.io/blog/2015/10/28/operating-files-and-folders-with-command-line-in-terminal/"/>
-    <updated>2015-10-28T16:26:14+08:00</updated>
-    <id>http://hongchaozhang.github.io/blog/2015/10/28/operating-files-and-folders-with-command-line-in-terminal</id>
-    <content type="html"><![CDATA[<p>为什么需要在命令行进行文件和文件夹的操作：</p>
-
-<!-- more -->
-
-
-<ul>
-<li>通过正则表达式批量处理文件（夹）。</li>
-<li>可以用来删除隐藏文件，比如一些以“.”开头的设置文件。</li>
-<li>打不开Finder的情况下。</li>
-<li>强制删除一些顽固的文件。</li>
-</ul>
-
-
-<p>一些常用命令罗列：</p>
-
-<table>
-<thead>
-<tr>
-<th>命令 </th>
-<th> 说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>pwd</strong> </td>
-<td> 打印当前工作路径（print working directory）</td>
-</tr>
-<tr>
-<td><strong>touch</strong> fileName </td>
-<td> 创建文件fileName</td>
-</tr>
-<tr>
-<td><strong>ls -a</strong> </td>
-<td> 列出当前文件夹下的所有文件，包括以‘.’开头的隐藏文件。</td>
-</tr>
-<tr>
-<td><strong>vi</strong> <em>file</em> </td>
-<td> 在当前位置用vim打开file，如果已经存在，直接打开。</td>
-</tr>
-<tr>
-<td><strong>mkdir</strong> <em>folder</em> </td>
-<td> 创建文件夹。</td>
-</tr>
-<tr>
-<td><strong>cp</strong> <em>sourceFile</em> <em>destFolder</em> </td>
-<td> 将sourceFile拷贝到destFolder下。</td>
-</tr>
-<tr>
-<td><strong>cp</strong> <strong>-R</strong> <em>sourceFolder</em> <em>destFolder</em> </td>
-<td> 将sourceFolder及其下面的所有资源拷贝到destFolder下，R是reverse的意思。</td>
-</tr>
-<tr>
-<td><strong>mv</strong> <em>sourceFile</em> <em>destFolder</em> </td>
-<td> 将sourceFile移动到destFolder下。</td>
-</tr>
-<tr>
-<td><strong>rm</strong> <em>file.txt</em> </td>
-<td> 删除文件。</td>
-</tr>
-<tr>
-<td><strong>rm</strong> <strong>-R</strong> <em>folder</em> </td>
-<td> 删除文件夹和里面的子文件（夹），R是reverse的意思。</td>
-</tr>
-<tr>
-<td><strong>echo</strong> &ldquo;hello&rdquo; </td>
-<td> 将“hello”字符串输出到terminal中</td>
-</tr>
-<tr>
-<td><strong>echo</strong> &ldquo;hello&rdquo; <strong>></strong> hello.txt </td>
-<td> 将“hello”字符串写进文件hello.txt文件中</td>
-</tr>
-<tr>
-<td><strong>cat</strong> hello.txt </td>
-<td> 将hello.txt文件的内容输出到terminal中</td>
-</tr>
-<tr>
-<td><strong>cat</strong> hello.txt <strong>></strong> dest.txt </td>
-<td> 将hello.txt中的内容<strong>覆盖</strong>dest.txt文件的内容</td>
-</tr>
-<tr>
-<td><strong>cat</strong> hello.txt <strong>>></strong> dest.txt </td>
-<td> 将hello.txt中的内容<strong>追加</strong>到dest.txt文件的内容</td>
-</tr>
-</tbody>
-</table>
-
 ]]></content>
   </entry>
   

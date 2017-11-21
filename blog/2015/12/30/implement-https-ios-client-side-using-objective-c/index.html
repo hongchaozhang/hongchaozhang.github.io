@@ -126,16 +126,27 @@
 
 <p>说了这么多，代码在下面的delegate中实现：</p>
 
-<div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno"> 1</span> <span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">URLSession:</span><span class="p">(</span><span class="bp">NSURLSession</span> <span class="o">*</span><span class="p">)</span><span class="nv">session</span> <span class="nf">didReceiveChallenge:</span><span class="p">(</span><span class="bp">NSURLAuthenticationChallenge</span> <span class="o">*</span><span class="p">)</span><span class="nv">challenge</span> <span class="nf">completionHandler:</span><span class="p">(</span><span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="p">)(</span><span class="n">NSURLSessionAuthChallengeDisposition</span><span class="p">,</span> <span class="bp">NSURLCredential</span> <span class="o">*</span><span class="p">))</span><span class="nv">completionHandler</span> <span class="p">{</span>
-<span class="lineno"> 2</span>     <span class="k">if</span><span class="p">([</span><span class="n">challenge</span><span class="p">.</span><span class="n">protectionSpace</span><span class="p">.</span><span class="n">authenticationMethod</span> <span class="nl">isEqualToString</span><span class="p">:</span><span class="n">NSURLAuthenticationMethodServerTrust</span><span class="p">])</span> <span class="p">{</span>
-<span class="lineno"> 3</span>         <span class="k">if</span><span class="p">([</span><span class="n">challenge</span><span class="p">.</span><span class="n">protectionSpace</span><span class="p">.</span><span class="n">host</span> <span class="nl">isEqualToString</span><span class="p">:</span><span class="s">@&quot;domaintoverride.com&quot;</span><span class="p">])</span> <span class="p">{</span>
-<span class="lineno"> 4</span>             <span class="bp">NSURLCredential</span> <span class="o">*</span><span class="n">credential</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSURLCredential</span> <span class="nl">credentialForTrust</span><span class="p">:</span><span class="n">challenge</span><span class="p">.</span><span class="n">protectionSpace</span><span class="p">.</span><span class="n">serverTrust</span><span class="p">];</span>
-<span class="lineno"> 5</span>             <span class="n">completionHandler</span><span class="p">(</span><span class="n">NSURLSessionAuthChallengeUseCredential</span><span class="p">,</span><span class="n">credential</span><span class="p">);</span>
-<span class="lineno"> 6</span>         <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-<span class="lineno"> 7</span>             <span class="n">completionHandler</span><span class="p">(</span><span class="n">NSURLSessionAuthChallengeCancelAuthenticationChallenge</span><span class="p">,</span> <span class="nb">nil</span><span class="p">);</span>
-<span class="lineno"> 8</span>         <span class="p">}</span>
-<span class="lineno"> 9</span>     <span class="p">}</span>
-<span class="lineno">10</span> <span class="p">}</span></code></pre></div>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">URLSession:</span><span class="p">(</span><span class="bp">NSURLSession</span> <span class="o">*</span><span class="p">)</span><span class="nv">session</span> <span class="nf">didReceiveChallenge:</span><span class="p">(</span><span class="bp">NSURLAuthenticationChallenge</span> <span class="o">*</span><span class="p">)</span><span class="nv">challenge</span> <span class="nf">completionHandler:</span><span class="p">(</span><span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="p">)(</span><span class="n">NSURLSessionAuthChallengeDisposition</span><span class="p">,</span> <span class="bp">NSURLCredential</span> <span class="o">*</span><span class="p">))</span><span class="nv">completionHandler</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">if</span><span class="p">([</span><span class="n">challenge</span><span class="p">.</span><span class="n">protectionSpace</span><span class="p">.</span><span class="n">authenticationMethod</span> <span class="nl">isEqualToString</span><span class="p">:</span><span class="n">NSURLAuthenticationMethodServerTrust</span><span class="p">])</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">if</span><span class="p">([</span><span class="n">challenge</span><span class="p">.</span><span class="n">protectionSpace</span><span class="p">.</span><span class="n">host</span> <span class="nl">isEqualToString</span><span class="p">:</span><span class="s">@&quot;domaintoverride.com&quot;</span><span class="p">])</span> <span class="p">{</span>
+</span><span class='line'>            <span class="bp">NSURLCredential</span> <span class="o">*</span><span class="n">credential</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSURLCredential</span> <span class="nl">credentialForTrust</span><span class="p">:</span><span class="n">challenge</span><span class="p">.</span><span class="n">protectionSpace</span><span class="p">.</span><span class="n">serverTrust</span><span class="p">];</span>
+</span><span class='line'>            <span class="n">completionHandler</span><span class="p">(</span><span class="n">NSURLSessionAuthChallengeUseCredential</span><span class="p">,</span><span class="n">credential</span><span class="p">);</span>
+</span><span class='line'>        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>            <span class="n">completionHandler</span><span class="p">(</span><span class="n">NSURLSessionAuthChallengeCancelAuthenticationChallenge</span><span class="p">,</span> <span class="nb">nil</span><span class="p">);</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 
@@ -205,11 +216,15 @@
   
     <section class="categories">
   <h1>Categories</h1>
-    <ul id="top-category-list" class="nav nav-list"><li><a href='/blog/categories/ios'>ios (32)</a></li><li><a href='/blog/categories/objective-c'>objective-c (20)</a></li><li><a href='/blog/categories/productivity'>productivity (16)</a></li><li><a href='/blog/categories/xcode'>xcode (5)</a></li><li><a href='/blog/categories/android'>android (5)</a></li><li><a href='/blog/categories/node'>node (3)</a></li><li><a href='/blog/categories/python'>python (3)</a></li><li><a href='/blog/categories/swift'>swift (2)</a></li><li><a href='/blog/categories/javascript'>javascript (2)</a></li><li><a href='/blog/categories/web'>web (2)</a></li><li><a href='/blog/categories/java'>java (2)</a></li><li><a href='/blog/categories/philosophy'>philosophy (2)</a></li><li><a href='/blog/categories/reading'>reading (2)</a></li><li><a href='/blog/categories/map-tech'>map tech (2)</a></li><li><a href='/blog/categories/design-pattern'>design_pattern (1)</a></li><li><a href='/blog/categories/mobile'>mobile (1)</a></li><li><a href='/blog/categories/android-studio'>android_studio (1)</a></li></ul>
+    <ul id="top-category-list" class="nav nav-list"><li><a href='/blog/categories/ios'>ios (32)</a></li><li><a href='/blog/categories/objective-c'>objective-c (20)</a></li><li><a href='/blog/categories/productivity'>productivity (17)</a></li><li><a href='/blog/categories/xcode'>xcode (5)</a></li><li><a href='/blog/categories/android'>android (5)</a></li><li><a href='/blog/categories/node'>node (3)</a></li><li><a href='/blog/categories/python'>python (3)</a></li><li><a href='/blog/categories/swift'>swift (2)</a></li><li><a href='/blog/categories/javascript'>javascript (2)</a></li><li><a href='/blog/categories/web'>web (2)</a></li><li><a href='/blog/categories/java'>java (2)</a></li><li><a href='/blog/categories/philosophy'>philosophy (2)</a></li><li><a href='/blog/categories/reading'>reading (2)</a></li><li><a href='/blog/categories/map-tech'>map tech (2)</a></li><li><a href='/blog/categories/design-pattern'>design_pattern (1)</a></li><li><a href='/blog/categories/mobile'>mobile (1)</a></li><li><a href='/blog/categories/android-studio'>android_studio (1)</a></li></ul>
 </section>
 <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2017/11/21/some-tips-on-markdown-usage/">Some Tips on Markdown Usage</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2017/10/20/errors-in-swift/">Swift中的Error</a>
@@ -225,10 +240,6 @@
     
       <li class="post">
         <a href="/blog/2017/03/28/when-is-layoutsubviews-called/">layoutSubviews的调用机制</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2017/03/03/relation-among-m-multiple-gestures/">如何处理多个手势之间的关系</a>
       </li>
     
   </ul>

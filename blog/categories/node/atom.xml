@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Node | Zhang Hongchao]]></title>
   <link href="http://hongchaozhang.github.io/blog/categories/node/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2017-11-20T23:01:18+08:00</updated>
+  <updated>2017-11-21T11:11:28+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -29,72 +29,76 @@
 
 <p>安装到所在文件夹：</p>
 
-<p><div class="highlight"><pre><code class="language-text" data-lang="text">npm install excel node-xlsx</code></pre></div></p>
+<pre><code>npm install excel node-xlsx
+</code></pre>
 
 <p>或者安装为全局应用：</p>
 
-<p><div class="highlight"><pre><code class="language-text" data-lang="text">npm install -g excel node-xlsx</code></pre></div></p>
+<pre><code>npm install -g excel node-xlsx
+</code></pre>
 
 <p>然后就可以这样解析excel文件：</p>
 
-<p><div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="lineno">1</span> <span class="kd">var</span> <span class="nx">xlsx</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">lsquo</span><span class="p">;</span><span class="nx">node</span><span class="o">-</span><span class="nx">xlsx</span><span class="o">&amp;</span><span class="nx">rsquo</span><span class="p">;);</span>
-<span class="lineno">2</span> <span class="kd">var</span> <span class="nx">obj</span> <span class="o">=</span> <span class="nx">xlsx</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">__dirname</span> <span class="o">+</span> <span class="o">&amp;</span><span class="nx">lsquo</span><span class="p">;</span><span class="sr">/myFile.xlsx&amp;rsquo;); /</span><span class="o">/</span> <span class="nx">parses</span> <span class="nx">a</span> <span class="nx">file</span></code></pre></div></p>
+<pre><code class="javascript">var xlsx = require('node-xlsx');
+var obj = xlsx.parse(__dirname + '/myFile.xlsx'); // parses a file 
+</code></pre>
 
 <p>下面是一段样例代码：</p>
 
-<p><div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="lineno"> 1</span> <span class="o">&lt;</span><span class="err">/p&gt;</span>
-<span class="lineno"> 2</span> 
-<span class="lineno"> 3</span> <span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span><span class="c1">// Include modules.</span>
-<span class="lineno"> 4</span> <span class="kd">var</span> <span class="nx">xlsx</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">lsquo</span><span class="p">;</span><span class="nx">node</span><span class="o">-</span><span class="nx">xlsx</span><span class="o">&amp;</span><span class="nx">rsquo</span><span class="p">;);</span><span class="o">&lt;</span><span class="err">/p&gt;</span>
-<span class="lineno"> 5</span> 
-<span class="lineno"> 6</span> <span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span><span class="c1">// read xlsx file and analyse</span>
-<span class="lineno"> 7</span> <span class="kd">var</span> <span class="nx">excelObj</span> <span class="o">=</span> <span class="nx">xlsx</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">lsquo</span><span class="p">;</span><span class="nx">fileName</span><span class="p">.</span><span class="nx">xlsx</span><span class="o">&amp;</span><span class="nx">rsquo</span><span class="p">;);</span><span class="o">&lt;</span><span class="err">/p&gt;</span>
-<span class="lineno"> 8</span> 
-<span class="lineno"> 9</span> <span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span><span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">sheet</span> <span class="k">in</span> <span class="nx">excelObj</span><span class="p">)</span> <span class="p">{</span>
-<span class="lineno">10</span>     <span class="k">if</span> <span class="p">(</span><span class="nx">sheet</span> <span class="o">!==</span> <span class="o">&amp;</span><span class="nx">lsquo</span><span class="p">;</span><span class="mi">0</span><span class="o">&amp;</span><span class="nx">rsquo</span><span class="p">;</span> <span class="o">&amp;</span><span class="nx">amp</span><span class="p">;</span><span class="o">&amp;</span><span class="nx">amp</span><span class="p">;</span> <span class="nx">excelObj</span><span class="p">.</span><span class="nx">hasOwnProperty</span><span class="p">(</span><span class="nx">sheet</span><span class="p">))</span> <span class="p">{</span> <span class="c1">// sheet is &amp;lsquo;0&amp;rsquo;, &amp;lsquo;1&amp;rsquo;, &amp;hellip;</span>
-<span class="lineno">11</span>         <span class="kd">var</span> <span class="nx">sheetData</span> <span class="o">=</span> <span class="nx">excelObj</span><span class="p">[</span><span class="nx">sheet</span><span class="p">].</span><span class="nx">data</span><span class="p">;</span> <span class="c1">// data inside a sheet, which is an two-dimention array</span>
-<span class="lineno">12</span>         <span class="kd">var</span> <span class="nx">rowCount</span> <span class="o">=</span> <span class="nx">sheetData</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span>
-<span class="lineno">13</span>         <span class="nx">activityCountDic</span><span class="p">[</span><span class="nx">sheet</span><span class="p">]</span> <span class="o">=</span> <span class="nx">rowCount</span><span class="p">;</span>
-<span class="lineno">14</span>         <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&amp;</span><span class="nx">lt</span><span class="p">;</span> <span class="nx">rowCount</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-<span class="lineno">15</span>             <span class="kd">var</span> <span class="nx">rowData</span> <span class="o">=</span> <span class="nx">sheetData</span><span class="p">[</span><span class="nx">i</span><span class="p">];</span> <span class="c1">// data inside one row, which is an one-dimention array</span>
-<span class="lineno">16</span>             <span class="kd">var</span> <span class="nx">columnCount</span> <span class="o">=</span> <span class="nx">rowData</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span>
-<span class="lineno">17</span>             <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">j</span> <span class="o">&amp;</span><span class="nx">lt</span><span class="p">;</span> <span class="nx">columnCount</span><span class="p">;</span> <span class="nx">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-<span class="lineno">18</span>                 <span class="kd">var</span> <span class="nx">cellData</span> <span class="o">=</span> <span class="nx">rowData</span><span class="p">[</span><span class="nx">j</span><span class="p">].</span><span class="nx">toString</span><span class="p">();</span> <span class="c1">// data in j column of the given row</span>
-<span class="lineno">19</span>                 <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">cellData</span><span class="p">);</span>
-<span class="lineno">20</span>             <span class="p">}</span>
-<span class="lineno">21</span>         <span class="p">}</span>
-<span class="lineno">22</span>     <span class="p">}</span>
-<span class="lineno">23</span> <span class="p">}</span></code></pre></div></p>
+<pre><code class="javascript">
+// Include modules.
+var xlsx = require('node-xlsx');
+
+// read xlsx file and analyse
+var excelObj = xlsx.parse('fileName.xlsx');
+
+for (var sheet in excelObj) {
+    if (sheet !== '0' &amp;&amp; excelObj.hasOwnProperty(sheet)) { // sheet is '0', '1', ...
+        var sheetData = excelObj[sheet].data; // data inside a sheet, which is an two-dimention array
+        var rowCount = sheetData.length;
+        activityCountDic[sheet] = rowCount;
+        for (var i = 1; i &lt; rowCount; i++) {
+            var rowData = sheetData[i]; // data inside one row, which is an one-dimention array
+            var columnCount = rowData.length;
+            for (var j = 0; j &lt; columnCount; j++) {
+                var cellData = rowData[j].toString(); // data in j column of the given row
+                console.log(cellData);
+            }
+        }
+    }
+}
+</code></pre>
 
 <h3>写入excel文件</h3>
 
-<p><div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="lineno"> 1</span> <span class="c1">// Include modules.</span>
-<span class="lineno"> 2</span> <span class="kd">var</span> <span class="nx">xlsx</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">lsquo</span><span class="p">;</span><span class="nx">node</span><span class="o">-</span><span class="nx">xlsx</span><span class="o">&amp;</span><span class="nx">rsquo</span><span class="p">;);</span>
-<span class="lineno"> 3</span> <span class="kd">var</span> <span class="nx">fs</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">lsquo</span><span class="p">;</span><span class="nx">fs</span><span class="o">&amp;</span><span class="nx">rsquo</span><span class="p">;);</span><span class="o">&lt;</span><span class="err">/p&gt;</span>
-<span class="lineno"> 4</span> 
-<span class="lineno"> 5</span> <span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span><span class="c1">// 写入excel之后是一个一行两列的表格</span>
-<span class="lineno"> 6</span> <span class="kd">var</span> <span class="nx">data1</span> <span class="o">=</span> <span class="p">[</span>
-<span class="lineno"> 7</span> <span class="p">[</span><span class="o">&amp;</span><span class="nx">lsquo</span><span class="p">;</span><span class="nx">name</span><span class="o">&amp;</span><span class="nx">rsquo</span><span class="p">;,</span> <span class="o">&amp;</span><span class="nx">lsquo</span><span class="p">;</span><span class="nx">age</span><span class="o">&amp;</span><span class="nx">rsquo</span><span class="p">;]</span>
-<span class="lineno"> 8</span> <span class="p">];</span><span class="o">&lt;</span><span class="err">/p&gt;</span>
-<span class="lineno"> 9</span> 
-<span class="lineno">10</span> <span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span><span class="c1">// 写入excel之后是一个三行两列的表格</span>
-<span class="lineno">11</span> <span class="kd">var</span> <span class="nx">data2</span> <span class="o">=</span> <span class="p">[</span>
-<span class="lineno">12</span> <span class="p">[</span><span class="o">&amp;</span><span class="nx">lsquo</span><span class="p">;</span><span class="nx">name</span><span class="o">&amp;</span><span class="nx">rsquo</span><span class="p">;,</span> <span class="o">&amp;</span><span class="nx">lsquo</span><span class="p">;</span><span class="nx">age</span><span class="o">&amp;</span><span class="nx">rsquo</span><span class="p">;],</span>
-<span class="lineno">13</span> <span class="p">[</span><span class="o">&amp;</span><span class="nx">lsquo</span><span class="p">;</span><span class="nx">zhang</span> <span class="nx">san</span><span class="o">&amp;</span><span class="nx">rsquo</span><span class="p">;,</span> <span class="o">&amp;</span><span class="nx">lsquo</span><span class="p">;</span><span class="mi">10</span><span class="o">&amp;</span><span class="nx">rsquo</span><span class="p">;],</span>
-<span class="lineno">14</span> <span class="p">[</span><span class="o">&amp;</span><span class="nx">lsquo</span><span class="p">;</span><span class="nx">li</span> <span class="nx">si</span><span class="o">&amp;</span><span class="nx">rsquo</span><span class="p">;,</span> <span class="o">&amp;</span><span class="nx">lsquo</span><span class="p">;</span><span class="mi">11</span><span class="o">&amp;</span><span class="nx">rsquo</span><span class="p">;]</span>
-<span class="lineno">15</span> <span class="p">];</span><span class="o">&lt;</span><span class="err">/p&gt;</span>
-<span class="lineno">16</span> 
-<span class="lineno">17</span> <span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span><span class="kd">var</span> <span class="nx">buffer</span> <span class="o">=</span> <span class="nx">xlsx</span><span class="p">.</span><span class="nx">build</span><span class="p">([</span>
-<span class="lineno">18</span>     <span class="p">{</span>
-<span class="lineno">19</span>         <span class="nx">name</span><span class="o">:&amp;</span><span class="nx">lsquo</span><span class="p">;</span><span class="nx">sheet1</span><span class="o">&amp;</span><span class="nx">rsquo</span><span class="p">;,</span>
-<span class="lineno">20</span>         <span class="nx">data</span><span class="o">:</span><span class="nx">data1</span>
-<span class="lineno">21</span>     <span class="p">},</span> <span class="p">{</span>
-<span class="lineno">22</span>         <span class="nx">name</span><span class="o">:&amp;</span><span class="nx">lsquo</span><span class="p">;</span><span class="nx">sheet2</span><span class="o">&amp;</span><span class="nx">rsquo</span><span class="p">;,</span>
-<span class="lineno">23</span>         <span class="nx">data</span><span class="o">:</span><span class="nx">data2</span>
-<span class="lineno">24</span>     <span class="p">}</span>
-<span class="lineno">25</span>     <span class="p">]);</span><span class="o">&lt;</span><span class="err">/p&gt;</span>
-<span class="lineno">26</span> 
-<span class="lineno">27</span> <span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span><span class="nx">fs</span><span class="p">.</span><span class="nx">writeFileSync</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">lsquo</span><span class="p">;</span><span class="nx">book</span><span class="p">.</span><span class="nx">xlsx</span><span class="o">&amp;</span><span class="nx">rsquo</span><span class="p">;,</span> <span class="nx">buffer</span><span class="p">,</span> <span class="p">{</span><span class="o">&amp;</span><span class="nx">lsquo</span><span class="p">;</span><span class="nx">flag</span><span class="o">&amp;</span><span class="nx">rsquo</span><span class="p">;</span><span class="o">:&amp;</span><span class="nx">lsquo</span><span class="p">;</span><span class="nx">w</span><span class="o">&amp;</span><span class="nx">rsquo</span><span class="p">;});</span> <span class="c1">// 如果文件存在，覆盖</span></code></pre></div></p>
+<pre><code class="javascript">// Include modules.
+var xlsx = require('node-xlsx');
+var fs = require('fs');
+
+// 写入excel之后是一个一行两列的表格
+var data1 = [
+['name', 'age']
+];
+
+// 写入excel之后是一个三行两列的表格
+var data2 = [
+['name', 'age'], 
+['zhang san', '10'], 
+['li si', '11']
+];
+
+var buffer = xlsx.build([
+    {
+        name:'sheet1',
+        data:data1
+    }, {
+        name:'sheet2',
+        data:data2
+    }
+    ]);
+
+fs.writeFileSync('book.xlsx', buffer, {'flag':'w'}); // 如果文件存在，覆盖
+</code></pre>
 ]]></content>
   </entry>
   
@@ -118,14 +122,16 @@
 </ul>
 
 
-<p><div class="highlight"><pre><code class="language-text" data-lang="text">openssl genrsa -out privatekey.pem 1024</code></pre></div></p>
+<pre><code>openssl genrsa -out privatekey.pem 1024
+</code></pre>
 
 <ul>
 <li>通过私钥生成CSR证书签名</li>
 </ul>
 
 
-<p><div class="highlight"><pre><code class="language-text" data-lang="text">openssl req -new -key privatekey.pem -out certrequest.csr</code></pre></div></p>
+<pre><code>openssl req -new -key privatekey.pem -out certrequest.csr
+</code></pre>
 
 <p>填写一些证书信息：</p>
 
@@ -137,25 +143,27 @@ There are quite a few fields but you can leave some blank
 For some fields there will be a default value,
 If you enter &lsquo;.&rsquo;, the field will be left blank.</p></blockquote>
 
-<p><div class="highlight"><pre><code class="language-text" data-lang="text">Country Name (2 letter code) [AU]:CN
+<pre><code>Country Name (2 letter code) [AU]:CN
 State or Province Name (full name) [Some-State]:Zhejiang
 Locality Name (eg, city) []:Hangzhou
 Organization Name (eg, company) [Internet Widgits Pty Ltd]:Organization
 Organizational Unit Name (eg, section) []:Organization
 Common Name (eg, YOUR name) []:Name Zhang
-Email Address []:&lt;a href=&quot;&amp;#109;&amp;#97;&amp;#x69;&amp;#x6c;&amp;#116;&amp;#x6f;&amp;#58;&amp;#78;&amp;#x61;&amp;#x6d;&amp;#101;&amp;#64;&amp;#x67;&amp;#109;&amp;#x61;&amp;#105;&amp;#108;&amp;#x2e;&amp;#x63;&amp;#111;&amp;#x6d;&quot;&gt;&amp;#x4e;&amp;#x61;&amp;#109;&amp;#x65;&amp;#x40;&amp;#103;&amp;#x6d;&amp;#97;&amp;#x69;&amp;#x6c;&amp;#46;&amp;#x63;&amp;#x6f;&amp;#x6d;&lt;/a&gt;&lt;/p&gt;
+Email Address []:Name@gmail.com
 
-&lt;p&gt;Please enter the following &amp;lsquo;extra&amp;rsquo; attributes
+Please enter the following 'extra' attributes
 to be sent with your certificate request
 A challenge password []:
-An optional company name []:</code></pre></div></p>
+An optional company name []:
+</code></pre>
 
 <ul>
 <li>通过私钥和证书签名生成证书文件</li>
 </ul>
 
 
-<p><div class="highlight"><pre><code class="language-text" data-lang="text">openssl x509 -req -in certrequest.csr -signkey privatekey.pem -out certificate.pem</code></pre></div></p>
+<pre><code>openssl x509 -req -in certrequest.csr -signkey privatekey.pem -out certificate.pem
+</code></pre>
 
 <p>至此，我们有了三个文件：</p>
 
@@ -168,19 +176,20 @@ An optional company name []:</code></pre></div></p>
 
 <h3>实现服务器端app</h3>
 
-<p><div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="lineno"> 1</span> <span class="kd">var</span> <span class="nx">https</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">lsquo</span><span class="p">;</span><span class="nx">https</span><span class="o">&amp;</span><span class="nx">rsquo</span><span class="p">;)</span><span class="err">，</span>
-<span class="lineno"> 2</span>     <span class="nx">fs</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">ldquo</span><span class="p">;</span><span class="nx">fs</span><span class="o">&amp;</span><span class="nx">rdquo</span><span class="p">;);</span><span class="o">&lt;</span><span class="err">/p&gt;</span>
-<span class="lineno"> 3</span> 
-<span class="lineno"> 4</span> <span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span><span class="kd">var</span> <span class="nx">options</span> <span class="o">=</span> <span class="p">{</span>
-<span class="lineno"> 5</span>     <span class="nx">key</span><span class="o">:</span> <span class="nx">fs</span><span class="p">.</span><span class="nx">readFileSync</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">lsquo</span><span class="p">;.</span><span class="o">/</span><span class="nx">privatekey</span><span class="p">.</span><span class="nx">pem</span><span class="o">&amp;</span><span class="nx">rsquo</span><span class="p">;),</span>
-<span class="lineno"> 6</span>     <span class="nx">cert</span><span class="o">:</span> <span class="nx">fs</span><span class="p">.</span><span class="nx">readFileSync</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">lsquo</span><span class="p">;.</span><span class="o">/</span><span class="nx">certificate</span><span class="p">.</span><span class="nx">pem</span><span class="o">&amp;</span><span class="nx">rsquo</span><span class="p">;)</span>
-<span class="lineno"> 7</span> <span class="p">};</span><span class="o">&lt;</span><span class="err">/p&gt;</span>
-<span class="lineno"> 8</span> 
-<span class="lineno"> 9</span> <span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span><span class="nx">https</span><span class="p">.</span><span class="nx">createServer</span><span class="p">(</span><span class="nx">options</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">request</span><span class="p">,</span> <span class="nx">response</span><span class="p">)</span> <span class="p">{</span>
-<span class="lineno">10</span>     <span class="nx">response</span><span class="p">.</span><span class="nx">writeHead</span><span class="p">(</span><span class="mi">200</span><span class="p">);</span>
-<span class="lineno">11</span>     <span class="nx">response</span><span class="p">.</span><span class="nx">end</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">ldquo</span><span class="p">;</span><span class="nx">hello</span> <span class="nx">world</span><span class="err">\</span><span class="nx">n</span><span class="o">&amp;</span><span class="nx">rdquo</span><span class="p">;);</span>
-<span class="lineno">12</span> <span class="p">}).</span><span class="nx">listen</span><span class="p">(</span><span class="mi">8181</span><span class="p">);</span>
-<span class="lineno">13</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">lsquo</span><span class="p">;</span><span class="nx">Https</span> <span class="nx">server</span> <span class="nx">listening</span> <span class="nx">on</span> <span class="nx">port</span> <span class="o">&amp;</span><span class="nx">rsquo</span><span class="p">;</span> <span class="o">+</span> <span class="mi">8181</span><span class="p">);</span></code></pre></div></p>
+<pre><code class="javascript">var https = require('https')，
+    fs = require("fs");
+
+var options = {
+    key: fs.readFileSync('./privatekey.pem'),
+    cert: fs.readFileSync('./certificate.pem')
+};
+
+https.createServer(options, function(request, response) {
+    response.writeHead(200);
+    response.end("hello world\n");
+}).listen(8181);
+console.log('Https server listening on port ' + 8181);
+</code></pre>
 
 <p>在Safari中选择信任证书之后，就可以看到下面的页面了：</p>
 
@@ -232,9 +241,10 @@ An optional company name []:</code></pre></div></p>
 
 <p>参考<a href="http://code.tutsplus.com/tutorials/nodejs-for-beginners--net-26314">Node.js for Beginners</a>. 去除以下代码：</p>
 
-<p><div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="lineno">1</span> <span class="nx">request</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">ldquo</span><span class="p">;</span><span class="nx">end</span><span class="o">&amp;</span><span class="nx">rdquo</span><span class="p">;,</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span><span class="o">&lt;</span><span class="err">/p&gt;</span>
-<span class="lineno">2</span> 
-<span class="lineno">3</span> <span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span><span class="p">});</span></code></pre></div></p>
+<pre><code class="javascript">request.on("end", function () {
+
+});
+</code></pre>
 
 <h3>如何调试Node.js在服务器上的应用</h3>
 
@@ -245,11 +255,13 @@ An optional company name []:</code></pre></div></p>
 
 <p>安装</p>
 
-<p><div class="highlight"><pre><code class="language-text" data-lang="text">$ npm install -g node-inspector</code></pre></div></p>
+<pre><code>$ npm install -g node-inspector
+</code></pre>
 
 <p>打开</p>
 
-<p><div class="highlight"><pre><code class="language-text" data-lang="text">$ node-debug app.js</code></pre></div></p>
+<pre><code>$ node-debug app.js
+</code></pre>
 
 <h4>注意</h4>
 

@@ -122,36 +122,64 @@ Waiting until two async blocks are executed before &hellip;">
 
 <p>例子：</p>
 
-<div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno"> 1</span> <span class="kt">dispatch_group_t</span> <span class="n">group</span> <span class="o">=</span> <span class="n">dispatch_group_create</span><span class="p">();</span>
-<span class="lineno"> 2</span> <span class="kt">dispatch_queue_t</span> <span class="n">queue</span> <span class="o">=</span> <span class="n">dispatch_get_global_queue</span><span class="p">(</span><span class="n">DISPATCH_QUEUE_PRIORITY_HIGH</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
-<span class="lineno"> 3</span>     
-<span class="lineno"> 4</span> <span class="n">dispatch_group_async</span><span class="p">(</span><span class="n">group</span><span class="p">,</span> <span class="n">queue</span><span class="p">,</span> <span class="o">^</span> <span class="p">{</span>
-<span class="lineno"> 5</span>     <span class="c1">// block1</span>
-<span class="lineno"> 6</span>     <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Block1 Start&quot;</span><span class="p">);</span>
-<span class="lineno"> 7</span>     <span class="p">[</span><span class="bp">NSThread</span> <span class="nl">sleepForTimeInterval</span><span class="p">:</span><span class="mf">2.0</span><span class="p">];</span>
-<span class="lineno"> 8</span>     <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Block1 End&quot;</span><span class="p">);</span>
-<span class="lineno"> 9</span> <span class="p">});</span>
-<span class="lineno">10</span>     
-<span class="lineno">11</span> <span class="n">dispatch_group_async</span><span class="p">(</span><span class="n">group</span><span class="p">,</span> <span class="n">queue</span><span class="p">,</span> <span class="o">^</span> <span class="p">{</span>
-<span class="lineno">12</span>     <span class="c1">// block2</span>
-<span class="lineno">13</span>     <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Block2 Start&quot;</span><span class="p">);</span>
-<span class="lineno">14</span>     <span class="p">[</span><span class="bp">NSThread</span> <span class="nl">sleepForTimeInterval</span><span class="p">:</span><span class="mf">1.0</span><span class="p">];</span>
-<span class="lineno">15</span>     <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Block2 End&quot;</span><span class="p">);</span>
-<span class="lineno">16</span> <span class="p">});</span>
-<span class="lineno">17</span>     
-<span class="lineno">18</span> <span class="n">dispatch_group_notify</span><span class="p">(</span><span class="n">group</span><span class="p">,</span> <span class="n">queue</span><span class="p">,</span> <span class="o">^</span> <span class="p">{</span>
-<span class="lineno">19</span>     <span class="c1">// block3</span>
-<span class="lineno">20</span>     <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Block3&quot;</span><span class="p">);</span>
-<span class="lineno">21</span> <span class="p">});</span></code></pre></div>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="kt">dispatch_group_t</span> <span class="n">group</span> <span class="o">=</span> <span class="n">dispatch_group_create</span><span class="p">();</span>
+</span><span class='line'><span class="kt">dispatch_queue_t</span> <span class="n">queue</span> <span class="o">=</span> <span class="n">dispatch_get_global_queue</span><span class="p">(</span><span class="n">DISPATCH_QUEUE_PRIORITY_HIGH</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">dispatch_group_async</span><span class="p">(</span><span class="n">group</span><span class="p">,</span> <span class="n">queue</span><span class="p">,</span> <span class="o">^</span> <span class="p">{</span>
+</span><span class='line'>    <span class="c1">// block1</span>
+</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Block1 Start&quot;</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">[</span><span class="bp">NSThread</span> <span class="nl">sleepForTimeInterval</span><span class="p">:</span><span class="mf">2.0</span><span class="p">];</span>
+</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Block1 End&quot;</span><span class="p">);</span>
+</span><span class='line'><span class="p">});</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">dispatch_group_async</span><span class="p">(</span><span class="n">group</span><span class="p">,</span> <span class="n">queue</span><span class="p">,</span> <span class="o">^</span> <span class="p">{</span>
+</span><span class='line'>    <span class="c1">// block2</span>
+</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Block2 Start&quot;</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">[</span><span class="bp">NSThread</span> <span class="nl">sleepForTimeInterval</span><span class="p">:</span><span class="mf">1.0</span><span class="p">];</span>
+</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Block2 End&quot;</span><span class="p">);</span>
+</span><span class='line'><span class="p">});</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">dispatch_group_notify</span><span class="p">(</span><span class="n">group</span><span class="p">,</span> <span class="n">queue</span><span class="p">,</span> <span class="o">^</span> <span class="p">{</span>
+</span><span class='line'>    <span class="c1">// block3</span>
+</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Block3&quot;</span><span class="p">);</span>
+</span><span class='line'><span class="p">});</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>输出：</p>
 
-<div class="highlight"><pre><code class="language-text" data-lang="text"><span class="lineno">1</span> 2016-10-31 11:14:28.076 OCPlayground[82366:5830581] Block2 Start
-<span class="lineno">2</span> 2016-10-31 11:14:28.076 OCPlayground[82366:5830578] Block1 Start
-<span class="lineno">3</span> 2016-10-31 11:14:29.081 OCPlayground[82366:5830581] Block2 End
-<span class="lineno">4</span> 2016-10-31 11:14:30.078 OCPlayground[82366:5830578] Block1 End
-<span class="lineno">5</span> 2016-10-31 11:14:30.078 OCPlayground[82366:5830578] Block3</code></pre></div>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="mi">2016</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">31</span> <span class="mi">11</span><span class="o">:</span><span class="mi">14</span><span class="o">:</span><span class="mf">28.076</span> <span class="n">OCPlayground</span><span class="p">[</span><span class="mi">82366</span><span class="o">:</span><span class="mi">5830581</span><span class="p">]</span> <span class="n">Block2</span> <span class="n">Start</span>
+</span><span class='line'><span class="mi">2016</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">31</span> <span class="mi">11</span><span class="o">:</span><span class="mi">14</span><span class="o">:</span><span class="mf">28.076</span> <span class="n">OCPlayground</span><span class="p">[</span><span class="mi">82366</span><span class="o">:</span><span class="mi">5830578</span><span class="p">]</span> <span class="n">Block1</span> <span class="n">Start</span>
+</span><span class='line'><span class="mi">2016</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">31</span> <span class="mi">11</span><span class="o">:</span><span class="mi">14</span><span class="o">:</span><span class="mf">29.081</span> <span class="n">OCPlayground</span><span class="p">[</span><span class="mi">82366</span><span class="o">:</span><span class="mi">5830581</span><span class="p">]</span> <span class="n">Block2</span> <span class="n">End</span>
+</span><span class='line'><span class="mi">2016</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">31</span> <span class="mi">11</span><span class="o">:</span><span class="mi">14</span><span class="o">:</span><span class="mf">30.078</span> <span class="n">OCPlayground</span><span class="p">[</span><span class="mi">82366</span><span class="o">:</span><span class="mi">5830578</span><span class="p">]</span> <span class="n">Block1</span> <span class="n">End</span>
+</span><span class='line'><span class="mi">2016</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">31</span> <span class="mi">11</span><span class="o">:</span><span class="mi">14</span><span class="o">:</span><span class="mf">30.078</span> <span class="n">OCPlayground</span><span class="p">[</span><span class="mi">82366</span><span class="o">:</span><span class="mi">5830578</span><span class="p">]</span> <span class="n">Block3</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <h3>dispatch_barrier_async</h3>
@@ -160,46 +188,84 @@ Waiting until two async blocks are executed before &hellip;">
 
 <p>例子：</p>
 
-<div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno"> 1</span> <span class="c1">// dispatch_barrier_async can not be used together with dispatch_get_global_queue</span>
-<span class="lineno"> 2</span> <span class="c1">// dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0);</span>
-<span class="lineno"> 3</span> <span class="kt">dispatch_queue_t</span> <span class="n">queue</span> <span class="o">=</span> <span class="n">dispatch_queue_create</span><span class="p">(</span><span class="s">&quot;com.company.app.queue&quot;</span><span class="p">,</span> <span class="n">DISPATCH_QUEUE_CONCURRENT</span><span class="p">);</span>
-<span class="lineno"> 4</span>     
-<span class="lineno"> 5</span> <span class="n">dispatch_async</span><span class="p">(</span><span class="n">queue</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
-<span class="lineno"> 6</span>     <span class="c1">// block1</span>
-<span class="lineno"> 7</span>     <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Block1 Start&quot;</span><span class="p">);</span>
-<span class="lineno"> 8</span>     <span class="p">[</span><span class="bp">NSThread</span> <span class="nl">sleepForTimeInterval</span><span class="p">:</span><span class="mf">2.0</span><span class="p">];</span>
-<span class="lineno"> 9</span>     <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Block1 End&quot;</span><span class="p">);</span>
-<span class="lineno">10</span> <span class="p">});</span>
-<span class="lineno">11</span>     
-<span class="lineno">12</span> <span class="n">dispatch_async</span><span class="p">(</span><span class="n">queue</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
-<span class="lineno">13</span>     <span class="c1">// block2</span>
-<span class="lineno">14</span>     <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Block2 Start&quot;</span><span class="p">);</span>
-<span class="lineno">15</span>     <span class="p">[</span><span class="bp">NSThread</span> <span class="nl">sleepForTimeInterval</span><span class="p">:</span><span class="mf">1.0</span><span class="p">];</span>
-<span class="lineno">16</span>     <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Block2 End&quot;</span><span class="p">);</span>
-<span class="lineno">17</span> <span class="p">});</span>
-<span class="lineno">18</span>     
-<span class="lineno">19</span> <span class="n">dispatch_barrier_async</span><span class="p">(</span><span class="n">queue</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
-<span class="lineno">20</span>     <span class="c1">// block3</span>
-<span class="lineno">21</span>     <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Block3&quot;</span><span class="p">);</span>
-<span class="lineno">22</span> <span class="p">});</span>
-<span class="lineno">23</span>     
-<span class="lineno">24</span> <span class="n">dispatch_async</span><span class="p">(</span><span class="n">queue</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
-<span class="lineno">25</span>     <span class="c1">// block4</span>
-<span class="lineno">26</span>     <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Block4 Start&quot;</span><span class="p">);</span>
-<span class="lineno">27</span>     <span class="p">[</span><span class="bp">NSThread</span> <span class="nl">sleepForTimeInterval</span><span class="p">:</span><span class="mf">3.0</span><span class="p">];</span>
-<span class="lineno">28</span>     <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Block4 End&quot;</span><span class="p">);</span>
-<span class="lineno">29</span> <span class="p">});</span></code></pre></div>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="c1">// dispatch_barrier_async can not be used together with dispatch_get_global_queue</span>
+</span><span class='line'><span class="c1">// dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0);</span>
+</span><span class='line'><span class="kt">dispatch_queue_t</span> <span class="n">queue</span> <span class="o">=</span> <span class="n">dispatch_queue_create</span><span class="p">(</span><span class="s">&quot;com.company.app.queue&quot;</span><span class="p">,</span> <span class="n">DISPATCH_QUEUE_CONCURRENT</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">dispatch_async</span><span class="p">(</span><span class="n">queue</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
+</span><span class='line'>    <span class="c1">// block1</span>
+</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Block1 Start&quot;</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">[</span><span class="bp">NSThread</span> <span class="nl">sleepForTimeInterval</span><span class="p">:</span><span class="mf">2.0</span><span class="p">];</span>
+</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Block1 End&quot;</span><span class="p">);</span>
+</span><span class='line'><span class="p">});</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">dispatch_async</span><span class="p">(</span><span class="n">queue</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
+</span><span class='line'>    <span class="c1">// block2</span>
+</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Block2 Start&quot;</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">[</span><span class="bp">NSThread</span> <span class="nl">sleepForTimeInterval</span><span class="p">:</span><span class="mf">1.0</span><span class="p">];</span>
+</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Block2 End&quot;</span><span class="p">);</span>
+</span><span class='line'><span class="p">});</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">dispatch_barrier_async</span><span class="p">(</span><span class="n">queue</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
+</span><span class='line'>    <span class="c1">// block3</span>
+</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Block3&quot;</span><span class="p">);</span>
+</span><span class='line'><span class="p">});</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">dispatch_async</span><span class="p">(</span><span class="n">queue</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
+</span><span class='line'>    <span class="c1">// block4</span>
+</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Block4 Start&quot;</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">[</span><span class="bp">NSThread</span> <span class="nl">sleepForTimeInterval</span><span class="p">:</span><span class="mf">3.0</span><span class="p">];</span>
+</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Block4 End&quot;</span><span class="p">);</span>
+</span><span class='line'><span class="p">});</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>输出：</p>
 
-<div class="highlight"><pre><code class="language-text" data-lang="text"><span class="lineno">1</span> 2016-10-31 12:02:08.468 OCPlayground[83918:5867777] Block1 Start
-<span class="lineno">2</span> 2016-10-31 12:02:08.468 OCPlayground[83918:5867807] Block2 Start
-<span class="lineno">3</span> 2016-10-31 12:02:09.474 OCPlayground[83918:5867807] Block2 End
-<span class="lineno">4</span> 2016-10-31 12:02:10.469 OCPlayground[83918:5867777] Block1 End
-<span class="lineno">5</span> 2016-10-31 12:02:10.469 OCPlayground[83918:5867777] Block3
-<span class="lineno">6</span> 2016-10-31 12:02:10.470 OCPlayground[83918:5867777] Block4 Start
-<span class="lineno">7</span> 2016-10-31 12:02:13.473 OCPlayground[83918:5867777] Block4 End</code></pre></div>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="mi">2016</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">31</span> <span class="mi">12</span><span class="o">:</span><span class="mo">02</span><span class="o">:</span><span class="mf">08.468</span> <span class="n">OCPlayground</span><span class="p">[</span><span class="mi">83918</span><span class="o">:</span><span class="mi">5867777</span><span class="p">]</span> <span class="n">Block1</span> <span class="n">Start</span>
+</span><span class='line'><span class="mi">2016</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">31</span> <span class="mi">12</span><span class="o">:</span><span class="mo">02</span><span class="o">:</span><span class="mf">08.468</span> <span class="n">OCPlayground</span><span class="p">[</span><span class="mi">83918</span><span class="o">:</span><span class="mi">5867807</span><span class="p">]</span> <span class="n">Block2</span> <span class="n">Start</span>
+</span><span class='line'><span class="mi">2016</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">31</span> <span class="mi">12</span><span class="o">:</span><span class="mo">02</span><span class="o">:</span><span class="mf">09.474</span> <span class="n">OCPlayground</span><span class="p">[</span><span class="mi">83918</span><span class="o">:</span><span class="mi">5867807</span><span class="p">]</span> <span class="n">Block2</span> <span class="n">End</span>
+</span><span class='line'><span class="mi">2016</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">31</span> <span class="mi">12</span><span class="o">:</span><span class="mo">02</span><span class="o">:</span><span class="mf">10.469</span> <span class="n">OCPlayground</span><span class="p">[</span><span class="mi">83918</span><span class="o">:</span><span class="mi">5867777</span><span class="p">]</span> <span class="n">Block1</span> <span class="n">End</span>
+</span><span class='line'><span class="mi">2016</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">31</span> <span class="mi">12</span><span class="o">:</span><span class="mo">02</span><span class="o">:</span><span class="mf">10.469</span> <span class="n">OCPlayground</span><span class="p">[</span><span class="mi">83918</span><span class="o">:</span><span class="mi">5867777</span><span class="p">]</span> <span class="n">Block3</span>
+</span><span class='line'><span class="mi">2016</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">31</span> <span class="mi">12</span><span class="o">:</span><span class="mo">02</span><span class="o">:</span><span class="mf">10.470</span> <span class="n">OCPlayground</span><span class="p">[</span><span class="mi">83918</span><span class="o">:</span><span class="mi">5867777</span><span class="p">]</span> <span class="n">Block4</span> <span class="n">Start</span>
+</span><span class='line'><span class="mi">2016</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">31</span> <span class="mi">12</span><span class="o">:</span><span class="mo">02</span><span class="o">:</span><span class="mf">13.473</span> <span class="n">OCPlayground</span><span class="p">[</span><span class="mi">83918</span><span class="o">:</span><span class="mi">5867777</span><span class="p">]</span> <span class="n">Block4</span> <span class="n">End</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <h3>addDependency</h3>
@@ -208,45 +274,82 @@ Waiting until two async blocks are executed before &hellip;">
 
 <p>例子：</p>
 
-<div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno"> 1</span> <span class="bp">NSOperationQueue</span> <span class="o">*</span><span class="n">queue</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">NSOperationQueue</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
-<span class="lineno"> 2</span>     
-<span class="lineno"> 3</span> <span class="bp">NSOperation</span> <span class="o">*</span><span class="n">completionOperation</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSBlockOperation</span> <span class="nl">blockOperationWithBlock</span><span class="p">:</span><span class="o">^</span><span class="p">{</span>
-<span class="lineno"> 4</span>     <span class="c1">// block3</span>
-<span class="lineno"> 5</span>     <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Block3&quot;</span><span class="p">);</span>
-<span class="lineno"> 6</span> <span class="p">}];</span>
-<span class="lineno"> 7</span>     
-<span class="lineno"> 8</span> <span class="bp">NSOperation</span> <span class="o">*</span><span class="n">operation</span><span class="p">;</span>
-<span class="lineno"> 9</span>     
-<span class="lineno">10</span> <span class="n">operation</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSBlockOperation</span> <span class="nl">blockOperationWithBlock</span><span class="p">:</span><span class="o">^</span><span class="p">{</span>
-<span class="lineno">11</span>     <span class="c1">// block1</span>
-<span class="lineno">12</span>     <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Block1 Start&quot;</span><span class="p">);</span>
-<span class="lineno">13</span>     <span class="p">[</span><span class="bp">NSThread</span> <span class="nl">sleepForTimeInterval</span><span class="p">:</span><span class="mf">2.0</span><span class="p">];</span>
-<span class="lineno">14</span>     <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Block1 End&quot;</span><span class="p">);</span>
-<span class="lineno">15</span> <span class="p">}];</span>
-<span class="lineno">16</span>     
-<span class="lineno">17</span> <span class="p">[</span><span class="n">completionOperation</span> <span class="nl">addDependency</span><span class="p">:</span><span class="n">operation</span><span class="p">];</span>
-<span class="lineno">18</span> <span class="p">[</span><span class="n">queue</span> <span class="nl">addOperation</span><span class="p">:</span><span class="n">operation</span><span class="p">];</span>
-<span class="lineno">19</span>     
-<span class="lineno">20</span> <span class="n">operation</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSBlockOperation</span> <span class="nl">blockOperationWithBlock</span><span class="p">:</span><span class="o">^</span><span class="p">{</span>
-<span class="lineno">21</span>     <span class="c1">// block2</span>
-<span class="lineno">22</span>     <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Block2 Start&quot;</span><span class="p">);</span>
-<span class="lineno">23</span>     <span class="p">[</span><span class="bp">NSThread</span> <span class="nl">sleepForTimeInterval</span><span class="p">:</span><span class="mf">1.0</span><span class="p">];</span>
-<span class="lineno">24</span>     <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Block2 End&quot;</span><span class="p">);</span>
-<span class="lineno">25</span> <span class="p">}];</span>
-<span class="lineno">26</span>     
-<span class="lineno">27</span> <span class="p">[</span><span class="n">completionOperation</span> <span class="nl">addDependency</span><span class="p">:</span><span class="n">operation</span><span class="p">];</span>
-<span class="lineno">28</span> <span class="p">[</span><span class="n">queue</span> <span class="nl">addOperation</span><span class="p">:</span><span class="n">operation</span><span class="p">];</span>
-<span class="lineno">29</span>     
-<span class="lineno">30</span> <span class="p">[</span><span class="n">queue</span> <span class="nl">addOperation</span><span class="p">:</span><span class="n">completionOperation</span><span class="p">];</span></code></pre></div>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="bp">NSOperationQueue</span> <span class="o">*</span><span class="n">queue</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">NSOperationQueue</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'><span class="bp">NSOperation</span> <span class="o">*</span><span class="n">completionOperation</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSBlockOperation</span> <span class="nl">blockOperationWithBlock</span><span class="p">:</span><span class="o">^</span><span class="p">{</span>
+</span><span class='line'>    <span class="c1">// block3</span>
+</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Block3&quot;</span><span class="p">);</span>
+</span><span class='line'><span class="p">}];</span>
+</span><span class='line'>
+</span><span class='line'><span class="bp">NSOperation</span> <span class="o">*</span><span class="n">operation</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">operation</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSBlockOperation</span> <span class="nl">blockOperationWithBlock</span><span class="p">:</span><span class="o">^</span><span class="p">{</span>
+</span><span class='line'>    <span class="c1">// block1</span>
+</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Block1 Start&quot;</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">[</span><span class="bp">NSThread</span> <span class="nl">sleepForTimeInterval</span><span class="p">:</span><span class="mf">2.0</span><span class="p">];</span>
+</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Block1 End&quot;</span><span class="p">);</span>
+</span><span class='line'><span class="p">}];</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">[</span><span class="n">completionOperation</span> <span class="nl">addDependency</span><span class="p">:</span><span class="n">operation</span><span class="p">];</span>
+</span><span class='line'><span class="p">[</span><span class="n">queue</span> <span class="nl">addOperation</span><span class="p">:</span><span class="n">operation</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">operation</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSBlockOperation</span> <span class="nl">blockOperationWithBlock</span><span class="p">:</span><span class="o">^</span><span class="p">{</span>
+</span><span class='line'>    <span class="c1">// block2</span>
+</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Block2 Start&quot;</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">[</span><span class="bp">NSThread</span> <span class="nl">sleepForTimeInterval</span><span class="p">:</span><span class="mf">1.0</span><span class="p">];</span>
+</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Block2 End&quot;</span><span class="p">);</span>
+</span><span class='line'><span class="p">}];</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">[</span><span class="n">completionOperation</span> <span class="nl">addDependency</span><span class="p">:</span><span class="n">operation</span><span class="p">];</span>
+</span><span class='line'><span class="p">[</span><span class="n">queue</span> <span class="nl">addOperation</span><span class="p">:</span><span class="n">operation</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">[</span><span class="n">queue</span> <span class="nl">addOperation</span><span class="p">:</span><span class="n">completionOperation</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>输出：</p>
 
-<div class="highlight"><pre><code class="language-text" data-lang="text"><span class="lineno">1</span> 2016-10-31 12:22:49.774 OCPlayground[84061:5887605] Block1 Start
-<span class="lineno">2</span> 2016-10-31 12:22:49.774 OCPlayground[84061:5887572] Block2 Start
-<span class="lineno">3</span> 2016-10-31 12:22:50.776 OCPlayground[84061:5887572] Block2 End
-<span class="lineno">4</span> 2016-10-31 12:22:51.848 OCPlayground[84061:5887605] Block1 End
-<span class="lineno">5</span> 2016-10-31 12:22:51.849 OCPlayground[84061:5887605] Block3</code></pre></div>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="mi">2016</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">31</span> <span class="mi">12</span><span class="o">:</span><span class="mi">22</span><span class="o">:</span><span class="mf">49.774</span> <span class="n">OCPlayground</span><span class="p">[</span><span class="mi">84061</span><span class="o">:</span><span class="mi">5887605</span><span class="p">]</span> <span class="n">Block1</span> <span class="n">Start</span>
+</span><span class='line'><span class="mi">2016</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">31</span> <span class="mi">12</span><span class="o">:</span><span class="mi">22</span><span class="o">:</span><span class="mf">49.774</span> <span class="n">OCPlayground</span><span class="p">[</span><span class="mi">84061</span><span class="o">:</span><span class="mi">5887572</span><span class="p">]</span> <span class="n">Block2</span> <span class="n">Start</span>
+</span><span class='line'><span class="mi">2016</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">31</span> <span class="mi">12</span><span class="o">:</span><span class="mi">22</span><span class="o">:</span><span class="mf">50.776</span> <span class="n">OCPlayground</span><span class="p">[</span><span class="mi">84061</span><span class="o">:</span><span class="mi">5887572</span><span class="p">]</span> <span class="n">Block2</span> <span class="n">End</span>
+</span><span class='line'><span class="mi">2016</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">31</span> <span class="mi">12</span><span class="o">:</span><span class="mi">22</span><span class="o">:</span><span class="mf">51.848</span> <span class="n">OCPlayground</span><span class="p">[</span><span class="mi">84061</span><span class="o">:</span><span class="mi">5887605</span><span class="p">]</span> <span class="n">Block1</span> <span class="n">End</span>
+</span><span class='line'><span class="mi">2016</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">31</span> <span class="mi">12</span><span class="o">:</span><span class="mi">22</span><span class="o">:</span><span class="mf">51.849</span> <span class="n">OCPlayground</span><span class="p">[</span><span class="mi">84061</span><span class="o">:</span><span class="mi">5887605</span><span class="p">]</span> <span class="n">Block3</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <h3>dispatch_semaphore</h3>
@@ -273,40 +376,72 @@ Waiting until two async blocks are executed before &hellip;">
 
 <p>例子：</p>
 
-<div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno"> 1</span> <span class="kt">dispatch_queue_t</span> <span class="n">queue</span> <span class="o">=</span> <span class="n">dispatch_queue_create</span><span class="p">(</span><span class="s">&quot;my.conQ&quot;</span><span class="p">,</span> <span class="n">DISPATCH_QUEUE_CONCURRENT</span><span class="p">);</span>
-<span class="lineno"> 2</span> <span class="kt">dispatch_semaphore_t</span> <span class="n">mySem</span> <span class="o">=</span> <span class="n">dispatch_semaphore_create</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
-<span class="lineno"> 3</span>     
-<span class="lineno"> 4</span> <span class="n">dispatch_async</span><span class="p">(</span><span class="n">queue</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
-<span class="lineno"> 5</span>     <span class="c1">// block1</span>
-<span class="lineno"> 6</span>     <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Block1 Start&quot;</span><span class="p">);</span>
-<span class="lineno"> 7</span>     <span class="p">[</span><span class="bp">NSThread</span> <span class="nl">sleepForTimeInterval</span><span class="p">:</span><span class="mf">2.0</span><span class="p">];</span>
-<span class="lineno"> 8</span>     <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Block1 End&quot;</span><span class="p">);</span>
-<span class="lineno"> 9</span>     <span class="n">dispatch_semaphore_signal</span><span class="p">(</span><span class="n">mySem</span><span class="p">);</span>
-<span class="lineno">10</span> <span class="p">});</span>
-<span class="lineno">11</span>     
-<span class="lineno">12</span> <span class="n">dispatch_async</span><span class="p">(</span><span class="n">queue</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
-<span class="lineno">13</span>     <span class="c1">// block2</span>
-<span class="lineno">14</span>     <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Block2 Start&quot;</span><span class="p">);</span>
-<span class="lineno">15</span>     <span class="p">[</span><span class="bp">NSThread</span> <span class="nl">sleepForTimeInterval</span><span class="p">:</span><span class="mf">1.0</span><span class="p">];</span>
-<span class="lineno">16</span>     <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Block2 End&quot;</span><span class="p">);</span>
-<span class="lineno">17</span>     <span class="n">dispatch_semaphore_signal</span><span class="p">(</span><span class="n">mySem</span><span class="p">);</span>
-<span class="lineno">18</span> <span class="p">});</span>
-<span class="lineno">19</span>     
-<span class="lineno">20</span> <span class="n">dispatch_async</span><span class="p">(</span><span class="n">queue</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
-<span class="lineno">21</span>     <span class="n">dispatch_semaphore_wait</span><span class="p">(</span><span class="n">mySem</span><span class="p">,</span> <span class="n">DISPATCH_TIME_FOREVER</span><span class="p">);</span>
-<span class="lineno">22</span>     <span class="n">dispatch_semaphore_wait</span><span class="p">(</span><span class="n">mySem</span><span class="p">,</span> <span class="n">DISPATCH_TIME_FOREVER</span><span class="p">);</span>
-<span class="lineno">23</span>     <span class="c1">// block3</span>
-<span class="lineno">24</span>     <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Block3&quot;</span><span class="p">);</span>
-<span class="lineno">25</span> <span class="p">});</span></code></pre></div>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="kt">dispatch_queue_t</span> <span class="n">queue</span> <span class="o">=</span> <span class="n">dispatch_queue_create</span><span class="p">(</span><span class="s">&quot;my.conQ&quot;</span><span class="p">,</span> <span class="n">DISPATCH_QUEUE_CONCURRENT</span><span class="p">);</span>
+</span><span class='line'><span class="kt">dispatch_semaphore_t</span> <span class="n">mySem</span> <span class="o">=</span> <span class="n">dispatch_semaphore_create</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">dispatch_async</span><span class="p">(</span><span class="n">queue</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
+</span><span class='line'>    <span class="c1">// block1</span>
+</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Block1 Start&quot;</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">[</span><span class="bp">NSThread</span> <span class="nl">sleepForTimeInterval</span><span class="p">:</span><span class="mf">2.0</span><span class="p">];</span>
+</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Block1 End&quot;</span><span class="p">);</span>
+</span><span class='line'>    <span class="n">dispatch_semaphore_signal</span><span class="p">(</span><span class="n">mySem</span><span class="p">);</span>
+</span><span class='line'><span class="p">});</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">dispatch_async</span><span class="p">(</span><span class="n">queue</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
+</span><span class='line'>    <span class="c1">// block2</span>
+</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Block2 Start&quot;</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">[</span><span class="bp">NSThread</span> <span class="nl">sleepForTimeInterval</span><span class="p">:</span><span class="mf">1.0</span><span class="p">];</span>
+</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Block2 End&quot;</span><span class="p">);</span>
+</span><span class='line'>    <span class="n">dispatch_semaphore_signal</span><span class="p">(</span><span class="n">mySem</span><span class="p">);</span>
+</span><span class='line'><span class="p">});</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">dispatch_async</span><span class="p">(</span><span class="n">queue</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
+</span><span class='line'>    <span class="n">dispatch_semaphore_wait</span><span class="p">(</span><span class="n">mySem</span><span class="p">,</span> <span class="n">DISPATCH_TIME_FOREVER</span><span class="p">);</span>
+</span><span class='line'>    <span class="n">dispatch_semaphore_wait</span><span class="p">(</span><span class="n">mySem</span><span class="p">,</span> <span class="n">DISPATCH_TIME_FOREVER</span><span class="p">);</span>
+</span><span class='line'>    <span class="c1">// block3</span>
+</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Block3&quot;</span><span class="p">);</span>
+</span><span class='line'><span class="p">});</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>输出：</p>
 
-<div class="highlight"><pre><code class="language-text" data-lang="text"><span class="lineno">1</span> 2016-10-31 22:16:34.402 OCPlayground[85158:6133417] Block1 Start
-<span class="lineno">2</span> 2016-10-31 22:16:34.402 OCPlayground[85158:6133423] Block2 Start
-<span class="lineno">3</span> 2016-10-31 22:16:35.405 OCPlayground[85158:6133423] Block2 End
-<span class="lineno">4</span> 2016-10-31 22:16:36.403 OCPlayground[85158:6133417] Block1 End
-<span class="lineno">5</span> 2016-10-31 22:16:36.404 OCPlayground[85158:6133426] Block3</code></pre></div>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="mi">2016</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">31</span> <span class="mi">22</span><span class="o">:</span><span class="mi">16</span><span class="o">:</span><span class="mf">34.402</span> <span class="n">OCPlayground</span><span class="p">[</span><span class="mi">85158</span><span class="o">:</span><span class="mi">6133417</span><span class="p">]</span> <span class="n">Block1</span> <span class="n">Start</span>
+</span><span class='line'><span class="mi">2016</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">31</span> <span class="mi">22</span><span class="o">:</span><span class="mi">16</span><span class="o">:</span><span class="mf">34.402</span> <span class="n">OCPlayground</span><span class="p">[</span><span class="mi">85158</span><span class="o">:</span><span class="mi">6133423</span><span class="p">]</span> <span class="n">Block2</span> <span class="n">Start</span>
+</span><span class='line'><span class="mi">2016</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">31</span> <span class="mi">22</span><span class="o">:</span><span class="mi">16</span><span class="o">:</span><span class="mf">35.405</span> <span class="n">OCPlayground</span><span class="p">[</span><span class="mi">85158</span><span class="o">:</span><span class="mi">6133423</span><span class="p">]</span> <span class="n">Block2</span> <span class="n">End</span>
+</span><span class='line'><span class="mi">2016</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">31</span> <span class="mi">22</span><span class="o">:</span><span class="mi">16</span><span class="o">:</span><span class="mf">36.403</span> <span class="n">OCPlayground</span><span class="p">[</span><span class="mi">85158</span><span class="o">:</span><span class="mi">6133417</span><span class="p">]</span> <span class="n">Block1</span> <span class="n">End</span>
+</span><span class='line'><span class="mi">2016</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">31</span> <span class="mi">22</span><span class="o">:</span><span class="mi">16</span><span class="o">:</span><span class="mf">36.404</span> <span class="n">OCPlayground</span><span class="p">[</span><span class="mi">85158</span><span class="o">:</span><span class="mi">6133426</span><span class="p">]</span> <span class="n">Block3</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <h3>dispatch_group_enter和dispatch_group_leave</h3>
@@ -317,12 +452,19 @@ Waiting until two async blocks are executed before &hellip;">
 
 <p>对于嵌套的block，仍然使用<code>dispatch_group_async</code>将block放入对应的group。比如下面的例子，对于Block1里面的Block4，我们仍然使用<code>dispatch_group_async</code>将Block4放入对应的group，即可以保证Block3在Block4之后执行。也就是说，只要是在<code>dispatch_group_notify</code>对应的Block3执行之前加入group的block，都需要执行，然后才能执行<code>dispatch_group_notify</code>对应的Block3，即，当<code>dispatch_group_notify</code>对应的Block3执行的时候，group中不能有任何没有执行的其它block存在。</p>
 
-<div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno">1</span> <span class="n">dispatch_group_async</span><span class="p">(</span><span class="n">group</span><span class="p">,</span> <span class="n">queue</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
-<span class="lineno">2</span>     <span class="c1">// block4 inside block 1</span>
-<span class="lineno">3</span>     <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Block4 inside Block1 Start&quot;</span><span class="p">);</span>
-<span class="lineno">4</span>     <span class="p">[</span><span class="bp">NSThread</span> <span class="nl">sleepForTimeInterval</span><span class="p">:</span><span class="mf">1.0</span><span class="p">];</span>
-<span class="lineno">5</span>     <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Block4 inside Block1 End&quot;</span><span class="p">);</span>
-<span class="lineno">6</span> <span class="p">});</span></code></pre></div>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">dispatch_group_async</span><span class="p">(</span><span class="n">group</span><span class="p">,</span> <span class="n">queue</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
+</span><span class='line'>    <span class="c1">// block4 inside block 1</span>
+</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Block4 inside Block1 Start&quot;</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">[</span><span class="bp">NSThread</span> <span class="nl">sleepForTimeInterval</span><span class="p">:</span><span class="mf">1.0</span><span class="p">];</span>
+</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Block4 inside Block1 End&quot;</span><span class="p">);</span>
+</span><span class='line'><span class="p">});</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>如果嵌套的block对应的是服务器请求的callback（比如<code>onSuccess:</code>和<code>onFailure:</code>），就不方便将其加入对应的group中。这时候就需要使用方案2。</p>
@@ -332,48 +474,88 @@ Waiting until two async blocks are executed before &hellip;">
 
 <p>例子：</p>
 
-<div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno"> 1</span> <span class="kt">dispatch_group_t</span> <span class="n">group</span> <span class="o">=</span> <span class="n">dispatch_group_create</span><span class="p">();</span>
-<span class="lineno"> 2</span> <span class="kt">dispatch_queue_t</span> <span class="n">queue</span> <span class="o">=</span> <span class="n">dispatch_get_global_queue</span><span class="p">(</span><span class="n">DISPATCH_QUEUE_PRIORITY_HIGH</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
-<span class="lineno"> 3</span>     
-<span class="lineno"> 4</span> <span class="n">dispatch_group_async</span><span class="p">(</span><span class="n">group</span><span class="p">,</span> <span class="n">queue</span><span class="p">,</span> <span class="o">^</span> <span class="p">{</span>
-<span class="lineno"> 5</span>     <span class="c1">// block1</span>
-<span class="lineno"> 6</span>     <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Block1 Start&quot;</span><span class="p">);</span>
-<span class="lineno"> 7</span>     <span class="p">[</span><span class="bp">NSThread</span> <span class="nl">sleepForTimeInterval</span><span class="p">:</span><span class="mf">2.0</span><span class="p">];</span>
-<span class="lineno"> 8</span>     <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Block1 End&quot;</span><span class="p">);</span>
-<span class="lineno"> 9</span> 
-<span class="lineno">10</span>     <span class="n">dispatch_group_enter</span><span class="p">(</span><span class="n">group</span><span class="p">);</span>
-<span class="lineno">11</span>     <span class="n">dispatch_async</span><span class="p">(</span><span class="n">queue</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
-<span class="lineno">12</span>         <span class="c1">// block4 inside block 1</span>
-<span class="lineno">13</span>         <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Block4 inside Block1 Start&quot;</span><span class="p">);</span>
-<span class="lineno">14</span>         <span class="p">[</span><span class="bp">NSThread</span> <span class="nl">sleepForTimeInterval</span><span class="p">:</span><span class="mf">1.0</span><span class="p">];</span>
-<span class="lineno">15</span>         <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Block4 inside Block1 End&quot;</span><span class="p">);</span>
-<span class="lineno">16</span>         <span class="n">dispatch_group_leave</span><span class="p">(</span><span class="n">group</span><span class="p">);</span>
-<span class="lineno">17</span>     <span class="p">});</span>
-<span class="lineno">18</span> <span class="p">});</span>
-<span class="lineno">19</span>     
-<span class="lineno">20</span>     
-<span class="lineno">21</span> <span class="n">dispatch_group_async</span><span class="p">(</span><span class="n">group</span><span class="p">,</span> <span class="n">queue</span><span class="p">,</span> <span class="o">^</span> <span class="p">{</span>
-<span class="lineno">22</span>     <span class="c1">// block2</span>
-<span class="lineno">23</span>     <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Block2 Start&quot;</span><span class="p">);</span>
-<span class="lineno">24</span>     <span class="p">[</span><span class="bp">NSThread</span> <span class="nl">sleepForTimeInterval</span><span class="p">:</span><span class="mf">1.0</span><span class="p">];</span>
-<span class="lineno">25</span>     <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Block2 End&quot;</span><span class="p">);</span>
-<span class="lineno">26</span> <span class="p">});</span>
-<span class="lineno">27</span>     
-<span class="lineno">28</span> <span class="n">dispatch_group_notify</span><span class="p">(</span><span class="n">group</span><span class="p">,</span> <span class="n">queue</span><span class="p">,</span> <span class="o">^</span> <span class="p">{</span>
-<span class="lineno">29</span>     <span class="c1">// block3</span>
-<span class="lineno">30</span>     <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Block3&quot;</span><span class="p">);</span>
-<span class="lineno">31</span> <span class="p">});</span></code></pre></div>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="kt">dispatch_group_t</span> <span class="n">group</span> <span class="o">=</span> <span class="n">dispatch_group_create</span><span class="p">();</span>
+</span><span class='line'><span class="kt">dispatch_queue_t</span> <span class="n">queue</span> <span class="o">=</span> <span class="n">dispatch_get_global_queue</span><span class="p">(</span><span class="n">DISPATCH_QUEUE_PRIORITY_HIGH</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">dispatch_group_async</span><span class="p">(</span><span class="n">group</span><span class="p">,</span> <span class="n">queue</span><span class="p">,</span> <span class="o">^</span> <span class="p">{</span>
+</span><span class='line'>    <span class="c1">// block1</span>
+</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Block1 Start&quot;</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">[</span><span class="bp">NSThread</span> <span class="nl">sleepForTimeInterval</span><span class="p">:</span><span class="mf">2.0</span><span class="p">];</span>
+</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Block1 End&quot;</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">dispatch_group_enter</span><span class="p">(</span><span class="n">group</span><span class="p">);</span>
+</span><span class='line'>    <span class="n">dispatch_async</span><span class="p">(</span><span class="n">queue</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
+</span><span class='line'>        <span class="c1">// block4 inside block 1</span>
+</span><span class='line'>        <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Block4 inside Block1 Start&quot;</span><span class="p">);</span>
+</span><span class='line'>        <span class="p">[</span><span class="bp">NSThread</span> <span class="nl">sleepForTimeInterval</span><span class="p">:</span><span class="mf">1.0</span><span class="p">];</span>
+</span><span class='line'>        <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Block4 inside Block1 End&quot;</span><span class="p">);</span>
+</span><span class='line'>        <span class="n">dispatch_group_leave</span><span class="p">(</span><span class="n">group</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">});</span>
+</span><span class='line'><span class="p">});</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="n">dispatch_group_async</span><span class="p">(</span><span class="n">group</span><span class="p">,</span> <span class="n">queue</span><span class="p">,</span> <span class="o">^</span> <span class="p">{</span>
+</span><span class='line'>    <span class="c1">// block2</span>
+</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Block2 Start&quot;</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">[</span><span class="bp">NSThread</span> <span class="nl">sleepForTimeInterval</span><span class="p">:</span><span class="mf">1.0</span><span class="p">];</span>
+</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Block2 End&quot;</span><span class="p">);</span>
+</span><span class='line'><span class="p">});</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">dispatch_group_notify</span><span class="p">(</span><span class="n">group</span><span class="p">,</span> <span class="n">queue</span><span class="p">,</span> <span class="o">^</span> <span class="p">{</span>
+</span><span class='line'>    <span class="c1">// block3</span>
+</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Block3&quot;</span><span class="p">);</span>
+</span><span class='line'><span class="p">});</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>输出：</p>
 
-<div class="highlight"><pre><code class="language-text" data-lang="text"><span class="lineno">1</span> 2016-10-31 13:51:23.512 OCPlayground[84646:5947063] Block2 Start
-<span class="lineno">2</span> 2016-10-31 13:51:23.512 OCPlayground[84646:5947080] Block1 Start
-<span class="lineno">3</span> 2016-10-31 13:51:24.518 OCPlayground[84646:5947063] Block2 End
-<span class="lineno">4</span> 2016-10-31 13:51:25.518 OCPlayground[84646:5947080] Block1 End
-<span class="lineno">5</span> 2016-10-31 13:51:25.518 OCPlayground[84646:5947080] Block4 inside Block1 Start
-<span class="lineno">6</span> 2016-10-31 13:51:26.521 OCPlayground[84646:5947080] Block4 inside Block1 End
-<span class="lineno">7</span> 2016-10-31 13:51:26.522 OCPlayground[84646:5947063] Block3</code></pre></div>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="mi">2016</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">31</span> <span class="mi">13</span><span class="o">:</span><span class="mi">51</span><span class="o">:</span><span class="mf">23.512</span> <span class="n">OCPlayground</span><span class="p">[</span><span class="mi">84646</span><span class="o">:</span><span class="mi">5947063</span><span class="p">]</span> <span class="n">Block2</span> <span class="n">Start</span>
+</span><span class='line'><span class="mi">2016</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">31</span> <span class="mi">13</span><span class="o">:</span><span class="mi">51</span><span class="o">:</span><span class="mf">23.512</span> <span class="n">OCPlayground</span><span class="p">[</span><span class="mi">84646</span><span class="o">:</span><span class="mi">5947080</span><span class="p">]</span> <span class="n">Block1</span> <span class="n">Start</span>
+</span><span class='line'><span class="mi">2016</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">31</span> <span class="mi">13</span><span class="o">:</span><span class="mi">51</span><span class="o">:</span><span class="mf">24.518</span> <span class="n">OCPlayground</span><span class="p">[</span><span class="mi">84646</span><span class="o">:</span><span class="mi">5947063</span><span class="p">]</span> <span class="n">Block2</span> <span class="n">End</span>
+</span><span class='line'><span class="mi">2016</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">31</span> <span class="mi">13</span><span class="o">:</span><span class="mi">51</span><span class="o">:</span><span class="mf">25.518</span> <span class="n">OCPlayground</span><span class="p">[</span><span class="mi">84646</span><span class="o">:</span><span class="mi">5947080</span><span class="p">]</span> <span class="n">Block1</span> <span class="n">End</span>
+</span><span class='line'><span class="mi">2016</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">31</span> <span class="mi">13</span><span class="o">:</span><span class="mi">51</span><span class="o">:</span><span class="mf">25.518</span> <span class="n">OCPlayground</span><span class="p">[</span><span class="mi">84646</span><span class="o">:</span><span class="mi">5947080</span><span class="p">]</span> <span class="n">Block4</span> <span class="n">inside</span> <span class="n">Block1</span> <span class="n">Start</span>
+</span><span class='line'><span class="mi">2016</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">31</span> <span class="mi">13</span><span class="o">:</span><span class="mi">51</span><span class="o">:</span><span class="mf">26.521</span> <span class="n">OCPlayground</span><span class="p">[</span><span class="mi">84646</span><span class="o">:</span><span class="mi">5947080</span><span class="p">]</span> <span class="n">Block4</span> <span class="n">inside</span> <span class="n">Block1</span> <span class="n">End</span>
+</span><span class='line'><span class="mi">2016</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">31</span> <span class="mi">13</span><span class="o">:</span><span class="mi">51</span><span class="o">:</span><span class="mf">26.522</span> <span class="n">OCPlayground</span><span class="p">[</span><span class="mi">84646</span><span class="o">:</span><span class="mi">5947063</span><span class="p">]</span> <span class="n">Block3</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 
@@ -443,11 +625,15 @@ Waiting until two async blocks are executed before &hellip;">
   
     <section class="categories">
   <h1>Categories</h1>
-    <ul id="top-category-list" class="nav nav-list"><li><a href='/blog/categories/ios'>ios (32)</a></li><li><a href='/blog/categories/objective-c'>objective-c (20)</a></li><li><a href='/blog/categories/productivity'>productivity (16)</a></li><li><a href='/blog/categories/xcode'>xcode (5)</a></li><li><a href='/blog/categories/android'>android (5)</a></li><li><a href='/blog/categories/node'>node (3)</a></li><li><a href='/blog/categories/python'>python (3)</a></li><li><a href='/blog/categories/swift'>swift (2)</a></li><li><a href='/blog/categories/javascript'>javascript (2)</a></li><li><a href='/blog/categories/web'>web (2)</a></li><li><a href='/blog/categories/java'>java (2)</a></li><li><a href='/blog/categories/philosophy'>philosophy (2)</a></li><li><a href='/blog/categories/reading'>reading (2)</a></li><li><a href='/blog/categories/map-tech'>map tech (2)</a></li><li><a href='/blog/categories/design-pattern'>design_pattern (1)</a></li><li><a href='/blog/categories/mobile'>mobile (1)</a></li><li><a href='/blog/categories/android-studio'>android_studio (1)</a></li></ul>
+    <ul id="top-category-list" class="nav nav-list"><li><a href='/blog/categories/ios'>ios (32)</a></li><li><a href='/blog/categories/objective-c'>objective-c (20)</a></li><li><a href='/blog/categories/productivity'>productivity (17)</a></li><li><a href='/blog/categories/xcode'>xcode (5)</a></li><li><a href='/blog/categories/android'>android (5)</a></li><li><a href='/blog/categories/node'>node (3)</a></li><li><a href='/blog/categories/python'>python (3)</a></li><li><a href='/blog/categories/swift'>swift (2)</a></li><li><a href='/blog/categories/javascript'>javascript (2)</a></li><li><a href='/blog/categories/web'>web (2)</a></li><li><a href='/blog/categories/java'>java (2)</a></li><li><a href='/blog/categories/philosophy'>philosophy (2)</a></li><li><a href='/blog/categories/reading'>reading (2)</a></li><li><a href='/blog/categories/map-tech'>map tech (2)</a></li><li><a href='/blog/categories/design-pattern'>design_pattern (1)</a></li><li><a href='/blog/categories/mobile'>mobile (1)</a></li><li><a href='/blog/categories/android-studio'>android_studio (1)</a></li></ul>
 </section>
 <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2017/11/21/some-tips-on-markdown-usage/">Some Tips on Markdown Usage</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2017/10/20/errors-in-swift/">Swift中的Error</a>
@@ -463,10 +649,6 @@ Waiting until two async blocks are executed before &hellip;">
     
       <li class="post">
         <a href="/blog/2017/03/28/when-is-layoutsubviews-called/">layoutSubviews的调用机制</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2017/03/03/relation-among-m-multiple-gestures/">如何处理多个手势之间的关系</a>
       </li>
     
   </ul>

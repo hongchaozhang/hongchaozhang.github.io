@@ -9,8 +9,8 @@
   <meta name="author" content="Zhang Hongchao">
 
   
-  <meta name="description" content="Swift Error基本使用 throws in Swift 1.x 在Objective-C中，copy的接口如下： 1
-- (BOOL)copyItemAtPath:(NSString *)srcPath toPath:(NSString *)dstPath error:(NSError &hellip;">
+  <meta name="description" content="Swift Error基本使用 throws in Swift 1.x 在Objective-C中，FileManager的copy接口如下： 1
+- (BOOL)copyItemAtPath:(NSString *)srcPath toPath:(NSString *)dstPath &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -105,14 +105,14 @@
   </header>
 
 
-<div class="entry-content"><h2>Swift Error基本使用</h2>
+<div class="entry-content"><!-- more -->
 
-<!-- more -->
 
+<h2>Swift Error基本使用</h2>
 
 <h3>throws in Swift 1.x</h3>
 
-<p>在Objective-C中，copy的接口如下：</p>
+<p>在Objective-C中，<code>FileManager</code>的copy接口如下：</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">BOOL</span><span class="p">)</span><span class="nf">copyItemAtPath:</span><span class="p">(</span><span class="bp">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">srcPath</span> <span class="nf">toPath:</span><span class="p">(</span><span class="bp">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">dstPath</span> <span class="nf">error:</span><span class="p">(</span><span class="bp">NSError</span> <span class="o">**</span><span class="p">)</span><span class="nv">error</span>
@@ -129,7 +129,7 @@
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="bp">NSFileManager</span> <span class="o">*</span><span class="n">fileManager</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSFileManager</span> <span class="n">defaultManager</span><span class="p">];</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="bp">NSFileManager</span> <span class="o">*</span><span class="n">fileManager</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSFileManager</span> <span class="n">defaultManager</span><span class="p">];</span>
 </span><span class='line'><span class="bp">NSError</span> <span class="o">*</span><span class="n">error</span><span class="p">;</span>
 </span><span class='line'><span class="p">[</span><span class="n">fileManager</span> <span class="nl">copyItemAtPath</span><span class="p">:</span><span class="n">srcPath</span> <span class="nl">toPath</span><span class="p">:</span><span class="n">toPath</span> <span class="nl">error</span><span class="p">:</span><span class="o">&amp;</span><span class="n">error</span><span class="p">];</span>
 </span><span class='line'><span class="k">if</span> <span class="p">(</span><span class="n">error</span><span class="p">)</span> <span class="p">{</span>
@@ -285,7 +285,7 @@
 
 <p>被标记为throws的API，我们必须采用下面几种处理方式中的一种来处理，否则，编译器会报错。</p>
 
-<h4>1. <code>do catch</code></h4>
+<h4><code>do catch</code></h4>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -312,7 +312,7 @@
 </span></code></pre></td></tr></table></div></figure>
 
 
-<h4>2. <code>try?</code></h4>
+<h4><code>try?</code></h4>
 
 <p>使用<code>try?</code>来处理错误，将其返回值变为Optional：如果在执行过程中出现错误，接口返回<code>nil</code>，同时错误停止继续传播。比如：</p>
 
@@ -345,7 +345,7 @@
 </span></code></pre></td></tr></table></div></figure>
 
 
-<h4>3. <code>try!</code></h4>
+<h4><code>try!</code></h4>
 
 <p>如果你非常确信一个被标记为throws的接口，在你的环境中不会抛出错误，可以通过<code>try!</code>来强制终止错误的继续传播。如果在执行的时候出现了错误，那么抛出运行时错误，导致程序崩溃。</p>
 
@@ -356,7 +356,7 @@
 </span></code></pre></td></tr></table></div></figure>
 
 
-<h4>4. <code>try</code></h4>
+<h4><code>try</code></h4>
 
 <p>也可以直接使用<code>try</code>来调用被标记为throws的接口，但是这种情况下，错误会继续传播，包含该调用的方法也必须被标记为throws才行，否则，编译器会报错。</p>
 
@@ -406,19 +406,19 @@
 <h2><code>throws</code>的一些实践</h2>
 
 <!--
-### 异步操作中的异常处理
+### 异步操作中的错误处理
 -->
 
 
 <h3>throws的调试和断点</h3>
 
 <!--
-Swift的异常抛出并不是传统意义的exception，在调试时抛出异常并不会触发Exception断点。另外，throw本身是语言的关键字，而不是一个symbol，它也不能触发Symbolic类型的断点。如果我们希望在所有throw语句执行的时候让程序停住的话，需要一些额外的技巧。在之前 throw 的汇编实现中，可以看到所有throw语句在返回前都会进行一次`swift_willThrow`的调用，这就是一个有效的 Symbolic语句，我们设置一个`swift_willThrow`的Symbolic断点，就可以让程序在throw的时候停住，并使用调用栈信息来获知程序在哪里抛出了异常。
+Swift的错误抛出并不是传统意义的exception，在调试时抛出错误并不会触发Exception断点。另外，throw本身是语言的关键字，而不是一个symbol，它也不能触发Symbolic类型的断点。如果我们希望在所有throw语句执行的时候让程序停住的话，需要一些额外的技巧。在之前 throw 的汇编实现中，可以看到所有throw语句在返回前都会进行一次`swift_willThrow`的调用，这就是一个有效的 Symbolic语句，我们设置一个`swift_willThrow`的Symbolic断点，就可以让程序在throw的时候停住，并使用调用栈信息来获知程序在哪里抛出了错误。
 
 补充，在最新版本的Xcode中，Apple直接为我们在断点类型中加上了 “Swift Error Breakpoint”的选项，它背后做的就是在`swift_willThrow`上添加一个断点。不过因为有了更直接的方法，我们现在不再需要手动去添加这个符号断点了。-->
 
 
-<p>Swift的异常抛出并不是传统意义的exception，在调试时抛出异常并不会触发Exception断点。我们可以通过设置“Swift Error Breakpoint”对throws进行断点设置和调试。设置方法如下：</p>
+<p>Swift的抛出错误并不是传统意义的exception，在调试时抛出错误并不会触发Exception断点。我们可以通过设置“Swift Error Breakpoint”对throws进行断点设置和调试。设置方法如下：</p>
 
 <p><img src="/images/Swift-Error-Breakpoint.png" alt="swift error breakpoint" /></p>
 
@@ -431,7 +431,7 @@ Swift的异常抛出并不是传统意义的exception，在调试时抛出异常
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>我们便没有办法知道这个接口可能返回哪些错误。此时，要么阅读文档，获得确切的抛出错误，分别进行处理；或者将所有的错误统一处理如下：</p>
+<p>我们没有办法知道这个接口可能返回哪些错误。此时，要么阅读文档，获得确切的抛出错误，分别进行处理；或者将所有的错误统一处理如下：</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -450,7 +450,7 @@ Swift的异常抛出并不是传统意义的exception，在调试时抛出异常
 
 <h2>Swift 错误类型的种类</h2>
 
-<p>参考Swift官方文档<a href="https://github.com/apple/swift/blob/master/docs/ErrorHandling.rst">Error Handling in Swift 2.0</a>，Swift中的错误有下面四种：</p>
+<p>参考Swift官方文档<a href="https://github.com/apple/swift/blob/master/docs/ErrorHandling.rst">Error Handling in Swift<!-- 2.0--></a>，Swift中的错误有下面四种：</p>
 
 <ol>
 <li>Simple domain error</li>
@@ -473,7 +473,7 @@ Swift的异常抛出并不是传统意义的exception，在调试时抛出异常
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p><strong>可能出现这种错误的接口，不需要使用throws来标记，只需要将接口的返回类型设置为Optional即可。</strong>在使用层面 (或者说应用逻辑) 上，这类错误一般用<code>if let</code>的可选值绑定或者是<code>guard let</code>提前进行返回处理即可，不需要再在语言层面上进行额外处理。</p>
+<p><strong>可能出现这种错误的接口，不需要使用throws来标记，只需要将接口的返回类型设置为Optional即可。</strong>在使用层面 (或者说应用逻辑) 上，这类错误一般用<code>if let</code>的可选值绑定或者是<code>guard let</code>提前进行返回处理即可。</p>
 
 <h3>Recoverable error</h3>
 
@@ -642,7 +642,7 @@ Swift的异常抛出并不是传统意义的exception，在调试时抛出异常
 
 <p>光说不练假把式。让我们来实际判断一下下面这些情况下我们都应该选择用哪种错误处理方式吧~</p>
 
-<h3>1. app内资源加载</h3>
+<h3>app内资源加载</h3>
 
 <p>假设我们在处理一个机器学习的模型，需要从磁盘读取一份预先训练好的模型。该模型以文件的方式存储在 app bundle 中，如果读取时没有找到该模型，我们应该如何处理这个错误？</p>
 
@@ -740,13 +740,17 @@ Swift的异常抛出并不是传统意义的exception，在调试时抛出异常
 </span></code></pre></td></tr></table></div></figure>
 
 
+<p><details>
+  <summary><em>点击查看答案</em></summary></p>
+
 <p>正确答案应该是方案 4，使用Logic failure让代码直接崩溃。</p>
 
 <p>作为内建的存在于app bundle中模型或者配置文件，如果不存在或者无法初始化，在不考虑极端因素的前提下，一定是开发方面出现了问题，这不应该是一个可恢复的错误，无论重试多少次结果肯定是一样的。也许是开发者忘了将文件放到合适的位置，也许是文件本身出现了问题。不论是哪种情况，我们都会希望尽早发现并强制我们修正错误，而让代码崩溃可以很好地做到这一点。</p>
 
-<p>使用Universal error同样可以让代码崩溃，但是Universal error更多是用在语言的边界情况下。而这里并非这种情况。</p>
+<p>使用Universal error同样可以让代码崩溃，但是Universal error更多是用在语言的边界情况下。而这里并非这种情况。
+</details></p>
 
-<h3>2. 加载当前用户信息时发生错误</h3>
+<h3>加载当前用户信息时发生错误</h3>
 
 <p>我们在用户登录后会将用户信息存储在本地，每次重新打开app时我们检测并使用用户信息。当用户信息不存在时，应该进行的处理：</p>
 
@@ -826,13 +830,17 @@ Swift的异常抛出并不是传统意义的exception，在调试时抛出异常
 </span></code></pre></td></tr></table></div></figure>
 
 
+<p><details>
+  <summary><em>点击查看答案</em></summary></p>
+
 <p>首先肯定排除方案3和4。“用户名不存在”是一个正常的现象，肯定不能直接crash。所以我们应该在方案1和方案2中选择。</p>
 
 <p>对于这种情况，选择方案1 Simple domain error会更好。因为用户信息不存在是很简单的一个状况，如果用户不存在，那么我们直接让用户登录即可，这并不需要知道额外的错误信息，返回<code>nil</code>就能够很好地表达意图了。</p>
 
-<p>当然，我们不排除今后随着情况越来越复杂，会需要区分用户信息缺失的原因 (比如是否是新用户还没有注册，还是由于原用户注销等)。但是在当前的情况下来看，这属于过度设计，暂时并不需要考虑。如果之后业务复杂到这个程度，在编译器的帮助下将Simple domain error修改为Recoverable error也不是什么难事儿。</p>
+<p>当然，我们不排除今后随着情况越来越复杂，会需要区分用户信息缺失的原因 (比如是否是新用户还没有注册，还是由于原用户注销等)。但是在当前的情况下来看，这属于过度设计，暂时并不需要考虑。如果之后业务复杂到这个程度，在编译器的帮助下将Simple domain error修改为Recoverable error也不是什么难事儿。
+</details></p>
 
-<h3>3. 还没有实现的代码</h3>
+<h3>还没有实现的代码</h3>
 
 <p>假设你在为你的服务开发一个iOS框架，但是由于工期有限，有一些功能只定义了接口，没有进行具体实现。这些接口会在正式版中完成，但是我们需要预先发布给友商内测。所以除了在文档中明确标明这些内容，这些方法内部应该如何处理呢？</p>
 
@@ -882,9 +890,25 @@ Swift的异常抛出并不是传统意义的exception，在调试时抛出异常
 </span></code></pre></td></tr></table></div></figure>
 
 
+<p><details>
+  <summary><em>点击查看答案</em></summary></p>
+
 <p>正确答案是方案3 Universal error。对于没有实现的方法，返回<code>nil</code>或者抛出错误期待用户恢复都是没有道理的，这会进一步增加框架用户的迷惑。这里的问题是语言层面的边界情况，由于没有实现，我们需要给出强力的提醒。在任意build设定下，都不应该期待用户可以成功调用这个函数，所以<code>fatalError</code>是最佳选择。</p>
 
-<h3>4. 调用设备上的传感器收集数据</h3>
+<p>其实在swift继承的时候，编译器会给我们添加一个默认的未实现的接口：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="n">required</span> <span class="k">init</span><span class="o">?</span><span class="p">(</span><span class="n">coder</span> <span class="nl">aDecoder</span><span class="p">:</span> <span class="bp">NSCoder</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">fatalError</span><span class="p">(</span><span class="s">&quot;init(coder:) has not been implemented&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p></details></p>
+
+<h3>调用设备上的传感器收集数据</h3>
 
 <p>调用传感器的app最有意思了！不管是相机还是陀螺仪，传感器相关的app总是能带给我们很多乐趣。那么，如果想要调用传感器获取数据时，发生了错误，应该怎么办呢？</p>
 
@@ -960,11 +984,15 @@ Swift的异常抛出并不是传统意义的exception，在调试时抛出异常
 </span></code></pre></td></tr></table></div></figure>
 
 
+<p><details>
+  <summary><em>点击查看答案</em></summary></p>
+
 <p>传感器由于种种原因暂时不能使用 (比如正在被其他进程占用，或者甚至设备上不存在对应的传感器)，是很有可能发生的情况。即使这个传感器的数据对应用是至关重要，不可或缺的，我们可能也会希望至少能给用户一些提示。基于这种考虑，使用方案2 Recoverable error是比较合理的选择。</p>
 
-<p>方案1在传感器数据无关紧要的时候可能也会是一个更简单的选项。但是方案3和4会直接让程序崩溃，而且这实际上也并不是代码边界或者开发者的错误，所以不应该被考虑。</p>
+<p>方案1在传感器数据无关紧要的时候可能也会是一个更简单的选项。但是方案3和4会直接让程序崩溃，而且这实际上也并不是代码边界或者开发者的错误，所以不应该被考虑。
+</details></p>
 
-<h3>5. 总结</h3>
+<h3>总结</h3>
 
 <p>可以看到，其实在错误处理的时候，选用哪种错误是根据情景和处理需求而定的，我在参考答案也使用了很多诸如“可能”，“相较而言”等语句。虽然对于特定的场景，我们可以进行直观的考虑和决策，但这并不是教条主义般的一成不变。错误类型之间可以很容易地通过代码互相转换，这让我们在处理错误的时候可以自由选择使用的策略：比如API即使提供给我们的是Recoverable的throws形式，我们也还是可以按照需要，通过<code>try?</code>将其转为Simple domain error，或者用<code>try!</code>将其转为Logic failure。</p>
 
@@ -1073,6 +1101,32 @@ Swift的异常抛出并不是传统意义的exception，在调试时抛出异常
 <span class='line-number'>10</span>
 <span class='line-number'>11</span>
 <span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
 </pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">func</span> <span class="nf">processFile</span><span class="p">(</span><span class="nl">filename</span><span class="p">:</span> <span class="n">String</span><span class="p">)</span> <span class="n">throws</span> <span class="p">{</span>
 </span><span class='line'>    <span class="k">if</span> <span class="n">exists</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span> <span class="p">{</span>
 </span><span class='line'>        <span class="k">let</span> <span class="n">file</span> <span class="o">=</span> <span class="n">open</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
@@ -1084,6 +1138,32 @@ Swift的异常抛出并不是传统意义的exception，在调试时抛出异常
 </span><span class='line'>        <span class="p">}</span>
 </span><span class='line'>        <span class="c1">// close(file) is called here, at the end of the scope.</span>
 </span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">func</span> <span class="n">vend</span><span class="p">(</span><span class="n">itemNamed</span> <span class="nl">name</span><span class="p">:</span> <span class="n">String</span><span class="p">)</span> <span class="n">throws</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">defer</span> <span class="p">{</span>
+</span><span class='line'>        <span class="c1">// do some clean work</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">guard</span> <span class="k">let</span> <span class="n">item</span> <span class="o">=</span> <span class="n">inventory</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">throw</span> <span class="n">VendingMachineError</span><span class="p">.</span><span class="n">invalidSelection</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">guard</span> <span class="n">item</span><span class="p">.</span><span class="n">count</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">throw</span> <span class="n">VendingMachineError</span><span class="p">.</span><span class="n">outOfStock</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">guard</span> <span class="n">item</span><span class="p">.</span><span class="n">price</span> <span class="o">&lt;=</span> <span class="n">coinsDeposited</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">throw</span> <span class="n">VendingMachineError</span><span class="p">.</span><span class="n">insufficientFunds</span><span class="p">(</span><span class="nl">coinsNeeded</span><span class="p">:</span> <span class="n">item</span><span class="p">.</span><span class="n">price</span> <span class="o">-</span> <span class="n">coinsDeposited</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">coinsDeposited</span> <span class="o">-=</span> <span class="n">item</span><span class="p">.</span><span class="n">price</span>
+</span><span class='line'>    <span class="k">var</span> <span class="n">newItem</span> <span class="o">=</span> <span class="n">item</span>
+</span><span class='line'>    <span class="n">newItem</span><span class="p">.</span><span class="n">count</span> <span class="o">-=</span> <span class="mi">1</span>
+</span><span class='line'>    <span class="n">inventory</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">newItem</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">print</span><span class="p">(</span><span class="s">&quot;Dispensing \(name)&quot;</span><span class="p">)</span>
 </span><span class='line'><span class="p">}</span>
 </span></code></pre></td></tr></table></div></figure>
 
@@ -1146,6 +1226,8 @@ Swift的异常抛出并不是传统意义的exception，在调试时抛出异常
         <a class="basic-alignment left" href="/blog/2017/05/08/tools-for-detecting-duplicated-code/" title="Previous Post: iOS代码查重工具">&laquo; iOS代码查重工具</a>
       
       
+        <a class="basic-alignment right" href="/blog/2017/11/21/some-tips-on-markdown-usage/" title="Next Post: some tips on markdown usage">some tips on markdown usage &raquo;</a>
+      
     </p>
   </footer>
 </article>
@@ -1157,11 +1239,15 @@ Swift的异常抛出并不是传统意义的exception，在调试时抛出异常
   
     <section class="categories">
   <h1>Categories</h1>
-    <ul id="top-category-list" class="nav nav-list"><li><a href='/blog/categories/ios'>ios (32)</a></li><li><a href='/blog/categories/objective-c'>objective-c (20)</a></li><li><a href='/blog/categories/productivity'>productivity (16)</a></li><li><a href='/blog/categories/xcode'>xcode (5)</a></li><li><a href='/blog/categories/android'>android (5)</a></li><li><a href='/blog/categories/node'>node (3)</a></li><li><a href='/blog/categories/python'>python (3)</a></li><li><a href='/blog/categories/swift'>swift (2)</a></li><li><a href='/blog/categories/javascript'>javascript (2)</a></li><li><a href='/blog/categories/web'>web (2)</a></li><li><a href='/blog/categories/java'>java (2)</a></li><li><a href='/blog/categories/philosophy'>philosophy (2)</a></li><li><a href='/blog/categories/reading'>reading (2)</a></li><li><a href='/blog/categories/map-tech'>map tech (2)</a></li><li><a href='/blog/categories/design-pattern'>design_pattern (1)</a></li><li><a href='/blog/categories/mobile'>mobile (1)</a></li><li><a href='/blog/categories/android-studio'>android_studio (1)</a></li></ul>
+    <ul id="top-category-list" class="nav nav-list"><li><a href='/blog/categories/ios'>ios (32)</a></li><li><a href='/blog/categories/objective-c'>objective-c (20)</a></li><li><a href='/blog/categories/productivity'>productivity (17)</a></li><li><a href='/blog/categories/xcode'>xcode (5)</a></li><li><a href='/blog/categories/android'>android (5)</a></li><li><a href='/blog/categories/node'>node (3)</a></li><li><a href='/blog/categories/python'>python (3)</a></li><li><a href='/blog/categories/swift'>swift (2)</a></li><li><a href='/blog/categories/javascript'>javascript (2)</a></li><li><a href='/blog/categories/web'>web (2)</a></li><li><a href='/blog/categories/java'>java (2)</a></li><li><a href='/blog/categories/philosophy'>philosophy (2)</a></li><li><a href='/blog/categories/reading'>reading (2)</a></li><li><a href='/blog/categories/map-tech'>map tech (2)</a></li><li><a href='/blog/categories/design-pattern'>design_pattern (1)</a></li><li><a href='/blog/categories/mobile'>mobile (1)</a></li><li><a href='/blog/categories/android-studio'>android_studio (1)</a></li></ul>
 </section>
 <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2017/11/21/some-tips-on-markdown-usage/">Some Tips on Markdown Usage</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2017/10/20/errors-in-swift/">Swift中的Error</a>
@@ -1177,10 +1263,6 @@ Swift的异常抛出并不是传统意义的exception，在调试时抛出异常
     
       <li class="post">
         <a href="/blog/2017/03/28/when-is-layoutsubviews-called/">layoutSubviews的调用机制</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2017/03/03/relation-among-m-multiple-gestures/">如何处理多个手势之间的关系</a>
       </li>
     
   </ul>

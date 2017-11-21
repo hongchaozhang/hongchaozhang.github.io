@@ -9,7 +9,9 @@
   <meta name="author" content="Zhang Hongchao">
 
   
-  <meta name="description" content="先上截图： demo地址：MultiplePagesViewControllerDemo demo解释 首先，创建MultiplePagesViewController的实例，并将其和其view加入到需要的view controller 中： 1 [self.view addSubview: &hellip;">
+  <meta name="description" content="先上截图： demo地址：MultiplePagesViewControllerDemo demo解释 首先，创建MultiplePagesViewController的实例，并将其和其view加入到需要的view controller 中： 1
+2
+[self.view addSubview: &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -120,67 +122,114 @@
 
 <p>首先，创建<code>MultiplePagesViewController</code>的实例，并将其和其view加入到需要的view controller 中：</p>
 
-<div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno">1</span> <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">view</span> <span class="nl">addSubview</span><span class="p">:</span><span class="nb">self</span><span class="p">.</span><span class="n">multiplePagesViewController</span><span class="p">.</span><span class="n">view</span><span class="p">];</span>
-<span class="lineno">2</span> <span class="p">[</span><span class="nb">self</span> <span class="nl">addChildViewController</span><span class="p">:</span><span class="nb">self</span><span class="p">.</span><span class="n">multiplePagesViewController</span><span class="p">];</span></code></pre></div>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">view</span> <span class="nl">addSubview</span><span class="p">:</span><span class="nb">self</span><span class="p">.</span><span class="n">multiplePagesViewController</span><span class="p">.</span><span class="n">view</span><span class="p">];</span>
+</span><span class='line'><span class="p">[</span><span class="nb">self</span> <span class="nl">addChildViewController</span><span class="p">:</span><span class="nb">self</span><span class="p">.</span><span class="n">multiplePagesViewController</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>其中，<code>self.multiplePagesViewController</code>对应的getter函数如下：</p>
 
-<div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno">1</span> <span class="p">-</span> <span class="p">(</span><span class="n">MultiplePagesViewController</span><span class="o">*</span><span class="p">)</span><span class="nf">multiplePagesViewController</span> <span class="p">{</span>
-<span class="lineno">2</span>     <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">_multiplePagesViewController</span><span class="p">)</span> <span class="p">{</span>
-<span class="lineno">3</span>         <span class="n">_multiplePagesViewController</span> <span class="o">=</span> <span class="p">[[</span><span class="n">MultiplePagesViewController</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
-<span class="lineno">4</span>         <span class="n">_multiplePagesViewController</span><span class="p">.</span><span class="n">view</span><span class="p">.</span><span class="n">frame</span> <span class="o">=</span> <span class="nb">self</span><span class="p">.</span><span class="n">view</span><span class="p">.</span><span class="n">frame</span><span class="p">;</span>
-<span class="lineno">5</span>         <span class="n">_multiplePagesViewController</span><span class="p">.</span><span class="n">delegate</span> <span class="o">=</span> <span class="nb">self</span><span class="p">;</span>
-<span class="lineno">6</span>     <span class="p">}</span>
-<span class="lineno">7</span>     
-<span class="lineno">8</span>     <span class="k">return</span> <span class="n">_multiplePagesViewController</span><span class="p">;</span>
-<span class="lineno">9</span> <span class="p">}</span></code></pre></div>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="p">-</span> <span class="p">(</span><span class="n">MultiplePagesViewController</span><span class="o">*</span><span class="p">)</span><span class="nf">multiplePagesViewController</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">_multiplePagesViewController</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">_multiplePagesViewController</span> <span class="o">=</span> <span class="p">[[</span><span class="n">MultiplePagesViewController</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
+</span><span class='line'>        <span class="n">_multiplePagesViewController</span><span class="p">.</span><span class="n">view</span><span class="p">.</span><span class="n">frame</span> <span class="o">=</span> <span class="nb">self</span><span class="p">.</span><span class="n">view</span><span class="p">.</span><span class="n">frame</span><span class="p">;</span>
+</span><span class='line'>        <span class="n">_multiplePagesViewController</span><span class="p">.</span><span class="n">delegate</span> <span class="o">=</span> <span class="nb">self</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">return</span> <span class="n">_multiplePagesViewController</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>并且，在<code>viewDidLayoutSubviews</code>中重新调整view的大小，以解决转屏等问题：</p>
 
-<div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno">1</span> <span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">viewDidLayoutSubviews</span> <span class="p">{</span>
-<span class="lineno">2</span>     <span class="p">[</span><span class="nb">super</span> <span class="n">viewDidLayoutSubviews</span><span class="p">];</span>
-<span class="lineno">3</span>     
-<span class="lineno">4</span>     <span class="nb">self</span><span class="p">.</span><span class="n">multiplePagesViewController</span><span class="p">.</span><span class="n">view</span><span class="p">.</span><span class="n">frame</span> <span class="o">=</span> <span class="nb">self</span><span class="p">.</span><span class="n">view</span><span class="p">.</span><span class="n">frame</span><span class="p">;</span>
-<span class="lineno">5</span> <span class="p">}</span></code></pre></div>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">viewDidLayoutSubviews</span> <span class="p">{</span>
+</span><span class='line'>    <span class="p">[</span><span class="nb">super</span> <span class="n">viewDidLayoutSubviews</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nb">self</span><span class="p">.</span><span class="n">multiplePagesViewController</span><span class="p">.</span><span class="n">view</span><span class="p">.</span><span class="n">frame</span> <span class="o">=</span> <span class="nb">self</span><span class="p">.</span><span class="n">view</span><span class="p">.</span><span class="n">frame</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>然后，只需要将你的UIViewController的实例加入<code>self.multiplePagesViewController</code>就可以了：</p>
 
-<div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno">1</span> <span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">addDefaultPageViewControllers</span> <span class="p">{</span>
-<span class="lineno">2</span>     <span class="bp">NSInteger</span> <span class="n">vcCount</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span>
-<span class="lineno">3</span>     <span class="k">for</span> <span class="p">(</span><span class="bp">NSInteger</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">vcCount</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-<span class="lineno">4</span>         <span class="n">SampleViewController</span> <span class="o">*</span><span class="n">svc</span> <span class="o">=</span> <span class="p">[[</span><span class="n">SampleViewController</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithText</span><span class="p">:[</span><span class="bp">NSString</span> <span class="nl">stringWithFormat</span><span class="p">:</span><span class="s">@&quot;%ld&quot;</span><span class="p">,</span> <span class="n">i</span><span class="p">]];</span>
-<span class="lineno">5</span>         <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">multiplePagesViewController</span> <span class="nl">addViewController</span><span class="p">:</span><span class="n">svc</span><span class="p">];</span>
-<span class="lineno">6</span>     <span class="p">}</span>
-<span class="lineno">7</span> <span class="p">}</span></code></pre></div>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">addDefaultPageViewControllers</span> <span class="p">{</span>
+</span><span class='line'>    <span class="bp">NSInteger</span> <span class="n">vcCount</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span>
+</span><span class='line'>    <span class="k">for</span> <span class="p">(</span><span class="bp">NSInteger</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">vcCount</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">SampleViewController</span> <span class="o">*</span><span class="n">svc</span> <span class="o">=</span> <span class="p">[[</span><span class="n">SampleViewController</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithText</span><span class="p">:[</span><span class="bp">NSString</span> <span class="nl">stringWithFormat</span><span class="p">:</span><span class="s">@&quot;%ld&quot;</span><span class="p">,</span> <span class="n">i</span><span class="p">]];</span>
+</span><span class='line'>        <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">multiplePagesViewController</span> <span class="nl">addViewController</span><span class="p">:</span><span class="n">svc</span><span class="p">];</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p><code>MultiplePagesViewController</code>主要的两个接口如下：</p>
 
-<div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno"> 1</span> <span class="cm">/**</span>
-<span class="lineno"> 2</span> <span class="cm"> *  add a new &lt;UIViewController*&gt; instance</span>
-<span class="lineno"> 3</span> <span class="cm"> *</span>
-<span class="lineno"> 4</span> <span class="cm"> *  @param viewController</span>
-<span class="lineno"> 5</span> <span class="cm"> */</span>
-<span class="lineno"> 6</span> <span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">addViewController:</span><span class="p">(</span><span class="bp">UIViewController</span><span class="o">*</span><span class="p">)</span><span class="nv">viewController</span><span class="p">;</span>
-<span class="lineno"> 7</span> 
-<span class="lineno"> 8</span> <span class="cm">/**</span>
-<span class="lineno"> 9</span> <span class="cm"> *  remove an existing view controller by index</span>
-<span class="lineno">10</span> <span class="cm"> *</span>
-<span class="lineno">11</span> <span class="cm"> *  @param viewControllerIndex</span>
-<span class="lineno">12</span> <span class="cm"> */</span>
-<span class="lineno">13</span> <span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">removeViewController:</span><span class="p">(</span><span class="bp">NSUInteger</span><span class="p">)</span><span class="nv">viewControllerIndex</span><span class="p">;</span></code></pre></div>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="cm">/**</span>
+</span><span class='line'><span class="cm"> *  add a new &lt;UIViewController*&gt; instance</span>
+</span><span class='line'><span class="cm"> *</span>
+</span><span class='line'><span class="cm"> *  @param viewController</span>
+</span><span class='line'><span class="cm"> */</span>
+</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">addViewController:</span><span class="p">(</span><span class="bp">UIViewController</span><span class="o">*</span><span class="p">)</span><span class="nv">viewController</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="cm">/**</span>
+</span><span class='line'><span class="cm"> *  remove an existing view controller by index</span>
+</span><span class='line'><span class="cm"> *</span>
+</span><span class='line'><span class="cm"> *  @param viewControllerIndex</span>
+</span><span class='line'><span class="cm"> */</span>
+</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">removeViewController:</span><span class="p">(</span><span class="bp">NSUInteger</span><span class="p">)</span><span class="nv">viewControllerIndex</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>另外，可以在<code>MultiplePagesViewController</code>的父view controller中实现下面接口，当切换page的时候做些其它事情，比如更新view controller的title信息等。</p>
 
-<div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno">1</span> <span class="k">@protocol</span> <span class="nc">MultiplePagesViewControllerDelegate</span> <span class="o">&lt;</span><span class="bp">NSObject</span><span class="o">&gt;</span>
-<span class="lineno">2</span> 
-<span class="lineno">3</span> <span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nl">pageChangedTo</span><span class="p">:(</span><span class="bp">NSInteger</span><span class="p">)</span><span class="n">pageIndex</span><span class="p">;</span>
-<span class="lineno">4</span> 
-<span class="lineno">5</span> <span class="k">@end</span></code></pre></div>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">@protocol</span> <span class="nc">MultiplePagesViewControllerDelegate</span> <span class="o">&lt;</span><span class="bp">NSObject</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nl">pageChangedTo</span><span class="p">:(</span><span class="bp">NSInteger</span><span class="p">)</span><span class="n">pageIndex</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@end</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 
@@ -250,11 +299,15 @@
   
     <section class="categories">
   <h1>Categories</h1>
-    <ul id="top-category-list" class="nav nav-list"><li><a href='/blog/categories/ios'>ios (32)</a></li><li><a href='/blog/categories/objective-c'>objective-c (20)</a></li><li><a href='/blog/categories/productivity'>productivity (16)</a></li><li><a href='/blog/categories/xcode'>xcode (5)</a></li><li><a href='/blog/categories/android'>android (5)</a></li><li><a href='/blog/categories/node'>node (3)</a></li><li><a href='/blog/categories/python'>python (3)</a></li><li><a href='/blog/categories/swift'>swift (2)</a></li><li><a href='/blog/categories/javascript'>javascript (2)</a></li><li><a href='/blog/categories/web'>web (2)</a></li><li><a href='/blog/categories/java'>java (2)</a></li><li><a href='/blog/categories/philosophy'>philosophy (2)</a></li><li><a href='/blog/categories/reading'>reading (2)</a></li><li><a href='/blog/categories/map-tech'>map tech (2)</a></li><li><a href='/blog/categories/design-pattern'>design_pattern (1)</a></li><li><a href='/blog/categories/mobile'>mobile (1)</a></li><li><a href='/blog/categories/android-studio'>android_studio (1)</a></li></ul>
+    <ul id="top-category-list" class="nav nav-list"><li><a href='/blog/categories/ios'>ios (32)</a></li><li><a href='/blog/categories/objective-c'>objective-c (20)</a></li><li><a href='/blog/categories/productivity'>productivity (17)</a></li><li><a href='/blog/categories/xcode'>xcode (5)</a></li><li><a href='/blog/categories/android'>android (5)</a></li><li><a href='/blog/categories/node'>node (3)</a></li><li><a href='/blog/categories/python'>python (3)</a></li><li><a href='/blog/categories/swift'>swift (2)</a></li><li><a href='/blog/categories/javascript'>javascript (2)</a></li><li><a href='/blog/categories/web'>web (2)</a></li><li><a href='/blog/categories/java'>java (2)</a></li><li><a href='/blog/categories/philosophy'>philosophy (2)</a></li><li><a href='/blog/categories/reading'>reading (2)</a></li><li><a href='/blog/categories/map-tech'>map tech (2)</a></li><li><a href='/blog/categories/design-pattern'>design_pattern (1)</a></li><li><a href='/blog/categories/mobile'>mobile (1)</a></li><li><a href='/blog/categories/android-studio'>android_studio (1)</a></li></ul>
 </section>
 <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2017/11/21/some-tips-on-markdown-usage/">Some Tips on Markdown Usage</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2017/10/20/errors-in-swift/">Swift中的Error</a>
@@ -270,10 +323,6 @@
     
       <li class="post">
         <a href="/blog/2017/03/28/when-is-layoutsubviews-called/">layoutSubviews的调用机制</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2017/03/03/relation-among-m-multiple-gestures/">如何处理多个手势之间的关系</a>
       </li>
     
   </ul>

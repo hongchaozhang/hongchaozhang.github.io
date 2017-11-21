@@ -130,12 +130,18 @@ These are all tests that must run on an Android hardware device or an Android em
 
 <p>In your app&rsquo;s top-level build.gradle file, you need to specify these libraries as dependencies:</p>
 
-<div class="highlight"><pre><code class="language-text" data-lang="text"><span class="lineno">1</span> dependencies {
-<span class="lineno">2</span>     // Required -- JUnit 4 framework
-<span class="lineno">3</span>     testCompile &#39;junit:junit:4.12&#39;
-<span class="lineno">4</span>     // Optional -- Mockito framework
-<span class="lineno">5</span>     testCompile &#39;org.mockito:mockito-core:1.10.19&#39;
-<span class="lineno">6</span> }</code></pre></div>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>dependencies {
+</span><span class='line'>    // Required -- JUnit 4 framework
+</span><span class='line'>    testCompile 'junit:junit:4.12'
+</span><span class='line'>    // Optional -- Mockito framework
+</span><span class='line'>    testCompile 'org.mockito:mockito-core:1.10.19'
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
 
 
 <h2>Create a Local Unit Test Class</h2>
@@ -146,19 +152,33 @@ These are all tests that must run on an Android hardware device or an Android em
 
 <p>To create a basic JUnit 4 test class, create a Java class that contains one or more test methods. A test method begins with the @Test annotation and contains the code to exercise and verify a single functionality in the component that you want to test.</p>
 
-<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="lineno"> 1</span> <span class="kn">import</span> <span class="nn">org.junit.Test</span><span class="o">;</span>
-<span class="lineno"> 2</span> <span class="kn">import</span> <span class="nn">java.util.regex.Pattern</span><span class="o">;</span>
-<span class="lineno"> 3</span> <span class="kn">import</span> <span class="nn">static</span> <span class="n">org</span><span class="o">.</span><span class="na">junit</span><span class="o">.</span><span class="na">Assert</span><span class="o">.</span><span class="na">assertFalse</span><span class="o">;</span>
-<span class="lineno"> 4</span> <span class="kn">import</span> <span class="nn">static</span> <span class="n">org</span><span class="o">.</span><span class="na">junit</span><span class="o">.</span><span class="na">Assert</span><span class="o">.</span><span class="na">assertTrue</span><span class="o">;</span>
-<span class="lineno"> 5</span> 
-<span class="lineno"> 6</span> <span class="kd">public</span> <span class="kd">class</span> <span class="nc">EmailValidatorTest</span> <span class="o">{</span>
-<span class="lineno"> 7</span> 
-<span class="lineno"> 8</span>     <span class="nd">@Test</span>
-<span class="lineno"> 9</span>     <span class="kd">public</span> <span class="kt">void</span> <span class="nf">emailValidator_CorrectEmailSimple_ReturnsTrue</span><span class="o">()</span> <span class="o">{</span>
-<span class="lineno">10</span>         <span class="n">assertThat</span><span class="o">(</span><span class="n">EmailValidator</span><span class="o">.</span><span class="na">isValidEmail</span><span class="o">(</span><span class="s">&quot;name@email.com&quot;</span><span class="o">),</span> <span class="n">is</span><span class="o">(</span><span class="kc">true</span><span class="o">));</span>
-<span class="lineno">11</span>     <span class="o">}</span>
-<span class="lineno">12</span>     <span class="o">...</span>
-<span class="lineno">13</span> <span class="o">}</span></code></pre></div>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kn">import</span> <span class="nn">org.junit.Test</span><span class="o">;</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">java.util.regex.Pattern</span><span class="o">;</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">static</span> <span class="n">org</span><span class="o">.</span><span class="na">junit</span><span class="o">.</span><span class="na">Assert</span><span class="o">.</span><span class="na">assertFalse</span><span class="o">;</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">static</span> <span class="n">org</span><span class="o">.</span><span class="na">junit</span><span class="o">.</span><span class="na">Assert</span><span class="o">.</span><span class="na">assertTrue</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">EmailValidatorTest</span> <span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nd">@Test</span>
+</span><span class='line'>    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">emailValidator_CorrectEmailSimple_ReturnsTrue</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>        <span class="n">assertThat</span><span class="o">(</span><span class="n">EmailValidator</span><span class="o">.</span><span class="na">isValidEmail</span><span class="o">(</span><span class="s">&quot;name@email.com&quot;</span><span class="o">),</span> <span class="n">is</span><span class="o">(</span><span class="kc">true</span><span class="o">));</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>    <span class="o">...</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <h3>Auto create junit4 unit test with the help of Android Studio</h3>
@@ -226,30 +246,45 @@ These are all tests that must run on an Android hardware device or an Android em
 
 <p>For <code>mock</code>:</p>
 
-<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="lineno">1</span> <span class="n">Stock</span> <span class="n">stock</span> <span class="o">=</span> <span class="n">mock</span><span class="o">(</span><span class="n">Stock</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
-<span class="lineno">2</span> <span class="n">when</span><span class="o">(</span><span class="n">stock</span><span class="o">.</span><span class="na">getPrice</span><span class="o">()).</span><span class="na">thenReturn</span><span class="o">(</span><span class="mf">100.00</span><span class="o">);</span>    <span class="c1">// Mock implementation</span>
-<span class="lineno">3</span> <span class="n">when</span><span class="o">(</span><span class="n">stock</span><span class="o">.</span><span class="na">getQuantity</span><span class="o">()).</span><span class="na">thenReturn</span><span class="o">(</span><span class="mi">200</span><span class="o">);</span>    <span class="c1">// Mock implementation</span>
-<span class="lineno">4</span> <span class="n">when</span><span class="o">(</span><span class="n">stock</span><span class="o">.</span><span class="na">getValue</span><span class="o">()).</span><span class="na">thenCallRealMethod</span><span class="o">();</span>  <span class="c1">// Real implementation</span></code></pre></div>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="n">Stock</span> <span class="n">stock</span> <span class="o">=</span> <span class="n">mock</span><span class="o">(</span><span class="n">Stock</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+</span><span class='line'><span class="n">when</span><span class="o">(</span><span class="n">stock</span><span class="o">.</span><span class="na">getPrice</span><span class="o">()).</span><span class="na">thenReturn</span><span class="o">(</span><span class="mf">100.00</span><span class="o">);</span>    <span class="c1">// Mock implementation</span>
+</span><span class='line'><span class="n">when</span><span class="o">(</span><span class="n">stock</span><span class="o">.</span><span class="na">getQuantity</span><span class="o">()).</span><span class="na">thenReturn</span><span class="o">(</span><span class="mi">200</span><span class="o">);</span>    <span class="c1">// Mock implementation</span>
+</span><span class='line'><span class="n">when</span><span class="o">(</span><span class="n">stock</span><span class="o">.</span><span class="na">getValue</span><span class="o">()).</span><span class="na">thenCallRealMethod</span><span class="o">();</span>  <span class="c1">// Real implementation</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>In that case, each method implementation is mocked, unless specify <code>thenCallRealMethod()</code> in the <code>when(..)</code> clause.</p>
 
 <p>For <code>spy</code>:</p>
 
-<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="lineno">1</span> <span class="n">Stock</span> <span class="n">stock</span> <span class="o">=</span> <span class="n">spy</span><span class="o">(</span><span class="k">new</span> <span class="nf">Stock</span><span class="o">());</span>
-<span class="lineno">2</span> <span class="n">when</span><span class="o">(</span><span class="n">stock</span><span class="o">.</span><span class="na">getPrice</span><span class="o">()).</span><span class="na">thenReturn</span><span class="o">(</span><span class="mf">100.00</span><span class="o">);</span>    <span class="c1">// Mock implementation</span>
-<span class="lineno">3</span> <span class="n">when</span><span class="o">(</span><span class="n">stock</span><span class="o">.</span><span class="na">getQuantity</span><span class="o">()).</span><span class="na">thenReturn</span><span class="o">(</span><span class="mi">200</span><span class="o">);</span>    <span class="c1">// Mock implementation</span>
-<span class="lineno">4</span> <span class="c1">// All other method call will use the real implementations</span></code></pre></div>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="n">Stock</span> <span class="n">stock</span> <span class="o">=</span> <span class="n">spy</span><span class="o">(</span><span class="k">new</span> <span class="nf">Stock</span><span class="o">());</span>
+</span><span class='line'><span class="n">when</span><span class="o">(</span><span class="n">stock</span><span class="o">.</span><span class="na">getPrice</span><span class="o">()).</span><span class="na">thenReturn</span><span class="o">(</span><span class="mf">100.00</span><span class="o">);</span>    <span class="c1">// Mock implementation</span>
+</span><span class='line'><span class="n">when</span><span class="o">(</span><span class="n">stock</span><span class="o">.</span><span class="na">getQuantity</span><span class="o">()).</span><span class="na">thenReturn</span><span class="o">(</span><span class="mi">200</span><span class="o">);</span>    <span class="c1">// Mock implementation</span>
+</span><span class='line'><span class="c1">// All other method call will use the real implementations</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>In that case, all method implementation are the real one, expect if you have defined a mocked behaviour with <code>when(..)</code>.</p>
 
 <p>There is one important pitfall when you use <code>when(Object)</code> with spy like in the previous example. The real method will be called (because <code>stock.getPrice()</code> is evaluated before <code>when(..)</code> at runtime). This can be a problem if your method contains logic that should not be called. You can write the previous example like this:</p>
 
-<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="lineno">1</span> <span class="n">Stock</span> <span class="n">stock</span> <span class="o">=</span> <span class="n">spy</span><span class="o">(</span><span class="k">new</span> <span class="nf">Stock</span><span class="o">());</span>
-<span class="lineno">2</span> <span class="n">doReturn</span><span class="o">(</span><span class="mf">100.00</span><span class="o">).</span><span class="na">when</span><span class="o">(</span><span class="n">stock</span><span class="o">).</span><span class="na">getPrice</span><span class="o">();</span>    <span class="c1">// Mock implementation</span>
-<span class="lineno">3</span> <span class="n">doReturn</span><span class="o">(</span><span class="mi">200</span><span class="o">).</span><span class="na">when</span><span class="o">(</span><span class="n">stock</span><span class="o">).</span><span class="na">getQuantity</span><span class="o">();</span>    <span class="c1">// Mock implementation</span>
-<span class="lineno">4</span> <span class="c1">// All other method call will use the real implementations</span></code></pre></div>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="n">Stock</span> <span class="n">stock</span> <span class="o">=</span> <span class="n">spy</span><span class="o">(</span><span class="k">new</span> <span class="nf">Stock</span><span class="o">());</span>
+</span><span class='line'><span class="n">doReturn</span><span class="o">(</span><span class="mf">100.00</span><span class="o">).</span><span class="na">when</span><span class="o">(</span><span class="n">stock</span><span class="o">).</span><span class="na">getPrice</span><span class="o">();</span>    <span class="c1">// Mock implementation</span>
+</span><span class='line'><span class="n">doReturn</span><span class="o">(</span><span class="mi">200</span><span class="o">).</span><span class="na">when</span><span class="o">(</span><span class="n">stock</span><span class="o">).</span><span class="na">getQuantity</span><span class="o">();</span>    <span class="c1">// Mock implementation</span>
+</span><span class='line'><span class="c1">// All other method call will use the real implementations</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <h2>Mock Android Dependencies</h2>
@@ -262,14 +297,20 @@ These are all tests that must run on an Android hardware device or an Android em
 
 <p>Instead of using:</p>
 
-<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="lineno">1</span> <span class="n">assertEquals</span><span class="o">(</span><span class="n">expected</span><span class="o">,</span> <span class="s">&quot;the two values should be the same&quot;</span><span class="o">);</span>
-<span class="lineno">2</span> <span class="n">assertNotNull</span><span class="o">(</span><span class="n">object</span><span class="o">);</span></code></pre></div>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="n">assertEquals</span><span class="o">(</span><span class="n">expected</span><span class="o">,</span> <span class="s">&quot;the two values should be the same&quot;</span><span class="o">);</span>
+</span><span class='line'><span class="n">assertNotNull</span><span class="o">(</span><span class="n">object</span><span class="o">);</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>we can use:</p>
 
-<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="lineno">1</span> <span class="n">assertThat</span><span class="o">(</span><span class="n">expected</span><span class="o">,</span> <span class="n">equalTo</span><span class="o">(</span><span class="s">&quot;the two values should be the same&quot;</span><span class="o">));</span>
-<span class="lineno">2</span> <span class="n">assertThat</span><span class="o">(</span><span class="n">object</span><span class="o">,</span> <span class="n">is</span><span class="o">(</span><span class="n">NotNullValue</span><span class="o">()));</span></code></pre></div>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="n">assertThat</span><span class="o">(</span><span class="n">expected</span><span class="o">,</span> <span class="n">equalTo</span><span class="o">(</span><span class="s">&quot;the two values should be the same&quot;</span><span class="o">));</span>
+</span><span class='line'><span class="n">assertThat</span><span class="o">(</span><span class="n">object</span><span class="o">,</span> <span class="n">is</span><span class="o">(</span><span class="n">NotNullValue</span><span class="o">()));</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <h2>References</h2>
@@ -343,11 +384,15 @@ These are all tests that must run on an Android hardware device or an Android em
   
     <section class="categories">
   <h1>Categories</h1>
-    <ul id="top-category-list" class="nav nav-list"><li><a href='/blog/categories/ios'>ios (32)</a></li><li><a href='/blog/categories/objective-c'>objective-c (20)</a></li><li><a href='/blog/categories/productivity'>productivity (16)</a></li><li><a href='/blog/categories/xcode'>xcode (5)</a></li><li><a href='/blog/categories/android'>android (5)</a></li><li><a href='/blog/categories/node'>node (3)</a></li><li><a href='/blog/categories/python'>python (3)</a></li><li><a href='/blog/categories/swift'>swift (2)</a></li><li><a href='/blog/categories/javascript'>javascript (2)</a></li><li><a href='/blog/categories/web'>web (2)</a></li><li><a href='/blog/categories/java'>java (2)</a></li><li><a href='/blog/categories/philosophy'>philosophy (2)</a></li><li><a href='/blog/categories/reading'>reading (2)</a></li><li><a href='/blog/categories/map-tech'>map tech (2)</a></li><li><a href='/blog/categories/design-pattern'>design_pattern (1)</a></li><li><a href='/blog/categories/mobile'>mobile (1)</a></li><li><a href='/blog/categories/android-studio'>android_studio (1)</a></li></ul>
+    <ul id="top-category-list" class="nav nav-list"><li><a href='/blog/categories/ios'>ios (32)</a></li><li><a href='/blog/categories/objective-c'>objective-c (20)</a></li><li><a href='/blog/categories/productivity'>productivity (17)</a></li><li><a href='/blog/categories/xcode'>xcode (5)</a></li><li><a href='/blog/categories/android'>android (5)</a></li><li><a href='/blog/categories/node'>node (3)</a></li><li><a href='/blog/categories/python'>python (3)</a></li><li><a href='/blog/categories/swift'>swift (2)</a></li><li><a href='/blog/categories/javascript'>javascript (2)</a></li><li><a href='/blog/categories/web'>web (2)</a></li><li><a href='/blog/categories/java'>java (2)</a></li><li><a href='/blog/categories/philosophy'>philosophy (2)</a></li><li><a href='/blog/categories/reading'>reading (2)</a></li><li><a href='/blog/categories/map-tech'>map tech (2)</a></li><li><a href='/blog/categories/design-pattern'>design_pattern (1)</a></li><li><a href='/blog/categories/mobile'>mobile (1)</a></li><li><a href='/blog/categories/android-studio'>android_studio (1)</a></li></ul>
 </section>
 <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2017/11/21/some-tips-on-markdown-usage/">Some Tips on Markdown Usage</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2017/10/20/errors-in-swift/">Swift中的Error</a>
@@ -363,10 +408,6 @@ These are all tests that must run on an Android hardware device or an Android em
     
       <li class="post">
         <a href="/blog/2017/03/28/when-is-layoutsubviews-called/">layoutSubviews的调用机制</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2017/03/03/relation-among-m-multiple-gestures/">如何处理多个手势之间的关系</a>
       </li>
     
   </ul>

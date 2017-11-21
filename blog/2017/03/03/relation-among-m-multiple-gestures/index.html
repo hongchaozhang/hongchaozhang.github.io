@@ -125,7 +125,9 @@
 
 <p>可以为view添加多个不同的<code>UIGestureRecognizer</code>，比如pan和tap，可以同时起作用，但是如果你想<strong>加入两个tap手势，第二个会将第一个手势覆盖</strong>。这个时候，至少需要为其中一个tap手势添加delegate，并实现下面的方法，为两个tap同时存在的情况返回true：</p>
 
-<div class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="n">optional</span> <span class="n">public</span> <span class="k">func</span> <span class="n">gestureRecognizer</span><span class="p">(</span><span class="n">_</span> <span class="nl">gestureRecognizer</span><span class="p">:</span> <span class="bp">UIGestureRecognizer</span><span class="p">,</span> <span class="n">shouldRecognizeSimultaneouslyWith</span> <span class="nl">otherGestureRecognizer</span><span class="p">:</span> <span class="bp">UIGestureRecognizer</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bool</span></code></pre></div>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="n">optional</span> <span class="n">public</span> <span class="k">func</span> <span class="n">gestureRecognizer</span><span class="p">(</span><span class="n">_</span> <span class="nl">gestureRecognizer</span><span class="p">:</span> <span class="bp">UIGestureRecognizer</span><span class="p">,</span> <span class="n">shouldRecognizeSimultaneouslyWith</span> <span class="nl">otherGestureRecognizer</span><span class="p">:</span> <span class="bp">UIGestureRecognizer</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bool</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <blockquote><p>returning YES is guaranteed to allow simultaneous recognition. returning NO is not guaranteed to prevent simultaneous recognition, as the other gesture&rsquo;s delegate may return YES.</p></blockquote>
@@ -136,14 +138,18 @@
 
 <p>如果不希望在double tap的同时触发两次single tap，需要在single tap的delegate中实现方法</p>
 
-<div class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="n">optional</span> <span class="n">public</span> <span class="k">func</span> <span class="n">gestureRecognizer</span><span class="p">(</span><span class="n">_</span> <span class="nl">gestureRecognizer</span><span class="p">:</span> <span class="bp">UIGestureRecognizer</span><span class="p">,</span> <span class="n">shouldRequireFailureOf</span> <span class="nl">otherGestureRecognizer</span><span class="p">:</span> <span class="bp">UIGestureRecognizer</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bool</span></code></pre></div>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="n">optional</span> <span class="n">public</span> <span class="k">func</span> <span class="n">gestureRecognizer</span><span class="p">(</span><span class="n">_</span> <span class="nl">gestureRecognizer</span><span class="p">:</span> <span class="bp">UIGestureRecognizer</span><span class="p">,</span> <span class="n">shouldRequireFailureOf</span> <span class="nl">otherGestureRecognizer</span><span class="p">:</span> <span class="bp">UIGestureRecognizer</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bool</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>这样，可以保证single tap会等待double tap失败之后再被触发。缺点是single tap反应迟钝。</p>
 
 <p>如果希望在rotate的同时可以进行pinch，需要在pinch或者rotate的手势的delegate中实现方法：</p>
 
-<div class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="n">optional</span> <span class="n">public</span> <span class="k">func</span> <span class="n">gestureRecognizer</span><span class="p">(</span><span class="n">_</span> <span class="nl">gestureRecognizer</span><span class="p">:</span> <span class="bp">UIGestureRecognizer</span><span class="p">,</span> <span class="n">shouldRecognizeSimultaneouslyWith</span> <span class="nl">otherGestureRecognizer</span><span class="p">:</span> <span class="bp">UIGestureRecognizer</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bool</span></code></pre></div>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="n">optional</span> <span class="n">public</span> <span class="k">func</span> <span class="n">gestureRecognizer</span><span class="p">(</span><span class="n">_</span> <span class="nl">gestureRecognizer</span><span class="p">:</span> <span class="bp">UIGestureRecognizer</span><span class="p">,</span> <span class="n">shouldRecognizeSimultaneouslyWith</span> <span class="nl">otherGestureRecognizer</span><span class="p">:</span> <span class="bp">UIGestureRecognizer</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bool</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>这样，rotate和pinch就能同时被识别。</p>
@@ -158,12 +164,16 @@
 
 <p>如果设置了</p>
 
-<div class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="n">singleTap</span><span class="p">.</span><span class="n">delegate</span> <span class="o">=</span> <span class="nb">self</span><span class="p">.</span><span class="n">singleTapOnMapWidgetViewerGestureRecognizerDelegate</span></code></pre></div>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="n">singleTap</span><span class="p">.</span><span class="n">delegate</span> <span class="o">=</span> <span class="nb">self</span><span class="p">.</span><span class="n">singleTapOnMapWidgetViewerGestureRecognizerDelegate</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>那么</p>
 
-<div class="highlight"><pre><code class="language-swift" data-lang="swift"><span class="n">singleTap</span><span class="p">.</span><span class="n">require</span><span class="p">(</span><span class="nl">toFail</span><span class="p">:</span> <span class="n">doubleTap</span><span class="p">)</span></code></pre></div>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="n">singleTap</span><span class="p">.</span><span class="n">require</span><span class="p">(</span><span class="nl">toFail</span><span class="p">:</span> <span class="n">doubleTap</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>就不起作用了，必须通过<code>UIGestureRecognizerDelegate</code>里面的方法实现。</p>
@@ -233,11 +243,15 @@
   
     <section class="categories">
   <h1>Categories</h1>
-    <ul id="top-category-list" class="nav nav-list"><li><a href='/blog/categories/ios'>ios (32)</a></li><li><a href='/blog/categories/objective-c'>objective-c (20)</a></li><li><a href='/blog/categories/productivity'>productivity (16)</a></li><li><a href='/blog/categories/xcode'>xcode (5)</a></li><li><a href='/blog/categories/android'>android (5)</a></li><li><a href='/blog/categories/node'>node (3)</a></li><li><a href='/blog/categories/python'>python (3)</a></li><li><a href='/blog/categories/swift'>swift (2)</a></li><li><a href='/blog/categories/javascript'>javascript (2)</a></li><li><a href='/blog/categories/web'>web (2)</a></li><li><a href='/blog/categories/java'>java (2)</a></li><li><a href='/blog/categories/philosophy'>philosophy (2)</a></li><li><a href='/blog/categories/reading'>reading (2)</a></li><li><a href='/blog/categories/map-tech'>map tech (2)</a></li><li><a href='/blog/categories/design-pattern'>design_pattern (1)</a></li><li><a href='/blog/categories/mobile'>mobile (1)</a></li><li><a href='/blog/categories/android-studio'>android_studio (1)</a></li></ul>
+    <ul id="top-category-list" class="nav nav-list"><li><a href='/blog/categories/ios'>ios (32)</a></li><li><a href='/blog/categories/objective-c'>objective-c (20)</a></li><li><a href='/blog/categories/productivity'>productivity (17)</a></li><li><a href='/blog/categories/xcode'>xcode (5)</a></li><li><a href='/blog/categories/android'>android (5)</a></li><li><a href='/blog/categories/node'>node (3)</a></li><li><a href='/blog/categories/python'>python (3)</a></li><li><a href='/blog/categories/swift'>swift (2)</a></li><li><a href='/blog/categories/javascript'>javascript (2)</a></li><li><a href='/blog/categories/web'>web (2)</a></li><li><a href='/blog/categories/java'>java (2)</a></li><li><a href='/blog/categories/philosophy'>philosophy (2)</a></li><li><a href='/blog/categories/reading'>reading (2)</a></li><li><a href='/blog/categories/map-tech'>map tech (2)</a></li><li><a href='/blog/categories/design-pattern'>design_pattern (1)</a></li><li><a href='/blog/categories/mobile'>mobile (1)</a></li><li><a href='/blog/categories/android-studio'>android_studio (1)</a></li></ul>
 </section>
 <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2017/11/21/some-tips-on-markdown-usage/">Some Tips on Markdown Usage</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2017/10/20/errors-in-swift/">Swift中的Error</a>
@@ -253,10 +267,6 @@
     
       <li class="post">
         <a href="/blog/2017/03/28/when-is-layoutsubviews-called/">layoutSubviews的调用机制</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2017/03/03/relation-among-m-multiple-gestures/">如何处理多个手势之间的关系</a>
       </li>
     
   </ul>

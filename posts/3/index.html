@@ -9,7 +9,8 @@
   <meta name="author" content="Zhang Hongchao">
 
   
-  <meta name="description" content="Compiler Warnings for Objective-C Developers is a good post for describing warning messages for Objective-C in xcode. A Chinese version can be found &hellip;">
+  <meta name="description" content="Use shortcut to improve productivity while using Chrome. A full page is on Chrome helper: English version
+Chinese version I will list some common &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -75,6 +76,61 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/09/02/Shortcut-of-Chrome-on-Windows-and-Mac/">Shortcut of Chrome on Windows and Mac</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2015-09-02T00:00:00+08:00" pubdate data-updated="true">Sep 2nd, 2015</time>
+        
+           | <a href="/blog/2015/09/02/Shortcut-of-Chrome-on-Windows-and-Mac/#disqus_thread"
+             data-disqus-identifier="http://hongchaozhang.github.io/blog/2015/09/02/Shortcut-of-Chrome-on-Windows-and-Mac/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Use shortcut to improve productivity while using Chrome.</p>
+
+<p>A full page is on Chrome helper:</p>
+
+<ul>
+<li><a href="https://support.google.com/chrome/answer/157179?hl=en">English version</a></li>
+<li><a href="https://support.google.com/chrome/answer/157179?hl=zh-Hans">Chinese version</a></li>
+</ul>
+
+
+<p>I will list some common used ones here by myself.</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2015/09/02/Shortcut-of-Chrome-on-Windows-and-Mac/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -730,9 +786,13 @@
 </ul>
 
 
-<div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno">1</span> <span class="k">@interface</span> <span class="nc">Photo</span> : <span class="bp">NSObject</span>
-<span class="lineno">2</span> <span class="k">@property</span> <span class="p">(</span><span class="k">nonatomic</span><span class="p">,</span> <span class="k">strong</span><span class="p">)</span> <span class="bp">NSString</span> <span class="o">*</span><span class="n">photographer</span><span class="p">;</span>
-<span class="lineno">3</span> <span class="k">@end</span></code></pre></div>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">@interface</span> <span class="nc">Photo</span> : <span class="bp">NSObject</span>
+</span><span class='line'><span class="k">@property</span> <span class="p">(</span><span class="k">nonatomic</span><span class="p">,</span> <span class="k">strong</span><span class="p">)</span> <span class="bp">NSString</span> <span class="o">*</span><span class="n">photographer</span><span class="p">;</span>
+</span><span class='line'><span class="k">@end</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <ul>
@@ -740,13 +800,19 @@
 </ul>
 
 
-<div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="lineno">1</span> <span class="k">@interface</span> <span class="nc">Photo</span> : <span class="bp">NSObject</span> <span class="p">{</span>
-<span class="lineno">2</span>     <span class="bp">NSString</span> <span class="o">*</span><span class="n">photographer</span><span class="p">;</span>
-<span class="lineno">3</span> <span class="p">}</span>
-<span class="lineno">4</span> <span class="k">@end</span></code></pre></div>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">@interface</span> <span class="nc">Photo</span> : <span class="bp">NSObject</span> <span class="p">{</span>
+</span><span class='line'>    <span class="bp">NSString</span> <span class="o">*</span><span class="n">photographer</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="k">@end</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
-<p>Then, what&rsquo;s the difference?</p>
+<p>
+Then, what&rsquo;s the difference?</p>
 
 </div>
   
@@ -797,10 +863,15 @@
 
 <p>For iOS SDK 8.0 and later, we need to set <code>NSLocationWhenInUseUsageDescription</code> and &lsquo;NSLocationAlwaysUsageDescription&rsquo; in <em>info.plist</em> file. A sample case is:</p>
 
-<div class="highlight"><pre><code class="language-xml" data-lang="xml"><span class="lineno">1</span> <span class="nt">&lt;key&gt;</span>NSLocationWhenInUseUsageDescription<span class="nt">&lt;/key&gt;</span>
-<span class="lineno">2</span> <span class="nt">&lt;string&gt;</span>Do you allow the app to use your location?<span class="nt">&lt;/string&gt;</span>
-<span class="lineno">3</span> <span class="nt">&lt;key&gt;</span>NSLocationAlwaysUsageDescription<span class="nt">&lt;/key&gt;</span>
-<span class="lineno">4</span> <span class="nt">&lt;string&gt;</span>Are you willing to allow the app to use your location?<span class="nt">&lt;/string&gt;</span></code></pre></div>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='xml'><span class='line'><span class="nt">&lt;key&gt;</span>NSLocationWhenInUseUsageDescription<span class="nt">&lt;/key&gt;</span>
+</span><span class='line'><span class="nt">&lt;string&gt;</span>Do you allow the app to use your location?<span class="nt">&lt;/string&gt;</span>
+</span><span class='line'><span class="nt">&lt;key&gt;</span>NSLocationAlwaysUsageDescription<span class="nt">&lt;/key&gt;</span>
+</span><span class='line'><span class="nt">&lt;string&gt;</span>Are you willing to allow the app to use your location?<span class="nt">&lt;/string&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>The <code>string</code> will appear in the popup dialog. You can leave it as empty, and only the system message will appear in the popup.</p>
@@ -1104,53 +1175,6 @@ With these comments, we can alt+click a used function to see some useful info.</
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/06/27/pdb-commands-for-python-debugging-in-command-line/">Pdb Commands for Python Debugging in Command Line</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-
-<time datetime="2015-06-27T00:00:00+08:00" pubdate data-updated="true">Jun 27th, 2015</time>
-        
-           | <a href="/blog/2015/06/27/pdb-commands-for-python-debugging-in-command-line/#disqus_thread"
-             data-disqus-identifier="http://hongchaozhang.github.io/blog/2015/06/27/pdb-commands-for-python-debugging-in-command-line/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>The page is from <a href="http://web.stanford.edu/class/physics91si/2013/handouts/Pdb_Commands.pdf">MIT</a>. Keeping here only for reference.</p>
-
-<h3>Startup and Help</h3>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2015/06/27/pdb-commands-for-python-debugging-in-command-line/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="4">&larr; Older</a>
@@ -1166,11 +1190,15 @@ With these comments, we can alt+click a used function to see some useful info.</
   
     <section class="categories">
   <h1>Categories</h1>
-    <ul id="top-category-list" class="nav nav-list"><li><a href='/blog/categories/ios'>ios (32)</a></li><li><a href='/blog/categories/objective-c'>objective-c (20)</a></li><li><a href='/blog/categories/productivity'>productivity (16)</a></li><li><a href='/blog/categories/xcode'>xcode (5)</a></li><li><a href='/blog/categories/android'>android (5)</a></li><li><a href='/blog/categories/node'>node (3)</a></li><li><a href='/blog/categories/python'>python (3)</a></li><li><a href='/blog/categories/swift'>swift (2)</a></li><li><a href='/blog/categories/javascript'>javascript (2)</a></li><li><a href='/blog/categories/web'>web (2)</a></li><li><a href='/blog/categories/java'>java (2)</a></li><li><a href='/blog/categories/philosophy'>philosophy (2)</a></li><li><a href='/blog/categories/reading'>reading (2)</a></li><li><a href='/blog/categories/map-tech'>map tech (2)</a></li><li><a href='/blog/categories/design-pattern'>design_pattern (1)</a></li><li><a href='/blog/categories/mobile'>mobile (1)</a></li><li><a href='/blog/categories/android-studio'>android_studio (1)</a></li></ul>
+    <ul id="top-category-list" class="nav nav-list"><li><a href='/blog/categories/ios'>ios (32)</a></li><li><a href='/blog/categories/objective-c'>objective-c (20)</a></li><li><a href='/blog/categories/productivity'>productivity (17)</a></li><li><a href='/blog/categories/xcode'>xcode (5)</a></li><li><a href='/blog/categories/android'>android (5)</a></li><li><a href='/blog/categories/node'>node (3)</a></li><li><a href='/blog/categories/python'>python (3)</a></li><li><a href='/blog/categories/swift'>swift (2)</a></li><li><a href='/blog/categories/javascript'>javascript (2)</a></li><li><a href='/blog/categories/web'>web (2)</a></li><li><a href='/blog/categories/java'>java (2)</a></li><li><a href='/blog/categories/philosophy'>philosophy (2)</a></li><li><a href='/blog/categories/reading'>reading (2)</a></li><li><a href='/blog/categories/map-tech'>map tech (2)</a></li><li><a href='/blog/categories/design-pattern'>design_pattern (1)</a></li><li><a href='/blog/categories/mobile'>mobile (1)</a></li><li><a href='/blog/categories/android-studio'>android_studio (1)</a></li></ul>
 </section>
 <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2017/11/21/some-tips-on-markdown-usage/">Some Tips on Markdown Usage</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2017/10/20/errors-in-swift/">Swift中的Error</a>
@@ -1186,10 +1214,6 @@ With these comments, we can alt+click a used function to see some useful info.</
     
       <li class="post">
         <a href="/blog/2017/03/28/when-is-layoutsubviews-called/">layoutSubviews的调用机制</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2017/03/03/relation-among-m-multiple-gestures/">如何处理多个手势之间的关系</a>
       </li>
     
   </ul>

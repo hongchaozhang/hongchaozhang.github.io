@@ -5,14 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Ios Coding Best Practice - Zhang Hongchao</title>
+  <title>Some Tips on Markdown Usage - Zhang Hongchao</title>
   <meta name="author" content="Zhang Hongchao">
 
   
-  <meta name="description" content="Use forward declarations
-Move variable declaration out of header
-Cleanup duplication in import
-Remove private method declaration in implementation &hellip;">
+  <meta name="description" content="Collect some markdown usage tips. insert an image To insert the image, just use the path under the base url, for me, it is /GitBlogs/images/.png, for &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -21,7 +18,7 @@ Remove private method declaration in implementation &hellip;">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://hongchaozhang.github.io/blog/2015/12/17/ios-coding-best-practice">
+  <link rel="canonical" href="http://hongchaozhang.github.io/blog/2017/11/21/some-tips-on-markdown-usage">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Zhang Hongchao" type="application/atom+xml">
@@ -83,7 +80,7 @@ Remove private method declaration in implementation &hellip;">
   
   <header>
     
-      <h1 class="entry-title">Ios Coding Best Practice</h1>
+      <h1 class="entry-title">Some Tips on Markdown Usage</h1>
     
     
       <p class="meta">
@@ -100,7 +97,7 @@ Remove private method declaration in implementation &hellip;">
 
 
 
-<time datetime="2015-12-17T10:49:54+08:00" pubdate data-updated="true">Dec 17th, 2015</time>
+<time datetime="2017-11-21T10:13:28+08:00" pubdate data-updated="true">Nov 21st, 2017</time>
         
            | <a href="#disqus_thread"
              data-disqus-identifier="http://hongchaozhang.github.io">Comments</a>
@@ -110,31 +107,40 @@ Remove private method declaration in implementation &hellip;">
   </header>
 
 
-<div class="entry-content"><!-- more -->
+<div class="entry-content"><p>Collect some markdown usage tips.</p>
+
+<!-- more -->
 
 
-<ul>
-<li>Use forward declarations</li>
-<li>Move variable declaration out of header</li>
-<li>Cleanup duplication in import</li>
-<li>Remove private method declaration in implementation files</li>
-<li>Move protocol definition to separate header to aviod unnecessary cross reference</li>
-<li>Freqently monitor warnings and static analyzer warnings in your component. Usually it is a good idea to fix it.</li>
-<li>Removing unused resources</li>
-<li>Delegate objects should not be retained when doing so would create a retain cycle.</li>
-<li>import Objective-C/Objective-C++ headers, and #include C/C++ headers.</li>
-<li>Don&rsquo;t @throw Objective-C exceptions, but you should be prepared to catch them from third-party or OS calls.</li>
-<li>Use nil checks for logic flow only.</li>
-<li>Don&rsquo;t initialize variables to 0 or nil in the init method; it&rsquo;s redundant.</li>
-<li>Instance Variables In Headers Should Be @private
+<h2>insert an image</h2>
 
-<ul>
-<li>Instance variables should typically be declared in implementation files or auto-synthesized by properties. When ivars are declared in a header file, they should be marked @private.</li>
-</ul>
-</li>
-<li>One space should be used between the - or + and the return type, and no spacing in the parameter list except between parameters.</li>
-</ul>
+<p>To insert the image, just use the path under the base url, for me, it is <em>/GitBlogs/images/<image_name>.png</em>, for example</p>
 
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>![image annotation](/images/001_ios_frameworks.png)</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>show content while click</h2>
+
+<p>Using the following block of code for hiding some content and show the content while click.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;details&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;summary&gt;</span>Q1: What is the best Language in the World? <span class="nt">&lt;/summary&gt;</span>
+</span><span class='line'>   A1: Swift
+</span><span class='line'><span class="nt">&lt;/details&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>You will get:</p>
+
+<p><details>
+  <summary><em>Question: What is the best Language in the World?</em></summary>
+   Answer: Swift
+</details></p>
 </div>
 
 
@@ -158,12 +164,12 @@ Remove private method declaration in implementation &hellip;">
 
 
 
-<time datetime="2015-12-17T10:49:54+08:00" pubdate data-updated="true">Dec 17th, 2015</time>
+<time datetime="2017-11-21T10:13:28+08:00" pubdate data-updated="true">Nov 21st, 2017</time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/objective-c/'>objective-c</a>
+    <a class='category' href='/blog/categories/productivity/'>productivity</a>
   
 </span>
 
@@ -179,10 +185,8 @@ Remove private method declaration in implementation &hellip;">
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2015/12/06/some-usefull-ios-coding-styles-in-UIViewController/" title="Previous Post: UIViewController中常见的ios编程习惯">&laquo; UIViewController中常见的ios编程习惯</a>
+        <a class="basic-alignment left" href="/blog/2017/10/20/errors-in-swift/" title="Previous Post: Swift中的Error">&laquo; Swift中的Error</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2015/12/19/propety-instance-variable-and-at-synthesize/" title="Next Post: Propety, Instance Variable and @synthesize">Propety, Instance Variable and @synthesize &raquo;</a>
       
     </p>
   </footer>
@@ -280,8 +284,8 @@ Remove private method declaration in implementation &hellip;">
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://hongchaozhang.github.io/blog/2015/12/17/ios-coding-best-practice/';
-        var disqus_url = 'http://hongchaozhang.github.io/blog/2015/12/17/ios-coding-best-practice/';
+        var disqus_identifier = 'http://hongchaozhang.github.io/blog/2017/11/21/some-tips-on-markdown-usage/';
+        var disqus_url = 'http://hongchaozhang.github.io/blog/2017/11/21/some-tips-on-markdown-usage/';
         var disqus_script = 'embed.js';
       
     (function () {

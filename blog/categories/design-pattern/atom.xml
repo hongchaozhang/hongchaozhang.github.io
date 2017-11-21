@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Design_pattern | Zhang Hongchao]]></title>
   <link href="http://hongchaozhang.github.io/blog/categories/design-pattern/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2017-11-20T23:01:18+08:00</updated>
+  <updated>2017-11-21T11:11:28+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -27,15 +27,16 @@
 <!-- more -->
 
 
-<p><div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="p">+</span> <span class="p">(</span><span class="kt">instancetype</span><span class="p">)</span><span class="nf">sharedInstance</span>
-<span class="p">{</span>
-    <span class="k">static</span> <span class="kt">dispatch_once_t</span> <span class="n">once</span><span class="p">;</span>
-    <span class="k">static</span> <span class="kt">id</span> <span class="n">sharedInstance</span><span class="p">;</span>
-    <span class="n">dispatch_once</span><span class="p">(</span><span class="o">&amp;</span><span class="n">amp</span><span class="p">;</span><span class="n">once</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
-        <span class="n">sharedInstance</span> <span class="o">=</span> <span class="p">[[</span><span class="nb">self</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
-    <span class="p">});</span>
-    <span class="k">return</span> <span class="n">sharedInstance</span><span class="p">;</span>
-<span class="p">}</span></code></pre></div></p>
+<pre><code class="objc">+ (instancetype)sharedInstance
+{
+    static dispatch_once_t once;
+    static id sharedInstance;
+    dispatch_once(&amp;once, ^{
+        sharedInstance = [[self alloc] init];
+    });
+    return sharedInstance;
+}
+</code></pre>
 
 <h2>Avoid abusing singleton</h2>
 
