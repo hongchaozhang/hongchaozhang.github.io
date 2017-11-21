@@ -2,7 +2,7 @@
 layout: post
 title: "Swift中的Error"
 date: 2017-10-20 16:24:35 +0800
-comments: false
+comments: true
 categories: [swift, ios]
 published: true
 ---
