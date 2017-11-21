@@ -4,7 +4,7 @@
   <title><![CDATA[Zhang Hongchao]]></title>
   <link href="http://hongchaozhang.github.io/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2017-11-21T11:11:28+08:00</updated>
+  <updated>2017-11-21T14:29:08+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -63,7 +63,66 @@
     <content type="html"><![CDATA[<!-- more -->
 
 
+
+
+<!-- TOC depthFrom:1 depthTo:3 insertAnchor:true -->
+
+
+<ul>
+<li><a href="#swift-error%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8">Swift Error基本使用</a>
+
+<ul>
+<li><a href="#throws-in-swift-1x">throws in Swift 1.x</a></li>
+<li><a href="#throws-in-swift-2">throws in Swift 2</a></li>
+<li><a href="#throws%E7%9A%84%E4%BD%BF%E7%94%A8">throws的使用</a></li>
+<li><a href="#throws%E6%8A%9B%E5%87%BA%E9%94%99%E8%AF%AF%E7%9A%84%E5%A4%84%E7%90%86">throws抛出错误的处理</a></li>
+</ul>
+</li>
+<li><a href="#throws%E7%9A%84%E4%B8%80%E4%BA%9B%E5%AE%9E%E8%B7%B5"><code>throws</code>的一些实践</a>
+
+<ul>
+<li><a href="#throws%E7%9A%84%E8%B0%83%E8%AF%95%E5%92%8C%E6%96%AD%E7%82%B9">throws的调试和断点</a></li>
+<li><a href="#throws%E4%BB%8D%E7%84%B6%E5%AD%98%E5%9C%A8%E7%9A%84%E9%97%AE%E9%A2%98">throws仍然存在的问题</a></li>
+</ul>
+</li>
+<li><a href="#swift-%E9%94%99%E8%AF%AF%E7%B1%BB%E5%9E%8B%E7%9A%84%E7%A7%8D%E7%B1%BB">Swift 错误类型的种类</a>
+
+<ul>
+<li><a href="#simple-domain-error">Simple domain error</a></li>
+<li><a href="#recoverable-error">Recoverable error</a></li>
+<li><a href="#universal-error">Universal error</a></li>
+<li><a href="#logic-failure">Logic failure</a></li>
+</ul>
+</li>
+<li><a href="#%E5%87%A0%E7%A7%8D%E5%B8%B8%E8%A7%81%E5%9C%BA%E6%99%AF%E4%B8%8B%E7%9A%84%E9%94%99%E8%AF%AF%E5%A4%84%E7%90%86">几种常见场景下的错误处理</a>
+
+<ul>
+<li><a href="#app%E5%86%85%E8%B5%84%E6%BA%90%E5%8A%A0%E8%BD%BD">app内资源加载</a></li>
+<li><a href="#%E5%8A%A0%E8%BD%BD%E5%BD%93%E5%89%8D%E7%94%A8%E6%88%B7%E4%BF%A1%E6%81%AF%E6%97%B6%E5%8F%91%E7%94%9F%E9%94%99%E8%AF%AF">加载当前用户信息时发生错误</a></li>
+<li><a href="#%E8%BF%98%E6%B2%A1%E6%9C%89%E5%AE%9E%E7%8E%B0%E7%9A%84%E4%BB%A3%E7%A0%81">还没有实现的代码</a></li>
+<li><a href="#%E8%B0%83%E7%94%A8%E8%AE%BE%E5%A4%87%E4%B8%8A%E7%9A%84%E4%BC%A0%E6%84%9F%E5%99%A8%E6%94%B6%E9%9B%86%E6%95%B0%E6%8D%AE">调用设备上的传感器收集数据</a></li>
+<li><a href="#%E6%80%BB%E7%BB%93">总结</a></li>
+</ul>
+</li>
+<li><a href="#%E9%94%99%E8%AF%AF%E5%A4%84%E7%90%86%E7%9B%B8%E5%85%B3%E7%9A%84%E8%BE%85%E5%8A%A9%E6%96%B9%E6%B3%95">错误处理相关的辅助方法</a>
+
+<ul>
+<li><a href="#use-custom-errors">Use Custom Errors</a></li>
+<li><a href="#do-cleanup-work-using-defer">Do Cleanup Work Using <code>defer</code></a></li>
+</ul>
+</li>
+<li><a href="#%E5%8F%82%E8%80%83">参考</a></li>
+</ul>
+
+
+<!-- /TOC -->
+
+
+<p><a id="markdown-swift-error基本使用" name="swift-error基本使用"></a></p>
+
 <h2>Swift Error基本使用</h2>
+
+<p><a id="markdown-throws-in-swift-1x" name="throws-in-swift-1x"></a></p>
 
 <h3>throws in Swift 1.x</h3>
 
@@ -134,6 +193,8 @@
 </span></code></pre></td></tr></table></div></figure>
 
 
+<p><a id="markdown-throws-in-swift-2" name="throws-in-swift-2"></a></p>
+
 <h3>throws in Swift 2</h3>
 
 <p>这种做法无形中降低了应用的可靠性以及从错误中恢复的能力。为了解决这个问题，Swift 2 中在编译器层级就对throws进行了限定。上面提到的copy接口在Swift 2中的形式为：</p>
@@ -144,6 +205,8 @@
 
 
 <p>被标记为throws的API，必须被处理，否则编译器就会报错。这就在编译器层面对错误的处理进行了强制执行，保证了代码的可靠性。</p>
+
+<p><a id="markdown-throws的使用" name="throws的使用"></a></p>
 
 <h3>throws的使用</h3>
 
@@ -236,11 +299,13 @@
 
 <p><code>vend(itemNamed:)</code>方法的实现通过<code>guard</code>抛出购买过程中相应的错误。</p>
 
+<p><a id="markdown-throws抛出错误的处理" name="throws抛出错误的处理"></a></p>
+
 <h3>throws抛出错误的处理</h3>
 
 <p>被标记为throws的API，我们必须采用下面几种处理方式中的一种来处理，否则，编译器会报错。</p>
 
-<h4><code>do catch</code></h4>
+<h4>0.1.4.1. <code>do catch</code></h4>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -267,7 +332,7 @@
 </span></code></pre></td></tr></table></div></figure>
 
 
-<h4><code>try?</code></h4>
+<h4>0.1.4.2. <code>try?</code></h4>
 
 <p>使用<code>try?</code>来处理错误，将其返回值变为Optional：如果在执行过程中出现错误，接口返回<code>nil</code>，同时错误停止继续传播。比如：</p>
 
@@ -300,7 +365,7 @@
 </span></code></pre></td></tr></table></div></figure>
 
 
-<h4><code>try!</code></h4>
+<h4>0.1.4.3. <code>try!</code></h4>
 
 <p>如果你非常确信一个被标记为throws的接口，在你的环境中不会抛出错误，可以通过<code>try!</code>来强制终止错误的继续传播。如果在执行的时候出现了错误，那么抛出运行时错误，导致程序崩溃。</p>
 
@@ -311,7 +376,7 @@
 </span></code></pre></td></tr></table></div></figure>
 
 
-<h4><code>try</code></h4>
+<h4>0.1.4.4. <code>try</code></h4>
 
 <p>也可以直接使用<code>try</code>来调用被标记为throws的接口，但是这种情况下，错误会继续传播，包含该调用的方法也必须被标记为throws才行，否则，编译器会报错。</p>
 
@@ -338,44 +403,21 @@
 
 <p>在这个例子中，因为<code>buyFavoriteSnack(person: vendingMachine:)</code>使用<code>try</code>调用了一个被标记为throws的接口<code>vend(itemNamed:)</code>，错误会继续传播，因此，该方法也需要标记为thorws。</p>
 
-<!-->
-
-
-<p>&ndash;></p>
-
-<!--
-## `throws`技术内幕
-参考[Swift 2 throws 全解析 - 从原理到实践](https://onevcat.com/2016/03/swift-throws/)。
-
-### `throw`，`try`，`catch`深层解析
-参考[Swift 2 throws 全解析 - 从原理到实践](https://onevcat.com/2016/03/swift-throws/)。
-
-## `Error`和`NSError`
-参考[Swift 2 throws 全解析 - 从原理到实践](https://onevcat.com/2016/03/swift-throws/)。
-
-## `throws`的内部原理
-参考[Swift 2 throws 全解析 - 从原理到实践](https://onevcat.com/2016/03/swift-throws/)。
--->
-
+<p><a id="markdown-throws的一些实践" name="throws的一些实践"></a></p>
 
 <h2><code>throws</code>的一些实践</h2>
 
-<!--
-### 异步操作中的错误处理
--->
-
+<p><a id="markdown-throws的调试和断点" name="throws的调试和断点"></a></p>
 
 <h3>throws的调试和断点</h3>
 
-<!--
-Swift的错误抛出并不是传统意义的exception，在调试时抛出错误并不会触发Exception断点。另外，throw本身是语言的关键字，而不是一个symbol，它也不能触发Symbolic类型的断点。如果我们希望在所有throw语句执行的时候让程序停住的话，需要一些额外的技巧。在之前 throw 的汇编实现中，可以看到所有throw语句在返回前都会进行一次`swift_willThrow`的调用，这就是一个有效的 Symbolic语句，我们设置一个`swift_willThrow`的Symbolic断点，就可以让程序在throw的时候停住，并使用调用栈信息来获知程序在哪里抛出了错误。
+<p>Swift的错误抛出并不是传统意义的exception，在调试时抛出错误并不会触发Exception断点。另外，throw本身是语言的关键字，而不是一个symbol，它也不能触发Symbolic类型的断点。如果我们希望在所有throw语句执行的时候让程序停住的话，需要一些额外的技巧。在之前 throw 的汇编实现中，可以看到所有throw语句在返回前都会进行一次<code>swift_willThrow</code>的调用，这就是一个有效的 Symbolic语句，我们设置一个<code>swift_willThrow</code>的Symbolic断点，就可以让程序在throw的时候停住，并使用调用栈信息来获知程序在哪里抛出了错误。</p>
 
-补充，在最新版本的Xcode中，Apple直接为我们在断点类型中加上了 “Swift Error Breakpoint”的选项，它背后做的就是在`swift_willThrow`上添加一个断点。不过因为有了更直接的方法，我们现在不再需要手动去添加这个符号断点了。-->
-
-
-<p>Swift的抛出错误并不是传统意义的exception，在调试时抛出错误并不会触发Exception断点。我们可以通过设置“Swift Error Breakpoint”对throws进行断点设置和调试。设置方法如下：</p>
+<p>补充，在最新版本的Xcode中，Apple直接为我们在断点类型中加上了 “Swift Error Breakpoint”的选项，它背后做的就是在<code>swift_willThrow</code>上添加一个断点。不过因为有了更直接的方法，我们现在不再需要手动去添加这个符号断点了。我们可以通过设置“Swift Error Breakpoint”对throws进行断点设置和调试。设置方法如下：</p>
 
 <p><img src="http://hongchaozhang.github.io/images/Swift-Error-Breakpoint.png" alt="swift error breakpoint" /></p>
+
+<p><a id="markdown-throws仍然存在的问题" name="throws仍然存在的问题"></a></p>
 
 <h3>throws仍然存在的问题</h3>
 
@@ -403,6 +445,8 @@ Swift的错误抛出并不是传统意义的exception，在调试时抛出错误
 </span></code></pre></td></tr></table></div></figure>
 
 
+<p><a id="markdown-swift-错误类型的种类" name="swift-错误类型的种类"></a></p>
+
 <h2>Swift 错误类型的种类</h2>
 
 <p>参考Swift官方文档<a href="https://github.com/apple/swift/blob/master/docs/ErrorHandling.rst">Error Handling in Swift<!-- 2.0--></a>，Swift中的错误有下面四种：</p>
@@ -414,6 +458,8 @@ Swift的错误抛出并不是传统意义的exception，在调试时抛出错误
 <li>Logic failure</li>
 </ol>
 
+
+<p><a id="markdown-simple-domain-error" name="simple-domain-error"></a></p>
 
 <h3>Simple domain error</h3>
 
@@ -429,6 +475,8 @@ Swift的错误抛出并不是传统意义的exception，在调试时抛出错误
 
 
 <p><strong>可能出现这种错误的接口，不需要使用throws来标记，只需要将接口的返回类型设置为Optional即可。</strong>在使用层面 (或者说应用逻辑) 上，这类错误一般用<code>if let</code>的可选值绑定或者是<code>guard let</code>提前进行返回处理即可。</p>
+
+<p><a id="markdown-recoverable-error" name="recoverable-error"></a></p>
 
 <h3>Recoverable error</h3>
 
@@ -495,6 +543,8 @@ Swift的错误抛出并不是传统意义的exception，在调试时抛出错误
 </span></code></pre></td></tr></table></div></figure>
 
 
+<p><a id="markdown-universal-error" name="universal-error"></a></p>
+
 <h3>Universal error</h3>
 
 <p>这类错误理论上可以恢复，但是由于语言本身的特性所决定，我们难以得知这类错误的来源，所以一般来说也不会去处理这种错误。这类错误包括类似下面这些情形：</p>
@@ -517,6 +567,8 @@ Swift的错误抛出并不是传统意义的exception，在调试时抛出错误
 <p>我们可以通过设计一些手段来对这些错误进行处理，比如：检测当前的内存占用并在超过一定值后警告，或者监视栈 frame 数进行限制等。但是一般来说这是不必要的，也不可能涵盖全部的错误情况。更多情况下，这是由于代码触碰到了设备的物理限制和边界情况所造成的，一般我们也不去进行处理（除非是人为造成的 bug）。</p>
 
 <p>在 Swift 中，各种被使用<code>fatalError</code>进行强制终止的错误一般都可以归类到 Universal error。</p>
+
+<p><a id="markdown-logic-failure" name="logic-failure"></a></p>
 
 <h3>Logic failure</h3>
 
@@ -593,15 +645,19 @@ Swift的错误抛出并不是传统意义的exception，在调试时抛出错误
 
 <p>对于Universal error一般使用<code>fatalError</code>，而对于<code>Logic failure</code>一般使用<code>assert</code>或者<code>precondition</code>。遵守这个规则会有助于我们在编码时对错误进行界定。而有时候我们也希望能尽可能多地在开发的时候捕获Logic failure，而在产品发布后尽量减少crash比例。这种情况下，相比于直接将Logic failure转换为可恢复的错误，我们最好是使用<code>assert</code>在内部进行检查，来让程序在开发时崩溃。</p>
 
+<p><a id="markdown-几种常见场景下的错误处理" name="几种常见场景下的错误处理"></a></p>
+
 <h2>几种常见场景下的错误处理</h2>
 
 <p>光说不练假把式。让我们来实际判断一下下面这些情况下我们都应该选择用哪种错误处理方式吧~</p>
+
+<p><a id="markdown-app内资源加载" name="app内资源加载"></a></p>
 
 <h3>app内资源加载</h3>
 
 <p>假设我们在处理一个机器学习的模型，需要从磁盘读取一份预先训练好的模型。该模型以文件的方式存储在 app bundle 中，如果读取时没有找到该模型，我们应该如何处理这个错误？</p>
 
-<h4>方案 1 Simple domain error</h4>
+<h4>0.7.1.1. 方案 1 Simple domain error</h4>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -628,7 +684,7 @@ Swift的错误抛出并不是传统意义的exception，在调试时抛出错误
 </span></code></pre></td></tr></table></div></figure>
 
 
-<h4>方案 2 Recoverable error</h4>
+<h4>0.7.1.2. 方案 2 Recoverable error</h4>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -649,7 +705,7 @@ Swift的错误抛出并不是传统意义的exception，在调试时抛出错误
 </span></code></pre></td></tr></table></div></figure>
 
 
-<h4>方案 3 Universal error</h4>
+<h4>0.7.1.3. 方案 3 Universal error</h4>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -678,7 +734,7 @@ Swift的错误抛出并不是传统意义的exception，在调试时抛出错误
 </span></code></pre></td></tr></table></div></figure>
 
 
-<h4>方案 4 Logic failure</h4>
+<h4>0.7.1.4. 方案 4 Logic failure</h4>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -705,11 +761,13 @@ Swift的错误抛出并不是传统意义的exception，在调试时抛出错误
 <p>使用Universal error同样可以让代码崩溃，但是Universal error更多是用在语言的边界情况下。而这里并非这种情况。
 </details></p>
 
+<p><a id="markdown-加载当前用户信息时发生错误" name="加载当前用户信息时发生错误"></a></p>
+
 <h3>加载当前用户信息时发生错误</h3>
 
 <p>我们在用户登录后会将用户信息存储在本地，每次重新打开app时我们检测并使用用户信息。当用户信息不存在时，应该进行的处理：</p>
 
-<h4>方案 1 Simple domain error</h4>
+<h4>0.7.2.1. 方案 1 Simple domain error</h4>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -730,7 +788,7 @@ Swift的错误抛出并不是传统意义的exception，在调试时抛出错误
 </span></code></pre></td></tr></table></div></figure>
 
 
-<h4>方案 2 Recoverable error</h4>
+<h4>0.7.2.2. 方案 2 Recoverable error</h4>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -751,7 +809,7 @@ Swift的错误抛出并不是传统意义的exception，在调试时抛出错误
 </span></code></pre></td></tr></table></div></figure>
 
 
-<h4>方案 3 Universal error</h4>
+<h4>0.7.2.3. 方案 3 Universal error</h4>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -772,7 +830,7 @@ Swift的错误抛出并不是传统意义的exception，在调试时抛出错误
 </span></code></pre></td></tr></table></div></figure>
 
 
-<h4>方案 4 Logic failure</h4>
+<h4>0.7.2.4. 方案 4 Logic failure</h4>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -795,11 +853,13 @@ Swift的错误抛出并不是传统意义的exception，在调试时抛出错误
 <p>当然，我们不排除今后随着情况越来越复杂，会需要区分用户信息缺失的原因 (比如是否是新用户还没有注册，还是由于原用户注销等)。但是在当前的情况下来看，这属于过度设计，暂时并不需要考虑。如果之后业务复杂到这个程度，在编译器的帮助下将Simple domain error修改为Recoverable error也不是什么难事儿。
 </details></p>
 
+<p><a id="markdown-还没有实现的代码" name="还没有实现的代码"></a></p>
+
 <h3>还没有实现的代码</h3>
 
 <p>假设你在为你的服务开发一个iOS框架，但是由于工期有限，有一些功能只定义了接口，没有进行具体实现。这些接口会在正式版中完成，但是我们需要预先发布给友商内测。所以除了在文档中明确标明这些内容，这些方法内部应该如何处理呢？</p>
 
-<h4>方案 1 Simple domain error</h4>
+<h4>0.7.3.1. 方案 1 Simple domain error</h4>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -810,7 +870,7 @@ Swift的错误抛出并不是传统意义的exception，在调试时抛出错误
 </span></code></pre></td></tr></table></div></figure>
 
 
-<h4>方案 2 Recoverable error</h4>
+<h4>0.7.3.2. 方案 2 Recoverable error</h4>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -821,7 +881,7 @@ Swift的错误抛出并不是传统意义的exception，在调试时抛出错误
 </span></code></pre></td></tr></table></div></figure>
 
 
-<h4>方案 3 Universal error</h4>
+<h4>0.7.3.3. 方案 3 Universal error</h4>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -832,7 +892,7 @@ Swift的错误抛出并不是传统意义的exception，在调试时抛出错误
 </span></code></pre></td></tr></table></div></figure>
 
 
-<h4>方案 4 Logic failure</h4>
+<h4>0.7.3.4. 方案 4 Logic failure</h4>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -863,11 +923,13 @@ Swift的错误抛出并不是传统意义的exception，在调试时抛出错误
 
 <p></details></p>
 
+<p><a id="markdown-调用设备上的传感器收集数据" name="调用设备上的传感器收集数据"></a></p>
+
 <h3>调用设备上的传感器收集数据</h3>
 
 <p>调用传感器的app最有意思了！不管是相机还是陀螺仪，传感器相关的app总是能带给我们很多乐趣。那么，如果想要调用传感器获取数据时，发生了错误，应该怎么办呢？</p>
 
-<h4>方案 1 Simple domain error</h4>
+<h4>0.7.4.1. 方案 1 Simple domain error</h4>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -886,7 +948,7 @@ Swift的错误抛出并不是传统意义的exception，在调试时抛出错误
 </span></code></pre></td></tr></table></div></figure>
 
 
-<h4>方案 2 Recoverable error</h4>
+<h4>0.7.4.2. 方案 2 Recoverable error</h4>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -905,7 +967,7 @@ Swift的错误抛出并不是传统意义的exception，在调试时抛出错误
 </span></code></pre></td></tr></table></div></figure>
 
 
-<h4>方案 3 Universal error</h4>
+<h4>0.7.4.3. 方案 3 Universal error</h4>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -924,7 +986,7 @@ Swift的错误抛出并不是传统意义的exception，在调试时抛出错误
 </span></code></pre></td></tr></table></div></figure>
 
 
-<h4>方案 4 Logic failure</h4>
+<h4>0.7.4.4. 方案 4 Logic failure</h4>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -947,19 +1009,25 @@ Swift的错误抛出并不是传统意义的exception，在调试时抛出错误
 <p>方案1在传感器数据无关紧要的时候可能也会是一个更简单的选项。但是方案3和4会直接让程序崩溃，而且这实际上也并不是代码边界或者开发者的错误，所以不应该被考虑。
 </details></p>
 
+<p><a id="markdown-总结" name="总结"></a></p>
+
 <h3>总结</h3>
 
 <p>可以看到，其实在错误处理的时候，选用哪种错误是根据情景和处理需求而定的，我在参考答案也使用了很多诸如“可能”，“相较而言”等语句。虽然对于特定的场景，我们可以进行直观的考虑和决策，但这并不是教条主义般的一成不变。错误类型之间可以很容易地通过代码互相转换，这让我们在处理错误的时候可以自由选择使用的策略：比如API即使提供给我们的是Recoverable的throws形式，我们也还是可以按照需要，通过<code>try?</code>将其转为Simple domain error，或者用<code>try!</code>将其转为Logic failure。</p>
 
 <p>能切实理解使用情景，利用这些错误类型转换的方式，灵活选取使用场景下最合适的错误类型，才能说是真正理解了这四种错误的分类依据。</p>
 
+<p><a id="markdown-错误处理相关的辅助方法" name="错误处理相关的辅助方法"></a></p>
+
 <h2>错误处理相关的辅助方法</h2>
 
 <p>For custom errors in swift, refer to <a href="https://developer.apple.com/documentation/swift/error">Error</a> official document.</p>
 
+<p><a id="markdown-use-custom-errors" name="use-custom-errors"></a></p>
+
 <h3>Use Custom Errors</h3>
 
-<h4>Using Enumerations as Errors</h4>
+<h4>0.8.1.1. Using Enumerations as Errors</h4>
 
 <p>Swift’s enumerations are well suited to represent simple errors. Create an enumeration that conforms to the Error protocol with a case for each possible error. If there are additional details about the error that could be helpful for recovery, use associated values to include that information.</p>
 
@@ -976,7 +1044,7 @@ Swift的错误抛出并不是传统意义的exception，在调试时抛出错误
 </span></code></pre></td></tr></table></div></figure>
 
 
-<h4>Including More Data in Errors</h4>
+<h4>0.8.1.2. Including More Data in Errors</h4>
 
 <p>The following XMLParsingError conforms to Error and supply line and column position of the error.</p>
 
@@ -1039,6 +1107,8 @@ Swift的错误抛出并不是传统意义的exception，在调试时抛出错误
 </span><span class='line'><span class="c1">// Prints &quot;Parsing error: mismatchedTag [19:5]&quot;</span>
 </span></code></pre></td></tr></table></div></figure>
 
+
+<p><a id="markdown-do-cleanup-work-using-defer" name="do-cleanup-work-using-defer"></a></p>
 
 <h3>Do Cleanup Work Using <code>defer</code></h3>
 
@@ -1124,6 +1194,8 @@ Swift的错误抛出并不是传统意义的exception，在调试时抛出错误
 
 
 <p>The above example uses a <code>defer</code> statement to ensure that the <code>open(_:)</code> function has a corresponding call to <code>close(_:)</code>.</p>
+
+<p><a id="markdown-参考" name="参考"></a></p>
 
 <h2>参考</h2>
 
