@@ -9,10 +9,38 @@ published: true
 
 <!-- more -->
 
+<!-- TOC depthFrom:1 depthTo:3 insertAnchor:true -->
 
+- [Swift Error基本使用](#swift-error基本使用)
+    - [throws in Swift 1.x](#throws-in-swift-1x)
+    - [throws in Swift 2](#throws-in-swift-2)
+    - [throws的使用](#throws的使用)
+    - [throws抛出错误的处理](#throws抛出错误的处理)
+- [`throws`的一些实践](#throws的一些实践)
+    - [throws的调试和断点](#throws的调试和断点)
+    - [throws仍然存在的问题](#throws仍然存在的问题)
+- [Swift 错误类型的种类](#swift-错误类型的种类)
+    - [Simple domain error](#simple-domain-error)
+    - [Recoverable error](#recoverable-error)
+    - [Universal error](#universal-error)
+    - [Logic failure](#logic-failure)
+- [几种常见场景下的错误处理](#几种常见场景下的错误处理)
+    - [app内资源加载](#app内资源加载)
+    - [加载当前用户信息时发生错误](#加载当前用户信息时发生错误)
+    - [还没有实现的代码](#还没有实现的代码)
+    - [调用设备上的传感器收集数据](#调用设备上的传感器收集数据)
+    - [总结](#总结)
+- [错误处理相关的辅助方法](#错误处理相关的辅助方法)
+    - [Use Custom Errors](#use-custom-errors)
+    - [Do Cleanup Work Using `defer`](#do-cleanup-work-using-defer)
+- [参考](#参考)
 
+<!-- /TOC -->
+
+<a id="markdown-swift-error基本使用" name="swift-error基本使用"></a>
 ## Swift Error基本使用
 
+<a id="markdown-throws-in-swift-1x" name="throws-in-swift-1x"></a>
 ### throws in Swift 1.x
 
 在Objective-C中，`FileManager`的copy接口如下：
@@ -61,6 +89,7 @@ let fileManager = NSFileManager.defaultManager()
 fileManager.copyItemAtPath(srcPath, toPath: dstPath, error: nil)
 ```
 
+<a id="markdown-throws-in-swift-2" name="throws-in-swift-2"></a>
 ### throws in Swift 2
 
 这种做法无形中降低了应用的可靠性以及从错误中恢复的能力。为了解决这个问题，Swift 2 中在编译器层级就对throws进行了限定。上面提到的copy接口在Swift 2中的形式为：
@@ -71,6 +100,7 @@ func copyItem(atPath srcPath: String, toPath dstPath: String) throws
 
 被标记为throws的API，必须被处理，否则编译器就会报错。这就在编译器层面对错误的处理进行了强制执行，保证了代码的可靠性。
 
+<a id="markdown-throws的使用" name="throws的使用"></a>
 ### throws的使用
 
 下面是包含throws的一个自动售货机实现：
@@ -122,10 +152,11 @@ class VendingMachine {
 
 `vend(itemNamed:)`方法的实现通过`guard`抛出购买过程中相应的错误。
 
+<a id="markdown-throws抛出错误的处理" name="throws抛出错误的处理"></a>
 ### throws抛出错误的处理
 被标记为throws的API，我们必须采用下面几种处理方式中的一种来处理，否则，编译器会报错。
 
-#### `do catch`
+#### 0.1.4.1. `do catch`
 
 ```swift
 var vendingMachine = VendingMachine()
@@ -141,7 +172,7 @@ do {
 }
 ```
 
-#### `try?`
+#### 0.1.4.2. `try?`
 
 使用`try?`来处理错误，将其返回值变为Optional：如果在执行过程中出现错误，接口返回`nil`，同时错误停止继续传播。比如：
 
@@ -162,7 +193,7 @@ func fetchData() -> Data? {
 
 ```
 
-#### `try!`
+#### 0.1.4.3. `try!`
 
 如果你非常确信一个被标记为throws的接口，在你的环境中不会抛出错误，可以通过`try!`来强制终止错误的继续传播。如果在执行的时候出现了错误，那么抛出运行时错误，导致程序崩溃。
 
@@ -173,7 +204,7 @@ let photo = try! loadImage(atPath: "./Resources/John Appleseed.jpg")
 
 ```
 
-#### `try`
+#### 0.1.4.4. `try`
 
 也可以直接使用`try`来调用被标记为throws的接口，但是这种情况下，错误会继续传播，包含该调用的方法也必须被标记为throws才行，否则，编译器会报错。
 
@@ -190,39 +221,20 @@ func buyFavoriteSnack(person: String, vendingMachine: VendingMachine) throws {
 ```
 
 在这个例子中，因为`buyFavoriteSnack(person: vendingMachine:)`使用`try`调用了一个被标记为throws的接口`vend(itemNamed:)`，错误会继续传播，因此，该方法也需要标记为thorws。
-<!-->
--->
-<!--
-## `throws`技术内幕
-参考[Swift 2 throws 全解析 - 从原理到实践](https://onevcat.com/2016/03/swift-throws/)。
 
-### `throw`，`try`，`catch`深层解析
-参考[Swift 2 throws 全解析 - 从原理到实践](https://onevcat.com/2016/03/swift-throws/)。
-
-## `Error`和`NSError`
-参考[Swift 2 throws 全解析 - 从原理到实践](https://onevcat.com/2016/03/swift-throws/)。
-
-## `throws`的内部原理
-参考[Swift 2 throws 全解析 - 从原理到实践](https://onevcat.com/2016/03/swift-throws/)。
--->
-
+<a id="markdown-throws的一些实践" name="throws的一些实践"></a>
 ## `throws`的一些实践
 
-<!--
-### 异步操作中的错误处理
--->
-
+<a id="markdown-throws的调试和断点" name="throws的调试和断点"></a>
 ### throws的调试和断点
 
-<!--
 Swift的错误抛出并不是传统意义的exception，在调试时抛出错误并不会触发Exception断点。另外，throw本身是语言的关键字，而不是一个symbol，它也不能触发Symbolic类型的断点。如果我们希望在所有throw语句执行的时候让程序停住的话，需要一些额外的技巧。在之前 throw 的汇编实现中，可以看到所有throw语句在返回前都会进行一次`swift_willThrow`的调用，这就是一个有效的 Symbolic语句，我们设置一个`swift_willThrow`的Symbolic断点，就可以让程序在throw的时候停住，并使用调用栈信息来获知程序在哪里抛出了错误。
 
-补充，在最新版本的Xcode中，Apple直接为我们在断点类型中加上了 “Swift Error Breakpoint”的选项，它背后做的就是在`swift_willThrow`上添加一个断点。不过因为有了更直接的方法，我们现在不再需要手动去添加这个符号断点了。-->
-
-Swift的抛出错误并不是传统意义的exception，在调试时抛出错误并不会触发Exception断点。我们可以通过设置“Swift Error Breakpoint”对throws进行断点设置和调试。设置方法如下：
+补充，在最新版本的Xcode中，Apple直接为我们在断点类型中加上了 “Swift Error Breakpoint”的选项，它背后做的就是在`swift_willThrow`上添加一个断点。不过因为有了更直接的方法，我们现在不再需要手动去添加这个符号断点了。我们可以通过设置“Swift Error Breakpoint”对throws进行断点设置和调试。设置方法如下：
 
 ![swift error breakpoint](/images/Swift-Error-Breakpoint.png)
 
+<a id="markdown-throws仍然存在的问题" name="throws仍然存在的问题"></a>
 ### throws仍然存在的问题
 
 不能从接口直接看出有哪些可能抛出的Error，必须看Document才行，带来了一些不便。比如，只通过接口：
@@ -242,6 +254,7 @@ do {
 }
 ```
 
+<a id="markdown-swift-错误类型的种类" name="swift-错误类型的种类"></a>
 ## Swift 错误类型的种类
 
 参考Swift官方文档[Error Handling in Swift<!-- 2.0-->](https://github.com/apple/swift/blob/master/docs/ErrorHandling.rst)，Swift中的错误有下面四种：
@@ -251,6 +264,7 @@ do {
 3. Universal error
 4. Logic failure
 
+<a id="markdown-simple-domain-error" name="simple-domain-error"></a>
 ### Simple domain error
 
 简单的，显而易见的错误。这类错误的最大特点是我们不需要知道原因，只需要知道错误发生，并且想要进行处理。用来表示这种错误发生的方法一般就是返回一个`nil`值。在Swift中，这类错误最常见的情况就是将某个字符串转换为整数，或者在字典尝试用某个不存在的 key 获取元素：
@@ -263,6 +277,7 @@ let element = dic["key_not_exist"] // nil
 
 **可能出现这种错误的接口，不需要使用throws来标记，只需要将接口的返回类型设置为Optional即可。**在使用层面 (或者说应用逻辑) 上，这类错误一般用`if let`的可选值绑定或者是`guard let`提前进行返回处理即可。
 
+<a id="markdown-recoverable-error" name="recoverable-error"></a>
 ### Recoverable error
 
 正如其名，这类错误应该是被容许，并且是可以恢复的。可恢复错误的发生是正常的程序路径之一，而作为开发者，我们应当去检出这类错误发生的情况，并进一步对它们进行处理，让它们恢复到我们期望的程序路径上。
@@ -300,6 +315,7 @@ func write(data: Data, to url: URL) {
 }
 ```
 
+<a id="markdown-universal-error" name="universal-error"></a>
 ### Universal error
 
 这类错误理论上可以恢复，但是由于语言本身的特性所决定，我们难以得知这类错误的来源，所以一般来说也不会去处理这种错误。这类错误包括类似下面这些情形：
@@ -317,6 +333,7 @@ foo()
 
 在 Swift 中，各种被使用`fatalError`进行强制终止的错误一般都可以归类到 Universal error。
 
+<a id="markdown-logic-failure" name="logic-failure"></a>
 ### Logic failure
 
 逻辑错误是程序员的失误所造成的错误，它们应该在开发时通过代码进行修正并完全避免，而不是等到运行时再进行恢复和处理。
@@ -352,14 +369,16 @@ try! JSONDecoder().decode(Foo.self, from: Data())
 
 对于Universal error一般使用`fatalError`，而对于`Logic failure`一般使用`assert`或者`precondition`。遵守这个规则会有助于我们在编码时对错误进行界定。而有时候我们也希望能尽可能多地在开发的时候捕获Logic failure，而在产品发布后尽量减少crash比例。这种情况下，相比于直接将Logic failure转换为可恢复的错误，我们最好是使用`assert`在内部进行检查，来让程序在开发时崩溃。
 
+<a id="markdown-几种常见场景下的错误处理" name="几种常见场景下的错误处理"></a>
 ## 几种常见场景下的错误处理
 
 光说不练假把式。让我们来实际判断一下下面这些情况下我们都应该选择用哪种错误处理方式吧~
 
+<a id="markdown-app内资源加载" name="app内资源加载"></a>
 ### app内资源加载
 假设我们在处理一个机器学习的模型，需要从磁盘读取一份预先训练好的模型。该模型以文件的方式存储在 app bundle 中，如果读取时没有找到该模型，我们应该如何处理这个错误？
 
-#### 方案 1 Simple domain error
+#### 0.7.1.1. 方案 1 Simple domain error
 
 ```swift
 func loadModel() -> Model? {
@@ -375,7 +394,7 @@ func loadModel() -> Model? {
 }
 ```
 
-#### 方案 2 Recoverable error
+#### 0.7.1.2. 方案 2 Recoverable error
 
 ```swift
 func loadModel() throws -> Model {
@@ -388,7 +407,7 @@ func loadModel() throws -> Model {
 }
 ```
 
-#### 方案 3 Universal error
+#### 0.7.1.3. 方案 3 Universal error
 
 ```swift
 func loadModel() -> Model {
@@ -405,7 +424,7 @@ func loadModel() -> Model {
 }
 ```
 
-#### 方案 4 Logic failure
+#### 0.7.1.4. 方案 4 Logic failure
 
 ```swift
 func loadModel() -> Model {
@@ -426,11 +445,12 @@ func loadModel() -> Model {
 使用Universal error同样可以让代码崩溃，但是Universal error更多是用在语言的边界情况下。而这里并非这种情况。
 </details>
 
+<a id="markdown-加载当前用户信息时发生错误" name="加载当前用户信息时发生错误"></a>
 ### 加载当前用户信息时发生错误
 
 我们在用户登录后会将用户信息存储在本地，每次重新打开app时我们检测并使用用户信息。当用户信息不存在时，应该进行的处理：
 
-#### 方案 1 Simple domain error
+#### 0.7.2.1. 方案 1 Simple domain error
 
 ```swift
 func loadUser() -> User? {
@@ -443,7 +463,7 @@ func loadUser() -> User? {
 }
 ```
 
-#### 方案 2 Recoverable error
+#### 0.7.2.2. 方案 2 Recoverable error
 
 ```swift
 func loadUser() throws -> User {
@@ -456,7 +476,7 @@ func loadUser() throws -> User {
 }
 ```
 
-#### 方案 3 Universal error
+#### 0.7.2.3. 方案 3 Universal error
 
 ```swift
 func loadUser() -> User {
@@ -469,7 +489,7 @@ func loadUser() -> User {
 }
 ```
 
-#### 方案 4 Logic failure
+#### 0.7.2.4. 方案 4 Logic failure
 
 ```swift
 func loadUser() -> User {
@@ -489,11 +509,12 @@ func loadUser() -> User {
 </details>
 
 
+<a id="markdown-还没有实现的代码" name="还没有实现的代码"></a>
 ### 还没有实现的代码
 
 假设你在为你的服务开发一个iOS框架，但是由于工期有限，有一些功能只定义了接口，没有进行具体实现。这些接口会在正式版中完成，但是我们需要预先发布给友商内测。所以除了在文档中明确标明这些内容，这些方法内部应该如何处理呢？
 
-#### 方案 1 Simple domain error
+#### 0.7.3.1. 方案 1 Simple domain error
 
 ```swift
 func foo() -> Bar? {
@@ -501,7 +522,7 @@ func foo() -> Bar? {
 }
 ```
 
-#### 方案 2 Recoverable error
+#### 0.7.3.2. 方案 2 Recoverable error
 
 ```swift
 func foo() throws -> Bar? {
@@ -509,7 +530,7 @@ func foo() throws -> Bar? {
 }
 ```
 
-#### 方案 3 Universal error
+#### 0.7.3.3. 方案 3 Universal error
 
 ```swift
 func foo() -> Bar? {
@@ -517,7 +538,7 @@ func foo() -> Bar? {
 }
 ```
 
-#### 方案 4 Logic failure
+#### 0.7.3.4. 方案 4 Logic failure
 
 ```swift
 func foo() -> Bar? {
@@ -541,11 +562,12 @@ required init?(coder aDecoder: NSCoder) {
 </details>
 
 
+<a id="markdown-调用设备上的传感器收集数据" name="调用设备上的传感器收集数据"></a>
 ### 调用设备上的传感器收集数据
 
 调用传感器的app最有意思了！不管是相机还是陀螺仪，传感器相关的app总是能带给我们很多乐趣。那么，如果想要调用传感器获取数据时，发生了错误，应该怎么办呢？
 
-#### 方案 1 Simple domain error
+#### 0.7.4.1. 方案 1 Simple domain error
 
 ```swift
 func getDataFromSensor() -> Data? {
@@ -557,7 +579,7 @@ func getDataFromSensor() -> Data? {
 }
 ```
 
-#### 方案 2 Recoverable error
+#### 0.7.4.2. 方案 2 Recoverable error
 ```swift
 func getDataFromSensor() throws -> Data {
     let sensorState = sensor.getState()
@@ -568,7 +590,7 @@ func getDataFromSensor() throws -> Data {
 }
 ```
 
-#### 方案 3 Universal error
+#### 0.7.4.3. 方案 3 Universal error
 
 ```swift
 func loadUser() -> Data {
@@ -580,7 +602,7 @@ func loadUser() -> Data {
 }
 ```
 
-#### 方案 4 Logic failure
+#### 0.7.4.4. 方案 4 Logic failure
 
 ```swift
 func loadUser() -> Data {
@@ -599,6 +621,7 @@ func loadUser() -> Data {
 </details>
 
 
+<a id="markdown-总结" name="总结"></a>
 ### 总结
 
 可以看到，其实在错误处理的时候，选用哪种错误是根据情景和处理需求而定的，我在参考答案也使用了很多诸如“可能”，“相较而言”等语句。虽然对于特定的场景，我们可以进行直观的考虑和决策，但这并不是教条主义般的一成不变。错误类型之间可以很容易地通过代码互相转换，这让我们在处理错误的时候可以自由选择使用的策略：比如API即使提供给我们的是Recoverable的throws形式，我们也还是可以按照需要，通过`try?`将其转为Simple domain error，或者用`try!`将其转为Logic failure。
@@ -606,14 +629,16 @@ func loadUser() -> Data {
 能切实理解使用情景，利用这些错误类型转换的方式，灵活选取使用场景下最合适的错误类型，才能说是真正理解了这四种错误的分类依据。
 
 
+<a id="markdown-错误处理相关的辅助方法" name="错误处理相关的辅助方法"></a>
 ## 错误处理相关的辅助方法
 
 For custom errors in swift, refer to [Error](https://developer.apple.com/documentation/swift/error) official document.
 
 
+<a id="markdown-use-custom-errors" name="use-custom-errors"></a>
 ### Use Custom Errors
 
-#### Using Enumerations as Errors
+#### 0.8.1.1. Using Enumerations as Errors
 
 Swift’s enumerations are well suited to represent simple errors. Create an enumeration that conforms to the Error protocol with a case for each possible error. If there are additional details about the error that could be helpful for recovery, use associated values to include that information.
 
@@ -626,7 +651,7 @@ enum IntParsingError: Error {
 }
 ```
 
-#### Including More Data in Errors
+#### 0.8.1.2. Including More Data in Errors
 
 The following XMLParsingError conforms to Error and supply line and column position of the error.
 
@@ -664,6 +689,7 @@ do {
 // Prints "Parsing error: mismatchedTag [19:5]"
 ```
 
+<a id="markdown-do-cleanup-work-using-defer" name="do-cleanup-work-using-defer"></a>
 ### Do Cleanup Work Using `defer`
 
 You use a `defer` statement to execute a set of statements just before code execution leaves the current block of code. This statement lets you do any necessary cleanup that should be performed regardless of how execution leaves the current block of code—whether it leaves because an error was thrown or because of a statement such as `return` or `break`. For example, you can use a `defer` statement to ensure that file descriptors are closed and manually allocated memory is freed.
@@ -711,6 +737,7 @@ func vend(itemNamed name: String) throws {
 
 The above example uses a `defer` statement to ensure that the `open(_:)` function has a corresponding call to `close(_:)`.
 
+<a id="markdown-参考" name="参考"></a>
 ## 参考
 
 1. [关于 Swift Error 的分类](https://onevcat.com/2017/10/swift-error-category/)
