@@ -108,17 +108,17 @@ When we trying to checkout `oldbranch` using `git checkout oldbranch`, what is *
 checkout `oldbranch` from `newbranch` with uncommitted changes in `newbranch`, but **NO Conflicts** between the two branches
 
 The sample log:
-{%highlight text linenos %}
+```
 M	test.txt
 Switched to branch 'oldbranch'
-{% endhighlight %}
+```
 		
 And the `M` means the `test.txt` is successfully merged.
 
 ##### With Conflicts
 
 checkout `oldbranch` from `newbranch` with uncommitted changes in `newbranch`, but **With Conflict** between the two branches. In this situation, if you want to checkout `oldbranch` any way, use `git checkout -m oldbranch` which will let git list all the conflicts, as follows:
-{%highlight text linenos %}
+```
 $ git checkout -m oldbranch
 M   test.txt
 Switched to branch 'oldbranch'
@@ -132,7 +132,7 @@ A conflicted line added on the test branch.
 $ git branch
 * oldbranch
   newbranch
-{% endhighlight %}
+```
 	  
 ##### `git stash`
 
@@ -145,12 +145,12 @@ But most of the time, we want to keep the uncommited changes staying in `newbran
 5. `git stash pop`
 
 *Git* will hold a stash stack for all the stashes in all branches. That is to say, no matter how many branches you have, you will have only one stash stack. So when you run `git stash pop`, you should check the stash stack using `git stash list`, you will get:
-{%highlight text linenos %}
+```
 stash@{0}: WIP on oldbranch: 6ed44e2 checkin a new file
 stash@{1}: WIP on newbranch: 7a51723 checkin
 stash@{2}: WIP on oldbranch: 022cbf7 first checkin
 stash@{3}: WIP on newbranch: 6995c80 checkin changes to test.txt
-{% endhighlight %}
+```
 If you want to roll back the last stash in newbranch, in #5 step, run `git stash pop stash@{1}`. If you don't use the index `stash@{1}`, the top stash in the stash stack will be popped out.
 
 ## <a name="kdiff3"></a>Use *kdiff3* as the default tool for git

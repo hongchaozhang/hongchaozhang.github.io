@@ -14,7 +14,7 @@ published: true
 
 <!-- more -->
 
-{% highlight objc lineno %}
+```objc
 + (instancetype)sharedInstance
 {
     static dispatch_once_t once;
@@ -24,7 +24,7 @@ published: true
     });
     return sharedInstance;
 }
-{% endhighlight %}
+```
 
 ## Avoid abusing singleton
 [避免滥用单例](http://objccn.io/issue-13-2/)

@@ -5,7 +5,7 @@ categories: [javascript]
 title: How to Add a Clone function to Function?
 ---
     
-{% highlight javascript linenos %}
+```javascript
 Function.prototype.clone = function() {
     var that = this;
     var temp = function temporary() { return that.apply(this, arguments); };
@@ -14,4 +14,4 @@ Function.prototype.clone = function() {
     }
     return temp;
 };
-{% endhighlight %}
+```

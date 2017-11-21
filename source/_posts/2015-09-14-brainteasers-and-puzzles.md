@@ -168,13 +168,13 @@ A similar question is [Find the closest pair from two sorted arrays](http://www.
 
 Given a sorted array and a number x, find a pair in array whose sum is closest to x.
 Examples:
-{% highlight text %}
+```
 Input: arr[] = {10, 22, 28, 29, 30, 40}, x = 54
 Output: 22 and 30
 
 Input: arr[] = {1, 3, 4, 7, 10}, x = 15
 Output: 4 and 10
-{% endhighlight %}
+```
 
 **Answer:**
 
@@ -218,16 +218,16 @@ Given a positive integer n, print first k digits after point in value of 1/n. Yo
 
 Examples:
 
-{% highlight text %}
+```
 Input:   n = 3, k = 3
 Output:  333
 Input:   n = 50, k = 4
 Output:  0200
-{% endhighlight %}
+```
 
 **Answer:**
 
-{% highlight java linenos %}
+```java
 
 // Function to print first k digits after dot in value
 // of 1/n. n is assumed to be a positive integer.
@@ -247,7 +247,7 @@ void print(int n, int k)
     }
 }
 
-{% endhighlight %}
+```
 
 ## <a name="8"></a>Marketing Size
 

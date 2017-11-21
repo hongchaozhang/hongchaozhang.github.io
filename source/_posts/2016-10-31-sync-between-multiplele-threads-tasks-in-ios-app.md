@@ -19,7 +19,7 @@ categories: [ios]
 
 例子：
 
-{% highlight objc linenos %}
+```objc
 dispatch_group_t group = dispatch_group_create();
 dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0);
     
@@ -41,17 +41,17 @@ dispatch_group_notify(group, queue, ^ {
     // block3
     NSLog(@"Block3");
 });
-{% endhighlight %}
+```
 
 输出：
 
-{% highlight text linenos %}
+```
 2016-10-31 11:14:28.076 OCPlayground[82366:5830581] Block2 Start
 2016-10-31 11:14:28.076 OCPlayground[82366:5830578] Block1 Start
 2016-10-31 11:14:29.081 OCPlayground[82366:5830581] Block2 End
 2016-10-31 11:14:30.078 OCPlayground[82366:5830578] Block1 End
 2016-10-31 11:14:30.078 OCPlayground[82366:5830578] Block3
-{% endhighlight %}
+```
 
 ### dispatch_barrier_async
 
@@ -59,7 +59,7 @@ dispatch_group_notify(group, queue, ^ {
 
 例子：
 
-{% highlight objc linenos %}
+```objc
 // dispatch_barrier_async can not be used together with dispatch_get_global_queue
 // dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0);
 dispatch_queue_t queue = dispatch_queue_create("com.company.app.queue", DISPATCH_QUEUE_CONCURRENT);
@@ -89,11 +89,11 @@ dispatch_async(queue, ^{
     [NSThread sleepForTimeInterval:3.0];
     NSLog(@"Block4 End");
 });
-{% endhighlight %}
+```
 
 输出：
 
-{% highlight text linenos %}
+```
 2016-10-31 12:02:08.468 OCPlayground[83918:5867777] Block1 Start
 2016-10-31 12:02:08.468 OCPlayground[83918:5867807] Block2 Start
 2016-10-31 12:02:09.474 OCPlayground[83918:5867807] Block2 End
@@ -101,7 +101,7 @@ dispatch_async(queue, ^{
 2016-10-31 12:02:10.469 OCPlayground[83918:5867777] Block3
 2016-10-31 12:02:10.470 OCPlayground[83918:5867777] Block4 Start
 2016-10-31 12:02:13.473 OCPlayground[83918:5867777] Block4 End
-{% endhighlight %}
+```
 
 ### addDependency
 
@@ -109,7 +109,7 @@ dispatch_async(queue, ^{
 
 例子：
 
-{% highlight objc linenos %}
+```objc
 NSOperationQueue *queue = [[NSOperationQueue alloc] init];
     
 NSOperation *completionOperation = [NSBlockOperation blockOperationWithBlock:^{
@@ -140,17 +140,17 @@ operation = [NSBlockOperation blockOperationWithBlock:^{
 [queue addOperation:operation];
     
 [queue addOperation:completionOperation];
-{% endhighlight %}
+```
 
 输出：
 
-{% highlight text linenos %}
+```
 2016-10-31 12:22:49.774 OCPlayground[84061:5887605] Block1 Start
 2016-10-31 12:22:49.774 OCPlayground[84061:5887572] Block2 Start
 2016-10-31 12:22:50.776 OCPlayground[84061:5887572] Block2 End
 2016-10-31 12:22:51.848 OCPlayground[84061:5887605] Block1 End
 2016-10-31 12:22:51.849 OCPlayground[84061:5887605] Block3
-{% endhighlight %}
+```
 
 ### dispatch_semaphore
 
@@ -173,7 +173,7 @@ dispatch_semaphore是GCD用来同步的一种方式，与他相关的共有三�
 
 例子：
 
-{% highlight objc linenos %}
+```objc
 dispatch_queue_t queue = dispatch_queue_create("my.conQ", DISPATCH_QUEUE_CONCURRENT);
 dispatch_semaphore_t mySem = dispatch_semaphore_create(0);
     
@@ -199,17 +199,17 @@ dispatch_async(queue, ^{
     // block3
     NSLog(@"Block3");
 });
-{% endhighlight %}
+```
 
 输出：
 
-{% highlight text linenos %}
+```
 2016-10-31 22:16:34.402 OCPlayground[85158:6133417] Block1 Start
 2016-10-31 22:16:34.402 OCPlayground[85158:6133423] Block2 Start
 2016-10-31 22:16:35.405 OCPlayground[85158:6133423] Block2 End
 2016-10-31 22:16:36.403 OCPlayground[85158:6133417] Block1 End
 2016-10-31 22:16:36.404 OCPlayground[85158:6133426] Block3
-{% endhighlight %}
+```
 
 ### dispatch_group_enter和dispatch_group_leave
 
@@ -219,14 +219,14 @@ dispatch_async(queue, ^{
 
 对于嵌套的block，仍然使用`dispatch_group_async`将block放入对应的group。比如下面的例子，对于Block1里面的Block4，我们仍然使用`dispatch_group_async`将Block4放入对应的group，即可以保证Block3在Block4之后执行。也就是说，只要是在`dispatch_group_notify`对应的Block3执行之前加入group的block，都需要执行，然后才能执行`dispatch_group_notify`对应的Block3，即，当`dispatch_group_notify`对应的Block3执行的时候，group中不能有任何没有执行的其它block存在。
 
-{% highlight objc linenos %}
+```objc
 dispatch_group_async(group, queue, ^{
     // block4 inside block 1
     NSLog(@"Block4 inside Block1 Start");
     [NSThread sleepForTimeInterval:1.0];
     NSLog(@"Block4 inside Block1 End");
 });
-{% endhighlight %}
+```
 
 如果嵌套的block对应的是服务器请求的callback（比如`onSuccess:`和`onFailure:`），就不方便将其加入对应的group中。这时候就需要使用方案2。
 
@@ -235,7 +235,7 @@ dispatch_group_async(group, queue, ^{
 
 例子：
 
-{% highlight objc linenos %}
+```objc
 dispatch_group_t group = dispatch_group_create();
 dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0);
     
@@ -267,11 +267,11 @@ dispatch_group_notify(group, queue, ^ {
     // block3
     NSLog(@"Block3");
 });
-{% endhighlight %}
+```
 
 输出：
 
-{% highlight text linenos %}
+```
 2016-10-31 13:51:23.512 OCPlayground[84646:5947063] Block2 Start
 2016-10-31 13:51:23.512 OCPlayground[84646:5947080] Block1 Start
 2016-10-31 13:51:24.518 OCPlayground[84646:5947063] Block2 End
@@ -279,5 +279,5 @@ dispatch_group_notify(group, queue, ^ {
 2016-10-31 13:51:25.518 OCPlayground[84646:5947080] Block4 inside Block1 Start
 2016-10-31 13:51:26.521 OCPlayground[84646:5947080] Block4 inside Block1 End
 2016-10-31 13:51:26.522 OCPlayground[84646:5947063] Block3
-{% endhighlight %}
+```
 

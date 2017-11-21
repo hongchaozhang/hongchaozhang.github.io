@@ -13,7 +13,7 @@ Note that the type of `coordinate` is `CLLocationCoordinate2D` with `latitude` a
 
 <!-- more -->
 Sample code: 
-{% highlight objc linenos %}
+```objc
 @implementation MapOverlay
 
 @synthesize coordinate;
@@ -36,7 +36,7 @@ Sample code:
 }
 
 @end
-{% endhighlight %}
+```
 
 
 ###MKOverlayRenderer
@@ -44,7 +44,7 @@ Sample code:
 Write your own overlay renderer class (for example, `MapOverlayRenderer`) confirm to `MKOverlayRenderer`, and implement `drawMapRect:zoomScale:inContext:` method.
 
 Sample code:
-{% highlight objc linenos %}
+```objc
 - (void)drawMapRect:(MKMapRect)mapRect zoomScale:(MKZoomScale)zoomScale inContext:(CGContextRef)context
 {
     MKMapRect overlayMapRect = self.overlay.boundingMapRect;
@@ -52,14 +52,14 @@ Sample code:
     CGContextSetRGBFillColor(context, 0, 0, 1, 0.4);
     CGContextFillRect(context, drawRect);
 }
-{% endhighlight %}
+```
 
 ###Interact with MKMapView
 
 After you implement your overlay and overlay renderer, implement `mapView:redererForOverlay` method in your map view's delegate. In this method, you need to return an instance of your own overlay renderer, initialized with the given overlay.
 
 Sample code:
-{% highlight objc linenos %}
+```objc
 - (MKOverlayRenderer *)mapView:(MKMapView *)mapView rendererForOverlay:(id<MKOverlay>)overlay
 {
     if ([overlay isKindOfClass:[MapOverlay class]]) {
@@ -70,12 +70,12 @@ Sample code:
     
     return nil;
 }
-{% endhighlight %}
+```
 Then, we can add overlay instance to the map view through `addOverlay` or `addOverlays` methods.
 
 Sample code:
-{% highlight objc linenos %}
+```objc
 MapOverlay *overlay = [[MapOverlay alloc] init];
 [self.mapView addOverlay:overlay level:MKOverlayLevelAboveLabels];
-{% endhighlight %}
+```
 	

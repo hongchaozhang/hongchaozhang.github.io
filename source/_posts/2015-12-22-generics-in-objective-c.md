@@ -16,9 +16,9 @@ categories: [ios, objective-c]
 
 以后，可以这样定义Array了：
 
-{% highlight objc linenos %}
+```objc
 NSArray<MyClass *> *myArray = @[[MyClass new], [MyClass new]];
-{% endhighlight %}
+```
 
 但是，我们仍然可以在Array中加入非MyClass类型的实例，此时xcode会报出警告，但是不会报错，程序仍然可以运行。所以需要我们在写程序时去除所有的警告。
 

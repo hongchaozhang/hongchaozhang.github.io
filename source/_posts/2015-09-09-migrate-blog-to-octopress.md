@@ -18,16 +18,16 @@ If you can still not update your ruby version using the way in the above post, t
 
 * Add rbenv init to your shell to enable shims and autocompletion:
 
-{% highlight text %}
+```
 $ echo 'eval "$(rbenv init -)"' >> $HOME/.bash_profile
 $ source ~/.bash_profile
-{% endhighlight %}
+```
 
 * Restart shell as a login shell so that the PATH changes take effect:
 
-{% highlight text %}
+```
 $ exec $SHELL -l
-{% endhighlight %}
+```
 
 
 ## Themes
@@ -38,13 +38,13 @@ Go to [here](https://github.com/imathis/octopress/wiki/3rd-Party-Octopress-Theme
 ## Code Styles
 目前有以下几种插入代码片段的方法：
 
-{% highlight text %}
+```
 this is code
-{% endhighlight %}
+```
 
-{% highlight text linenos %}
+```
 this is code
-{% endhighlight %}
+```
 
 ```
 this is code

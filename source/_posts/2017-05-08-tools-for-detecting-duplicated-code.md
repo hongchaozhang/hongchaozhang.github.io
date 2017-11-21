@@ -89,9 +89,9 @@ PMD is integrated with JDeveloper, Eclipse, JEdit, JBuilder, BlueJ, CodeGuide, N
 
 On Mac, display the GUI by running:
 
-{%highlight text%}
+```
 ./run.sh cpdgui
-{%endhighlight%}
+```
 
 The screen shot is like:
 

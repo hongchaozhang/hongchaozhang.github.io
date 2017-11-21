@@ -18,9 +18,9 @@ categories: [ios, swift, objective-c]
 
 可以为view添加多个不同的`UIGestureRecognizer`，比如pan和tap，可以同时起作用，但是如果你想**加入两个tap手势，第二个会将第一个手势覆盖**。这个时候，至少需要为其中一个tap手势添加delegate，并实现下面的方法，为两个tap同时存在的情况返回true：
     
-{% highlight swift %}
+```swift
 optional public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool
-{% endhighlight %}
+```
     
 > returning YES is guaranteed to allow simultaneous recognition. returning NO is not guaranteed to prevent simultaneous recognition, as the other gesture's delegate may return YES.
 
@@ -31,17 +31,17 @@ optional public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer,
 
 如果不希望在double tap的同时触发两次single tap，需要在single tap的delegate中实现方法
     
-{% highlight swift %}
+```swift
 optional public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRequireFailureOf otherGestureRecognizer: UIGestureRecognizer) -> Bool
-{% endhighlight %}
+```
     
 这样，可以保证single tap会等待double tap失败之后再被触发。缺点是single tap反应迟钝。
 
 如果希望在rotate的同时可以进行pinch，需要在pinch或者rotate的手势的delegate中实现方法：
     
-{% highlight swift %}
+```swift
 optional public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool
-{% endhighlight %}
+```
     
 这样，rotate和pinch就能同时被识别。
 
@@ -55,14 +55,14 @@ optional public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer,
 
 如果设置了
 
-{% highlight swift %}
+```swift
 singleTap.delegate = self.singleTapOnMapWidgetViewerGestureRecognizerDelegate
-{% endhighlight %}
+```
 
 那么
 
-{% highlight swift %}
+```swift
 singleTap.require(toFail: doubleTap)
-{% endhighlight %}
+```
 
 就不起作用了，必须通过`UIGestureRecognizerDelegate`里面的方法实现。

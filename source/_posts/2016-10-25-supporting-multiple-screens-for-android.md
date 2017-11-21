@@ -36,7 +36,7 @@ categories: [android]
 
 在TypedValue.java中有所有单位到`px`的转换方法：
 
-{% highlight java linenos %}
+```java
 /**
  * Converts an unpacked complex data value holding a dimension to its final floating 
  * point value. The two parameters <var>unit</var> and <var>value</var>
@@ -69,7 +69,7 @@ public static float applyDimension(int unit, float value,
     }
     return 0;
 }
-{% endhighlight %}
+```
 
 该函数将所有的单位转换为px，其中参数意义如下：
 
@@ -85,7 +85,7 @@ public static float applyDimension(int unit, float value,
 
 有时候我们必须使用`px`作为单位，比如某个api接受的参数只能是`px`。这个时候，需要将`dp`转化为`px`。在code中我们可以使用下面的方法将`dp`转化为`px`：
 
-{% highlight java linenos %}
+```java
 // The gesture threshold expressed in dp
 private static final float GESTURE_THRESHOLD_DP = 16.0f;
 
@@ -95,7 +95,7 @@ final float scale = getResources().getDisplayMetrics().density;
 mGestureThreshold = (int) (GESTURE_THRESHOLD_DP * scale + 0.5f);
 
 // Use mGestureThreshold as a distance in pixels...
-{% endhighlight %}
+```
 
 ## Best Practice
 

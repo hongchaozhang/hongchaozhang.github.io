@@ -15,7 +15,7 @@ categories: [ios, objective-c]
 
 <!-- more -->
 
-{% highlight objc linenos %}
+```objc
 
 @interface PropertyTester() {
     NSString* testString;
@@ -39,14 +39,14 @@ categories: [ios, objective-c]
 
 @end
 
-{% endhighlight %}
+```
 
 ### 有了Property
 眼看着Instance Variable及其getter和setter函数是如此有规律，于是Property出现了。
 
 Property可以告诉编译器：我声明了一个Property，名字叫做`propertyName`，你帮我声明一个Instance Variable `_propertyName`，并帮助我实现其getter和setter函数。于是，上述代码，我们可以写成：
 
-{% highlight objc linenos %}
+```objc
 
 @interface PropertyTester()
 
@@ -64,7 +64,7 @@ Property可以告诉编译器：我声明了一个Property，名字叫做`proper
 
 @end
 
-{% endhighlight %}
+```
 
 看看，是不是简单了很多。
 
@@ -72,13 +72,13 @@ Property可以告诉编译器：我声明了一个Property，名字叫做`proper
 
 其实在上述使用Property的代码中，编译器还帮助我们做了一件事情：
 
-{% highlight objc linenos %}
+```objc
 @synthesize testString = _testString;
-{% endhighlight %}
+```
 
 从Xcode 4.4和LLVM Compiler 4.0起，有了**auto synthesize**，即@synthesize被更改为默认使用。因此，大多数情况下，你只需要 @property 指令，编译器将为你关心其它的事情。对，是“大多数”，因为在某些情况下，不会进行auto synthesize 。比如，对于上述代码，如果我打算自己实现getter函数：
 
-{% highlight objc linenos %}
+```objc
 @interface PropertyTester()
 
 @property (nonatomic, strong) NSString* testString;
@@ -98,13 +98,13 @@ Property可以告诉编译器：我声明了一个Property，名字叫做`proper
 }
 
 @end
-{% endhighlight %}
+```
 
 没有任何问题。
 
 如果我再试图加入setter函数：
 
-{% highlight objc linenos %}
+```objc
 @interface PropertyTester()
 @property (nonatomic, strong) NSString* testString;
 @end
@@ -126,13 +126,13 @@ Property可以告诉编译器：我声明了一个Property，名字叫做`proper
 }
 
 @end
-{% endhighlight %}
+```
 
 编译器会报错：
 
-{% highlight text %}
+```
 use of undefined identifier '_testString'。
-{% endhighlight %}
+```
 
 为什么呢？
 

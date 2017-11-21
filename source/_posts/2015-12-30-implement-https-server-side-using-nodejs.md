@@ -17,15 +17,15 @@ categories: [node]
 * cd到你的server路径。
 * 生成私钥key文件privatekey.pem
 
-{% highlight text %}
+```
 openssl genrsa -out privatekey.pem 1024
-{% endhighlight %}
+```
 
 * 通过私钥生成CSR证书签名
 
-{% highlight text %}
+```
 openssl req -new -key privatekey.pem -out certrequest.csr
-{% endhighlight %}
+```
 
 填写一些证书信息：
 
@@ -38,7 +38,7 @@ There are quite a few fields but you can leave some blank
 For some fields there will be a default value,
 If you enter '.', the field will be left blank.
 
-{% highlight text %}
+```
 Country Name (2 letter code) [AU]:CN
 State or Province Name (full name) [Some-State]:Zhejiang
 Locality Name (eg, city) []:Hangzhou
@@ -51,13 +51,13 @@ Please enter the following 'extra' attributes
 to be sent with your certificate request
 A challenge password []:
 An optional company name []:
-{% endhighlight %}
+```
 
 * 通过私钥和证书签名生成证书文件
 
-{% highlight text %}
+```
 openssl x509 -req -in certrequest.csr -signkey privatekey.pem -out certificate.pem
-{% endhighlight %}
+```
 
 至此，我们有了三个文件：
 
@@ -67,7 +67,7 @@ openssl x509 -req -in certrequest.csr -signkey privatekey.pem -out certificate.p
 
 ### 实现服务器端app
 
-{% highlight javascript linenos %}
+```javascript
 var https = require('https')，
     fs = require("fs");
 
@@ -81,7 +81,7 @@ https.createServer(options, function(request, response) {
     response.end("hello world\n");
 }).listen(8181);
 console.log('Https server listening on port ' + 8181);
-{% endhighlight %}
+```
 
 在Safari中选择信任证书之后，就可以看到下面的页面了：
 

@@ -17,12 +17,12 @@ categories: [ios, objective-c]
 
 ### Basic Usage
 
-{% highlight objc linenos %}
+```objc
 [UIView animateWithDuration:1.0 animations:^{
     firstView.alpha = 0.0;
     secondView.alpha = 1.0;
 }];
-{% endhighlight %}
+```
 
 > NOTE: When this code executes, the specified animations are started immediately on another thread so as to avoid blocking the current thread or your application’s main thread.
 
@@ -35,7 +35,7 @@ Usage of Completion Handler
 
 Sample code：
 
-{% highlight objc linenos %}
+```objc
 - (IBAction)showHideView:(id)sender
 {
     // Fade out the view right away
@@ -56,7 +56,7 @@ Sample code：
                  completion:nil];
         }];
 }
-{% endhighlight %}
+```
 
 ### Nesting Animation Blocks
 
@@ -64,7 +64,7 @@ Nested animations are started at the same time as any parent animations.
 
 Sample code:
 
-{% highlight objc linenos %}
+```objc
 [UIView animateWithDuration:1.0
         delay: 1.0
         options:UIViewAnimationOptionCurveEaseOut
@@ -86,7 +86,7 @@ Sample code:
                  completion:nil];
         }
         completion:nil];
-{% endhighlight %}
+```
 
 ## Creating Animated Transitions Between Views
 
@@ -99,7 +99,7 @@ View transitions help you hide sudden changes associated with adding, removing, 
 
 Sampel code for replacing a view with a different view:
 
-{% highlight objc linenos %}
+```objc
 - (IBAction)toggleMainViews:(id)sender {
     [UIView transitionFromView:(displayingPrimary ? primaryView : secondaryView)
         toView:(displayingPrimary ? secondaryView : primaryView)
@@ -112,6 +112,6 @@ Sampel code for replacing a view with a different view:
             }
     }];
 }
-{% endhighlight %}
+```
 
 > **Note:** In addition to swapping out views, your view controller code needs to manage the loading and unloading of both the primary and secondary views. 

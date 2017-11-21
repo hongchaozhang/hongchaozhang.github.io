@@ -18,16 +18,16 @@ demo地址：[MultiplePagesViewControllerDemo](https://github.com/hongchaozhang/
 
 首先，创建`MultiplePagesViewController`的实例，并将其和其view加入到需要的view controller 中：
 
-{%highlight objc linenos%}
+```objc
 
 [self.view addSubview:self.multiplePagesViewController.view];
 [self addChildViewController:self.multiplePagesViewController];
 
-{% endhighlight %}
+```
 
 其中，`self.multiplePagesViewController`对应的getter函数如下：
 
-{%highlight objc linenos%}
+```objc
 
 - (MultiplePagesViewController*)multiplePagesViewController {
     if (!_multiplePagesViewController) {
@@ -39,11 +39,11 @@ demo地址：[MultiplePagesViewControllerDemo](https://github.com/hongchaozhang/
     return _multiplePagesViewController;
 }
 
-{% endhighlight %}
+```
 
 并且，在`viewDidLayoutSubviews`中重新调整view的大小，以解决转屏等问题：
 
-{%highlight objc linenos%}
+```objc
 
 - (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
@@ -51,11 +51,11 @@ demo地址：[MultiplePagesViewControllerDemo](https://github.com/hongchaozhang/
     self.multiplePagesViewController.view.frame = self.view.frame;
 }
 
-{% endhighlight %}
+```
 
 然后，只需要将你的UIViewController的实例加入`self.multiplePagesViewController`就可以了：
 
-{%highlight objc linenos%}
+```objc
 
 - (void)addDefaultPageViewControllers {
     NSInteger vcCount = 3;
@@ -65,11 +65,11 @@ demo地址：[MultiplePagesViewControllerDemo](https://github.com/hongchaozhang/
     }
 }
 
-{% endhighlight %}
+```
 
 `MultiplePagesViewController`主要的两个接口如下：
 
-{%highlight objc linenos%}
+```objc
 
 /**
  *  add a new <UIViewController*> instance
@@ -85,11 +85,11 @@ demo地址：[MultiplePagesViewControllerDemo](https://github.com/hongchaozhang/
  */
 - (void)removeViewController:(NSUInteger)viewControllerIndex;
 
-{% endhighlight %}
+```
 
 另外，可以在`MultiplePagesViewController`的父view controller中实现下面接口，当切换page的时候做些其它事情，比如更新view controller的title信息等。
 
-{%highlight objc linenos%}
+```objc
 
 @protocol MultiplePagesViewControllerDelegate <NSObject>
 
@@ -97,7 +97,7 @@ demo地址：[MultiplePagesViewControllerDemo](https://github.com/hongchaozhang/
 
 @end
 
-{% endhighlight %}
+```
 
 
 

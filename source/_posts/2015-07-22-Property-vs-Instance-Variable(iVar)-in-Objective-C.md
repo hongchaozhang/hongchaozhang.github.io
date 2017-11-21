@@ -12,18 +12,18 @@ This post is deprecated. Refer to [Propety, Instance Variable and @synthesize](h
 To declare a variable in a objective-c class, we have the following two ways:
 
 * Property
-{% highlight objc linenos %}
+```objc
 @interface Photo : NSObject
 @property (nonatomic, strong) NSString *photographer;
 @end
-{% endhighlight %}
+```
 * Instance Variable (iVar)
-{% highlight objc linenos %}
+```objc
 @interface Photo : NSObject {
     NSString *photographer;
 }
 @end
-{% endhighlight %}	
+```	
 Then, what's the difference?
 
 <!-- more -->
@@ -59,13 +59,13 @@ iVar is faster than property, as property will call the `getter` or `setter` fun
 If you add `@synthesize photographer` in the implementation, compiler will automatically add an iVar `photographer` <del>and `_photographer`</del> to the class. You can directly use `photographer` <del>or `_photographer`</del> instead of `self.photographer` to get or set the value. The iVar method is faster, but keep in mind that it will not call the `getter` or `setter` method.
 
 If you declare the class like this and don't `@synthesize photographer`:
-{% highlight objc linenos %}
+```objc
 @interface Photo : NSObject {
 	NSString *photographer;
 }
 @property (nonatomic, strong) NSString *photographer;
 @end
-{% endhighlight %}
+```
 There are actually two `photographer` variables in the class: when you use `photographer` directly, you are using the iVar, and when you use `self.photographer`, you are using the property.
 
 However, when you use `@synthesize photographer` in the implementation file, the compoler will add `photographer` variable for the property. That is to say, `photographer` will be the property, and the iVar will not be usable.

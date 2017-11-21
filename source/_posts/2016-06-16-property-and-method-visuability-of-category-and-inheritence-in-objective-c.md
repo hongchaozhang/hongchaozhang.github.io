@@ -57,7 +57,7 @@ One exception: `performSelector:` can run method that are not ready in compile t
 
 来自[Protected methods in Objective-C](http://stackoverflow.com/questions/3725857/protected-methods-in-objective-c)的protected method的实现：
 
-{% highlight objc linenos %}
+```objc
 /////// SuperClass.h
 @interface SuperClass
 
@@ -84,4 +84,4 @@ One exception: `performSelector:` can run method that are not ready in compile t
   [self protectedMethod] ; // this will not generate warning
 } 
 @end
-{% endhighlight %}
+```

@@ -27,7 +27,7 @@ iOS中主要有两种触控事件：
 
 可以通过如下代码，在ViewController中为UIView添加手势识别类，称为Action-Target模式。每一个Gesture Recognizer关联一个View，但是一个View可以关联多个Gesture Recognizer，因为一个View可能还能响应多种触控操作方式。
 
-{% highlight objc linenos %}
+```objc
 - (void)viewDidLoad {
     [super viewDidLoad];
 
@@ -42,7 +42,7 @@ iOS中主要有两种触控事件：
 
     // ...
 }
-{% endhighlight %}
+```
 
 ### 连续和不连续动作
 
@@ -83,12 +83,12 @@ Long press (also known as “touch and hold”) | UILongPressGestureRecognizer
 
 当UIView中没有添加UIGestureRecognizer的时候，如果对UIView触发Pinch操作，如下四个事件接口函数中的`touches`都只能接收到一个touch的信息（新加的或者改变的touche）。如果想得到所有touch的信息，可以到`event.touches`中获取。
 
-{% highlight objc linenos %}
+```objc
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
 - (void)touchesMoved:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
 - (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
 - (void)touchesCancelled:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
-{% endhighlight %}
+```
 
 每个touch都有自己的`phase`，其与上述四个接口函数的关系可以从下面的例子中看出：
 
@@ -146,7 +146,7 @@ iOS中事件传递首先从App(UIApplication)开始，接着传递到Window(UIWi
 
 UIResponder是所有可以响应事件的类的基类(从名字应该就可以看出来了)，其中包括最常见的UIView和UIViewController甚至是UIApplication，所以我们的UIView和UIViewController都是作为响应事件的载体，称为**响应者对象（Responder Object）**。UIResponder部分接口如下：
 
-{% highlight objc linenos %}
+```objc
 NS_CLASS_AVAILABLE_IOS(2_0) @interface UIResponder : NSObject
 
 - (nullable UIResponder*)nextResponder;
@@ -168,7 +168,7 @@ NS_CLASS_AVAILABLE_IOS(2_0) @interface UIResponder : NSObject
 - (void)touchesMoved:(NSSet<UITouch *> *)touches withEvent:(nullable UIEvent *)event;
 - (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(nullable UIEvent *)event;
 - (void)touchesCancelled:(nullable NSSet<UITouch *> *)touches withEvent:(nullable UIEvent *)event;
-{% endhighlight %}
+```
 
 那么响应链跟这个UIResponder有什么关系呢？事实事件响应链的形成和事件的响应和传递，UIResponder都帮我们做了很多事。我们的app中，所有的视图都是按照一定的结构组织起来的，即树状层次结构，每个view都有自己的superView，包括controller的topmost view(controller的self.view)。当一个view被add到superView上的时候，他的nextResponder属性就会被指向它的superView，当controller被初始化的时候，self.view(topmost view)的nextResponder会被指向所在的controller，而controller的nextResponder会被指向self.view的superView，这样，整个app就通过nextResponder串成了一条链，也就是我们所说的响应链。所以响应链就是一条虚拟的链，并没有一个对象来专门存储这样的一条链，而是通过UIResponder的属性nextResponder串连起来的。如下图：
 
@@ -182,7 +182,7 @@ NS_CLASS_AVAILABLE_IOS(2_0) @interface UIResponder : NSObject
 
 每当手指接触屏幕，UIApplication接收到手指的事件之后，就会去调用UIWindow的hitTest:withEvent:
 
-{% highlight objc linenos %}
+```objc
 hitTest: (CGPoint) point withEvent: (UIEvent* )event{
 if (!self.isUserInteractionEnabled || self.isHidden || self.alpha <=0.01) {
     return nil;
@@ -194,11 +194,11 @@ for (UIView* v in subviews){
      }
   }
 }
-{% endhighlight %}
+```
 
 完整版本：
 
-{% highlight objc linenos %}
+```objc
 - (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
     if (self.alpha <= 0.01 || !self.userInteractionEnabled || self.hidden) {
         return nil;
@@ -220,7 +220,7 @@ for (UIView* v in subviews){
         return nil;
     }
 }
-{% endhighlight %}
+```
 
 注意hitTest里面是有判断当前的view是否支持点击事件，比如userInteractionEnabled、hidden、alpha等属性，都会影响一个view是否可以响应事件，如果不响应则直接返回nil。
 
@@ -238,7 +238,7 @@ for (UIView* v in subviews){
 
 当我们在UIView中重写`hitTest`也可以发现：这两次调用的timestamp都是相同的，并且两次`hitTest`先被调用之后才调用了`touchesBegan`和`touchesEnded`：
 
-{% highlight text linenos %}
+```
 2016-10-12 17:08:24.692843 OCPlayground[1707:973553] timestamp: 164999.282347
 2016-10-12 17:08:24.692962 OCPlayground[1707:973553] hitTest is called from EventPropagationViewer
 
@@ -250,7 +250,7 @@ for (UIView* v in subviews){
 
 2016-10-12 17:08:24.709334 OCPlayground[1707:973553] timestamp: 164999.299077
 2016-10-12 17:08:24.709447 OCPlayground[1707:973553] touchesEnded from EventPropagationViewer
-{% endhighlight %}
+```
 
 参考文章：[深入浅出iOS事件机制](http://zhoon.github.io/ios/2015/04/12/ios-event.html)，其中还讲述了一些hitTest的应用。
 

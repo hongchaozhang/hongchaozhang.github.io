@@ -17,7 +17,7 @@ categories: [ios, objective-c]
 
 不要出现这样的代码：
 
-{% highlight objc linenos %}
+```objc
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -28,11 +28,11 @@ categories: [ios, objective-c]
     self.textLabel ... ...
     [self.view addSubview:self.textLabel];
 }
-{% endhighlight %}
+```
 
 而应该是这样的：
 
-{% highlight objc linenos %}
+```objc
 #pragma mark - life cycle
 - (void)viewDidLoad
 {
@@ -63,7 +63,7 @@ categories: [ios, objective-c]
     [self.firstFilterLabel top:10 FromView:self.originImageView];
     ... ...
 }
-{% endhighlight %}
+```
 
 #### getter和setter全部都放在最后
 

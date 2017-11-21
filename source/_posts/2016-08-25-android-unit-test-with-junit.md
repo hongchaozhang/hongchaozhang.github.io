@@ -28,14 +28,14 @@ In the following, we will only focus on local unit test.
 
 In your app's top-level build.gradle file, you need to specify these libraries as dependencies:
 
-{% highlight text linenos %}
+```
 dependencies {
     // Required -- JUnit 4 framework
     testCompile 'junit:junit:4.12'
     // Optional -- Mockito framework
     testCompile 'org.mockito:mockito-core:1.10.19'
 }
-{% endhighlight %}
+```
 
 ## Create a Local Unit Test Class
 
@@ -45,7 +45,7 @@ Your local unit test class should be written as a JUnit 4 test class. [JUnit](ht
 
 To create a basic JUnit 4 test class, create a Java class that contains one or more test methods. A test method begins with the @Test annotation and contains the code to exercise and verify a single functionality in the component that you want to test.
 
-{% highlight java linenos %}
+```java
 import org.junit.Test;
 import java.util.regex.Pattern;
 import static org.junit.Assert.assertFalse;
@@ -59,7 +59,7 @@ public class EmailValidatorTest {
     }
     ...
 }
-{% endhighlight %}
+```
 
 ### Auto create junit4 unit test with the help of Android Studio
 
@@ -93,34 +93,34 @@ Annotation | Meaning | Note
 
 For `mock`:
 
-{% highlight java linenos %}
+```java
 Stock stock = mock(Stock.class);
 when(stock.getPrice()).thenReturn(100.00);    // Mock implementation
 when(stock.getQuantity()).thenReturn(200);    // Mock implementation
 when(stock.getValue()).thenCallRealMethod();  // Real implementation
-{% endhighlight %}
+```
 
 In that case, each method implementation is mocked, unless specify `thenCallRealMethod()` in the `when(..)` clause.
 
 For `spy`:
 
-{% highlight java linenos %}
+```java
 Stock stock = spy(new Stock());
 when(stock.getPrice()).thenReturn(100.00);    // Mock implementation
 when(stock.getQuantity()).thenReturn(200);    // Mock implementation
 // All other method call will use the real implementations
-{% endhighlight %}
+```
 
 In that case, all method implementation are the real one, expect if you have defined a mocked behaviour with `when(..)`.
 
 There is one important pitfall when you use `when(Object)` with spy like in the previous example. The real method will be called (because `stock.getPrice()` is evaluated before `when(..)` at runtime). This can be a problem if your method contains logic that should not be called. You can write the previous example like this:
 
-{% highlight java linenos %}
+```java
 Stock stock = spy(new Stock());
 doReturn(100.00).when(stock).getPrice();    // Mock implementation
 doReturn(200).when(stock).getQuantity();    // Mock implementation
 // All other method call will use the real implementations
-{% endhighlight %}
+```
 
 ## Mock Android Dependencies
 
@@ -131,17 +131,17 @@ Use [hamcrest](https://github.com/hamcrest/hamcrest-junit) to make the code more
 
 Instead of using:
 
-{% highlight java linenos %}
+```java
 assertEquals(expected, "the two values should be the same");
 assertNotNull(object);
-{% endhighlight %}
+```
 
 we can use:
 
-{% highlight java linenos %}
+```java
 assertThat(expected, equalTo("the two values should be the same"));
 assertThat(object, is(NotNullValue()));
-{% endhighlight %}
+```
 
 ## References
 [Getting Started with Testing](https://developer.android.com/training/testing/start/index.html): official site from Google.

@@ -38,7 +38,7 @@ Assume that `Person` class has two simple properties: `name` and `address` and a
 
 For *Key*:
 
-{% highlight objc linenos %}
+```objc
 void changeName(Person *p, NSString *newName)
 {
     // using the KVC accessor (getter) method
@@ -49,11 +49,11 @@ void changeName(Person *p, NSString *newName)
  
     NSLog(@"Changed %@'s name to: %@", originalName, newName);
 }
-{% endhighlight %}
+```
 
 For *KeyPath*:
 
-{% highlight objc linenos %}
+```objc
 void logMarriage(Person *p)
 {
     // just using the accessor again, same as example above
@@ -65,7 +65,7 @@ void logMarriage(Person *p)
  
     NSLog(@"%@ is happily married to %@", personsName, spousesName);
 }
-{% endhighlight %}
+```
 
 Actually, `[p valueForKeyPath:@"spouse.name"];` equals to `[[p valueForKey:@"spouse"] valueForKey:@"name"];`.
 
@@ -81,7 +81,7 @@ KVO allows you to register as an observer of a given object and receive notifica
 
 Implement `PersonWatcher` for observing a `Person` instance.
 
-{% highlight objc linenos %}
+```objc
 @implementation PersonWatcher
 
 static NSString *const KVO_CONTEXT_ADDRESS_CHANGED = @"KVO_CONTEXT_ADDRESS_CHANGED";
@@ -134,7 +134,7 @@ static NSString *const KVO_CONTEXT_ADDRESS_CHANGED = @"KVO_CONTEXT_ADDRESS_CHANG
     
     self.m_observedPeople = nil;
 }
-{% endhighlight %}
+```
 
 ## <a name="remove_observers"></a>Remove observer
 

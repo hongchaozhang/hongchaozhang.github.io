@@ -24,7 +24,7 @@ categories: [ios]
 
 主要代码：
 
-{%highlight swift linenos %}
+```swift
 class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate {
 
     var data = [String]()
@@ -114,8 +114,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 
 }
 
-
-{%endhighlight%}
+```
 
 
 ### 其它问题

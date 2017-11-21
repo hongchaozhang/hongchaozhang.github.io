@@ -4,7 +4,7 @@ title: "生活随想"
 date: 2015-12-26 22:34:44 +0800
 comments: true
 published: false
-categories: [life]
+categories: [reading]
 ---
 
 <!-- more -->

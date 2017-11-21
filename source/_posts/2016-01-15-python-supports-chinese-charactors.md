@@ -10,7 +10,7 @@ categories: [python]
 <!-- more -->
 
 一种解决方案：在python文件的开头（第一行）加入如下内容：
-{% highlight python linenos %}
+```python
 #!/usr/local/bin/python
 # coding: utf-8
-{% endhighlight %}
+```

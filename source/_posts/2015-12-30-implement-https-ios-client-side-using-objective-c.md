@@ -21,7 +21,7 @@ ios通过NSURLSession进行网络请求，参考另一篇博客[ios进行网络�
 
 说了这么多，代码在下面的delegate中实现：
 
-{% highlight objc linenos %}
+```objc
 - (void)URLSession:(NSURLSession *)session didReceiveChallenge:(NSURLAuthenticationChallenge *)challenge completionHandler:(void (^)(NSURLSessionAuthChallengeDisposition, NSURLCredential *))completionHandler {
     if([challenge.protectionSpace.authenticationMethod isEqualToString:NSURLAuthenticationMethodServerTrust]) {
         if([challenge.protectionSpace.host isEqualToString:@"domaintoverride.com"]) {
@@ -32,7 +32,7 @@ ios通过NSURLSession进行网络请求，参考另一篇博客[ios进行网络�
         }
     }
 }
-{% endhighlight %}
+```
 
 
 

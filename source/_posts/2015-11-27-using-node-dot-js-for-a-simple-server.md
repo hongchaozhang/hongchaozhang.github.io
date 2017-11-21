@@ -10,11 +10,11 @@ categories: [node]
 
 参考[Node.js for Beginners](http://code.tutsplus.com/tutorials/nodejs-for-beginners--net-26314). 去除以下代码：
 
-{% highlight javascript linenos %}
+```javascript
 request.on("end", function () {
 
 });
-{% endhighlight %}
+```
 
 ### 如何调试Node.js在服务器上的应用
 
@@ -24,15 +24,15 @@ request.on("end", function () {
 
 安装
 
-{% highlight text %}
+```
 $ npm install -g node-inspector
-{% endhighlight %}
+```
 
 打开
 
-{% highlight text %}
+```
 $ node-debug app.js
-{% endhighlight %}
+```
 
 #### 注意
 

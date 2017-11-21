@@ -13,7 +13,7 @@ Define a function <span style="background-color:yellow;">_addTimer_</span>, to l
 <!-- more -->
 
 ####Code:
-{% highlight javascript linenos %}
+```javascript
 var addTimer = function (widget) {
     var prop;
     for (prop in widget) {
@@ -41,7 +41,7 @@ var addTimer = function (widget) {
         }
     }
 }
-{% endhighlight %}  
+```
 ####Problem
 All function type property in widget will call the last function type property
 
@@ -49,7 +49,7 @@ All function type property in widget will call the last function type property
 Since there is no block scope in JavaScript - only **function scope** - by wrapping the function creation in a new function, you ensure that the value of `prop` remains as you intended.
 
 ####Code:
-{% highlight javascript linenos %}
+```javascript
 var addTimer = function (widget) {
     var prop;
     var getFuncWithTimer = function (prop) {
@@ -65,14 +65,14 @@ var addTimer = function (widget) {
         }
     }
 };
-{% endhighlight %}
+```
 ####Problem
 exceed maximum call stack
 
 ###Definition 3
 
 ####Code:
-{% highlight javascript linenos %}
+```javascript
 var addTimer = function (widget) {
     var prop;
     var getFuncWithTimer = function (prop) {
@@ -89,14 +89,14 @@ var addTimer = function (widget) {
         }
     }
 };
-{% endhighlight %}
+```
 ####Problem
 All function with returned value can not work
 
 ###Final Definition
 
 ####Code:
-{% highlight javascript linenos %}
+```javascript
 var addTimer = function (widget) {
     var prop;
     var getFuncWithTimer = function (prop) {
@@ -114,4 +114,4 @@ var addTimer = function (widget) {
         }
     }
 };
-{% endhighlight %}
+```

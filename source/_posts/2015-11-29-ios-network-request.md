@@ -18,7 +18,7 @@ ios网络请求设计的一些类，可以参考；[IOS网络编程：HTTP](http
 
 * Life Cycle of a URL Session with System-Provided Delegates
 
-{% highlight objc linenos %}
+```objc
 
 - (void)startWithURLString:(NSString *)urlString {
     /**
@@ -47,12 +47,12 @@ ios网络请求设计的一些类，可以参考；[IOS网络编程：HTTP](http
 
 }
 
-{% endhighlight %}
+```
 <!-- more -->
 
 * Life Cycle of a URL Session with Custom Delegates
 
-{% highlight objc linenos %}
+```objc
 
 - (void)startWithURLString:(NSString *)urlString {
     /**
@@ -72,11 +72,11 @@ ios网络请求设计的一些类，可以参考；[IOS网络编程：HTTP](http
     [dataTask resume];
 }
 
-{% endhighlight %}
+```
 
 以及NSURLSessionDataDelegate中的：
 
-{% highlight objc linenos %}
+```objc
 
 - (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask didReceiveData:(NSData *)data {
     // self.responseData is NSMutableData type
@@ -91,7 +91,7 @@ ios网络请求设计的一些类，可以参考；[IOS网络编程：HTTP](http
     }
 }
 
-{% endhighlight %}
+```
 
 > NSURLSessionDataTask不能携带completionHandler，否则上面的delegate不会调到。
 
@@ -99,18 +99,18 @@ ios网络请求设计的一些类，可以参考；[IOS网络编程：HTTP](http
 
 如果遇到如下错误信息：
 
-{% highlight text %}
+```
 App Transport Security has blocked a cleartext HTTP (http://) resource load since it is insecure. 
 Temporary exceptions can be configured via your app's Info.plist file.
-{% endhighlight %}
+```
 
 打开Info.plist，加入如下字段：
 
-{% highlight xml linenos %}
+```xml
 <key>NSAppTransportSecurity</key>
     <dict>
         <!--Include to allow all connections (DANGER)-->
         <key>NSAllowsArbitraryLoads</key>
         <true/>
     </dict>
-{% endhighlight %}
+```
