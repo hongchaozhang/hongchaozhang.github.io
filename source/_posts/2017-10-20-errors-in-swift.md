@@ -12,13 +12,13 @@ published: true
 <!-- TOC depthFrom:1 depthTo:3 insertAnchor:true -->
 
 - [Swift Error基本使用](#swift-error基本使用)
-    - [throws in Swift 1.x](#throws-in-swift-1x)
-    - [throws in Swift 2](#throws-in-swift-2)
-    - [throws的使用](#throws的使用)
-    - [throws抛出错误的处理](#throws抛出错误的处理)
+    - [`throws` in Swift 1.x](#throws-in-swift-1x)
+    - [`throws` in Swift 2](#throws-in-swift-2)
+    - [`throws`的使用](#throws的使用)
+    - [`throws`抛出错误的处理](#throws抛出错误的处理)
 - [`throws`的一些实践](#throws的一些实践)
-    - [throws的调试和断点](#throws的调试和断点)
-    - [throws仍然存在的问题](#throws仍然存在的问题)
+    - [`throws`的调试和断点](#throws的调试和断点)
+    - [`throws`仍然存在的问题](#throws仍然存在的问题)
 - [Swift 错误类型的种类](#swift-错误类型的种类)
     - [Simple domain error](#simple-domain-error)
     - [Recoverable error](#recoverable-error)
@@ -41,7 +41,7 @@ published: true
 ## Swift Error基本使用
 
 <a id="markdown-throws-in-swift-1x" name="throws-in-swift-1x"></a>
-### throws in Swift 1.x
+### `throws` in Swift 1.x
 
 在Objective-C中，`FileManager`的copy接口如下：
 
@@ -90,20 +90,20 @@ fileManager.copyItemAtPath(srcPath, toPath: dstPath, error: nil)
 ```
 
 <a id="markdown-throws-in-swift-2" name="throws-in-swift-2"></a>
-### throws in Swift 2
+### `throws` in Swift 2
 
-这种做法无形中降低了应用的可靠性以及从错误中恢复的能力。为了解决这个问题，Swift 2 中在编译器层级就对throws进行了限定。上面提到的copy接口在Swift 2中的形式为：
+这种做法无形中降低了应用的可靠性以及从错误中恢复的能力。为了解决这个问题，Swift 2 中在编译器层级就对`throws`进行了限定。上面提到的copy接口在Swift 2中的形式为：
 
 ```swift
 func copyItem(atPath srcPath: String, toPath dstPath: String) throws
 ```
 
-被标记为throws的API，必须被处理，否则编译器就会报错。这就在编译器层面对错误的处理进行了强制执行，保证了代码的可靠性。
+被标记为`throws`的API，必须被处理，否则编译器就会报错。这就在编译器层面对错误的处理进行了强制执行，保证了代码的可靠性。
 
 <a id="markdown-throws的使用" name="throws的使用"></a>
-### throws的使用
+### `throws`的使用
 
-下面是包含throws的一个自动售货机实现：
+下面是包含`throws`的一个自动售货机实现：
 
 ```swift
 enum VendingMachineError: Error {
@@ -153,10 +153,10 @@ class VendingMachine {
 `vend(itemNamed:)`方法的实现通过`guard`抛出购买过程中相应的错误。
 
 <a id="markdown-throws抛出错误的处理" name="throws抛出错误的处理"></a>
-### throws抛出错误的处理
-被标记为throws的API，我们必须采用下面几种处理方式中的一种来处理，否则，编译器会报错。
+### `throws`抛出错误的处理
+被标记为`throws`的API，我们必须采用下面几种处理方式中的一种来处理，否则，编译器会报错。
 
-#### 0.1.4.1. `do catch`
+#### `do catch`
 
 ```swift
 var vendingMachine = VendingMachine()
@@ -172,7 +172,7 @@ do {
 }
 ```
 
-#### 0.1.4.2. `try?`
+#### `try?`
 
 使用`try?`来处理错误，将其返回值变为Optional：如果在执行过程中出现错误，接口返回`nil`，同时错误停止继续传播。比如：
 
@@ -193,9 +193,9 @@ func fetchData() -> Data? {
 
 ```
 
-#### 0.1.4.3. `try!`
+#### `try!`
 
-如果你非常确信一个被标记为throws的接口，在你的环境中不会抛出错误，可以通过`try!`来强制终止错误的继续传播。如果在执行的时候出现了错误，那么抛出运行时错误，导致程序崩溃。
+如果你非常确信一个被标记为`throws`的接口，在你的环境中不会抛出错误，可以通过`try!`来强制终止错误的继续传播。如果在执行的时候出现了错误，那么抛出运行时错误，导致程序崩溃。
 
 比如，`loadImage(atPath:)`方法加载指定目录下面的一张图片到内存中，如果加载异常，会抛出错误。在下面的使用中，我们希望加载一张应用中包含的图片，这种情况下，可以通过`try!`来终止错误的继续传播。
 
@@ -204,9 +204,9 @@ let photo = try! loadImage(atPath: "./Resources/John Appleseed.jpg")
 
 ```
 
-#### 0.1.4.4. `try`
+#### `try`
 
-也可以直接使用`try`来调用被标记为throws的接口，但是这种情况下，错误会继续传播，包含该调用的方法也必须被标记为throws才行，否则，编译器会报错。
+也可以直接使用`try`来调用被标记为`throws`的接口，但是这种情况下，错误会继续传播，包含该调用的方法也必须被标记为`throws`才行，否则，编译器会报错。
 
 ```swift
 let favoriteSnacks = [
@@ -226,7 +226,7 @@ func buyFavoriteSnack(person: String, vendingMachine: VendingMachine) throws {
 ## `throws`的一些实践
 
 <a id="markdown-throws的调试和断点" name="throws的调试和断点"></a>
-### throws的调试和断点
+### `throws`的调试和断点
 
 Swift的错误抛出并不是传统意义的exception，在调试时抛出错误并不会触发Exception断点。另外，throw本身是语言的关键字，而不是一个symbol，它也不能触发Symbolic类型的断点。如果我们希望在所有throw语句执行的时候让程序停住的话，需要一些额外的技巧。在之前 throw 的汇编实现中，可以看到所有throw语句在返回前都会进行一次`swift_willThrow`的调用，这就是一个有效的 Symbolic语句，我们设置一个`swift_willThrow`的Symbolic断点，就可以让程序在throw的时候停住，并使用调用栈信息来获知程序在哪里抛出了错误。
 
@@ -235,7 +235,7 @@ Swift的错误抛出并不是传统意义的exception，在调试时抛出错误
 ![swift error breakpoint](/images/Swift-Error-Breakpoint.png)
 
 <a id="markdown-throws仍然存在的问题" name="throws仍然存在的问题"></a>
-### throws仍然存在的问题
+### `throws`仍然存在的问题
 
 不能从接口直接看出有哪些可能抛出的Error，必须看Document才行，带来了一些不便。比如，只通过接口：
 
@@ -275,7 +275,7 @@ let num = Int("hello world") // nil
 let element = dic["key_not_exist"] // nil
 ```
 
-**可能出现这种错误的接口，不需要使用throws来标记，只需要将接口的返回类型设置为Optional即可。**在使用层面 (或者说应用逻辑) 上，这类错误一般用`if let`的可选值绑定或者是`guard let`提前进行返回处理即可。
+**可能出现这种错误的接口，不需要使用`throws`来标记，只需要将接口的返回类型设置为Optional即可。**在使用层面 (或者说应用逻辑) 上，这类错误一般用`if let`的可选值绑定或者是`guard let`提前进行返回处理即可。
 
 <a id="markdown-recoverable-error" name="recoverable-error"></a>
 ### Recoverable error
@@ -329,7 +329,7 @@ func foo() { foo() }
 foo()
 ```
 
-我们可以通过设计一些手段来对这些错误进行处理，比如：检测当前的内存占用并在超过一定值后警告，或者监视栈 frame 数进行限制等。但是一般来说这是不必要的，也不可能涵盖全部的错误情况。更多情况下，这是由于代码触碰到了设备的物理限制和边界情况所造成的，一般我们也不去进行处理（除非是人为造成的 bug）。
+我们可以通过设计一些手段来对这些错误进行处理，比如：检测当前的内存占用并在超过一定值后警告，或者监视栈frame数进行限制等。但是一般来说这是不必要的，也不可能涵盖全部的错误情况。更多情况下，这是由于代码触碰到了设备的物理限制和边界情况所造成的，一般我们也不去进行处理（除非是人为造成的bug）。
 
 在 Swift 中，各种被使用`fatalError`进行强制终止的错误一般都可以归类到 Universal error。
 
@@ -378,7 +378,7 @@ try! JSONDecoder().decode(Foo.self, from: Data())
 ### app内资源加载
 假设我们在处理一个机器学习的模型，需要从磁盘读取一份预先训练好的模型。该模型以文件的方式存储在 app bundle 中，如果读取时没有找到该模型，我们应该如何处理这个错误？
 
-#### 0.7.1.1. 方案 1 Simple domain error
+#### 方案 1 Simple domain error
 
 ```swift
 func loadModel() -> Model? {
@@ -394,7 +394,7 @@ func loadModel() -> Model? {
 }
 ```
 
-#### 0.7.1.2. 方案 2 Recoverable error
+#### 方案 2 Recoverable error
 
 ```swift
 func loadModel() throws -> Model {
@@ -407,7 +407,7 @@ func loadModel() throws -> Model {
 }
 ```
 
-#### 0.7.1.3. 方案 3 Universal error
+#### 方案 3 Universal error
 
 ```swift
 func loadModel() -> Model {
@@ -424,7 +424,7 @@ func loadModel() -> Model {
 }
 ```
 
-#### 0.7.1.4. 方案 4 Logic failure
+#### 方案 4 Logic failure
 
 ```swift
 func loadModel() -> Model {
@@ -450,7 +450,7 @@ func loadModel() -> Model {
 
 我们在用户登录后会将用户信息存储在本地，每次重新打开app时我们检测并使用用户信息。当用户信息不存在时，应该进行的处理：
 
-#### 0.7.2.1. 方案 1 Simple domain error
+#### 方案 1 Simple domain error
 
 ```swift
 func loadUser() -> User? {
@@ -463,7 +463,7 @@ func loadUser() -> User? {
 }
 ```
 
-#### 0.7.2.2. 方案 2 Recoverable error
+#### 方案 2 Recoverable error
 
 ```swift
 func loadUser() throws -> User {
@@ -476,7 +476,7 @@ func loadUser() throws -> User {
 }
 ```
 
-#### 0.7.2.3. 方案 3 Universal error
+#### 方案 3 Universal error
 
 ```swift
 func loadUser() -> User {
@@ -489,7 +489,7 @@ func loadUser() -> User {
 }
 ```
 
-#### 0.7.2.4. 方案 4 Logic failure
+#### 方案 4 Logic failure
 
 ```swift
 func loadUser() -> User {
@@ -514,7 +514,7 @@ func loadUser() -> User {
 
 假设你在为你的服务开发一个iOS框架，但是由于工期有限，有一些功能只定义了接口，没有进行具体实现。这些接口会在正式版中完成，但是我们需要预先发布给友商内测。所以除了在文档中明确标明这些内容，这些方法内部应该如何处理呢？
 
-#### 0.7.3.1. 方案 1 Simple domain error
+#### 方案 1 Simple domain error
 
 ```swift
 func foo() -> Bar? {
@@ -522,7 +522,7 @@ func foo() -> Bar? {
 }
 ```
 
-#### 0.7.3.2. 方案 2 Recoverable error
+#### 方案 2 Recoverable error
 
 ```swift
 func foo() throws -> Bar? {
@@ -530,7 +530,7 @@ func foo() throws -> Bar? {
 }
 ```
 
-#### 0.7.3.3. 方案 3 Universal error
+#### 方案 3 Universal error
 
 ```swift
 func foo() -> Bar? {
@@ -538,7 +538,7 @@ func foo() -> Bar? {
 }
 ```
 
-#### 0.7.3.4. 方案 4 Logic failure
+#### 方案 4 Logic failure
 
 ```swift
 func foo() -> Bar? {
@@ -567,7 +567,7 @@ required init?(coder aDecoder: NSCoder) {
 
 调用传感器的app最有意思了！不管是相机还是陀螺仪，传感器相关的app总是能带给我们很多乐趣。那么，如果想要调用传感器获取数据时，发生了错误，应该怎么办呢？
 
-#### 0.7.4.1. 方案 1 Simple domain error
+#### 方案 1 Simple domain error
 
 ```swift
 func getDataFromSensor() -> Data? {
@@ -579,7 +579,7 @@ func getDataFromSensor() -> Data? {
 }
 ```
 
-#### 0.7.4.2. 方案 2 Recoverable error
+#### 方案 2 Recoverable error
 ```swift
 func getDataFromSensor() throws -> Data {
     let sensorState = sensor.getState()
@@ -590,7 +590,7 @@ func getDataFromSensor() throws -> Data {
 }
 ```
 
-#### 0.7.4.3. 方案 3 Universal error
+#### 方案 3 Universal error
 
 ```swift
 func loadUser() -> Data {
@@ -602,7 +602,7 @@ func loadUser() -> Data {
 }
 ```
 
-#### 0.7.4.4. 方案 4 Logic failure
+#### 方案 4 Logic failure
 
 ```swift
 func loadUser() -> Data {
@@ -638,7 +638,7 @@ For custom errors in swift, refer to [Error](https://developer.apple.com/documen
 <a id="markdown-use-custom-errors" name="use-custom-errors"></a>
 ### Use Custom Errors
 
-#### 0.8.1.1. Using Enumerations as Errors
+#### Using Enumerations as Errors
 
 Swift’s enumerations are well suited to represent simple errors. Create an enumeration that conforms to the Error protocol with a case for each possible error. If there are additional details about the error that could be helpful for recovery, use associated values to include that information.
 
@@ -651,7 +651,7 @@ enum IntParsingError: Error {
 }
 ```
 
-#### 0.8.1.2. Including More Data in Errors
+#### Including More Data in Errors
 
 The following XMLParsingError conforms to Error and supply line and column position of the error.
 
