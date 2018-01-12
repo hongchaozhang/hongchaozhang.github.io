@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ios | Reading Space]]></title>
   <link href="http://hongchaozhang.github.io/blog/categories/ios/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2017-11-23T22:23:40+08:00</updated>
+  <updated>2018-01-12T13:55:52+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -12,6 +12,299 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[CoreML Usage]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2017/12/28/coreml-usage/"/>
+    <updated>2017-12-28T17:25:39+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2017/12/28/coreml-usage</id>
+    <content type="html"><![CDATA[<!-- more -->
+
+
+<h2>Model Usage</h2>
+
+<p>When you load a trained machine learning model (.mlmodel) into xcode, the screenshot is like (take inceptionv3.mlmodel as an example):</p>
+
+<p><img src="/images/mlmodel_in_xcode.png" alt="machine learning model imported to xcode" /></p>
+
+<p>From <em>Model Class</em> (section A), we can see that xcode has <em>Automatically generated Swift model calss</em>. Click the right arrow to view the generated model class.</p>
+
+<p>If the model class is not generated successfully, double check <em>Target Membership</em> (section B) to make sure the mlmodel file is added into the correct target.</p>
+
+<p>From <em>Model Evaluation Parameters</em>(section C), we can see the input and output of the trained model.</p>
+
+<pre><code class="swift">
+guard let selectedModel = try? VNCoreMLModel(for: Inceptionv3().model) else {
+    fatalError("Could not load model. Ensure model has been drag and dropped (copied) to XCode Project. Also ensure the model is part of a target.")
+}     
+
+let classificationRequest = VNCoreMLRequest(model: selectedModel, completionHandler: classificationCompleteHandler)
+classificationRequest.imageCropAndScaleOption = VNImageCropAndScaleOption.centerCrop // Crop from centre of images and scale to appropriate size.
+
+...
+
+guard let pixbuff = (sceneView.session.currentFrame?.capturedImage) else { return }
+let ciImage = CIImage(cvPixelBuffer: pixbuff)
+// Note1: Not entirely sure if the ciImage is being interpreted as RGB, but for now it works with the Inception model.
+// Note2: Also uncertain if the pixelBuffer should be rotated before handing off to Vision (VNImageRequestHandler) - regardless, for now, it still works well with the Inception model.
+
+let imageRequestHandler = VNImageRequestHandler(ciImage: ciImage, options: [:])
+
+do {
+    try imageRequestHandler.perform([classificationRequest])
+} catch {
+    print(error)
+}
+</code></pre>
+
+<p>Refer to <a href="https://developer.apple.com/machine-learning/">Build more intelligent apps with machine learning</a> for some official materails.</p>
+
+<p>For some detailed usage step by step, refer to <a href="https://www.raywenderlich.com/164213/coreml-and-vision-machine-learning-in-ios-11-tutorial">Core ML and Vision: Machine Learning in iOS 11 Tutorial</a>.</p>
+
+<h2>Model Training</h2>
+
+<h3>Basic</h3>
+
+<p><img src="/images/CustomVisionFromMicroSoft.png" alt="Custom Vision From MicroSoft" /></p>
+
+<p>来自微软的<a href="https://www.customvision.ai/">Custom Vision</a>，提供UI界面，可以直接上传图片，并进行标注。训练好之后可以到处模型供移动设备使用：iOS平台导出mlmodel，Android平台导出供TensorFlow使用的model。</p>
+
+<p>使用界面友好：</p>
+
+<p><img src="/images/InterfaceOfCustomVision.png" alt="interface of microsoft custom vision" /></p>
+
+<p>但是由于Custom Vision仍然处于测试阶段，所以有很多限制：</p>
+
+<p><img src="/images/MicroSoftCustomVisionLimitation.png" alt="limitation of microsoft custom vision" /></p>
+
+<h3>Advanced</h3>
+
+<p><a href="https://github.com/apple/turicreate/tree/master/userguide/image_classifier">apple turicreate image classification</a>有更多的参数可以设置，比如训练集和测试集的比例。需要写一些python代码。</p>
+
+<h2>CoreML Pros and Cons</h2>
+
+<p>Refer to <a href="https://www.infoworld.com/article/3200885/machine-learning/apples-core-ml-the-pros-and-cons.html">Apple’s Core ML: The pros and cons</a>.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[ARKit Usage]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2017/12/28/arkit-usage/"/>
+    <updated>2017-12-28T17:25:27+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2017/12/28/arkit-usage</id>
+    <content type="html"><![CDATA[<!-- more -->
+
+
+<h2>ARKit的功能</h2>
+
+<p>参考官方文档<a href="https://developer.apple.com/documentation/arkit">ARKit</a>。</p>
+
+<h3>Requirement</h3>
+
+<ul>
+<li>iOS 11 and above system.</li>
+<li>iOS device with an A9 or later processor.</li>
+</ul>
+
+
+<p>To make your app available only on devices supporting ARKit, use the arkit key in the <code>UIRequiredDeviceCapabilities</code> section of your app&rsquo;s Info.plist. If augmented reality is a secondary feature of your app, use the <code>isSupported</code> property to determine whether the current device supports the session configuration you want to use.</p>
+
+<h3>ARKit in iOS system</h3>
+
+<p><img src="/images/ARKitFramework.png" alt="arkit in ios system" /></p>
+
+<h3>ARKit Usage</h3>
+
+<p><img src="/images/ARKitUsage.png" alt="arkit usage" /></p>
+
+<h3><a href="https://developer.apple.com/documentation/arkit/arsession"><code>ARSession</code></a></h3>
+
+<p>An <code>ARSession</code> object coordinates the major processes that ARKit performs on your behalf to create an augmented reality experience. These processes include reading data from the device&rsquo;s motion sensing hardware, controlling the device&rsquo;s built-in camera, and performing image analysis on captured camera images. The session synthesizes all of these results to establish a correspondence between the real-world space the device inhabits and a virtual space where you model AR content.</p>
+
+<p>Every AR experience built with ARKit requires a single <code>ARSession</code>object. If you use an <code>ARSCNView</code> or <code>ARSKView</code> object to easily build the visual part of your AR experience, the view object includes an <code>ARSession</code> instance. If you build your own renderer for AR content, you&rsquo;ll need to instantiate and maintain an ARSession object yourself.</p>
+
+<p>Running a session requires a session configuration: an instance of the <code>ARConfiguration</code> class, or its subclass <code>ARWorldTrackingConfiguration</code>. These classes determine how ARKit tracks a device&rsquo;s position and motion relative to the real world, and thus affect the kinds of AR experiences you can create.</p>
+
+<h3><a href="https://developer.apple.com/documentation/arkit/arconfiguration"><code>ARConfiguration</code></a></h3>
+
+<p><code>ARConfiguration</code> is an abstract class; you do not create or work with instances of this class.</p>
+
+<p>To run an AR session, create an instance of the concrete <code>ARConfiguration</code> subclass that provides the kind of augmented reality experience you want to use in your app or game. Then, set up the configuration object&rsquo;s properties and pass the configuration to your session&rsquo;s <code>run(_:options:)</code> method. ARKit includes the following concrete configuration classes:</p>
+
+<ul>
+<li><p><a href="https://developer.apple.com/documentation/arkit/arworldtrackingconfiguration"><code>ARWorldTrackingConfiguration</code></a>
+Provides high-quality AR experiences that use the rear-facing camera precisely track a device&rsquo;s position and orientation and allow plane detection and hit testing. Creating and maintaining this correspondence between spaces requires tracking the device&rsquo;s motion. The <code>ARWorldTrackingConfiguration</code> class tracks the device&rsquo;s movement with six degrees of freedom (6DOF): specifically, the three rotation axes (roll, pitch, and yaw), and three translation axes (movement in x, y, and z).</p></li>
+<li><p><a href="https://developer.apple.com/documentation/arkit/arorientationtrackingconfiguration"><code>AROrientationTrackingConfiguration</code></a>
+Provides basic AR experiences that use the rear-facing camera and track only a device&rsquo;s orientation. Creating and maintaining this correspondence between spaces requires tracking the device&rsquo;s motion. The <code>AROrientationTrackingConfiguration</code> class tracks the device&rsquo;s movement with three degrees of freedom (3DOF): specifically, the three rotation axes (roll, pitch, and yaw).</p>
+
+<p>  <code>AROrientationTrackingConfiguration</code> cannot track movement of the device, and 3DOF tracking does not support plane detection or hit testing.</p>
+
+<p>  Use 3DOF tracking only as a fallback in situations where 6DOF tracking is temporarily unavailable.</p></li>
+<li><p><a href="https://developer.apple.com/documentation/arkit/arfacetrackingconfiguration"><code>ARFaceTrackingConfiguration</code></a>
+Provides AR experiences that use the front-facing camera and track the movement and expressions of the user&rsquo;s face. Face tracking is available only on iOS devices with a front-facing TrueDepth camera.</p></li>
+</ul>
+
+
+<h3>More on <a href="https://developer.apple.com/documentation/arkit/arworldtrackingconfiguration"><code>ARWorldTrackingConfiguration</code></a></h3>
+
+<p>Refer to <a href="https://developer.apple.com/documentation/arkit/about_augmented_reality_and_arkit">About Augmented Reality and ARKit</a> for an official explaination of the world tracking things.</p>
+
+<p>World tracking process can be illustracted as:</p>
+
+<p><img src="/images/ARKitTracking.gif" alt="arkit world tracking" /></p>
+
+<h4>Tracking Quality</h4>
+
+<p>To get better tracking quality:</p>
+
+<ol>
+<li>Uninterrupted sensor data</li>
+<li>Textured environments</li>
+<li>Static scenes</li>
+</ol>
+
+
+<p>If tracking quality changes, the tracking state will also change:</p>
+
+<p><img src="/images/ARKitTrackingState.png" alt="arkit tracing state transition" /></p>
+
+<p>And the tracking state changes will be notified by:</p>
+
+<pre><code class="swift">
+func session(_ session: ARSession, cameraDidChangeTrackingState camera: ARCamera) { 
+    if case .limited(let reason) = camera.trackingState {
+        // Notify user of limited tracking state
+        ...
+    } 
+}
+</code></pre>
+
+<h3>Real-World Objects and Positions</h3>
+
+<ul>
+<li><p><strong><code>ARHitTestResult</code></strong>: Information about a real-world surface found by examining a point in the device camera view of an AR session.</p></li>
+<li><p><strong><code>ARAnchor</code></strong>: A real-world position and orientation that can be used for placing objects in an AR scene.</p></li>
+<li><p><strong><code>ARTrackable</code></strong>: A real-world object in a scene for which ARKit tracks changes to position and orientation.</p></li>
+</ul>
+
+
+<h3>More on HitTest</h3>
+
+<p>By calling the following method on <code>ARSCNView</code>,</p>
+
+<pre><code class="swift">open func hitTest(_ point: CGPoint, types: ARHitTestResult.ResultType) -&gt; [ARHitTestResult]
+</code></pre>
+
+<p>we can get an array of <code>ARHitTestResult</code>. The <code>ARHitTestResult</code>s are sorted by distance. To call the method, you need to specify the <code>ARHitTestResult.ResultType</code>. There are four kinds of the types:</p>
+
+<h4>existingPlane</h4>
+
+<p>Return the result type from intersecting with an existing plane anchor.</p>
+
+<p><img src="/images/ARKitHitTestExistingPlane.gif" alt="arkit hittest existing plane" /></p>
+
+<h4>existingPlaneUsingExtent</h4>
+
+<p>Return the result type from intersecting with an existing plane anchor, taking into account the plane’s extent.</p>
+
+<h4>estimatedHorizontalPlane</h4>
+
+<p>Return the result type from intersecting a horizontal plane estimate, determined for the current frame.</p>
+
+<p><img src="/images/ARKitHitTestEstimatedPlane.gif" alt="arkit hittest estimated plane" /></p>
+
+<h4>featurePoint</h4>
+
+<p>Return the result type from intersecting the nearest feature point.</p>
+
+<p><img src="/images/ARKitHitTestFeaturePoints.gif" alt="" /></p>
+
+<h3>Display Virtual Object in Real World</h3>
+
+<p>Related classes:</p>
+
+<ol>
+<li><p><strong><code>ARFrame</code></strong>: A video image and position tracking information captured as part of an AR session. There are two ways to access <code>ARFrame</code> objects produced by an AR session, depending on whether your app favors a pull or a push design pattern.</p>
+
+<ol>
+<li><strong>Pull Pattern</strong>: get <code>currentFrame</code> from <code>ARSession</code>.</li>
+<li><strong>Push Pattern</strong>: implement the <code>session(_:didUpdate:)</code> delegate method, and the session will call it once for each video frame it captures (at 60 frames per second by default).</li>
+</ol>
+</li>
+<li><p><strong><code>ARCamera</code></strong>: Information about the camera position and imaging characteristics for a captured video frame in an AR session. Get <code>camera</code> from <code>ARFrame</code>.</p></li>
+<li><p><strong><code>ARLightEstimate</code></strong>: Estimated scene lighting information associated with a captured video frame in an AR session. Get <code>lightEstimate</code> from <code>ARFrame</code>.</p>
+
+<p> Refer to <a href="https://blog.markdaws.net/arkit-by-example-part-4-realism-lighting-pbr-b9a0bedb013e">ARKit by Example — Part 4: Realism - Lighting &amp; PBR</a> for mimicing the environment light.</p></li>
+</ol>
+
+
+<h4>Standard View</h4>
+
+<ul>
+<li><strong><code>ARSCNView</code></strong>: A view for displaying AR experiences that augment the camera view with 3D SceneKit content.</li>
+<li><strong><code>ARSKView</code></strong>: A view for displaying AR experiences that augment the camera view with 2D SpriteKit content.</li>
+</ul>
+
+
+<h4>Custom View (Refer to <a href="https://developer.apple.com/documentation/arkit/displaying_an_ar_experience_with_metal">Displaying an AR Experience with Metal</a>)</h4>
+
+<p>To display your AR experience in a custom view, you’ll need to:</p>
+
+<ol>
+<li>Retrieve video frames and tracking information from the session.</li>
+<li>Render those frame images as the backdrop for your view.</li>
+<li>Use the tracking information to position and draw AR content atop the camera image.</li>
+</ol>
+
+
+<h3>Camera and Scene Details</h3>
+
+<h3>Face-Based AR Experiences</h3>
+
+<p><strong>Creating Face-Based AR Experiences</strong>
+Place and animate 3D content that follows the user’s face and matches facial expressions, using the TrueDepth camera on iPhone X. Reer to <a href="https://developer.apple.com/documentation/arkit/creating_face_based_ar_experiences">Creating Face-Based AR Experiences</a> for an official example.</p>
+
+<ul>
+<li><strong><code>ARFaceTrackingConfiguration</code></strong>: A configuration that tracks the movement and expressions of the user’s face using the TrueDepth camera.</li>
+<li><strong>ARFaceAnchor</strong>: Information about the pose, topology, and expression of a face detected in a face-tracking AR session.</li>
+</ul>
+
+
+<h2>ARKit的使用</h2>
+
+<h3>Best Practices and Limitations (Refer to <a href="https://developer.apple.com/documentation/arkit/about_augmented_reality_and_arkit">About Augmented Reality and ARKit</a>)</h3>
+
+<p>World tracking is an inexact science. This process can often produce impressive accuracy, leading to realistic AR experiences. However, it relies on details of the device’s physical environment that are not always consistent or are difficult to measure in real time without some degree of error. To build high-quality AR experiences, be aware of these caveats and tips.</p>
+
+<p><strong>Design AR experiences for predictable lighting conditions.</strong></p>
+
+<p> World tracking involves image analysis, which requires a clear image. Tracking quality is reduced when the camera can’t see details, such as when the camera is pointed at a blank wall or the scene is too dark.</p>
+
+<p><strong>Use tracking quality information to provide user feedback.</strong></p>
+
+<p> World tracking correlates image analysis with device motion. ARKit develops a better understanding of the scene if the device is moving, even if the device moves only subtly. Excessive motion—too far, too fast, or shaking too vigorously—results in a blurred image or too much distance for tracking features between video frames, reducing tracking quality. The ARCamera class provides tracking state reason information, which you can use to develop UI that tells a user how to resolve low-quality tracking situations.</p>
+
+<p><strong>Allow time for plane detection to produce clear results, and disable plane detection when you have the results you need.</strong></p>
+
+<p> Plane detection results vary over time—when a plane is first detected, its position and extent may be inaccurate. As the plane remains in the scene over time, ARKit refines its estimate of position and extent. When a large flat surface is in the scene, ARKit may continue changing the plane anchor’s position, extent, and transform after you’ve already used the plane to place content.</p>
+
+<h2>ARKit的不足</h2>
+
+<ol>
+<li>对动态场景的位置估计不准确。相机不动，有新物体进入视野的时候，对新物体的空间位置估计偏差比较大。</li>
+<li>当镜头轴线方向上有两个真是物体时，没有办法将虚拟物体放到这两个真是物体之间。两种方法可能有助于这个问题的解决：
+
+<ol>
+<li>基于已经检测出来的特征点的空间位置进行图像分割，先画远的真实物体，再画虚拟物体，再画近的真实物体。因为特征点检测比较稀疏（性能考虑），所以在进行图像分割的时候难免误差较大，需要结合一些边缘检测的算法。</li>
+<li>基于双摄像头得到图像上每个像素的景深，进行图像分割，再根据距离安排真实物体和虚拟物体。</li>
+</ol>
+
+
+<p> 以上两个方案不知道ARKit以后会不会更新，自己实现工作量大。</p></li>
+</ol>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Swift中的Error]]></title>
@@ -972,208 +1265,6 @@ Puppet  Twig    Vue.js</p>
 <li><code>layoutIfNeeded</code>：如果一个视图调用了<code>layoutIfNeeded</code>，那么该视图的<code>layoutSubviews</code>会被<strong>立刻</strong>调用。</li>
 </ul>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[如何处理多个手势之间的关系]]></title>
-    <link href="http://hongchaozhang.github.io/blog/2017/03/03/relation-among-m-multiple-gestures/"/>
-    <updated>2017-03-03T13:11:55+08:00</updated>
-    <id>http://hongchaozhang.github.io/blog/2017/03/03/relation-among-m-multiple-gestures</id>
-    <content type="html"><![CDATA[<ol>
-<li>可以为同一个view添加两个相同类型的手势吗？比如添加两个<code>UITapGestureRecognizer</code>到同一个view。</li>
-<li>如果一个view中有多个手势（<code>UIGestureRecognizer</code>），应该怎么处理它们之间的关系？</li>
-<li>如果子view和父view中都有手势，这些手势之间的关系又是怎么样的呢？</li>
-</ol>
-
-
-<!-- more -->
-
-
-<p>单个手势的响应过程参考<a href="http://hongchaozhang.github.io/blog/2015/10/21/touch-event-in-ios/">iOS中的触控事件机制</a>。但是上面几个问题需要考虑多个手势之间的关系，超出了上面文章的讨论范围。下面，我们就来讨论一下上面几个问题。</p>
-
-<h3>1. 可以为同一个view添加两个相同类型的手势吗？比如添加两个UITapGestureRecognizer到同一个view。</h3>
-
-<p>可以为view添加多个不同的<code>UIGestureRecognizer</code>，比如pan和tap，可以同时起作用，但是如果你想<strong>加入两个tap手势，第二个会将第一个手势覆盖</strong>。这个时候，至少需要为其中一个tap手势添加delegate，并实现下面的方法，为两个tap同时存在的情况返回true：</p>
-
-<pre><code class="swift">optional public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -&gt; Bool
-</code></pre>
-
-<blockquote><p>returning YES is guaranteed to allow simultaneous recognition. returning NO is not guaranteed to prevent simultaneous recognition, as the other gesture&rsquo;s delegate may return YES.</p></blockquote>
-
-<h3>2. 如果一个view中有多个手势（<code>UIGestureRecognizer</code>），应该怎么处理它们之间的关系？</h3>
-
-<p>如果两个手势之间没有识别上的困难，那么不用任何处理，比如tap和pan，但是如果有关系，比如single tap和double tap，rotate和pinch，这需要明确两者之间的关系。</p>
-
-<p>如果不希望在double tap的同时触发两次single tap，需要在single tap的delegate中实现方法</p>
-
-<pre><code class="swift">optional public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRequireFailureOf otherGestureRecognizer: UIGestureRecognizer) -&gt; Bool
-</code></pre>
-
-<p>这样，可以保证single tap会等待double tap失败之后再被触发。缺点是single tap反应迟钝。</p>
-
-<p>如果希望在rotate的同时可以进行pinch，需要在pinch或者rotate的手势的delegate中实现方法：</p>
-
-<pre><code class="swift">optional public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -&gt; Bool
-</code></pre>
-
-<p>这样，rotate和pinch就能同时被识别。</p>
-
-<h3>3. 如果子view和父view中都有手势，这些手势之间的关系又是怎么样的呢？</h3>
-
-<p><code>UIGestureRecognizerDelegate</code>中的方法并没有限制在同一个view之中，所以，不同view之间的手势关系与1和2的处理相同。</p>
-
-<h3>注意</h3>
-
-<p>如果为手势实现了delegate方法，那么<code>UIGestureRecognizer</code>里面的类似的方法将不再起作用。比如：</p>
-
-<p>如果设置了</p>
-
-<pre><code class="swift">singleTap.delegate = self.singleTapOnMapWidgetViewerGestureRecognizerDelegate
-</code></pre>
-
-<p>那么</p>
-
-<pre><code class="swift">singleTap.require(toFail: doubleTap)
-</code></pre>
-
-<p>就不起作用了，必须通过<code>UIGestureRecognizerDelegate</code>里面的方法实现。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS语音控制系统]]></title>
-    <link href="http://hongchaozhang.github.io/blog/2017/02/08/voice-command-implementation-for-ios/"/>
-    <updated>2017-02-08T22:53:14+08:00</updated>
-    <id>http://hongchaozhang.github.io/blog/2017/02/08/voice-command-implementation-for-ios</id>
-    <content type="html"><![CDATA[<h2>语音识别</h2>
-
-<p>ios10之前，用户和iOS系统进行语音交互有两种途径：</p>
-
-<ol>
-<li>Siri</li>
-<li>通过键盘的麦克风按钮，进入听写模式</li>
-</ol>
-
-
-<!-- more -->
-
-
-<p><strong>Siri</strong></p>
-
-<p>缺点：</p>
-
-<p>虽然Siri在iOS10中也开放了一些接口，但是非常有限：</p>
-
-<ol>
-<li>VoIP calling</li>
-<li>Messaging</li>
-<li>Payments</li>
-<li>Photo</li>
-<li>Workouts</li>
-<li>Ride booking</li>
-<li>CarPlay (automotive vendors only)</li>
-<li>Restaurant reservations (requires additional support from Apple)</li>
-</ol>
-
-
-<p>而且，还必须以App Extension的形式实现。</p>
-
-<p>优点：</p>
-
-<p>但是优点也是很明显的，比如，在一个支持Siri的Messaging的应用中，可能出现下面的对话：</p>
-
-<table>
-<thead>
-<tr>
-<th>Siri </th>
-<th> User</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td></td>
-<td> Hi, Siri, send a app_name message.</td>
-</tr>
-<tr>
-<td>to whom? </td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td> Hongchao</td>
-</tr>
-<tr>
-<td>What do you want to say to Hongchao? </td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td> Good job on Jarvis for Map.</td>
-</tr>
-</tbody>
-</table>
-
-
-<p><strong>Speech</strong></p>
-
-<p>iOS10除了通过SiriKit开发了Siri的一些功能之外，还开放了Siri使用的语音识别库Speech，该库是一个在线语音识别库。通过Speech进行语音识别非常简单、好用识别率高。详情参照<a href="https://developer.apple.com/reference/speech">官方文档</a>。</p>
-
-<p>虽然ios10开放了Speech，但是也是有限制的开放：</p>
-
-<ol>
-<li>最长一分钟的持续时间。</li>
-<li>对每个设备和每个应用，每天都有请求次数限制，但是具体次数没有公布。</li>
-</ol>
-
-
-<h2>命令提取</h2>
-
-<p>Speech识别请求会返回最长一分钟的音频识别结果，如何从这段识别结果里面提取出需要执行的命令呢？我们使用下面两条原则：</p>
-
-<ol>
-<li>从后往前提取出第一个匹配命令库中的命令。</li>
-<li>设计一些断句词帮助断句、提取命令。</li>
-</ol>
-
-
-<p>通过原则1，可以解决不带参数的固定命令的提取，但是对命令有个要求：</p>
-
-<ul>
-<li>任何命令不能是另一个命令的后缀。</li>
-</ul>
-
-
-<p>否则较长的命令就不能被执行。</p>
-
-<p>对于有参数的变化命令，通过原则1就不能解决了。</p>
-
-<p>比如，有命令<em>search for new york</em>，其中<em>search for</em>是命令，<em>new york</em>是参数。当执行完此命令之后，继续说了一些“无关紧要”的话，就会导致系统继续执行此命令。这里说的“无关紧要”是指：</p>
-
-<ul>
-<li>不是固定命令</li>
-<li>不是断句词</li>
-</ul>
-
-
-<p>执行完带有参数的变化命令之后，需要使用断句词进行断句。这就是原则2的必要性。</p>
-
-<p><strong>更自然的命令提取方法</strong></p>
-
-<ul>
-<li>只要能得到每个单词的时间戳，就可以通过停顿进行断句和命令提取，更加自然。</li>
-<li>参考Siri在某个固定场景下的对话方式。</li>
-</ul>
-
-
-<h2>通过扬声器发声</h2>
-
-<p>需要设置<code>AVAudioSession</code>的状态，保证既可以录音，也可以发声，同时发出的声音不应该再被录入。</p>
-
-<p>这个需求应该可以通过<code>AVSpeechSynthesizerDelegate</code>中下面的方法实现：</p>
-
-<pre><code class="swift">public func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didFinish utterance: AVSpeechUtterance)
-</code></pre>
 ]]></content>
   </entry>
   

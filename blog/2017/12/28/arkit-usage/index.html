@@ -1,0 +1,525 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>ARKit Usage - Reading Space</title>
+  <meta name="author" content="Zhang Hongchao">
+
+  
+  <meta name="description" content="ARKit的功能 参考官方文档ARKit。 Requirement iOS 11 and above system.
+iOS device with an A9 or later processor. To make your app available only on devices &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://hongchaozhang.github.io/blog/2017/12/28/arkit-usage">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Reading Space" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/libs/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<!--
+<link href='https://fonts.googleapis.com/css?family=Noto+Serif:400,700' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+-->
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-62806905-2']);
+    _gaq.push(['_setDomainName','github.io']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Reading Space</a></h1>
+  
+    <h2>Zhang Hongchao's Blog</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><!--
+<ul class="subscription" data-subscription="rss">
+  
+  
+</ul>
+-->
+
+<!--
+
+-->
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <script type="text/javascript" src="/javascripts/DisableLineNumberCopy.js"></script>
+
+<div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">ARKit Usage</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2017-12-28T17:25:27+08:00" pubdate data-updated="true">Dec 28th, 2017</time>
+        
+           | <a href="#disqus_thread"
+             data-disqus-identifier="http://hongchaozhang.github.io">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!-- more -->
+
+
+<h2>ARKit的功能</h2>
+
+<p>参考官方文档<a href="https://developer.apple.com/documentation/arkit">ARKit</a>。</p>
+
+<h3>Requirement</h3>
+
+<ul>
+<li>iOS 11 and above system.</li>
+<li>iOS device with an A9 or later processor.</li>
+</ul>
+
+
+<p>To make your app available only on devices supporting ARKit, use the arkit key in the <code>UIRequiredDeviceCapabilities</code> section of your app&rsquo;s Info.plist. If augmented reality is a secondary feature of your app, use the <code>isSupported</code> property to determine whether the current device supports the session configuration you want to use.</p>
+
+<h3>ARKit in iOS system</h3>
+
+<p><img src="/images/ARKitFramework.png" alt="arkit in ios system" /></p>
+
+<h3>ARKit Usage</h3>
+
+<p><img src="/images/ARKitUsage.png" alt="arkit usage" /></p>
+
+<h3><a href="https://developer.apple.com/documentation/arkit/arsession"><code>ARSession</code></a></h3>
+
+<p>An <code>ARSession</code> object coordinates the major processes that ARKit performs on your behalf to create an augmented reality experience. These processes include reading data from the device&rsquo;s motion sensing hardware, controlling the device&rsquo;s built-in camera, and performing image analysis on captured camera images. The session synthesizes all of these results to establish a correspondence between the real-world space the device inhabits and a virtual space where you model AR content.</p>
+
+<p>Every AR experience built with ARKit requires a single <code>ARSession</code>object. If you use an <code>ARSCNView</code> or <code>ARSKView</code> object to easily build the visual part of your AR experience, the view object includes an <code>ARSession</code> instance. If you build your own renderer for AR content, you&rsquo;ll need to instantiate and maintain an ARSession object yourself.</p>
+
+<p>Running a session requires a session configuration: an instance of the <code>ARConfiguration</code> class, or its subclass <code>ARWorldTrackingConfiguration</code>. These classes determine how ARKit tracks a device&rsquo;s position and motion relative to the real world, and thus affect the kinds of AR experiences you can create.</p>
+
+<h3><a href="https://developer.apple.com/documentation/arkit/arconfiguration"><code>ARConfiguration</code></a></h3>
+
+<p><code>ARConfiguration</code> is an abstract class; you do not create or work with instances of this class.</p>
+
+<p>To run an AR session, create an instance of the concrete <code>ARConfiguration</code> subclass that provides the kind of augmented reality experience you want to use in your app or game. Then, set up the configuration object&rsquo;s properties and pass the configuration to your session&rsquo;s <code>run(_:options:)</code> method. ARKit includes the following concrete configuration classes:</p>
+
+<ul>
+<li><p><a href="https://developer.apple.com/documentation/arkit/arworldtrackingconfiguration"><code>ARWorldTrackingConfiguration</code></a>
+Provides high-quality AR experiences that use the rear-facing camera precisely track a device&rsquo;s position and orientation and allow plane detection and hit testing. Creating and maintaining this correspondence between spaces requires tracking the device&rsquo;s motion. The <code>ARWorldTrackingConfiguration</code> class tracks the device&rsquo;s movement with six degrees of freedom (6DOF): specifically, the three rotation axes (roll, pitch, and yaw), and three translation axes (movement in x, y, and z).</p></li>
+<li><p><a href="https://developer.apple.com/documentation/arkit/arorientationtrackingconfiguration"><code>AROrientationTrackingConfiguration</code></a>
+Provides basic AR experiences that use the rear-facing camera and track only a device&rsquo;s orientation. Creating and maintaining this correspondence between spaces requires tracking the device&rsquo;s motion. The <code>AROrientationTrackingConfiguration</code> class tracks the device&rsquo;s movement with three degrees of freedom (3DOF): specifically, the three rotation axes (roll, pitch, and yaw).</p>
+
+<p>  <code>AROrientationTrackingConfiguration</code> cannot track movement of the device, and 3DOF tracking does not support plane detection or hit testing.</p>
+
+<p>  Use 3DOF tracking only as a fallback in situations where 6DOF tracking is temporarily unavailable.</p></li>
+<li><p><a href="https://developer.apple.com/documentation/arkit/arfacetrackingconfiguration"><code>ARFaceTrackingConfiguration</code></a>
+Provides AR experiences that use the front-facing camera and track the movement and expressions of the user&rsquo;s face. Face tracking is available only on iOS devices with a front-facing TrueDepth camera.</p></li>
+</ul>
+
+
+<h3>More on <a href="https://developer.apple.com/documentation/arkit/arworldtrackingconfiguration"><code>ARWorldTrackingConfiguration</code></a></h3>
+
+<p>Refer to <a href="https://developer.apple.com/documentation/arkit/about_augmented_reality_and_arkit">About Augmented Reality and ARKit</a> for an official explaination of the world tracking things.</p>
+
+<p>World tracking process can be illustracted as:</p>
+
+<p><img src="/images/ARKitTracking.gif" alt="arkit world tracking" /></p>
+
+<h4>Tracking Quality</h4>
+
+<p>To get better tracking quality:</p>
+
+<ol>
+<li>Uninterrupted sensor data</li>
+<li>Textured environments</li>
+<li>Static scenes</li>
+</ol>
+
+
+<p>If tracking quality changes, the tracking state will also change:</p>
+
+<p><img src="/images/ARKitTrackingState.png" alt="arkit tracing state transition" /></p>
+
+<p>And the tracking state changes will be notified by:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">func</span> <span class="nf">session</span><span class="p">(</span><span class="n">_</span> <span class="nl">session</span><span class="p">:</span> <span class="n">ARSession</span><span class="p">,</span> <span class="n">cameraDidChangeTrackingState</span> <span class="nl">camera</span><span class="p">:</span> <span class="n">ARCamera</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">if</span> <span class="k">case</span> <span class="p">.</span><span class="n">limited</span><span class="p">(</span><span class="k">let</span> <span class="n">reason</span><span class="p">)</span> <span class="o">=</span> <span class="n">camera</span><span class="p">.</span><span class="n">trackingState</span> <span class="p">{</span>
+</span><span class='line'>        <span class="c1">// Notify user of limited tracking state</span>
+</span><span class='line'>        <span class="p">...</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Real-World Objects and Positions</h3>
+
+<ul>
+<li><p><strong><code>ARHitTestResult</code></strong>: Information about a real-world surface found by examining a point in the device camera view of an AR session.</p></li>
+<li><p><strong><code>ARAnchor</code></strong>: A real-world position and orientation that can be used for placing objects in an AR scene.</p></li>
+<li><p><strong><code>ARTrackable</code></strong>: A real-world object in a scene for which ARKit tracks changes to position and orientation.</p></li>
+</ul>
+
+
+<h3>More on HitTest</h3>
+
+<p>By calling the following method on <code>ARSCNView</code>,</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="n">open</span> <span class="k">func</span> <span class="n">hitTest</span><span class="p">(</span><span class="n">_</span> <span class="nl">point</span><span class="p">:</span> <span class="bp">CGPoint</span><span class="p">,</span> <span class="nl">types</span><span class="p">:</span> <span class="n">ARHitTestResult</span><span class="p">.</span><span class="n">ResultType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="n">ARHitTestResult</span><span class="p">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>we can get an array of <code>ARHitTestResult</code>. The <code>ARHitTestResult</code>s are sorted by distance. To call the method, you need to specify the <code>ARHitTestResult.ResultType</code>. There are four kinds of the types:</p>
+
+<h4>existingPlane</h4>
+
+<p>Return the result type from intersecting with an existing plane anchor.</p>
+
+<p><img src="/images/ARKitHitTestExistingPlane.gif" alt="arkit hittest existing plane" /></p>
+
+<h4>existingPlaneUsingExtent</h4>
+
+<p>Return the result type from intersecting with an existing plane anchor, taking into account the plane’s extent.</p>
+
+<h4>estimatedHorizontalPlane</h4>
+
+<p>Return the result type from intersecting a horizontal plane estimate, determined for the current frame.</p>
+
+<p><img src="/images/ARKitHitTestEstimatedPlane.gif" alt="arkit hittest estimated plane" /></p>
+
+<h4>featurePoint</h4>
+
+<p>Return the result type from intersecting the nearest feature point.</p>
+
+<p><img src="/images/ARKitHitTestFeaturePoints.gif" alt="" /></p>
+
+<h3>Display Virtual Object in Real World</h3>
+
+<p>Related classes:</p>
+
+<ol>
+<li><p><strong><code>ARFrame</code></strong>: A video image and position tracking information captured as part of an AR session. There are two ways to access <code>ARFrame</code> objects produced by an AR session, depending on whether your app favors a pull or a push design pattern.</p>
+
+<ol>
+<li><strong>Pull Pattern</strong>: get <code>currentFrame</code> from <code>ARSession</code>.</li>
+<li><strong>Push Pattern</strong>: implement the <code>session(_:didUpdate:)</code> delegate method, and the session will call it once for each video frame it captures (at 60 frames per second by default).</li>
+</ol>
+</li>
+<li><p><strong><code>ARCamera</code></strong>: Information about the camera position and imaging characteristics for a captured video frame in an AR session. Get <code>camera</code> from <code>ARFrame</code>.</p></li>
+<li><p><strong><code>ARLightEstimate</code></strong>: Estimated scene lighting information associated with a captured video frame in an AR session. Get <code>lightEstimate</code> from <code>ARFrame</code>.</p>
+
+<p> Refer to <a href="https://blog.markdaws.net/arkit-by-example-part-4-realism-lighting-pbr-b9a0bedb013e">ARKit by Example — Part 4: Realism - Lighting &amp; PBR</a> for mimicing the environment light.</p></li>
+</ol>
+
+
+<h4>Standard View</h4>
+
+<ul>
+<li><strong><code>ARSCNView</code></strong>: A view for displaying AR experiences that augment the camera view with 3D SceneKit content.</li>
+<li><strong><code>ARSKView</code></strong>: A view for displaying AR experiences that augment the camera view with 2D SpriteKit content.</li>
+</ul>
+
+
+<h4>Custom View (Refer to <a href="https://developer.apple.com/documentation/arkit/displaying_an_ar_experience_with_metal">Displaying an AR Experience with Metal</a>)</h4>
+
+<p>To display your AR experience in a custom view, you’ll need to:</p>
+
+<ol>
+<li>Retrieve video frames and tracking information from the session.</li>
+<li>Render those frame images as the backdrop for your view.</li>
+<li>Use the tracking information to position and draw AR content atop the camera image.</li>
+</ol>
+
+
+<h3>Camera and Scene Details</h3>
+
+<h3>Face-Based AR Experiences</h3>
+
+<p><strong>Creating Face-Based AR Experiences</strong>
+Place and animate 3D content that follows the user’s face and matches facial expressions, using the TrueDepth camera on iPhone X. Reer to <a href="https://developer.apple.com/documentation/arkit/creating_face_based_ar_experiences">Creating Face-Based AR Experiences</a> for an official example.</p>
+
+<ul>
+<li><strong><code>ARFaceTrackingConfiguration</code></strong>: A configuration that tracks the movement and expressions of the user’s face using the TrueDepth camera.</li>
+<li><strong>ARFaceAnchor</strong>: Information about the pose, topology, and expression of a face detected in a face-tracking AR session.</li>
+</ul>
+
+
+<h2>ARKit的使用</h2>
+
+<h3>Best Practices and Limitations (Refer to <a href="https://developer.apple.com/documentation/arkit/about_augmented_reality_and_arkit">About Augmented Reality and ARKit</a>)</h3>
+
+<p>World tracking is an inexact science. This process can often produce impressive accuracy, leading to realistic AR experiences. However, it relies on details of the device’s physical environment that are not always consistent or are difficult to measure in real time without some degree of error. To build high-quality AR experiences, be aware of these caveats and tips.</p>
+
+<p><strong>Design AR experiences for predictable lighting conditions.</strong></p>
+
+<p> World tracking involves image analysis, which requires a clear image. Tracking quality is reduced when the camera can’t see details, such as when the camera is pointed at a blank wall or the scene is too dark.</p>
+
+<p><strong>Use tracking quality information to provide user feedback.</strong></p>
+
+<p> World tracking correlates image analysis with device motion. ARKit develops a better understanding of the scene if the device is moving, even if the device moves only subtly. Excessive motion—too far, too fast, or shaking too vigorously—results in a blurred image or too much distance for tracking features between video frames, reducing tracking quality. The ARCamera class provides tracking state reason information, which you can use to develop UI that tells a user how to resolve low-quality tracking situations.</p>
+
+<p><strong>Allow time for plane detection to produce clear results, and disable plane detection when you have the results you need.</strong></p>
+
+<p> Plane detection results vary over time—when a plane is first detected, its position and extent may be inaccurate. As the plane remains in the scene over time, ARKit refines its estimate of position and extent. When a large flat surface is in the scene, ARKit may continue changing the plane anchor’s position, extent, and transform after you’ve already used the plane to place content.</p>
+
+<h2>ARKit的不足</h2>
+
+<ol>
+<li>对动态场景的位置估计不准确。相机不动，有新物体进入视野的时候，对新物体的空间位置估计偏差比较大。</li>
+<li>当镜头轴线方向上有两个真是物体时，没有办法将虚拟物体放到这两个真是物体之间。两种方法可能有助于这个问题的解决：
+
+<ol>
+<li>基于已经检测出来的特征点的空间位置进行图像分割，先画远的真实物体，再画虚拟物体，再画近的真实物体。因为特征点检测比较稀疏（性能考虑），所以在进行图像分割的时候难免误差较大，需要结合一些边缘检测的算法。</li>
+<li>基于双摄像头得到图像上每个像素的景深，进行图像分割，再根据距离安排真实物体和虚拟物体。</li>
+</ol>
+
+
+<p> 以上两个方案不知道ARKit以后会不会更新，自己实现工作量大。</p></li>
+</ol>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Zhang Hongchao</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2017-12-28T17:25:27+08:00" pubdate data-updated="true">Dec 28th, 2017</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ios/'>ios</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2017/11/21/some-tips-on-markdown-usage/" title="Previous Post: some tips on markdown usage">&laquo; some tips on markdown usage</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2017/12/28/coreml-usage/" title="Next Post: CoreML Usage">CoreML Usage &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+  <aside class="sidebar">
+   
+  
+    <section class="categories">
+  <h1>Categories</h1>
+    <ul id="top-category-list" class="nav nav-list"><li><a href='/blog/categories/ios'>ios (34)</a></li><li><a href='/blog/categories/objective-c'>objective-c (20)</a></li><li><a href='/blog/categories/productivity'>productivity (17)</a></li><li><a href='/blog/categories/xcode'>xcode (5)</a></li><li><a href='/blog/categories/android'>android (5)</a></li><li><a href='/blog/categories/python'>python (3)</a></li><li><a href='/blog/categories/node'>node (3)</a></li><li><a href='/blog/categories/swift'>swift (2)</a></li><li><a href='/blog/categories/philosophy'>philosophy (2)</a></li><li><a href='/blog/categories/reading'>reading (2)</a></li><li><a href='/blog/categories/map-tech'>map tech (2)</a></li><li><a href='/blog/categories/web'>web (2)</a></li><li><a href='/blog/categories/java'>java (2)</a></li><li><a href='/blog/categories/javascript'>javascript (2)</a></li><li><a href='/blog/categories/design-pattern'>design_pattern (1)</a></li><li><a href='/blog/categories/mobile'>mobile (1)</a></li><li><a href='/blog/categories/android-studio'>android_studio (1)</a></li></ul>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2017/12/28/coreml-usage/">CoreML Usage</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/12/28/arkit-usage/">ARKit Usage</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/11/21/some-tips-on-markdown-usage/">Some Tips on Markdown Usage</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/10/20/errors-in-swift/">Swift中的Error</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/05/08/tools-for-detecting-duplicated-code/">iOS代码查重工具</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/hongchaozhang">@hongchaozhang</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'hongchaozhang',
+            count: 10,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+  
+</aside>
+
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2018 - Zhang Hongchao -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'zhanghongchao';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://hongchaozhang.github.io/blog/2017/12/28/arkit-usage/';
+        var disqus_url = 'http://hongchaozhang.github.io/blog/2017/12/28/arkit-usage/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+
+
+<script>
+  $(document).ready(function() {  
+    var stickyNavTop = $('nav').offset().top;  
+      
+    var stickyNav = function(){  
+      var scrollTop = $(window).scrollTop(); 
+      var navHasClassSticky = $('nav').hasClass('sticky');
+
+      if (scrollTop > stickyNavTop && navHasClassSticky) {   
+        return true;
+      } else if (scrollTop > stickyNavTop) {
+        $('nav').hide();
+        $('nav').addClass('sticky');
+        $('nav').fadeIn('2000');
+      } else {  
+        $('nav').removeClass('sticky');   
+      }  
+    };  
+      
+    stickyNav();  
+      
+    $(window).scroll(function() {  
+      stickyNav();  
+    });  
+  });  
+</script>
+
+
+</body>
+</html>

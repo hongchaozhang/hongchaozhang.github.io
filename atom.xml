@@ -4,7 +4,7 @@
   <title><![CDATA[Reading Space]]></title>
   <link href="http://hongchaozhang.github.io/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2017-11-23T22:23:40+08:00</updated>
+  <updated>2018-01-12T13:55:52+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -12,6 +12,328 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[CoreML Usage]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2017/12/28/coreml-usage/"/>
+    <updated>2017-12-28T17:25:39+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2017/12/28/coreml-usage</id>
+    <content type="html"><![CDATA[<!-- more -->
+
+
+<h2>Model Usage</h2>
+
+<p>When you load a trained machine learning model (.mlmodel) into xcode, the screenshot is like (take inceptionv3.mlmodel as an example):</p>
+
+<p><img src="http://hongchaozhang.github.io/images/mlmodel_in_xcode.png" alt="machine learning model imported to xcode" /></p>
+
+<p>From <em>Model Class</em> (section A), we can see that xcode has <em>Automatically generated Swift model calss</em>. Click the right arrow to view the generated model class.</p>
+
+<p>If the model class is not generated successfully, double check <em>Target Membership</em> (section B) to make sure the mlmodel file is added into the correct target.</p>
+
+<p>From <em>Model Evaluation Parameters</em>(section C), we can see the input and output of the trained model.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="n">guard</span> <span class="k">let</span> <span class="n">selectedModel</span> <span class="o">=</span> <span class="n">try</span><span class="o">?</span> <span class="n">VNCoreMLModel</span><span class="p">(</span><span class="k">for</span><span class="o">:</span> <span class="n">Inceptionv3</span><span class="p">().</span><span class="n">model</span><span class="p">)</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">fatalError</span><span class="p">(</span><span class="s">&quot;Could not load model. Ensure model has been drag and dropped (copied) to XCode Project. Also ensure the model is part of a target.&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">let</span> <span class="n">classificationRequest</span> <span class="o">=</span> <span class="n">VNCoreMLRequest</span><span class="p">(</span><span class="nl">model</span><span class="p">:</span> <span class="n">selectedModel</span><span class="p">,</span> <span class="nl">completionHandler</span><span class="p">:</span> <span class="n">classificationCompleteHandler</span><span class="p">)</span>
+</span><span class='line'><span class="n">classificationRequest</span><span class="p">.</span><span class="n">imageCropAndScaleOption</span> <span class="o">=</span> <span class="n">VNImageCropAndScaleOption</span><span class="p">.</span><span class="n">centerCrop</span> <span class="c1">// Crop from centre of images and scale to appropriate size.</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">...</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">guard</span> <span class="k">let</span> <span class="n">pixbuff</span> <span class="o">=</span> <span class="p">(</span><span class="n">sceneView</span><span class="p">.</span><span class="n">session</span><span class="p">.</span><span class="n">currentFrame</span><span class="o">?</span><span class="p">.</span><span class="n">capturedImage</span><span class="p">)</span> <span class="k">else</span> <span class="p">{</span> <span class="k">return</span> <span class="p">}</span>
+</span><span class='line'><span class="k">let</span> <span class="n">ciImage</span> <span class="o">=</span> <span class="bp">CIImage</span><span class="p">(</span><span class="nl">cvPixelBuffer</span><span class="p">:</span> <span class="n">pixbuff</span><span class="p">)</span>
+</span><span class='line'><span class="c1">// Note1: Not entirely sure if the ciImage is being interpreted as RGB, but for now it works with the Inception model.</span>
+</span><span class='line'><span class="c1">// Note2: Also uncertain if the pixelBuffer should be rotated before handing off to Vision (VNImageRequestHandler) - regardless, for now, it still works well with the Inception model.</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">let</span> <span class="n">imageRequestHandler</span> <span class="o">=</span> <span class="n">VNImageRequestHandler</span><span class="p">(</span><span class="nl">ciImage</span><span class="p">:</span> <span class="n">ciImage</span><span class="p">,</span> <span class="nl">options</span><span class="p">:</span> <span class="p">[</span><span class="o">:</span><span class="p">])</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">do</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">try</span> <span class="n">imageRequestHandler</span><span class="p">.</span><span class="n">perform</span><span class="p">([</span><span class="n">classificationRequest</span><span class="p">])</span>
+</span><span class='line'><span class="p">}</span> <span class="n">catch</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">print</span><span class="p">(</span><span class="n">error</span><span class="p">)</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Refer to <a href="https://developer.apple.com/machine-learning/">Build more intelligent apps with machine learning</a> for some official materails.</p>
+
+<p>For some detailed usage step by step, refer to <a href="https://www.raywenderlich.com/164213/coreml-and-vision-machine-learning-in-ios-11-tutorial">Core ML and Vision: Machine Learning in iOS 11 Tutorial</a>.</p>
+
+<h2>Model Training</h2>
+
+<h3>Basic</h3>
+
+<p><img src="http://hongchaozhang.github.io/images/CustomVisionFromMicroSoft.png" alt="Custom Vision From MicroSoft" /></p>
+
+<p>来自微软的<a href="https://www.customvision.ai/">Custom Vision</a>，提供UI界面，可以直接上传图片，并进行标注。训练好之后可以到处模型供移动设备使用：iOS平台导出mlmodel，Android平台导出供TensorFlow使用的model。</p>
+
+<p>使用界面友好：</p>
+
+<p><img src="http://hongchaozhang.github.io/images/InterfaceOfCustomVision.png" alt="interface of microsoft custom vision" /></p>
+
+<p>但是由于Custom Vision仍然处于测试阶段，所以有很多限制：</p>
+
+<p><img src="http://hongchaozhang.github.io/images/MicroSoftCustomVisionLimitation.png" alt="limitation of microsoft custom vision" /></p>
+
+<h3>Advanced</h3>
+
+<p><a href="https://github.com/apple/turicreate/tree/master/userguide/image_classifier">apple turicreate image classification</a>有更多的参数可以设置，比如训练集和测试集的比例。需要写一些python代码。</p>
+
+<h2>CoreML Pros and Cons</h2>
+
+<p>Refer to <a href="https://www.infoworld.com/article/3200885/machine-learning/apples-core-ml-the-pros-and-cons.html">Apple’s Core ML: The pros and cons</a>.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[ARKit Usage]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2017/12/28/arkit-usage/"/>
+    <updated>2017-12-28T17:25:27+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2017/12/28/arkit-usage</id>
+    <content type="html"><![CDATA[<!-- more -->
+
+
+<h2>ARKit的功能</h2>
+
+<p>参考官方文档<a href="https://developer.apple.com/documentation/arkit">ARKit</a>。</p>
+
+<h3>Requirement</h3>
+
+<ul>
+<li>iOS 11 and above system.</li>
+<li>iOS device with an A9 or later processor.</li>
+</ul>
+
+
+<p>To make your app available only on devices supporting ARKit, use the arkit key in the <code>UIRequiredDeviceCapabilities</code> section of your app&rsquo;s Info.plist. If augmented reality is a secondary feature of your app, use the <code>isSupported</code> property to determine whether the current device supports the session configuration you want to use.</p>
+
+<h3>ARKit in iOS system</h3>
+
+<p><img src="http://hongchaozhang.github.io/images/ARKitFramework.png" alt="arkit in ios system" /></p>
+
+<h3>ARKit Usage</h3>
+
+<p><img src="http://hongchaozhang.github.io/images/ARKitUsage.png" alt="arkit usage" /></p>
+
+<h3><a href="https://developer.apple.com/documentation/arkit/arsession"><code>ARSession</code></a></h3>
+
+<p>An <code>ARSession</code> object coordinates the major processes that ARKit performs on your behalf to create an augmented reality experience. These processes include reading data from the device&rsquo;s motion sensing hardware, controlling the device&rsquo;s built-in camera, and performing image analysis on captured camera images. The session synthesizes all of these results to establish a correspondence between the real-world space the device inhabits and a virtual space where you model AR content.</p>
+
+<p>Every AR experience built with ARKit requires a single <code>ARSession</code>object. If you use an <code>ARSCNView</code> or <code>ARSKView</code> object to easily build the visual part of your AR experience, the view object includes an <code>ARSession</code> instance. If you build your own renderer for AR content, you&rsquo;ll need to instantiate and maintain an ARSession object yourself.</p>
+
+<p>Running a session requires a session configuration: an instance of the <code>ARConfiguration</code> class, or its subclass <code>ARWorldTrackingConfiguration</code>. These classes determine how ARKit tracks a device&rsquo;s position and motion relative to the real world, and thus affect the kinds of AR experiences you can create.</p>
+
+<h3><a href="https://developer.apple.com/documentation/arkit/arconfiguration"><code>ARConfiguration</code></a></h3>
+
+<p><code>ARConfiguration</code> is an abstract class; you do not create or work with instances of this class.</p>
+
+<p>To run an AR session, create an instance of the concrete <code>ARConfiguration</code> subclass that provides the kind of augmented reality experience you want to use in your app or game. Then, set up the configuration object&rsquo;s properties and pass the configuration to your session&rsquo;s <code>run(_:options:)</code> method. ARKit includes the following concrete configuration classes:</p>
+
+<ul>
+<li><p><a href="https://developer.apple.com/documentation/arkit/arworldtrackingconfiguration"><code>ARWorldTrackingConfiguration</code></a>
+Provides high-quality AR experiences that use the rear-facing camera precisely track a device&rsquo;s position and orientation and allow plane detection and hit testing. Creating and maintaining this correspondence between spaces requires tracking the device&rsquo;s motion. The <code>ARWorldTrackingConfiguration</code> class tracks the device&rsquo;s movement with six degrees of freedom (6DOF): specifically, the three rotation axes (roll, pitch, and yaw), and three translation axes (movement in x, y, and z).</p></li>
+<li><p><a href="https://developer.apple.com/documentation/arkit/arorientationtrackingconfiguration"><code>AROrientationTrackingConfiguration</code></a>
+Provides basic AR experiences that use the rear-facing camera and track only a device&rsquo;s orientation. Creating and maintaining this correspondence between spaces requires tracking the device&rsquo;s motion. The <code>AROrientationTrackingConfiguration</code> class tracks the device&rsquo;s movement with three degrees of freedom (3DOF): specifically, the three rotation axes (roll, pitch, and yaw).</p>
+
+<p>  <code>AROrientationTrackingConfiguration</code> cannot track movement of the device, and 3DOF tracking does not support plane detection or hit testing.</p>
+
+<p>  Use 3DOF tracking only as a fallback in situations where 6DOF tracking is temporarily unavailable.</p></li>
+<li><p><a href="https://developer.apple.com/documentation/arkit/arfacetrackingconfiguration"><code>ARFaceTrackingConfiguration</code></a>
+Provides AR experiences that use the front-facing camera and track the movement and expressions of the user&rsquo;s face. Face tracking is available only on iOS devices with a front-facing TrueDepth camera.</p></li>
+</ul>
+
+
+<h3>More on <a href="https://developer.apple.com/documentation/arkit/arworldtrackingconfiguration"><code>ARWorldTrackingConfiguration</code></a></h3>
+
+<p>Refer to <a href="https://developer.apple.com/documentation/arkit/about_augmented_reality_and_arkit">About Augmented Reality and ARKit</a> for an official explaination of the world tracking things.</p>
+
+<p>World tracking process can be illustracted as:</p>
+
+<p><img src="http://hongchaozhang.github.io/images/ARKitTracking.gif" alt="arkit world tracking" /></p>
+
+<h4>Tracking Quality</h4>
+
+<p>To get better tracking quality:</p>
+
+<ol>
+<li>Uninterrupted sensor data</li>
+<li>Textured environments</li>
+<li>Static scenes</li>
+</ol>
+
+
+<p>If tracking quality changes, the tracking state will also change:</p>
+
+<p><img src="http://hongchaozhang.github.io/images/ARKitTrackingState.png" alt="arkit tracing state transition" /></p>
+
+<p>And the tracking state changes will be notified by:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">func</span> <span class="nf">session</span><span class="p">(</span><span class="n">_</span> <span class="nl">session</span><span class="p">:</span> <span class="n">ARSession</span><span class="p">,</span> <span class="n">cameraDidChangeTrackingState</span> <span class="nl">camera</span><span class="p">:</span> <span class="n">ARCamera</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">if</span> <span class="k">case</span> <span class="p">.</span><span class="n">limited</span><span class="p">(</span><span class="k">let</span> <span class="n">reason</span><span class="p">)</span> <span class="o">=</span> <span class="n">camera</span><span class="p">.</span><span class="n">trackingState</span> <span class="p">{</span>
+</span><span class='line'>        <span class="c1">// Notify user of limited tracking state</span>
+</span><span class='line'>        <span class="p">...</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Real-World Objects and Positions</h3>
+
+<ul>
+<li><p><strong><code>ARHitTestResult</code></strong>: Information about a real-world surface found by examining a point in the device camera view of an AR session.</p></li>
+<li><p><strong><code>ARAnchor</code></strong>: A real-world position and orientation that can be used for placing objects in an AR scene.</p></li>
+<li><p><strong><code>ARTrackable</code></strong>: A real-world object in a scene for which ARKit tracks changes to position and orientation.</p></li>
+</ul>
+
+
+<h3>More on HitTest</h3>
+
+<p>By calling the following method on <code>ARSCNView</code>,</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="n">open</span> <span class="k">func</span> <span class="n">hitTest</span><span class="p">(</span><span class="n">_</span> <span class="nl">point</span><span class="p">:</span> <span class="bp">CGPoint</span><span class="p">,</span> <span class="nl">types</span><span class="p">:</span> <span class="n">ARHitTestResult</span><span class="p">.</span><span class="n">ResultType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="n">ARHitTestResult</span><span class="p">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>we can get an array of <code>ARHitTestResult</code>. The <code>ARHitTestResult</code>s are sorted by distance. To call the method, you need to specify the <code>ARHitTestResult.ResultType</code>. There are four kinds of the types:</p>
+
+<h4>existingPlane</h4>
+
+<p>Return the result type from intersecting with an existing plane anchor.</p>
+
+<p><img src="http://hongchaozhang.github.io/images/ARKitHitTestExistingPlane.gif" alt="arkit hittest existing plane" /></p>
+
+<h4>existingPlaneUsingExtent</h4>
+
+<p>Return the result type from intersecting with an existing plane anchor, taking into account the plane’s extent.</p>
+
+<h4>estimatedHorizontalPlane</h4>
+
+<p>Return the result type from intersecting a horizontal plane estimate, determined for the current frame.</p>
+
+<p><img src="http://hongchaozhang.github.io/images/ARKitHitTestEstimatedPlane.gif" alt="arkit hittest estimated plane" /></p>
+
+<h4>featurePoint</h4>
+
+<p>Return the result type from intersecting the nearest feature point.</p>
+
+<p><img src="http://hongchaozhang.github.io/images/ARKitHitTestFeaturePoints.gif" alt="" /></p>
+
+<h3>Display Virtual Object in Real World</h3>
+
+<p>Related classes:</p>
+
+<ol>
+<li><p><strong><code>ARFrame</code></strong>: A video image and position tracking information captured as part of an AR session. There are two ways to access <code>ARFrame</code> objects produced by an AR session, depending on whether your app favors a pull or a push design pattern.</p>
+
+<ol>
+<li><strong>Pull Pattern</strong>: get <code>currentFrame</code> from <code>ARSession</code>.</li>
+<li><strong>Push Pattern</strong>: implement the <code>session(_:didUpdate:)</code> delegate method, and the session will call it once for each video frame it captures (at 60 frames per second by default).</li>
+</ol>
+</li>
+<li><p><strong><code>ARCamera</code></strong>: Information about the camera position and imaging characteristics for a captured video frame in an AR session. Get <code>camera</code> from <code>ARFrame</code>.</p></li>
+<li><p><strong><code>ARLightEstimate</code></strong>: Estimated scene lighting information associated with a captured video frame in an AR session. Get <code>lightEstimate</code> from <code>ARFrame</code>.</p>
+
+<p> Refer to <a href="https://blog.markdaws.net/arkit-by-example-part-4-realism-lighting-pbr-b9a0bedb013e">ARKit by Example — Part 4: Realism - Lighting &amp; PBR</a> for mimicing the environment light.</p></li>
+</ol>
+
+
+<h4>Standard View</h4>
+
+<ul>
+<li><strong><code>ARSCNView</code></strong>: A view for displaying AR experiences that augment the camera view with 3D SceneKit content.</li>
+<li><strong><code>ARSKView</code></strong>: A view for displaying AR experiences that augment the camera view with 2D SpriteKit content.</li>
+</ul>
+
+
+<h4>Custom View (Refer to <a href="https://developer.apple.com/documentation/arkit/displaying_an_ar_experience_with_metal">Displaying an AR Experience with Metal</a>)</h4>
+
+<p>To display your AR experience in a custom view, you’ll need to:</p>
+
+<ol>
+<li>Retrieve video frames and tracking information from the session.</li>
+<li>Render those frame images as the backdrop for your view.</li>
+<li>Use the tracking information to position and draw AR content atop the camera image.</li>
+</ol>
+
+
+<h3>Camera and Scene Details</h3>
+
+<h3>Face-Based AR Experiences</h3>
+
+<p><strong>Creating Face-Based AR Experiences</strong>
+Place and animate 3D content that follows the user’s face and matches facial expressions, using the TrueDepth camera on iPhone X. Reer to <a href="https://developer.apple.com/documentation/arkit/creating_face_based_ar_experiences">Creating Face-Based AR Experiences</a> for an official example.</p>
+
+<ul>
+<li><strong><code>ARFaceTrackingConfiguration</code></strong>: A configuration that tracks the movement and expressions of the user’s face using the TrueDepth camera.</li>
+<li><strong>ARFaceAnchor</strong>: Information about the pose, topology, and expression of a face detected in a face-tracking AR session.</li>
+</ul>
+
+
+<h2>ARKit的使用</h2>
+
+<h3>Best Practices and Limitations (Refer to <a href="https://developer.apple.com/documentation/arkit/about_augmented_reality_and_arkit">About Augmented Reality and ARKit</a>)</h3>
+
+<p>World tracking is an inexact science. This process can often produce impressive accuracy, leading to realistic AR experiences. However, it relies on details of the device’s physical environment that are not always consistent or are difficult to measure in real time without some degree of error. To build high-quality AR experiences, be aware of these caveats and tips.</p>
+
+<p><strong>Design AR experiences for predictable lighting conditions.</strong></p>
+
+<p> World tracking involves image analysis, which requires a clear image. Tracking quality is reduced when the camera can’t see details, such as when the camera is pointed at a blank wall or the scene is too dark.</p>
+
+<p><strong>Use tracking quality information to provide user feedback.</strong></p>
+
+<p> World tracking correlates image analysis with device motion. ARKit develops a better understanding of the scene if the device is moving, even if the device moves only subtly. Excessive motion—too far, too fast, or shaking too vigorously—results in a blurred image or too much distance for tracking features between video frames, reducing tracking quality. The ARCamera class provides tracking state reason information, which you can use to develop UI that tells a user how to resolve low-quality tracking situations.</p>
+
+<p><strong>Allow time for plane detection to produce clear results, and disable plane detection when you have the results you need.</strong></p>
+
+<p> Plane detection results vary over time—when a plane is first detected, its position and extent may be inaccurate. As the plane remains in the scene over time, ARKit refines its estimate of position and extent. When a large flat surface is in the scene, ARKit may continue changing the plane anchor’s position, extent, and transform after you’ve already used the plane to place content.</p>
+
+<h2>ARKit的不足</h2>
+
+<ol>
+<li>对动态场景的位置估计不准确。相机不动，有新物体进入视野的时候，对新物体的空间位置估计偏差比较大。</li>
+<li>当镜头轴线方向上有两个真是物体时，没有办法将虚拟物体放到这两个真是物体之间。两种方法可能有助于这个问题的解决：
+
+<ol>
+<li>基于已经检测出来的特征点的空间位置进行图像分割，先画远的真实物体，再画虚拟物体，再画近的真实物体。因为特征点检测比较稀疏（性能考虑），所以在进行图像分割的时候难免误差较大，需要结合一些边缘检测的算法。</li>
+<li>基于双摄像头得到图像上每个像素的景深，进行图像分割，再根据距离安排真实物体和虚拟物体。</li>
+</ol>
+
+
+<p> 以上两个方案不知道ARKit以后会不会更新，自己实现工作量大。</p></li>
+</ol>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Some Tips on Markdown Usage]]></title>
@@ -2042,11 +2364,111 @@ Puppet  Twig    Vue.js</p>
 
 <h2>第二十五章 王者之风</h2>
 
+<h3>黑格尔的辩证法</h3>
+
+<p>在阐述黑格尔的辩证法之前，先声明一下：下面这种不是辩证法</p>
+
+<blockquote><p>我们今天对辩证法有一种庸俗的理解，说辩证法就是“看待事物要分两个方面”。别人批评一个现象，你非要说“要辩证地看这件事，这件事也有好的一面嘛”。这是对辩证法的极大误读。这不叫辩证法，这叫诡辩法，它的唯一作用是把所有的事实都捣成一片糨糊，逃避一切有意义的结论。</p></blockquote>
+
+<h4>矛盾律</h4>
+
+<p>黑格尔的辩证法的核心是<strong>矛盾律</strong>。</p>
+
+<p>黑格尔认为，矛盾的双方可以共存，但是处在互为差异、甚至互相冲突的动态之中。事物的正题和反题会发生强烈的冲突，这个冲突的结果并不是一方消灭另一方，而是正题和反题最终化为“合题”达到了协调，升华了。前面说过，有一个正题就可以找到它的反题，因此新的合题产生之后，它的反题也随之产生，这样就又产生了新的矛盾，又要有新的冲突和升华，再产生新的合题。</p>
+
+<p>因此黑格尔认为，事物是不断变化的，这种变化是自发的、抑制不住的。同时，这种变化不是无序的，而是有方向的，这个方向就是较低级的正题和反题不断变成更高级的合题，也就是事物不断在向高级形态变化。</p>
+
+<p>黑格尔的辩证法认为，矛盾可以存在，矛盾必须存在，矛盾就是世界的本质。</p>
+
+<p>最适合诠释这个概念的并非西方哲学家，而是我们传统的“<strong>阴阳说</strong>”。中国古人早就认识到，阴和阳无处不在，凡事有阴又有阳。阴阳也不是你死我活的关系，而是既有冲突也可和谐共存的。就像“阴阳鱼”所画的那样，阴阳你中有我，我中有你，是一种互相冲突又互相依存的动态关系。</p>
+
+<h4>绝对精神</h4>
+
+<p>矛盾律变化到最后是什么呢？就是黑格尔的终极真理，黑格尔给它起个名字，叫做“<strong>绝对精神</strong>”。</p>
+
+<p>之前哲学家们把世界分成了两部分：“主体”（“我”）和“客体”（客观世界）。既然世界成了分割开的两部分，那么主体中的概念，到底能不能符合客体中的现实，就成了难以解决的问题了。</p>
+
+<p>用通俗的例子讲，我们一般人对世界的概念是这样的：这世上有两个东西是最真实的。一个是我自己大脑中的思维，一个是外面的客观世界。大脑和客观世界不是同一个东西，我们用什么来连接两者呢？用的是感觉器官，是感官告诉了我们的大脑，身边的世界是什么样子的。</p>
+
+<p>问题在于，谁来保证这个感觉器官是可靠的？谁能保证就一定没有一个能力超强的家伙，在歪曲我们的感觉器官？谁又能保证，我们所有人的感觉器官都是可靠的？根本就没法保证嘛。</p>
+
+<p>黑格尔说，之前的哲学家错就错在认为人的理性世界和客观世界是对立的、矛盾的两个事物。在黑格尔看来，矛盾的东西是统一的，因此人的理性和客观世界之间虽然是矛盾的，但并不是割裂的，而是可以通过不断地辩证统一，最终成为一个合题。这样，人的理性经过辩证运动后，就能和客观世界合为一体。换句话说，理性经过不断的辩证，就可以完全符合客观世界的真实面貌。理性就是世界的本质，世界的本质就是理性。所以说，宇宙的本质是精神，而且是一种理性精神。这个理性精神，就是黑格尔的“<strong>绝对精神</strong>”。</p>
+
+<p>当然，绝对精神也是一样，也在不断地由低级到高级变化，也在不断地完善自己。</p>
+
+<blockquote><p>绝对精神好难理解啊。</p></blockquote>
+
+<h3>黑格尔的历史观</h3>
+
+<p>接下来说说黑格尔的历史观。</p>
+
+<p>黑格尔说世间万物的发展一定要符合绝对精神，因此他的绝对精神观是决定论的，他认为历史不是人类创造的，也不是个别事件的堆砌，历史有自己必然的进程，我们人类只是历史实现自己目的的工具。就算拿破仑那样的伟人，其实也是绝对精神的工具。并不是拿破仑自己要征服欧洲，而是绝对精神要利用拿破仑来推进历史的进程。所以黑格尔表面上赞扬的是拿破仑，其实是在赞扬绝对精神。</p>
+
+<p>我们知道，黑格尔的历史观后来被马克思批判性地继承，变成了辩证唯物主义历史观——马克思也认为，历史的进程是有方向的，不可逆转、不可阻止的，但是可以预测的。</p>
+
+<p>马克思预测历史通向的是共产主义，那么黑格尔的历史通向哪里呢？黑格尔的历史通向绝对精神。他认为宗教比自然科学更高级，哲学又比宗教高级。最后，绝对精神会通过哲学完成自己的发展，达到最完美的境界。</p>
+
+<p>具体说来，那个被绝对精神决定了的、借以认识世界、实现绝对精神的人是谁呢？黑格尔说：就是我！哈哈哈哈！</p>
+
+<h3>辩证法对生活的影响</h3>
+
+<h4>个人思想的成长过程</h4>
+
+<p>一个人是怎么成长的呢？一个人先有一个原有的思想（正题），然后在生活中遇到了这思想不能解决的问题（反题），思想和现实问题发生了冲突，才会引起他反思人生。这个反思的结果不可能说最后完全不顾以前的旧想法（正题），最后的新思想（合题）肯定是结合了正题和反题。这就代表着人变得更成熟了。</p>
+
+<h4>幸福的最高境界</h4>
+
+<p>我们追求个人幸福的最高境界并不是有钱有权有一大堆情人围着，并不是肉体享乐。哲学史上也没有哪个哲学家认为纵欲是快乐之道。连古希腊的享乐主义者追求的也不是肉欲的极限，而是适度的享乐、劳逸结合的生活。这是因为大家都发现一个问题，肉欲快乐固然很好，但是纵欲总是和它的反题——痛苦、空虚紧紧连在一起的。不存在某种只给人快乐、不带来痛苦的享乐。这正符合了辩证法的观点。</p>
+
+<p>所以最后的结论就是，我们追求个人幸福的最高境界，不是纵欲，而是内心的平静。</p>
+
 <h1>下篇：</h1>
 
 <h2>第一章 傲慢与偏见</h2>
 
+<p>叔本华的八卦。</p>
+
 <h2>第二章 悲观主义</h2>
+
+<h3>物自体</h3>
+
+<p>叔本华骂黑格尔，自然也不会喜欢黑格尔的哲学。叔本华是康德思想的继承者。</p>
+
+<p>我们前面说过，康德哲学的一大问题是，物自体这东西其实是自相矛盾的。</p>
+
+<p>黑格尔的解决办法是取消主体和客体的对立关系，也就是说，“我”的理性就代表了真实的世界，根本没有物自体这个东西了。</p>
+
+<p>叔本华的解决方法不同。他认同康德的形而上学，但是不认为物自体是完全不能认识的。物自体是超越理性，不能用理性知识体验的。但是我们观察自己的时候，可以不靠理性，而是靠非理性的“直觉”。用文绉绉的话说，叫“审视内心”。当我们处于这种状态的时候，就可以体会到物自体。</p>
+
+<p>而且，叔本华还认为：物自体只有一个，这“一个”就是“生命意志”。</p>
+
+<blockquote><p>但是“生命意志”这个词呢，在叔本华的理论中有专门的意思，跟我们平时聊天时的含义不同。除了“生命意志”，后面尼采的“权力意志”，存在主义的“存在”等等术语，也属于这个情况。</p></blockquote>
+
+<h3>生命意志</h3>
+
+<p>那么生命意志是个什么东西呢？</p>
+
+<p>简单地说，<strong>生命意志是一股永不停歇的力量。这股力量驱使着万物去运动，去发展。</strong></p>
+
+<p>比如人和动物的食欲性欲，比如植物破土而出的欲望。</p>
+
+<p>动物没有理性，可是动物生下来就知道觅食、交配、躲避危险，在很多情况下比人的求生能力还要强。动物这么强大的生存能力哪儿来的呢？叔本华认为，这是背后的生命意志驱使的。生命意志的概念比一般的生物欲望还要宽泛，还包括没有生命的事物在内。</p>
+
+<p>叔本华认为，宇宙中万事万物背后都有生命意志在驱动。小到磁石相吸，大到星球运行，背后的本质原因都是生命意志。在叔本华看来，生命意志是世界上最本质的东西，是不可抗拒的，是永不停歇的。</p>
+
+<p>举例子说，我们以为自己生活、恋爱、结婚、工作是根据我们的理性选择的。而叔本华认为，真正驱动你的都是种种欲望：生殖的欲望、享乐的欲望、征服的欲望，等等。你以为你在靠理性生活，实际上躲在理性背后的是生命意志，生命意志在驱动你作出种种选择。</p>
+
+<p>当然叔本华不会认为理性一点儿用都没有，他的形而上学就是理性的产物！那他认为，生命意志和理性之间是什么关系呢？我们可以打个比方：意志是个充满欲望的君王，但是它头脑糊涂，只知道发布命令，不知道该怎么去更好地达到目的。理性是个头脑清醒的老臣，它虽然对君王的命令有意见，但是限于身份，只能偶尔劝谏君王，大部分时候都是在用它的聪明才智去满足君王的欲望。理性不是没有用，只是实现意志的工具而已。</p>
+
+<blockquote><p>叔本华对生命意志和理性关系的解读，和弗洛伊德在《梦的解析》中对“本我”（潜意识）、“自我”（意识）与“超我”（道德的自我）的解释如出一辙。</p></blockquote>
+
+<h3>悲观主义</h3>
+
+<p>在康德看来，理性就是我们这个世界的统治者。没错，理性确实管不了物自体，但是物自体也不影响我们的世界呀。叔本华说，不，物自体能影响我们的世界。不仅能影响，而且影响力超大，我们用理智控制不了。</p>
+
+<p>在康德那里，这个世界的基础（理性）是井井有条的理性。在叔本华这里，这个世界的基础是无法控制的生命意志。</p>
+
+<p>因此康德对世界的看法是乐观的。叔本华对世界的看法是悲观的。</p>
 
 <h2>第三章 理性的危机</h2>
 
@@ -5196,221 +5618,6 @@ These are all tests that must run on an Android hardware device or an Android em
 </span><span class='line'><span class="nx">fs</span><span class="p">.</span><span class="nx">writeFileSync</span><span class="p">(</span><span class="s1">&#39;book.xlsx&#39;</span><span class="p">,</span> <span class="nx">buffer</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;flag&#39;</span><span class="o">:</span><span class="s1">&#39;w&#39;</span><span class="p">});</span> <span class="c1">// 如果文件存在，覆盖</span>
 </span></code></pre></td></tr></table></div></figure>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Ios内存管理——调试]]></title>
-    <link href="http://hongchaozhang.github.io/blog/2016/02/24/ios-memory-managemement-debugging/"/>
-    <updated>2016-02-24T20:51:01+08:00</updated>
-    <id>http://hongchaozhang.github.io/blog/2016/02/24/ios-memory-managemement-debugging</id>
-    <content type="html"><![CDATA[<p><a href="http://www.cocoachina.com/ios/20160222/15333.html">iOS/OS X 内存管理(二)：借助工具解决内存问题</a>讲了一些调试技巧，包括：</p>
-
-<!-- more -->
-
-
-<ul>
-<li>启用Zombie Object进行悬挂指针的检测。</li>
-<li>应用<em>Product -> Analysis</em>进行内存泄露的初步检测。</li>
-<li>应用Leak Instrument进行内存泄露查找。</li>
-<li>在以上方法不奏效的情况下，通过查看<code>dealloc</code>是否调用查看某个class是否泄露的问题。</li>
-</ul>
-
-
-<p>补充一下：在<em>Leak</em>页面可以打开<em>Cycles &amp; Roots</em>用图的方式查看ratain cycle的问题，截图如下：</p>
-
-<p><img src="http://hongchaozhang.github.io/images/xcode_leak_instrument_cycles_and_roots_view.png" alt="xcode_leak_instrument_cycles_and_roots_view" /></p>
-
-<p>上文没有介绍的，也是比较麻烦的，就是leak instrument没法查出的内存泄露。最近在调试一个这样的问题，写点心得。</p>
-
-<h3>行动前的准备</h3>
-
-<h4>认识工具</h4>
-
-<p>参看<a href="https://developer.apple.com/library/ios/documentation/AnalysisTools/Reference/Instruments_User_Reference/LeaksInstrument/LeaksInstrument.html">Leaks Instrument</a>和<a href="https://developer.apple.com/library/ios/documentation/AnalysisTools/Reference/Instruments_User_Reference/AllocationsInstrument/AllocationsInstrument.html#//apple_ref/doc/uid/TP40011355-CH40-SW1">Allocation Instrument</a>的官方文档。</p>
-
-<p>补充：</p>
-
-<ul>
-<li>Leak Instrument有<em>Cycles &amp; Roots</em>界面，见上。</li>
-<li>Persistent Bytes和#Persistent。#Persistent是object的数量，也就是allocation的次数，而Persistent Bytes是具体的内存大小。<strong>#Persistent是我们需要关注的，内存有没有泄露也是看这个值是不是只增不减。</strong></li>
-<li>Allocation Instrument进行profile的时候，为<em>Launch Configuration for Heap Allocations</em>勾选<em>Record reference counts</em>。</li>
-</ul>
-
-
-<h4>编译参数设置</h4>
-
-<p>为了保证看到代码，而不是一堆无意义的内存地址，参考<a href="http://hongchaozhang.github.io/blog/2015/08/17/the-dSYM-file-in-ios-project/">The .dSYM File in Ios Project</a>进行xcode的设置。</p>
-
-<h3>如果<code>dealloc</code>没有被调用</h3>
-
-<p>通过Allocation Instrument，我们可以得到内存使用情况。为了清楚地看出是哪部分最可能是内存泄露，可以使用<em>Call Trees</em>视图，然后在右边：</p>
-
-<ul>
-<li>勾选<em>Hide System Libraries</em>，排除系统影响。</li>
-<li>勾选<em>Invert Call Tree</em>，使占用内存最多的分支在最前面。</li>
-</ul>
-
-
-<p>通过以上方法，可以大概确定是哪部分内存泄露。然后看看该class是不是被<code>dealloc</code>了。</p>
-
-<ul>
-<li>如果<code>dealloc</code>了，那不是本文要解决的问题。</li>
-<li>如果<code>dealloc</code>没有调用到，继续往下看。</li>
-</ul>
-
-
-<h4>Retain Cycle导致<code>dealloc</code>没有被调用</h4>
-
-<p>在ARC下，<code>dealloc</code>不能被调用，一般是因为存在Retain Cycle，而导致Retain Cycle的情况可能是下面几种可能(参考<a href="http://kkoval.blogspot.com/2014/03/ios-retain-cycle-in-arc.html">iOS Retain Cycle in ARC</a>和<a href="http://stackoverflow.com/questions/9219030/dealloc-not-being-called-on-arc-app">Dealloc not being called on ARC app</a>):</p>
-
-<h5>1. Blocks</h5>
-
-<p>并不是所有在block中引用<code>self</code>都会带来retain cycle，比如下面的代码就不会有内存泄露：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">testSelfInCocoaBlocks</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="bp">NSArray</span> <span class="o">*</span><span class="n">cats</span> <span class="o">=</span> <span class="l">@[</span><span class="s">@&quot;Smily&quot;</span><span class="p">,</span> <span class="s">@&quot;Garfild&quot;</span><span class="p">,</span> <span class="s">@&quot;Other cat&quot;</span><span class="l">]</span><span class="p">;</span>
-</span><span class='line'>    <span class="p">[</span><span class="n">cats</span> <span class="nl">enumerateObjectsUsingBlock</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="bp">NSString</span> <span class="o">*</span><span class="n">cat</span><span class="p">,</span> <span class="bp">NSUInteger</span> <span class="n">idx</span><span class="p">,</span> <span class="kt">BOOL</span> <span class="o">*</span><span class="n">stop</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>        <span class="p">[</span><span class="nb">self</span> <span class="nl">doSomethingWithCat</span><span class="p">:</span><span class="n">cat</span><span class="p">];</span>
-</span><span class='line'>    <span class="p">}];</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>因为在上面的代码中，block ratain了self，但是self中没有retain这个block。只有当block中引用了self，并且self又以某种方式（比如用一个具有strong属性的Property指向该block，或者将该block加入了self的一个具有strong属性的array中）强引用了该block，才会引起内存泄露，比如：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">testSelfInBlock</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="nb">self</span><span class="p">.</span><span class="n">block</span> <span class="o">=</span> <span class="o">^</span><span class="p">{</span>
-</span><span class='line'>        <span class="p">[</span><span class="nb">self</span> <span class="nl">doSomethingWithCat</span><span class="p">:</span><span class="s">@&quot;Fat Cat&quot;</span><span class="p">];</span>
-</span><span class='line'>    <span class="p">};</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>有时候即使没有直接引用self，也可能导致self被retain，这叫做“implicit retain”。一种可能的情况就是在block中引用了self的实例变量，比如：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">testHiddenSelfInCocoaBlocks</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="bp">NSArray</span> <span class="o">*</span><span class="n">cats</span> <span class="o">=</span> <span class="l">@[</span><span class="s">@&quot;Smily&quot;</span><span class="p">,</span> <span class="s">@&quot;Garfild&quot;</span><span class="p">,</span> <span class="s">@&quot;Other cat&quot;</span><span class="l">]</span><span class="p">;</span>
-</span><span class='line'>    <span class="p">[</span><span class="n">cats</span> <span class="nl">enumerateObjectsUsingBlock</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="bp">NSString</span> <span class="o">*</span><span class="n">cat</span><span class="p">,</span> <span class="bp">NSUInteger</span> <span class="n">idx</span><span class="p">,</span> <span class="kt">BOOL</span> <span class="o">*</span><span class="n">stop</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>        <span class="n">_aCat</span> <span class="o">=</span> <span class="n">cat</span><span class="p">;</span>
-</span><span class='line'>        <span class="o">*</span><span class="n">stop</span> <span class="o">=</span> <span class="nb">YES</span><span class="p">;</span>
-</span><span class='line'>    <span class="p">}];</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>这段code在block中引用了self的实例变量<code>_aCat</code>。</p>
-
-<p>为了避免implicit retain，可以在xcode的build setting中打开<em>implicit retain of &lsquo;self&rsquo; within blocks</em>，xcode编译器会给出警告。</p>
-
-<h5>2. NSTimer</h5>
-
-<p>如果在view controller中创建了NSTimer，在消失view controller的时候需要调用<code>invalidate</code>，否则会产生ratain cycle。</p>
-
-<h5>3. Observers/NSNotificationCenter</h5>
-
-<p>当我们在NSNotificationCenter的block中引用self的时候，也会产生retain cycle，比如：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="p">[[</span><span class="bp">NSNotificationCenter</span> <span class="n">defaultCenter</span><span class="p">]</span> <span class="nl">addObserverForName</span><span class="p">:</span><span class="s">@&quot;not&quot;</span>
-</span><span class='line'>                                                      <span class="nl">object</span><span class="p">:</span><span class="nb">nil</span>
-</span><span class='line'>                                                       <span class="nl">queue</span><span class="p">:[</span><span class="bp">NSOperationQueue</span> <span class="n">mainQueue</span><span class="p">]</span>
-</span><span class='line'>                                                  <span class="nl">usingBlock</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="bp">NSNotification</span> <span class="o">*</span><span class="n">note</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>        <span class="p">[</span><span class="nb">self</span> <span class="nl">doSomethingWithCat</span><span class="p">:</span><span class="s">@&quot;Noty cat&quot;</span><span class="p">];</span>
-</span><span class='line'>    <span class="p">}];</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>在不用的时候需要将self从NSNotificationCenter中移除。</p>
-
-<h5>4. Array contained reference</h5>
-
-<p>比如在view controller中将self放在了一个array中，而这个array在view controller消失的时候不会被释放，view controller的<code>dealloc</code>就不会被调用。</p>
-
-<h5>5. Delegate</h5>
-
-<p>delegate的属性应该为weak。</p>
-
-<h4>dealloc没被调用的调试</h4>
-
-<p>调试dealloc没有被调用的情况，参考<a href="http://stackoverflow.com/questions/14890402/instruments-allocations-track-alloc-and-dealloc-of-objects-of-user-defined-class/14891837#14891837">Instruments Allocations track alloc and dealloc of objects of user defined classes</a>，可以看到对应实例在整个生命周期中发生的所有和内存有关的事件，包括malloc，ratain，release等和每次事件的call stack。注意其中的两项设置：</p>
-
-<ul>
-<li>勾选Record reference counts，记录retain，release和autorelease事件。</li>
-<li>为Allocation Lifespan选择All Objects Created，如果你想看到已经被dealloc的实例，这个可以不选。</li>
-<li>在<em>Allocation List -> All Allocations</em> 中可以搜索自己感兴趣的class。</li>
-<li>在reference count页面，注意使用<em>All</em>、<em>uppair</em>等进行过滤。</li>
-</ul>
-
-
-<h3>关于ARC下的retainCount</h3>
-
-<p>在ARC之前，我们可以使用<code>retainCount</code>得到一个Object被retain的次数。
-引入ARC之后，这个方法不能在code中使用，可以使用下面的方法获得retain的次数：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Retain count is %ld&quot;</span><span class="p">,</span> <span class="n">CFGetRetainCount</span><span class="p">((</span><span class="k">__bridge</span> <span class="n">CFTypeRef</span><span class="p">)</span><span class="n">myObject</span><span class="p">));</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>或者通过设置断点，在调试窗口输入如下命令：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">po</span> <span class="n">object</span><span class="p">.</span><span class="n">retainCount</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<blockquote><p> <strong>我们什么时候使用retainCount？</strong></p>
-
-<p><strong>Never！</strong></p></blockquote>
-
-<p>参考 <a href="http://stackoverflow.com/questions/4636146/when-to-use-retaincount">When to use -retainCount?</a>。
-但是偶尔在调试的时候用一下，对于一些内存管理概念的理解还是有好处的，仅此而已。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Ios内存管理——理论]]></title>
-    <link href="http://hongchaozhang.github.io/blog/2016/02/22/ios-memory-management-theory/"/>
-    <updated>2016-02-22T20:51:30+08:00</updated>
-    <id>http://hongchaozhang.github.io/blog/2016/02/22/ios-memory-management-theory</id>
-    <content type="html"><![CDATA[<p><a href="http://www.cocoachina.com/ios/20160219/15330.html">iOS/OS X内存管理(一)：基本概念与原理</a>对内存管理的概念讲的很清楚。</p>
-
-<!-- more -->
-
-
-<p>摘抄一些重要信息。</p>
-
-<p>assign对应就是__unsafe_unretained，它跟__weak相似，被它修饰的变量都不持有对象的所有权，但不相同的是，当变量指向的对象的RC为0时，变量并不设置为nil，而是继续保存对象的地址。</p>
 ]]></content>
   </entry>
   
