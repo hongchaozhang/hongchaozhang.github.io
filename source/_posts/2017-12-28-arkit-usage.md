@@ -9,22 +9,20 @@ categories: [ios]
 
 <!-- more -->
 
-## ARKit的功能
-
-参考官方文档[ARKit](https://developer.apple.com/documentation/arkit)。
-
-### Requirement
+## Requirement
 
 * iOS 11 and above system.
 * iOS device with an A9 or later processor.
 
 To make your app available only on devices supporting ARKit, use the arkit key in the `UIRequiredDeviceCapabilities` section of your app's Info.plist. If augmented reality is a secondary feature of your app, use the `isSupported` property to determine whether the current device supports the session configuration you want to use.
 
-### ARKit in iOS system
+## ARKit Usage
+
+### ARKit in iOS System
 
 ![arkit in ios system](/images/ARKitFramework.png)
 
-### ARKit Usage
+### ARKit Key Classes
 
 ![arkit usage](/images/ARKitUsage.png)
 
@@ -64,6 +62,8 @@ World tracking process can be illustracted as:
 
 ![arkit world tracking](/images/ARKitTracking.gif)
 
+> One questiong here: How does ARKit know how long is 1 meter in the real world?    
+
 #### Tracking Quality
 
 To get better tracking quality:
@@ -89,15 +89,24 @@ func session(_ session: ARSession, cameraDidChangeTrackingState camera: ARCamera
 
 ```
 
-### Real-World Objects and Positions
+### `ARFrame`
 
-* **`ARHitTestResult`**: Information about a real-world surface found by examining a point in the device camera view of an AR session.
+After world tracking, we can get the 6 DOF of the camera, used for the upcomming rendering. These infos are stored in each `ARFrame`.
 
-* **`ARAnchor`**: A real-world position and orientation that can be used for placing objects in an AR scene.
+`ARFrame` owns video image and position tracking information captured as part of an AR session. There are two ways to access `ARFrame` objects produced by an AR session, depending on whether your app favors a pull or a push design pattern.
 
-* **`ARTrackable`**: A real-world object in a scene for which ARKit tracks changes to position and orientation.
+* *Pull Pattern*: get `currentFrame` from `ARSession`.
+* *Push Pattern*: implement the `session(_:didUpdate:)` delegate method, and the session will call it once for each video frame it captures (at 60 frames per second by default).
 
-### More on HitTest
+Key infos in `ARFrame`:
+
+1. **`ARCamera`**: Information about the camera position and imaging characteristics for a captured video frame in an AR session. Get `camera` from `ARFrame`.
+
+1. **`ARLightEstimate`**: Estimated scene lighting information associated with a captured video frame in an AR session. Get `lightEstimate` from `ARFrame`.
+
+    Refer to [ARKit by Example — Part 4: Realism - Lighting & PBR](https://blog.markdaws.net/arkit-by-example-part-4-realism-lighting-pbr-b9a0bedb013e) for mimicing the environment light.
+
+### HitTest for Real World Position
 
 By calling the following method on `ARSCNView`, 
 
@@ -105,43 +114,31 @@ By calling the following method on `ARSCNView`,
 open func hitTest(_ point: CGPoint, types: ARHitTestResult.ResultType) -> [ARHitTestResult]
 ```
 
-we can get an array of `ARHitTestResult`. The `ARHitTestResult`s are sorted by distance. To call the method, you need to specify the `ARHitTestResult.ResultType`. There are four kinds of the types:
+we can get an array of `ARHitTestResult`, which stay at the very position point indicates. The `ARHitTestResult`s are sorted by distance. To call the method, you need to specify the `ARHitTestResult.ResultType`. There are four kinds of hitTest types:
 
-#### existingPlane
+#### `existingPlane`
 
 Return the result type from intersecting with an existing plane anchor.
 
 ![arkit hittest existing plane](/images/ARKitHitTestExistingPlane.gif)
 
-#### existingPlaneUsingExtent
+#### `existingPlaneUsingExtent`
 
 Return the result type from intersecting with an existing plane anchor, taking into account the plane’s extent.
 
-#### estimatedHorizontalPlane
+#### `estimatedHorizontalPlane`
 
 Return the result type from intersecting a horizontal plane estimate, determined for the current frame.
 
 ![arkit hittest estimated plane](/images/ARKitHitTestEstimatedPlane.gif)
 
-#### featurePoint
+#### `featurePoint`
 
 Return the result type from intersecting the nearest feature point.
 
 ![](/images/ARKitHitTestFeaturePoints.gif)
 
 ### Display Virtual Object in Real World
-
-Related classes:
-
-1. **`ARFrame`**: A video image and position tracking information captured as part of an AR session. There are two ways to access `ARFrame` objects produced by an AR session, depending on whether your app favors a pull or a push design pattern.
-    1. **Pull Pattern**: get `currentFrame` from `ARSession`.
-    1. **Push Pattern**: implement the `session(_:didUpdate:)` delegate method, and the session will call it once for each video frame it captures (at 60 frames per second by default).
-
-1. **`ARCamera`**: Information about the camera position and imaging characteristics for a captured video frame in an AR session. Get `camera` from `ARFrame`.
-
-1. **`ARLightEstimate`**: Estimated scene lighting information associated with a captured video frame in an AR session. Get `lightEstimate` from `ARFrame`.
-
-    Refer to [ARKit by Example — Part 4: Realism - Lighting & PBR](https://blog.markdaws.net/arkit-by-example-part-4-realism-lighting-pbr-b9a0bedb013e) for mimicing the environment light.
 
 #### Standard View
 
@@ -156,8 +153,6 @@ To display your AR experience in a custom view, you’ll need to:
 2. Render those frame images as the backdrop for your view.
 3. Use the tracking information to position and draw AR content atop the camera image.
 
-### Camera and Scene Details
-
 ### Face-Based AR Experiences
 
 **Creating Face-Based AR Experiences**
@@ -166,9 +161,9 @@ Place and animate 3D content that follows the user’s face and matches facial e
 * **`ARFaceTrackingConfiguration`**: A configuration that tracks the movement and expressions of the user’s face using the TrueDepth camera.
 * **ARFaceAnchor**: Information about the pose, topology, and expression of a face detected in a face-tracking AR session.
 
-## ARKit的使用
+## Best Practices and Limitations
 
-### Best Practices and Limitations (Refer to [About Augmented Reality and ARKit](https://developer.apple.com/documentation/arkit/about_augmented_reality_and_arkit))
+### Best Practices (Refer to [About Augmented Reality and ARKit](https://developer.apple.com/documentation/arkit/about_augmented_reality_and_arkit))
 
 World tracking is an inexact science. This process can often produce impressive accuracy, leading to realistic AR experiences. However, it relies on details of the device’s physical environment that are not always consistent or are difficult to measure in real time without some degree of error. To build high-quality AR experiences, be aware of these caveats and tips.
 
@@ -184,14 +179,18 @@ World tracking is an inexact science. This process can often produce impressive 
 
  Plane detection results vary over time—when a plane is first detected, its position and extent may be inaccurate. As the plane remains in the scene over time, ARKit refines its estimate of position and extent. When a large flat surface is in the scene, ARKit may continue changing the plane anchor’s position, extent, and transform after you’ve already used the plane to place content.
 
-## ARKit的不足
+### Limitations
 
-1. 对动态场景的位置估计不准确。相机不动，有新物体进入视野的时候，对新物体的空间位置估计偏差比较大。
-1. 当镜头轴线方向上有两个真是物体时，没有办法将虚拟物体放到这两个真是物体之间。两种方法可能有助于这个问题的解决：
-    1. 基于已经检测出来的特征点的空间位置进行图像分割，先画远的真实物体，再画虚拟物体，再画近的真实物体。因为特征点检测比较稀疏（性能考虑），所以在进行图像分割的时候难免误差较大，需要结合一些边缘检测的算法。
-    1. 基于双摄像头得到图像上每个像素的景深，进行图像分割，再根据距离安排真实物体和虚拟物体。
+1. For a moving object, ARKit can not give an usable world position of it.
+1. You can not put a virtual object behind a real object. This leads to some problems, like:
+    1. When an real object move in front of an virtual object, the virtual object will still be displayed in front of the real object.
+    1. You can not hold a virtual object coolly, as the virtual object you are trying to hold can not be behind your fingers.
 
-    以上两个方案不知道ARKit以后会不会更新，自己实现工作量大。
+
+Two thoughts that may be help on the second limitation:
+
+* Segment the camera image based on the feature point with world position. Draw further real object, and then virtual object, and at last, the nearest real object. However, as the feature point is sparse (performance consideration), some edge detection algorithms are needed for accurate edges of objects.
+* Based on the dual camera, we can get depth of each pixel of the camera image. This will help on image segmentation.
 
 
 

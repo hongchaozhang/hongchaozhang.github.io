@@ -21,8 +21,11 @@ If the model class is not generated successfully, double check *Target Membershi
 
 From *Model Evaluation Parameters*(section C), we can see the input and output of the trained model.
 
+The following is a sample usage of image classification model:
+
 ```swift
 
+// create request
 guard let selectedModel = try? VNCoreMLModel(for: Inceptionv3().model) else {
     fatalError("Could not load model. Ensure model has been drag and dropped (copied) to XCode Project. Also ensure the model is part of a target.")
 }     
@@ -32,6 +35,7 @@ classificationRequest.imageCropAndScaleOption = VNImageCropAndScaleOption.center
 
 ...
 
+// run request against an image
 guard let pixbuff = (sceneView.session.currentFrame?.capturedImage) else { return }
 let ciImage = CIImage(cvPixelBuffer: pixbuff)
 // Note1: Not entirely sure if the ciImage is being interpreted as RGB, but for now it works with the Inception model.
@@ -43,6 +47,30 @@ do {
     try imageRequestHandler.perform([classificationRequest])
 } catch {
     print(error)
+}
+
+...
+
+// completion handler for coping with image classification results.
+func classificationCompleteHandler(request: VNRequest, error: Error?) {
+    if error != nil {
+        print("Error: " + (error?.localizedDescription)!)
+        return
+    }
+    
+    guard let observations = request.results else {
+        print("No results")
+        return
+    }
+    
+    // Get Classifications
+    let classifications = observations[0...1] // top 2 results
+        .flatMap({ $0 as? VNClassificationObservation })
+        .filter({ $0.confidence > 0.2 })
+        .map({ "\($0.identifier) \(String(format:"- %.2f", $0.confidence))" })
+        .joined(separator: "\n")
+
+    print("image recognition: " + classifications)
 }
 
 ```
@@ -57,20 +85,34 @@ For some detailed usage step by step, refer to [Core ML and Vision: Machine Lear
 
 ![Custom Vision From MicroSoft](/images/CustomVisionFromMicroSoft.png)
 
-来自微软的[Custom Vision](https://www.customvision.ai/)，提供UI界面，可以直接上传图片，并进行标注。训练好之后可以到处模型供移动设备使用：iOS平台导出mlmodel，Android平台导出供TensorFlow使用的model。
+Microsoft [Custom Vision](https://www.customvision.ai/) supplies a very friendly UI interface. You can upload you images and label them very easily. After training is done, you can export the model for mobile devices, including: mlmodel file for iOS platform, and TensorFlow model on Android platform.
 
-使用界面友好：
+Friendly UI Interface:
 
 ![interface of microsoft custom vision](/images/InterfaceOfCustomVision.png)
 
-但是由于Custom Vision仍然处于测试阶段，所以有很多限制：
+But there are some limitations, as [Custom Vision](https://www.customvision.ai/) is still in preview process.
 
 ![limitation of microsoft custom vision](/images/MicroSoftCustomVisionLimitation.png)
 
 ### Advanced
 
-[apple turicreate image classification](https://github.com/apple/turicreate/tree/master/userguide/image_classifier)有更多的参数可以设置，比如训练集和测试集的比例。需要写一些python代码。
+[apple turicreate image classification](https://github.com/apple/turicreate/tree/master/userguide/image_classifier) supplies more configurations for model training, like the partition of trainning data and verification data. But some Python experience is needed.
 
 ## CoreML Pros and Cons
+
+### Pros
+
+1. **Easy to use.** As described at the beginning of the post.
+
+1. **High performance.** As is said:
+
+    > “It was amazing to see the prediction results immediately without any time interval.”
+
+### Cons
+
+**Lack of federated learning.** As is said:
+
+> There are no provisions within Core ML for model retraining or federated learning, where data collected from the field is used to improve the accuracy of the model. That’s something you would have to implement by hand, most likely by asking app users to opt in for data collection and using that data to retrain the model for a future edition of the app.
 
 Refer to [Apple’s Core ML: The pros and cons](https://www.infoworld.com/article/3200885/machine-learning/apples-core-ml-the-pros-and-cons.html).
