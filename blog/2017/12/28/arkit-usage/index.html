@@ -9,8 +9,8 @@
   <meta name="author" content="Zhang Hongchao">
 
   
-  <meta name="description" content="ARKit的功能 参考官方文档ARKit。 Requirement iOS 11 and above system.
-iOS device with an A9 or later processor. To make your app available only on devices &hellip;">
+  <meta name="description" content="Requirement iOS 11 and above system.
+iOS device with an A9 or later processor. To make your app available only on devices supporting ARKit, use the &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -113,11 +113,7 @@ iOS device with an A9 or later processor. To make your app available only on dev
 <div class="entry-content"><!-- more -->
 
 
-<h2>ARKit的功能</h2>
-
-<p>参考官方文档<a href="https://developer.apple.com/documentation/arkit">ARKit</a>。</p>
-
-<h3>Requirement</h3>
+<h2>Requirement</h2>
 
 <ul>
 <li>iOS 11 and above system.</li>
@@ -127,11 +123,13 @@ iOS device with an A9 or later processor. To make your app available only on dev
 
 <p>To make your app available only on devices supporting ARKit, use the arkit key in the <code>UIRequiredDeviceCapabilities</code> section of your app&rsquo;s Info.plist. If augmented reality is a secondary feature of your app, use the <code>isSupported</code> property to determine whether the current device supports the session configuration you want to use.</p>
 
-<h3>ARKit in iOS system</h3>
+<h2>ARKit Usage</h2>
+
+<h3>ARKit in iOS System</h3>
 
 <p><img src="/images/ARKitFramework.png" alt="arkit in ios system" /></p>
 
-<h3>ARKit Usage</h3>
+<h3>ARKit Key Classes</h3>
 
 <p><img src="/images/ARKitUsage.png" alt="arkit usage" /></p>
 
@@ -171,6 +169,8 @@ Provides AR experiences that use the front-facing camera and track the movement 
 
 <p><img src="/images/ARKitTracking.gif" alt="arkit world tracking" /></p>
 
+<blockquote><p>One questiong here: How does ARKit know how long is 1 meter in the real world?</p></blockquote>
+
 <h4>Tracking Quality</h4>
 
 <p>To get better tracking quality:</p>
@@ -203,16 +203,29 @@ Provides AR experiences that use the front-facing camera and track the movement 
 </span></code></pre></td></tr></table></div></figure>
 
 
-<h3>Real-World Objects and Positions</h3>
+<h3><code>ARFrame</code></h3>
+
+<p>After world tracking, we can get the 6 DOF of the camera, used for the upcomming rendering. These infos are stored in each <code>ARFrame</code>.</p>
+
+<p><code>ARFrame</code> owns video image and position tracking information captured as part of an AR session. There are two ways to access <code>ARFrame</code> objects produced by an AR session, depending on whether your app favors a pull or a push design pattern.</p>
 
 <ul>
-<li><p><strong><code>ARHitTestResult</code></strong>: Information about a real-world surface found by examining a point in the device camera view of an AR session.</p></li>
-<li><p><strong><code>ARAnchor</code></strong>: A real-world position and orientation that can be used for placing objects in an AR scene.</p></li>
-<li><p><strong><code>ARTrackable</code></strong>: A real-world object in a scene for which ARKit tracks changes to position and orientation.</p></li>
+<li><em>Pull Pattern</em>: get <code>currentFrame</code> from <code>ARSession</code>.</li>
+<li><em>Push Pattern</em>: implement the <code>session(_:didUpdate:)</code> delegate method, and the session will call it once for each video frame it captures (at 60 frames per second by default).</li>
 </ul>
 
 
-<h3>More on HitTest</h3>
+<p>Key infos in <code>ARFrame</code>:</p>
+
+<ol>
+<li><p><strong><code>ARCamera</code></strong>: Information about the camera position and imaging characteristics for a captured video frame in an AR session. Get <code>camera</code> from <code>ARFrame</code>.</p></li>
+<li><p><strong><code>ARLightEstimate</code></strong>: Estimated scene lighting information associated with a captured video frame in an AR session. Get <code>lightEstimate</code> from <code>ARFrame</code>.</p>
+
+<p> Refer to <a href="https://blog.markdaws.net/arkit-by-example-part-4-realism-lighting-pbr-b9a0bedb013e">ARKit by Example — Part 4: Realism - Lighting &amp; PBR</a> for mimicing the environment light.</p></li>
+</ol>
+
+
+<h3>HitTest for Real World Position</h3>
 
 <p>By calling the following method on <code>ARSCNView</code>,</p>
 
@@ -221,48 +234,31 @@ Provides AR experiences that use the front-facing camera and track the movement 
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>we can get an array of <code>ARHitTestResult</code>. The <code>ARHitTestResult</code>s are sorted by distance. To call the method, you need to specify the <code>ARHitTestResult.ResultType</code>. There are four kinds of the types:</p>
+<p>we can get an array of <code>ARHitTestResult</code>, which stay at the very position point indicates. The <code>ARHitTestResult</code>s are sorted by distance. To call the method, you need to specify the <code>ARHitTestResult.ResultType</code>. There are four kinds of hitTest types:</p>
 
-<h4>existingPlane</h4>
+<h4><code>existingPlane</code></h4>
 
 <p>Return the result type from intersecting with an existing plane anchor.</p>
 
 <p><img src="/images/ARKitHitTestExistingPlane.gif" alt="arkit hittest existing plane" /></p>
 
-<h4>existingPlaneUsingExtent</h4>
+<h4><code>existingPlaneUsingExtent</code></h4>
 
 <p>Return the result type from intersecting with an existing plane anchor, taking into account the plane’s extent.</p>
 
-<h4>estimatedHorizontalPlane</h4>
+<h4><code>estimatedHorizontalPlane</code></h4>
 
 <p>Return the result type from intersecting a horizontal plane estimate, determined for the current frame.</p>
 
 <p><img src="/images/ARKitHitTestEstimatedPlane.gif" alt="arkit hittest estimated plane" /></p>
 
-<h4>featurePoint</h4>
+<h4><code>featurePoint</code></h4>
 
 <p>Return the result type from intersecting the nearest feature point.</p>
 
 <p><img src="/images/ARKitHitTestFeaturePoints.gif" alt="" /></p>
 
 <h3>Display Virtual Object in Real World</h3>
-
-<p>Related classes:</p>
-
-<ol>
-<li><p><strong><code>ARFrame</code></strong>: A video image and position tracking information captured as part of an AR session. There are two ways to access <code>ARFrame</code> objects produced by an AR session, depending on whether your app favors a pull or a push design pattern.</p>
-
-<ol>
-<li><strong>Pull Pattern</strong>: get <code>currentFrame</code> from <code>ARSession</code>.</li>
-<li><strong>Push Pattern</strong>: implement the <code>session(_:didUpdate:)</code> delegate method, and the session will call it once for each video frame it captures (at 60 frames per second by default).</li>
-</ol>
-</li>
-<li><p><strong><code>ARCamera</code></strong>: Information about the camera position and imaging characteristics for a captured video frame in an AR session. Get <code>camera</code> from <code>ARFrame</code>.</p></li>
-<li><p><strong><code>ARLightEstimate</code></strong>: Estimated scene lighting information associated with a captured video frame in an AR session. Get <code>lightEstimate</code> from <code>ARFrame</code>.</p>
-
-<p> Refer to <a href="https://blog.markdaws.net/arkit-by-example-part-4-realism-lighting-pbr-b9a0bedb013e">ARKit by Example — Part 4: Realism - Lighting &amp; PBR</a> for mimicing the environment light.</p></li>
-</ol>
-
 
 <h4>Standard View</h4>
 
@@ -283,8 +279,6 @@ Provides AR experiences that use the front-facing camera and track the movement 
 </ol>
 
 
-<h3>Camera and Scene Details</h3>
-
 <h3>Face-Based AR Experiences</h3>
 
 <p><strong>Creating Face-Based AR Experiences</strong>
@@ -296,9 +290,9 @@ Place and animate 3D content that follows the user’s face and matches facial e
 </ul>
 
 
-<h2>ARKit的使用</h2>
+<h2>Best Practices and Limitations</h2>
 
-<h3>Best Practices and Limitations (Refer to <a href="https://developer.apple.com/documentation/arkit/about_augmented_reality_and_arkit">About Augmented Reality and ARKit</a>)</h3>
+<h3>Best Practices (Refer to <a href="https://developer.apple.com/documentation/arkit/about_augmented_reality_and_arkit">About Augmented Reality and ARKit</a>)</h3>
 
 <p>World tracking is an inexact science. This process can often produce impressive accuracy, leading to realistic AR experiences. However, it relies on details of the device’s physical environment that are not always consistent or are difficult to measure in real time without some degree of error. To build high-quality AR experiences, be aware of these caveats and tips.</p>
 
@@ -314,20 +308,26 @@ Place and animate 3D content that follows the user’s face and matches facial e
 
 <p> Plane detection results vary over time—when a plane is first detected, its position and extent may be inaccurate. As the plane remains in the scene over time, ARKit refines its estimate of position and extent. When a large flat surface is in the scene, ARKit may continue changing the plane anchor’s position, extent, and transform after you’ve already used the plane to place content.</p>
 
-<h2>ARKit的不足</h2>
+<h3>Limitations</h3>
 
 <ol>
-<li>对动态场景的位置估计不准确。相机不动，有新物体进入视野的时候，对新物体的空间位置估计偏差比较大。</li>
-<li>当镜头轴线方向上有两个真是物体时，没有办法将虚拟物体放到这两个真是物体之间。两种方法可能有助于这个问题的解决：
+<li>For a moving object, ARKit can not give an usable world position of it.</li>
+<li>You can not put a virtual object behind a real object. This leads to some problems, like:
 
 <ol>
-<li>基于已经检测出来的特征点的空间位置进行图像分割，先画远的真实物体，再画虚拟物体，再画近的真实物体。因为特征点检测比较稀疏（性能考虑），所以在进行图像分割的时候难免误差较大，需要结合一些边缘检测的算法。</li>
-<li>基于双摄像头得到图像上每个像素的景深，进行图像分割，再根据距离安排真实物体和虚拟物体。</li>
+<li>When an real object move in front of an virtual object, the virtual object will still be displayed in front of the real object.</li>
+<li>You can not hold a virtual object coolly, as the virtual object you are trying to hold can not be behind your fingers.</li>
+</ol>
+</li>
 </ol>
 
 
-<p> 以上两个方案不知道ARKit以后会不会更新，自己实现工作量大。</p></li>
-</ol>
+<p>Two thoughts that may be help on the second limitation:</p>
+
+<ul>
+<li>Segment the camera image based on the feature point with world position. Draw further real object, and then virtual object, and at last, the nearest real object. However, as the feature point is sparse (performance consideration), some edge detection algorithms are needed for accurate edges of objects.</li>
+<li>Based on the dual camera, we can get depth of each pixel of the camera image. This will help on image segmentation.</li>
+</ul>
 
 </div>
 

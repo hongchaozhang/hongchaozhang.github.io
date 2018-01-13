@@ -124,6 +124,8 @@
 
 <p>From <em>Model Evaluation Parameters</em>(section C), we can see the input and output of the trained model.</p>
 
+<p>The following is a sample usage of image classification model:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -145,7 +147,34 @@
 <span class='line-number'>19</span>
 <span class='line-number'>20</span>
 <span class='line-number'>21</span>
-</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="n">guard</span> <span class="k">let</span> <span class="n">selectedModel</span> <span class="o">=</span> <span class="n">try</span><span class="o">?</span> <span class="n">VNCoreMLModel</span><span class="p">(</span><span class="k">for</span><span class="o">:</span> <span class="n">Inceptionv3</span><span class="p">().</span><span class="n">model</span><span class="p">)</span> <span class="k">else</span> <span class="p">{</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="c1">// create request</span>
+</span><span class='line'><span class="n">guard</span> <span class="k">let</span> <span class="n">selectedModel</span> <span class="o">=</span> <span class="n">try</span><span class="o">?</span> <span class="n">VNCoreMLModel</span><span class="p">(</span><span class="k">for</span><span class="o">:</span> <span class="n">Inceptionv3</span><span class="p">().</span><span class="n">model</span><span class="p">)</span> <span class="k">else</span> <span class="p">{</span>
 </span><span class='line'>    <span class="n">fatalError</span><span class="p">(</span><span class="s">&quot;Could not load model. Ensure model has been drag and dropped (copied) to XCode Project. Also ensure the model is part of a target.&quot;</span><span class="p">)</span>
 </span><span class='line'><span class="p">}</span>
 </span><span class='line'>
@@ -154,6 +183,7 @@
 </span><span class='line'>
 </span><span class='line'><span class="p">...</span>
 </span><span class='line'>
+</span><span class='line'><span class="c1">// run request against an image</span>
 </span><span class='line'><span class="n">guard</span> <span class="k">let</span> <span class="n">pixbuff</span> <span class="o">=</span> <span class="p">(</span><span class="n">sceneView</span><span class="p">.</span><span class="n">session</span><span class="p">.</span><span class="n">currentFrame</span><span class="o">?</span><span class="p">.</span><span class="n">capturedImage</span><span class="p">)</span> <span class="k">else</span> <span class="p">{</span> <span class="k">return</span> <span class="p">}</span>
 </span><span class='line'><span class="k">let</span> <span class="n">ciImage</span> <span class="o">=</span> <span class="bp">CIImage</span><span class="p">(</span><span class="nl">cvPixelBuffer</span><span class="p">:</span> <span class="n">pixbuff</span><span class="p">)</span>
 </span><span class='line'><span class="c1">// Note1: Not entirely sure if the ciImage is being interpreted as RGB, but for now it works with the Inception model.</span>
@@ -165,6 +195,30 @@
 </span><span class='line'>    <span class="n">try</span> <span class="n">imageRequestHandler</span><span class="p">.</span><span class="n">perform</span><span class="p">([</span><span class="n">classificationRequest</span><span class="p">])</span>
 </span><span class='line'><span class="p">}</span> <span class="n">catch</span> <span class="p">{</span>
 </span><span class='line'>    <span class="n">print</span><span class="p">(</span><span class="n">error</span><span class="p">)</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">...</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// completion handler for coping with image classification results.</span>
+</span><span class='line'><span class="k">func</span> <span class="n">classificationCompleteHandler</span><span class="p">(</span><span class="nl">request</span><span class="p">:</span> <span class="n">VNRequest</span><span class="p">,</span> <span class="nl">error</span><span class="p">:</span> <span class="n">Error</span><span class="o">?</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">if</span> <span class="n">error</span> <span class="o">!=</span> <span class="nb">nil</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">print</span><span class="p">(</span><span class="s">&quot;Error: &quot;</span> <span class="o">+</span> <span class="p">(</span><span class="n">error</span><span class="o">?</span><span class="p">.</span><span class="n">localizedDescription</span><span class="p">)</span><span class="o">!</span><span class="p">)</span>
+</span><span class='line'>        <span class="k">return</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">guard</span> <span class="k">let</span> <span class="n">observations</span> <span class="o">=</span> <span class="n">request</span><span class="p">.</span><span class="n">results</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">print</span><span class="p">(</span><span class="s">&quot;No results&quot;</span><span class="p">)</span>
+</span><span class='line'>        <span class="k">return</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">// Get Classifications</span>
+</span><span class='line'>    <span class="k">let</span> <span class="n">classifications</span> <span class="o">=</span> <span class="n">observations</span><span class="p">[</span><span class="mf">0.</span><span class="p">.</span><span class="mf">.1</span><span class="p">]</span> <span class="c1">// top 2 results</span>
+</span><span class='line'>        <span class="p">.</span><span class="n">flatMap</span><span class="p">({</span> <span class="err">$</span><span class="mi">0</span> <span class="kt">as</span><span class="o">?</span> <span class="n">VNClassificationObservation</span> <span class="p">})</span>
+</span><span class='line'>        <span class="p">.</span><span class="n">filter</span><span class="p">({</span> <span class="err">$</span><span class="mf">0.</span><span class="n">confidence</span> <span class="o">&gt;</span> <span class="mf">0.2</span> <span class="p">})</span>
+</span><span class='line'>        <span class="p">.</span><span class="n">map</span><span class="p">({</span> <span class="s">&quot;\($0.identifier) \(String(format:&quot;</span><span class="o">-</span> <span class="o">%</span><span class="mf">.2f</span><span class="s">&quot;, $0.confidence))&quot;</span> <span class="p">})</span>
+</span><span class='line'>        <span class="p">.</span><span class="n">joined</span><span class="p">(</span><span class="nl">separator</span><span class="p">:</span> <span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">print</span><span class="p">(</span><span class="s">&quot;image recognition: &quot;</span> <span class="o">+</span> <span class="n">classifications</span><span class="p">)</span>
 </span><span class='line'><span class="p">}</span>
 </span></code></pre></td></tr></table></div></figure>
 
@@ -179,21 +233,37 @@
 
 <p><img src="/images/CustomVisionFromMicroSoft.png" alt="Custom Vision From MicroSoft" /></p>
 
-<p>来自微软的<a href="https://www.customvision.ai/">Custom Vision</a>，提供UI界面，可以直接上传图片，并进行标注。训练好之后可以到处模型供移动设备使用：iOS平台导出mlmodel，Android平台导出供TensorFlow使用的model。</p>
+<p>Microsoft <a href="https://www.customvision.ai/">Custom Vision</a> supplies a very friendly UI interface. You can upload you images and label them very easily. After training is done, you can export the model for mobile devices, including: mlmodel file for iOS platform, and TensorFlow model on Android platform.</p>
 
-<p>使用界面友好：</p>
+<p>Friendly UI Interface:</p>
 
 <p><img src="/images/InterfaceOfCustomVision.png" alt="interface of microsoft custom vision" /></p>
 
-<p>但是由于Custom Vision仍然处于测试阶段，所以有很多限制：</p>
+<p>But there are some limitations, as <a href="https://www.customvision.ai/">Custom Vision</a> is still in preview process.</p>
 
 <p><img src="/images/MicroSoftCustomVisionLimitation.png" alt="limitation of microsoft custom vision" /></p>
 
 <h3>Advanced</h3>
 
-<p><a href="https://github.com/apple/turicreate/tree/master/userguide/image_classifier">apple turicreate image classification</a>有更多的参数可以设置，比如训练集和测试集的比例。需要写一些python代码。</p>
+<p><a href="https://github.com/apple/turicreate/tree/master/userguide/image_classifier">apple turicreate image classification</a> supplies more configurations for model training, like the partition of trainning data and verification data. But some Python experience is needed.</p>
 
 <h2>CoreML Pros and Cons</h2>
+
+<h3>Pros</h3>
+
+<ol>
+<li><p><strong>Easy to use.</strong> As described at the beginning of the post.</p></li>
+<li><p><strong>High performance.</strong> As is said:</p>
+
+<blockquote><p>“It was amazing to see the prediction results immediately without any time interval.”</p></blockquote></li>
+</ol>
+
+
+<h3>Cons</h3>
+
+<p><strong>Lack of federated learning.</strong> As is said:</p>
+
+<blockquote><p>There are no provisions within Core ML for model retraining or federated learning, where data collected from the field is used to improve the accuracy of the model. That’s something you would have to implement by hand, most likely by asking app users to opt in for data collection and using that data to retrain the model for a future edition of the app.</p></blockquote>
 
 <p>Refer to <a href="https://www.infoworld.com/article/3200885/machine-learning/apples-core-ml-the-pros-and-cons.html">Apple’s Core ML: The pros and cons</a>.</p>
 </div>

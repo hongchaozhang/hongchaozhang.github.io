@@ -4,7 +4,7 @@
   <title><![CDATA[Reading Space]]></title>
   <link href="http://hongchaozhang.github.io/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2018-01-12T13:55:52+08:00</updated>
+  <updated>2018-01-14T00:23:10+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -33,6 +33,8 @@
 
 <p>From <em>Model Evaluation Parameters</em>(section C), we can see the input and output of the trained model.</p>
 
+<p>The following is a sample usage of image classification model:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -54,7 +56,34 @@
 <span class='line-number'>19</span>
 <span class='line-number'>20</span>
 <span class='line-number'>21</span>
-</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="n">guard</span> <span class="k">let</span> <span class="n">selectedModel</span> <span class="o">=</span> <span class="n">try</span><span class="o">?</span> <span class="n">VNCoreMLModel</span><span class="p">(</span><span class="k">for</span><span class="o">:</span> <span class="n">Inceptionv3</span><span class="p">().</span><span class="n">model</span><span class="p">)</span> <span class="k">else</span> <span class="p">{</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="c1">// create request</span>
+</span><span class='line'><span class="n">guard</span> <span class="k">let</span> <span class="n">selectedModel</span> <span class="o">=</span> <span class="n">try</span><span class="o">?</span> <span class="n">VNCoreMLModel</span><span class="p">(</span><span class="k">for</span><span class="o">:</span> <span class="n">Inceptionv3</span><span class="p">().</span><span class="n">model</span><span class="p">)</span> <span class="k">else</span> <span class="p">{</span>
 </span><span class='line'>    <span class="n">fatalError</span><span class="p">(</span><span class="s">&quot;Could not load model. Ensure model has been drag and dropped (copied) to XCode Project. Also ensure the model is part of a target.&quot;</span><span class="p">)</span>
 </span><span class='line'><span class="p">}</span>
 </span><span class='line'>
@@ -63,6 +92,7 @@
 </span><span class='line'>
 </span><span class='line'><span class="p">...</span>
 </span><span class='line'>
+</span><span class='line'><span class="c1">// run request against an image</span>
 </span><span class='line'><span class="n">guard</span> <span class="k">let</span> <span class="n">pixbuff</span> <span class="o">=</span> <span class="p">(</span><span class="n">sceneView</span><span class="p">.</span><span class="n">session</span><span class="p">.</span><span class="n">currentFrame</span><span class="o">?</span><span class="p">.</span><span class="n">capturedImage</span><span class="p">)</span> <span class="k">else</span> <span class="p">{</span> <span class="k">return</span> <span class="p">}</span>
 </span><span class='line'><span class="k">let</span> <span class="n">ciImage</span> <span class="o">=</span> <span class="bp">CIImage</span><span class="p">(</span><span class="nl">cvPixelBuffer</span><span class="p">:</span> <span class="n">pixbuff</span><span class="p">)</span>
 </span><span class='line'><span class="c1">// Note1: Not entirely sure if the ciImage is being interpreted as RGB, but for now it works with the Inception model.</span>
@@ -74,6 +104,30 @@
 </span><span class='line'>    <span class="n">try</span> <span class="n">imageRequestHandler</span><span class="p">.</span><span class="n">perform</span><span class="p">([</span><span class="n">classificationRequest</span><span class="p">])</span>
 </span><span class='line'><span class="p">}</span> <span class="n">catch</span> <span class="p">{</span>
 </span><span class='line'>    <span class="n">print</span><span class="p">(</span><span class="n">error</span><span class="p">)</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">...</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// completion handler for coping with image classification results.</span>
+</span><span class='line'><span class="k">func</span> <span class="n">classificationCompleteHandler</span><span class="p">(</span><span class="nl">request</span><span class="p">:</span> <span class="n">VNRequest</span><span class="p">,</span> <span class="nl">error</span><span class="p">:</span> <span class="n">Error</span><span class="o">?</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">if</span> <span class="n">error</span> <span class="o">!=</span> <span class="nb">nil</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">print</span><span class="p">(</span><span class="s">&quot;Error: &quot;</span> <span class="o">+</span> <span class="p">(</span><span class="n">error</span><span class="o">?</span><span class="p">.</span><span class="n">localizedDescription</span><span class="p">)</span><span class="o">!</span><span class="p">)</span>
+</span><span class='line'>        <span class="k">return</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">guard</span> <span class="k">let</span> <span class="n">observations</span> <span class="o">=</span> <span class="n">request</span><span class="p">.</span><span class="n">results</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">print</span><span class="p">(</span><span class="s">&quot;No results&quot;</span><span class="p">)</span>
+</span><span class='line'>        <span class="k">return</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">// Get Classifications</span>
+</span><span class='line'>    <span class="k">let</span> <span class="n">classifications</span> <span class="o">=</span> <span class="n">observations</span><span class="p">[</span><span class="mf">0.</span><span class="p">.</span><span class="mf">.1</span><span class="p">]</span> <span class="c1">// top 2 results</span>
+</span><span class='line'>        <span class="p">.</span><span class="n">flatMap</span><span class="p">({</span> <span class="err">$</span><span class="mi">0</span> <span class="kt">as</span><span class="o">?</span> <span class="n">VNClassificationObservation</span> <span class="p">})</span>
+</span><span class='line'>        <span class="p">.</span><span class="n">filter</span><span class="p">({</span> <span class="err">$</span><span class="mf">0.</span><span class="n">confidence</span> <span class="o">&gt;</span> <span class="mf">0.2</span> <span class="p">})</span>
+</span><span class='line'>        <span class="p">.</span><span class="n">map</span><span class="p">({</span> <span class="s">&quot;\($0.identifier) \(String(format:&quot;</span><span class="o">-</span> <span class="o">%</span><span class="mf">.2f</span><span class="s">&quot;, $0.confidence))&quot;</span> <span class="p">})</span>
+</span><span class='line'>        <span class="p">.</span><span class="n">joined</span><span class="p">(</span><span class="nl">separator</span><span class="p">:</span> <span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">print</span><span class="p">(</span><span class="s">&quot;image recognition: &quot;</span> <span class="o">+</span> <span class="n">classifications</span><span class="p">)</span>
 </span><span class='line'><span class="p">}</span>
 </span></code></pre></td></tr></table></div></figure>
 
@@ -88,21 +142,37 @@
 
 <p><img src="http://hongchaozhang.github.io/images/CustomVisionFromMicroSoft.png" alt="Custom Vision From MicroSoft" /></p>
 
-<p>来自微软的<a href="https://www.customvision.ai/">Custom Vision</a>，提供UI界面，可以直接上传图片，并进行标注。训练好之后可以到处模型供移动设备使用：iOS平台导出mlmodel，Android平台导出供TensorFlow使用的model。</p>
+<p>Microsoft <a href="https://www.customvision.ai/">Custom Vision</a> supplies a very friendly UI interface. You can upload you images and label them very easily. After training is done, you can export the model for mobile devices, including: mlmodel file for iOS platform, and TensorFlow model on Android platform.</p>
 
-<p>使用界面友好：</p>
+<p>Friendly UI Interface:</p>
 
 <p><img src="http://hongchaozhang.github.io/images/InterfaceOfCustomVision.png" alt="interface of microsoft custom vision" /></p>
 
-<p>但是由于Custom Vision仍然处于测试阶段，所以有很多限制：</p>
+<p>But there are some limitations, as <a href="https://www.customvision.ai/">Custom Vision</a> is still in preview process.</p>
 
 <p><img src="http://hongchaozhang.github.io/images/MicroSoftCustomVisionLimitation.png" alt="limitation of microsoft custom vision" /></p>
 
 <h3>Advanced</h3>
 
-<p><a href="https://github.com/apple/turicreate/tree/master/userguide/image_classifier">apple turicreate image classification</a>有更多的参数可以设置，比如训练集和测试集的比例。需要写一些python代码。</p>
+<p><a href="https://github.com/apple/turicreate/tree/master/userguide/image_classifier">apple turicreate image classification</a> supplies more configurations for model training, like the partition of trainning data and verification data. But some Python experience is needed.</p>
 
 <h2>CoreML Pros and Cons</h2>
+
+<h3>Pros</h3>
+
+<ol>
+<li><p><strong>Easy to use.</strong> As described at the beginning of the post.</p></li>
+<li><p><strong>High performance.</strong> As is said:</p>
+
+<blockquote><p>“It was amazing to see the prediction results immediately without any time interval.”</p></blockquote></li>
+</ol>
+
+
+<h3>Cons</h3>
+
+<p><strong>Lack of federated learning.</strong> As is said:</p>
+
+<blockquote><p>There are no provisions within Core ML for model retraining or federated learning, where data collected from the field is used to improve the accuracy of the model. That’s something you would have to implement by hand, most likely by asking app users to opt in for data collection and using that data to retrain the model for a future edition of the app.</p></blockquote>
 
 <p>Refer to <a href="https://www.infoworld.com/article/3200885/machine-learning/apples-core-ml-the-pros-and-cons.html">Apple’s Core ML: The pros and cons</a>.</p>
 ]]></content>
@@ -116,11 +186,7 @@
     <content type="html"><![CDATA[<!-- more -->
 
 
-<h2>ARKit的功能</h2>
-
-<p>参考官方文档<a href="https://developer.apple.com/documentation/arkit">ARKit</a>。</p>
-
-<h3>Requirement</h3>
+<h2>Requirement</h2>
 
 <ul>
 <li>iOS 11 and above system.</li>
@@ -130,11 +196,13 @@
 
 <p>To make your app available only on devices supporting ARKit, use the arkit key in the <code>UIRequiredDeviceCapabilities</code> section of your app&rsquo;s Info.plist. If augmented reality is a secondary feature of your app, use the <code>isSupported</code> property to determine whether the current device supports the session configuration you want to use.</p>
 
-<h3>ARKit in iOS system</h3>
+<h2>ARKit Usage</h2>
+
+<h3>ARKit in iOS System</h3>
 
 <p><img src="http://hongchaozhang.github.io/images/ARKitFramework.png" alt="arkit in ios system" /></p>
 
-<h3>ARKit Usage</h3>
+<h3>ARKit Key Classes</h3>
 
 <p><img src="http://hongchaozhang.github.io/images/ARKitUsage.png" alt="arkit usage" /></p>
 
@@ -174,6 +242,8 @@ Provides AR experiences that use the front-facing camera and track the movement 
 
 <p><img src="http://hongchaozhang.github.io/images/ARKitTracking.gif" alt="arkit world tracking" /></p>
 
+<blockquote><p>One questiong here: How does ARKit know how long is 1 meter in the real world?</p></blockquote>
+
 <h4>Tracking Quality</h4>
 
 <p>To get better tracking quality:</p>
@@ -206,16 +276,29 @@ Provides AR experiences that use the front-facing camera and track the movement 
 </span></code></pre></td></tr></table></div></figure>
 
 
-<h3>Real-World Objects and Positions</h3>
+<h3><code>ARFrame</code></h3>
+
+<p>After world tracking, we can get the 6 DOF of the camera, used for the upcomming rendering. These infos are stored in each <code>ARFrame</code>.</p>
+
+<p><code>ARFrame</code> owns video image and position tracking information captured as part of an AR session. There are two ways to access <code>ARFrame</code> objects produced by an AR session, depending on whether your app favors a pull or a push design pattern.</p>
 
 <ul>
-<li><p><strong><code>ARHitTestResult</code></strong>: Information about a real-world surface found by examining a point in the device camera view of an AR session.</p></li>
-<li><p><strong><code>ARAnchor</code></strong>: A real-world position and orientation that can be used for placing objects in an AR scene.</p></li>
-<li><p><strong><code>ARTrackable</code></strong>: A real-world object in a scene for which ARKit tracks changes to position and orientation.</p></li>
+<li><em>Pull Pattern</em>: get <code>currentFrame</code> from <code>ARSession</code>.</li>
+<li><em>Push Pattern</em>: implement the <code>session(_:didUpdate:)</code> delegate method, and the session will call it once for each video frame it captures (at 60 frames per second by default).</li>
 </ul>
 
 
-<h3>More on HitTest</h3>
+<p>Key infos in <code>ARFrame</code>:</p>
+
+<ol>
+<li><p><strong><code>ARCamera</code></strong>: Information about the camera position and imaging characteristics for a captured video frame in an AR session. Get <code>camera</code> from <code>ARFrame</code>.</p></li>
+<li><p><strong><code>ARLightEstimate</code></strong>: Estimated scene lighting information associated with a captured video frame in an AR session. Get <code>lightEstimate</code> from <code>ARFrame</code>.</p>
+
+<p> Refer to <a href="https://blog.markdaws.net/arkit-by-example-part-4-realism-lighting-pbr-b9a0bedb013e">ARKit by Example — Part 4: Realism - Lighting &amp; PBR</a> for mimicing the environment light.</p></li>
+</ol>
+
+
+<h3>HitTest for Real World Position</h3>
 
 <p>By calling the following method on <code>ARSCNView</code>,</p>
 
@@ -224,48 +307,31 @@ Provides AR experiences that use the front-facing camera and track the movement 
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>we can get an array of <code>ARHitTestResult</code>. The <code>ARHitTestResult</code>s are sorted by distance. To call the method, you need to specify the <code>ARHitTestResult.ResultType</code>. There are four kinds of the types:</p>
+<p>we can get an array of <code>ARHitTestResult</code>, which stay at the very position point indicates. The <code>ARHitTestResult</code>s are sorted by distance. To call the method, you need to specify the <code>ARHitTestResult.ResultType</code>. There are four kinds of hitTest types:</p>
 
-<h4>existingPlane</h4>
+<h4><code>existingPlane</code></h4>
 
 <p>Return the result type from intersecting with an existing plane anchor.</p>
 
 <p><img src="http://hongchaozhang.github.io/images/ARKitHitTestExistingPlane.gif" alt="arkit hittest existing plane" /></p>
 
-<h4>existingPlaneUsingExtent</h4>
+<h4><code>existingPlaneUsingExtent</code></h4>
 
 <p>Return the result type from intersecting with an existing plane anchor, taking into account the plane’s extent.</p>
 
-<h4>estimatedHorizontalPlane</h4>
+<h4><code>estimatedHorizontalPlane</code></h4>
 
 <p>Return the result type from intersecting a horizontal plane estimate, determined for the current frame.</p>
 
 <p><img src="http://hongchaozhang.github.io/images/ARKitHitTestEstimatedPlane.gif" alt="arkit hittest estimated plane" /></p>
 
-<h4>featurePoint</h4>
+<h4><code>featurePoint</code></h4>
 
 <p>Return the result type from intersecting the nearest feature point.</p>
 
 <p><img src="http://hongchaozhang.github.io/images/ARKitHitTestFeaturePoints.gif" alt="" /></p>
 
 <h3>Display Virtual Object in Real World</h3>
-
-<p>Related classes:</p>
-
-<ol>
-<li><p><strong><code>ARFrame</code></strong>: A video image and position tracking information captured as part of an AR session. There are two ways to access <code>ARFrame</code> objects produced by an AR session, depending on whether your app favors a pull or a push design pattern.</p>
-
-<ol>
-<li><strong>Pull Pattern</strong>: get <code>currentFrame</code> from <code>ARSession</code>.</li>
-<li><strong>Push Pattern</strong>: implement the <code>session(_:didUpdate:)</code> delegate method, and the session will call it once for each video frame it captures (at 60 frames per second by default).</li>
-</ol>
-</li>
-<li><p><strong><code>ARCamera</code></strong>: Information about the camera position and imaging characteristics for a captured video frame in an AR session. Get <code>camera</code> from <code>ARFrame</code>.</p></li>
-<li><p><strong><code>ARLightEstimate</code></strong>: Estimated scene lighting information associated with a captured video frame in an AR session. Get <code>lightEstimate</code> from <code>ARFrame</code>.</p>
-
-<p> Refer to <a href="https://blog.markdaws.net/arkit-by-example-part-4-realism-lighting-pbr-b9a0bedb013e">ARKit by Example — Part 4: Realism - Lighting &amp; PBR</a> for mimicing the environment light.</p></li>
-</ol>
-
 
 <h4>Standard View</h4>
 
@@ -286,8 +352,6 @@ Provides AR experiences that use the front-facing camera and track the movement 
 </ol>
 
 
-<h3>Camera and Scene Details</h3>
-
 <h3>Face-Based AR Experiences</h3>
 
 <p><strong>Creating Face-Based AR Experiences</strong>
@@ -299,9 +363,9 @@ Place and animate 3D content that follows the user’s face and matches facial e
 </ul>
 
 
-<h2>ARKit的使用</h2>
+<h2>Best Practices and Limitations</h2>
 
-<h3>Best Practices and Limitations (Refer to <a href="https://developer.apple.com/documentation/arkit/about_augmented_reality_and_arkit">About Augmented Reality and ARKit</a>)</h3>
+<h3>Best Practices (Refer to <a href="https://developer.apple.com/documentation/arkit/about_augmented_reality_and_arkit">About Augmented Reality and ARKit</a>)</h3>
 
 <p>World tracking is an inexact science. This process can often produce impressive accuracy, leading to realistic AR experiences. However, it relies on details of the device’s physical environment that are not always consistent or are difficult to measure in real time without some degree of error. To build high-quality AR experiences, be aware of these caveats and tips.</p>
 
@@ -317,20 +381,26 @@ Place and animate 3D content that follows the user’s face and matches facial e
 
 <p> Plane detection results vary over time—when a plane is first detected, its position and extent may be inaccurate. As the plane remains in the scene over time, ARKit refines its estimate of position and extent. When a large flat surface is in the scene, ARKit may continue changing the plane anchor’s position, extent, and transform after you’ve already used the plane to place content.</p>
 
-<h2>ARKit的不足</h2>
+<h3>Limitations</h3>
 
 <ol>
-<li>对动态场景的位置估计不准确。相机不动，有新物体进入视野的时候，对新物体的空间位置估计偏差比较大。</li>
-<li>当镜头轴线方向上有两个真是物体时，没有办法将虚拟物体放到这两个真是物体之间。两种方法可能有助于这个问题的解决：
+<li>For a moving object, ARKit can not give an usable world position of it.</li>
+<li>You can not put a virtual object behind a real object. This leads to some problems, like:
 
 <ol>
-<li>基于已经检测出来的特征点的空间位置进行图像分割，先画远的真实物体，再画虚拟物体，再画近的真实物体。因为特征点检测比较稀疏（性能考虑），所以在进行图像分割的时候难免误差较大，需要结合一些边缘检测的算法。</li>
-<li>基于双摄像头得到图像上每个像素的景深，进行图像分割，再根据距离安排真实物体和虚拟物体。</li>
+<li>When an real object move in front of an virtual object, the virtual object will still be displayed in front of the real object.</li>
+<li>You can not hold a virtual object coolly, as the virtual object you are trying to hold can not be behind your fingers.</li>
+</ol>
+</li>
 </ol>
 
 
-<p> 以上两个方案不知道ARKit以后会不会更新，自己实现工作量大。</p></li>
-</ol>
+<p>Two thoughts that may be help on the second limitation:</p>
+
+<ul>
+<li>Segment the camera image based on the feature point with world position. Draw further real object, and then virtual object, and at last, the nearest real object. However, as the feature point is sparse (performance consideration), some edge detection algorithms are needed for accurate edges of objects.</li>
+<li>Based on the dual camera, we can get depth of each pixel of the camera image. This will help on image segmentation.</li>
+</ul>
 
 ]]></content>
   </entry>
