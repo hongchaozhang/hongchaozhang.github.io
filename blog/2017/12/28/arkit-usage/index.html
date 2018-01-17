@@ -9,8 +9,12 @@
   <meta name="author" content="Zhang Hongchao">
 
   
-  <meta name="description" content="Requirement iOS 11 and above system.
-iOS device with an A9 or later processor. To make your app available only on devices supporting ARKit, use the &hellip;">
+  <meta name="description" content="Cool AR Apps in App Store World Brush
+IKEA Place
+AR MeasureKit Requirement
+ARKit Usage ARKit Related Techniques
+ARKit in iOS System
+ARKit Key &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -113,6 +117,98 @@ iOS device with an A9 or later processor. To make your app available only on dev
 <div class="entry-content"><!-- more -->
 
 
+
+
+<!-- TOC -->
+
+
+<ul>
+<li><a href="#cool-ar-apps-in-app-store">Cool AR Apps in App Store</a>
+
+<ul>
+<li><a href="#world-brush">World Brush</a></li>
+<li><a href="#ikea-place">IKEA Place</a></li>
+<li><a href="#ar-measurekit">AR MeasureKit</a></li>
+</ul>
+</li>
+<li><a href="#requirement">Requirement</a></li>
+<li><a href="#arkit-usage">ARKit Usage</a>
+
+<ul>
+<li><a href="#arkit-related-techniques">ARKit Related Techniques</a></li>
+<li><a href="#arkit-in-ios-system">ARKit in iOS System</a></li>
+<li><a href="#arkit-key-classes">ARKit Key Classes</a></li>
+<li><a href="#arsession"><code>ARSession</code></a></li>
+<li><a href="#arconfiguration"><code>ARConfiguration</code></a></li>
+<li><a href="#more-on-arworldtrackingconfiguration">More on <code>ARWorldTrackingConfiguration</code></a>
+
+<ul>
+<li><a href="#tracking-quality">Tracking Quality</a></li>
+</ul>
+</li>
+<li><a href="#arframe"><code>ARFrame</code></a></li>
+<li><a href="#hittest-for-real-world-position">HitTest for Real World Position</a>
+
+<ul>
+<li><a href="#existingplane"><code>existingPlane</code></a></li>
+<li><a href="#existingplaneusingextent"><code>existingPlaneUsingExtent</code></a></li>
+<li><a href="#estimatedhorizontalplane"><code>estimatedHorizontalPlane</code></a></li>
+<li><a href="#featurepoint"><code>featurePoint</code></a></li>
+</ul>
+</li>
+<li><a href="#display-virtual-object-in-real-world">Display Virtual Object in Real World</a>
+
+<ul>
+<li><a href="#standard-view">Standard View</a></li>
+<li><a href="#custom-view">Custom View</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#best-practices-and-limitations">Best Practices and Limitations</a>
+
+<ul>
+<li><a href="#best-practices">Best Practices</a></li>
+<li><a href="#limitations">Limitations</a></li>
+</ul>
+</li>
+<li><a href="#ar-from-google">AR from Google</a></li>
+</ul>
+
+
+<!-- /TOC -->
+
+
+<p><a id="markdown-cool-ar-apps-in-app-store" name="cool-ar-apps-in-app-store"></a></p>
+
+<h2>Cool AR Apps in App Store</h2>
+
+<p><a id="markdown-world-brush" name="world-brush"></a></p>
+
+<h3>World Brush</h3>
+
+<p><a href="https://itunes.apple.com/us/app/world-brush/id1277410449?mt=8">World Brush</a> is an AR experience where users can paint with brushes on the world around them. Every painting is saved at the approximate GPS location where it was created, and will be recommended to the user around.</p>
+
+<p><img src="/images/ARKit_WorldBrush.png" width="300" alt="world brush" /></p>
+
+<p><a id="markdown-ikea-place" name="ikea-place"></a></p>
+
+<h3>IKEA Place</h3>
+
+<p><a href="https://itunes.apple.com/us/app/ikea-place/id1279244498?mt=8">IKEA Place</a> lets you virtually &lsquo;place&rsquo; IKEA products in your space.</p>
+
+<p><img src="/images/ARKit_IkeaPlace.png" width="300" alt="ikea place" /></p>
+
+<p><a id="markdown-ar-measurekit" name="ar-measurekit"></a></p>
+
+<h3>AR MeasureKit</h3>
+
+<p><a href="https://itunes.apple.com/us/app/ar-measurekit/id1258270451?mt=8">AR MeasureKit</a> makes it really easy to measure different things in the world using your iPhone’s or iPad’s camera.</p>
+
+<p><img src="/images/ARKit_MeasureKit.png" width="300" alt="ar measure kit" /></p>
+
+<p><a id="markdown-requirement" name="requirement"></a></p>
+
 <h2>Requirement</h2>
 
 <ul>
@@ -121,29 +217,45 @@ iOS device with an A9 or later processor. To make your app available only on dev
 </ul>
 
 
-<p>To make your app available only on devices supporting ARKit, use the arkit key in the <code>UIRequiredDeviceCapabilities</code> section of your app&rsquo;s Info.plist. If augmented reality is a secondary feature of your app, use the <code>isSupported</code> property to determine whether the current device supports the session configuration you want to use.</p>
+<p>To make your app available only on devices supporting ARKit, use the arkit key in the <code>UIRequiredDeviceCapabilities</code> section of your app&rsquo;s Info.plist. If augmented reality is a secondary feature of your app, use the <code>ARWorldTrackingSessionConfiguration.isSupported</code> property to determine whether the current device supports the session configuration you want to use.</p>
+
+<p><a id="markdown-arkit-usage" name="arkit-usage"></a></p>
 
 <h2>ARKit Usage</h2>
+
+<p><a id="markdown-arkit-related-techniques" name="arkit-related-techniques"></a></p>
+
+<h3>ARKit Related Techniques</h3>
+
+<p><img src="/images/ARKitRelatedTechs.png" alt="arkit related techs" /></p>
+
+<p><a id="markdown-arkit-in-ios-system" name="arkit-in-ios-system"></a></p>
 
 <h3>ARKit in iOS System</h3>
 
 <p><img src="/images/ARKitFramework.png" alt="arkit in ios system" /></p>
 
+<p><a id="markdown-arkit-key-classes" name="arkit-key-classes"></a></p>
+
 <h3>ARKit Key Classes</h3>
 
 <p><img src="/images/ARKitUsage.png" alt="arkit usage" /></p>
 
-<h3><a href="https://developer.apple.com/documentation/arkit/arsession"><code>ARSession</code></a></h3>
+<p><a id="markdown-arsession" name="arsession"></a></p>
 
-<p>An <code>ARSession</code> object coordinates the major processes that ARKit performs on your behalf to create an augmented reality experience. These processes include reading data from the device&rsquo;s motion sensing hardware, controlling the device&rsquo;s built-in camera, and performing image analysis on captured camera images. The session synthesizes all of these results to establish a correspondence between the real-world space the device inhabits and a virtual space where you model AR content.</p>
+<h3><code>ARSession</code></h3>
+
+<p>An <a href="https://developer.apple.com/documentation/arkit/arsession"><code>ARSession</code></a> object coordinates the major processes that ARKit performs on your behalf to create an augmented reality experience. These processes include reading data from the device&rsquo;s motion sensing hardware, controlling the device&rsquo;s built-in camera, and performing image analysis on captured camera images. The session synthesizes all of these results to establish a correspondence between the real-world space the device inhabits and a virtual space where you model AR content.</p>
 
 <p>Every AR experience built with ARKit requires a single <code>ARSession</code>object. If you use an <code>ARSCNView</code> or <code>ARSKView</code> object to easily build the visual part of your AR experience, the view object includes an <code>ARSession</code> instance. If you build your own renderer for AR content, you&rsquo;ll need to instantiate and maintain an ARSession object yourself.</p>
 
 <p>Running a session requires a session configuration: an instance of the <code>ARConfiguration</code> class, or its subclass <code>ARWorldTrackingConfiguration</code>. These classes determine how ARKit tracks a device&rsquo;s position and motion relative to the real world, and thus affect the kinds of AR experiences you can create.</p>
 
-<h3><a href="https://developer.apple.com/documentation/arkit/arconfiguration"><code>ARConfiguration</code></a></h3>
+<p><a id="markdown-arconfiguration" name="arconfiguration"></a></p>
 
-<p><code>ARConfiguration</code> is an abstract class; you do not create or work with instances of this class.</p>
+<h3><code>ARConfiguration</code></h3>
+
+<p><a href="https://developer.apple.com/documentation/arkit/arconfiguration"><code>ARConfiguration</code></a> is an abstract class; you do not create or work with instances of this class.</p>
 
 <p>To run an AR session, create an instance of the concrete <code>ARConfiguration</code> subclass that provides the kind of augmented reality experience you want to use in your app or game. Then, set up the configuration object&rsquo;s properties and pass the configuration to your session&rsquo;s <code>run(_:options:)</code> method. ARKit includes the following concrete configuration classes:</p>
 
@@ -157,19 +269,29 @@ Provides basic AR experiences that use the rear-facing camera and track only a d
 
 <p>  Use 3DOF tracking only as a fallback in situations where 6DOF tracking is temporarily unavailable.</p></li>
 <li><p><a href="https://developer.apple.com/documentation/arkit/arfacetrackingconfiguration"><code>ARFaceTrackingConfiguration</code></a>
-Provides AR experiences that use the front-facing camera and track the movement and expressions of the user&rsquo;s face. Face tracking is available only on iOS devices with a front-facing TrueDepth camera.</p></li>
+Provides AR experiences that use the front-facing camera and track the movement and expressions of the user&rsquo;s face.</p></li>
 </ul>
 
 
-<h3>More on <a href="https://developer.apple.com/documentation/arkit/arworldtrackingconfiguration"><code>ARWorldTrackingConfiguration</code></a></h3>
+<p>Face tracking is available only on iOS devices with a front-facing TrueDepth camera.</p>
 
-<p>Refer to <a href="https://developer.apple.com/documentation/arkit/about_augmented_reality_and_arkit">About Augmented Reality and ARKit</a> for an official explaination of the world tracking things.</p>
+<p>An official example <a href="https://developer.apple.com/documentation/arkit/creating_face_based_ar_experiences">Creating Face-Based AR Experiences</a> demonstrates that you can place and animate 3D content that follows the user’s face and matches facial expressions, using the TrueDepth camera on iPhone X.</p>
 
-<p>World tracking process can be illustracted as:</p>
+<p><a id="markdown-more-on-arworldtrackingconfiguration" name="more-on-arworldtrackingconfiguration"></a></p>
+
+<h3>More on <code>ARWorldTrackingConfiguration</code></h3>
+
+<p>Refer to <a href="https://developer.apple.com/documentation/arkit/about_augmented_reality_and_arkit">About Augmented Reality and ARKit</a> for an official explanation of the world tracking things.</p>
+
+<p>World tracking process can be illustrated as:</p>
 
 <p><img src="/images/ARKitTracking.gif" alt="arkit world tracking" /></p>
 
-<blockquote><p>One questiong here: How does ARKit know how long is 1 meter in the real world?</p></blockquote>
+<blockquote><p>One question here: <em>How does ARKit know how long is 1 meter in the real world?</em> <a href="https://www.quora.com/How-can-Apple%E2%80%99s-ARKit-Augmented-Reality-do-precise-measurement-with-just-one-camera">How can Apple’s ARKit (Augmented Reality) do precise measurement with just one camera?</a> is trying to figure this out:</p>
+
+<p>&ldquo;When an iPhone camera is turned on, it doesn’t have two different images with which to calculate distances. However, a moment after the first image is taken it does have a second image. <strong>Thanks to data from the iPhone accelerometer sensors, it can also estimate the difference - from the first image to the second - of the iPhone camera’s 3D position and aim.</strong> Now we go back to those “known features” being tracked. For each image the iPhone doesn’t just do this for a single feature, it maps as many features as it can. Aside from doing the triangulation on each of the features in the images, it also does a comparison between the differences in each feature’s relationship to other features in the image. So now, like your brain, the iPhone has two different views of something, knows the approximate angles of focus, knows the distance between the lens position, is tracking known features and their relationship to each other. From this, the iPhone can get a very good approximation of how each feature is positioned in space with relation to the other features, essentially producing a 3D mapping of the space.&rdquo;</p></blockquote>
+
+<p><a id="markdown-tracking-quality" name="tracking-quality"></a></p>
 
 <h4>Tracking Quality</h4>
 
@@ -203,9 +325,11 @@ Provides AR experiences that use the front-facing camera and track the movement 
 </span></code></pre></td></tr></table></div></figure>
 
 
+<p><a id="markdown-arframe" name="arframe"></a></p>
+
 <h3><code>ARFrame</code></h3>
 
-<p>After world tracking, we can get the 6 DOF of the camera, used for the upcomming rendering. These infos are stored in each <code>ARFrame</code>.</p>
+<p>After world tracking, we can get the 6 DOF of the camera, used for the upcoming rendering. These infos are stored in each <code>ARFrame</code>.</p>
 
 <p><code>ARFrame</code> owns video image and position tracking information captured as part of an AR session. There are two ways to access <code>ARFrame</code> objects produced by an AR session, depending on whether your app favors a pull or a push design pattern.</p>
 
@@ -225,6 +349,8 @@ Provides AR experiences that use the front-facing camera and track the movement 
 </ol>
 
 
+<p><a id="markdown-hittest-for-real-world-position" name="hittest-for-real-world-position"></a></p>
+
 <h3>HitTest for Real World Position</h3>
 
 <p>By calling the following method on <code>ARSCNView</code>,</p>
@@ -236,15 +362,21 @@ Provides AR experiences that use the front-facing camera and track the movement 
 
 <p>we can get an array of <code>ARHitTestResult</code>, which stay at the very position point indicates. The <code>ARHitTestResult</code>s are sorted by distance. To call the method, you need to specify the <code>ARHitTestResult.ResultType</code>. There are four kinds of hitTest types:</p>
 
+<p><a id="markdown-existingplane" name="existingplane"></a></p>
+
 <h4><code>existingPlane</code></h4>
 
 <p>Return the result type from intersecting with an existing plane anchor.</p>
 
 <p><img src="/images/ARKitHitTestExistingPlane.gif" alt="arkit hittest existing plane" /></p>
 
+<p><a id="markdown-existingplaneusingextent" name="existingplaneusingextent"></a></p>
+
 <h4><code>existingPlaneUsingExtent</code></h4>
 
 <p>Return the result type from intersecting with an existing plane anchor, taking into account the plane’s extent.</p>
+
+<p><a id="markdown-estimatedhorizontalplane" name="estimatedhorizontalplane"></a></p>
 
 <h4><code>estimatedHorizontalPlane</code></h4>
 
@@ -252,13 +384,19 @@ Provides AR experiences that use the front-facing camera and track the movement 
 
 <p><img src="/images/ARKitHitTestEstimatedPlane.gif" alt="arkit hittest estimated plane" /></p>
 
+<p><a id="markdown-featurepoint" name="featurepoint"></a></p>
+
 <h4><code>featurePoint</code></h4>
 
 <p>Return the result type from intersecting the nearest feature point.</p>
 
 <p><img src="/images/ARKitHitTestFeaturePoints.gif" alt="" /></p>
 
+<p><a id="markdown-display-virtual-object-in-real-world" name="display-virtual-object-in-real-world"></a></p>
+
 <h3>Display Virtual Object in Real World</h3>
+
+<p><a id="markdown-standard-view" name="standard-view"></a></p>
 
 <h4>Standard View</h4>
 
@@ -268,7 +406,9 @@ Provides AR experiences that use the front-facing camera and track the movement 
 </ul>
 
 
-<h4>Custom View (Refer to <a href="https://developer.apple.com/documentation/arkit/displaying_an_ar_experience_with_metal">Displaying an AR Experience with Metal</a>)</h4>
+<p><a id="markdown-custom-view" name="custom-view"></a></p>
+
+<h4>Custom View</h4>
 
 <p>To display your AR experience in a custom view, you’ll need to:</p>
 
@@ -279,22 +419,19 @@ Provides AR experiences that use the front-facing camera and track the movement 
 </ol>
 
 
-<h3>Face-Based AR Experiences</h3>
+<p>Refer to <a href="https://developer.apple.com/documentation/arkit/displaying_an_ar_experience_with_metal">Displaying an AR Experience with Metal</a>.</p>
 
-<p><strong>Creating Face-Based AR Experiences</strong>
-Place and animate 3D content that follows the user’s face and matches facial expressions, using the TrueDepth camera on iPhone X. Reer to <a href="https://developer.apple.com/documentation/arkit/creating_face_based_ar_experiences">Creating Face-Based AR Experiences</a> for an official example.</p>
-
-<ul>
-<li><strong><code>ARFaceTrackingConfiguration</code></strong>: A configuration that tracks the movement and expressions of the user’s face using the TrueDepth camera.</li>
-<li><strong>ARFaceAnchor</strong>: Information about the pose, topology, and expression of a face detected in a face-tracking AR session.</li>
-</ul>
-
+<p><a id="markdown-best-practices-and-limitations" name="best-practices-and-limitations"></a></p>
 
 <h2>Best Practices and Limitations</h2>
 
-<h3>Best Practices (Refer to <a href="https://developer.apple.com/documentation/arkit/about_augmented_reality_and_arkit">About Augmented Reality and ARKit</a>)</h3>
+<p><a id="markdown-best-practices" name="best-practices"></a></p>
+
+<h3>Best Practices</h3>
 
 <p>World tracking is an inexact science. This process can often produce impressive accuracy, leading to realistic AR experiences. However, it relies on details of the device’s physical environment that are not always consistent or are difficult to measure in real time without some degree of error. To build high-quality AR experiences, be aware of these caveats and tips.</p>
+
+<p>Refer to <a href="https://developer.apple.com/documentation/arkit/about_augmented_reality_and_arkit">About Augmented Reality and ARKit</a>.</p>
 
 <p><strong>Design AR experiences for predictable lighting conditions.</strong></p>
 
@@ -307,6 +444,8 @@ Place and animate 3D content that follows the user’s face and matches facial e
 <p><strong>Allow time for plane detection to produce clear results, and disable plane detection when you have the results you need.</strong></p>
 
 <p> Plane detection results vary over time—when a plane is first detected, its position and extent may be inaccurate. As the plane remains in the scene over time, ARKit refines its estimate of position and extent. When a large flat surface is in the scene, ARKit may continue changing the plane anchor’s position, extent, and transform after you’ve already used the plane to place content.</p>
+
+<p><a id="markdown-limitations" name="limitations"></a></p>
 
 <h3>Limitations</h3>
 
@@ -327,6 +466,22 @@ Place and animate 3D content that follows the user’s face and matches facial e
 <ul>
 <li>Segment the camera image based on the feature point with world position. Draw further real object, and then virtual object, and at last, the nearest real object. However, as the feature point is sparse (performance consideration), some edge detection algorithms are needed for accurate edges of objects.</li>
 <li>Based on the dual camera, we can get depth of each pixel of the camera image. This will help on image segmentation.</li>
+</ul>
+
+
+<p><a id="markdown-ar-from-google" name="ar-from-google"></a></p>
+
+<h2>AR from Google</h2>
+
+<p><a href="https://developers.google.com/tango/?hl=zh-cn">Tango</a> is a platform that uses computer vision to give devices the ability to understand their position relative to the world around them. But Tango requires very special hardware to run on. So <a href="https://developers.google.com/ar/">ARCore</a> comes.</p>
+
+<blockquote><p>The Tango project will be deprecated on March 1st, 2018. Google is continuing AR development with ARCore, a new platform designed for building augmented reality apps for a broad range of devices without the requirement for specialized hardware.</p></blockquote>
+
+<p>ARCore is a platform for building augmented reality apps on Android. ARCore is designed to work on a wide variety of qualified Android phones running N and later. During the developer <strong>preview</strong>, ARCore supports the following devices:</p>
+
+<ul>
+<li>Google Pixel, Pixel XL, Pixel 2, Pixel 2 XL</li>
+<li>Samsung Galaxy S8 (SM-G950U, SM-G950N, SM-G950F, SM-G950FD, SM-G950W, SM-G950U1)</li>
 </ul>
 
 </div>
