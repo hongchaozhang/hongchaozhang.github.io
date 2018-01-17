@@ -7,8 +7,19 @@ categories: [ios]
 ---
 
 <!-- more -->
+<!-- TOC -->
 
+- [Model Usage](#model-usage)
+- [Model Training](#model-training)
+    - [Basic](#basic)
+    - [Advanced](#advanced)
+- [CoreML Pros and Cons](#coreml-pros-and-cons)
+    - [Pros](#pros)
+    - [Cons](#cons)
 
+<!-- /TOC -->
+
+<a id="markdown-model-usage" name="model-usage"></a>
 ## Model Usage
 
 When you load a trained machine learning model (.mlmodel) into xcode, the screenshot is like (take inceptionv3.mlmodel as an example):
@@ -75,12 +86,14 @@ func classificationCompleteHandler(request: VNRequest, error: Error?) {
 
 ```
 
-Refer to [Build more intelligent apps with machine learning](https://developer.apple.com/machine-learning/) for some official materails.
+Refer to [Build more intelligent apps with machine learning](https://developer.apple.com/machine-learning/) for some official materials.
 
 For some detailed usage step by step, refer to [Core ML and Vision: Machine Learning in iOS 11 Tutorial](https://www.raywenderlich.com/164213/coreml-and-vision-machine-learning-in-ios-11-tutorial).
 
+<a id="markdown-model-training" name="model-training"></a>
 ## Model Training
 
+<a id="markdown-basic" name="basic"></a>
 ### Basic
 
 ![Custom Vision From MicroSoft](/images/CustomVisionFromMicroSoft.png)
@@ -95,12 +108,15 @@ But there are some limitations, as [Custom Vision](https://www.customvision.ai/)
 
 ![limitation of microsoft custom vision](/images/MicroSoftCustomVisionLimitation.png)
 
+<a id="markdown-advanced" name="advanced"></a>
 ### Advanced
 
 [apple turicreate image classification](https://github.com/apple/turicreate/tree/master/userguide/image_classifier) supplies more configurations for model training, like the partition of trainning data and verification data. But some Python experience is needed.
 
+<a id="markdown-coreml-pros-and-cons" name="coreml-pros-and-cons"></a>
 ## CoreML Pros and Cons
 
+<a id="markdown-pros" name="pros"></a>
 ### Pros
 
 1. **Easy to use.** As described at the beginning of the post.
@@ -109,6 +125,7 @@ But there are some limitations, as [Custom Vision](https://www.customvision.ai/)
 
     > “It was amazing to see the prediction results immediately without any time interval.”
 
+<a id="markdown-cons" name="cons"></a>
 ### Cons
 
 **Lack of federated learning.** As is said:
