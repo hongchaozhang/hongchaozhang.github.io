@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ios | Reading Space]]></title>
   <link href="http://hongchaozhang.github.io/blog/categories/ios/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2018-01-17T13:22:50+08:00</updated>
+  <updated>2018-01-20T13:56:17+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -14,11 +14,81 @@
 
   
   <entry>
+    <title type="html"><![CDATA[DR Project]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2018/01/02/dr-project/"/>
+    <updated>2018-01-02T13:39:28+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2018/01/02/dr-project</id>
+    <content type="html"><![CDATA[<p>Key words: ARKit, CoreML, SceneKit</p>
+
+<!-- more -->
+
+
+<p>DR (Data to Reality) is a demo for projecting data into reality: Using <strong>CoreML</strong> for object recognition, and then get the recognized object data and project the data to reality, just above the recognized object. In this process, <strong>ARKit</strong> helps us to get the real world object coordinate to put the data at, and <strong>SceneKit</strong> helps us to render the data in reality.</p>
+
+<p>This is a screenshot in demo:</p>
+
+<p><img src="/images/DR-Screenshot-1.png" alt="project chart to reality" /></p>
+
+<p>Refer to github <a href="https://github.com/hongchaozhang/ProjectDataToReality">Project Data to Reality</a> for demo project. In the github page, the following are told:</p>
+
+<ol>
+<li>Requirement</li>
+<li>How to Run the Project</li>
+<li>How to Use the Demo
+
+<ol>
+<li>Project Chart to Reality</li>
+<li>Face Detection</li>
+<li>Face Recognition</li>
+</ol>
+</li>
+</ol>
+
+
+<h2>Related techniques used</h2>
+
+<ol>
+<li><a href="../../../../2017/12/28/arkit-usage/">ARKit</a></li>
+<li><a href="../../../../2017/12/28/coreml-usage/">CoreML</a></li>
+<li><a href="../../../../2018/01/02/scenekit-usage/">SceneKit</a></li>
+</ol>
+
+
+<h2>Notes on the Demo</h2>
+
+<p>As this is a rough demo, it need some enhancements:</p>
+
+<ol>
+<li>Only four kinds of fruits are supported: banana, orange, cucumber and strawberry. But for anything recognized by Inceptionv3.mlmodel, we can add a sphere and the name just at the world position of the object. (Set <code>showRecognizedResultNearby</code> to <code>true</code>.)</li>
+<li>The chart data of the four kinds of fruits are images exported from other apps.</li>
+<li>For face detection on iphone, rotate the device to left by 90 degrees to make it work on landscape. This is an issue need to be fixed.</li>
+<li>Face recognition needs a trained face recognition model, called FaceRecognition.mlmodel.</li>
+<li>Face recognition request doesn&rsquo;t crop the image from camera according to the face detection result. This should be done to make face recognition more robust.</li>
+</ol>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[SceneKit Usage]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2018/01/02/scenekit-usage/"/>
+    <updated>2018-01-02T11:49:25+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2018/01/02/scenekit-usage</id>
+    <content type="html"><![CDATA[<p>Coming&hellip;</p>
+
+<!-- more -->
+
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[CoreML Usage]]></title>
     <link href="http://hongchaozhang.github.io/blog/2017/12/28/coreml-usage/"/>
     <updated>2017-12-28T17:25:39+08:00</updated>
     <id>http://hongchaozhang.github.io/blog/2017/12/28/coreml-usage</id>
     <content type="html"><![CDATA[<!-- more -->
+
+
 
 
 <!-- TOC -->
@@ -1322,182 +1392,6 @@ func vend(itemNamed name: String) throws {
 <li><a href="https://developer.apple.com/library/content/documentation/Swift/Conceptual/Swift_Programming_Language/ErrorHandling.html#//apple_ref/doc/uid/TP40014097-CH42-ID508">Error Handling Official Site</a></li>
 <li><a href="https://developer.apple.com/documentation/swift/error">Error from Apple Document</a></li>
 </ol>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS代码查重工具]]></title>
-    <link href="http://hongchaozhang.github.io/blog/2017/05/08/tools-for-detecting-duplicated-code/"/>
-    <updated>2017-05-08T17:52:24+08:00</updated>
-    <id>http://hongchaozhang.github.io/blog/2017/05/08/tools-for-detecting-duplicated-code</id>
-    <content type="html"><![CDATA[<p>代码查重工具</p>
-
-<!-- more -->
-
-
-<h2>jscpd</h2>
-
-<p><a href="https://github.com/kucherenko/jscpd">jscpd</a></p>
-
-<p>Supported languages：</p>
-
-<p>JavaScript  Java    YAML
-CoffeeScript    C++ Haxe
-PHP C#  TypeScript
-Go  Python  Mixed HTML
-Ruby    C   SCSS
-Less    CSS erlang
-<strong>Swift</strong>   xml/xslt    <strong>Objective-C</strong>
-Puppet  Twig    Vue.js</p>
-
-<h3>优点</h3>
-
-<ul>
-<li>安装使用简单</li>
-<li>运行速度快。</li>
-</ul>
-
-
-<h3>缺点：</h3>
-
-<ul>
-<li>没有GUI</li>
-<li>复制1行，修改其中的一行，就不会被认为复制。</li>
-</ul>
-
-
-<h2>PMD</h2>
-
-<p><a href="https://pmd.github.io/">PMD</a></p>
-
-<h3>Supported IDEs</h3>
-
-<p>没有Xcode的插件，所以只能用命令行。</p>
-
-<p>PMD is integrated with JDeveloper, Eclipse, JEdit, JBuilder, BlueJ, CodeGuide, NetBeans/Sun Java Studio Enterprise/Creator, IntelliJ IDEA, TextPad, Maven, Ant, Gel, JCreator, and Emacs.</p>
-
-<ul>
-<li>Maven PMD plugin</li>
-<li>Gradle: The PMD Plugin</li>
-<li>Eclipse plugin</li>
-<li>NetBeans plugin</li>
-<li>JBuilder plugin</li>
-<li>JDeveloper plugin</li>
-<li>IntelliJ IDEA plugin</li>
-</ul>
-
-
-<h3>Supported Languages of PMD commonded line:</h3>
-
-<ul>
-<li>java</li>
-<li>ecmascript (JavaScript)</li>
-<li>jsp</li>
-<li>plsql</li>
-<li>vm (Apache Velocity)</li>
-<li>xml and xsl</li>
-</ul>
-
-
-<h3>Supported Languages of CPD:</h3>
-
-<ul>
-<li>cs</li>
-<li>cpp</li>
-<li>ecmascript (JavaScript)</li>
-<li>fortran</li>
-<li>go</li>
-<li>java</li>
-<li>jsp</li>
-<li>matlab</li>
-<li>objectivec</li>
-<li>php</li>
-<li>plsql</li>
-<li>python</li>
-<li>ruby</li>
-<li>scala</li>
-<li>swift</li>
-</ul>
-
-
-<h3>CPD has GUI</h3>
-
-<p>On Mac, display the GUI by running:</p>
-
-<pre><code>./run.sh cpdgui
-</code></pre>
-
-<p>The screen shot is like:</p>
-
-<p><img src="/images/screenshot_cpd.png" alt="screenshot_cpd" /></p>
-
-<h3>将CPD集成到XCode里面</h3>
-
-<p><a href="https://habrahabr.ru/post/137875/">Интегрируем Copy-Paste-Detection в Xcode, и не только</a>将CPD集成到了XCode里面。</p>
-
-<h2>JenkinsCI-iOS</h2>
-
-<p><a href="https://github.com/cyupa/JenkinsCI-iOS">JenkinsCI-iOS</a></p>
-
-<p>The CPD in PMD is the core of JenkinsCI-iOS.</p>
-
-<h2>NiCad4 Clone Detector</h2>
-
-<p><a href="http://www.txl.ca/nicaddownload.html">NiCad4 Clone Detector</a></p>
-
-<p>NiCad handles a range of languages, including C, Java, Python, and C#, and provides a range of normalizations, filters and abstractions.</p>
-
-<h2>AppCode</h2>
-
-<h2>Code Clone Detection</h2>
-
-<p>Visual Studio Enterprise有自己的code clone analysis，see <a href="https://msdn.microsoft.com/en-us/library/hh205279.aspx">Finding Duplicate Code by using Code Clone Detection</a>。copy一段code，然后改了某个变量名称，仍然可以被检测出重复。</p>
-
-<h2>Simian - Similarity Analyser</h2>
-
-<p><a href="http://www.harukizaemon.com/simian/">Simian - Similarity Analyser</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[layoutSubviews的调用机制]]></title>
-    <link href="http://hongchaozhang.github.io/blog/2017/03/28/when-is-layoutsubviews-called/"/>
-    <updated>2017-03-28T09:25:06+08:00</updated>
-    <id>http://hongchaozhang.github.io/blog/2017/03/28/when-is-layoutsubviews-called</id>
-    <content type="html"><![CDATA[<h2><code>layoutSubviews</code>什么时候被调用？</h2>
-
-<p>为了方便描述，假设视图结构如下：</p>
-
-<!-- more -->
-
-
-<p><strong>父视图</strong>包含<strong>子视图1</strong>和<strong>子视图2</strong>。</p>
-
-<ol>
-<li><code>init</code>不会调用<code>layoutSubviews</code>，即使使用了<code>init(frame: CGRect)</code>进行初始化。</li>
-<li>当调用<code>addSubview(:)</code>将子视图2加入父视图的时候，子视图2和父视图的<code>layoutSubviews</code>会被调用，但是子视图1的<code>layoutSubviews</code>方法不会被调用。</li>
-<li>当我们设置子视图2的<code>frame</code>的时候，如果<code>frame</code>的<code>size</code>有变化，同结论2<code>addSubview</code>；如果<code>frame</code>的<code>size</code>没有变化，则不会有<code>layoutSubviews</code>被调用。</li>
-<li>当调用<code>removeFromSuperview</code>将视图2从父视图中删除的时候，只有父视图的<code>layoutSubviews</code>会被调用。</li>
-<li>当旋转设备的时候，只有根视图的<code>layoutSubviews</code>会被调用。</li>
-<li>当滑动<code>UIScrollView</code>的时候，<code>UIScrollView</code>的<code>layoutSubviews</code>会被调用。</li>
-</ol>
-
-
-<h2>auto layout和autoSizing</h2>
-
-<p>以上结论有个前提：视图通过设置<code>frame</code>或者autoSizing机制确定位置和大小，不使用auto layout。</p>
-
-<blockquote><p><strong>auto layout和autoSizing的区别</strong>：autoSizing确定的是子视图和父视图之间的位置大小关系，auto layout确定的是子视图、父视图以及兄弟视图之间的位置大小关系。</p></blockquote>
-
-<p>在使用auto layout的时候，当调用<code>addSubview(:)</code>将子视图2加入父视图的时候，子视图2和父视图的<code>layoutSubviews</code>会被调用，同时子视图1的<code>layoutSubviews</code>方法也会被调用。设置<code>frame</code>和<code>removeFromSuperview</code>有类似的结论。</p>
-
-<h2><code>setNeedsLayout</code>和<code>layoutIfNeeded</code></h2>
-
-<ul>
-<li><code>setNeedsLayout</code>：如果一个视图调用了<code>setNeedsLayout</code>，那么在下一个更新周期该视图的<code>layoutSubviews</code>会被调用。</li>
-<li><code>layoutIfNeeded</code>：如果一个视图调用了<code>layoutIfNeeded</code>，那么该视图的<code>layoutSubviews</code>会被<strong>立刻</strong>调用。</li>
-</ul>
 
 ]]></content>
   </entry>

@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Generics in Objective-c - Reading Space</title>
+  <title>DR Project - Reading Space</title>
   <meta name="author" content="Zhang Hongchao">
 
   
-  <meta name="description" content="参考：Is there any way to enforce typing on NSArray, NSMutableArray, etc.? 参考：Objective C Generics 随着Xcode7的发布，苹果实现了collection类（NSArray，NSDictionary， &hellip;">
+  <meta name="description" content="Key words: ARKit, CoreML, SceneKit DR (Data to Reality) is a demo for projecting data into reality: Using CoreML for object recognition, and then get &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://hongchaozhang.github.io/blog/2015/12/22/generics-in-objective-c">
+  <link rel="canonical" href="http://hongchaozhang.github.io/blog/2018/01/02/dr-project">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Reading Space" type="application/atom+xml">
@@ -82,7 +82,7 @@
   
   <header>
     
-      <h1 class="entry-title">Generics in Objective-c</h1>
+      <h1 class="entry-title">DR Project</h1>
     
     
       <p class="meta">
@@ -99,7 +99,7 @@
 
 
 
-<time datetime="2015-12-22T13:18:48+08:00" pubdate data-updated="true">Dec 22nd, 2015</time>
+<time datetime="2018-01-02T13:39:28+08:00" pubdate data-updated="true">Jan 2nd, 2018</time>
         
            | <a href="#disqus_thread"
              data-disqus-identifier="http://hongchaozhang.github.io">Comments</a>
@@ -109,31 +109,54 @@
   </header>
 
 
-<div class="entry-content"><p>参考：<a href="http://stackoverflow.com/questions/649483/is-there-any-way-to-enforce-typing-on-nsarray-nsmutablearray-etc">Is there any way to enforce typing on NSArray, NSMutableArray, etc.?</a></p>
-
-<p>参考：<a href="http://drekka.ghost.io/objective-c-generics/">Objective C Generics</a></p>
-
-<p>随着Xcode7的发布，苹果实现了collection类（NSArray，NSDictionary，NSSet）的generics功能。</p>
+<div class="entry-content"><p>Key words: ARKit, CoreML, SceneKit</p>
 
 <!-- more -->
 
 
-<p>以后，可以这样定义Array了：</p>
+<p>DR (Data to Reality) is a demo for projecting data into reality: Using <strong>CoreML</strong> for object recognition, and then get the recognized object data and project the data to reality, just above the recognized object. In this process, <strong>ARKit</strong> helps us to get the real world object coordinate to put the data at, and <strong>SceneKit</strong> helps us to render the data in reality.</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="bp">NSArray</span><span class="o">&lt;</span><span class="n">MyClass</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">myArray</span> <span class="o">=</span> <span class="l">@[</span><span class="p">[</span><span class="n">MyClass</span> <span class="n">new</span><span class="p">],</span> <span class="p">[</span><span class="n">MyClass</span> <span class="n">new</span><span class="p">]</span><span class="l">]</span><span class="p">;</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>This is a screenshot in demo:</p>
+
+<p><img src="/images/DR-Screenshot-1.png" alt="project chart to reality" /></p>
+
+<p>Refer to github <a href="https://github.com/hongchaozhang/ProjectDataToReality">Project Data to Reality</a> for demo project. In the github page, the following are told:</p>
+
+<ol>
+<li>Requirement</li>
+<li>How to Run the Project</li>
+<li>How to Use the Demo
+
+<ol>
+<li>Project Chart to Reality</li>
+<li>Face Detection</li>
+<li>Face Recognition</li>
+</ol>
+</li>
+</ol>
 
 
-<p>但是，我们仍然可以在Array中加入非MyClass类型的实例，此时xcode会报出警告，但是不会报错，程序仍然可以运行。所以需要我们在写程序时去除所有的警告。</p>
+<h2>Related techniques used</h2>
 
-<p>Xcode的提示也会帮助我们避免这些警告：当你试图add一个元素到Array中时，Xcode会提示其中元素的类型<code>void addObject:(nonnull MyClass *)</code>；如果没有用Generics，Xcode的提示是<code>void addObject:(nonnull id)</code>。</p>
+<ol>
+<li><a href="../../../../2017/12/28/arkit-usage/">ARKit</a></li>
+<li><a href="../../../../2017/12/28/coreml-usage/">CoreML</a></li>
+<li><a href="../../../../2018/01/02/scenekit-usage/">SceneKit</a></li>
+</ol>
 
-<p>但是这个可以给我们带来一个明显的好处：</p>
 
-<p>我们只要看到定义，就能知道其中的元素类型，而不用全局搜索代码，看往其中加入了什么。就冲这一点，就足以让我们毫不犹豫地使用了。</p>
+<h2>Notes on the Demo</h2>
 
-<p>更多的介绍和Generics的局限，请参考：<a href="http://drekka.ghost.io/objective-c-generics/">Objective C Generics</a>。</p>
+<p>As this is a rough demo, it need some enhancements:</p>
+
+<ol>
+<li>Only four kinds of fruits are supported: banana, orange, cucumber and strawberry. But for anything recognized by Inceptionv3.mlmodel, we can add a sphere and the name just at the world position of the object. (Set <code>showRecognizedResultNearby</code> to <code>true</code>.)</li>
+<li>The chart data of the four kinds of fruits are images exported from other apps.</li>
+<li>For face detection on iphone, rotate the device to left by 90 degrees to make it work on landscape. This is an issue need to be fixed.</li>
+<li>Face recognition needs a trained face recognition model, called FaceRecognition.mlmodel.</li>
+<li>Face recognition request doesn&rsquo;t crop the image from camera according to the face detection result. This should be done to make face recognition more robust.</li>
+</ol>
+
 </div>
 
 
@@ -157,12 +180,12 @@
 
 
 
-<time datetime="2015-12-22T13:18:48+08:00" pubdate data-updated="true">Dec 22nd, 2015</time>
+<time datetime="2018-01-02T13:39:28+08:00" pubdate data-updated="true">Jan 2nd, 2018</time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/ios/'>ios</a>, <a class='category' href='/blog/categories/objective-c/'>objective-c</a>
+    <a class='category' href='/blog/categories/ios/'>ios</a>
   
 </span>
 
@@ -178,10 +201,8 @@
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2015/12/19/propety-instance-variable-and-at-synthesize/" title="Previous Post: Propety, Instance Variable and @synthesize">&laquo; Propety, Instance Variable and @synthesize</a>
+        <a class="basic-alignment left" href="/blog/2018/01/02/scenekit-usage/" title="Previous Post: SceneKit Usage">&laquo; SceneKit Usage</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2015/12/29/https-workflow/" title="Next Post: https工作过程">https工作过程 &raquo;</a>
       
     </p>
   </footer>
@@ -279,8 +300,8 @@
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://hongchaozhang.github.io/blog/2015/12/22/generics-in-objective-c/';
-        var disqus_url = 'http://hongchaozhang.github.io/blog/2015/12/22/generics-in-objective-c/';
+        var disqus_identifier = 'http://hongchaozhang.github.io/blog/2018/01/02/dr-project/';
+        var disqus_url = 'http://hongchaozhang.github.io/blog/2018/01/02/dr-project/';
         var disqus_script = 'embed.js';
       
     (function () {

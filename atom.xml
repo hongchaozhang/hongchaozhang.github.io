@@ -4,7 +4,7 @@
   <title><![CDATA[Reading Space]]></title>
   <link href="http://hongchaozhang.github.io/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2018-01-17T13:22:50+08:00</updated>
+  <updated>2018-01-20T13:56:17+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -14,11 +14,81 @@
 
   
   <entry>
+    <title type="html"><![CDATA[DR Project]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2018/01/02/dr-project/"/>
+    <updated>2018-01-02T13:39:28+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2018/01/02/dr-project</id>
+    <content type="html"><![CDATA[<p>Key words: ARKit, CoreML, SceneKit</p>
+
+<!-- more -->
+
+
+<p>DR (Data to Reality) is a demo for projecting data into reality: Using <strong>CoreML</strong> for object recognition, and then get the recognized object data and project the data to reality, just above the recognized object. In this process, <strong>ARKit</strong> helps us to get the real world object coordinate to put the data at, and <strong>SceneKit</strong> helps us to render the data in reality.</p>
+
+<p>This is a screenshot in demo:</p>
+
+<p><img src="http://hongchaozhang.github.io/images/DR-Screenshot-1.png" alt="project chart to reality" /></p>
+
+<p>Refer to github <a href="https://github.com/hongchaozhang/ProjectDataToReality">Project Data to Reality</a> for demo project. In the github page, the following are told:</p>
+
+<ol>
+<li>Requirement</li>
+<li>How to Run the Project</li>
+<li>How to Use the Demo
+
+<ol>
+<li>Project Chart to Reality</li>
+<li>Face Detection</li>
+<li>Face Recognition</li>
+</ol>
+</li>
+</ol>
+
+
+<h2>Related techniques used</h2>
+
+<ol>
+<li><a href="../../../../2017/12/28/arkit-usage/">ARKit</a></li>
+<li><a href="../../../../2017/12/28/coreml-usage/">CoreML</a></li>
+<li><a href="../../../../2018/01/02/scenekit-usage/">SceneKit</a></li>
+</ol>
+
+
+<h2>Notes on the Demo</h2>
+
+<p>As this is a rough demo, it need some enhancements:</p>
+
+<ol>
+<li>Only four kinds of fruits are supported: banana, orange, cucumber and strawberry. But for anything recognized by Inceptionv3.mlmodel, we can add a sphere and the name just at the world position of the object. (Set <code>showRecognizedResultNearby</code> to <code>true</code>.)</li>
+<li>The chart data of the four kinds of fruits are images exported from other apps.</li>
+<li>For face detection on iphone, rotate the device to left by 90 degrees to make it work on landscape. This is an issue need to be fixed.</li>
+<li>Face recognition needs a trained face recognition model, called FaceRecognition.mlmodel.</li>
+<li>Face recognition request doesn&rsquo;t crop the image from camera according to the face detection result. This should be done to make face recognition more robust.</li>
+</ol>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[SceneKit Usage]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2018/01/02/scenekit-usage/"/>
+    <updated>2018-01-02T11:49:25+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2018/01/02/scenekit-usage</id>
+    <content type="html"><![CDATA[<p>Coming&hellip;</p>
+
+<!-- more -->
+
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[CoreML Usage]]></title>
     <link href="http://hongchaozhang.github.io/blog/2017/12/28/coreml-usage/"/>
     <updated>2017-12-28T17:25:39+08:00</updated>
     <id>http://hongchaozhang.github.io/blog/2017/12/28/coreml-usage</id>
     <content type="html"><![CDATA[<!-- more -->
+
+
 
 
 <!-- TOC -->
@@ -5617,281 +5687,6 @@ These are all tests that must run on an Android hardware device or an Android em
     <content type="html"><![CDATA[<p><a href="https://www.raywenderlich.com/66395/documenting-in-xcode-with-headerdoc-tutorial">Documenting in Xcode with HeaderDoc Tutorial</a> 讲解的非常全面详细可操作。</p>
 
 <p>补充一点：如果最终导出的html文件想转换成docx或者pdf文件，只需要用word打开，然后另存为你想要的格式即可，多数情况下，word可以处理好格式的问题。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Ios MultiplePagesViewController Usage]]></title>
-    <link href="http://hongchaozhang.github.io/blog/2016/03/27/ios-multiple-page-view-controller-usage/"/>
-    <updated>2016-03-27T16:58:54+08:00</updated>
-    <id>http://hongchaozhang.github.io/blog/2016/03/27/ios-multiple-page-view-controller-usage</id>
-    <content type="html"><![CDATA[<p>先上截图：</p>
-
-<p><img src="http://hongchaozhang.github.io/images/multiple_pages_view_controller_demo.gif" alt="multiple_pages_view_controller_demo.gif" /></p>
-
-<p>demo地址：<a href="https://github.com/hongchaozhang/MultiplePagesViewControllerDemo.git">MultiplePagesViewControllerDemo</a></p>
-
-<!-- more -->
-
-
-<h3>demo解释</h3>
-
-<p>首先，创建<code>MultiplePagesViewController</code>的实例，并将其和其view加入到需要的view controller 中：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">view</span> <span class="nl">addSubview</span><span class="p">:</span><span class="nb">self</span><span class="p">.</span><span class="n">multiplePagesViewController</span><span class="p">.</span><span class="n">view</span><span class="p">];</span>
-</span><span class='line'><span class="p">[</span><span class="nb">self</span> <span class="nl">addChildViewController</span><span class="p">:</span><span class="nb">self</span><span class="p">.</span><span class="n">multiplePagesViewController</span><span class="p">];</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>其中，<code>self.multiplePagesViewController</code>对应的getter函数如下：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="p">-</span> <span class="p">(</span><span class="n">MultiplePagesViewController</span><span class="o">*</span><span class="p">)</span><span class="nf">multiplePagesViewController</span> <span class="p">{</span>
-</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">_multiplePagesViewController</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>        <span class="n">_multiplePagesViewController</span> <span class="o">=</span> <span class="p">[[</span><span class="n">MultiplePagesViewController</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
-</span><span class='line'>        <span class="n">_multiplePagesViewController</span><span class="p">.</span><span class="n">view</span><span class="p">.</span><span class="n">frame</span> <span class="o">=</span> <span class="nb">self</span><span class="p">.</span><span class="n">view</span><span class="p">.</span><span class="n">frame</span><span class="p">;</span>
-</span><span class='line'>        <span class="n">_multiplePagesViewController</span><span class="p">.</span><span class="n">delegate</span> <span class="o">=</span> <span class="nb">self</span><span class="p">;</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="k">return</span> <span class="n">_multiplePagesViewController</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>并且，在<code>viewDidLayoutSubviews</code>中重新调整view的大小，以解决转屏等问题：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">viewDidLayoutSubviews</span> <span class="p">{</span>
-</span><span class='line'>    <span class="p">[</span><span class="nb">super</span> <span class="n">viewDidLayoutSubviews</span><span class="p">];</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="nb">self</span><span class="p">.</span><span class="n">multiplePagesViewController</span><span class="p">.</span><span class="n">view</span><span class="p">.</span><span class="n">frame</span> <span class="o">=</span> <span class="nb">self</span><span class="p">.</span><span class="n">view</span><span class="p">.</span><span class="n">frame</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>然后，只需要将你的UIViewController的实例加入<code>self.multiplePagesViewController</code>就可以了：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">addDefaultPageViewControllers</span> <span class="p">{</span>
-</span><span class='line'>    <span class="bp">NSInteger</span> <span class="n">vcCount</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span>
-</span><span class='line'>    <span class="k">for</span> <span class="p">(</span><span class="bp">NSInteger</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">vcCount</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>        <span class="n">SampleViewController</span> <span class="o">*</span><span class="n">svc</span> <span class="o">=</span> <span class="p">[[</span><span class="n">SampleViewController</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithText</span><span class="p">:[</span><span class="bp">NSString</span> <span class="nl">stringWithFormat</span><span class="p">:</span><span class="s">@&quot;%ld&quot;</span><span class="p">,</span> <span class="n">i</span><span class="p">]];</span>
-</span><span class='line'>        <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">multiplePagesViewController</span> <span class="nl">addViewController</span><span class="p">:</span><span class="n">svc</span><span class="p">];</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p><code>MultiplePagesViewController</code>主要的两个接口如下：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="cm">/**</span>
-</span><span class='line'><span class="cm"> *  add a new &lt;UIViewController*&gt; instance</span>
-</span><span class='line'><span class="cm"> *</span>
-</span><span class='line'><span class="cm"> *  @param viewController</span>
-</span><span class='line'><span class="cm"> */</span>
-</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">addViewController:</span><span class="p">(</span><span class="bp">UIViewController</span><span class="o">*</span><span class="p">)</span><span class="nv">viewController</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'><span class="cm">/**</span>
-</span><span class='line'><span class="cm"> *  remove an existing view controller by index</span>
-</span><span class='line'><span class="cm"> *</span>
-</span><span class='line'><span class="cm"> *  @param viewControllerIndex</span>
-</span><span class='line'><span class="cm"> */</span>
-</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">removeViewController:</span><span class="p">(</span><span class="bp">NSUInteger</span><span class="p">)</span><span class="nv">viewControllerIndex</span><span class="p">;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>另外，可以在<code>MultiplePagesViewController</code>的父view controller中实现下面接口，当切换page的时候做些其它事情，比如更新view controller的title信息等。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">@protocol</span> <span class="nc">MultiplePagesViewControllerDelegate</span> <span class="o">&lt;</span><span class="bp">NSObject</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nl">pageChangedTo</span><span class="p">:(</span><span class="bp">NSInteger</span><span class="p">)</span><span class="n">pageIndex</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">@end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[使用node-xlsx进行excel文件的读写]]></title>
-    <link href="http://hongchaozhang.github.io/blog/2016/03/04/parsing-and-write-excel-file-using-node-module/"/>
-    <updated>2016-03-04T14:54:54+08:00</updated>
-    <id>http://hongchaozhang.github.io/blog/2016/03/04/parsing-and-write-excel-file-using-node-module</id>
-    <content type="html"><![CDATA[<h3>解析excel文件</h3>
-
-<p>在我的应用中需要对excel文件内容进行搜索，所以需要一个解析excel文件的插件。</p>
-
-<p><a href="https://www.npmjs.com/package/node-xlsx">node-xlsx</a>插件可以让我们解析、修改、新建excel文件。</p>
-
-<!-- more -->
-
-
-<p>安装到所在文件夹：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>npm install excel node-xlsx</span></code></pre></td></tr></table></div></figure>
-
-
-<p>或者安装为全局应用：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>npm install -g excel node-xlsx</span></code></pre></td></tr></table></div></figure>
-
-
-<p>然后就可以这样解析excel文件：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">xlsx</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;node-xlsx&#39;</span><span class="p">);</span>
-</span><span class='line'><span class="kd">var</span> <span class="nx">obj</span> <span class="o">=</span> <span class="nx">xlsx</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">__dirname</span> <span class="o">+</span> <span class="s1">&#39;/myFile.xlsx&#39;</span><span class="p">);</span> <span class="c1">// parses a file </span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>下面是一段样例代码：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="c1">// Include modules.</span>
-</span><span class='line'><span class="kd">var</span> <span class="nx">xlsx</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;node-xlsx&#39;</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">// read xlsx file and analyse</span>
-</span><span class='line'><span class="kd">var</span> <span class="nx">excelObj</span> <span class="o">=</span> <span class="nx">xlsx</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="s1">&#39;fileName.xlsx&#39;</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">sheet</span> <span class="k">in</span> <span class="nx">excelObj</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="nx">sheet</span> <span class="o">!==</span> <span class="s1">&#39;0&#39;</span> <span class="o">&amp;&amp;</span> <span class="nx">excelObj</span><span class="p">.</span><span class="nx">hasOwnProperty</span><span class="p">(</span><span class="nx">sheet</span><span class="p">))</span> <span class="p">{</span> <span class="c1">// sheet is &#39;0&#39;, &#39;1&#39;, ...</span>
-</span><span class='line'>      <span class="kd">var</span> <span class="nx">sheetData</span> <span class="o">=</span> <span class="nx">excelObj</span><span class="p">[</span><span class="nx">sheet</span><span class="p">].</span><span class="nx">data</span><span class="p">;</span> <span class="c1">// data inside a sheet, which is an two-dimention array</span>
-</span><span class='line'>      <span class="kd">var</span> <span class="nx">rowCount</span> <span class="o">=</span> <span class="nx">sheetData</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span>
-</span><span class='line'>      <span class="nx">activityCountDic</span><span class="p">[</span><span class="nx">sheet</span><span class="p">]</span> <span class="o">=</span> <span class="nx">rowCount</span><span class="p">;</span>
-</span><span class='line'>      <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">rowCount</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>          <span class="kd">var</span> <span class="nx">rowData</span> <span class="o">=</span> <span class="nx">sheetData</span><span class="p">[</span><span class="nx">i</span><span class="p">];</span> <span class="c1">// data inside one row, which is an one-dimention array</span>
-</span><span class='line'>          <span class="kd">var</span> <span class="nx">columnCount</span> <span class="o">=</span> <span class="nx">rowData</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span>
-</span><span class='line'>          <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">j</span> <span class="o">&lt;</span> <span class="nx">columnCount</span><span class="p">;</span> <span class="nx">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>              <span class="kd">var</span> <span class="nx">cellData</span> <span class="o">=</span> <span class="nx">rowData</span><span class="p">[</span><span class="nx">j</span><span class="p">].</span><span class="nx">toString</span><span class="p">();</span> <span class="c1">// data in j column of the given row</span>
-</span><span class='line'>              <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">cellData</span><span class="p">);</span>
-</span><span class='line'>          <span class="p">}</span>
-</span><span class='line'>      <span class="p">}</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>写入excel文件</h3>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="c1">// Include modules.</span>
-</span><span class='line'><span class="kd">var</span> <span class="nx">xlsx</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;node-xlsx&#39;</span><span class="p">);</span>
-</span><span class='line'><span class="kd">var</span> <span class="nx">fs</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;fs&#39;</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">// 写入excel之后是一个一行两列的表格</span>
-</span><span class='line'><span class="kd">var</span> <span class="nx">data1</span> <span class="o">=</span> <span class="p">[</span>
-</span><span class='line'><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;age&#39;</span><span class="p">]</span>
-</span><span class='line'><span class="p">];</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">// 写入excel之后是一个三行两列的表格</span>
-</span><span class='line'><span class="kd">var</span> <span class="nx">data2</span> <span class="o">=</span> <span class="p">[</span>
-</span><span class='line'><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;age&#39;</span><span class="p">],</span>
-</span><span class='line'><span class="p">[</span><span class="s1">&#39;zhang san&#39;</span><span class="p">,</span> <span class="s1">&#39;10&#39;</span><span class="p">],</span>
-</span><span class='line'><span class="p">[</span><span class="s1">&#39;li si&#39;</span><span class="p">,</span> <span class="s1">&#39;11&#39;</span><span class="p">]</span>
-</span><span class='line'><span class="p">];</span>
-</span><span class='line'>
-</span><span class='line'><span class="kd">var</span> <span class="nx">buffer</span> <span class="o">=</span> <span class="nx">xlsx</span><span class="p">.</span><span class="nx">build</span><span class="p">([</span>
-</span><span class='line'>  <span class="p">{</span>
-</span><span class='line'>      <span class="nx">name</span><span class="o">:</span><span class="s1">&#39;sheet1&#39;</span><span class="p">,</span>
-</span><span class='line'>      <span class="nx">data</span><span class="o">:</span><span class="nx">data1</span>
-</span><span class='line'>  <span class="p">},</span> <span class="p">{</span>
-</span><span class='line'>      <span class="nx">name</span><span class="o">:</span><span class="s1">&#39;sheet2&#39;</span><span class="p">,</span>
-</span><span class='line'>      <span class="nx">data</span><span class="o">:</span><span class="nx">data2</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'>  <span class="p">]);</span>
-</span><span class='line'>
-</span><span class='line'><span class="nx">fs</span><span class="p">.</span><span class="nx">writeFileSync</span><span class="p">(</span><span class="s1">&#39;book.xlsx&#39;</span><span class="p">,</span> <span class="nx">buffer</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;flag&#39;</span><span class="o">:</span><span class="s1">&#39;w&#39;</span><span class="p">});</span> <span class="c1">// 如果文件存在，覆盖</span>
-</span></code></pre></td></tr></table></div></figure>
-
 ]]></content>
   </entry>
   
