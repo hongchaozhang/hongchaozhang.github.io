@@ -15,7 +15,7 @@ DR (Data to Reality) is a demo for projecting data into reality: Using **CoreML*
 
 This is a screenshot in demo:
 
-![project chart to reality](/images/DR-Screenshot-1.png)
+![project chart to reality](/images/DR-Screenshot-1.jpg)
 
 Refer to github [Project Data to Reality](https://github.com/hongchaozhang/ProjectDataToReality) for demo project. In the github page, the following are told:
 
