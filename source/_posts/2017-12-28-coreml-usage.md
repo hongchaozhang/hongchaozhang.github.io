@@ -10,6 +10,8 @@ categories: [ios]
 
 <!-- TOC -->
 
+- [About CoreML](#about-coreml)
+- [CoreML and Vision](#coreml-and-vision)
 - [Model Usage](#model-usage)
 - [Model Training](#model-training)
     - [Basic](#basic)
@@ -19,6 +21,21 @@ categories: [ios]
     - [Cons](#cons)
 
 <!-- /TOC -->
+
+<a id="markdown-about-coreml" name="about-coreml"></a>
+## About CoreML
+
+1. Support image processing for *Vision*.
+2. Support NPL (natural language processing) for *Foundation*.
+3. Support learned decision tree analyzing for *GameplayKit*.
+
+<a id="markdown-coreml-and-vision" name="coreml-and-vision"></a>
+## CoreML and Vision
+
+1. CoreML makes it even easier to use trained models in your apps.
+1. Vision gives you easy access to Apple’s models for detecting faces, face landmarks, text, rectangles, barcodes, and objects.
+
+Because these two frameworks are built on Metal, they run efficiently on the device, so you don’t need to send your users’ data to a server.
 
 <a id="markdown-model-usage" name="model-usage"></a>
 ## Model Usage
