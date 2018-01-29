@@ -1,0 +1,784 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Swift Coding Conventions - Reading Space</title>
+  <meta name="author" content="Zhang Hongchao">
+
+  
+  <meta name="description" content="Collection of some Swift coding conventions. The following is conventions I like or I will likely misuse. For a complete version, go to: The Official &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://hongchaozhang.github.io/blog/2018/01/26/swift-coding-convention">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Reading Space" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/libs/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<!--
+<link href='https://fonts.googleapis.com/css?family=Noto+Serif:400,700' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+-->
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-62806905-2']);
+    _gaq.push(['_setDomainName','github.io']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Reading Space</a></h1>
+  
+    <h2>Zhang Hongchao's Blog</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><!--
+<ul class="subscription" data-subscription="rss">
+  
+  
+</ul>
+-->
+
+<!--
+
+-->
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <script type="text/javascript" src="/javascripts/DisableLineNumberCopy.js"></script>
+
+<div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Swift Coding Conventions</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2018-01-26T11:37:05+08:00" pubdate data-updated="true">Jan 26th, 2018</time>
+        
+           | <a href="#disqus_thread"
+             data-disqus-identifier="http://hongchaozhang.github.io">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>Collection of some Swift coding conventions.</p>
+
+<!-- more -->
+
+
+<p>The following is conventions I like or I will likely misuse. For a complete version, go to:</p>
+
+<ol>
+<li><a href="https://github.com/raywenderlich/swift-style-guide/">The Official raywenderlich.com Swift Style Guide.</a></li>
+<li>Swift <a href="https://swift.org/documentation/api-design-guidelines/">API Design Guidelines</a></li>
+</ol>
+
+
+<!-- TOC -->
+
+
+<ul>
+<li><a href="#naming">Naming</a>
+
+<ul>
+<li><a href="#try-to-form-grammatical-english-phrases">Try to Form Grammatical English Phrases</a></li>
+<li><a href="#mutatingnonmutating-methods-naming">Mutating/Nonmutating Methods Naming</a></li>
+<li><a href="#boolean-methods-naming">Boolean Methods Naming</a></li>
+<li><a href="#protocol-naming">Protocol Naming</a></li>
+<li><a href="#avoid-abbreviations">Avoid Abbreviations</a></li>
+<li><a href="#delegates">Delegates</a></li>
+</ul>
+</li>
+<li><a href="#code-organization">Code Organization</a>
+
+<ul>
+<li><a href="#protocol-conformance">Protocol Conformance</a></li>
+</ul>
+</li>
+<li><a href="#classes-and-structures">Classes and Structures</a>
+
+<ul>
+<li><a href="#use-of-self">Use of Self</a></li>
+<li><a href="#constants">Constants</a></li>
+</ul>
+</li>
+<li><a href="#control-flow">Control Flow</a>
+
+<ul>
+<li><a href="#golden-path">Golden Path</a>
+
+<ul>
+<li><a href="#failing-guards">Failing Guards</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#argument-labels">Argument Labels</a></li>
+</ul>
+
+
+<!-- /TOC -->
+
+
+<p><a id="markdown-naming" name="naming"></a></p>
+
+<h2>Naming</h2>
+
+<p>Descriptive and consistent naming makes software easier to read and understand. Use the Swift naming conventions described in the <a href="https://swift.org/documentation/api-design-guidelines/">API Design Guidelines</a>. Some key principles include:</p>
+
+<ol>
+<li>prioritizing clarity over brevity</li>
+<li>striving for fluent usage</li>
+<li>using uppercase for types (and protocols), lowercase for everything else</li>
+<li>boolean types should read like assertions</li>
+<li>choosing good parameter names that serve as documentation</li>
+<li>generally avoiding abbreviations</li>
+<li>taking advantage of default parameters</li>
+<li>labeling closure and tuple parameters</li>
+<li>verb methods follow the -ed, -ing rule for the non-mutating version</li>
+<li>noun methods follow the formX rule for the mutating version</li>
+<li>protocols that describe what something is should read as nouns</li>
+<li>protocols that describe a capability should end in -able or -ible</li>
+<li>striving for clarity at the call site</li>
+</ol>
+
+
+<p><a id="markdown-try-to-form-grammatical-english-phrases" name="try-to-form-grammatical-english-phrases"></a></p>
+
+<h3>Try to Form Grammatical English Phrases</h3>
+
+<p><strong>Preferred:</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="n">x</span><span class="p">.</span><span class="n">insert</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="nl">at</span><span class="p">:</span> <span class="n">z</span><span class="p">)</span>          <span class="c1">// “x, insert y at z”</span>
+</span><span class='line'><span class="n">x</span><span class="p">.</span><span class="n">subViews</span><span class="p">(</span><span class="nl">havingColor</span><span class="p">:</span> <span class="n">y</span><span class="p">)</span>  <span class="c1">// “x&#39;s subviews having color y”</span>
+</span><span class='line'><span class="n">x</span><span class="p">.</span><span class="n">capitalizingNouns</span><span class="p">()</span>       <span class="c1">// “x, capitalizing nouns”</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>Not Preferred:</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="n">x</span><span class="p">.</span><span class="n">insert</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="nl">position</span><span class="p">:</span> <span class="n">z</span><span class="p">)</span>
+</span><span class='line'><span class="n">x</span><span class="p">.</span><span class="n">subViews</span><span class="p">(</span><span class="nl">color</span><span class="p">:</span> <span class="n">y</span><span class="p">)</span>
+</span><span class='line'><span class="n">x</span><span class="p">.</span><span class="n">nounCapitalize</span><span class="p">()</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><a id="markdown-mutatingnonmutating-methods-naming" name="mutatingnonmutating-methods-naming"></a></p>
+
+<h3>Mutating/Nonmutating Methods Naming</h3>
+
+<p>When the operation is naturally described by a verb, use the verb’s imperative for the mutating method and apply the “ed” or “ing” suffix to name its nonmutating counterpart.</p>
+
+<table>
+<thead>
+<tr>
+<th> Mutating  </th>
+<th> Nonmutating </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td> <code>x.sort()</code>    </td>
+<td> <code>z = x.sorted()</code> </td>
+</tr>
+<tr>
+<td> <code>x.append(y)</code> </td>
+<td> <code>z = x.appending(y)</code> </td>
+</tr>
+</tbody>
+</table>
+
+
+<p><br>
+When the operation is naturally described by a noun, use the noun for the nonmutating method and apply the “form” prefix to name its mutating counterpart.</p>
+
+<table>
+<thead>
+<tr>
+<th> Nonmutating   </th>
+<th> Mutating </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td> <code>x = y.union(z)</code>  </td>
+<td> <code>y.formUnion(z)</code> </td>
+</tr>
+<tr>
+<td> <code>j = c.successor(i)</code>  </td>
+<td> <code>c.formSuccessor(&amp;i)</code> </td>
+</tr>
+</tbody>
+</table>
+
+
+<p><a id="markdown-boolean-methods-naming" name="boolean-methods-naming"></a></p>
+
+<h3>Boolean Methods Naming</h3>
+
+<p>Uses of Boolean methods and properties should read as assertions about the receiver when the use is nonmutating, e.g. <code>x.isEmpty</code>, <code>line1.intersects(line2)</code>.</p>
+
+<p><a id="markdown-protocol-naming" name="protocol-naming"></a></p>
+
+<h3>Protocol Naming</h3>
+
+<p>Protocols that describe what something is should read as nouns (e.g. <code>Collection</code>).</p>
+
+<p>Protocols that describe a capability should be named using the suffixes -able, -ible, or -ing (e.g. <code>Equatable</code>, <code>ProgressReporting</code>).</p>
+
+<p><a id="markdown-avoid-abbreviations" name="avoid-abbreviations"></a></p>
+
+<h3>Avoid Abbreviations</h3>
+
+<blockquote><p>The intended meaning for any abbreviation you use should be easily found by a <strong>web search</strong>.</p></blockquote>
+
+<p><a id="markdown-delegates" name="delegates"></a></p>
+
+<h3>Delegates</h3>
+
+<p>When creating custom delegate methods, an unnamed first parameter should be the delegate source. (UIKit contains numerous examples of this.)</p>
+
+<p><strong>Preferred:</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">func</span> <span class="n">namePickerView</span><span class="p">(</span><span class="n">_</span> <span class="nl">namePickerView</span><span class="p">:</span> <span class="n">NamePickerView</span><span class="p">,</span> <span class="n">didSelectName</span> <span class="nl">name</span><span class="p">:</span> <span class="n">String</span><span class="p">)</span>
+</span><span class='line'><span class="k">func</span> <span class="n">namePickerViewShouldReload</span><span class="p">(</span><span class="n">_</span> <span class="nl">namePickerView</span><span class="p">:</span> <span class="n">NamePickerView</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bool</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>Not Preferred:</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">func</span> <span class="n">didSelectName</span><span class="p">(</span><span class="nl">namePicker</span><span class="p">:</span> <span class="n">NamePickerViewController</span><span class="p">,</span> <span class="nl">name</span><span class="p">:</span> <span class="n">String</span><span class="p">)</span>
+</span><span class='line'><span class="k">func</span> <span class="n">namePickerShouldReload</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Bool</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><a id="markdown-code-organization" name="code-organization"></a></p>
+
+<h2>Code Organization</h2>
+
+<p>Use extensions to organize your code into logical blocks of functionality. Each extension should be set off with a <code>// MARK: - comment</code> to keep things well-organized.</p>
+
+<p><a id="markdown-protocol-conformance" name="protocol-conformance"></a></p>
+
+<h3>Protocol Conformance</h3>
+
+<p>In particular, when adding protocol conformance to a model, prefer adding a separate extension for the protocol methods. This keeps the related methods grouped together with the protocol and can simplify instructions to add a protocol to a class with its associated methods.</p>
+
+<p><strong>Preferred:</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">class</span> <span class="nl">MyViewController</span><span class="p">:</span> <span class="bp">UIViewController</span> <span class="p">{</span>
+</span><span class='line'>  <span class="c1">// class stuff here</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// MARK: - UITableViewDataSource</span>
+</span><span class='line'><span class="k">extension</span> <span class="nl">MyViewController</span><span class="p">:</span> <span class="bp">UITableViewDataSource</span> <span class="p">{</span>
+</span><span class='line'>  <span class="c1">// table view data source methods</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// MARK: - UIScrollViewDelegate</span>
+</span><span class='line'><span class="k">extension</span> <span class="nl">MyViewController</span><span class="p">:</span> <span class="bp">UIScrollViewDelegate</span> <span class="p">{</span>
+</span><span class='line'>  <span class="c1">// scroll view delegate methods</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>Not Preferred:</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">class</span> <span class="nl">MyViewController</span><span class="p">:</span> <span class="bp">UIViewController</span><span class="p">,</span> <span class="bp">UITableViewDataSource</span><span class="p">,</span> <span class="bp">UIScrollViewDelegate</span> <span class="p">{</span>
+</span><span class='line'>  <span class="c1">// all methods</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>For UIKit view controllers, consider grouping lifecycle, custom accessors, and IBAction in separate class extensions.</p>
+
+<p><a id="markdown-classes-and-structures" name="classes-and-structures"></a></p>
+
+<h2>Classes and Structures</h2>
+
+<p><a id="markdown-use-of-self" name="use-of-self"></a></p>
+
+<h3>Use of Self</h3>
+
+<p>For conciseness, avoid using <code>self</code> since Swift does not require it to access an object&rsquo;s properties or invoke its methods.</p>
+
+<p>Use <code>self</code> only when required by the compiler (in <code>@escaping</code> closures, or in initializers to disambiguate properties from arguments). In other words, if it compiles without <code>self</code> then omit it.</p>
+
+<p><a id="markdown-constants" name="constants"></a></p>
+
+<h3>Constants</h3>
+
+<p>Constants are defined using the <code>let</code> keyword, and variables with the <code>var</code> keyword. Always use <code>let</code> instead of <code>var</code> if the value of the variable will not change.</p>
+
+<blockquote><p>Tip: A good technique is to define everything using <code>let</code> and only change it to <code>var</code> if the compiler complains!</p></blockquote>
+
+<p>You can define constants on a type rather than on an instance of that type using type properties. To declare a type property as a constant simply use <code>static let</code>. Type properties declared in this way are generally preferred over global constants because they are easier to distinguish from instance properties.</p>
+
+<p><strong>Preferred:</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">enum</span> <span class="n">Math</span> <span class="p">{</span>
+</span><span class='line'>  <span class="k">static</span> <span class="k">let</span> <span class="n">e</span> <span class="o">=</span> <span class="mf">2.718281828459045235360287</span>
+</span><span class='line'>  <span class="k">static</span> <span class="k">let</span> <span class="n">root2</span> <span class="o">=</span> <span class="mf">1.41421356237309504880168872</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">let</span> <span class="n">hypotenuse</span> <span class="o">=</span> <span class="n">side</span> <span class="o">*</span> <span class="n">Math</span><span class="p">.</span><span class="n">root2</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>Not Preferred:</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">let</span> <span class="n">e</span> <span class="o">=</span> <span class="mf">2.718281828459045235360287</span>  <span class="c1">// pollutes global namespace</span>
+</span><span class='line'><span class="k">let</span> <span class="n">root2</span> <span class="o">=</span> <span class="mf">1.41421356237309504880168872</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">let</span> <span class="n">hypotenuse</span> <span class="o">=</span> <span class="n">side</span> <span class="o">*</span> <span class="n">root2</span> <span class="c1">// what is root2?</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><a id="markdown-control-flow" name="control-flow"></a></p>
+
+<h2>Control Flow</h2>
+
+<p><a id="markdown-golden-path" name="golden-path"></a></p>
+
+<h3>Golden Path</h3>
+
+<p>When coding with conditionals, the left-hand margin of the code should be the &ldquo;golden&rdquo; or &ldquo;happy&rdquo; path. That is, don&rsquo;t nest <code>if</code> statements. Multiple return statements are OK. The <code>guard</code> statement is built for this.</p>
+
+<p><strong>Preferred:</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">func</span> <span class="n">computeFFT</span><span class="p">(</span><span class="nl">context</span><span class="p">:</span> <span class="n">Context</span><span class="o">?</span><span class="p">,</span> <span class="nl">inputData</span><span class="p">:</span> <span class="n">InputData</span><span class="o">?</span><span class="p">)</span> <span class="n">throws</span> <span class="o">-&gt;</span> <span class="n">Frequencies</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">guard</span> <span class="k">let</span> <span class="n">context</span> <span class="o">=</span> <span class="n">context</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">throw</span> <span class="n">FFTError</span><span class="p">.</span><span class="n">noContext</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>  <span class="n">guard</span> <span class="k">let</span> <span class="n">inputData</span> <span class="o">=</span> <span class="n">inputData</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">throw</span> <span class="n">FFTError</span><span class="p">.</span><span class="n">noInputData</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">// use context and input to compute the frequencies</span>
+</span><span class='line'>  <span class="k">return</span> <span class="n">frequencies</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>Not Preferred:</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">func</span> <span class="n">computeFFT</span><span class="p">(</span><span class="nl">context</span><span class="p">:</span> <span class="n">Context</span><span class="o">?</span><span class="p">,</span> <span class="nl">inputData</span><span class="p">:</span> <span class="n">InputData</span><span class="o">?</span><span class="p">)</span> <span class="n">throws</span> <span class="o">-&gt;</span> <span class="n">Frequencies</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">if</span> <span class="k">let</span> <span class="n">context</span> <span class="o">=</span> <span class="n">context</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">if</span> <span class="k">let</span> <span class="n">inputData</span> <span class="o">=</span> <span class="n">inputData</span> <span class="p">{</span>
+</span><span class='line'>      <span class="c1">// use context and input to compute the frequencies</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="k">return</span> <span class="n">frequencies</span>
+</span><span class='line'>    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>      <span class="n">throw</span> <span class="n">FFTError</span><span class="p">.</span><span class="n">noInputData</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">throw</span> <span class="n">FFTError</span><span class="p">.</span><span class="n">noContext</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>When multiple optionals are unwrapped either with <code>guard</code> or <code>if let</code>, minimize nesting by using the compound version when possible. Example:</p>
+
+<p><strong>Preferred:</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="n">guard</span> <span class="k">let</span> <span class="n">number1</span> <span class="o">=</span> <span class="n">number1</span><span class="p">,</span>
+</span><span class='line'>      <span class="k">let</span> <span class="n">number2</span> <span class="o">=</span> <span class="n">number2</span><span class="p">,</span>
+</span><span class='line'>      <span class="k">let</span> <span class="n">number3</span> <span class="o">=</span> <span class="n">number3</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>  <span class="n">fatalError</span><span class="p">(</span><span class="s">&quot;impossible&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="c1">// do something with numbers</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>Not Preferred:</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">if</span> <span class="k">let</span> <span class="n">number1</span> <span class="o">=</span> <span class="n">number1</span> <span class="p">{</span>
+</span><span class='line'>  <span class="k">if</span> <span class="k">let</span> <span class="n">number2</span> <span class="o">=</span> <span class="n">number2</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">if</span> <span class="k">let</span> <span class="n">number3</span> <span class="o">=</span> <span class="n">number3</span> <span class="p">{</span>
+</span><span class='line'>      <span class="c1">// do something with numbers</span>
+</span><span class='line'>    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>      <span class="n">fatalError</span><span class="p">(</span><span class="s">&quot;impossible&quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">fatalError</span><span class="p">(</span><span class="s">&quot;impossible&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>  <span class="n">fatalError</span><span class="p">(</span><span class="s">&quot;impossible&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><a id="markdown-failing-guards" name="failing-guards"></a></p>
+
+<h4>Failing Guards</h4>
+
+<p><code>guard</code> statements are required to exit in some way. Generally, this should be simple one line statement such as <code>return</code>, <code>throw</code>, <code>break</code>, <code>continue</code>, and <code>fatalError()</code>. Large code blocks should be avoided. If cleanup code is required for multiple exit points, consider using a <code>defer</code> block to avoid cleanup code duplication.</p>
+
+<p><a id="markdown-argument-labels" name="argument-labels"></a></p>
+
+<h2>Argument Labels</h2>
+
+<ol>
+<li>Good practice</li>
+</ol>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">func</span> <span class="n">move</span><span class="p">(</span><span class="n">from</span> <span class="nl">start</span><span class="p">:</span> <span class="n">Point</span><span class="p">,</span> <span class="n">to</span> <span class="nl">end</span><span class="p">:</span> <span class="n">Point</span><span class="p">)</span>
+</span><span class='line'><span class="n">x</span><span class="p">.</span><span class="n">move</span><span class="p">(</span><span class="nl">from</span><span class="p">:</span> <span class="n">x</span><span class="p">,</span> <span class="nl">to</span><span class="p">:</span> <span class="n">y</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li><p>Omit all labels when arguments can’t be usefully distinguished, e.g. <code>min(number1, number2)</code>, <code>zip(sequence1, sequence2)</code>.</p></li>
+<li><p>When the first argument forms part of a prepositional phrase, give it an argument label. The argument label should normally begin at the preposition, e.g. <code>x.removeBoxes(havingLength: 12)</code>.</p>
+
+<ul>
+<li>An exception for the principle above arises when the first two arguments represent parts of a single abstraction. In such cases, begin the argument label after the preposition, to keep the abstraction clear.</li>
+</ul>
+</li>
+</ol>
+
+
+<p><strong>Preferred:</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="n">a</span><span class="p">.</span><span class="n">moveTo</span><span class="p">(</span><span class="nl">x</span><span class="p">:</span> <span class="n">b</span><span class="p">,</span> <span class="nl">y</span><span class="p">:</span> <span class="n">c</span><span class="p">)</span>
+</span><span class='line'><span class="n">a</span><span class="p">.</span><span class="n">fadeFrom</span><span class="p">(</span><span class="nl">red</span><span class="p">:</span> <span class="n">b</span><span class="p">,</span> <span class="nl">green</span><span class="p">:</span> <span class="n">c</span><span class="p">,</span> <span class="nl">blue</span><span class="p">:</span> <span class="n">d</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>Not Preferred:</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="n">a</span><span class="p">.</span><span class="n">move</span><span class="p">(</span><span class="nl">toX</span><span class="p">:</span> <span class="n">b</span><span class="p">,</span> <span class="nl">y</span><span class="p">:</span> <span class="n">c</span><span class="p">)</span>
+</span><span class='line'><span class="n">a</span><span class="p">.</span><span class="n">fade</span><span class="p">(</span><span class="nl">fromRed</span><span class="p">:</span> <span class="n">b</span><span class="p">,</span> <span class="nl">green</span><span class="p">:</span> <span class="n">c</span><span class="p">,</span> <span class="nl">blue</span><span class="p">:</span> <span class="n">d</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Zhang Hongchao</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2018-01-26T11:37:05+08:00" pubdate data-updated="true">Jan 26th, 2018</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ios/'>ios</a>, <a class='category' href='/blog/categories/swift/'>swift</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2018/01/02/dr-project/" title="Previous Post: DR Project">&laquo; DR Project</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+  <aside class="sidebar">
+   
+  
+    <section class="categories">
+  <h1>Categories</h1>
+    <ul id="top-category-list" class="nav nav-list"><li><a href='/blog/categories/ios'>ios (36)</a></li><li><a href='/blog/categories/objective-c'>objective-c (20)</a></li><li><a href='/blog/categories/productivity'>productivity (17)</a></li><li><a href='/blog/categories/android'>android (5)</a></li><li><a href='/blog/categories/xcode'>xcode (5)</a></li><li><a href='/blog/categories/node'>node (3)</a></li><li><a href='/blog/categories/python'>python (3)</a></li><li><a href='/blog/categories/swift'>swift (3)</a></li><li><a href='/blog/categories/philosophy'>philosophy (2)</a></li><li><a href='/blog/categories/javascript'>javascript (2)</a></li><li><a href='/blog/categories/map-tech'>map tech (2)</a></li><li><a href='/blog/categories/web'>web (2)</a></li><li><a href='/blog/categories/java'>java (2)</a></li><li><a href='/blog/categories/reading'>reading (2)</a></li><li><a href='/blog/categories/android-studio'>android_studio (1)</a></li><li><a href='/blog/categories/design-pattern'>design_pattern (1)</a></li><li><a href='/blog/categories/mobile'>mobile (1)</a></li></ul>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2018/01/26/swift-coding-convention/">Swift Coding Conventions</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2018/01/02/dr-project/">DR Project</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/12/28/coreml-usage/">CoreML Usage</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/12/28/arkit-usage/">ARKit Usage</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/11/21/some-tips-on-markdown-usage/">Some Tips on Markdown Usage</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/hongchaozhang">@hongchaozhang</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'hongchaozhang',
+            count: 10,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+  
+</aside>
+
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2018 - Zhang Hongchao -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'zhanghongchao';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://hongchaozhang.github.io/blog/2018/01/26/swift-coding-convention/';
+        var disqus_url = 'http://hongchaozhang.github.io/blog/2018/01/26/swift-coding-convention/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+
+
+<script>
+  $(document).ready(function() {  
+    var stickyNavTop = $('nav').offset().top;  
+      
+    var stickyNav = function(){  
+      var scrollTop = $(window).scrollTop(); 
+      var navHasClassSticky = $('nav').hasClass('sticky');
+
+      if (scrollTop > stickyNavTop && navHasClassSticky) {   
+        return true;
+      } else if (scrollTop > stickyNavTop) {
+        $('nav').hide();
+        $('nav').addClass('sticky');
+        $('nav').fadeIn('2000');
+      } else {  
+        $('nav').removeClass('sticky');   
+      }  
+    };  
+      
+    stickyNav();  
+      
+    $(window).scroll(function() {  
+      stickyNav();  
+    });  
+  });  
+</script>
+
+
+</body>
+</html>

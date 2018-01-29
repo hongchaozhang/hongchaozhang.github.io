@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Map Tech | Reading Space]]></title>
   <link href="http://hongchaozhang.github.io/blog/categories/map-tech/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2018-01-20T22:57:31+08:00</updated>
+  <updated>2018-01-29T14:00:53+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -34,51 +34,51 @@
 <table>
 <thead>
 <tr>
-<th>&mdash; </th>
-<th> 工作原理 </th>
-<th> 应用场合</th>
+<th> &mdash; </th>
+<th> 工作原理  </th>
+<th> 应用场合  </th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>GPS </td>
-<td> 接收多个卫星信号计算位置，信号中包含卫星信息和时间戳，根据时间差计算距离。</td>
-<td> 室外定位跟踪，农业和军事应用</td>
+<td> GPS </td>
+<td> 接收多个卫星信号计算位置，信号中包含卫星信息和时间戳，根据时间差计算距离。 </td>
+<td> 室外定位跟踪，农业和军事应用 </td>
 </tr>
 <tr>
-<td>基站定位 </td>
+<td> 基站定位 </td>
 <td> 接收多个基站信号，信号中包含基站信息，根据信号强度计算距离。</td>
 <td> &mdash; </td>
 </tr>
 <tr>
-<td>Wi-Fi </td>
-<td> 接收多个Wi-Fi信号，根据强度计算距离。</td>
-<td> 室内定位</td>
+<td> Wi-Fi    </td>
+<td> 接收多个Wi-Fi信号，根据强度计算距离。   </td>
+<td> 室内定位 </td>
 </tr>
 <tr>
-<td>蓝牙 </td>
-<td> 接收低功耗蓝牙beacon发射的信号获取beacon信息，通过信号强度计算距离。</td>
-<td> 室内定位</td>
+<td> 蓝牙</td>
+<td> 接收低功耗蓝牙beacon发射的信号获取beacon信息，通过信号强度计算距离。  </td>
+<td> 室内定位 </td>
 </tr>
 <tr>
-<td>RFID </td>
-<td> &mdash; </td>
+<td> RFID</td>
+<td> &mdash;  </td>
 <td> 存货跟踪，厘米级精度定位要求 </td>
 </tr>
 <tr>
-<td>地磁 </td>
+<td> 地磁</td>
 <td> 在地磁指纹采集的基础上，通过磁感应器和网络请求获取位置信息。</td>
 <td> &mdash; </td>
 </tr>
 <tr>
-<td>NFC </td>
-<td> &mdash; </td>
-<td> 支付／票务 </td>
+<td> NFC </td>
+<td> &mdash;  </td>
+<td> 支付／票务</td>
 </tr>
 <tr>
-<td>陀螺 </td>
-<td> 在初始状态已知的情况下，通过积分计算未来状态。</td>
-<td> 和其它定位方式结合使用，在保证一定精度的基础上，降低功耗。</td>
+<td> 陀螺</td>
+<td> 在初始状态已知的情况下，通过积分计算未来状态。    </td>
+<td> 和其它定位方式结合使用，在保证一定精度的基础上，降低功耗。 </td>
 </tr>
 </tbody>
 </table>
@@ -87,72 +87,72 @@
 <table>
 <thead>
 <tr>
-<th>&mdash; </th>
-<th> GPS </th>
-<th> 基站定位 </th>
-<th> Wi-Fi </th>
-<th> 蓝牙 </th>
-<th> RFID </th>
+<th> &mdash;   </th>
+<th> GPS</th>
+<th> 基站定位</th>
+<th> Wi-Fi</th>
+<th> 蓝牙</th>
+<th> RFID   </th>
 <th> 地磁 </th>
-<th> NFC </th>
-<th> 陀螺 </th>
+<th> NFC    </th>
+<th> 陀螺  </th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>配置密度 </td>
-<td> 全球 </td>
+<td> 配置密度   </td>
+<td> 全球    </td>
 <td> 200米-2000米 </td>
 <td> 20米-50米 </td>
 <td> 1米-50米 </td>
 <td> 1厘米-100米 </td>
 <td> 全球 </td>
-<td> &mdash; </td>
-<td> 不限 </td>
+<td> &mdash;    </td>
+<td> 不限  </td>
 </tr>
 <tr>
-<td>可接入（1-5） </td>
-<td> 4 </td>
-<td> 4 </td>
-<td> 3 </td>
-<td> 4 </td>
+<td> 可接入（1-5）   </td>
+<td> 4  </td>
+<td> 4  </td>
+<td> 3    </td>
+<td> 4   </td>
 <td> 2 </td>
-<td> 2 </td>
+<td> 2    </td>
 <td> 3 </td>
-<td> 4 </td>
+<td> 4</td>
 </tr>
 <tr>
-<td>精度（1-5） </td>
+<td> 精度（1-5）</td>
 <td> 1(10米) </td>
-<td> 0.5(100米) </td>
-<td> 3(3-5米) </td>
+<td> 0.5(100米)   </td>
+<td> 3(3-5米)  </td>
 <td> 4(1-3米) </td>
 <td> 5(厘米级别) </td>
-<td> &mdash; </td>
+<td> &mdash;  </td>
 <td> 5(厘米级别) </td>
 <td> 0.5(10米／100米) </td>
 </tr>
 <tr>
-<td>隐私安全（1-5） </td>
-<td> 3 </td>
-<td> 3 </td>
-<td> 2 </td>
-<td> 3 </td>
+<td> 隐私安全（1-5） </td>
+<td> 3  </td>
+<td> 3  </td>
+<td> 2    </td>
+<td> 3   </td>
 <td> 4 </td>
-<td> 5 </td>
-<td> 4.5 </td>
-<td> 5 </td>
+<td> 5    </td>
+<td> 4.5    </td>
+<td> 5</td>
 </tr>
 <tr>
-<td>代价（1-5） </td>
-<td> 5 </td>
-<td> 5 </td>
-<td> 3 </td>
-<td> 4 </td>
+<td> 代价（1-5）</td>
+<td> 5  </td>
+<td> 5  </td>
+<td> 3    </td>
+<td> 4   </td>
 <td> 2 </td>
-<td> 1.5 </td>
+<td> 1.5  </td>
 <td> 3 </td>
-<td> 1 </td>
+<td> 1</td>
 </tr>
 </tbody>
 </table>
@@ -202,30 +202,30 @@
 <table>
 <thead>
 <tr>
-<th>设备 </th>
-<th> 精度 </th>
-<th> 支持系统 </th>
-<th> 部署密度 </th>
+<th> 设备 </th>
+<th> 精度  </th>
+<th> 支持系统   </th>
+<th> 部署密度  </th>
 <th> 设备单价 </th>
-<th> 支持标准</th>
+<th> 支持标准  </th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>WIFI </td>
+<td> WIFI </td>
 <td> 3~8米 </td>
-<td> Android 4.0及以上 </td>
+<td> Android 4.0及以上    </td>
 <td> 间隔30米部署，700平米1个 </td>
-<td> 上百元 </td>
+<td> 上百元   </td>
 <td> 标准2.4G/5G频段</td>
 </tr>
 <tr>
-<td>蓝牙 </td>
+<td> 蓝牙 </td>
 <td> 1~5米 </td>
 <td> Android 4.3及以上，iOS 8及以上 </td>
-<td> 间隔 8米部署，50平1个 </td>
-<td> 数十元 </td>
-<td> 标准蓝牙4.0广播协议</td>
+<td> 间隔 8米部署，50平1个    </td>
+<td> 数十元   </td>
+<td> 标准蓝牙4.0广播协议 </td>
 </tr>
 </tbody>
 </table>
