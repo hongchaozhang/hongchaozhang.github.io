@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ios | Reading Space]]></title>
   <link href="http://hongchaozhang.github.io/blog/categories/ios/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2018-01-29T14:00:53+08:00</updated>
+  <updated>2018-01-30T18:08:12+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -410,7 +410,7 @@ a.fade(fromRed: b, green: c, blue: d)
 <!-- more -->
 
 
-<p>DR (Data to Reality) is a demo for projecting data into reality: Using <strong>CoreML</strong> for object recognition, and then get the recognized object data and project the data to reality, just above the recognized object. In this process, <strong>ARKit</strong> helps us to get the real world object coordinate to put the data at, and <strong>SceneKit</strong> helps us to render the data in reality.</p>
+<p><a href="https://github.com/hongchaozhang/ProjectDataToReality">DR (Data to Reality)</a> is a demo for projecting data into reality: Using <strong>CoreML</strong> for object recognition, and then get the recognized object data and project the data to reality, just above the recognized object. In this process, <strong>ARKit</strong> helps us to get the real world object coordinate to put the data at, and <strong>SceneKit</strong> helps us to render the data in reality.</p>
 
 <p>This is a screenshot in demo:</p>
 

@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
+<loc>http://hongchaozhang.github.io/blog/2018/01/30/javascript-interview-questions/</loc>
+<lastmod>2018-01-30T17:58:11+08:00</lastmod>
+</url>
+<url>
 <loc>http://hongchaozhang.github.io/blog/2018/01/26/swift-coding-convention/</loc>
 <lastmod>2018-01-26T11:37:05+08:00</lastmod>
 </url>
@@ -340,5 +344,11 @@
 </url>
 <url>
 <loc>http://hongchaozhang.github.io/blog/categories/swift/</loc>
+</url>
+<url>
+<loc>http://hongchaozhang.github.io/blog/categories/html/</loc>
+</url>
+<url>
+<loc>http://hongchaozhang.github.io/blog/categories/css/</loc>
 </url>
 </urlset>
