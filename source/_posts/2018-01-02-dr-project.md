@@ -11,7 +11,7 @@ Key words: ARKit, CoreML, SceneKit
 
 <!-- more -->
 
-DR (Data to Reality) is a demo for projecting data into reality: Using **CoreML** for object recognition, and then get the recognized object data and project the data to reality, just above the recognized object. In this process, **ARKit** helps us to get the real world object coordinate to put the data at, and **SceneKit** helps us to render the data in reality. 
+[DR (Data to Reality)](https://github.com/hongchaozhang/ProjectDataToReality) is a demo for projecting data into reality: Using **CoreML** for object recognition, and then get the recognized object data and project the data to reality, just above the recognized object. In this process, **ARKit** helps us to get the real world object coordinate to put the data at, and **SceneKit** helps us to render the data in reality. 
 
 This is a screenshot in demo:
 
