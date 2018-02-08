@@ -3,7 +3,7 @@ layout: post
 title: "javascript interview questions"
 date: 2018-01-30 17:58:11 +0800
 comments: true
-published: true
+published: false
 categories: [javascript, web, html, css]
 ---
 
