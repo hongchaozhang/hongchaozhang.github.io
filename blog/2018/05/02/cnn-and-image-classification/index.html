@@ -1,0 +1,397 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>CNN与图像识别 - Reading Space</title>
+  <meta name="author" content="Zhang Hongchao">
+
+  
+  <meta name="description" content="卷积神经网络与图像识别背景 LeNet概述 LeNet是最早用于深度学习了领域的卷积神经网络之一。Yann LeCun的这一杰作得名于他自1988年以来的系列成功迭代。彼时LeNet架构还主要被用于识别邮政编码等任务。LeNet的基本架构如下： 近几年已经出现了很多建立在LeNet之上的新架构， &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://hongchaozhang.github.io/blog/2018/05/02/cnn-and-image-classification">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Reading Space" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/libs/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<!--
+<link href='https://fonts.googleapis.com/css?family=Noto+Serif:400,700' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+-->
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-62806905-2']);
+    _gaq.push(['_setDomainName','github.io']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Reading Space</a></h1>
+  
+    <h2>Zhang Hongchao's Blog</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><!--
+<ul class="subscription" data-subscription="rss">
+  
+  
+</ul>
+-->
+
+<!--
+
+-->
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <script type="text/javascript" src="/javascripts/DisableLineNumberCopy.js"></script>
+
+<div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">CNN与图像识别</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2018-05-02T18:55:44+08:00" pubdate data-updated="true">May 2nd, 2018</time>
+        
+           | <a href="#disqus_thread"
+             data-disqus-identifier="http://hongchaozhang.github.io">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h2>卷积神经网络与图像识别背景</h2>
+
+<h3>LeNet概述</h3>
+
+<!-- more -->
+
+
+<p>LeNet是最早用于深度学习了领域的卷积神经网络之一。Yann LeCun的这一杰作得名于他自1988年以来的系列成功迭代。彼时LeNet架构还主要被用于识别邮政编码等任务。LeNet的基本架构如下：</p>
+
+<p><img src="/images/201805lenet.jpg" alt="lenet" /></p>
+
+<p>近几年已经出现了很多建立在LeNet之上的新架构，但是基本概念还是来自于LeNet。</p>
+
+<p>卷积神经网络始自1990年代起，我们已经认识了最早的LeNet，其他一些很有影响力的架构列举如下：</p>
+
+<ul>
+<li>1990s至2012：从90年代到2010年代早期，卷积神经网络都处于孵化阶段。随着数据量增大和计算能力提高，卷积神经网络能搞定的问题也越来越有意思了。</li>
+<li>AlexNet(2012)：2012年，Alex Krizhevsky发布了AlexNet，是LeNet的更深、更宽版本，并且大比分赢得了当年的ImageNet大规模图像识别挑战赛(ILSVRC)。这是一次非常重要的大突破，现在普及的卷积神经网络应用都要感谢这一壮举。</li>
+<li>ZF Net(2013)：2013年的ILSVRC赢家是Matthew Zeiler和Rob Fergus的卷积网络，被称作ZF Net，这是调整过架构超参数的AlexNet改进型。</li>
+<li>GoogleNet(2014)：2014的ILSVRC胜者是来自Google的Szegedy et al.。其主要贡献是研发了Inception Module，它<strong>大幅减少了网络中的参数数量（四百万，相比AlexNet的六千万）</strong>。</li>
+<li>VGGNet(2014)：当年的ILSVRC亚军是VGGNet，突出贡献是展示了网络的深度（层次数量）是良好表现的关键因素。</li>
+<li>ResNet(2015)： Kaiming He研发的Residual Network是2015年的ILSVRC冠军，也代表了卷积神经网络的最高水平，同时还是实践的默认选择（2016年5月）。</li>
+<li>DenseNet（2016年8月）： 由Gao Huang发表，Densely Connected Convolutional Network的每一层都直接与其他各层前向连接。DenseNet已经在五个高难度的物体识别基础集上，显式出非凡的进步。</li>
+</ul>
+
+
+<h3>ImageNet大规模图像识别挑战赛</h3>
+
+<p>参考<a href="http://www.sohu.com/a/143751643_473283">一个时代的终结：ImageNet竞赛2017是最后一届，WebVision 竞赛或接</a>。</p>
+
+<p>上面的变种卷积神经网络基本上都来自一项比赛（DenseNet除外）：<strong>ImageNet大规模图像识别挑战赛</strong>(ImageNet Large Scale Visual Recognition Competition，ILSVRC)。</p>
+
+<p>ILSVRC是基于ImageNet图像库的一个图像识别比赛。ImageNet可以说是计算机视觉研究人员进行大规模物体识别和检测时，最先想到的视觉大数据来源。ImageNet 数据集最初由斯坦福大学李飞飞等人在CVPR 2009的一篇论文中推出，并被用于替代 PASCAL数据集（后者在数据规模和多样性上都不如 ImageNet）和LabelMe数据集（在标准化上不如ImageNet）。</p>
+
+<p>ImageNet不但是计算机视觉发展的重要推动者，也是这一波深度学习热潮的关键驱动力之一。截至2016年，ImageNet中含有超过1500万由人手工注释的图片网址，也就是带标签的图片，标签说明了图片中的内容，超过2.2万个类别。</p>
+
+<p>CVPR2017研讨会“超越ILSVRC”将宣布今年是 ImageNet 竞赛正式组织的最后一年，2016年ILSVRC 的图像识别错误率已经达到约2.9%，不仅远远超越人类（5.1%），今后再进行这类竞赛意义也不大了。这无疑标志着一个时代的结束，但也是新征程的开始：未来，计算机视觉的重点在图像理解，而作为ILSVRC替代者的候选人之一是苏黎世理工大学和谷歌等联合提出的 WebVision Challenge，也将于CVPR2017同期举办，内容侧重于学习和理解网络数据。</p>
+
+<p>历届ILSVRC的作品，可以参考<a href="https://blog.csdn.net/kangroger/article/details/56522132">ILSVRC历届冠军论文笔记</a>，包含模型框架和识别率等。</p>
+
+<h2>卷积与图像处理</h2>
+
+<h3>卷积的定义</h3>
+
+<p><img src="/images/201805convolution_definition.gif" alt="convolution definition demo" /></p>
+
+<p>参考<a href="https://en.wikipedia.org/wiki/Convolution">Convolution</a>。</p>
+
+<h3>图像卷积的物理意义</h3>
+
+<p>卷积矩阵也叫“滤波器”、“核”或“特征探测器”。</p>
+
+<p><img src="/images/201805kernel_convolution.jpg" alt="image convolution" /></p>
+
+<p><img src="/images/201805image_convolution.jpg" alt="image convolutioon" /></p>
+
+<p>参考<a href="https://en.wikipedia.org/wiki/Kernel_(image_processing">Kernel (image processing)</a>)。
+￼</p>
+
+<h2>LeNet详解</h2>
+
+<p>参考<a href="http://cv-tricks.com/tensorflow-tutorial/training-convolutional-neural-network-for-image-classification/">Basics of Convolutional Neural network (CNN)</a>。</p>
+
+<ol>
+<li>Convolutional Layer</li>
+<li>Pooling Layer</li>
+<li>Fully Connected Layer</li>
+<li>Understanding Training Process</li>
+</ol>
+
+
+<p><a href="https://ujjwalkarn.me/2016/08/11/intuitive-explanation-convnets/">An Intuitive Explanation of Convolutional Neural Networks</a>的讲解也不错，中文版在<a href="https://blog.csdn.net/lcy7289786/article/details/68958111">这里</a>。</p>
+
+<h2>手写数字识别过程可视化</h2>
+
+<p><img src="/images/201805cnn_visualization.jpg" alt="cnn visualization" /></p>
+
+<p>官方网站：
+<a href="http://scs.ryerson.ca/~aharley/vis/">http://scs.ryerson.ca/~aharley/vis/</a></p>
+
+<p>3D可视化：
+<a href="http://scs.ryerson.ca/~aharley/vis/conv/">http://scs.ryerson.ca/~aharley/vis/conv/</a></p>
+
+<p>2D可视化：
+<a href="http://scs.ryerson.ca/~aharley/vis/conv/flat.html">http://scs.ryerson.ca/~aharley/vis/conv/flat.html</a></p>
+
+<p>相关论文：
+<a href="http://scs.ryerson.ca/~aharley/vis/harley_vis_isvc15.pdf">http://scs.ryerson.ca/~aharley/vis/harley_vis_isvc15.pdf</a></p>
+
+<h2>神经网络中的“神经元”和“权重”在哪里？</h2>
+
+<p><img src="/images/201805convolution_weights.jpg" alt="convolution and weights" /></p>
+
+<p>各个卷机滤波器的里面的每个位置的值，即是我们需要训练的权重（卷积滤波器的尺寸是需要我们提前指定好的），每个像素对应于一个神经元。</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Zhang Hongchao</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2018-05-02T18:55:44+08:00" pubdate data-updated="true">May 2nd, 2018</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/machine-learning/'>machine learning</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2018/01/26/swift-coding-convention/" title="Previous Post: Swift Coding Conventions">&laquo; Swift Coding Conventions</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+  <aside class="sidebar">
+   
+  
+    <section class="categories">
+  <h1>Categories</h1>
+    <ul id="top-category-list" class="nav nav-list"><li><a href='/blog/categories/ios'>ios (36)</a></li><li><a href='/blog/categories/objective-c'>objective-c (20)</a></li><li><a href='/blog/categories/productivity'>productivity (17)</a></li><li><a href='/blog/categories/android'>android (5)</a></li><li><a href='/blog/categories/xcode'>xcode (5)</a></li><li><a href='/blog/categories/node'>node (3)</a></li><li><a href='/blog/categories/swift'>swift (3)</a></li><li><a href='/blog/categories/python'>python (3)</a></li><li><a href='/blog/categories/javascript'>javascript (2)</a></li><li><a href='/blog/categories/reading'>reading (2)</a></li><li><a href='/blog/categories/web'>web (2)</a></li><li><a href='/blog/categories/map-tech'>map tech (2)</a></li><li><a href='/blog/categories/java'>java (2)</a></li><li><a href='/blog/categories/philosophy'>philosophy (2)</a></li><li><a href='/blog/categories/mobile'>mobile (1)</a></li><li><a href='/blog/categories/design-pattern'>design_pattern (1)</a></li><li><a href='/blog/categories/android-studio'>android_studio (1)</a></li><li><a href='/blog/categories/machine-learning'>machine learning (1)</a></li></ul>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2018/05/02/cnn-and-image-classification/">CNN与图像识别</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2018/01/26/swift-coding-convention/">Swift Coding Conventions</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2018/01/02/dr-project/">DR Project</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/12/28/coreml-usage/">CoreML Usage</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/12/28/arkit-usage/">ARKit Usage</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/hongchaozhang">@hongchaozhang</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'hongchaozhang',
+            count: 10,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+  
+</aside>
+
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2018 - Zhang Hongchao -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'zhanghongchao';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://hongchaozhang.github.io/blog/2018/05/02/cnn-and-image-classification/';
+        var disqus_url = 'http://hongchaozhang.github.io/blog/2018/05/02/cnn-and-image-classification/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+
+
+<script>
+  $(document).ready(function() {  
+    var stickyNavTop = $('nav').offset().top;  
+      
+    var stickyNav = function(){  
+      var scrollTop = $(window).scrollTop(); 
+      var navHasClassSticky = $('nav').hasClass('sticky');
+
+      if (scrollTop > stickyNavTop && navHasClassSticky) {   
+        return true;
+      } else if (scrollTop > stickyNavTop) {
+        $('nav').hide();
+        $('nav').addClass('sticky');
+        $('nav').fadeIn('2000');
+      } else {  
+        $('nav').removeClass('sticky');   
+      }  
+    };  
+      
+    stickyNav();  
+      
+    $(window).scroll(function() {  
+      stickyNav();  
+    });  
+  });  
+</script>
+
+
+</body>
+</html>
