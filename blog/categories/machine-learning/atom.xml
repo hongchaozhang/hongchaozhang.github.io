@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Machine Learning | Reading Space]]></title>
   <link href="http://hongchaozhang.github.io/blog/categories/machine-learning/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2018-05-03T21:04:04+08:00</updated>
+  <updated>2018-06-13T13:33:05+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -112,6 +112,8 @@
 <p><img src="/images/201805convolution_weights.jpg" alt="convolution and weights" /></p>
 
 <p>各个卷机滤波器的里面的每个位置的值，即是我们需要训练的权重（卷积滤波器的尺寸是需要我们提前指定好的），每个像素对应于一个神经元。</p>
+
+<p>其中神经网络的基本概念可以参考<a href="http://playground.tensorflow.org/">TensorFlow Playground</a>。</p>
 ]]></content>
   </entry>
   

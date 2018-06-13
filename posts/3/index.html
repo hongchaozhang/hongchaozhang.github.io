@@ -9,7 +9,10 @@
   <meta name="author" content="Zhang Hongchao">
 
   
-  <meta name="description" content="Everything 瞬间搜索全机器文件。但是只支持文件名搜索，不支持文件内容搜索。结合DocFetcher应用，可以大大提高搜索文件的效率。 DocFetcher 支持文件内容搜索。但是索引文件较大，最好分目录进行索引，不要索引整台计算机。结合Everything应用，可以大大提高搜索文件的效率 &hellip;">
+  <meta name="description" content="第一个简单应用 参考Node.js for Beginners. 去除以下代码： 1
+2
+3
+request.on(&quot;end&quot;, function () { }); 如何调试Node.js在服务器上的应用 ">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -77,6 +80,64 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/11/27/using-node-dot-js-for-a-simple-server/">应用Node.js搭建一个简单的服务器</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2015-11-27T16:45:10+08:00" pubdate data-updated="true">Nov 27th, 2015</time>
+        
+           | <a href="/blog/2015/11/27/using-node-dot-js-for-a-simple-server/#disqus_thread"
+             data-disqus-identifier="http://hongchaozhang.github.io/blog/2015/11/27/using-node-dot-js-for-a-simple-server/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h3>第一个简单应用</h3>
+
+<p>参考<a href="http://code.tutsplus.com/tutorials/nodejs-for-beginners--net-26314">Node.js for Beginners</a>. 去除以下代码：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">request</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s2">&quot;end&quot;</span><span class="p">,</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">});</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>如何调试Node.js在服务器上的应用</h3>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2015/11/27/using-node-dot-js-for-a-simple-server/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -1110,68 +1171,6 @@ Then, what&rsquo;s the difference?</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/07/21/Use-Current-Location-Service-in-Map/">Use Current Location Service in Map</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-
-<time datetime="2015-07-21T00:00:00+08:00" pubdate data-updated="true">Jul 21st, 2015</time>
-        
-           | <a href="/blog/2015/07/21/Use-Current-Location-Service-in-Map/#disqus_thread"
-             data-disqus-identifier="http://hongchaozhang.github.io/blog/2015/07/21/Use-Current-Location-Service-in-Map/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>Location Service Authorization</h2>
-
-<h3>1. Set <em>info.plist</em></h3>
-
-<p>For iOS SDK 8.0 and later, we need to set <code>NSLocationWhenInUseUsageDescription</code> and &lsquo;NSLocationAlwaysUsageDescription&rsquo; in <em>info.plist</em> file. A sample case is:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='xml'><span class='line'><span class="nt">&lt;key&gt;</span>NSLocationWhenInUseUsageDescription<span class="nt">&lt;/key&gt;</span>
-</span><span class='line'><span class="nt">&lt;string&gt;</span>Do you allow the app to use your location?<span class="nt">&lt;/string&gt;</span>
-</span><span class='line'><span class="nt">&lt;key&gt;</span>NSLocationAlwaysUsageDescription<span class="nt">&lt;/key&gt;</span>
-</span><span class='line'><span class="nt">&lt;string&gt;</span>Are you willing to allow the app to use your location?<span class="nt">&lt;/string&gt;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>The <code>string</code> will appear in the popup dialog. You can leave it as empty, and only the system message will appear in the popup.</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2015/07/21/Use-Current-Location-Service-in-Map/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="4">&larr; Older</a>
@@ -1187,11 +1186,15 @@ Then, what&rsquo;s the difference?</p>
   
     <section class="categories">
   <h1>Categories</h1>
-    <ul id="top-category-list" class="nav nav-list"><li><a href='/blog/categories/ios'>ios (36)</a></li><li><a href='/blog/categories/objective-c'>objective-c (20)</a></li><li><a href='/blog/categories/productivity'>productivity (17)</a></li><li><a href='/blog/categories/android'>android (5)</a></li><li><a href='/blog/categories/xcode'>xcode (5)</a></li><li><a href='/blog/categories/node'>node (3)</a></li><li><a href='/blog/categories/swift'>swift (3)</a></li><li><a href='/blog/categories/python'>python (3)</a></li><li><a href='/blog/categories/javascript'>javascript (2)</a></li><li><a href='/blog/categories/reading'>reading (2)</a></li><li><a href='/blog/categories/web'>web (2)</a></li><li><a href='/blog/categories/map-tech'>map tech (2)</a></li><li><a href='/blog/categories/java'>java (2)</a></li><li><a href='/blog/categories/philosophy'>philosophy (2)</a></li><li><a href='/blog/categories/mobile'>mobile (1)</a></li><li><a href='/blog/categories/design-pattern'>design_pattern (1)</a></li><li><a href='/blog/categories/android-studio'>android_studio (1)</a></li><li><a href='/blog/categories/machine-learning'>machine learning (1)</a></li></ul>
+    <ul id="top-category-list" class="nav nav-list"><li><a href='/blog/categories/ios'>ios (37)</a></li><li><a href='/blog/categories/objective-c'>objective-c (20)</a></li><li><a href='/blog/categories/productivity'>productivity (17)</a></li><li><a href='/blog/categories/android'>android (5)</a></li><li><a href='/blog/categories/xcode'>xcode (5)</a></li><li><a href='/blog/categories/node'>node (3)</a></li><li><a href='/blog/categories/swift'>swift (3)</a></li><li><a href='/blog/categories/python'>python (3)</a></li><li><a href='/blog/categories/javascript'>javascript (2)</a></li><li><a href='/blog/categories/reading'>reading (2)</a></li><li><a href='/blog/categories/web'>web (2)</a></li><li><a href='/blog/categories/map-tech'>map tech (2)</a></li><li><a href='/blog/categories/java'>java (2)</a></li><li><a href='/blog/categories/philosophy'>philosophy (2)</a></li><li><a href='/blog/categories/mobile'>mobile (1)</a></li><li><a href='/blog/categories/design-pattern'>design_pattern (1)</a></li><li><a href='/blog/categories/android-studio'>android_studio (1)</a></li><li><a href='/blog/categories/machine-learning'>machine learning (1)</a></li></ul>
 </section>
 <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2018/06/13/what-is-new-in-n-arkit-2/">What Is New in N ARKit 2</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2018/05/02/cnn-and-image-classification/">CNN与图像识别</a>
@@ -1207,10 +1210,6 @@ Then, what&rsquo;s the difference?</p>
     
       <li class="post">
         <a href="/blog/2017/12/28/coreml-usage/">CoreML Usage</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2017/12/28/arkit-usage/">ARKit Usage</a>
       </li>
     
   </ul>
