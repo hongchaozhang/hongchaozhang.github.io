@@ -66,29 +66,120 @@ Refer to [80% 应聘者都不及格的 JS 面试题](http://web.jobbole.com/9095
 ```javascript
 for (var i = 0; i < 5; i++) {
     setTimeout(function() {
-        console.log(i);
+        console.log(new Date, i);
     }, 1000);
 }
  
-console.log(i);
+console.log(new Date, i);
 ```
 
 答案：5 -> 5,5,5,5,5，即第1个5直接输出，1秒之后，输出5个5；
 
-2. 拓展
+**如果期望代码的输出变成：5 -> 0,1,2,3,4，该怎么改造代码？请用闭包和立即执行函数实现。**
 
-如果期望代码的输出变成：5 -> 0,1,2,3,4，该怎么改造代码？请用闭包实现。
+2. 用用闭包和立即执行函数实现如下：
 
 ```javascript
 for (var i = 0; i < 5; i++) {
     (function(j) {  // j = i
         setTimeout(function() {
-            console.log(j);
+            console.log(new Date, j);
         }, 1000);
     })(i);
 }
  
 console.log(i);
+```
+
+3. 立即执行函数不是很直观，需要理解一下才能看懂。下面是一个更直观的实现：
+
+```javascript
+var output = function (i) {
+    setTimeout(function() {
+        console.log(new Date, i);
+    }, 1000);
+};
+ 
+for (var i = 0; i < 5; i++) {
+    output(i);  // 这里传过去的 i 值被复制了
+}
+ 
+console.log(new Date, i);
+```
+
+4. 当然，也可以使用ES6的块级作用域（Block Scope）来实现：
+
+```javascript
+for (let i = 0; i < 5; i++) {
+    setTimeout(function() {
+        console.log(new Date, i);
+    }, 1000);
+}
+ 
+console.log(new Date, 5); // 这里不能用i，因为已经超出了i的作用域。
+```
+
+**接着上文继续追问：如果期望代码的输出变成 0 -> 1 -> 2 -> 3 -> 4 -> 5，并且要求原有的代码块中的循环和两处`console.log`不变，该怎么改造代码？新的需求可以精确的描述为：代码执行时，立即输出0，之后每隔1秒依次输出1,2,3,4, 循环结束后在大概第5秒的时候输出5。**
+
+简单粗暴的方法可能是这样：
+
+```javascript
+for (var i = 0; i < 5; i++) {
+    (function(j) {
+        setTimeout(function() {
+            console.log(new Date, j);
+        }, 1000 * j);  // 这里修改 0~4 的定时器时间
+    })(i);
+}
+ 
+setTimeout(function() { // 这里增加定时器，超时设置为 5 秒
+    console.log(new Date, i);
+}, 1000 * i);
+```
+
+5. ES6的`Promise`实现
+
+```javascript
+const tasks = []; // 这里存放异步操作的 Promise
+const output = (i) => new Promise((resolve) => {
+    setTimeout(() => {
+        console.log(new Date, i);
+        resolve();
+    }, 1000 * i);
+});
+ 
+// 生成全部的异步操作
+for (var i = 0; i < 5; i++) {
+    tasks.push(output(i));
+}
+ 
+// 异步操作完成之后，输出最后的 i
+Promise.all(tasks).then(() => {
+    setTimeout(() => {
+        console.log(new Date, i);
+    }, 1000);
+});
+
+```
+
+6. ES7的'await'特性
+
+```javascript
+// 模拟其他语言中的 sleep，实际上可以是任何异步操作
+const sleep = (timeountMS) => new Promise((resolve) => {
+    setTimeout(resolve, timeountMS);
+});
+ 
+(async () => {  // 声明即执行的 async 函数表达式
+    for (var i = 0; i < 5; i++) {
+        await sleep(1000);
+        console.log(new Date, i);
+    }
+ 
+    await sleep(1000);
+    console.log(new Date, i);
+})();
+
 ```
 
 ## reflow(回流) and repaint(重绘)

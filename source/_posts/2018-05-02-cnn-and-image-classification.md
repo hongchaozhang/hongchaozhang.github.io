@@ -94,3 +94,5 @@ http://scs.ryerson.ca/~aharley/vis/harley_vis_isvc15.pdf
 
 各个卷机滤波器的里面的每个位置的值，即是我们需要训练的权重（卷积滤波器的尺寸是需要我们提前指定好的），每个像素对应于一个神经元。
 
+其中神经网络的基本概念可以参考[TensorFlow Playground](http://playground.tensorflow.org/)。
+
