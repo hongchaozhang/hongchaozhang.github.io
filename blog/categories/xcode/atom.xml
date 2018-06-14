@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: Xcode | Reading Space]]></title>
+  <title><![CDATA[Category: xcode | Reading Space]]></title>
   <link href="http://hongchaozhang.github.io/blog/categories/xcode/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2018-06-13T13:33:05+08:00</updated>
+  <updated>2018-06-14T14:06:43+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -148,7 +148,7 @@ Puppet  Twig    Vue.js</p>
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[Documenting in Xcode With HeaderDoc Tutorial]]></title>
+    <title type="html"><![CDATA[Documenting in Xcode with HeaderDoc Tutorial]]></title>
     <link href="http://hongchaozhang.github.io/blog/2016/04/19/documenting-in-xcode-e-with-headerdoc-tutorial/"/>
     <updated>2016-04-19T10:50:00+08:00</updated>
     <id>http://hongchaozhang.github.io/blog/2016/04/19/documenting-in-xcode-e-with-headerdoc-tutorial</id>
@@ -159,7 +159,7 @@ Puppet  Twig    Vue.js</p>
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[Ios内存管理——调试]]></title>
+    <title type="html"><![CDATA[ios内存管理——调试]]></title>
     <link href="http://hongchaozhang.github.io/blog/2016/02/24/ios-memory-managemement-debugging/"/>
     <updated>2016-02-24T20:51:01+08:00</updated>
     <id>http://hongchaozhang.github.io/blog/2016/02/24/ios-memory-managemement-debugging</id>
@@ -323,7 +323,7 @@ Puppet  Twig    Vue.js</p>
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[Warning Messages in Xcode]]></title>
+    <title type="html"><![CDATA[Warning Messages in xcode]]></title>
     <link href="http://hongchaozhang.github.io/blog/2015/08/31/Warning-Messages-in-Xcode/"/>
     <updated>2015-08-31T00:00:00+08:00</updated>
     <id>http://hongchaozhang.github.io/blog/2015/08/31/Warning-Messages-in-Xcode</id>
@@ -367,7 +367,7 @@ Puppet  Twig    Vue.js</p>
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[The .dSYM File in Ios Project]]></title>
+    <title type="html"><![CDATA[the .dSYM file in ios project]]></title>
     <link href="http://hongchaozhang.github.io/blog/2015/08/17/the-dSYM-file-in-ios-project/"/>
     <updated>2015-08-17T00:00:00+08:00</updated>
     <id>http://hongchaozhang.github.io/blog/2015/08/17/the-dSYM-file-in-ios-project</id>

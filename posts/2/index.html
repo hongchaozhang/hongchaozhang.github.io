@@ -1,1088 +1,131 @@
 
-<!DOCTYPE html>
-<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
-<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
-<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
-<head>
-  <meta charset="utf-8">
-  <title>Reading Space</title>
-  <meta name="author" content="Zhang Hongchao">
+<!DOCTYPE HTML>
 
-  
-  <meta name="description" content="说明 本来只想思考一下Objective-C里Category和Inheritence中的Property和Method的可见性，搜着搜着，主题有些变化，所以题目也改了。 这里只是一些来自参考博客的结论和自己测试得到的结论。 ">
-  
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>Reading Space</title>
+	<meta name="author" content="Zhang Hongchao">
+
+	
+	<meta name="description" content="Apr 19th, 2016 xcode Comments Documenting in Xcode With HeaderDoc Tutorial Documenting in Xcode with HeaderDoc Tutorial 讲解的非常全面详细可操作。 补充一点： &hellip;">
+	
 
   <!-- http://t.co/dKP3o1e -->
   <meta name="HandheldFriendly" content="True">
   <meta name="MobileOptimized" content="320">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
+	<link href="/atom.xml" rel="alternate" title="Reading Space" type="application/atom+xml">
+	
+	<link rel="canonical" href="http://hongchaozhang.github.io/posts/2/">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<link href="/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<link href='http://fonts.googleapis.com/css?family=Nunito:400,300,700' rel='stylesheet' type='text/css'>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	
   
-  <link rel="canonical" href="http://hongchaozhang.github.io/posts/2">
-  <link href="/favicon.png" rel="icon">
-  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
-  <link href="/atom.xml" rel="alternate" title="Reading Space" type="application/atom+xml">
-  <script src="/javascripts/modernizr-2.0.js"></script>
-  <script src="/javascripts/libs/jquery.min.js"></script>
-  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
-  <script src="/javascripts/octopress.js" type="text/javascript"></script>
-  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
-<!--
-<link href='https://fonts.googleapis.com/css?family=Noto+Serif:400,700' rel='stylesheet' type='text/css'>
-<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
--->
-  
-  <script type="text/javascript">
-    var _gaq = _gaq || [];
-    _gaq.push(['_setAccount', 'UA-62806905-2']);
-    _gaq.push(['_setDomainName','github.io']);
-    _gaq.push(['_trackPageview']);
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-62806905-2']);
+		_gaq.push(['_trackPageview']);
 
-    (function() {
-      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-    })();
-  </script>
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
 
 
 </head>
 
-<body   >
-  <header role="banner"><hgroup>
-  <h1><a href="/">Reading Space</a></h1>
-  
-    <h2>Zhang Hongchao's Blog</h2>
-  
-</hgroup>
 
-</header>
-  <nav role="navigation"><!--
-<ul class="subscription" data-subscription="rss">
-  
-  
+<body>
+	<div class="container">
+		<div class="left-col">
+			<div class="intrude-less">
+			<header id="header" class="inner"><div class="profilepic">
+	
+	<script src="/javascripts/md5.js"></script>
+	<script type="text/javascript">
+		$(function(){
+			$('.profilepic').append("<img src='http://www.gravatar.com/avatar/" + MD5("") + "?s=160' alt='Profile Picture' style='width: 160px;' />");
+		});
+	</script>
+	
+</div>
+
+<nav id="main-nav"><ul class="main">
+    <li><a href="/">Blog</a></li>
+    <li><a href="/blog/archives">Archives</a></li>
+    <li><a href="#">About</a></li>
 </ul>
--->
+</nav>
+<nav id="sub-nav">
+	<div class="social">
+		
+		
+		
+		
+		
+			<a class="github" href="https://github.com/hongchaozhang" title="GitHub">GitHub</a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+    	
+    	
+			<a class="rss" href="/atom.xml" title="RSS">RSS</a>
+		
+	</div>
+</nav>
 
 <!--
 
--->
-<ul class="main-navigation">
-  <li><a href="/">Blog</a></li>
-  <li><a href="/blog/archives">Archives</a></li>
-</ul>
-
-</nav>
-  <div id="main">
-    <div id="content">
-      <div class="blog-index">
+<section class="categories">
+  <h1>Categories</h1>
+    <ul id="top-category-list" class="nav nav-list"><li><a href='/blog/categories/ios'>ios (36)</a></li><li><a href='/blog/categories/objective-c'>objective-c (20)</a></li><li><a href='/blog/categories/productivity'>productivity (17)</a></li><li><a href='/blog/categories/android'>android (5)</a></li><li><a href='/blog/categories/xcode'>xcode (5)</a></li><li><a href='/blog/categories/node'>node (3)</a></li><li><a href='/blog/categories/swift'>swift (3)</a></li><li><a href='/blog/categories/python'>python (3)</a></li><li><a href='/blog/categories/javascript'>javascript (2)</a></li><li><a href='/blog/categories/reading'>reading (2)</a></li><li><a href='/blog/categories/web'>web (2)</a></li><li><a href='/blog/categories/map-tech'>map tech (2)</a></li><li><a href='/blog/categories/java'>java (2)</a></li><li><a href='/blog/categories/philosophy'>philosophy (2)</a></li><li><a href='/blog/categories/mobile'>mobile (1)</a></li><li><a href='/blog/categories/design-pattern'>design_pattern (1)</a></li><li><a href='/blog/categories/android-studio'>android_studio (1)</a></li><li><a href='/blog/categories/machine-learning'>machine learning (1)</a></li></ul>
+</section><section class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">Recent Posts</h3>
+  </div>
   
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2016/06/16/property-and-method-visuability-of-category-and-inheritence-in-objective-c/">Objective-C中Property和Method的可见性</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-
-<time datetime="2016-06-16T21:48:54+08:00" pubdate data-updated="true">Jun 16th, 2016</time>
-        
-           | <a href="/blog/2016/06/16/property-and-method-visuability-of-category-and-inheritence-in-objective-c/#disqus_thread"
-             data-disqus-identifier="http://hongchaozhang.github.io/blog/2016/06/16/property-and-method-visuability-of-category-and-inheritence-in-objective-c/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>说明</h2>
-
-<p>本来只想思考一下<em>Objective-C里Category和Inheritence中的Property和Method的可见性</em>，搜着搜着，主题有些变化，所以题目也改了。</p>
-
-<p>这里只是一些来自参考博客的结论和自己测试得到的结论。</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2016/06/16/property-and-method-visuability-of-category-and-inheritence-in-objective-c/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2016/04/19/documenting-in-xcode-e-with-headerdoc-tutorial/">Documenting in Xcode With HeaderDoc Tutorial</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-
-<time datetime="2016-04-19T10:50:00+08:00" pubdate data-updated="true">Apr 19th, 2016</time>
-        
-           | <a href="/blog/2016/04/19/documenting-in-xcode-e-with-headerdoc-tutorial/#disqus_thread"
-             data-disqus-identifier="http://hongchaozhang.github.io/blog/2016/04/19/documenting-in-xcode-e-with-headerdoc-tutorial/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><a href="https://www.raywenderlich.com/66395/documenting-in-xcode-with-headerdoc-tutorial">Documenting in Xcode with HeaderDoc Tutorial</a> 讲解的非常全面详细可操作。</p>
-
-<p>补充一点：如果最终导出的html文件想转换成docx或者pdf文件，只需要用word打开，然后另存为你想要的格式即可，多数情况下，word可以处理好格式的问题。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2016/03/27/ios-multiple-page-view-controller-usage/">Ios MultiplePagesViewController Usage</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-
-<time datetime="2016-03-27T16:58:54+08:00" pubdate data-updated="true">Mar 27th, 2016</time>
-        
-           | <a href="/blog/2016/03/27/ios-multiple-page-view-controller-usage/#disqus_thread"
-             data-disqus-identifier="http://hongchaozhang.github.io/blog/2016/03/27/ios-multiple-page-view-controller-usage/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>先上截图：</p>
-
-<p><img src="/images/multiple_pages_view_controller_demo.gif" alt="multiple_pages_view_controller_demo.gif" /></p>
-
-<p>demo地址：<a href="https://github.com/hongchaozhang/MultiplePagesViewControllerDemo.git">MultiplePagesViewControllerDemo</a></p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2016/03/27/ios-multiple-page-view-controller-usage/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2016/03/04/parsing-and-write-excel-file-using-node-module/">使用node-xlsx进行excel文件的读写</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-
-<time datetime="2016-03-04T14:54:54+08:00" pubdate data-updated="true">Mar 4th, 2016</time>
-        
-           | <a href="/blog/2016/03/04/parsing-and-write-excel-file-using-node-module/#disqus_thread"
-             data-disqus-identifier="http://hongchaozhang.github.io/blog/2016/03/04/parsing-and-write-excel-file-using-node-module/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h3>解析excel文件</h3>
-
-<p>在我的应用中需要对excel文件内容进行搜索，所以需要一个解析excel文件的插件。</p>
-
-<p><a href="https://www.npmjs.com/package/node-xlsx">node-xlsx</a>插件可以让我们解析、修改、新建excel文件。</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2016/03/04/parsing-and-write-excel-file-using-node-module/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2016/02/24/ios-memory-managemement-debugging/">Ios内存管理——调试</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-
-<time datetime="2016-02-24T20:51:01+08:00" pubdate data-updated="true">Feb 24th, 2016</time>
-        
-           | <a href="/blog/2016/02/24/ios-memory-managemement-debugging/#disqus_thread"
-             data-disqus-identifier="http://hongchaozhang.github.io/blog/2016/02/24/ios-memory-managemement-debugging/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><a href="http://www.cocoachina.com/ios/20160222/15333.html">iOS/OS X 内存管理(二)：借助工具解决内存问题</a>讲了一些调试技巧，包括：</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2016/02/24/ios-memory-managemement-debugging/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2016/02/22/ios-memory-management-theory/">Ios内存管理——理论</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-
-<time datetime="2016-02-22T20:51:30+08:00" pubdate data-updated="true">Feb 22nd, 2016</time>
-        
-           | <a href="/blog/2016/02/22/ios-memory-management-theory/#disqus_thread"
-             data-disqus-identifier="http://hongchaozhang.github.io/blog/2016/02/22/ios-memory-management-theory/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><a href="http://www.cocoachina.com/ios/20160219/15330.html">iOS/OS X内存管理(一)：基本概念与原理</a>对内存管理的概念讲的很清楚。</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2016/02/22/ios-memory-management-theory/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2016/02/18/uiview-animation-in-ios/">iOS中的动画——UIView</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-
-<time datetime="2016-02-18T11:36:47+08:00" pubdate data-updated="true">Feb 18th, 2016</time>
-        
-           | <a href="/blog/2016/02/18/uiview-animation-in-ios/#disqus_thread"
-             data-disqus-identifier="http://hongchaozhang.github.io/blog/2016/02/18/uiview-animation-in-ios/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>官方文档<a href="https://developer.apple.com/library/ios/documentation/WindowsViews/Conceptual/ViewPG_iPhoneOS/AnimatingViews/AnimatingViews.html">Animations</a>详细讲述了UIView的animations，
-<a href="http://www.cocoachina.com/ios/20160215/15262.html">iOS 开发之动画篇 - 从 UIView 动画说起</a>也阐述了用UIView进行动画的基本用法。</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2016/02/18/uiview-animation-in-ios/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2016/01/29/convertion-among-every-geo-system/">火星坐标导致iOS系统下高德地图定位不准</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-
-<time datetime="2016-01-29T13:47:42+08:00" pubdate data-updated="true">Jan 29th, 2016</time>
-        
-           | <a href="/blog/2016/01/29/convertion-among-every-geo-system/#disqus_thread"
-             data-disqus-identifier="http://hongchaozhang.github.io/blog/2016/01/29/convertion-among-every-geo-system/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>首先感慨一下：神奇的国度，神奇的坐标！</p>
-
-<h3>火星坐标系统介绍</h3>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2016/01/29/convertion-among-every-geo-system/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2016/01/19/cocoapods-for-ios-dependencies-control/">应用CocoaPods管理iOS的依赖库关系</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-
-<time datetime="2016-01-19T13:47:18+08:00" pubdate data-updated="true">Jan 19th, 2016</time>
-        
-           | <a href="/blog/2016/01/19/cocoapods-for-ios-dependencies-control/#disqus_thread"
-             data-disqus-identifier="http://hongchaozhang.github.io/blog/2016/01/19/cocoapods-for-ios-dependencies-control/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>就像Java有Maven，nodejs有npm一样，ios也有自己的库依赖管理工具：CocoaPods。</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2016/01/19/cocoapods-for-ios-dependencies-control/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2016/01/15/python-supports-chinese-charactors/">Python对中文的支持问题</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-
-<time datetime="2016-01-15T23:18:52+08:00" pubdate data-updated="true">Jan 15th, 2016</time>
-        
-           | <a href="/blog/2016/01/15/python-supports-chinese-charactors/#disqus_thread"
-             data-disqus-identifier="http://hongchaozhang.github.io/blog/2016/01/15/python-supports-chinese-charactors/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>参考<a href="https://www.python.org/dev/peps/pep-0263/">官方文档</a></p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2016/01/15/python-supports-chinese-charactors/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/12/30/implement-https-ios-client-side-using-objective-c/">Https在ios客户端的objective-c实现</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-
-<time datetime="2015-12-30T21:23:54+08:00" pubdate data-updated="true">Dec 30th, 2015</time>
-        
-           | <a href="/blog/2015/12/30/implement-https-ios-client-side-using-objective-c/#disqus_thread"
-             data-disqus-identifier="http://hongchaozhang.github.io/blog/2015/12/30/implement-https-ios-client-side-using-objective-c/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>ios通过NSURLSession进行网络请求，参考另一篇博客<a href="http://hongchaozhang.github.io/blog/2015/11/29/ios-network-request/">ios进行网络请求</a>。</p>
-
-<p>在开发阶段，server端我们会用self-signed证书（省钱啊！）。正因为不是第三方机构认证的证书，所以客户端都会报警告。我们需要对此进行处理（参考<a href="https://developer.apple.com/library/ios/technotes/tn2232/_index.html#//apple_ref/doc/uid/DTS40012884-CH1-SECNSURLSESSION">NSURLSession in Apple Tech Note</a>和<a href="http://stackoverflow.com/questions/19507207/how-do-i-accept-a-self-signed-ssl-certificate-using-ios-7s-nsurlsession-and-its">How do I accept a self-signed SSL certificate using iOS 7&rsquo;s NSURLSession and its family of delegate methods for development purposes?</a>）:</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2015/12/30/implement-https-ios-client-side-using-objective-c/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/12/30/implement-https-server-side-using-nodejs/">https在Server端的Nodejs实现</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-
-<time datetime="2015-12-30T21:23:19+08:00" pubdate data-updated="true">Dec 30th, 2015</time>
-        
-           | <a href="/blog/2015/12/30/implement-https-server-side-using-nodejs/#disqus_thread"
-             data-disqus-identifier="http://hongchaozhang.github.io/blog/2015/12/30/implement-https-server-side-using-nodejs/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>服务器端利用Nodejs创建https的Server，请参考<a href="http://blog.fens.me/nodejs-https-server/">Nodejs创建HTTPS服务器</a></p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2015/12/30/implement-https-server-side-using-nodejs/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/12/29/https-workflow/">Https工作过程</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-
-<time datetime="2015-12-29T16:21:19+08:00" pubdate data-updated="true">Dec 29th, 2015</time>
-        
-           | <a href="/blog/2015/12/29/https-workflow/#disqus_thread"
-             data-disqus-identifier="http://hongchaozhang.github.io/blog/2015/12/29/https-workflow/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>摘录在此，备忘。</p>
-
-<p>HTTPS其实是有两部分组成：HTTP + SSL / TLS，也就是在HTTP上又加了一层处理加密信息的模块。服务端和客户端的信息传输都会通过TLS进行加密，所以传输的数据都是加密后的数据。</p>
-
-<p>具体的加密过程看下图：</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2015/12/29/https-workflow/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/12/22/generics-in-objective-c/">Generics in Objective-c</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-
-<time datetime="2015-12-22T13:18:48+08:00" pubdate data-updated="true">Dec 22nd, 2015</time>
-        
-           | <a href="/blog/2015/12/22/generics-in-objective-c/#disqus_thread"
-             data-disqus-identifier="http://hongchaozhang.github.io/blog/2015/12/22/generics-in-objective-c/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>参考：<a href="http://stackoverflow.com/questions/649483/is-there-any-way-to-enforce-typing-on-nsarray-nsmutablearray-etc">Is there any way to enforce typing on NSArray, NSMutableArray, etc.?</a></p>
-
-<p>参考：<a href="http://drekka.ghost.io/objective-c-generics/">Objective C Generics</a></p>
-
-<p>随着Xcode7的发布，苹果实现了collection类（NSArray，NSDictionary，NSSet）的generics功能。</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2015/12/22/generics-in-objective-c/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/12/19/propety-instance-variable-and-at-synthesize/">Propety, Instance Variable and @synthesize</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-
-<time datetime="2015-12-19T15:17:41+08:00" pubdate data-updated="true">Dec 19th, 2015</time>
-        
-           | <a href="/blog/2015/12/19/propety-instance-variable-and-at-synthesize/#disqus_thread"
-             data-disqus-identifier="http://hongchaozhang.github.io/blog/2015/12/19/propety-instance-variable-and-at-synthesize/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>这一段时间，在对自己不是很了解的代码进行重构，重新了解了一下Property、Instance Variable和@synthesize，总结一下。</p>
-
-<p>首先需要明白一点：Property和@synthesize是让编译器帮助我们做一些规律性的工作。</p>
-
-<h3>如果没有Property</h3>
-
-<p>如果没有Property，我们可以这样实现Instance Variable的accessor（getter和setter），示例代码如下：</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2015/12/19/propety-instance-variable-and-at-synthesize/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/12/17/ios-coding-best-practice/">Ios Coding Best Practice</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-
-<time datetime="2015-12-17T10:49:54+08:00" pubdate data-updated="true">Dec 17th, 2015</time>
-        
-           | <a href="/blog/2015/12/17/ios-coding-best-practice/#disqus_thread"
-             data-disqus-identifier="http://hongchaozhang.github.io/blog/2015/12/17/ios-coding-best-practice/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"></div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2015/12/17/ios-coding-best-practice/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/12/06/some-usefull-ios-coding-styles-in-UIViewController/">UIViewController中常见的ios编程习惯</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-
-<time datetime="2015-12-06T12:55:47+08:00" pubdate data-updated="true">Dec 6th, 2015</time>
-        
-           | <a href="/blog/2015/12/06/some-usefull-ios-coding-styles-in-UIViewController/#disqus_thread"
-             data-disqus-identifier="http://hongchaozhang.github.io/blog/2015/12/06/some-usefull-ios-coding-styles-in-UIViewController/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>参考<a href="http://www.cocoachina.com/ios/20150525/11919.html">iOS应用架构谈 view层的组织和调用方案</a>。</p>
-
-<h3>所有的属性都使用getter和setter</h3>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2015/12/06/some-usefull-ios-coding-styles-in-UIViewController/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/12/01/autosizing-and-autolayout/">AutoSizing and AutoLayout</a></h1>
-    
+  <div id="recent_posts" class="list-group">
     
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-
-<time datetime="2015-12-01T11:20:38+08:00" pubdate data-updated="true">Dec 1st, 2015</time>
-        
-           | <a href="/blog/2015/12/01/autosizing-and-autolayout/#disqus_thread"
-             data-disqus-identifier="http://hongchaozhang.github.io/blog/2015/12/01/autosizing-and-autolayout/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>参考：</p>
-
-<ul>
-<li><a href="http://objccn.io/issue-3-5/">先进的自动布局工具箱</a></li>
-<li><a href="https://developer.apple.com/library/prerelease/ios/documentation/UserExperience/Conceptual/AutolayoutPG/ProgrammaticallyCreatingConstraints.html#//apple_ref/doc/uid/TP40010853-CH16-SW1">AutoLayout Guide</a></li>
-<li><a href="https://developer.apple.com/library/ios/documentation/UserExperience/Conceptual/AutolayoutPG/WorkingwithSelf-SizingTableViewCells.html">AutoLayout Table View</a></li>
-</ul>
-
-
-<p>摘要：</p>
-
-<ul>
-<li><p>AutoSizing和AutoLayout都是用来自动确定试图大小和位置的方法，区别在于：</p>
-
-<ul>
-<li>AutoSizing: 只针对SuperView</li>
-<li>AutoLayout: 针对SuperView和兄弟View</li>
-</ul>
-</li>
-</ul>
-
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2015/12/01/autosizing-and-autolayout/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/11/29/ios-network-request/">Ios进行网络请求</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-
-<time datetime="2015-11-29T15:12:59+08:00" pubdate data-updated="true">Nov 29th, 2015</time>
-        
-           | <a href="/blog/2015/11/29/ios-network-request/#disqus_thread"
-             data-disqus-identifier="http://hongchaozhang.github.io/blog/2015/11/29/ios-network-request/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>ios网络请求设计的一些类，可以参考；<a href="http://blog.csdn.net/dyllove98/article/details/9050863">IOS网络编程：HTTP</a>。</p>
-
-<p>下面主要说说NSURLSession。</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2015/11/29/ios-network-request/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/11/28/some-useful-plugins-for-sublime/">Sublime的一些插件</a></h1>
+    <a class="list-group-item " href="/blog/2018/05/02/cnn-and-image-classification/">CNN与图像识别</a>
     
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-
-<time datetime="2015-11-28T23:45:59+08:00" pubdate data-updated="true">Nov 28th, 2015</time>
-        
-           | <a href="/blog/2015/11/28/some-useful-plugins-for-sublime/#disqus_thread"
-             data-disqus-identifier="http://hongchaozhang.github.io/blog/2015/11/28/some-useful-plugins-for-sublime/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h3>Package Control</h3>
-
-<p><a href="https://packagecontrol.io/installation#st2">Package Control</a>是Sublime中用于插件管理的工具。安装之后，其它插件基本上可以通过它进行管理：安装、删除、禁用等。</p>
-
-<h3>JSFormat</h3>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2015/11/28/some-useful-plugins-for-sublime/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  <div class="pagination">
+    <a class="list-group-item " href="/blog/2018/01/26/swift-coding-convention/">Swift Coding Conventions</a>
     
-      <a class="prev" href="3">&larr; Older</a>
+    <a class="list-group-item " href="/blog/2018/01/02/dr-project/">DR Project</a>
     
-    <a href="/blog/archives">Blog Archives</a>
+    <a class="list-group-item " href="/blog/2017/12/28/coreml-usage/">CoreML Usage</a>
     
-    <a class="next" href="1">Newer &rarr;</a>
+    <a class="list-group-item " href="/blog/2017/12/28/arkit-usage/">ARKit Usage</a>
     
   </div>
-</div>
-<aside class="sidebar">
-   
-  
-    <section class="categories">
-  <h1>Categories</h1>
-    <ul id="top-category-list" class="nav nav-list"><li><a href='/blog/categories/ios'>ios (37)</a></li><li><a href='/blog/categories/objective-c'>objective-c (20)</a></li><li><a href='/blog/categories/productivity'>productivity (17)</a></li><li><a href='/blog/categories/android'>android (5)</a></li><li><a href='/blog/categories/xcode'>xcode (5)</a></li><li><a href='/blog/categories/node'>node (3)</a></li><li><a href='/blog/categories/swift'>swift (3)</a></li><li><a href='/blog/categories/python'>python (3)</a></li><li><a href='/blog/categories/javascript'>javascript (2)</a></li><li><a href='/blog/categories/reading'>reading (2)</a></li><li><a href='/blog/categories/web'>web (2)</a></li><li><a href='/blog/categories/map-tech'>map tech (2)</a></li><li><a href='/blog/categories/java'>java (2)</a></li><li><a href='/blog/categories/philosophy'>philosophy (2)</a></li><li><a href='/blog/categories/mobile'>mobile (1)</a></li><li><a href='/blog/categories/design-pattern'>design_pattern (1)</a></li><li><a href='/blog/categories/android-studio'>android_studio (1)</a></li><li><a href='/blog/categories/machine-learning'>machine learning (1)</a></li></ul>
-</section>
-<section>
-  <h1>Recent Posts</h1>
-  <ul id="recent_posts">
-    
-      <li class="post">
-        <a href="/blog/2018/06/13/what-is-new-in-n-arkit-2/">What Is New in N ARKit 2</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2018/05/02/cnn-and-image-classification/">CNN与图像识别</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2018/01/26/swift-coding-convention/">Swift Coding Conventions</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2018/01/02/dr-project/">DR Project</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2017/12/28/coreml-usage/">CoreML Usage</a>
-      </li>
-    
-  </ul>
 </section>
 
-<section>
-  <h1>GitHub Repos</h1>
-  <ul id="gh_repos">
-    <li class="loading">Status updating...</li>
-  </ul>
+<section class="panel panel-default clearfix">
+  <div class="panel-heading">
+      <h3 class="panel-title">GitHub Repos</h3>
+  </div>
+  <div class="list-group" id="gh_repos">
+    <p class="loading">Status updating...</p>
+  </div>
   
-  <a href="https://github.com/hongchaozhang">@hongchaozhang</a> on GitHub
+    <div class="gh-profile-link pull-right text-muted">
+      <a href="https://github.com/hongchaozhang">@hongchaozhang</a> on GitHub
+    </div>
   
   <script type="text/javascript">
     $(document).ready(function(){
@@ -1106,19 +149,886 @@
 </section>
 
 
+
+-->
+</header>				
+			</div>
+		</div>	
+		<div class="mid-col">
+			
+				
+			
+			<div class="mid-col-container">
+				<div id="content" class="inner">
+<div itemscope itemtype="http://schema.org/Blog">
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
   
-</aside>
 
 
-    </div>
-  </div>
-  <footer role="contentinfo"><p>
-  Copyright &copy; 2018 - Zhang Hongchao -
-  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
-</p>
 
-</footer>
+<time datetime="2016-04-19T10:50:00+08:00" pubdate data-updated="true">Apr 19th, 2016</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/xcode/'>xcode</a>
+
+
+</div>
+		
+			<span class="comments"><a href="/blog/2016/04/19/documenting-in-xcode-e-with-headerdoc-tutorial/#disqus_thread">Comments</a></span>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2016/04/19/documenting-in-xcode-e-with-headerdoc-tutorial/" itemprop="url">Documenting in Xcode With HeaderDoc Tutorial</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p><a href="https://www.raywenderlich.com/66395/documenting-in-xcode-with-headerdoc-tutorial">Documenting in Xcode with HeaderDoc Tutorial</a> 讲解的非常全面详细可操作。</p>
+
+<p>补充一点：如果最终导出的html文件想转换成docx或者pdf文件，只需要用word打开，然后另存为你想要的格式即可，多数情况下，word可以处理好格式的问题。</p>
+
+		
+		
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
   
+
+
+
+<time datetime="2016-03-27T16:58:54+08:00" pubdate data-updated="true">Mar 27th, 2016</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/ios/'>ios</a>, <a class='category' href='/blog/categories/objective-c/'>objective-c</a>
+
+
+</div>
+		
+			<span class="comments"><a href="/blog/2016/03/27/ios-multiple-page-view-controller-usage/#disqus_thread">Comments</a></span>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2016/03/27/ios-multiple-page-view-controller-usage/" itemprop="url">Ios MultiplePagesViewController Usage</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>先上截图：</p>
+
+<p><img src="/images/multiple_pages_view_controller_demo.gif" alt="multiple_pages_view_controller_demo.gif" /></p>
+
+<p>demo地址：<a href="https://github.com/hongchaozhang/MultiplePagesViewControllerDemo.git">MultiplePagesViewControllerDemo</a></p>
+
+
+		
+		<a href="/blog/2016/03/27/ios-multiple-page-view-controller-usage/" class="more-link">Read on &rarr;</a>
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2016-03-04T14:54:54+08:00" pubdate data-updated="true">Mar 4th, 2016</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/node/'>node</a>
+
+
+</div>
+		
+			<span class="comments"><a href="/blog/2016/03/04/parsing-and-write-excel-file-using-node-module/#disqus_thread">Comments</a></span>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2016/03/04/parsing-and-write-excel-file-using-node-module/" itemprop="url">使用node-xlsx进行excel文件的读写</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<h3>解析excel文件</h3>
+
+<p>在我的应用中需要对excel文件内容进行搜索，所以需要一个解析excel文件的插件。</p>
+
+<p><a href="https://www.npmjs.com/package/node-xlsx">node-xlsx</a>插件可以让我们解析、修改、新建excel文件。</p>
+
+
+		
+		<a href="/blog/2016/03/04/parsing-and-write-excel-file-using-node-module/" class="more-link">Read on &rarr;</a>
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2016-02-24T20:51:01+08:00" pubdate data-updated="true">Feb 24th, 2016</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/ios/'>ios</a>, <a class='category' href='/blog/categories/objective-c/'>objective-c</a>, <a class='category' href='/blog/categories/xcode/'>xcode</a>
+
+
+</div>
+		
+			<span class="comments"><a href="/blog/2016/02/24/ios-memory-managemement-debugging/#disqus_thread">Comments</a></span>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2016/02/24/ios-memory-managemement-debugging/" itemprop="url">Ios内存管理——调试</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p><a href="http://www.cocoachina.com/ios/20160222/15333.html">iOS/OS X 内存管理(二)：借助工具解决内存问题</a>讲了一些调试技巧，包括：</p>
+
+
+		
+		<a href="/blog/2016/02/24/ios-memory-managemement-debugging/" class="more-link">Read on &rarr;</a>
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2016-02-22T20:51:30+08:00" pubdate data-updated="true">Feb 22nd, 2016</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/ios/'>ios</a>, <a class='category' href='/blog/categories/objective-c/'>objective-c</a>
+
+
+</div>
+		
+			<span class="comments"><a href="/blog/2016/02/22/ios-memory-management-theory/#disqus_thread">Comments</a></span>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2016/02/22/ios-memory-management-theory/" itemprop="url">Ios内存管理——理论</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p><a href="http://www.cocoachina.com/ios/20160219/15330.html">iOS/OS X内存管理(一)：基本概念与原理</a>对内存管理的概念讲的很清楚。</p>
+
+
+		
+		<a href="/blog/2016/02/22/ios-memory-management-theory/" class="more-link">Read on &rarr;</a>
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2016-02-18T11:36:47+08:00" pubdate data-updated="true">Feb 18th, 2016</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/ios/'>ios</a>, <a class='category' href='/blog/categories/objective-c/'>objective-c</a>
+
+
+</div>
+		
+			<span class="comments"><a href="/blog/2016/02/18/uiview-animation-in-ios/#disqus_thread">Comments</a></span>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2016/02/18/uiview-animation-in-ios/" itemprop="url">iOS中的动画——UIView</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>官方文档<a href="https://developer.apple.com/library/ios/documentation/WindowsViews/Conceptual/ViewPG_iPhoneOS/AnimatingViews/AnimatingViews.html">Animations</a>详细讲述了UIView的animations，
+<a href="http://www.cocoachina.com/ios/20160215/15262.html">iOS 开发之动画篇 - 从 UIView 动画说起</a>也阐述了用UIView进行动画的基本用法。</p>
+
+
+		
+		<a href="/blog/2016/02/18/uiview-animation-in-ios/" class="more-link">Read on &rarr;</a>
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2016-01-29T13:47:42+08:00" pubdate data-updated="true">Jan 29th, 2016</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/ios/'>ios</a>, <a class='category' href='/blog/categories/map-tech/'>map tech</a>, <a class='category' href='/blog/categories/objective-c/'>objective-c</a>
+
+
+</div>
+		
+			<span class="comments"><a href="/blog/2016/01/29/convertion-among-every-geo-system/#disqus_thread">Comments</a></span>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2016/01/29/convertion-among-every-geo-system/" itemprop="url">火星坐标导致iOS系统下高德地图定位不准</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>首先感慨一下：神奇的国度，神奇的坐标！</p>
+
+<h3>火星坐标系统介绍</h3>
+
+
+		
+		<a href="/blog/2016/01/29/convertion-among-every-geo-system/" class="more-link">Read on &rarr;</a>
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2016-01-19T13:47:18+08:00" pubdate data-updated="true">Jan 19th, 2016</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/ios/'>ios</a>, <a class='category' href='/blog/categories/productivity/'>productivity</a>
+
+
+</div>
+		
+			<span class="comments"><a href="/blog/2016/01/19/cocoapods-for-ios-dependencies-control/#disqus_thread">Comments</a></span>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2016/01/19/cocoapods-for-ios-dependencies-control/" itemprop="url">应用CocoaPods管理iOS的依赖库关系</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>就像Java有Maven，nodejs有npm一样，ios也有自己的库依赖管理工具：CocoaPods。</p>
+
+
+		
+		<a href="/blog/2016/01/19/cocoapods-for-ios-dependencies-control/" class="more-link">Read on &rarr;</a>
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2016-01-15T23:18:52+08:00" pubdate data-updated="true">Jan 15th, 2016</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/python/'>python</a>
+
+
+</div>
+		
+			<span class="comments"><a href="/blog/2016/01/15/python-supports-chinese-charactors/#disqus_thread">Comments</a></span>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2016/01/15/python-supports-chinese-charactors/" itemprop="url">Python对中文的支持问题</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>参考<a href="https://www.python.org/dev/peps/pep-0263/">官方文档</a></p>
+
+
+		
+		<a href="/blog/2016/01/15/python-supports-chinese-charactors/" class="more-link">Read on &rarr;</a>
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2015-12-30T21:23:54+08:00" pubdate data-updated="true">Dec 30th, 2015</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/objective-c/'>objective-c</a>
+
+
+</div>
+		
+			<span class="comments"><a href="/blog/2015/12/30/implement-https-ios-client-side-using-objective-c/#disqus_thread">Comments</a></span>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2015/12/30/implement-https-ios-client-side-using-objective-c/" itemprop="url">Https在ios客户端的objective-c实现</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>ios通过NSURLSession进行网络请求，参考另一篇博客<a href="http://hongchaozhang.github.io/blog/2015/11/29/ios-network-request/">ios进行网络请求</a>。</p>
+
+<p>在开发阶段，server端我们会用self-signed证书（省钱啊！）。正因为不是第三方机构认证的证书，所以客户端都会报警告。我们需要对此进行处理（参考<a href="https://developer.apple.com/library/ios/technotes/tn2232/_index.html#//apple_ref/doc/uid/DTS40012884-CH1-SECNSURLSESSION">NSURLSession in Apple Tech Note</a>和<a href="http://stackoverflow.com/questions/19507207/how-do-i-accept-a-self-signed-ssl-certificate-using-ios-7s-nsurlsession-and-its">How do I accept a self-signed SSL certificate using iOS 7&rsquo;s NSURLSession and its family of delegate methods for development purposes?</a>）:</p>
+
+
+		
+		<a href="/blog/2015/12/30/implement-https-ios-client-side-using-objective-c/" class="more-link">Read on &rarr;</a>
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2015-12-30T21:23:19+08:00" pubdate data-updated="true">Dec 30th, 2015</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/node/'>node</a>
+
+
+</div>
+		
+			<span class="comments"><a href="/blog/2015/12/30/implement-https-server-side-using-nodejs/#disqus_thread">Comments</a></span>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2015/12/30/implement-https-server-side-using-nodejs/" itemprop="url">https在Server端的Nodejs实现</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>服务器端利用Nodejs创建https的Server，请参考<a href="http://blog.fens.me/nodejs-https-server/">Nodejs创建HTTPS服务器</a></p>
+
+
+		
+		<a href="/blog/2015/12/30/implement-https-server-side-using-nodejs/" class="more-link">Read on &rarr;</a>
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2015-12-29T16:21:19+08:00" pubdate data-updated="true">Dec 29th, 2015</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/web/'>web</a>
+
+
+</div>
+		
+			<span class="comments"><a href="/blog/2015/12/29/https-workflow/#disqus_thread">Comments</a></span>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2015/12/29/https-workflow/" itemprop="url">Https工作过程</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>摘录在此，备忘。</p>
+
+<p>HTTPS其实是有两部分组成：HTTP + SSL / TLS，也就是在HTTP上又加了一层处理加密信息的模块。服务端和客户端的信息传输都会通过TLS进行加密，所以传输的数据都是加密后的数据。</p>
+
+<p>具体的加密过程看下图：</p>
+
+
+		
+		<a href="/blog/2015/12/29/https-workflow/" class="more-link">Read on &rarr;</a>
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2015-12-22T13:18:48+08:00" pubdate data-updated="true">Dec 22nd, 2015</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/ios/'>ios</a>, <a class='category' href='/blog/categories/objective-c/'>objective-c</a>
+
+
+</div>
+		
+			<span class="comments"><a href="/blog/2015/12/22/generics-in-objective-c/#disqus_thread">Comments</a></span>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2015/12/22/generics-in-objective-c/" itemprop="url">Generics in Objective-c</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>参考：<a href="http://stackoverflow.com/questions/649483/is-there-any-way-to-enforce-typing-on-nsarray-nsmutablearray-etc">Is there any way to enforce typing on NSArray, NSMutableArray, etc.?</a></p>
+
+<p>参考：<a href="http://drekka.ghost.io/objective-c-generics/">Objective C Generics</a></p>
+
+<p>随着Xcode7的发布，苹果实现了collection类（NSArray，NSDictionary，NSSet）的generics功能。</p>
+
+
+		
+		<a href="/blog/2015/12/22/generics-in-objective-c/" class="more-link">Read on &rarr;</a>
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2015-12-19T15:17:41+08:00" pubdate data-updated="true">Dec 19th, 2015</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/ios/'>ios</a>, <a class='category' href='/blog/categories/objective-c/'>objective-c</a>
+
+
+</div>
+		
+			<span class="comments"><a href="/blog/2015/12/19/propety-instance-variable-and-at-synthesize/#disqus_thread">Comments</a></span>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2015/12/19/propety-instance-variable-and-at-synthesize/" itemprop="url">Propety, Instance Variable and @synthesize</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>这一段时间，在对自己不是很了解的代码进行重构，重新了解了一下Property、Instance Variable和@synthesize，总结一下。</p>
+
+<p>首先需要明白一点：Property和@synthesize是让编译器帮助我们做一些规律性的工作。</p>
+
+<h3>如果没有Property</h3>
+
+<p>如果没有Property，我们可以这样实现Instance Variable的accessor（getter和setter），示例代码如下：</p>
+
+
+		
+		<a href="/blog/2015/12/19/propety-instance-variable-and-at-synthesize/" class="more-link">Read on &rarr;</a>
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2015-12-17T10:49:54+08:00" pubdate data-updated="true">Dec 17th, 2015</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/objective-c/'>objective-c</a>
+
+
+</div>
+		
+			<span class="comments"><a href="/blog/2015/12/17/ios-coding-best-practice/#disqus_thread">Comments</a></span>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2015/12/17/ios-coding-best-practice/" itemprop="url">Ios Coding Best Practice</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		
+		
+		<a href="/blog/2015/12/17/ios-coding-best-practice/" class="more-link">Read on &rarr;</a>
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2015-12-06T12:55:47+08:00" pubdate data-updated="true">Dec 6th, 2015</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/ios/'>ios</a>, <a class='category' href='/blog/categories/objective-c/'>objective-c</a>
+
+
+</div>
+		
+			<span class="comments"><a href="/blog/2015/12/06/some-usefull-ios-coding-styles-in-UIViewController/#disqus_thread">Comments</a></span>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2015/12/06/some-usefull-ios-coding-styles-in-UIViewController/" itemprop="url">UIViewController中常见的ios编程习惯</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>参考<a href="http://www.cocoachina.com/ios/20150525/11919.html">iOS应用架构谈 view层的组织和调用方案</a>。</p>
+
+<h3>所有的属性都使用getter和setter</h3>
+
+
+		
+		<a href="/blog/2015/12/06/some-usefull-ios-coding-styles-in-UIViewController/" class="more-link">Read on &rarr;</a>
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2015-12-01T11:20:38+08:00" pubdate data-updated="true">Dec 1st, 2015</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/ios/'>ios</a>, <a class='category' href='/blog/categories/objective-c/'>objective-c</a>
+
+
+</div>
+		
+			<span class="comments"><a href="/blog/2015/12/01/autosizing-and-autolayout/#disqus_thread">Comments</a></span>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2015/12/01/autosizing-and-autolayout/" itemprop="url">AutoSizing and AutoLayout</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>参考：</p>
+
+<ul>
+<li><a href="http://objccn.io/issue-3-5/">先进的自动布局工具箱</a></li>
+<li><a href="https://developer.apple.com/library/prerelease/ios/documentation/UserExperience/Conceptual/AutolayoutPG/ProgrammaticallyCreatingConstraints.html#//apple_ref/doc/uid/TP40010853-CH16-SW1">AutoLayout Guide</a></li>
+<li><a href="https://developer.apple.com/library/ios/documentation/UserExperience/Conceptual/AutolayoutPG/WorkingwithSelf-SizingTableViewCells.html">AutoLayout Table View</a></li>
+</ul>
+
+
+<p>摘要：</p>
+
+<ul>
+<li><p>AutoSizing和AutoLayout都是用来自动确定试图大小和位置的方法，区别在于：</p>
+
+<ul>
+<li>AutoSizing: 只针对SuperView</li>
+<li>AutoLayout: 针对SuperView和兄弟View</li>
+</ul>
+</li>
+</ul>
+
+
+
+		
+		<a href="/blog/2015/12/01/autosizing-and-autolayout/" class="more-link">Read on &rarr;</a>
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2015-11-29T15:12:59+08:00" pubdate data-updated="true">Nov 29th, 2015</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/ios/'>ios</a>, <a class='category' href='/blog/categories/objective-c/'>objective-c</a>
+
+
+</div>
+		
+			<span class="comments"><a href="/blog/2015/11/29/ios-network-request/#disqus_thread">Comments</a></span>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2015/11/29/ios-network-request/" itemprop="url">Ios进行网络请求</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>ios网络请求设计的一些类，可以参考；<a href="http://blog.csdn.net/dyllove98/article/details/9050863">IOS网络编程：HTTP</a>。</p>
+
+<p>下面主要说说NSURLSession。</p>
+
+
+		
+		<a href="/blog/2015/11/29/ios-network-request/" class="more-link">Read on &rarr;</a>
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2015-11-28T23:45:59+08:00" pubdate data-updated="true">Nov 28th, 2015</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/productivity/'>productivity</a>
+
+
+</div>
+		
+			<span class="comments"><a href="/blog/2015/11/28/some-useful-plugins-for-sublime/#disqus_thread">Comments</a></span>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2015/11/28/some-useful-plugins-for-sublime/" itemprop="url">Sublime的一些插件</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<h3>Package Control</h3>
+
+<p><a href="https://packagecontrol.io/installation#st2">Package Control</a>是Sublime中用于插件管理的工具。安装之后，其它插件基本上可以通过它进行管理：安装、删除、禁用等。</p>
+
+<h3>JSFormat</h3>
+
+
+		
+		<a href="/blog/2015/11/28/some-useful-plugins-for-sublime/" class="more-link">Read on &rarr;</a>
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2015-11-27T16:45:10+08:00" pubdate data-updated="true">Nov 27th, 2015</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/node/'>node</a>
+
+
+</div>
+		
+			<span class="comments"><a href="/blog/2015/11/27/using-node-dot-js-for-a-simple-server/#disqus_thread">Comments</a></span>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2015/11/27/using-node-dot-js-for-a-simple-server/" itemprop="url">应用Node.js搭建一个简单的服务器</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<h3>第一个简单应用</h3>
+
+<p>参考<a href="http://code.tutsplus.com/tutorials/nodejs-for-beginners--net-26314">Node.js for Beginners</a>. 去除以下代码：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">request</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s2">&quot;end&quot;</span><span class="p">,</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">});</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>如何调试Node.js在服务器上的应用</h3>
+
+
+		
+		<a href="/blog/2015/11/27/using-node-dot-js-for-a-simple-server/" class="more-link">Read on &rarr;</a>
+	</div>
+
+</article>
+
+</div>
+<nav id="pagenavi">
+    
+        <a href="1" class="prev">Prev</a>
+    
+    
+        <a href="3" class="next">Next</a>
+    
+    <div class="center"><a href="/blog/archives">Blog Archives</a></div>
+</nav></div>
+			</div>
+			<footer id="footer" class="inner">Copyright &copy; 2018
+
+    Zhang Hongchao
+
+
+<!--Design credit: <a href="http://shashankmehta.in/archive/2012/greyshade.html">Shashank Mehta</a>--></footer>
+		</div>
+	</div>
+	
 
 <script type="text/javascript">
       var disqus_shortname = 'zhanghongchao';
@@ -1128,7 +1038,7 @@
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
       (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
     }());
 </script>
@@ -1140,33 +1050,6 @@
 
 
 
-
-<script>
-  $(document).ready(function() {  
-    var stickyNavTop = $('nav').offset().top;  
-      
-    var stickyNav = function(){  
-      var scrollTop = $(window).scrollTop(); 
-      var navHasClassSticky = $('nav').hasClass('sticky');
-
-      if (scrollTop > stickyNavTop && navHasClassSticky) {   
-        return true;
-      } else if (scrollTop > stickyNavTop) {
-        $('nav').hide();
-        $('nav').addClass('sticky');
-        $('nav').fadeIn('2000');
-      } else {  
-        $('nav').removeClass('sticky');   
-      }  
-    };  
-      
-    stickyNav();  
-      
-    $(window).scroll(function() {  
-      stickyNav();  
-    });  
-  });  
-</script>
 
 
 </body>

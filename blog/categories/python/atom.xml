@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: Python | Reading Space]]></title>
+  <title><![CDATA[Category: python | Reading Space]]></title>
   <link href="http://hongchaozhang.github.io/blog/categories/python/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2018-06-13T13:33:05+08:00</updated>
+  <updated>2018-06-14T14:06:43+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -14,7 +14,7 @@
 
   
   <entry>
-    <title type="html"><![CDATA[Python对中文的支持问题]]></title>
+    <title type="html"><![CDATA[python对中文的支持问题]]></title>
     <link href="http://hongchaozhang.github.io/blog/2016/01/15/python-supports-chinese-charactors/"/>
     <updated>2016-01-15T23:18:52+08:00</updated>
     <id>http://hongchaozhang.github.io/blog/2016/01/15/python-supports-chinese-charactors</id>
@@ -35,7 +35,7 @@
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[Pdb Commands for Python Debugging in Command Line]]></title>
+    <title type="html"><![CDATA[pdb commands for python debugging in command line]]></title>
     <link href="http://hongchaozhang.github.io/blog/2015/06/27/pdb-commands-for-python-debugging-in-command-line/"/>
     <updated>2015-06-27T00:00:00+08:00</updated>
     <id>http://hongchaozhang.github.io/blog/2015/06/27/pdb-commands-for-python-debugging-in-command-line</id>
@@ -145,7 +145,7 @@
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[How to Use the Python Script for Adding Tags and Categories]]></title>
+    <title type="html"><![CDATA[How to use the python script for adding tags and categories]]></title>
     <link href="http://hongchaozhang.github.io/blog/2015/06/27/instructions-for-adding-tags-and-categories/"/>
     <updated>2015-06-27T00:00:00+08:00</updated>
     <id>http://hongchaozhang.github.io/blog/2015/06/27/instructions-for-adding-tags-and-categories</id>

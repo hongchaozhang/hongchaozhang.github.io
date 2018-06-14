@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: Objective-c | Reading Space]]></title>
+  <title><![CDATA[Category: objective-c | Reading Space]]></title>
   <link href="http://hongchaozhang.github.io/blog/categories/objective-c/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2018-06-13T13:33:05+08:00</updated>
+  <updated>2018-06-14T14:06:43+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -173,7 +173,7 @@
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[Ios MultiplePagesViewController Usage]]></title>
+    <title type="html"><![CDATA[ios MultiplePagesViewController usage]]></title>
     <link href="http://hongchaozhang.github.io/blog/2016/03/27/ios-multiple-page-view-controller-usage/"/>
     <updated>2016-03-27T16:58:54+08:00</updated>
     <id>http://hongchaozhang.github.io/blog/2016/03/27/ios-multiple-page-view-controller-usage</id>
@@ -262,7 +262,7 @@
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[Ios内存管理——调试]]></title>
+    <title type="html"><![CDATA[ios内存管理——调试]]></title>
     <link href="http://hongchaozhang.github.io/blog/2016/02/24/ios-memory-managemement-debugging/"/>
     <updated>2016-02-24T20:51:01+08:00</updated>
     <id>http://hongchaozhang.github.io/blog/2016/02/24/ios-memory-managemement-debugging</id>
@@ -426,7 +426,7 @@
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[Ios内存管理——理论]]></title>
+    <title type="html"><![CDATA[ios内存管理——理论]]></title>
     <link href="http://hongchaozhang.github.io/blog/2016/02/22/ios-memory-management-theory/"/>
     <updated>2016-02-22T20:51:30+08:00</updated>
     <id>http://hongchaozhang.github.io/blog/2016/02/22/ios-memory-management-theory</id>

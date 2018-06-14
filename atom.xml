@@ -4,7 +4,7 @@
   <title><![CDATA[Reading Space]]></title>
   <link href="http://hongchaozhang.github.io/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2018-06-13T13:33:05+08:00</updated>
+  <updated>2018-06-14T14:06:43+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -12,18 +12,6 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
-  
-  <entry>
-    <title type="html"><![CDATA[What Is New in N ARKit 2]]></title>
-    <link href="http://hongchaozhang.github.io/blog/2018/06/13/what-is-new-in-n-arkit-2/"/>
-    <updated>2018-06-13T13:24:59+08:00</updated>
-    <id>http://hongchaozhang.github.io/blog/2018/06/13/what-is-new-in-n-arkit-2</id>
-    <content type="html"><![CDATA[<!-- more -->
-
-
-
-]]></content>
-  </entry>
   
   <entry>
     <title type="html"><![CDATA[CNN与图像识别]]></title>
@@ -1284,7 +1272,7 @@ Provides AR experiences that use the front-facing camera and track the movement 
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[Some Tips on Markdown Usage]]></title>
+    <title type="html"><![CDATA[some tips on markdown usage]]></title>
     <link href="http://hongchaozhang.github.io/blog/2017/11/21/some-tips-on-markdown-usage/"/>
     <updated>2017-11-21T10:13:28+08:00</updated>
     <id>http://hongchaozhang.github.io/blog/2017/11/21/some-tips-on-markdown-usage</id>
@@ -5735,7 +5723,7 @@ The code does not provide, unlock or enable additional features or functionality
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[Android Unit Test With Junit]]></title>
+    <title type="html"><![CDATA[android unit test with junit]]></title>
     <link href="http://hongchaozhang.github.io/blog/2016/08/25/android-unit-test-with-junit/"/>
     <updated>2016-08-25T13:27:16+08:00</updated>
     <id>http://hongchaozhang.github.io/blog/2016/08/25/android-unit-test-with-junit</id>
@@ -6174,6 +6162,126 @@ These are all tests that must run on an Android hardware device or an Android em
 <p>这是一个神奇的网站！可以在线定制图片颜色和内容，然后生成对应的url。参考：<a href="http://dummyimage.com/">Dynamic Dummy Image Generator</a>。所以才会有下面的效果，方便检查每个cell的图片是否正确：</p>
 
 <p><img src="http://hongchaozhang.github.io/images/async_load_online_images_into_uitableviewcells.png" alt="async_load_online_images_into_uitableviewcells.png" /></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Objective-C中Property和Method的可见性]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2016/06/16/property-and-method-visuability-of-category-and-inheritence-in-objective-c/"/>
+    <updated>2016-06-16T21:48:54+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2016/06/16/property-and-method-visuability-of-category-and-inheritence-in-objective-c</id>
+    <content type="html"><![CDATA[<h2>说明</h2>
+
+<p>本来只想思考一下<em>Objective-C里Category和Inheritence中的Property和Method的可见性</em>，搜着搜着，主题有些变化，所以题目也改了。</p>
+
+<p>这里只是一些来自参考博客的结论和自己测试得到的结论。</p>
+
+<!-- more -->
+
+
+<p>具体参考博客如下：</p>
+
+<ul>
+<li><a href="http://stackoverflow.com/questions/4869935/objective-c-private-vs-protected-vs-public">Objective-C - Private vs Protected vs Public</a></li>
+<li><a href="http://stackoverflow.com/questions/12633627/expose-a-private-objective-c-method-or-property-to-subclasses">实现public、private和protected属性和方法</a></li>
+<li><a href="http://stackoverflow.com/questions/3725857/protected-methods-in-objective-c">Protected methods in Objective-C</a></li>
+<li><a href="http://bootstragram.com/blog/simulating-protected-modifier-with-objective-c/">Simulating protected properties and selectors in Objective-C</a></li>
+</ul>
+
+
+<p>自己的测试代码为：OCPlayground。</p>
+
+<h2>结论</h2>
+
+<h3>来自参考博客的结论</h3>
+
+<ol>
+<li>点操作(.)只和property有关和iVar没有关系。</li>
+<li><code>-&gt;</code>操作只和iVar有关，和property无关。</li>
+<li>ivar中的关键字<code>public</code>、<code>private</code>和<code>protected</code>只对ivar有效，表明的是ivar的可见性，默认<code>protected</code>。子类中想用继承来的ivar，需要使用->操作符，不能使用dot操作符（dot操作符只用于property）。实例中想用ivar，只能用具有<code>public</code>属性的ivar。</li>
+</ol>
+
+
+<h3>来自代码测试的结论</h3>
+
+<h4>结论1</h4>
+
+<p>We can use <code>@property</code> in Extension the same way as <em>.h</em> file of the class. Compiler can generate the setter and getter methods for us. But in Category, compiler will not generate the setter and getter methods for us, you need to implement them manually or by using <code>@dynamic</code> to tell the compiler that the setter and getter methods are implemented somewhere else.</p>
+
+<p>The difference comes from the fact that instance variables can be added into Extension but not Category.</p>
+
+<h4>结论2</h4>
+
+<p>to define whether a category can use the extended class&rsquo;s property or method, just define whether the property or method is in one &ldquo;interface&rdquo; that the category can &ldquo;see&rdquo;.</p>
+
+<h4>结论3</h4>
+
+<p>visibility(<code>private</code>, <code>public</code>, <code>protected</code>) does not affect methods. methods are as good as public when visible to clients (and potential pitfalls/bugs when invisible to clients). instead, visibility affects instance variables.</p>
+
+<h4>结论4</h4>
+
+<p>The same priciple as Category: to define whether I can use a property or method (in super class), just define whether the property or method is in an &ldquo;@interface&rdquo; the context (where you are trying to use the property or method) can &ldquo;see&rdquo;.</p>
+
+<p>One exception: <code>performSelector:</code> can run method that are not ready in compile time but ready in runtime. However there will be one warning from the compiler. You can dismiss the warning by declaring a method with the same name in the class in which you are coding, but will introduce another warning saying that &ldquo;Method definition for *** is not found&rdquo;.</p>
+
+<h3>Protected method</h3>
+
+<p>来自<a href="http://stackoverflow.com/questions/3725857/protected-methods-in-objective-c">Protected methods in Objective-C</a>的protected method的实现：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="c1">/////// SuperClass.h</span>
+</span><span class='line'><span class="k">@interface</span> <span class="nc">SuperClass</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@end</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">/////// SuperClass.m</span>
+</span><span class='line'><span class="k">@implementation</span> <span class="nc">SuperClass</span>
+</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="nf">protectedMethod</span>
+</span><span class='line'><span class="p">{}</span>
+</span><span class='line'><span class="k">@end</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">/////// SubClass.h</span>
+</span><span class='line'><span class="k">@interface</span> <span class="nc">SubClass</span> : <span class="nc">SuperClass</span>
+</span><span class='line'><span class="k">@end</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">/////// SubClass.m</span>
+</span><span class='line'><span class="k">@interface</span> <span class="nc">SubClass</span> <span class="nl">(Protected)</span>
+</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="nf">protectedMethod</span> <span class="p">;</span>
+</span><span class='line'><span class="k">@end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@implementation</span> <span class="nc">SubClass</span>
+</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="nf">callerOfProtectedMethod</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="p">[</span><span class="nb">self</span> <span class="n">protectedMethod</span><span class="p">]</span> <span class="p">;</span> <span class="c1">// this will not generate warning</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="k">@end</span>
+</span></code></pre></td></tr></table></div></figure>
+
 ]]></content>
   </entry>
   
