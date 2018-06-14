@@ -51,7 +51,8 @@ titlecase: true       # Converts page and post titles to titlecase
 
 # list each of the sidebar modules you want to include, in the order you want them to appear.
 # To add custom asides, create files in /source/_includes/custom/asides/ and add them to the list like 'custom/asides/custom_aside_name.html'
-default_asides: [custom/asides/top_category_list.html, asides/recent_posts.html, asides/github.html]
+# default_asides: [custom/asides/top_category_list.html, asides/recent_posts.html, asides/github.html]
+default_asides: [custom/asides/category_cloud.html]
 
 # the limit number of listed categories in the aside, used by asides/top_category_list.html
 top_category_limit: 30
@@ -96,7 +97,7 @@ delicious_count: 3
 
 # Disqus Comments
 disqus_short_name: zhanghongchao
-disqus_show_comment_count: true
+disqus_show_comment_count: false
 
 # Google Analytics
 google_analytics_tracking_id: UA-62806905-2

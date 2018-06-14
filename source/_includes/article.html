@@ -2,7 +2,7 @@
 	<div class="meta">
 		<div class="date">{% include post/date.html %}{{ time }}</div>
 		<div class="tags">{% include post/categories.html %}</div>
-		{% if site.disqus_short_name and site.disqus_show_comment_count == true %}
+		{% if site.disqus_short_name and site.disqus_show_comment_count == true and site.disqus_show_comment_count == true %}
 			<span class="comments"><a href="{{ root_url }}{{ post.url }}#disqus_thread">Comments</a></span>
 		{% endif %}
 	</div>
