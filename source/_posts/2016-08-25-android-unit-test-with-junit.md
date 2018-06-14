@@ -6,11 +6,14 @@ comments: true
 categories: ['android', 'java']
 ---
 
+Create Android unit tests using junit4.
+
+<!-- more -->
+
+
 ## Test Types
 
 When using Android Studio to write any of your tests, your test code must go into one of two different code directories (source sets). For each module in your project, Android Studio includes both source sets, corresponding to the following test types:
-
-<!-- more -->
 
 ### Local unit tests
 

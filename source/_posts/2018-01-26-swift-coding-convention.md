@@ -6,7 +6,7 @@ comments: true
 categories: [ios, swift]
 ---
 
-Collection of some Swift coding conventions.
+Collection of some Swift coding conventions, which will make Swift code more maintainable, more readable.
 
 <!-- more -->
 

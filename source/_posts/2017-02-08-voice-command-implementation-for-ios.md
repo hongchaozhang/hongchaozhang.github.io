@@ -6,14 +6,17 @@ comments: true
 categories: [ios]
 ---
 
+
+介绍了iOS10开放的语音识别库Speech的特点和使用。
+
+<!-- more -->
+
 ## 语音识别
 
 ios10之前，用户和iOS系统进行语音交互有两种途径：
 
 1. Siri
 2. 通过键盘的麦克风按钮，进入听写模式
-
-<!-- more -->
 
 **Siri**
 

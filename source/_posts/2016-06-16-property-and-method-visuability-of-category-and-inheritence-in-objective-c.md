@@ -7,13 +7,16 @@ categories: [ios, objective-c]
 published: true
 ---
 
+1. Objective-C里Category和Inheritence中的Property和Method的可见性.
+2. Instance variable的可见性。
+
+<!-- more -->
+
 ##说明
 
 本来只想思考一下*Objective-C里Category和Inheritence中的Property和Method的可见性*，搜着搜着，主题有些变化，所以题目也改了。
 
 这里只是一些来自参考博客的结论和自己测试得到的结论。
-
-<!-- more -->
 
 具体参考博客如下：
 

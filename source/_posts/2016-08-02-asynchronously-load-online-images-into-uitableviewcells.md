@@ -6,10 +6,13 @@ comments: true
 categories: [ios]
 ---
 
-## 问题
-当我们在`UITableViewCell`中进行比较费时的工作（比如绘图，或者加载网络图片）的时候，通常会出现下面的问题：
+iOS应用如何在列表中高效地加载图片？
 
 <!-- more -->
+
+
+## 问题
+当我们在`UITableViewCell`中进行比较费时的工作（比如绘图，或者加载网络图片）的时候，通常会出现下面的问题：
 
 1. 当`UITableViewCell`移出视图的时候，这个`UITableViewCell`对应的异步操作仍然在执行。这通常会造成系统资源浪费，还可能由于这个异步操作不知道返回到哪个`UITableViewCell`而导致`UITableView`一些诡异的行为。
 2. `UITableViewCell`通常是重复利用的实例，这就会导致当前`UITableViewCell`可能会加载之前出现在视图中但是现在不在视图中的`UITableViewCell`的内容，在你面前变换一下`UITableViewCell`里面的内容，这是我们都不想看到的。

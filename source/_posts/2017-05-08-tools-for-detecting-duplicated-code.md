@@ -8,10 +8,9 @@ published: true
 ---
 
 
+<!-- more -->
 
 代码查重工具
-
-<!-- more -->
 
 ## jscpd
 

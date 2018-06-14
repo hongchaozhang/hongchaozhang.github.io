@@ -6,12 +6,11 @@ comments: true
 categories: [ios]
 ---
 
+<!-- more -->
 
 ## `layoutSubviews`什么时候被调用？
 
 为了方便描述，假设视图结构如下：
-
-<!-- more -->
 
 **父视图**包含**子视图1**和**子视图2**。
 
