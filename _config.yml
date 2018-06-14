@@ -6,7 +6,7 @@ url: http://hongchaozhang.github.io
 title: Reading Space
 subtitle: Zhang Hongchao's Blog
 author: Zhang Hongchao
-simple_search: false
+simple_search: true
 description:
 
 # Default date format is "ordinal" (resulting in "July 22nd 2007")
@@ -54,7 +54,7 @@ titlecase: true       # Converts page and post titles to titlecase
 default_asides: [custom/asides/top_category_list.html, asides/recent_posts.html, asides/github.html]
 
 # the limit number of listed categories in the aside, used by asides/top_category_list.html
-top_category_limit: 20
+top_category_limit: 30
 
 # Each layout uses the default asides, but they can have their own asides instead. Simply uncomment the lines below
 # and add an array with the asides you want to use.
