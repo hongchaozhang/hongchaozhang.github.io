@@ -4,7 +4,7 @@
   <title><![CDATA[Reading Space]]></title>
   <link href="http://hongchaozhang.github.io/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2018-06-14T18:32:13+08:00</updated>
+  <updated>2018-06-14T19:11:42+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -18,12 +18,53 @@
     <link href="http://hongchaozhang.github.io/blog/2018/05/02/cnn-and-image-classification/"/>
     <updated>2018-05-02T18:55:44+08:00</updated>
     <id>http://hongchaozhang.github.io/blog/2018/05/02/cnn-and-image-classification</id>
-    <content type="html"><![CDATA[<h2>卷积神经网络与图像识别背景</h2>
+    <content type="html"><![CDATA[<ol>
+<li>卷积神经网络用于图像识别的现状。</li>
+<li>卷积与图像处理基础知识。</li>
+<li>卷积神经网络每一层的可视化，了解神经网络内部的物理意义。</li>
+<li>图像卷积滤波器与神经元和权重的关系。</li>
+</ol>
 
-<h3>LeNet概述</h3>
 
 <!-- more -->
 
+
+
+
+<!-- TOC -->
+
+
+<ul>
+<li><a href="#%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E4%B8%8E%E5%9B%BE%E5%83%8F%E8%AF%86%E5%88%AB%E8%83%8C%E6%99%AF">卷积神经网络与图像识别背景</a>
+
+<ul>
+<li><a href="#lenet%E6%A6%82%E8%BF%B0">LeNet概述</a></li>
+<li><a href="#imagenet%E5%A4%A7%E8%A7%84%E6%A8%A1%E5%9B%BE%E5%83%8F%E8%AF%86%E5%88%AB%E6%8C%91%E6%88%98%E8%B5%9B">ImageNet大规模图像识别挑战赛</a></li>
+</ul>
+</li>
+<li><a href="#%E5%8D%B7%E7%A7%AF%E4%B8%8E%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86">卷积与图像处理</a>
+
+<ul>
+<li><a href="#%E5%8D%B7%E7%A7%AF%E7%9A%84%E5%AE%9A%E4%B9%89">卷积的定义</a></li>
+<li><a href="#%E5%9B%BE%E5%83%8F%E5%8D%B7%E7%A7%AF%E7%9A%84%E7%89%A9%E7%90%86%E6%84%8F%E4%B9%89">图像卷积的物理意义</a></li>
+</ul>
+</li>
+<li><a href="#lenet%E8%AF%A6%E8%A7%A3">LeNet详解</a></li>
+<li><a href="#%E6%89%8B%E5%86%99%E6%95%B0%E5%AD%97%E8%AF%86%E5%88%AB%E8%BF%87%E7%A8%8B%E5%8F%AF%E8%A7%86%E5%8C%96">手写数字识别过程可视化</a></li>
+<li><a href="#%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E4%B8%AD%E7%9A%84%E7%A5%9E%E7%BB%8F%E5%85%83%E5%92%8C%E6%9D%83%E9%87%8D%E5%9C%A8%E5%93%AA%E9%87%8C">神经网络中的“神经元”和“权重”在哪里？</a></li>
+</ul>
+
+
+<!-- /TOC -->
+
+
+<p><a id="markdown-卷积神经网络与图像识别背景" name="卷积神经网络与图像识别背景"></a></p>
+
+<h2>卷积神经网络与图像识别背景</h2>
+
+<p><a id="markdown-lenet概述" name="lenet概述"></a></p>
+
+<h3>LeNet概述</h3>
 
 <p>LeNet是最早用于深度学习了领域的卷积神经网络之一。Yann LeCun的这一杰作得名于他自1988年以来的系列成功迭代。彼时LeNet架构还主要被用于识别邮政编码等任务。LeNet的基本架构如下：</p>
 
@@ -44,6 +85,8 @@
 </ul>
 
 
+<p><a id="markdown-imagenet大规模图像识别挑战赛" name="imagenet大规模图像识别挑战赛"></a></p>
+
 <h3>ImageNet大规模图像识别挑战赛</h3>
 
 <p>参考<a href="http://www.sohu.com/a/143751643_473283">一个时代的终结：ImageNet竞赛2017是最后一届，WebVision 竞赛或接</a>。</p>
@@ -58,13 +101,19 @@
 
 <p>历届ILSVRC的作品，可以参考<a href="https://blog.csdn.net/kangroger/article/details/56522132">ILSVRC历届冠军论文笔记</a>，包含模型框架和识别率等。</p>
 
+<p><a id="markdown-卷积与图像处理" name="卷积与图像处理"></a></p>
+
 <h2>卷积与图像处理</h2>
+
+<p><a id="markdown-卷积的定义" name="卷积的定义"></a></p>
 
 <h3>卷积的定义</h3>
 
 <p><img src="http://hongchaozhang.github.io/images/201805convolution_definition.gif" alt="convolution definition demo" /></p>
 
 <p>参考<a href="https://en.wikipedia.org/wiki/Convolution">Convolution</a>。</p>
+
+<p><a id="markdown-图像卷积的物理意义" name="图像卷积的物理意义"></a></p>
 
 <h3>图像卷积的物理意义</h3>
 
@@ -76,6 +125,8 @@
 
 <p>参考<a href="https://en.wikipedia.org/wiki/Kernel_(image_processing">Kernel (image processing)</a>)。
 ￼</p>
+
+<p><a id="markdown-lenet详解" name="lenet详解"></a></p>
 
 <h2>LeNet详解</h2>
 
@@ -90,6 +141,8 @@
 
 
 <p><a href="https://ujjwalkarn.me/2016/08/11/intuitive-explanation-convnets/">An Intuitive Explanation of Convolutional Neural Networks</a>的讲解也不错，中文版在<a href="https://blog.csdn.net/lcy7289786/article/details/68958111">这里</a>。</p>
+
+<p><a id="markdown-手写数字识别过程可视化" name="手写数字识别过程可视化"></a></p>
 
 <h2>手写数字识别过程可视化</h2>
 
@@ -107,6 +160,8 @@
 <p>相关论文：
 <a href="http://scs.ryerson.ca/~aharley/vis/harley_vis_isvc15.pdf">http://scs.ryerson.ca/~aharley/vis/harley_vis_isvc15.pdf</a></p>
 
+<p><a id="markdown-神经网络中的神经元和权重在哪里" name="神经网络中的神经元和权重在哪里"></a></p>
+
 <h2>神经网络中的“神经元”和“权重”在哪里？</h2>
 
 <p><img src="http://hongchaozhang.github.io/images/201805convolution_weights.jpg" alt="convolution and weights" /></p>
@@ -122,7 +177,7 @@
     <link href="http://hongchaozhang.github.io/blog/2018/01/26/swift-coding-convention/"/>
     <updated>2018-01-26T11:37:05+08:00</updated>
     <id>http://hongchaozhang.github.io/blog/2018/01/26/swift-coding-convention</id>
-    <content type="html"><![CDATA[<p>Collection of some Swift coding conventions.</p>
+    <content type="html"><![CDATA[<p>Collection of some Swift coding conventions, which will make Swift code more maintainable, more readable.</p>
 
 <!-- more -->
 
@@ -2486,10 +2541,10 @@ Provides AR experiences that use the front-facing camera and track the movement 
     <link href="http://hongchaozhang.github.io/blog/2017/05/08/tools-for-detecting-duplicated-code/"/>
     <updated>2017-05-08T17:52:24+08:00</updated>
     <id>http://hongchaozhang.github.io/blog/2017/05/08/tools-for-detecting-duplicated-code</id>
-    <content type="html"><![CDATA[<p>代码查重工具</p>
+    <content type="html"><![CDATA[<!-- more -->
 
-<!-- more -->
 
+<p>代码查重工具</p>
 
 <h2>jscpd</h2>
 
@@ -3465,12 +3520,12 @@ Puppet  Twig    Vue.js</p>
     <link href="http://hongchaozhang.github.io/blog/2017/03/28/when-is-layoutsubviews-called/"/>
     <updated>2017-03-28T09:25:06+08:00</updated>
     <id>http://hongchaozhang.github.io/blog/2017/03/28/when-is-layoutsubviews-called</id>
-    <content type="html"><![CDATA[<h2><code>layoutSubviews</code>什么时候被调用？</h2>
+    <content type="html"><![CDATA[<!-- more -->
+
+
+<h2><code>layoutSubviews</code>什么时候被调用？</h2>
 
 <p>为了方便描述，假设视图结构如下：</p>
-
-<!-- more -->
-
 
 <p><strong>父视图</strong>包含<strong>子视图1</strong>和<strong>子视图2</strong>。</p>
 
@@ -3583,16 +3638,22 @@ Puppet  Twig    Vue.js</p>
     <link href="http://hongchaozhang.github.io/blog/2017/02/21/indoor-position/"/>
     <updated>2017-02-21T13:37:02+08:00</updated>
     <id>http://hongchaozhang.github.io/blog/2017/02/21/indoor-position</id>
-    <content type="html"><![CDATA[<h2>室内定位技术简介</h2>
+    <content type="html"><![CDATA[<ol>
+<li>室内定位各种技术的特点。</li>
+<li>室内定位技术的现状：简单介绍苹果、高德、百度、识途等公司的技术。</li>
+</ol>
+
+
+<!-- more -->
+
+
+<h2>室内定位技术简介</h2>
 
 <p>室内定位的应用场景，参见<a href="https://senion.com/indoor-positioning-for-retail/">室内定位应用场合</a>。</p>
 
 <h3>室内地图</h3>
 
 <p>要进行室内定位，首先需要有室内地图。</p>
-
-<!-- more -->
-
 
 <h3>室内定位技术</h3>
 
@@ -3894,7 +3955,12 @@ Puppet  Twig    Vue.js</p>
     <link href="http://hongchaozhang.github.io/blog/2017/02/08/voice-command-implementation-for-ios/"/>
     <updated>2017-02-08T22:53:14+08:00</updated>
     <id>http://hongchaozhang.github.io/blog/2017/02/08/voice-command-implementation-for-ios</id>
-    <content type="html"><![CDATA[<h2>语音识别</h2>
+    <content type="html"><![CDATA[<p>介绍了iOS10开放的语音识别库Speech的特点和使用。</p>
+
+<!-- more -->
+
+
+<h2>语音识别</h2>
 
 <p>ios10之前，用户和iOS系统进行语音交互有两种途径：</p>
 
@@ -3902,9 +3968,6 @@ Puppet  Twig    Vue.js</p>
 <li>Siri</li>
 <li>通过键盘的麦克风按钮，进入听写模式</li>
 </ol>
-
-
-<!-- more -->
 
 
 <p><strong>Siri</strong></p>
@@ -4034,12 +4097,19 @@ Puppet  Twig    Vue.js</p>
     <link href="http://hongchaozhang.github.io/blog/2017/01/12/wechat-micro-program/"/>
     <updated>2017-01-12T14:18:20+08:00</updated>
     <id>http://hongchaozhang.github.io/blog/2017/01/12/wechat-micro-program</id>
-    <content type="html"><![CDATA[<h2>背景</h2>
+    <content type="html"><![CDATA[<ol>
+<li>微信小程序的特点。</li>
+<li>微信小程序与公众号的区别。</li>
+<li>微信推出微信小程序的动机。</li>
+</ol>
 
-<p>微信小程序项目2016.1.9启动，一年后的2017.1.9发布，正好是乔布斯发布iPhone（2007.1.9）整整十年后的同一天（12月28日微信公开课时，张小龙曾说发布日期是随便挑了一天）。</p>
 
 <!-- more -->
 
+
+<h2>背景</h2>
+
+<p>微信小程序项目2016.1.9启动，一年后的2017.1.9发布，正好是乔布斯发布iPhone（2007.1.9）整整十年后的同一天（12月28日微信公开课时，张小龙曾说发布日期是随便挑了一天）。</p>
 
 <p><strong>版本需求</strong>：微信更新至iOS6.5.3版本或Android6.5.3版本。</p>
 
@@ -5727,12 +5797,14 @@ The code does not provide, unlock or enable additional features or functionality
     <link href="http://hongchaozhang.github.io/blog/2016/08/25/android-unit-test-with-junit/"/>
     <updated>2016-08-25T13:27:16+08:00</updated>
     <id>http://hongchaozhang.github.io/blog/2016/08/25/android-unit-test-with-junit</id>
-    <content type="html"><![CDATA[<h2>Test Types</h2>
-
-<p>When using Android Studio to write any of your tests, your test code must go into one of two different code directories (source sets). For each module in your project, Android Studio includes both source sets, corresponding to the following test types:</p>
+    <content type="html"><![CDATA[<p>Create Android unit tests using junit4.</p>
 
 <!-- more -->
 
+
+<h2>Test Types</h2>
+
+<p>When using Android Studio to write any of your tests, your test code must go into one of two different code directories (source sets). For each module in your project, Android Studio includes both source sets, corresponding to the following test types:</p>
 
 <h3>Local unit tests</h3>
 
@@ -5946,12 +6018,14 @@ These are all tests that must run on an Android hardware device or an Android em
     <link href="http://hongchaozhang.github.io/blog/2016/08/02/asynchronously-load-online-images-into-uitableviewcells/"/>
     <updated>2016-08-02T16:13:00+08:00</updated>
     <id>http://hongchaozhang.github.io/blog/2016/08/02/asynchronously-load-online-images-into-uitableviewcells</id>
-    <content type="html"><![CDATA[<h2>问题</h2>
-
-<p>当我们在<code>UITableViewCell</code>中进行比较费时的工作（比如绘图，或者加载网络图片）的时候，通常会出现下面的问题：</p>
+    <content type="html"><![CDATA[<p>iOS应用如何在列表中高效地加载图片？</p>
 
 <!-- more -->
 
+
+<h2>问题</h2>
+
+<p>当我们在<code>UITableViewCell</code>中进行比较费时的工作（比如绘图，或者加载网络图片）的时候，通常会出现下面的问题：</p>
 
 <ol>
 <li>当<code>UITableViewCell</code>移出视图的时候，这个<code>UITableViewCell</code>对应的异步操作仍然在执行。这通常会造成系统资源浪费，还可能由于这个异步操作不知道返回到哪个<code>UITableViewCell</code>而导致<code>UITableView</code>一些诡异的行为。</li>
@@ -6170,14 +6244,20 @@ These are all tests that must run on an Android hardware device or an Android em
     <link href="http://hongchaozhang.github.io/blog/2016/06/16/property-and-method-visuability-of-category-and-inheritence-in-objective-c/"/>
     <updated>2016-06-16T21:48:54+08:00</updated>
     <id>http://hongchaozhang.github.io/blog/2016/06/16/property-and-method-visuability-of-category-and-inheritence-in-objective-c</id>
-    <content type="html"><![CDATA[<h2>说明</h2>
+    <content type="html"><![CDATA[<ol>
+<li>Objective-C里Category和Inheritence中的Property和Method的可见性.</li>
+<li>Instance variable的可见性。</li>
+</ol>
+
+
+<!-- more -->
+
+
+<h2>说明</h2>
 
 <p>本来只想思考一下<em>Objective-C里Category和Inheritence中的Property和Method的可见性</em>，搜着搜着，主题有些变化，所以题目也改了。</p>
 
 <p>这里只是一些来自参考博客的结论和自己测试得到的结论。</p>
-
-<!-- more -->
-
 
 <p>具体参考博客如下：</p>
 

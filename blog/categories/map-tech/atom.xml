@@ -4,7 +4,7 @@
   <title><![CDATA[Category: map tech | Reading Space]]></title>
   <link href="http://hongchaozhang.github.io/blog/categories/map-tech/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2018-06-14T18:32:13+08:00</updated>
+  <updated>2018-06-14T19:11:42+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -18,16 +18,22 @@
     <link href="http://hongchaozhang.github.io/blog/2017/02/21/indoor-position/"/>
     <updated>2017-02-21T13:37:02+08:00</updated>
     <id>http://hongchaozhang.github.io/blog/2017/02/21/indoor-position</id>
-    <content type="html"><![CDATA[<h2>室内定位技术简介</h2>
+    <content type="html"><![CDATA[<ol>
+<li>室内定位各种技术的特点。</li>
+<li>室内定位技术的现状：简单介绍苹果、高德、百度、识途等公司的技术。</li>
+</ol>
+
+
+<!-- more -->
+
+
+<h2>室内定位技术简介</h2>
 
 <p>室内定位的应用场景，参见<a href="https://senion.com/indoor-positioning-for-retail/">室内定位应用场合</a>。</p>
 
 <h3>室内地图</h3>
 
 <p>要进行室内定位，首先需要有室内地图。</p>
-
-<!-- more -->
-
 
 <h3>室内定位技术</h3>
 

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: java | Reading Space]]></title>
   <link href="http://hongchaozhang.github.io/blog/categories/java/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2018-06-14T18:32:13+08:00</updated>
+  <updated>2018-06-14T19:11:42+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -18,12 +18,14 @@
     <link href="http://hongchaozhang.github.io/blog/2016/08/25/android-unit-test-with-junit/"/>
     <updated>2016-08-25T13:27:16+08:00</updated>
     <id>http://hongchaozhang.github.io/blog/2016/08/25/android-unit-test-with-junit</id>
-    <content type="html"><![CDATA[<h2>Test Types</h2>
-
-<p>When using Android Studio to write any of your tests, your test code must go into one of two different code directories (source sets). For each module in your project, Android Studio includes both source sets, corresponding to the following test types:</p>
+    <content type="html"><![CDATA[<p>Create Android unit tests using junit4.</p>
 
 <!-- more -->
 
+
+<h2>Test Types</h2>
+
+<p>When using Android Studio to write any of your tests, your test code must go into one of two different code directories (source sets). For each module in your project, Android Studio includes both source sets, corresponding to the following test types:</p>
 
 <h3>Local unit tests</h3>
 

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: objective-c | Reading Space]]></title>
   <link href="http://hongchaozhang.github.io/blog/categories/objective-c/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2018-06-14T18:32:13+08:00</updated>
+  <updated>2018-06-14T19:11:42+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -84,14 +84,20 @@
     <link href="http://hongchaozhang.github.io/blog/2016/06/16/property-and-method-visuability-of-category-and-inheritence-in-objective-c/"/>
     <updated>2016-06-16T21:48:54+08:00</updated>
     <id>http://hongchaozhang.github.io/blog/2016/06/16/property-and-method-visuability-of-category-and-inheritence-in-objective-c</id>
-    <content type="html"><![CDATA[<h2>说明</h2>
+    <content type="html"><![CDATA[<ol>
+<li>Objective-C里Category和Inheritence中的Property和Method的可见性.</li>
+<li>Instance variable的可见性。</li>
+</ol>
+
+
+<!-- more -->
+
+
+<h2>说明</h2>
 
 <p>本来只想思考一下<em>Objective-C里Category和Inheritence中的Property和Method的可见性</em>，搜着搜着，主题有些变化，所以题目也改了。</p>
 
 <p>这里只是一些来自参考博客的结论和自己测试得到的结论。</p>
-
-<!-- more -->
-
 
 <p>具体参考博客如下：</p>
 

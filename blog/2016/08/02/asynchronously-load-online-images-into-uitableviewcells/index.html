@@ -9,7 +9,7 @@
 	<meta name="author" content="Zhang Hongchao">
 
 	
-	<meta name="description" content="在UITableViewCell中异步加载图片 问题 当我们在UITableViewCell中进行比较费时的工作（比如绘图，或者加载网络图片）的时候，通常会出现下面的问题： 当UITableViewCell移出视图的时候，这个UITableViewCell对应的异步操作仍然在执行。 &hellip;">
+	<meta name="description" content="在UITableViewCell中异步加载图片 iOS应用如何在列表中高效地加载图片？ 问题 当我们在UITableViewCell中进行比较费时的工作（比如绘图，或者加载网络图片）的时候，通常会出现下面的问题： 当UITableViewCell移出视图的时候， &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -107,12 +107,14 @@
 			<div class="mid-col-container">
 				<div id="content" class="inner"><article class="post" itemscope itemtype="http://schema.org/BlogPosting">
 	<h1 class="title" itemprop="name">在UITableViewCell中异步加载图片</h1>
-	<div class="entry-content" itemprop="articleBody"><h2>问题</h2>
-
-<p>当我们在<code>UITableViewCell</code>中进行比较费时的工作（比如绘图，或者加载网络图片）的时候，通常会出现下面的问题：</p>
+	<div class="entry-content" itemprop="articleBody"><p>iOS应用如何在列表中高效地加载图片？</p>
 
 <!-- more -->
 
+
+<h2>问题</h2>
+
+<p>当我们在<code>UITableViewCell</code>中进行比较费时的工作（比如绘图，或者加载网络图片）的时候，通常会出现下面的问题：</p>
 
 <ol>
 <li>当<code>UITableViewCell</code>移出视图的时候，这个<code>UITableViewCell</code>对应的异步操作仍然在执行。这通常会造成系统资源浪费，还可能由于这个异步操作不知道返回到哪个<code>UITableViewCell</code>而导致<code>UITableView</code>一些诡异的行为。</li>

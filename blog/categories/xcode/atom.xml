@@ -4,7 +4,7 @@
   <title><![CDATA[Category: xcode | Reading Space]]></title>
   <link href="http://hongchaozhang.github.io/blog/categories/xcode/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2018-06-14T18:32:13+08:00</updated>
+  <updated>2018-06-14T19:11:42+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -18,10 +18,10 @@
     <link href="http://hongchaozhang.github.io/blog/2017/05/08/tools-for-detecting-duplicated-code/"/>
     <updated>2017-05-08T17:52:24+08:00</updated>
     <id>http://hongchaozhang.github.io/blog/2017/05/08/tools-for-detecting-duplicated-code</id>
-    <content type="html"><![CDATA[<p>代码查重工具</p>
+    <content type="html"><![CDATA[<!-- more -->
 
-<!-- more -->
 
+<p>代码查重工具</p>
 
 <h2>jscpd</h2>
 
