@@ -1,0 +1,407 @@
+
+<!DOCTYPE HTML>
+
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>What is new in ARKit 2 - Reading Space</title>
+	<meta name="author" content="Zhang Hongchao">
+
+	
+	<meta name="description" content="What Is New in ARKit 2 New Features in ARKit 2 Saving and Loading Maps World Tracking Recap: Position and orientation of the device.
+Physical scale &hellip;">
+	
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="Reading Space" type="application/atom+xml">
+	
+	<link rel="canonical" href="http://hongchaozhang.github.io/blog/2018/06/13/what-is-new-in-n-arkit-2/">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<link href="/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<link href='http://fonts.googleapis.com/css?family=Nunito:400,300,700' rel='stylesheet' type='text/css'>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	
+  
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-62806905-2']);
+		_gaq.push(['_trackPageview']);
+
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
+
+
+</head>
+
+
+<body>
+	<div class="container">
+		<div class="left-col">
+			<div class="intrude-less">
+			<header id="header" class="inner"><div class="profilepic">
+	
+	<script src="/javascripts/md5.js"></script>
+	<script type="text/javascript">
+		$(function(){
+			$('.profilepic').append("<img src='http://www.gravatar.com/avatar/" + MD5("") + "?s=160' alt='Profile Picture' style='width: 160px;' />");
+		});
+	</script>
+	
+</div>
+
+<nav id="main-nav"><ul class="main">
+    <li><a href="/">Blog</a></li>
+    <li><a href="/blog/archives">Archives</a></li>
+    <li><a href="#">About</a></li>
+</ul>
+</nav>
+<nav id="sub-nav">
+	<div class="social">
+		
+		
+		
+		
+		
+			<a class="github" href="https://github.com/hongchaozhang" title="GitHub">GitHub</a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+    	
+    	
+			<a class="rss" href="/atom.xml" title="RSS">RSS</a>
+		
+	</div>
+</nav>
+
+
+
+<section class="categories">
+          <ul id="category_cloud" class="nav nav-list"><a href='/blog/categories/android' style='font-size: 108.10810810810811%'>android(5)</a> <a href='/blog/categories/android-studio' style='font-size: 101.62162162162163%'>android_studio(1)</a> <a href='/blog/categories/design-pattern' style='font-size: 101.62162162162163%'>design_pattern(1)</a> <a href='/blog/categories/ios' style='font-size: 160.0%'>ios(37)</a> <a href='/blog/categories/java' style='font-size: 103.24324324324324%'>java(2)</a> <a href='/blog/categories/javascript' style='font-size: 103.24324324324324%'>javascript(2)</a> <a href='/blog/categories/machine-learning' style='font-size: 101.62162162162163%'>machine learning(1)</a> <a href='/blog/categories/map-tech' style='font-size: 103.24324324324324%'>map tech(2)</a> <a href='/blog/categories/mobile' style='font-size: 101.62162162162163%'>mobile(1)</a> <a href='/blog/categories/node' style='font-size: 104.86486486486487%'>node(3)</a> <a href='/blog/categories/objective-c' style='font-size: 132.43243243243245%'>objective-c(20)</a> <a href='/blog/categories/philosophy' style='font-size: 103.24324324324324%'>philosophy(2)</a> <a href='/blog/categories/productivity' style='font-size: 127.56756756756756%'>productivity(17)</a> <a href='/blog/categories/python' style='font-size: 104.86486486486487%'>python(3)</a> <a href='/blog/categories/reading' style='font-size: 103.24324324324324%'>reading(2)</a> <a href='/blog/categories/swift' style='font-size: 104.86486486486487%'>swift(3)</a> <a href='/blog/categories/web' style='font-size: 103.24324324324324%'>web(2)</a> <a href='/blog/categories/wwdc' style='font-size: 101.62162162162163%'>wwdc(1)</a> <a href='/blog/categories/xcode' style='font-size: 108.10810810810811%'>xcode(5)</a> </ul>
+      </section>
+
+
+</header>				
+			</div>
+		</div>	
+		<div class="mid-col">
+			
+				
+			
+			<div class="mid-col-container">
+				<div id="content" class="inner"><article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+	<h1 class="title" itemprop="name">What Is New in ARKit 2</h1>
+	<div class="entry-content" itemprop="articleBody"><!-- more -->
+
+
+<h2>New Features in ARKit 2</h2>
+
+<h3>Saving and Loading Maps</h3>
+
+<h4>World Tracking Recap:</h4>
+
+<ul>
+<li>Position and orientation of the device.</li>
+<li>Physical scale in the scene.</li>
+<li>3D feature points.</li>
+<li>Relocalization (iOS 11.3): we can relocalize objects when your AR session is interrupted, like phone coming or going from background. This feature is implemented by storing the mapping <code>ARWorldMap</code> between real world and the coordinate system. However the mapping is not exposed to developers.</li>
+</ul>
+
+
+<h4>World Tracking Enhancement:</h4>
+
+<ul>
+<li><strong>Saving and loading maps</strong>: expose the <code>ARWorldMap</code> to developers.</li>
+<li>Faster initialization and plane detection</li>
+<li>Robust tracking and plane detection</li>
+<li>More accurate extent and boundary Continuous autofocus</li>
+<li>New 4:3 video formats (iPad is also 4:3)</li>
+</ul>
+
+
+<h4>Saving and loading maps:</h4>
+
+<p><code>ARWorldmap</code> contains:</p>
+
+<ul>
+<li>Mapping of physical 3D space: for representing 3D feature points in the coordinate system.</li>
+<li>Mutable list of named anchors: for restoring previous 3D environment (like lighting node anchor), and relocalizing previously added virtual objects.</li>
+<li>Raw feature points and extent: for debugging and visualization.</li>
+<li>Serialization: for storing and recovering from an file.</li>
+</ul>
+
+
+<p><img src="/images/arkit2_arworldmap.jpg" width="500" alt="arkit arworldmap" /></p>
+
+<p>We can use the map in two different ways:</p>
+
+<ul>
+<li>Persistent: Restore previous AR scene for a new AR session. For example, you go to another room and come back or close the AR app and open it some time later.</li>
+<li>Multiuser experience: We can share the map among devices through WiFi or bluetooth.</li>
+</ul>
+
+
+<p>The SwiftShot is an multiuser experience AR game:</p>
+
+<p><img src="/images/swiftshot.jpg" alt="arkit2 swiftshot" /></p>
+
+<p>and the following is a small piece of the demo:</p>
+
+<p><img src="/images/arkit2_multiuser_experience_demo.gif" alt="swift shot game" /></p>
+
+<h4>How to get a good map</h4>
+
+<p>In order to share or restore the map, we need to get a good one first. A good map should be:</p>
+
+<!-- * Important for relocalization -->
+
+
+<ul>
+<li>Multiple points of view: If we record the mapping from one point of view, and try to restore the coordinate system from another point of view, it will fail.</li>
+<li>Static, well-textured environment.</li>
+<li>Dense feature points on the map.</li>
+</ul>
+
+
+<p>We can use the <code>WorldMappingStatus</code> status from <code>ARFrame</code> to decide if the current map is good enough for sharing or storing:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="n">public</span> <span class="k">enum</span> <span class="nl">WorldMappingStatus</span> <span class="p">:</span> <span class="n">Int</span> <span class="p">{</span>
+</span><span class='line'>   <span class="k">case</span> <span class="n">notAvailable</span>
+</span><span class='line'>   <span class="k">case</span> <span class="n">limited</span>
+</span><span class='line'>   <span class="k">case</span> <span class="n">extending</span>
+</span><span class='line'>   <span class="k">case</span> <span class="n">mapped</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Environment Texturing</h3>
+
+<p>With the help of Environment Texturing, AR scene objects can reflect the environment texture on the surface of themselves, just like:</p>
+
+<p><img src="/images/arkit2_environment_texturing_demo.jpg" alt="arkit2 environment texturing demo" /></p>
+
+<h3>Image Tracking</h3>
+
+<p>Moving objects can not be positioned in ARKit 1. In ARKit 2, specified images can be tracked in AR scene.</p>
+
+<p><img src="/images/arkit2_image_tracking.gif" alt="arkit 2 image tracking" /></p>
+
+<p>The classes in ARKit 2 for image tracking are:</p>
+
+<p><img src="/images/arkit2_image_tracking_classes.jpg" alt="arkit 2 image tracking classes" /></p>
+
+<p>The detected <code>ARImageAnchor</code>s have properties like:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="n">open</span> <span class="k">class</span> <span class="nl">ARImageAnchor</span> <span class="p">:</span> <span class="n">ARAnchor</span><span class="p">,</span> <span class="n">ARTrackable</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">public</span> <span class="k">var</span> <span class="nl">isTracked</span><span class="p">:</span> <span class="n">Bool</span> <span class="p">{</span> <span class="kr">get</span> <span class="p">}</span>
+</span><span class='line'>    <span class="n">open</span> <span class="k">var</span> <span class="nl">transform</span><span class="p">:</span> <span class="n">simd_float4x4</span> <span class="p">{</span> <span class="kr">get</span> <span class="p">}</span>
+</span><span class='line'>    <span class="n">open</span> <span class="k">var</span> <span class="nl">referenceImage</span><span class="p">:</span> <span class="n">ARReferenceImage</span> <span class="p">{</span> <span class="kr">get</span> <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The specified image should:</p>
+
+<ul>
+<li>Histogram should be broad</li>
+<li>Not have multiple uniform color regions</li>
+<li>Not have repeated structures</li>
+</ul>
+
+
+<p>The following is the demo:</p>
+
+<p><img src="/images/arkit2_image_tracking_demo.gif" alt="arkit 2 image tracking demo" /></p>
+
+<p>The inputs of the above demo are:</p>
+
+<ul>
+<li>an static image of the cat, the same as it is in the picture frame</li>
+<li>an video of the cat</li>
+</ul>
+
+
+<p>The video is played at the position of the specified picture frame, with the same orientation of the picture frame.</p>
+
+<h3>3D Object Detection</h3>
+
+<p>3D object detection workflow is:</p>
+
+<p><img src="/images/arkit2_3D_object_tracking_classes.jpg" alt="arkit2 3D object tracking classes" /></p>
+
+<p>The <code>ARObjectAnchor</code> contains properties like:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="n">open</span> <span class="k">class</span> <span class="nl">ARObjectAnchor</span> <span class="p">:</span> <span class="n">ARAnchor</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">open</span> <span class="k">var</span> <span class="nl">transform</span><span class="p">:</span> <span class="n">simd_float4x4</span> <span class="p">{</span> <span class="kr">get</span> <span class="p">}</span>
+</span><span class='line'>    <span class="n">open</span> <span class="k">var</span> <span class="nl">referenceObject</span><span class="p">:</span> <span class="n">ARReferenceObject</span> <span class="p">{</span> <span class="kr">get</span> <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>and <code>ARReferenceObject</code> is the scanned 3D object:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="n">open</span> <span class="k">class</span> <span class="nl">ARReferenceObject</span>
+</span><span class='line'>    <span class="p">:</span> <span class="bp">NSObject</span><span class="p">,</span> <span class="bp">NSCopying</span><span class="p">,</span> <span class="bp">NSSecureCoding</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">open</span> <span class="k">var</span> <span class="nl">name</span><span class="p">:</span> <span class="n">String</span><span class="o">?</span>
+</span><span class='line'>    <span class="n">open</span> <span class="k">var</span> <span class="nl">center</span><span class="p">:</span> <span class="n">simd_float3</span> <span class="p">{</span> <span class="kr">get</span> <span class="p">}</span>
+</span><span class='line'>    <span class="n">open</span> <span class="k">var</span> <span class="nl">extent</span><span class="p">:</span> <span class="n">simd_float3</span> <span class="p">{</span> <span class="kr">get</span> <span class="p">}</span>
+</span><span class='line'>    <span class="n">open</span> <span class="k">var</span> <span class="nl">rawFeaturePoints</span><span class="p">:</span> <span class="n">ARPointCloud</span> <span class="p">{</span> <span class="kr">get</span> <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<blockquote><p>An <code>ARReferenceObject</code> contains only the spatial feature information needed for ARKit to recognize the real-world object, and is not a displayable 3D reconstruction of that object.</p></blockquote>
+
+<p>In order to get the <code>ARReferenceObject</code>, we should scan the real object, and store the result as an file (.arobject) or an xcode asset catalog for ARKit to use. Fortunately, Apple supplies a demo for scanning 3D object to get the <code>ARReferenceObject</code>. Refer to: <a href="https://developer.apple.com/documentation/arkit/scanning_and_detecting_3d_objects">Scanning and Detecting 3D Objects</a> for detail and the rough steps of object scanning are:</p>
+
+<p><img src="/images/arkit2_3D_object_scan.jpg" alt="arkit2 3D object scan" /></p>
+
+<p>For scanned object in the real world, we can dynamically add some info around it (Museum is a good use case.), like the demo does:</p>
+
+<p><img src="/images/arkit2_3D_object_tracking_demo.gif" alt="arkit2 object tracking demo" /></p>
+
+<h3>Face Tracking Enhancements</h3>
+
+<p>With face tracking, we can place something on it or around it.</p>
+
+<p>Enhancements in ARKit 2:</p>
+
+<ul>
+<li>Gaze tracking</li>
+<li>Tongue support</li>
+</ul>
+
+
+<blockquote><p>Gaze and Tongue can be input of the AR app.</p></blockquote>
+
+<p>New changes in one screenshot:</p>
+
+<p><img src="/images/what-is-new-in-arkit-2.jpg" alt="what-is-new-in-arkit-2" /></p>
+
+<h2>Some other materials for a better AR app:</h2>
+
+<h3><a href="https://developer.apple.com/documentation/arkit/building_your_first_ar_experience">Building Your First AR Experience</a></h3>
+
+<p>This document demos an app for basic usage of ARKit.</p>
+
+<h3><a href="https://developer.apple.com/documentation/arkit/managing_session_lifecycle_and_tracking_quality">Managing Session Lifecycle and Tracking Quality</a></h3>
+
+<p>Make your AR experience more robust by</p>
+
+<ul>
+<li>providing clear feedback, using <code>ARCamera.TrackingState</code>.</li>
+<li>recovering from interruptions, using <code>ARCamera.TrackingState.Reason.relocalizing</code>.</li>
+<li>resuming previous sessions, using <code>ARWorldMap</code>.</li>
+</ul>
+
+
+<h3><a href="https://developer.apple.com/design/human-interface-guidelines/ios/system-capabilities/augmented-reality/">Human Interface Guidelines - Augmented Reality</a></h3>
+
+<p>This post describes how to rendering virtual objects, how to interact with virtual objects, how to handling interruptions. It is for UX.</p>
+
+<h3><a href="https://developer.apple.com/documentation/arkit/handling_3d_interaction_and_ui_controls_in_augmented_reality">Handling 3D Interaction and UI Controls in Augmented Reality</a></h3>
+
+<p>This document describes the best practices for visual feedback, gesture interactions, and realistic rendering in AR experiences. And a demo app is supplied.</p>
+
+<p><img src="/images/arkit_demo_screenshot.jpg" alt="arkit demo" /></p>
+
+<h3><a href="https://developer.apple.com/documentation/arkit/creating_a_multiuser_ar_experience">Creating a Multiuser AR Experience</a></h3>
+
+<p>This document demos an app on how to transmit ARKit world-mapping data between nearby devices with the <a href="https://developer.apple.com/documentation/multipeerconnectivity">MultipeerConnectivity</a> framework (introduced in iOS 7.0) to create a shared basis for AR experiences. MultipeerConnectivity supports peer-to-peer connectivity and the discovery of nearby devices. With MultipeerConnectivity, you can not only share <code>ARWorldMap</code>, but also some actions. This makes multiuser AR game possible.</p>
+
+<p>However:</p>
+
+<ul>
+<li>Recording and transmitting a world map and relocalizing to a world map are time-consuming, bandwidth-intensive operations. A good design is needed for better performance.</li>
+<li>The persons received the world map data need to move their device so they see a similar perspective (also sent by the host) helps ARKit process the received map and establish a shared frame of reference for the multiuser experience.</li>
+</ul>
+
+
+<h3><a href="https://developer.apple.com/documentation/arkit/swiftshot_creating_a_game_for_augmented_reality">SwiftShot: Creating a Game for Augmented Reality</a></h3>
+
+<p>This document demos the SwiftShot game shown on WWDC 2018, including:</p>
+
+<ul>
+<li>Designing Gameplay for AR</li>
+<li>Using Local Multipeer Networking and Sharing World Maps</li>
+<li>Synchronizing Gameplay Actions</li>
+<li>Solving Multiplayer Physics</li>
+</ul>
+
+</div>
+
+</article>
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+	
+	
+	
+	<a class="addthis_counter addthis_pill_style"></a>
+	</div>
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
+</div>
+
+
+</div>
+			</div>
+			<footer id="footer" class="inner">Copyright &copy; 2018
+
+    Zhang Hongchao
+
+
+<!--Design credit: <a href="http://shashankmehta.in/archive/2012/greyshade.html">Shashank Mehta</a>--></footer>
+		</div>
+	</div>
+	<!-- 
+ -->
+
+
+
+
+
+
+
+
+
+</body>
+</html>

@@ -9,7 +9,10 @@
 	<meta name="author" content="Zhang Hongchao">
 
 	
-	<meta name="description" content="Nov 19th, 2015 productivity Some Tools to Impromve Efficiency in Daily Life Everything 瞬间搜索全机器文件。但是只支持文件名搜索，不支持文件内容搜索。结合DocFetcher应用，可以大大提高搜索文件的效率。 &hellip;">
+	<meta name="description" content="Nov 27th, 2015 node 应用Node.js搭建一个简单的服务器 第一个简单应用 参考Node.js for Beginners. 去除以下代码： 1
+2
+3
+request.on(&quot;end&quot;, function () { }); 如何调试Node. &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -93,7 +96,7 @@
 
 
 <section class="categories">
-          <ul id="category_cloud" class="nav nav-list"><a href='/blog/categories/android' style='font-size: 108.33333333333333%'>android(5)</a> <a href='/blog/categories/android-studio' style='font-size: 101.66666666666667%'>android_studio(1)</a> <a href='/blog/categories/design-pattern' style='font-size: 101.66666666666667%'>design_pattern(1)</a> <a href='/blog/categories/ios' style='font-size: 160.0%'>ios(36)</a> <a href='/blog/categories/java' style='font-size: 103.33333333333333%'>java(2)</a> <a href='/blog/categories/javascript' style='font-size: 103.33333333333333%'>javascript(2)</a> <a href='/blog/categories/machine-learning' style='font-size: 101.66666666666667%'>machine learning(1)</a> <a href='/blog/categories/map-tech' style='font-size: 103.33333333333333%'>map tech(2)</a> <a href='/blog/categories/mobile' style='font-size: 101.66666666666667%'>mobile(1)</a> <a href='/blog/categories/node' style='font-size: 105.0%'>node(3)</a> <a href='/blog/categories/objective-c' style='font-size: 133.33333333333334%'>objective-c(20)</a> <a href='/blog/categories/philosophy' style='font-size: 103.33333333333333%'>philosophy(2)</a> <a href='/blog/categories/productivity' style='font-size: 128.33333333333334%'>productivity(17)</a> <a href='/blog/categories/python' style='font-size: 105.0%'>python(3)</a> <a href='/blog/categories/reading' style='font-size: 103.33333333333333%'>reading(2)</a> <a href='/blog/categories/swift' style='font-size: 105.0%'>swift(3)</a> <a href='/blog/categories/web' style='font-size: 103.33333333333333%'>web(2)</a> <a href='/blog/categories/xcode' style='font-size: 108.33333333333333%'>xcode(5)</a> </ul>
+          <ul id="category_cloud" class="nav nav-list"><a href='/blog/categories/android' style='font-size: 108.10810810810811%'>android(5)</a> <a href='/blog/categories/android-studio' style='font-size: 101.62162162162163%'>android_studio(1)</a> <a href='/blog/categories/design-pattern' style='font-size: 101.62162162162163%'>design_pattern(1)</a> <a href='/blog/categories/ios' style='font-size: 160.0%'>ios(37)</a> <a href='/blog/categories/java' style='font-size: 103.24324324324324%'>java(2)</a> <a href='/blog/categories/javascript' style='font-size: 103.24324324324324%'>javascript(2)</a> <a href='/blog/categories/machine-learning' style='font-size: 101.62162162162163%'>machine learning(1)</a> <a href='/blog/categories/map-tech' style='font-size: 103.24324324324324%'>map tech(2)</a> <a href='/blog/categories/mobile' style='font-size: 101.62162162162163%'>mobile(1)</a> <a href='/blog/categories/node' style='font-size: 104.86486486486487%'>node(3)</a> <a href='/blog/categories/objective-c' style='font-size: 132.43243243243245%'>objective-c(20)</a> <a href='/blog/categories/philosophy' style='font-size: 103.24324324324324%'>philosophy(2)</a> <a href='/blog/categories/productivity' style='font-size: 127.56756756756756%'>productivity(17)</a> <a href='/blog/categories/python' style='font-size: 104.86486486486487%'>python(3)</a> <a href='/blog/categories/reading' style='font-size: 103.24324324324324%'>reading(2)</a> <a href='/blog/categories/swift' style='font-size: 104.86486486486487%'>swift(3)</a> <a href='/blog/categories/web' style='font-size: 103.24324324324324%'>web(2)</a> <a href='/blog/categories/wwdc' style='font-size: 101.62162162162163%'>wwdc(1)</a> <a href='/blog/categories/xcode' style='font-size: 108.10810810810811%'>xcode(5)</a> </ul>
       </section>
 
 
@@ -107,6 +110,56 @@
 			<div class="mid-col-container">
 				<div id="content" class="inner">
 <div itemscope itemtype="http://schema.org/Blog">
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2015-11-27T16:45:10+08:00" pubdate data-updated="true">Nov 27th, 2015</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/node/'>node</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2015/11/27/using-node-dot-js-for-a-simple-server/" itemprop="url">应用Node.js搭建一个简单的服务器</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<h3>第一个简单应用</h3>
+
+<p>参考<a href="http://code.tutsplus.com/tutorials/nodejs-for-beginners--net-26314">Node.js for Beginners</a>. 去除以下代码：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">request</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s2">&quot;end&quot;</span><span class="p">,</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">});</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>如何调试Node.js在服务器上的应用</h3>
+
+
+		
+		<a href="/blog/2015/11/27/using-node-dot-js-for-a-simple-server/" class="more-link">Read on &rarr;</a>
+	</div>
+
+</article>
 
 
     <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
@@ -988,60 +1041,6 @@ Then, what&rsquo;s the difference?</p>
 
 		
 		<a href="/blog/2015/07/22/Property-vs-Instance-Variable(iVar)-in-Objective-C/" class="more-link">Read on &rarr;</a>
-	</div>
-
-</article>
-
-
-    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-
-<time datetime="2015-07-21T00:00:00+08:00" pubdate data-updated="true">Jul 21st, 2015</time></div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/ios/'>ios</a>
-
-
-</div>
-		
-	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2015/07/21/Use-Current-Location-Service-in-Map/" itemprop="url">Use Current Location Service in Map</a></h1>
-	<div class="entry-content" itemprop="articleBody">
-		<h2>Location Service Authorization</h2>
-
-<h3>1. Set <em>info.plist</em></h3>
-
-<p>For iOS SDK 8.0 and later, we need to set <code>NSLocationWhenInUseUsageDescription</code> and &lsquo;NSLocationAlwaysUsageDescription&rsquo; in <em>info.plist</em> file. A sample case is:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='xml'><span class='line'><span class="nt">&lt;key&gt;</span>NSLocationWhenInUseUsageDescription<span class="nt">&lt;/key&gt;</span>
-</span><span class='line'><span class="nt">&lt;string&gt;</span>Do you allow the app to use your location?<span class="nt">&lt;/string&gt;</span>
-</span><span class='line'><span class="nt">&lt;key&gt;</span>NSLocationAlwaysUsageDescription<span class="nt">&lt;/key&gt;</span>
-</span><span class='line'><span class="nt">&lt;string&gt;</span>Are you willing to allow the app to use your location?<span class="nt">&lt;/string&gt;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>The <code>string</code> will appear in the popup dialog. You can leave it as empty, and only the system message will appear in the popup.</p>
-
-
-		
-		<a href="/blog/2015/07/21/Use-Current-Location-Service-in-Map/" class="more-link">Read on &rarr;</a>
 	</div>
 
 </article>

@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: wwdc | Reading Space]]></title>
+  <link href="http://hongchaozhang.github.io/blog/categories/wwdc/atom.xml" rel="self"/>
+  <link href="http://hongchaozhang.github.io/"/>
+  <updated>2018-06-20T21:27:52+08:00</updated>
+  <id>http://hongchaozhang.github.io/</id>
+  <author>
+    <name><![CDATA[Zhang Hongchao]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[What is new in ARKit 2]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2018/06/13/what-is-new-in-n-arkit-2/"/>
+    <updated>2018-06-13T13:24:59+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2018/06/13/what-is-new-in-n-arkit-2</id>
+    <content type="html"><![CDATA[<!-- more -->
+
+
+<h2>New Features in ARKit 2</h2>
+
+<h3>Saving and Loading Maps</h3>
+
+<h4>World Tracking Recap:</h4>
+
+<ul>
+<li>Position and orientation of the device.</li>
+<li>Physical scale in the scene.</li>
+<li>3D feature points.</li>
+<li>Relocalization (iOS 11.3): we can relocalize objects when your AR session is interrupted, like phone coming or going from background. This feature is implemented by storing the mapping <code>ARWorldMap</code> between real world and the coordinate system. However the mapping is not exposed to developers.</li>
+</ul>
+
+
+<h4>World Tracking Enhancement:</h4>
+
+<ul>
+<li><strong>Saving and loading maps</strong>: expose the <code>ARWorldMap</code> to developers.</li>
+<li>Faster initialization and plane detection</li>
+<li>Robust tracking and plane detection</li>
+<li>More accurate extent and boundary Continuous autofocus</li>
+<li>New 4:3 video formats (iPad is also 4:3)</li>
+</ul>
+
+
+<h4>Saving and loading maps:</h4>
+
+<p><code>ARWorldmap</code> contains:</p>
+
+<ul>
+<li>Mapping of physical 3D space: for representing 3D feature points in the coordinate system.</li>
+<li>Mutable list of named anchors: for restoring previous 3D environment (like lighting node anchor), and relocalizing previously added virtual objects.</li>
+<li>Raw feature points and extent: for debugging and visualization.</li>
+<li>Serialization: for storing and recovering from an file.</li>
+</ul>
+
+
+<p><img src="/images/arkit2_arworldmap.jpg" width="500" alt="arkit arworldmap" /></p>
+
+<p>We can use the map in two different ways:</p>
+
+<ul>
+<li>Persistent: Restore previous AR scene for a new AR session. For example, you go to another room and come back or close the AR app and open it some time later.</li>
+<li>Multiuser experience: We can share the map among devices through WiFi or bluetooth.</li>
+</ul>
+
+
+<p>The SwiftShot is an multiuser experience AR game:</p>
+
+<p><img src="/images/swiftshot.jpg" alt="arkit2 swiftshot" /></p>
+
+<p>and the following is a small piece of the demo:</p>
+
+<p><img src="/images/arkit2_multiuser_experience_demo.gif" alt="swift shot game" /></p>
+
+<h4>How to get a good map</h4>
+
+<p>In order to share or restore the map, we need to get a good one first. A good map should be:</p>
+
+<!-- * Important for relocalization -->
+
+
+<ul>
+<li>Multiple points of view: If we record the mapping from one point of view, and try to restore the coordinate system from another point of view, it will fail.</li>
+<li>Static, well-textured environment.</li>
+<li>Dense feature points on the map.</li>
+</ul>
+
+
+<p>We can use the <code>WorldMappingStatus</code> status from <code>ARFrame</code> to decide if the current map is good enough for sharing or storing:</p>
+
+<pre><code class="swift">public enum WorldMappingStatus : Int {
+   case notAvailable
+   case limited
+   case extending
+   case mapped 
+}
+</code></pre>
+
+<h3>Environment Texturing</h3>
+
+<p>With the help of Environment Texturing, AR scene objects can reflect the environment texture on the surface of themselves, just like:</p>
+
+<p><img src="/images/arkit2_environment_texturing_demo.jpg" alt="arkit2 environment texturing demo" /></p>
+
+<h3>Image Tracking</h3>
+
+<p>Moving objects can not be positioned in ARKit 1. In ARKit 2, specified images can be tracked in AR scene.</p>
+
+<p><img src="/images/arkit2_image_tracking.gif" alt="arkit 2 image tracking" /></p>
+
+<p>The classes in ARKit 2 for image tracking are:</p>
+
+<p><img src="/images/arkit2_image_tracking_classes.jpg" alt="arkit 2 image tracking classes" /></p>
+
+<p>The detected <code>ARImageAnchor</code>s have properties like:</p>
+
+<pre><code class="swift">open class ARImageAnchor : ARAnchor, ARTrackable { 
+    public var isTracked: Bool { get }
+    open var transform: simd_float4x4 { get }
+    open var referenceImage: ARReferenceImage { get }
+}
+</code></pre>
+
+<p>The specified image should:</p>
+
+<ul>
+<li>Histogram should be broad</li>
+<li>Not have multiple uniform color regions</li>
+<li>Not have repeated structures</li>
+</ul>
+
+
+<p>The following is the demo:</p>
+
+<p><img src="/images/arkit2_image_tracking_demo.gif" alt="arkit 2 image tracking demo" /></p>
+
+<p>The inputs of the above demo are:</p>
+
+<ul>
+<li>an static image of the cat, the same as it is in the picture frame</li>
+<li>an video of the cat</li>
+</ul>
+
+
+<p>The video is played at the position of the specified picture frame, with the same orientation of the picture frame.</p>
+
+<h3>3D Object Detection</h3>
+
+<p>3D object detection workflow is:</p>
+
+<p><img src="/images/arkit2_3D_object_tracking_classes.jpg" alt="arkit2 3D object tracking classes" /></p>
+
+<p>The <code>ARObjectAnchor</code> contains properties like:</p>
+
+<pre><code class="swift">open class ARObjectAnchor : ARAnchor {
+    open var transform: simd_float4x4 { get }
+    open var referenceObject: ARReferenceObject { get }
+}
+</code></pre>
+
+<p>and <code>ARReferenceObject</code> is the scanned 3D object:</p>
+
+<pre><code class="swift">open class ARReferenceObject
+    : NSObject, NSCopying, NSSecureCoding {
+    open var name: String?
+    open var center: simd_float3 { get }
+    open var extent: simd_float3 { get }
+    open var rawFeaturePoints: ARPointCloud { get }
+}
+</code></pre>
+
+<blockquote><p>An <code>ARReferenceObject</code> contains only the spatial feature information needed for ARKit to recognize the real-world object, and is not a displayable 3D reconstruction of that object.</p></blockquote>
+
+<p>In order to get the <code>ARReferenceObject</code>, we should scan the real object, and store the result as an file (.arobject) or an xcode asset catalog for ARKit to use. Fortunately, Apple supplies a demo for scanning 3D object to get the <code>ARReferenceObject</code>. Refer to: <a href="https://developer.apple.com/documentation/arkit/scanning_and_detecting_3d_objects">Scanning and Detecting 3D Objects</a> for detail and the rough steps of object scanning are:</p>
+
+<p><img src="/images/arkit2_3D_object_scan.jpg" alt="arkit2 3D object scan" /></p>
+
+<p>For scanned object in the real world, we can dynamically add some info around it (Museum is a good use case.), like the demo does:</p>
+
+<p><img src="/images/arkit2_3D_object_tracking_demo.gif" alt="arkit2 object tracking demo" /></p>
+
+<h3>Face Tracking Enhancements</h3>
+
+<p>With face tracking, we can place something on it or around it.</p>
+
+<p>Enhancements in ARKit 2:</p>
+
+<ul>
+<li>Gaze tracking</li>
+<li>Tongue support</li>
+</ul>
+
+
+<blockquote><p>Gaze and Tongue can be input of the AR app.</p></blockquote>
+
+<p>New changes in one screenshot:</p>
+
+<p><img src="/images/what-is-new-in-arkit-2.jpg" alt="what-is-new-in-arkit-2" /></p>
+
+<h2>Some other materials for a better AR app:</h2>
+
+<h3><a href="https://developer.apple.com/documentation/arkit/building_your_first_ar_experience">Building Your First AR Experience</a></h3>
+
+<p>This document demos an app for basic usage of ARKit.</p>
+
+<h3><a href="https://developer.apple.com/documentation/arkit/managing_session_lifecycle_and_tracking_quality">Managing Session Lifecycle and Tracking Quality</a></h3>
+
+<p>Make your AR experience more robust by</p>
+
+<ul>
+<li>providing clear feedback, using <code>ARCamera.TrackingState</code>.</li>
+<li>recovering from interruptions, using <code>ARCamera.TrackingState.Reason.relocalizing</code>.</li>
+<li>resuming previous sessions, using <code>ARWorldMap</code>.</li>
+</ul>
+
+
+<h3><a href="https://developer.apple.com/design/human-interface-guidelines/ios/system-capabilities/augmented-reality/">Human Interface Guidelines - Augmented Reality</a></h3>
+
+<p>This post describes how to rendering virtual objects, how to interact with virtual objects, how to handling interruptions. It is for UX.</p>
+
+<h3><a href="https://developer.apple.com/documentation/arkit/handling_3d_interaction_and_ui_controls_in_augmented_reality">Handling 3D Interaction and UI Controls in Augmented Reality</a></h3>
+
+<p>This document describes the best practices for visual feedback, gesture interactions, and realistic rendering in AR experiences. And a demo app is supplied.</p>
+
+<p><img src="/images/arkit_demo_screenshot.jpg" alt="arkit demo" /></p>
+
+<h3><a href="https://developer.apple.com/documentation/arkit/creating_a_multiuser_ar_experience">Creating a Multiuser AR Experience</a></h3>
+
+<p>This document demos an app on how to transmit ARKit world-mapping data between nearby devices with the <a href="https://developer.apple.com/documentation/multipeerconnectivity">MultipeerConnectivity</a> framework (introduced in iOS 7.0) to create a shared basis for AR experiences. MultipeerConnectivity supports peer-to-peer connectivity and the discovery of nearby devices. With MultipeerConnectivity, you can not only share <code>ARWorldMap</code>, but also some actions. This makes multiuser AR game possible.</p>
+
+<p>However:</p>
+
+<ul>
+<li>Recording and transmitting a world map and relocalizing to a world map are time-consuming, bandwidth-intensive operations. A good design is needed for better performance.</li>
+<li>The persons received the world map data need to move their device so they see a similar perspective (also sent by the host) helps ARKit process the received map and establish a shared frame of reference for the multiuser experience.</li>
+</ul>
+
+
+<h3><a href="https://developer.apple.com/documentation/arkit/swiftshot_creating_a_game_for_augmented_reality">SwiftShot: Creating a Game for Augmented Reality</a></h3>
+
+<p>This document demos the SwiftShot game shown on WWDC 2018, including:</p>
+
+<ul>
+<li>Designing Gameplay for AR</li>
+<li>Using Local Multipeer Networking and Sharing World Maps</li>
+<li>Synchronizing Gameplay Actions</li>
+<li>Solving Multiplayer Physics</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+</feed>
