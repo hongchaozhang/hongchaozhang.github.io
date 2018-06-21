@@ -4,7 +4,7 @@
   <title><![CDATA[Category: wwdc | Reading Space]]></title>
   <link href="http://hongchaozhang.github.io/blog/categories/wwdc/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2018-06-20T21:27:52+08:00</updated>
+  <updated>2018-06-21T10:15:37+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -19,6 +19,29 @@
     <updated>2018-06-13T13:24:59+08:00</updated>
     <id>http://hongchaozhang.github.io/blog/2018/06/13/what-is-new-in-n-arkit-2</id>
     <content type="html"><![CDATA[<!-- more -->
+
+
+<h2>Overview</h2>
+
+<p>In ARKit 1, we have:</p>
+
+<ul>
+<li>Device positioning from world tracking process</li>
+<li>Horizontal and vertical plane detection from world tracking process</li>
+<li>Lighting estimation</li>
+<li>AR face tracking</li>
+</ul>
+
+
+<p>In ARKit 2, we have:</p>
+
+<ul>
+<li>Saving and loading maps</li>
+<li>Environment Texturing</li>
+<li>Image detection and tracking</li>
+<li>3D object tracking</li>
+<li>Improved face tracking</li>
+</ul>
 
 
 <h2>New Features in ARKit 2</h2>
