@@ -9,6 +9,23 @@ categories: [ios, wwdc]
 
 <!-- more -->
 
+## Overview
+
+In ARKit 1, we have:
+
+* Device positioning from world tracking process
+* Horizontal and vertical plane detection from world tracking process
+* Lighting estimation
+* AR face tracking
+
+In ARKit 2, we have:
+
+* Saving and loading maps
+* Environment Texturing
+* Image detection and tracking
+* 3D object tracking
+* Improved face tracking
+
 ## New Features in ARKit 2
 
 ### Saving and Loading Maps 
