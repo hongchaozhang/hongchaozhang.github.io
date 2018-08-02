@@ -4,7 +4,7 @@
   <title><![CDATA[Category: productivity | Reading Space]]></title>
   <link href="http://hongchaozhang.github.io/blog/categories/productivity/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2018-07-20T18:17:46+08:00</updated>
+  <updated>2018-08-02T22:54:50+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -12,6 +12,108 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[将代码查重工具CPD集成到Xcode]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2018/08/02/integrate-copy-and-paste-detector-into-xcode/"/>
+    <updated>2018-08-02T18:34:40+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2018/08/02/integrate-copy-and-paste-detector-into-xcode</id>
+    <content type="html"><![CDATA[<!-- more -->
+
+
+<p>翻译部分<a href="https://medium.com/@nvashanin/%D0%B8%D0%BD%D1%82%D0%B5%D0%B3%D1%80%D0%B8%D1%80%D1%83%D0%B5%D0%BC-copy-paste-detector-%D0%B4%D0%BB%D1%8F-swift-%D0%B2-xcode-9ae87c20748">Integrating Copy-Paste-Detector for Swift in Xcode</a>。</p>
+
+<h2>DRY准则</h2>
+
+<p>编程到一个基本准则就是DRY（Don&rsquo;t Repeat Yourself)，不写重复代码。简单来说，就是不要复制黏贴。</p>
+
+<p>在开始之前，我们先讨论一下什么叫做“复制黏贴”？首先，如果你有相同的文件，肯定是极其糟糕的“复制黏贴”。如果你有两个类只是类名不同，但是做着相同或者类似的事情，也是很严重的“复制黏贴”。即使只有10行代码的重复，也是”复制黏贴“。根据作者个人经验，一个100000行的工程，完全不需要复制黏贴。</p>
+
+<h3>复制黏贴的坏处</h3>
+
+<p>在重复的代码处修改bug，还需要手动找到另外一处，做相同的修改。</p>
+
+<h2>如何避免复制黏贴</h2>
+
+<p>避免重复代码的传统方法是代码审查，但是对于代码审查者来说，找到重复代码是一件很困难的事情。</p>
+
+<p>我们能不能在编译阶段就查找出重复代码，并要求这些重复代码移除掉之后才可以继续进行编译。</p>
+
+<h2>安装CPD</h2>
+
+<p>对于Swift代码，有两个工具可以做代码查重：</p>
+
+<ul>
+<li><a href="https://github.com/kucherenko/jscpd">jscpd</a></li>
+<li><a href="https://pmd.github.io/">pmd</a></li>
+</ul>
+
+
+<p>其中，pmd可定制，并且比较稳定。开始之前，先通过homebrew进行安装：</p>
+
+<pre><code>brew install pmd
+</code></pre>
+
+<blockquote><p>注意：对于其他语言，pmd都包含代码静态分析工具，但是对于Swift，只有一个代码查重工具CPD（Copy Paste Detector）。因此，如果想对Swift代码进行静态分析，可以选择<a href="https://github.com/realm/SwiftLint">SwiftLint</a>。</p></blockquote>
+
+<h2>集成到Xcode</h2>
+
+<p>为了将CPD功能集成到编译阶段，我们在Build Phase里新添加一个运行脚本（Run Script），并添加以下脚本：</p>
+
+<pre><code># Running CPD
+pmd cpd --files ${EXECUTABLE_NAME} --minimum-tokens 50 --language swift --encoding UTF-8 --format net.sourceforge.pmd.cpd.XMLRenderer &gt; cpd-output.xml --failOnViolation true
+# Running script
+php ./cpd_script.php -cpd-xml cpd-output.xml
+</code></pre>
+
+<p>让我们来看一下这一段脚本做了什么事情。</p>
+
+<p>第一部分是说我们在项目根目录下对所有的文件进行代码查重：</p>
+
+<ul>
+<li><code>--minimum-tokens</code>指定重复代码的最少token数量。这里的token是一个比较抽象的概念，不是字符，不是单词，也不是短语的意思。根据经验来说，Swift语言的最优值是50：太大，会漏掉重复代码；太小，会将一些代码误判为重复代码。</li>
+<li><code>--formant</code>指定输出格式，这里指定为xml文件。</li>
+<li><code>--failOnViolation</code>标识为设置为<code>true</code>，意思是只要检测到重复代码，就不继续进行编译。</li>
+</ul>
+
+
+<blockquote><p>经测试，无论<code>--failOnViolation</code>设置成<code>true</code>，还是<code>false</code>，都不能阻断编译的正常运行。但是warning能正常地给出。</p></blockquote>
+
+<p>第一部分脚本执行的结果，是一个xml文件，里面包含了整个工程里面的重复代码及其位置、行数等信息。下面让我们看看，怎么将这个难读的xml文件以warning的形式展示给开发者。</p>
+
+<p>为了将xml文件转换成更好读的warning，需要在工程根目录下创建一个php文件，我们叫做cpd_script.php，拷贝下面的脚本到该文件中：</p>
+
+<pre><code class="php">&lt;?php
+foreach (simplexml_load_file('cpd-output.xml')-&gt;duplication as $duplication) {
+    $files = $duplication-&gt;xpath('file');
+    foreach ($files as $file) {
+        echo $file['path'].':'.$file['line'].':1: warning: '.$duplication['lines'].' copy-pasted lines from: '
+            .implode(', ', array_map(function ($otherFile) { return $otherFile['path'].':'.$otherFile['line']; },
+            array_filter($files, function ($f) use (&amp;$file) { return $f != $file; }))).PHP_EOL;
+    }
+}
+?&gt;
+</code></pre>
+
+<p>我们在Build Phase中添加的脚本的第二部分就是运行这一段脚本，将生成的xml文件中的所有重复代码信息以warning的形式展示在Xcode中。如果你想了解如何在Xcod中生成warning，参考<a href="https://krakendev.io/blog/generating-warnings-in-xcode">Generating Warnings in Xcode</a>。</p>
+
+<p>现在编译工程，可以在Xcode左侧导航窗口看到所有的warning：</p>
+
+<p><img src="/images/cpd_warnings_in_navigation.jpg" alt="cpd warnings in navigation" /></p>
+
+<p>在相应的文件中，也可以看到该文件所包含的重复代码的warning：</p>
+
+<p><img src="/images/cpd_warnings_in_file.jpg" alt="cpd warnings in file" /></p>
+
+<p>这个warning的意思是说：从54行往下的41行代码和ErrorHandleTester.swift中从96行往下的41行代码重复。</p>
+
+<blockquote><p>如果是刚安装的pmd，可能需要重启Xcode，让pmd命令生效。</p></blockquote>
+
+<h2>结论</h2>
+
+<p>重复代码清理是一件刻不容缓的事情。这个工具放在这里，没有任何副作用，建议大家能正确对待重复代码。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[some tips on markdown usage]]></title>
@@ -69,7 +171,7 @@
     <content type="html"><![CDATA[<!-- more -->
 
 
-<p>代码查重工具</p>
+<p>很多IDE里面都有自己的代码查重工具，比如WebStorm的代码查重工具做的非常好用。但是Xcode里面至今没有自己的代码查重工具。这里调研了一些常见的代码查重工具，最后选择PMD里面的CPD，并将其集成到Xcode中，重复代码会以warning的形式出现在Xcode里面。</p>
 
 <h2>jscpd</h2>
 
@@ -77,14 +179,33 @@
 
 <p>Supported languages：</p>
 
-<p>JavaScript  Java    YAML
-CoffeeScript    C++ Haxe
-PHP C#  TypeScript
-Go  Python  Mixed HTML
-Ruby    C   SCSS
-Less    CSS erlang
-<strong>Swift</strong>   xml/xslt    <strong>Objective-C</strong>
-Puppet  Twig    Vue.js</p>
+<ul>
+<li>JavaScript</li>
+<li>Java</li>
+<li>YAML</li>
+<li>CoffeeScript</li>
+<li>C++</li>
+<li>Haxe</li>
+<li>PHP</li>
+<li>C#</li>
+<li>TypeScript</li>
+<li>Go</li>
+<li>Python</li>
+<li>Mixed HTML</li>
+<li>Ruby</li>
+<li>C</li>
+<li>SCSS</li>
+<li>Less</li>
+<li>CSS</li>
+<li>erlang</li>
+<li><strong>Swift</strong></li>
+<li>xml/xslt</li>
+<li><strong>Objective-C</strong></li>
+<li>Puppet</li>
+<li>Twig</li>
+<li>Vue.js</li>
+</ul>
+
 
 <h3>优点</h3>
 
@@ -98,7 +219,7 @@ Puppet  Twig    Vue.js</p>
 
 <ul>
 <li>没有GUI</li>
-<li>复制1行，修改其中的一行，就不会被认为复制。</li>
+<li>算法简单：复制一段，修改其中的一行，就不会被认为复制。</li>
 </ul>
 
 
@@ -107,10 +228,6 @@ Puppet  Twig    Vue.js</p>
 <p><a href="https://pmd.github.io/">PMD</a></p>
 
 <h3>Supported IDEs</h3>
-
-<p>没有Xcode的插件，所以只能用命令行。</p>
-
-<p>PMD is integrated with JDeveloper, Eclipse, JEdit, JBuilder, BlueJ, CodeGuide, NetBeans/Sun Java Studio Enterprise/Creator, IntelliJ IDEA, TextPad, Maven, Ant, Gel, JCreator, and Emacs.</p>
 
 <ul>
 <li>Maven PMD plugin</li>
@@ -122,6 +239,8 @@ Puppet  Twig    Vue.js</p>
 <li>IntelliJ IDEA plugin</li>
 </ul>
 
+
+<p>没有Xcode的插件，但是可以通过在Build Phase里面加入Run Script来使用。</p>
 
 <h3>Supported Languages of PMD commonded line:</h3>
 
@@ -146,13 +265,13 @@ Puppet  Twig    Vue.js</p>
 <li>java</li>
 <li>jsp</li>
 <li>matlab</li>
-<li>objectivec</li>
+<li><strong>objectivec</strong></li>
 <li>php</li>
 <li>plsql</li>
 <li>python</li>
 <li>ruby</li>
 <li>scala</li>
-<li>swift</li>
+<li><strong>swift</strong></li>
 </ul>
 
 
@@ -169,7 +288,17 @@ Puppet  Twig    Vue.js</p>
 
 <h3>将CPD集成到XCode里面</h3>
 
-<p><a href="https://habrahabr.ru/post/137875/">Интегрируем Copy-Paste-Detection в Xcode, и не только</a>将CPD集成到了XCode里面。</p>
+<p><a href="https://medium.com/@nvashanin/%D0%B8%D0%BD%D1%82%D0%B5%D0%B3%D1%80%D0%B8%D1%80%D1%83%D0%B5%D0%BC-copy-paste-detector-%D0%B4%D0%BB%D1%8F-swift-%D0%B2-xcode-9ae87c20748">Integrating Copy-Paste-Detector for Swift in Xcode</a>: This is a newer post on April 2017 and gives a detailed step by step way for integrating CPD into Xcode:</p>
+
+<ul>
+<li>Add run script into Build Phase.</li>
+<li>Xcode warnings will appear at the place of duplicated code.</li>
+</ul>
+
+
+<p>Refer to <a href="../../../../2018/08/02/integrate-copy-and-paste-detector-into-xcode/">将代码查重工具集成到Xcode</a> for details.</p>
+
+<p><a href="https://habrahabr.ru/post/137875/"><del>Интегрируем Copy-Paste-Detection в Xcode, и не только</del></a>: Integrate CPD into XCode, but this post is a little older on 2012.</p>
 
 <h2>JenkinsCI-iOS</h2>
 
@@ -379,77 +508,6 @@ pod 'Charts'
 <li>打开Preferences->Package Settings->Bracket Highlighter->Brakets Settings - <strong>User</strong>，粘贴。修改<code>bracket styles</code>。此文件中的设置将覆盖<strong>Default</strong>中的设置。</li>
 </ul>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Some Tools to Impromve Efficiency in Daily Life]]></title>
-    <link href="http://hongchaozhang.github.io/blog/2015/11/19/some-tools-to-impromve-efficiency-in-daily-life/"/>
-    <updated>2015-11-19T16:16:22+08:00</updated>
-    <id>http://hongchaozhang.github.io/blog/2015/11/19/some-tools-to-impromve-efficiency-in-daily-life</id>
-    <content type="html"><![CDATA[<!-- more -->
-
-
-<ul>
-<li><a href="#everything">Everything</a></li>
-<li><a href="#docfetcher">DocFetcher</a></li>
-<li><a href="#rescuetime">RescueTime</a></li>
-<li><a href="#eudic">EuDic</a></li>
-<li><a href="#calibre">calibre</a></li>
-<li><a href="#delastahdel-drawio%E7%9A%84chrome%E6%8F%92%E4%BB%B6%E6%9B%B4%E5%A5%BD%E7%94%A8"><del>Astah</del> (draw.io的chrome插件更好用)</a></li>
-<li><a href="#%E5%9B%BE%E5%83%8F%E8%A7%86%E9%A2%91%E6%93%8D%E4%BD%9C">图像视频操作</a>
-
-<ul>
-<li><a href="#licecap">LICECap</a></li>
-<li><a href="#picgif-lite">PicGif Lite</a></li>
-</ul>
-</li>
-</ul>
-
-
-<h3>Everything</h3>
-
-<p>瞬间搜索全机器文件。但是只支持文件名搜索，不支持文件内容搜索。结合DocFetcher应用，可以大大提高搜索文件的效率。</p>
-
-<h3>DocFetcher</h3>
-
-<p>支持文件内容搜索。但是索引文件较大，最好分目录进行索引，不要索引整台计算机。结合Everything应用，可以大大提高搜索文件的效率。</p>
-
-<h3>RescueTime</h3>
-
-<p>可以用来监督你一天之中分别有多少时间花在什么地方。在上淘宝的时候都想快点结束，不然一天下来数据会很难看。</p>
-
-<h3>EuDic</h3>
-
-<p>Mac上的这个词典好过系统自带的Dictionary很多。引用推荐人的一句话：这是Mac上最好用的词典，没有之一。</p>
-
-<h3>calibre</h3>
-
-<p>喜欢看电子书的话，用这个编辑电子书非常方便。比如，将一部合集拆成几个部分，或者反过来，将几部分合成一本电子书。</p>
-
-<h3><del>Astah</del> (draw.io的chrome插件更好用)</h3>
-
-<p>用<strong>Astah Community</strong>（Astah还有收费版本：Astah Professional，功能更全，不过Astah Community完全够用了。）来画UML图的class diagram和sequence diagram非常方便，尤其是sequence diagram，相比于之前用的<strong>Dia</strong>，简直是方便太多了，用<strong>Dia</strong>画sequence diagram简直就是噩梦。</p>
-
-<p>对于Astah中定义的UML sequence diagram，参考<a href="http://www.uml.org.cn/oobject/201009081.asp">UML建模之时序图（Sequence Diagram）</a></p>
-
-<h3>图像视频操作</h3>
-
-<h4>LICECap</h4>
-
-<p><a href="http://www.cockos.com/licecap/">LICECap</a>用来快速将屏幕操作等转换成gif动画，比先录屏再转换快太多了。</p>
-
-<p>使用Mac自带的Preview是不能预览gif图片的，可以通过以下两种方式预览：</p>
-
-<ul>
-<li>在Finder中选中gif图片，在右边的预览框中预览。</li>
-<li>将gif用浏览器打开预览，比如Safari。</li>
-</ul>
-
-
-<h4>PicGif Lite</h4>
-
-<p>PicGif用来将视频或者图片转换成gif图片，这种工具很多，还有在线工具，比如<a href="http://www.uupoop.com/gif/">uupoop</a>。<del>我主要用这个来进行gif图的预览。</del></p>
 ]]></content>
   </entry>
   

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: xcode | Reading Space]]></title>
   <link href="http://hongchaozhang.github.io/blog/categories/xcode/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2018-07-20T18:17:46+08:00</updated>
+  <updated>2018-08-02T22:54:50+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -14,6 +14,108 @@
 
   
   <entry>
+    <title type="html"><![CDATA[将代码查重工具CPD集成到Xcode]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2018/08/02/integrate-copy-and-paste-detector-into-xcode/"/>
+    <updated>2018-08-02T18:34:40+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2018/08/02/integrate-copy-and-paste-detector-into-xcode</id>
+    <content type="html"><![CDATA[<!-- more -->
+
+
+<p>翻译部分<a href="https://medium.com/@nvashanin/%D0%B8%D0%BD%D1%82%D0%B5%D0%B3%D1%80%D0%B8%D1%80%D1%83%D0%B5%D0%BC-copy-paste-detector-%D0%B4%D0%BB%D1%8F-swift-%D0%B2-xcode-9ae87c20748">Integrating Copy-Paste-Detector for Swift in Xcode</a>。</p>
+
+<h2>DRY准则</h2>
+
+<p>编程到一个基本准则就是DRY（Don&rsquo;t Repeat Yourself)，不写重复代码。简单来说，就是不要复制黏贴。</p>
+
+<p>在开始之前，我们先讨论一下什么叫做“复制黏贴”？首先，如果你有相同的文件，肯定是极其糟糕的“复制黏贴”。如果你有两个类只是类名不同，但是做着相同或者类似的事情，也是很严重的“复制黏贴”。即使只有10行代码的重复，也是”复制黏贴“。根据作者个人经验，一个100000行的工程，完全不需要复制黏贴。</p>
+
+<h3>复制黏贴的坏处</h3>
+
+<p>在重复的代码处修改bug，还需要手动找到另外一处，做相同的修改。</p>
+
+<h2>如何避免复制黏贴</h2>
+
+<p>避免重复代码的传统方法是代码审查，但是对于代码审查者来说，找到重复代码是一件很困难的事情。</p>
+
+<p>我们能不能在编译阶段就查找出重复代码，并要求这些重复代码移除掉之后才可以继续进行编译。</p>
+
+<h2>安装CPD</h2>
+
+<p>对于Swift代码，有两个工具可以做代码查重：</p>
+
+<ul>
+<li><a href="https://github.com/kucherenko/jscpd">jscpd</a></li>
+<li><a href="https://pmd.github.io/">pmd</a></li>
+</ul>
+
+
+<p>其中，pmd可定制，并且比较稳定。开始之前，先通过homebrew进行安装：</p>
+
+<pre><code>brew install pmd
+</code></pre>
+
+<blockquote><p>注意：对于其他语言，pmd都包含代码静态分析工具，但是对于Swift，只有一个代码查重工具CPD（Copy Paste Detector）。因此，如果想对Swift代码进行静态分析，可以选择<a href="https://github.com/realm/SwiftLint">SwiftLint</a>。</p></blockquote>
+
+<h2>集成到Xcode</h2>
+
+<p>为了将CPD功能集成到编译阶段，我们在Build Phase里新添加一个运行脚本（Run Script），并添加以下脚本：</p>
+
+<pre><code># Running CPD
+pmd cpd --files ${EXECUTABLE_NAME} --minimum-tokens 50 --language swift --encoding UTF-8 --format net.sourceforge.pmd.cpd.XMLRenderer &gt; cpd-output.xml --failOnViolation true
+# Running script
+php ./cpd_script.php -cpd-xml cpd-output.xml
+</code></pre>
+
+<p>让我们来看一下这一段脚本做了什么事情。</p>
+
+<p>第一部分是说我们在项目根目录下对所有的文件进行代码查重：</p>
+
+<ul>
+<li><code>--minimum-tokens</code>指定重复代码的最少token数量。这里的token是一个比较抽象的概念，不是字符，不是单词，也不是短语的意思。根据经验来说，Swift语言的最优值是50：太大，会漏掉重复代码；太小，会将一些代码误判为重复代码。</li>
+<li><code>--formant</code>指定输出格式，这里指定为xml文件。</li>
+<li><code>--failOnViolation</code>标识为设置为<code>true</code>，意思是只要检测到重复代码，就不继续进行编译。</li>
+</ul>
+
+
+<blockquote><p>经测试，无论<code>--failOnViolation</code>设置成<code>true</code>，还是<code>false</code>，都不能阻断编译的正常运行。但是warning能正常地给出。</p></blockquote>
+
+<p>第一部分脚本执行的结果，是一个xml文件，里面包含了整个工程里面的重复代码及其位置、行数等信息。下面让我们看看，怎么将这个难读的xml文件以warning的形式展示给开发者。</p>
+
+<p>为了将xml文件转换成更好读的warning，需要在工程根目录下创建一个php文件，我们叫做cpd_script.php，拷贝下面的脚本到该文件中：</p>
+
+<pre><code class="php">&lt;?php
+foreach (simplexml_load_file('cpd-output.xml')-&gt;duplication as $duplication) {
+    $files = $duplication-&gt;xpath('file');
+    foreach ($files as $file) {
+        echo $file['path'].':'.$file['line'].':1: warning: '.$duplication['lines'].' copy-pasted lines from: '
+            .implode(', ', array_map(function ($otherFile) { return $otherFile['path'].':'.$otherFile['line']; },
+            array_filter($files, function ($f) use (&amp;$file) { return $f != $file; }))).PHP_EOL;
+    }
+}
+?&gt;
+</code></pre>
+
+<p>我们在Build Phase中添加的脚本的第二部分就是运行这一段脚本，将生成的xml文件中的所有重复代码信息以warning的形式展示在Xcode中。如果你想了解如何在Xcod中生成warning，参考<a href="https://krakendev.io/blog/generating-warnings-in-xcode">Generating Warnings in Xcode</a>。</p>
+
+<p>现在编译工程，可以在Xcode左侧导航窗口看到所有的warning：</p>
+
+<p><img src="/images/cpd_warnings_in_navigation.jpg" alt="cpd warnings in navigation" /></p>
+
+<p>在相应的文件中，也可以看到该文件所包含的重复代码的warning：</p>
+
+<p><img src="/images/cpd_warnings_in_file.jpg" alt="cpd warnings in file" /></p>
+
+<p>这个warning的意思是说：从54行往下的41行代码和ErrorHandleTester.swift中从96行往下的41行代码重复。</p>
+
+<blockquote><p>如果是刚安装的pmd，可能需要重启Xcode，让pmd命令生效。</p></blockquote>
+
+<h2>结论</h2>
+
+<p>重复代码清理是一件刻不容缓的事情。这个工具放在这里，没有任何副作用，建议大家能正确对待重复代码。</p>
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[iOS代码查重工具]]></title>
     <link href="http://hongchaozhang.github.io/blog/2017/05/08/tools-for-detecting-duplicated-code/"/>
     <updated>2017-05-08T17:52:24+08:00</updated>
@@ -21,7 +123,7 @@
     <content type="html"><![CDATA[<!-- more -->
 
 
-<p>代码查重工具</p>
+<p>很多IDE里面都有自己的代码查重工具，比如WebStorm的代码查重工具做的非常好用。但是Xcode里面至今没有自己的代码查重工具。这里调研了一些常见的代码查重工具，最后选择PMD里面的CPD，并将其集成到Xcode中，重复代码会以warning的形式出现在Xcode里面。</p>
 
 <h2>jscpd</h2>
 
@@ -29,14 +131,33 @@
 
 <p>Supported languages：</p>
 
-<p>JavaScript  Java    YAML
-CoffeeScript    C++ Haxe
-PHP C#  TypeScript
-Go  Python  Mixed HTML
-Ruby    C   SCSS
-Less    CSS erlang
-<strong>Swift</strong>   xml/xslt    <strong>Objective-C</strong>
-Puppet  Twig    Vue.js</p>
+<ul>
+<li>JavaScript</li>
+<li>Java</li>
+<li>YAML</li>
+<li>CoffeeScript</li>
+<li>C++</li>
+<li>Haxe</li>
+<li>PHP</li>
+<li>C#</li>
+<li>TypeScript</li>
+<li>Go</li>
+<li>Python</li>
+<li>Mixed HTML</li>
+<li>Ruby</li>
+<li>C</li>
+<li>SCSS</li>
+<li>Less</li>
+<li>CSS</li>
+<li>erlang</li>
+<li><strong>Swift</strong></li>
+<li>xml/xslt</li>
+<li><strong>Objective-C</strong></li>
+<li>Puppet</li>
+<li>Twig</li>
+<li>Vue.js</li>
+</ul>
+
 
 <h3>优点</h3>
 
@@ -50,7 +171,7 @@ Puppet  Twig    Vue.js</p>
 
 <ul>
 <li>没有GUI</li>
-<li>复制1行，修改其中的一行，就不会被认为复制。</li>
+<li>算法简单：复制一段，修改其中的一行，就不会被认为复制。</li>
 </ul>
 
 
@@ -59,10 +180,6 @@ Puppet  Twig    Vue.js</p>
 <p><a href="https://pmd.github.io/">PMD</a></p>
 
 <h3>Supported IDEs</h3>
-
-<p>没有Xcode的插件，所以只能用命令行。</p>
-
-<p>PMD is integrated with JDeveloper, Eclipse, JEdit, JBuilder, BlueJ, CodeGuide, NetBeans/Sun Java Studio Enterprise/Creator, IntelliJ IDEA, TextPad, Maven, Ant, Gel, JCreator, and Emacs.</p>
 
 <ul>
 <li>Maven PMD plugin</li>
@@ -74,6 +191,8 @@ Puppet  Twig    Vue.js</p>
 <li>IntelliJ IDEA plugin</li>
 </ul>
 
+
+<p>没有Xcode的插件，但是可以通过在Build Phase里面加入Run Script来使用。</p>
 
 <h3>Supported Languages of PMD commonded line:</h3>
 
@@ -98,13 +217,13 @@ Puppet  Twig    Vue.js</p>
 <li>java</li>
 <li>jsp</li>
 <li>matlab</li>
-<li>objectivec</li>
+<li><strong>objectivec</strong></li>
 <li>php</li>
 <li>plsql</li>
 <li>python</li>
 <li>ruby</li>
 <li>scala</li>
-<li>swift</li>
+<li><strong>swift</strong></li>
 </ul>
 
 
@@ -121,7 +240,17 @@ Puppet  Twig    Vue.js</p>
 
 <h3>将CPD集成到XCode里面</h3>
 
-<p><a href="https://habrahabr.ru/post/137875/">Интегрируем Copy-Paste-Detection в Xcode, и не только</a>将CPD集成到了XCode里面。</p>
+<p><a href="https://medium.com/@nvashanin/%D0%B8%D0%BD%D1%82%D0%B5%D0%B3%D1%80%D0%B8%D1%80%D1%83%D0%B5%D0%BC-copy-paste-detector-%D0%B4%D0%BB%D1%8F-swift-%D0%B2-xcode-9ae87c20748">Integrating Copy-Paste-Detector for Swift in Xcode</a>: This is a newer post on April 2017 and gives a detailed step by step way for integrating CPD into Xcode:</p>
+
+<ul>
+<li>Add run script into Build Phase.</li>
+<li>Xcode warnings will appear at the place of duplicated code.</li>
+</ul>
+
+
+<p>Refer to <a href="../../../../2018/08/02/integrate-copy-and-paste-detector-into-xcode/">将代码查重工具集成到Xcode</a> for details.</p>
+
+<p><a href="https://habrahabr.ru/post/137875/"><del>Интегрируем Copy-Paste-Detection в Xcode, и не только</del></a>: Integrate CPD into XCode, but this post is a little older on 2012.</p>
 
 <h2>JenkinsCI-iOS</h2>
 
@@ -363,72 +492,6 @@ Puppet  Twig    Vue.js</p>
 <p>Attach one image to indicate the place (red circles) to find the warning type:</p>
 
 <p><img src="/images/006_warning_type_from_build_log.png" alt="006_warning_type_from_build_log.png" /></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[the .dSYM file in ios project]]></title>
-    <link href="http://hongchaozhang.github.io/blog/2015/08/17/the-dSYM-file-in-ios-project/"/>
-    <updated>2015-08-17T00:00:00+08:00</updated>
-    <id>http://hongchaozhang.github.io/blog/2015/08/17/the-dSYM-file-in-ios-project</id>
-    <content type="html"><![CDATA[<h3>Description</h3>
-
-<p>A <strong>.dSYM</strong> file is a <em>debug symbols file</em>. It is generated when in xcode:</p>
-
-<ul>
-<li><code>Generate Debug Symbols</code> setting is enabled</li>
-<li><code>Debug Infomation Format</code> is set to <code>DWARF with dSYM File</code> in the build settings of your project.</li>
-</ul>
-
-
-<!-- more -->
-
-
-<blockquote><p>Pay attention to the <em>debug/release/distribution</em> mode.</p></blockquote>
-
-<h3>Where to find</h3>
-
-<p>Reference: <a href="http://stackoverflow.com/questions/7088771/iphone-where-the-dsym-file-is-located-in-crash-report/35619718#35619718">iphone: Where the .dSYM file is located in crash report</a>. The post shows the following two ways.</p>
-
-<h4>&lsquo;build&rsquo; folder</h4>
-
-<ul>
-<li>Build you project for a real device.</li>
-<li><p>In <em>Project Navigator -> Products</em>, right click the app, choose <em>Show in Finder</em>, you will see the app with the coresponding .dSYM file in the same folder.</p>
-
-<blockquote><p>Note: Only if you build your project for real device will the app in Products folder be effective (black color, not red color).</p></blockquote></li>
-</ul>
-
-
-<h4>Archive</h4>
-
-<h5>Use of Archive from officical site:</h5>
-
-<blockquote><p>An archive is a bundle that includes your product along with symbol information. You can build an archive to seed an application for testing or to validate and submit an application to iTunes Connect.</p></blockquote>
-
-<p>Xcode creates the .dSYM file automatically for you when you use the Archive option. The created archive contains your app and its dSYM and is stored in <code>~/Library/Developer/xcode/Archives</code>.</p>
-
-<p>Reference: <a href="http://stackoverflow.com/questions/11880404/dsym-file-from-device">dSYM file from device</a> to find the detailed way to find the dSYM file.</p>
-
-<h3>Usage</h3>
-
-<h4>Safe</h4>
-
-<p>When this setting is enabled, symbol names of your objects are removed from the resulting compiled binary (one of the many countermeasures to try and prevent would be hackers/crackers from reverse engineering your code, amongst other optimisations for binary size, etc.).</p>
-
-<h4>Re-symbolicating</h4>
-
-<p>They are useful for re-symbolicating your crash reports. With a stripped binary, you won&rsquo;t be able to read any crash reports without first re-symbolicating them. Without the dSYM the crash report will just show memory addresses of objects and methods. Xcode uses the dSYM to put the symbols back into the crash report and allow you to read it properly.</p>
-
-<h4>UUID</h4>
-
-<p>dSYMs and executables have an embedded UUID which matches. So every time a build is done will cause both to get a new UUID. The consequence is that symbolication only works if the UUID of the binary that caused a crash matches the UUID of the dSYM that is used for symbolication.</p>
-
-<h3>Reference</h3>
-
-<p>Official reference: <a href="https://developer.apple.com/library/ios/recipes/Instruments_help_articles/RestoringSymbolsWhenTraceShowsOnlyAddresses/RestoringSymbolsWhenTraceShowsOnlyAddresses.html">Restoring Symbols When an Instruments Trace Shows Only Addresses</a>.</p>
-
-<p>This post is mainly from the following post: <a href="http://stackoverflow.com/questions/22460058/how-is-a-dsym-file-created">How is a .dSYM file created?</a>.</p>
 ]]></content>
   </entry>
   

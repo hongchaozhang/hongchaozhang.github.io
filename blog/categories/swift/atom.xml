@@ -4,7 +4,7 @@
   <title><![CDATA[Category: swift | Reading Space]]></title>
   <link href="http://hongchaozhang.github.io/blog/categories/swift/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2018-07-20T18:17:46+08:00</updated>
+  <updated>2018-08-02T22:54:50+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -1200,6 +1200,8 @@ func vend(itemNamed name: String) throws {
 
 <!-- more -->
 
+
+<p><br></p>
 
 <p>单个手势的响应过程参考<a href="http://hongchaozhang.github.io/blog/2015/10/21/touch-event-in-ios/">iOS中的触控事件机制</a>。但是上面几个问题需要考虑多个手势之间的关系，超出了上面文章的讨论范围。下面，我们就来讨论一下上面几个问题。</p>
 

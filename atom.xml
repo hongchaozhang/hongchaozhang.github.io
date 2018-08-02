@@ -4,7 +4,7 @@
   <title><![CDATA[Reading Space]]></title>
   <link href="http://hongchaozhang.github.io/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2018-07-20T18:17:46+08:00</updated>
+  <updated>2018-08-02T22:54:50+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -12,6 +12,124 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[将代码查重工具CPD集成到Xcode]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2018/08/02/integrate-copy-and-paste-detector-into-xcode/"/>
+    <updated>2018-08-02T18:34:40+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2018/08/02/integrate-copy-and-paste-detector-into-xcode</id>
+    <content type="html"><![CDATA[<!-- more -->
+
+
+<p>翻译部分<a href="https://medium.com/@nvashanin/%D0%B8%D0%BD%D1%82%D0%B5%D0%B3%D1%80%D0%B8%D1%80%D1%83%D0%B5%D0%BC-copy-paste-detector-%D0%B4%D0%BB%D1%8F-swift-%D0%B2-xcode-9ae87c20748">Integrating Copy-Paste-Detector for Swift in Xcode</a>。</p>
+
+<h2>DRY准则</h2>
+
+<p>编程到一个基本准则就是DRY（Don&rsquo;t Repeat Yourself)，不写重复代码。简单来说，就是不要复制黏贴。</p>
+
+<p>在开始之前，我们先讨论一下什么叫做“复制黏贴”？首先，如果你有相同的文件，肯定是极其糟糕的“复制黏贴”。如果你有两个类只是类名不同，但是做着相同或者类似的事情，也是很严重的“复制黏贴”。即使只有10行代码的重复，也是”复制黏贴“。根据作者个人经验，一个100000行的工程，完全不需要复制黏贴。</p>
+
+<h3>复制黏贴的坏处</h3>
+
+<p>在重复的代码处修改bug，还需要手动找到另外一处，做相同的修改。</p>
+
+<h2>如何避免复制黏贴</h2>
+
+<p>避免重复代码的传统方法是代码审查，但是对于代码审查者来说，找到重复代码是一件很困难的事情。</p>
+
+<p>我们能不能在编译阶段就查找出重复代码，并要求这些重复代码移除掉之后才可以继续进行编译。</p>
+
+<h2>安装CPD</h2>
+
+<p>对于Swift代码，有两个工具可以做代码查重：</p>
+
+<ul>
+<li><a href="https://github.com/kucherenko/jscpd">jscpd</a></li>
+<li><a href="https://pmd.github.io/">pmd</a></li>
+</ul>
+
+
+<p>其中，pmd可定制，并且比较稳定。开始之前，先通过homebrew进行安装：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>brew install pmd</span></code></pre></td></tr></table></div></figure>
+
+
+<blockquote><p>注意：对于其他语言，pmd都包含代码静态分析工具，但是对于Swift，只有一个代码查重工具CPD（Copy Paste Detector）。因此，如果想对Swift代码进行静态分析，可以选择<a href="https://github.com/realm/SwiftLint">SwiftLint</a>。</p></blockquote>
+
+<h2>集成到Xcode</h2>
+
+<p>为了将CPD功能集成到编译阶段，我们在Build Phase里新添加一个运行脚本（Run Script），并添加以下脚本：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># Running CPD
+</span><span class='line'>pmd cpd --files ${EXECUTABLE_NAME} --minimum-tokens 50 --language swift --encoding UTF-8 --format net.sourceforge.pmd.cpd.XMLRenderer &gt; cpd-output.xml --failOnViolation true
+</span><span class='line'># Running script
+</span><span class='line'>php ./cpd_script.php -cpd-xml cpd-output.xml</span></code></pre></td></tr></table></div></figure>
+
+
+<p>让我们来看一下这一段脚本做了什么事情。</p>
+
+<p>第一部分是说我们在项目根目录下对所有的文件进行代码查重：</p>
+
+<ul>
+<li><code>--minimum-tokens</code>指定重复代码的最少token数量。这里的token是一个比较抽象的概念，不是字符，不是单词，也不是短语的意思。根据经验来说，Swift语言的最优值是50：太大，会漏掉重复代码；太小，会将一些代码误判为重复代码。</li>
+<li><code>--formant</code>指定输出格式，这里指定为xml文件。</li>
+<li><code>--failOnViolation</code>标识为设置为<code>true</code>，意思是只要检测到重复代码，就不继续进行编译。</li>
+</ul>
+
+
+<blockquote><p>经测试，无论<code>--failOnViolation</code>设置成<code>true</code>，还是<code>false</code>，都不能阻断编译的正常运行。但是warning能正常地给出。</p></blockquote>
+
+<p>第一部分脚本执行的结果，是一个xml文件，里面包含了整个工程里面的重复代码及其位置、行数等信息。下面让我们看看，怎么将这个难读的xml文件以warning的形式展示给开发者。</p>
+
+<p>为了将xml文件转换成更好读的warning，需要在工程根目录下创建一个php文件，我们叫做cpd_script.php，拷贝下面的脚本到该文件中：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="o">&lt;?</span><span class="nx">php</span>
+</span><span class='line'><span class="k">foreach</span> <span class="p">(</span><span class="nb">simplexml_load_file</span><span class="p">(</span><span class="s1">&#39;cpd-output.xml&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">duplication</span> <span class="k">as</span> <span class="nv">$duplication</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nv">$files</span> <span class="o">=</span> <span class="nv">$duplication</span><span class="o">-&gt;</span><span class="na">xpath</span><span class="p">(</span><span class="s1">&#39;file&#39;</span><span class="p">);</span>
+</span><span class='line'>    <span class="k">foreach</span> <span class="p">(</span><span class="nv">$files</span> <span class="k">as</span> <span class="nv">$file</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">echo</span> <span class="nv">$file</span><span class="p">[</span><span class="s1">&#39;path&#39;</span><span class="p">]</span><span class="o">.</span><span class="s1">&#39;:&#39;</span><span class="o">.</span><span class="nv">$file</span><span class="p">[</span><span class="s1">&#39;line&#39;</span><span class="p">]</span><span class="o">.</span><span class="s1">&#39;:1: warning: &#39;</span><span class="o">.</span><span class="nv">$duplication</span><span class="p">[</span><span class="s1">&#39;lines&#39;</span><span class="p">]</span><span class="o">.</span><span class="s1">&#39; copy-pasted lines from: &#39;</span>
+</span><span class='line'>            <span class="o">.</span><span class="nb">implode</span><span class="p">(</span><span class="s1">&#39;, &#39;</span><span class="p">,</span> <span class="nb">array_map</span><span class="p">(</span><span class="k">function</span> <span class="p">(</span><span class="nv">$otherFile</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="nv">$otherFile</span><span class="p">[</span><span class="s1">&#39;path&#39;</span><span class="p">]</span><span class="o">.</span><span class="s1">&#39;:&#39;</span><span class="o">.</span><span class="nv">$otherFile</span><span class="p">[</span><span class="s1">&#39;line&#39;</span><span class="p">];</span> <span class="p">},</span>
+</span><span class='line'>            <span class="nb">array_filter</span><span class="p">(</span><span class="nv">$files</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="nv">$f</span><span class="p">)</span> <span class="k">use</span> <span class="p">(</span><span class="o">&amp;</span><span class="nv">$file</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="nv">$f</span> <span class="o">!=</span> <span class="nv">$file</span><span class="p">;</span> <span class="p">})))</span><span class="o">.</span><span class="nx">PHP_EOL</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="cp">?&gt;</span><span class="x"></span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>我们在Build Phase中添加的脚本的第二部分就是运行这一段脚本，将生成的xml文件中的所有重复代码信息以warning的形式展示在Xcode中。如果你想了解如何在Xcod中生成warning，参考<a href="https://krakendev.io/blog/generating-warnings-in-xcode">Generating Warnings in Xcode</a>。</p>
+
+<p>现在编译工程，可以在Xcode左侧导航窗口看到所有的warning：</p>
+
+<p><img src="http://hongchaozhang.github.io/images/cpd_warnings_in_navigation.jpg" alt="cpd warnings in navigation" /></p>
+
+<p>在相应的文件中，也可以看到该文件所包含的重复代码的warning：</p>
+
+<p><img src="http://hongchaozhang.github.io/images/cpd_warnings_in_file.jpg" alt="cpd warnings in file" /></p>
+
+<p>这个warning的意思是说：从54行往下的41行代码和ErrorHandleTester.swift中从96行往下的41行代码重复。</p>
+
+<blockquote><p>如果是刚安装的pmd，可能需要重启Xcode，让pmd命令生效。</p></blockquote>
+
+<h2>结论</h2>
+
+<p>重复代码清理是一件刻不容缓的事情。这个工具放在这里，没有任何副作用，建议大家能正确对待重复代码。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Introducing Create ML]]></title>
@@ -446,7 +564,7 @@
 <!-- more -->
 
 
-
+<p><br></p>
 
 <!-- TOC -->
 
@@ -2961,7 +3079,7 @@ Provides AR experiences that use the front-facing camera and track the movement 
     <content type="html"><![CDATA[<!-- more -->
 
 
-<p>代码查重工具</p>
+<p>很多IDE里面都有自己的代码查重工具，比如WebStorm的代码查重工具做的非常好用。但是Xcode里面至今没有自己的代码查重工具。这里调研了一些常见的代码查重工具，最后选择PMD里面的CPD，并将其集成到Xcode中，重复代码会以warning的形式出现在Xcode里面。</p>
 
 <h2>jscpd</h2>
 
@@ -2969,14 +3087,33 @@ Provides AR experiences that use the front-facing camera and track the movement 
 
 <p>Supported languages：</p>
 
-<p>JavaScript  Java    YAML
-CoffeeScript    C++ Haxe
-PHP C#  TypeScript
-Go  Python  Mixed HTML
-Ruby    C   SCSS
-Less    CSS erlang
-<strong>Swift</strong>   xml/xslt    <strong>Objective-C</strong>
-Puppet  Twig    Vue.js</p>
+<ul>
+<li>JavaScript</li>
+<li>Java</li>
+<li>YAML</li>
+<li>CoffeeScript</li>
+<li>C++</li>
+<li>Haxe</li>
+<li>PHP</li>
+<li>C#</li>
+<li>TypeScript</li>
+<li>Go</li>
+<li>Python</li>
+<li>Mixed HTML</li>
+<li>Ruby</li>
+<li>C</li>
+<li>SCSS</li>
+<li>Less</li>
+<li>CSS</li>
+<li>erlang</li>
+<li><strong>Swift</strong></li>
+<li>xml/xslt</li>
+<li><strong>Objective-C</strong></li>
+<li>Puppet</li>
+<li>Twig</li>
+<li>Vue.js</li>
+</ul>
+
 
 <h3>优点</h3>
 
@@ -2990,7 +3127,7 @@ Puppet  Twig    Vue.js</p>
 
 <ul>
 <li>没有GUI</li>
-<li>复制1行，修改其中的一行，就不会被认为复制。</li>
+<li>算法简单：复制一段，修改其中的一行，就不会被认为复制。</li>
 </ul>
 
 
@@ -2999,10 +3136,6 @@ Puppet  Twig    Vue.js</p>
 <p><a href="https://pmd.github.io/">PMD</a></p>
 
 <h3>Supported IDEs</h3>
-
-<p>没有Xcode的插件，所以只能用命令行。</p>
-
-<p>PMD is integrated with JDeveloper, Eclipse, JEdit, JBuilder, BlueJ, CodeGuide, NetBeans/Sun Java Studio Enterprise/Creator, IntelliJ IDEA, TextPad, Maven, Ant, Gel, JCreator, and Emacs.</p>
 
 <ul>
 <li>Maven PMD plugin</li>
@@ -3014,6 +3147,8 @@ Puppet  Twig    Vue.js</p>
 <li>IntelliJ IDEA plugin</li>
 </ul>
 
+
+<p>没有Xcode的插件，但是可以通过在Build Phase里面加入Run Script来使用。</p>
 
 <h3>Supported Languages of PMD commonded line:</h3>
 
@@ -3038,13 +3173,13 @@ Puppet  Twig    Vue.js</p>
 <li>java</li>
 <li>jsp</li>
 <li>matlab</li>
-<li>objectivec</li>
+<li><strong>objectivec</strong></li>
 <li>php</li>
 <li>plsql</li>
 <li>python</li>
 <li>ruby</li>
 <li>scala</li>
-<li>swift</li>
+<li><strong>swift</strong></li>
 </ul>
 
 
@@ -3062,7 +3197,17 @@ Puppet  Twig    Vue.js</p>
 
 <h3>将CPD集成到XCode里面</h3>
 
-<p><a href="https://habrahabr.ru/post/137875/">Интегрируем Copy-Paste-Detection в Xcode, и не только</a>将CPD集成到了XCode里面。</p>
+<p><a href="https://medium.com/@nvashanin/%D0%B8%D0%BD%D1%82%D0%B5%D0%B3%D1%80%D0%B8%D1%80%D1%83%D0%B5%D0%BC-copy-paste-detector-%D0%B4%D0%BB%D1%8F-swift-%D0%B2-xcode-9ae87c20748">Integrating Copy-Paste-Detector for Swift in Xcode</a>: This is a newer post on April 2017 and gives a detailed step by step way for integrating CPD into Xcode:</p>
+
+<ul>
+<li>Add run script into Build Phase.</li>
+<li>Xcode warnings will appear at the place of duplicated code.</li>
+</ul>
+
+
+<p>Refer to <a href="../../../../2018/08/02/integrate-copy-and-paste-detector-into-xcode/">将代码查重工具集成到Xcode</a> for details.</p>
+
+<p><a href="https://habrahabr.ru/post/137875/"><del>Интегрируем Copy-Paste-Detection в Xcode, и не только</del></a>: Integrate CPD into XCode, but this post is a little older on 2012.</p>
 
 <h2>JenkinsCI-iOS</h2>
 
@@ -4274,6 +4419,8 @@ Puppet  Twig    Vue.js</p>
 
 <!-- more -->
 
+
+<p><br></p>
 
 <p>单个手势的响应过程参考<a href="http://hongchaozhang.github.io/blog/2015/10/21/touch-event-in-ios/">iOS中的触控事件机制</a>。但是上面几个问题需要考虑多个手势之间的关系，超出了上面文章的讨论范围。下面，我们就来讨论一下上面几个问题。</p>
 
@@ -6492,227 +6639,6 @@ The code does not provide, unlock or enable additional features or functionality
 <h2>那轰然一响</h2>
 
 <p>&hellip;我们也是星尘。&hellip;</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[android unit test with junit]]></title>
-    <link href="http://hongchaozhang.github.io/blog/2016/08/25/android-unit-test-with-junit/"/>
-    <updated>2016-08-25T13:27:16+08:00</updated>
-    <id>http://hongchaozhang.github.io/blog/2016/08/25/android-unit-test-with-junit</id>
-    <content type="html"><![CDATA[<p>Create Android unit tests using junit4.</p>
-
-<!-- more -->
-
-
-<h2>Test Types</h2>
-
-<p>When using Android Studio to write any of your tests, your test code must go into one of two different code directories (source sets). For each module in your project, Android Studio includes both source sets, corresponding to the following test types:</p>
-
-<h3>Local unit tests</h3>
-
-<p>Located at <em>module-name/src/test/java/</em>.
-These tests run on the local JVM and do not have access to functional Android framework APIs.</p>
-
-<h3>Instrumented tests</h3>
-
-<p>Located at <em>module-name/src/androidTest/java/</em>.
-These are all tests that must run on an Android hardware device or an Android emulator.</p>
-
-<p>In the following, we will only focus on local unit test.</p>
-
-<h2>Set Up Your Testing Environment</h2>
-
-<p>In your app&rsquo;s top-level build.gradle file, you need to specify these libraries as dependencies:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>dependencies {
-</span><span class='line'>    // Required -- JUnit 4 framework
-</span><span class='line'>    testCompile 'junit:junit:4.12'
-</span><span class='line'>    // Optional -- Mockito framework
-</span><span class='line'>    testCompile 'org.mockito:mockito-core:1.10.19'
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Create a Local Unit Test Class</h2>
-
-<h3>Manualy create junit4 unit test</h3>
-
-<p>Your local unit test class should be written as a JUnit 4 test class. <a href="http://junit.org/junit4/">JUnit</a> is the most popular and widely-used unit testing framework for Java. The latest version of this framework, JUnit 4, allows you to write tests in a cleaner and more flexible way than its predecessor versions. Unlike the previous approach to Android unit testing based on JUnit 3, with JUnit 4, you do not need to extend the junit.framework.TestCase class. You also do not need to prefix your test method name with the ‘test’ keyword, or use any classes in the junit.framework or junit.extensions package.</p>
-
-<p>To create a basic JUnit 4 test class, create a Java class that contains one or more test methods. A test method begins with the @Test annotation and contains the code to exercise and verify a single functionality in the component that you want to test.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kn">import</span> <span class="nn">org.junit.Test</span><span class="o">;</span>
-</span><span class='line'><span class="kn">import</span> <span class="nn">java.util.regex.Pattern</span><span class="o">;</span>
-</span><span class='line'><span class="kn">import</span> <span class="nn">static</span> <span class="n">org</span><span class="o">.</span><span class="na">junit</span><span class="o">.</span><span class="na">Assert</span><span class="o">.</span><span class="na">assertFalse</span><span class="o">;</span>
-</span><span class='line'><span class="kn">import</span> <span class="nn">static</span> <span class="n">org</span><span class="o">.</span><span class="na">junit</span><span class="o">.</span><span class="na">Assert</span><span class="o">.</span><span class="na">assertTrue</span><span class="o">;</span>
-</span><span class='line'>
-</span><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">EmailValidatorTest</span> <span class="o">{</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="nd">@Test</span>
-</span><span class='line'>    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">emailValidator_CorrectEmailSimple_ReturnsTrue</span><span class="o">()</span> <span class="o">{</span>
-</span><span class='line'>        <span class="n">assertThat</span><span class="o">(</span><span class="n">EmailValidator</span><span class="o">.</span><span class="na">isValidEmail</span><span class="o">(</span><span class="s">&quot;name@email.com&quot;</span><span class="o">),</span> <span class="n">is</span><span class="o">(</span><span class="kc">true</span><span class="o">));</span>
-</span><span class='line'>    <span class="o">}</span>
-</span><span class='line'>    <span class="o">...</span>
-</span><span class='line'><span class="o">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>Auto create junit4 unit test with the help of Android Studio</h3>
-
-<p>Right click inside the class you are to test, and select <em>Go to -> Test</em> (Shift + Command + T), then select <em>create new test&hellip;</em>. You will see:</p>
-
-<p><img src="http://hongchaozhang.github.io/images/auto_create_junit4_unit_test.png" alt="auto_create_junit4_unit_test.png" /></p>
-
-<p>In the above window, select the test class name, the methods you want to test, and some other helper methods like <code>setUp</code> and <code>tearDown</code>.</p>
-
-<p>Then fill out all the test cases.</p>
-
-<h3>Some annotations</h3>
-
-<table>
-<thead>
-<tr>
-<th>Annotation </th>
-<th> Meaning </th>
-<th> Note</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>@Test </td>
-<td> for test cases </td>
-<td></td>
-</tr>
-<tr>
-<td>@Before </td>
-<td> excute before every test case </td>
-<td></td>
-</tr>
-<tr>
-<td>@After </td>
-<td> excute after every test case </td>
-<td></td>
-</tr>
-<tr>
-<td>@BeforeClass </td>
-<td> static, excute only once, before the first test case begin </td>
-<td></td>
-</tr>
-<tr>
-<td>@AfterClass </td>
-<td> see @BeforeClass </td>
-<td></td>
-</tr>
-<tr>
-<td>@Rule </td>
-<td></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-
-
-<h2><code>Mock</code> and <code>Spy</code></h2>
-
-<h4>Difference between mock and spy</h4>
-
-<p><strong>Mock</strong>: Mock will wrap the Class of an Type, not from an actual instance. The mock simply creates a bare-bones shell instance of the Class. In that case, each method implementation is mocked, unless specify <code>thenCallRealMethod()</code> in the <code>when(..)</code> clause.</p>
-
-<p><strong>Spy</strong>: Spy will wrap an existing instance. In this case, all method implementation are the real one, expect if you have defined a mocked behaviour with <code>when(..)</code>.</p>
-
-<p>For <code>mock</code>:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="n">Stock</span> <span class="n">stock</span> <span class="o">=</span> <span class="n">mock</span><span class="o">(</span><span class="n">Stock</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
-</span><span class='line'><span class="n">when</span><span class="o">(</span><span class="n">stock</span><span class="o">.</span><span class="na">getPrice</span><span class="o">()).</span><span class="na">thenReturn</span><span class="o">(</span><span class="mf">100.00</span><span class="o">);</span>    <span class="c1">// Mock implementation</span>
-</span><span class='line'><span class="n">when</span><span class="o">(</span><span class="n">stock</span><span class="o">.</span><span class="na">getQuantity</span><span class="o">()).</span><span class="na">thenReturn</span><span class="o">(</span><span class="mi">200</span><span class="o">);</span>    <span class="c1">// Mock implementation</span>
-</span><span class='line'><span class="n">when</span><span class="o">(</span><span class="n">stock</span><span class="o">.</span><span class="na">getValue</span><span class="o">()).</span><span class="na">thenCallRealMethod</span><span class="o">();</span>  <span class="c1">// Real implementation</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>In that case, each method implementation is mocked, unless specify <code>thenCallRealMethod()</code> in the <code>when(..)</code> clause.</p>
-
-<p>For <code>spy</code>:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="n">Stock</span> <span class="n">stock</span> <span class="o">=</span> <span class="n">spy</span><span class="o">(</span><span class="k">new</span> <span class="nf">Stock</span><span class="o">());</span>
-</span><span class='line'><span class="n">when</span><span class="o">(</span><span class="n">stock</span><span class="o">.</span><span class="na">getPrice</span><span class="o">()).</span><span class="na">thenReturn</span><span class="o">(</span><span class="mf">100.00</span><span class="o">);</span>    <span class="c1">// Mock implementation</span>
-</span><span class='line'><span class="n">when</span><span class="o">(</span><span class="n">stock</span><span class="o">.</span><span class="na">getQuantity</span><span class="o">()).</span><span class="na">thenReturn</span><span class="o">(</span><span class="mi">200</span><span class="o">);</span>    <span class="c1">// Mock implementation</span>
-</span><span class='line'><span class="c1">// All other method call will use the real implementations</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>In that case, all method implementation are the real one, expect if you have defined a mocked behaviour with <code>when(..)</code>.</p>
-
-<p>There is one important pitfall when you use <code>when(Object)</code> with spy like in the previous example. The real method will be called (because <code>stock.getPrice()</code> is evaluated before <code>when(..)</code> at runtime). This can be a problem if your method contains logic that should not be called. You can write the previous example like this:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="n">Stock</span> <span class="n">stock</span> <span class="o">=</span> <span class="n">spy</span><span class="o">(</span><span class="k">new</span> <span class="nf">Stock</span><span class="o">());</span>
-</span><span class='line'><span class="n">doReturn</span><span class="o">(</span><span class="mf">100.00</span><span class="o">).</span><span class="na">when</span><span class="o">(</span><span class="n">stock</span><span class="o">).</span><span class="na">getPrice</span><span class="o">();</span>    <span class="c1">// Mock implementation</span>
-</span><span class='line'><span class="n">doReturn</span><span class="o">(</span><span class="mi">200</span><span class="o">).</span><span class="na">when</span><span class="o">(</span><span class="n">stock</span><span class="o">).</span><span class="na">getQuantity</span><span class="o">();</span>    <span class="c1">// Mock implementation</span>
-</span><span class='line'><span class="c1">// All other method call will use the real implementations</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Mock Android Dependencies</h2>
-
-<p>To do.</p>
-
-<h2>Use Hamcrest for Assertion</h2>
-
-<p>Use <a href="https://github.com/hamcrest/hamcrest-junit">hamcrest</a> to make the code more readable.</p>
-
-<p>Instead of using:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="n">assertEquals</span><span class="o">(</span><span class="n">expected</span><span class="o">,</span> <span class="s">&quot;the two values should be the same&quot;</span><span class="o">);</span>
-</span><span class='line'><span class="n">assertNotNull</span><span class="o">(</span><span class="n">object</span><span class="o">);</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>we can use:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="n">assertThat</span><span class="o">(</span><span class="n">expected</span><span class="o">,</span> <span class="n">equalTo</span><span class="o">(</span><span class="s">&quot;the two values should be the same&quot;</span><span class="o">));</span>
-</span><span class='line'><span class="n">assertThat</span><span class="o">(</span><span class="n">object</span><span class="o">,</span> <span class="n">is</span><span class="o">(</span><span class="n">NotNullValue</span><span class="o">()));</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>References</h2>
-
-<p><a href="https://developer.android.com/training/testing/start/index.html">Getting Started with Testing</a>: official site from Google.</p>
-
-<p><a href="http://stackoverflow.com/questions/14970516/use-mockito-to-mock-some-methods-but-not-others">Use Mockito to mock some methods but not others</a>讲解Mock和Spy的用法，简单易懂。</p>
 ]]></content>
   </entry>
   

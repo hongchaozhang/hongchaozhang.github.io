@@ -1,0 +1,257 @@
+
+<!DOCTYPE HTML>
+
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>将代码查重工具CPD集成到Xcode - Reading Space</title>
+	<meta name="author" content="Zhang Hongchao">
+
+	
+	<meta name="description" content="将代码查重工具CPD集成到Xcode 翻译部分Integrating Copy-Paste-Detector for Swift in Xcode。 DRY准则 编程到一个基本准则就是DRY（Don&rsquo;t Repeat Yourself)，不写重复代码。简单来说，就是不要复制黏贴。 &hellip;">
+	
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="Reading Space" type="application/atom+xml">
+	
+	<link rel="canonical" href="http://hongchaozhang.github.io/blog/2018/08/02/integrate-copy-and-paste-detector-into-xcode/">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<link href="/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<link href='http://fonts.googleapis.com/css?family=Nunito:400,300,700' rel='stylesheet' type='text/css'>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	
+  
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-62806905-2']);
+		_gaq.push(['_trackPageview']);
+
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
+
+
+</head>
+
+
+<body>
+	<div class="container">
+		<div class="left-col">
+			<div class="intrude-less">
+			<header id="header" class="inner"><div class="profilepic">
+	
+	<script src="/javascripts/md5.js"></script>
+	<script type="text/javascript">
+		$(function(){
+			$('.profilepic').append("<img src='http://www.gravatar.com/avatar/" + MD5("") + "?s=160' alt='Profile Picture' style='width: 160px;' />");
+		});
+	</script>
+	
+</div>
+
+<nav id="main-nav"><ul class="main">
+    <li><a href="/">Blog</a></li>
+    <li><a href="/blog/archives">Archives</a></li>
+    <li><a href="#">About</a></li>
+</ul>
+</nav>
+<nav id="sub-nav">
+	<div class="social">
+		
+		
+		
+		
+		
+			<a class="github" href="https://github.com/hongchaozhang" title="GitHub">GitHub</a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+    	
+    	
+			<a class="rss" href="/atom.xml" title="RSS">RSS</a>
+		
+	</div>
+</nav>
+
+
+
+<section class="categories">
+          <ul id="category_cloud" class="nav nav-list"><a href='/blog/categories/android' style='font-size: 107.89473684210526%'>android(5)</a> <a href='/blog/categories/android-studio' style='font-size: 101.57894736842105%'>android_studio(1)</a> <a href='/blog/categories/design-pattern' style='font-size: 101.57894736842105%'>design_pattern(1)</a> <a href='/blog/categories/ios' style='font-size: 160.0%'>ios(38)</a> <a href='/blog/categories/java' style='font-size: 103.15789473684211%'>java(2)</a> <a href='/blog/categories/javascript' style='font-size: 103.15789473684211%'>javascript(2)</a> <a href='/blog/categories/machine-learning' style='font-size: 101.57894736842105%'>machine learning(1)</a> <a href='/blog/categories/map-tech' style='font-size: 103.15789473684211%'>map tech(2)</a> <a href='/blog/categories/mobile' style='font-size: 101.57894736842105%'>mobile(1)</a> <a href='/blog/categories/node' style='font-size: 104.73684210526315%'>node(3)</a> <a href='/blog/categories/objective-c' style='font-size: 131.57894736842104%'>objective-c(20)</a> <a href='/blog/categories/philosophy' style='font-size: 103.15789473684211%'>philosophy(2)</a> <a href='/blog/categories/productivity' style='font-size: 128.42105263157896%'>productivity(18)</a> <a href='/blog/categories/python' style='font-size: 104.73684210526315%'>python(3)</a> <a href='/blog/categories/reading' style='font-size: 103.15789473684211%'>reading(2)</a> <a href='/blog/categories/swift' style='font-size: 104.73684210526315%'>swift(3)</a> <a href='/blog/categories/web' style='font-size: 103.15789473684211%'>web(2)</a> <a href='/blog/categories/wwdc' style='font-size: 103.15789473684211%'>wwdc(2)</a> <a href='/blog/categories/xcode' style='font-size: 109.47368421052632%'>xcode(6)</a> </ul>
+      </section>
+
+
+</header>				
+			</div>
+		</div>	
+		<div class="mid-col">
+			
+				
+			
+			<div class="mid-col-container">
+				<div id="content" class="inner"><article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+	<h1 class="title" itemprop="name">将代码查重工具CPD集成到Xcode</h1>
+	<div class="entry-content" itemprop="articleBody"><!-- more -->
+
+
+<p>翻译部分<a href="https://medium.com/@nvashanin/%D0%B8%D0%BD%D1%82%D0%B5%D0%B3%D1%80%D0%B8%D1%80%D1%83%D0%B5%D0%BC-copy-paste-detector-%D0%B4%D0%BB%D1%8F-swift-%D0%B2-xcode-9ae87c20748">Integrating Copy-Paste-Detector for Swift in Xcode</a>。</p>
+
+<h2>DRY准则</h2>
+
+<p>编程到一个基本准则就是DRY（Don&rsquo;t Repeat Yourself)，不写重复代码。简单来说，就是不要复制黏贴。</p>
+
+<p>在开始之前，我们先讨论一下什么叫做“复制黏贴”？首先，如果你有相同的文件，肯定是极其糟糕的“复制黏贴”。如果你有两个类只是类名不同，但是做着相同或者类似的事情，也是很严重的“复制黏贴”。即使只有10行代码的重复，也是”复制黏贴“。根据作者个人经验，一个100000行的工程，完全不需要复制黏贴。</p>
+
+<h3>复制黏贴的坏处</h3>
+
+<p>在重复的代码处修改bug，还需要手动找到另外一处，做相同的修改。</p>
+
+<h2>如何避免复制黏贴</h2>
+
+<p>避免重复代码的传统方法是代码审查，但是对于代码审查者来说，找到重复代码是一件很困难的事情。</p>
+
+<p>我们能不能在编译阶段就查找出重复代码，并要求这些重复代码移除掉之后才可以继续进行编译。</p>
+
+<h2>安装CPD</h2>
+
+<p>对于Swift代码，有两个工具可以做代码查重：</p>
+
+<ul>
+<li><a href="https://github.com/kucherenko/jscpd">jscpd</a></li>
+<li><a href="https://pmd.github.io/">pmd</a></li>
+</ul>
+
+
+<p>其中，pmd可定制，并且比较稳定。开始之前，先通过homebrew进行安装：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>brew install pmd</span></code></pre></td></tr></table></div></figure>
+
+
+<blockquote><p>注意：对于其他语言，pmd都包含代码静态分析工具，但是对于Swift，只有一个代码查重工具CPD（Copy Paste Detector）。因此，如果想对Swift代码进行静态分析，可以选择<a href="https://github.com/realm/SwiftLint">SwiftLint</a>。</p></blockquote>
+
+<h2>集成到Xcode</h2>
+
+<p>为了将CPD功能集成到编译阶段，我们在Build Phase里新添加一个运行脚本（Run Script），并添加以下脚本：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># Running CPD
+</span><span class='line'>pmd cpd --files ${EXECUTABLE_NAME} --minimum-tokens 50 --language swift --encoding UTF-8 --format net.sourceforge.pmd.cpd.XMLRenderer &gt; cpd-output.xml --failOnViolation true
+</span><span class='line'># Running script
+</span><span class='line'>php ./cpd_script.php -cpd-xml cpd-output.xml</span></code></pre></td></tr></table></div></figure>
+
+
+<p>让我们来看一下这一段脚本做了什么事情。</p>
+
+<p>第一部分是说我们在项目根目录下对所有的文件进行代码查重：</p>
+
+<ul>
+<li><code>--minimum-tokens</code>指定重复代码的最少token数量。这里的token是一个比较抽象的概念，不是字符，不是单词，也不是短语的意思。根据经验来说，Swift语言的最优值是50：太大，会漏掉重复代码；太小，会将一些代码误判为重复代码。</li>
+<li><code>--formant</code>指定输出格式，这里指定为xml文件。</li>
+<li><code>--failOnViolation</code>标识为设置为<code>true</code>，意思是只要检测到重复代码，就不继续进行编译。</li>
+</ul>
+
+
+<blockquote><p>经测试，无论<code>--failOnViolation</code>设置成<code>true</code>，还是<code>false</code>，都不能阻断编译的正常运行。但是warning能正常地给出。</p></blockquote>
+
+<p>第一部分脚本执行的结果，是一个xml文件，里面包含了整个工程里面的重复代码及其位置、行数等信息。下面让我们看看，怎么将这个难读的xml文件以warning的形式展示给开发者。</p>
+
+<p>为了将xml文件转换成更好读的warning，需要在工程根目录下创建一个php文件，我们叫做cpd_script.php，拷贝下面的脚本到该文件中：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="o">&lt;?</span><span class="nx">php</span>
+</span><span class='line'><span class="k">foreach</span> <span class="p">(</span><span class="nb">simplexml_load_file</span><span class="p">(</span><span class="s1">&#39;cpd-output.xml&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">duplication</span> <span class="k">as</span> <span class="nv">$duplication</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nv">$files</span> <span class="o">=</span> <span class="nv">$duplication</span><span class="o">-&gt;</span><span class="na">xpath</span><span class="p">(</span><span class="s1">&#39;file&#39;</span><span class="p">);</span>
+</span><span class='line'>    <span class="k">foreach</span> <span class="p">(</span><span class="nv">$files</span> <span class="k">as</span> <span class="nv">$file</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">echo</span> <span class="nv">$file</span><span class="p">[</span><span class="s1">&#39;path&#39;</span><span class="p">]</span><span class="o">.</span><span class="s1">&#39;:&#39;</span><span class="o">.</span><span class="nv">$file</span><span class="p">[</span><span class="s1">&#39;line&#39;</span><span class="p">]</span><span class="o">.</span><span class="s1">&#39;:1: warning: &#39;</span><span class="o">.</span><span class="nv">$duplication</span><span class="p">[</span><span class="s1">&#39;lines&#39;</span><span class="p">]</span><span class="o">.</span><span class="s1">&#39; copy-pasted lines from: &#39;</span>
+</span><span class='line'>            <span class="o">.</span><span class="nb">implode</span><span class="p">(</span><span class="s1">&#39;, &#39;</span><span class="p">,</span> <span class="nb">array_map</span><span class="p">(</span><span class="k">function</span> <span class="p">(</span><span class="nv">$otherFile</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="nv">$otherFile</span><span class="p">[</span><span class="s1">&#39;path&#39;</span><span class="p">]</span><span class="o">.</span><span class="s1">&#39;:&#39;</span><span class="o">.</span><span class="nv">$otherFile</span><span class="p">[</span><span class="s1">&#39;line&#39;</span><span class="p">];</span> <span class="p">},</span>
+</span><span class='line'>            <span class="nb">array_filter</span><span class="p">(</span><span class="nv">$files</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="nv">$f</span><span class="p">)</span> <span class="k">use</span> <span class="p">(</span><span class="o">&amp;</span><span class="nv">$file</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="nv">$f</span> <span class="o">!=</span> <span class="nv">$file</span><span class="p">;</span> <span class="p">})))</span><span class="o">.</span><span class="nx">PHP_EOL</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="cp">?&gt;</span><span class="x"></span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>我们在Build Phase中添加的脚本的第二部分就是运行这一段脚本，将生成的xml文件中的所有重复代码信息以warning的形式展示在Xcode中。如果你想了解如何在Xcod中生成warning，参考<a href="https://krakendev.io/blog/generating-warnings-in-xcode">Generating Warnings in Xcode</a>。</p>
+
+<p>现在编译工程，可以在Xcode左侧导航窗口看到所有的warning：</p>
+
+<p><img src="/images/cpd_warnings_in_navigation.jpg" alt="cpd warnings in navigation" /></p>
+
+<p>在相应的文件中，也可以看到该文件所包含的重复代码的warning：</p>
+
+<p><img src="/images/cpd_warnings_in_file.jpg" alt="cpd warnings in file" /></p>
+
+<p>这个warning的意思是说：从54行往下的41行代码和ErrorHandleTester.swift中从96行往下的41行代码重复。</p>
+
+<blockquote><p>如果是刚安装的pmd，可能需要重启Xcode，让pmd命令生效。</p></blockquote>
+
+<h2>结论</h2>
+
+<p>重复代码清理是一件刻不容缓的事情。这个工具放在这里，没有任何副作用，建议大家能正确对待重复代码。</p>
+</div>
+
+</article>
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+	
+	
+	
+	<a class="addthis_counter addthis_pill_style"></a>
+	</div>
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
+</div>
+
+
+</div>
+			</div>
+			<footer id="footer" class="inner">Copyright &copy; 2018
+
+    Zhang Hongchao
+
+
+<!--Design credit: <a href="http://shashankmehta.in/archive/2012/greyshade.html">Shashank Mehta</a>--></footer>
+		</div>
+	</div>
+	<!-- 
+ -->
+
+
+
+
+
+
+
+
+
+</body>
+</html>
