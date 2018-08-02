@@ -10,7 +10,7 @@ published: true
 
 <!-- more -->
 
-代码查重工具
+很多IDE里面都有自己的代码查重工具，比如WebStorm的代码查重工具做的非常好用。但是Xcode里面至今没有自己的代码查重工具。这里调研了一些常见的代码查重工具，最后选择PMD里面的CPD，并将其集成到Xcode中，重复代码会以warning的形式出现在Xcode里面。
 
 ## jscpd
 
@@ -18,14 +18,30 @@ published: true
 
 Supported languages： 
 
-JavaScript	Java	YAML
-CoffeeScript	C++	Haxe
-PHP	C#	TypeScript
-Go	Python	Mixed HTML
-Ruby	C	SCSS
-Less	CSS	erlang
-**Swift**	xml/xslt	**Objective-C**
-Puppet	Twig	Vue.js
+* JavaScript	
+* Java	
+* YAML
+* CoffeeScript	
+* C++	
+* Haxe
+* PHP	
+* C#	
+* TypeScript
+* Go	
+* Python	
+* Mixed HTML
+* Ruby	
+* C	
+* SCSS
+* Less	
+* CSS	
+* erlang
+* **Swift**	
+* xml/xslt	
+* **Objective-C**
+* Puppet	
+* Twig	
+* Vue.js
 
 ### 优点
 
@@ -35,7 +51,7 @@ Puppet	Twig	Vue.js
 ### 缺点：
 
 * 没有GUI
-* 复制1行，修改其中的一行，就不会被认为复制。
+* 算法简单：复制一段，修改其中的一行，就不会被认为复制。
 
 
 ## PMD
@@ -44,11 +60,6 @@ Puppet	Twig	Vue.js
 
 ### Supported IDEs
 
-没有Xcode的插件，所以只能用命令行。
-
-PMD is integrated with JDeveloper, Eclipse, JEdit, JBuilder, BlueJ, CodeGuide, NetBeans/Sun Java Studio Enterprise/Creator, IntelliJ IDEA, TextPad, Maven, Ant, Gel, JCreator, and Emacs.
-
-
 * Maven PMD plugin
 * Gradle: The PMD Plugin
 * Eclipse plugin
@@ -56,6 +67,8 @@ PMD is integrated with JDeveloper, Eclipse, JEdit, JBuilder, BlueJ, CodeGuide, N
 * JBuilder plugin
 * JDeveloper plugin
 * IntelliJ IDEA plugin
+
+没有Xcode的插件，但是可以通过在Build Phase里面加入Run Script来使用。
 
 ### Supported Languages of PMD commonded line:
 
@@ -76,13 +89,13 @@ PMD is integrated with JDeveloper, Eclipse, JEdit, JBuilder, BlueJ, CodeGuide, N
 * java
 * jsp
 * matlab
-* objectivec
+* **objectivec**
 * php
 * plsql
 * python
 * ruby
 * scala
-* swift
+* **swift**
 
 ### CPD has GUI
 
@@ -98,7 +111,14 @@ The screen shot is like:
 
 ### 将CPD集成到XCode里面
 
-[Интегрируем Copy-Paste-Detection в Xcode, и не только](https://habrahabr.ru/post/137875/)将CPD集成到了XCode里面。
+[Integrating Copy-Paste-Detector for Swift in Xcode](https://medium.com/@nvashanin/%D0%B8%D0%BD%D1%82%D0%B5%D0%B3%D1%80%D0%B8%D1%80%D1%83%D0%B5%D0%BC-copy-paste-detector-%D0%B4%D0%BB%D1%8F-swift-%D0%B2-xcode-9ae87c20748): This is a newer post on April 2017 and gives a detailed step by step way for integrating CPD into Xcode:
+
+* Add run script into Build Phase.
+* Xcode warnings will appear at the place of duplicated code.
+
+Refer to [将代码查重工具集成到Xcode](../../../../2018/08/02/integrate-copy-and-paste-detector-into-xcode/) for details.
+
+[~~Интегрируем Copy-Paste-Detection в Xcode, и не только~~](https://habrahabr.ru/post/137875/): Integrate CPD into XCode, but this post is a little older on 2012.
 
 ## JenkinsCI-iOS
 

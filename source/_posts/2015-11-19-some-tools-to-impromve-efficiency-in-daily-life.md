@@ -16,6 +16,7 @@ categories: [productivity]
 - [<del>Astah</del> (draw.io的chrome插件更好用)](#delastahdel-drawio%E7%9A%84chrome%E6%8F%92%E4%BB%B6%E6%9B%B4%E5%A5%BD%E7%94%A8)
 - [图像视频操作](#%E5%9B%BE%E5%83%8F%E8%A7%86%E9%A2%91%E6%93%8D%E4%BD%9C)
     - [LICECap](#licecap)
+    - [Kap](#kap)
     - [PicGif Lite](#picgif-lite)
 
 
@@ -49,6 +50,9 @@ Mac上的这个词典好过系统自带的Dictionary很多。引用推荐人的�
 
 #### LICECap
 [LICECap](http://www.cockos.com/licecap/)用来快速将屏幕操作等转换成gif动画，比先录屏再转换快太多了。
+
+#### Kap
+[Kap](https://getkap.co/)比LICECap更加好用，而且可以直接指定一个App的界面进行录制。Kap可以导出多种格式，包括MP4，Gif等。
 
 使用Mac自带的Preview是不能预览gif图片的，可以通过以下两种方式预览：
 

@@ -12,6 +12,8 @@ categories: [ios, swift, objective-c]
 
 <!-- more -->
 
+<br>
+
 单个手势的响应过程参考[iOS中的触控事件机制](http://hongchaozhang.github.io/blog/2015/10/21/touch-event-in-ios/)。但是上面几个问题需要考虑多个手势之间的关系，超出了上面文章的讨论范围。下面，我们就来讨论一下上面几个问题。
 
 ### 1. 可以为同一个view添加两个相同类型的手势吗？比如添加两个UITapGestureRecognizer到同一个view。
