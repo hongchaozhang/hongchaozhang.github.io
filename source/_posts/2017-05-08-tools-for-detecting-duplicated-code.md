@@ -116,7 +116,7 @@ The screen shot is like:
 * Add run script into Build Phase.
 * Xcode warnings will appear at the place of duplicated code.
 
-Refer to [将代码查重工具集成到Xcode](../../../../2018/08/02/integrate-copy-and-paste-detector-into-xcode/) for details.
+Refer to [将代码查重工具CPD集成到Xcode](../../../../2018/08/02/integrate-copy-and-paste-detector-into-xcode/) for details.
 
 [~~Интегрируем Copy-Paste-Detection в Xcode, и не только~~](https://habrahabr.ru/post/137875/): Integrate CPD into XCode, but this post is a little older on 2012.
 
