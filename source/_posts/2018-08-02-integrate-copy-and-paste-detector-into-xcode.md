@@ -81,6 +81,14 @@ foreach (simplexml_load_file('cpd-output.xml')->duplication as $duplication) {
 
 我们在Build Phase中添加的脚本的第二部分就是运行这一段脚本，将生成的xml文件中的所有重复代码信息以warning的形式展示在Xcode中。如果你想了解如何在Xcod中生成warning，参考[Generating Warnings in Xcode](https://krakendev.io/blog/generating-warnings-in-xcode)。
 
+> 我试了[Generating Warnings in Xcode](https://krakendev.io/blog/generating-warnings-in-xcode)中说的方法，脚本有错误，为了将comment中有TODO:和FIXME:的地方标记为warning，将有ERROR:的地方标记为error，可以尝试将下面的脚本写到Build Phase的运行脚本（Run Script）中（参考[Highlight Warnings in Xcode](https://medium.com/ios-os-x-development/highlight-warnings-in-xcode-521125121a75)）：
+> 
+> ```
+> TAGS="TODO:|FIXME:|WARNING:"
+> ERRORTAG="ERROR:"
+> find "${SRCROOT}" \( -name "*.h" -or -name "*.m" -or -name "*.swift" \) -print0 | xargs -0 egrep --with-filename --line-number --only-matching "($TAGS).*\$|($ERRORTAG).*\$" | perl -p -e "s/($TAGS)/ warning: \$1/"| perl -p -e "s/($ERRORTAG)/ error: \$1/"
+> ```
+
 
 现在编译工程，可以在Xcode左侧导航窗口看到所有的warning：
 
