@@ -4,7 +4,7 @@
   <title><![CDATA[Category: xcode | Reading Space]]></title>
   <link href="http://hongchaozhang.github.io/blog/categories/xcode/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2018-08-03T12:32:41+08:00</updated>
+  <updated>2018-08-18T22:10:59+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -102,7 +102,9 @@ foreach (simplexml_load_file('cpd-output.xml')-&gt;duplication as $duplication) 
 <pre><code>TAGS="TODO:|FIXME:|WARNING:"
 ERRORTAG="ERROR:"
 find "${SRCROOT}" \( -name "*.h" -or -name "*.m" -or -name "*.swift" \) -print0 | xargs -0 egrep --with-filename --line-number --only-matching "($TAGS).*\$|($ERRORTAG).*\$" | perl -p -e "s/($TAGS)/ warning: \$1/"| perl -p -e "s/($ERRORTAG)/ error: \$1/"
-</code></pre></blockquote>
+</code></pre>
+
+<p>其实不用这么复杂：以“#warning”开头，接下来跟上warning信息就可以了，Xcode会在左侧导航栏里面生成一种叫做User-Defined Issues的warning。</p></blockquote>
 
 <p>现在编译工程，可以在Xcode左侧导航窗口看到所有的warning：</p>
 
