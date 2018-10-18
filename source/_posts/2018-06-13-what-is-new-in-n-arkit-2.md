@@ -132,6 +132,13 @@ The inputs of the above demo are:
 
 The video is played at the position of the specified picture frame, with the same orientation of the picture frame.
 
+There are two classes related to image tracking:
+
+ARImageTrackingConfiguration | ARWorldTrackingConfiguration
+--- | ---
+Has No World Origin | Has World Origin
+After detecting the image, only do things inside the place of the image. | After detecting the image, place some virtual objects outside the detected image plane.
+
 
 ### 3D Object Detection 
 
@@ -189,6 +196,49 @@ New changes in one screenshot:
 ![what-is-new-in-arkit-2](/images/what-is-new-in-arkit-2.jpg)
 
 
+## Some other WWDC Sessions Related to AR
+
+### [Integrating Apps and Content with AR Quick Look](https://developer.apple.com/videos/play/wwdc2018/603/)
+
+A deeper dive into a new feature in iOS that provides a way to preview any AR object from a USDZ file.
+
+![QLPreviewController](/images/QLPreviewController.png)
+
+* There’s a great sequence diagram presented (see above) (I wish more sessions would have these!) for previewing USDZ objects, of which the `QLPreviewController` plays a central role.
+* For web developers, it covers HTML samples for how to preview USDZ objects in Safari.
+* Then it goes into a deep dive on how to create the actual USDZ objects, with more examples on new AR texturing capabilities.
+* There’s also a quick overview on how to optimize the files, to keep the size down, and there’s a breakdown of the files that make up the USDZ format.
+
+### [Inside SwiftShot: Creating an AR Game](https://developer.apple.com/videos/play/wwdc2018/605/)
+
+Covers world map sharing, networking, and the physics of how to build an AR game, as well as some design insight (I have limited game dev experience so I’ll do the best I can below).
+
+* Pointers to remember with designing an AR game, such as “encouraging” the user to slowly move the device for world mapping!
+* It demonstrates the usage of image & object detection, world map sharing, and iBeacons for the game.
+* Integrating `ARKit` with `SceneKit` and `Metal`, including the translation of physics data between each — position, velocity, and orientation.
+* Performance enhancement with the `BitStreamCodable` protocol.
+* A small look at how audio was integrated into the game.
+
+### [Creating Great AR Experiences](https://developer.apple.com/videos/play/wwdc2018/805/)
+
+Best practises mainly from a UX & design perspective (there are no code samples in this session).
+
+* Logical dos and don’ts that may be useful, if you need help with thought towards product and empathy towards the user.
+* They emphasize the importance of using transitions between AR scapes.
+* Why AR is a special combination of touch and movement.
+* They advise that minimal battery impact should be a huge focus! This is a challenge, given that they recommend to render the FPS at 60 to avoid latency.
+* There’s a lengthy demonstration of creating an AR fireplace, with complex texturing, etc. It looks great, but unfortunately there were no coding samples accompanying the demo.
+
+### [Understanding ARKit Tracking and Detection](https://developer.apple.com/videos/play/wwdc2018/610/)
+
+A good broad overview of all of the main AR concepts.
+
+* This is such a good intro into not only AR on iOS, but AR in general, that it should have been part of 2017’s sessions when ARKit was first introduced. Better late than never. If you’re only going to watch one session, watch this one!
+* It recaps the main features of ARKit — **orientation**, **world tracking**, and **plane detection**, and demos all of these in depth with coding samples.
+* It then demos the new features of ARKit 2 — **shared world mapping**, **image tracking**, and **object detection** (which has been available in the Vision framework recapped above, but is now also accessible in ARKit).
+* A good explanation on a core AR principle, **Visual Inertial Odometry**, is given. Short of going into the actual physics equations behind it, this should give you a great understanding of VIO.
+
+
 ## Some other materials for a better AR app:
 
 ### [Building Your First AR Experience](https://developer.apple.com/documentation/arkit/building_your_first_ar_experience)
@@ -215,7 +265,7 @@ This document describes the best practices for visual feedback, gesture interact
 
 ### [Creating a Multiuser AR Experience](https://developer.apple.com/documentation/arkit/creating_a_multiuser_ar_experience)
 
-This document demos an app on how to transmit ARKit world-mapping data between nearby devices with the [MultipeerConnectivity](https://developer.apple.com/documentation/multipeerconnectivity) framework (introduced in iOS 7.0) to create a shared basis for AR experiences. MultipeerConnectivity supports peer-to-peer connectivity and the discovery of nearby devices. With MultipeerConnectivity, you can not only share `ARWorldMap`, but also some actions. This makes multiuser AR game possible.
+This document demos an app (with source code) on how to transmit ARKit world-mapping data between nearby devices with the [MultipeerConnectivity](https://developer.apple.com/documentation/multipeerconnectivity) framework (introduced in iOS 7.0) to create a shared basis for AR experiences. MultipeerConnectivity supports peer-to-peer connectivity and the discovery of nearby devices. With MultipeerConnectivity, you can not only share `ARWorldMap`, but also some actions. This makes multiuser AR game possible.
 
 However:
 
@@ -230,3 +280,11 @@ This document demos the SwiftShot game shown on WWDC 2018, including:
 * Using Local Multipeer Networking and Sharing World Maps
 * Synchronizing Gameplay Actions
 * Solving Multiplayer Physics
+
+### [Recognizing Images in an AR Experience](https://developer.apple.com/documentation/arkit/recognizing_images_in_an_ar_experience)
+
+Detect known 2D images in the user’s environment, and use their positions to place AR content.
+
+### [Scanning and Detecting 3D Objects](https://developer.apple.com/documentation/arkit/scanning_and_detecting_3d_objects)
+
+Record spatial features of real-world objects, then use the results to find those objects in the user’s environment and trigger AR content.

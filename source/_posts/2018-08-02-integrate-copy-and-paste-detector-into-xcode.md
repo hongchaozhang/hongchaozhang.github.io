@@ -88,6 +88,7 @@ foreach (simplexml_load_file('cpd-output.xml')->duplication as $duplication) {
 > ERRORTAG="ERROR:"
 > find "${SRCROOT}" \( -name "*.h" -or -name "*.m" -or -name "*.swift" \) -print0 | xargs -0 egrep --with-filename --line-number --only-matching "($TAGS).*\$|($ERRORTAG).*\$" | perl -p -e "s/($TAGS)/ warning: \$1/"| perl -p -e "s/($ERRORTAG)/ error: \$1/"
 > ```
+> 其实不用这么复杂：以“#warning”开头，接下来跟上warning信息就可以了，Xcode会在左侧导航栏里面生成一种叫做User-Defined Issues的warning。
 
 
 现在编译工程，可以在Xcode左侧导航窗口看到所有的warning：
