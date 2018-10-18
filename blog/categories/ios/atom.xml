@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ios | Reading Space]]></title>
   <link href="http://hongchaozhang.github.io/blog/categories/ios/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2018-08-20T10:42:13+08:00</updated>
+  <updated>2018-10-18T10:17:23+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -298,6 +298,28 @@
 
 <p>The video is played at the position of the specified picture frame, with the same orientation of the picture frame.</p>
 
+<p>There are two classes related to image tracking:</p>
+
+<table>
+<thead>
+<tr>
+<th>ARImageTrackingConfiguration </th>
+<th> ARWorldTrackingConfiguration</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Has No World Origin </td>
+<td> Has World Origin</td>
+</tr>
+<tr>
+<td>After detecting the image, only do things inside the place of the image. </td>
+<td> After detecting the image, place some virtual objects outside the detected image plane.</td>
+</tr>
+</tbody>
+</table>
+
+
 <h3>3D Object Detection</h3>
 
 <p>3D object detection workflow is:</p>
@@ -351,6 +373,60 @@
 
 <p><img src="/images/what-is-new-in-arkit-2.jpg" alt="what-is-new-in-arkit-2" /></p>
 
+<h2>Some other WWDC Sessions Related to AR</h2>
+
+<h3><a href="https://developer.apple.com/videos/play/wwdc2018/603/">Integrating Apps and Content with AR Quick Look</a></h3>
+
+<p>A deeper dive into a new feature in iOS that provides a way to preview any AR object from a USDZ file.</p>
+
+<p><img src="/images/QLPreviewController.png" alt="QLPreviewController" /></p>
+
+<ul>
+<li>There’s a great sequence diagram presented (see above) (I wish more sessions would have these!) for previewing USDZ objects, of which the <code>QLPreviewController</code> plays a central role.</li>
+<li>For web developers, it covers HTML samples for how to preview USDZ objects in Safari.</li>
+<li>Then it goes into a deep dive on how to create the actual USDZ objects, with more examples on new AR texturing capabilities.</li>
+<li>There’s also a quick overview on how to optimize the files, to keep the size down, and there’s a breakdown of the files that make up the USDZ format.</li>
+</ul>
+
+
+<h3><a href="https://developer.apple.com/videos/play/wwdc2018/605/">Inside SwiftShot: Creating an AR Game</a></h3>
+
+<p>Covers world map sharing, networking, and the physics of how to build an AR game, as well as some design insight (I have limited game dev experience so I’ll do the best I can below).</p>
+
+<ul>
+<li>Pointers to remember with designing an AR game, such as “encouraging” the user to slowly move the device for world mapping!</li>
+<li>It demonstrates the usage of image &amp; object detection, world map sharing, and iBeacons for the game.</li>
+<li>Integrating <code>ARKit</code> with <code>SceneKit</code> and <code>Metal</code>, including the translation of physics data between each — position, velocity, and orientation.</li>
+<li>Performance enhancement with the <code>BitStreamCodable</code> protocol.</li>
+<li>A small look at how audio was integrated into the game.</li>
+</ul>
+
+
+<h3><a href="https://developer.apple.com/videos/play/wwdc2018/805/">Creating Great AR Experiences</a></h3>
+
+<p>Best practises mainly from a UX &amp; design perspective (there are no code samples in this session).</p>
+
+<ul>
+<li>Logical dos and don’ts that may be useful, if you need help with thought towards product and empathy towards the user.</li>
+<li>They emphasize the importance of using transitions between AR scapes.</li>
+<li>Why AR is a special combination of touch and movement.</li>
+<li>They advise that minimal battery impact should be a huge focus! This is a challenge, given that they recommend to render the FPS at 60 to avoid latency.</li>
+<li>There’s a lengthy demonstration of creating an AR fireplace, with complex texturing, etc. It looks great, but unfortunately there were no coding samples accompanying the demo.</li>
+</ul>
+
+
+<h3><a href="https://developer.apple.com/videos/play/wwdc2018/610/">Understanding ARKit Tracking and Detection</a></h3>
+
+<p>A good broad overview of all of the main AR concepts.</p>
+
+<ul>
+<li>This is such a good intro into not only AR on iOS, but AR in general, that it should have been part of 2017’s sessions when ARKit was first introduced. Better late than never. If you’re only going to watch one session, watch this one!</li>
+<li>It recaps the main features of ARKit — <strong>orientation</strong>, <strong>world tracking</strong>, and <strong>plane detection</strong>, and demos all of these in depth with coding samples.</li>
+<li>It then demos the new features of ARKit 2 — <strong>shared world mapping</strong>, <strong>image tracking</strong>, and <strong>object detection</strong> (which has been available in the Vision framework recapped above, but is now also accessible in ARKit).</li>
+<li>A good explanation on a core AR principle, <strong>Visual Inertial Odometry</strong>, is given. Short of going into the actual physics equations behind it, this should give you a great understanding of VIO.</li>
+</ul>
+
+
 <h2>Some other materials for a better AR app:</h2>
 
 <h3><a href="https://developer.apple.com/documentation/arkit/building_your_first_ar_experience">Building Your First AR Experience</a></h3>
@@ -380,7 +456,7 @@
 
 <h3><a href="https://developer.apple.com/documentation/arkit/creating_a_multiuser_ar_experience">Creating a Multiuser AR Experience</a></h3>
 
-<p>This document demos an app on how to transmit ARKit world-mapping data between nearby devices with the <a href="https://developer.apple.com/documentation/multipeerconnectivity">MultipeerConnectivity</a> framework (introduced in iOS 7.0) to create a shared basis for AR experiences. MultipeerConnectivity supports peer-to-peer connectivity and the discovery of nearby devices. With MultipeerConnectivity, you can not only share <code>ARWorldMap</code>, but also some actions. This makes multiuser AR game possible.</p>
+<p>This document demos an app (with source code) on how to transmit ARKit world-mapping data between nearby devices with the <a href="https://developer.apple.com/documentation/multipeerconnectivity">MultipeerConnectivity</a> framework (introduced in iOS 7.0) to create a shared basis for AR experiences. MultipeerConnectivity supports peer-to-peer connectivity and the discovery of nearby devices. With MultipeerConnectivity, you can not only share <code>ARWorldMap</code>, but also some actions. This makes multiuser AR game possible.</p>
 
 <p>However:</p>
 
@@ -401,6 +477,14 @@
 <li>Solving Multiplayer Physics</li>
 </ul>
 
+
+<h3><a href="https://developer.apple.com/documentation/arkit/recognizing_images_in_an_ar_experience">Recognizing Images in an AR Experience</a></h3>
+
+<p>Detect known 2D images in the user’s environment, and use their positions to place AR content.</p>
+
+<h3><a href="https://developer.apple.com/documentation/arkit/scanning_and_detecting_3d_objects">Scanning and Detecting 3D Objects</a></h3>
+
+<p>Record spatial features of real-world objects, then use the results to find those objects in the user’s environment and trigger AR content.</p>
 ]]></content>
   </entry>
   
