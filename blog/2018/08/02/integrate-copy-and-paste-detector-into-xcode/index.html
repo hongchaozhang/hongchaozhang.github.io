@@ -9,7 +9,7 @@
 	<meta name="author" content="Zhang Hongchao">
 
 	
-	<meta name="description" content="将代码查重工具CPD集成到Xcode 翻译部分Integrating Copy-Paste-Detector for Swift in Xcode。 DRY准则 编程到一个基本准则就是DRY（Don&rsquo;t Repeat Yourself)，不写重复代码。简单来说，就是不要复制黏贴。 &hellip;">
+	<meta name="description" content="将代码查重工具CPD集成到Xcode DRY准则 编程的一个基本准则就是DRY（Don&rsquo;t Repeat Yourself)，不写重复代码。简单来说，就是不要复制黏贴。 在开始之前，我们先讨论一下什么叫做“复制黏贴”？首先，如果你有相同的文件，肯定是极其糟糕的“复制黏贴”。 &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -93,7 +93,7 @@
 
 
 <section class="categories">
-          <ul id="category_cloud" class="nav nav-list"><a href='/blog/categories/android' style='font-size: 107.89473684210526%'>android(5)</a> <a href='/blog/categories/android-studio' style='font-size: 101.57894736842105%'>android_studio(1)</a> <a href='/blog/categories/design-pattern' style='font-size: 101.57894736842105%'>design_pattern(1)</a> <a href='/blog/categories/ios' style='font-size: 160.0%'>ios(38)</a> <a href='/blog/categories/java' style='font-size: 103.15789473684211%'>java(2)</a> <a href='/blog/categories/javascript' style='font-size: 103.15789473684211%'>javascript(2)</a> <a href='/blog/categories/machine-learning' style='font-size: 101.57894736842105%'>machine learning(1)</a> <a href='/blog/categories/map-tech' style='font-size: 103.15789473684211%'>map tech(2)</a> <a href='/blog/categories/mobile' style='font-size: 101.57894736842105%'>mobile(1)</a> <a href='/blog/categories/node' style='font-size: 104.73684210526315%'>node(3)</a> <a href='/blog/categories/objective-c' style='font-size: 131.57894736842104%'>objective-c(20)</a> <a href='/blog/categories/philosophy' style='font-size: 103.15789473684211%'>philosophy(2)</a> <a href='/blog/categories/productivity' style='font-size: 128.42105263157896%'>productivity(18)</a> <a href='/blog/categories/python' style='font-size: 104.73684210526315%'>python(3)</a> <a href='/blog/categories/reading' style='font-size: 103.15789473684211%'>reading(2)</a> <a href='/blog/categories/swift' style='font-size: 104.73684210526315%'>swift(3)</a> <a href='/blog/categories/web' style='font-size: 103.15789473684211%'>web(2)</a> <a href='/blog/categories/wwdc' style='font-size: 103.15789473684211%'>wwdc(2)</a> <a href='/blog/categories/xcode' style='font-size: 109.47368421052632%'>xcode(6)</a> </ul>
+          <ul id="category_cloud" class="nav nav-list"><a href='/blog/categories/android' style='font-size: 107.89473684210526%'>android(5)</a> <a href='/blog/categories/android-studio' style='font-size: 101.57894736842105%'>android_studio(1)</a> <a href='/blog/categories/design-pattern' style='font-size: 101.57894736842105%'>design_pattern(1)</a> <a href='/blog/categories/ios' style='font-size: 160.0%'>ios(38)</a> <a href='/blog/categories/java' style='font-size: 103.15789473684211%'>java(2)</a> <a href='/blog/categories/javascript' style='font-size: 103.15789473684211%'>javascript(2)</a> <a href='/blog/categories/machine-learning' style='font-size: 101.57894736842105%'>machine learning(1)</a> <a href='/blog/categories/map-tech' style='font-size: 103.15789473684211%'>map tech(2)</a> <a href='/blog/categories/mobile' style='font-size: 101.57894736842105%'>mobile(1)</a> <a href='/blog/categories/node' style='font-size: 104.73684210526315%'>node(3)</a> <a href='/blog/categories/objective-c' style='font-size: 131.57894736842104%'>objective-c(20)</a> <a href='/blog/categories/philosophy' style='font-size: 103.15789473684211%'>philosophy(2)</a> <a href='/blog/categories/productivity' style='font-size: 128.42105263157896%'>productivity(18)</a> <a href='/blog/categories/python' style='font-size: 104.73684210526315%'>python(3)</a> <a href='/blog/categories/reading' style='font-size: 104.73684210526315%'>reading(3)</a> <a href='/blog/categories/swift' style='font-size: 104.73684210526315%'>swift(3)</a> <a href='/blog/categories/web' style='font-size: 103.15789473684211%'>web(2)</a> <a href='/blog/categories/wwdc' style='font-size: 103.15789473684211%'>wwdc(2)</a> <a href='/blog/categories/xcode' style='font-size: 109.47368421052632%'>xcode(6)</a> </ul>
       </section>
 
 
@@ -110,11 +110,11 @@
 	<div class="entry-content" itemprop="articleBody"><!-- more -->
 
 
-<p>翻译部分<a href="https://medium.com/@nvashanin/%D0%B8%D0%BD%D1%82%D0%B5%D0%B3%D1%80%D0%B8%D1%80%D1%83%D0%B5%D0%BC-copy-paste-detector-%D0%B4%D0%BB%D1%8F-swift-%D0%B2-xcode-9ae87c20748">Integrating Copy-Paste-Detector for Swift in Xcode</a>。</p>
+<p><img src="/images/copy_and_paste_image.jpeg" alt="copy and paster image" /></p>
 
 <h2>DRY准则</h2>
 
-<p>编程到一个基本准则就是DRY（Don&rsquo;t Repeat Yourself)，不写重复代码。简单来说，就是不要复制黏贴。</p>
+<p>编程的一个基本准则就是DRY（Don&rsquo;t Repeat Yourself)，不写重复代码。简单来说，就是不要复制黏贴。</p>
 
 <p>在开始之前，我们先讨论一下什么叫做“复制黏贴”？首先，如果你有相同的文件，肯定是极其糟糕的“复制黏贴”。如果你有两个类只是类名不同，但是做着相同或者类似的事情，也是很严重的“复制黏贴”。即使只有10行代码的重复，也是”复制黏贴“。根据作者个人经验，一个100000行的工程，完全不需要复制黏贴。</p>
 
@@ -137,6 +137,8 @@
 <li><a href="https://pmd.github.io/">pmd</a></li>
 </ul>
 
+
+<h3><a href="https://pmd.github.io/">pmd</a></h3>
 
 <p>其中，pmd可定制，并且比较稳定。开始之前，先通过homebrew进行安装：</p>
 
@@ -171,7 +173,7 @@
 </ul>
 
 
-<blockquote><p>经测试，无论<code>--failOnViolation</code>设置成<code>true</code>，还是<code>false</code>，都不能阻断编译的正常运行。但是warning能正常地给出。</p></blockquote>
+<blockquote><p>经测试，无论<code>--failOnViolation</code>设置成<code>true</code>，还是<code>false</code>，都不能阻断编译的正常运行。所有的warning都能正常地输出。</p></blockquote>
 
 <p>第一部分脚本执行的结果，是一个xml文件，里面包含了整个工程里面的重复代码及其位置、行数等信息。下面让我们看看，怎么将这个难读的xml文件以warning的形式展示给开发者。</p>
 
@@ -200,7 +202,7 @@
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>我们在Build Phase中添加的脚本的第二部分就是运行这一段脚本，将生成的xml文件中的所有重复代码信息以warning的形式展示在Xcode中。如果你想了解如何在Xcod中生成warning，参考<a href="https://krakendev.io/blog/generating-warnings-in-xcode">Generating Warnings in Xcode</a>。</p>
+<p>我们在Build Phase中添加的脚本的第二部分就是运行这一段脚本，将生成的xml文件中的所有重复代码信息以warning的形式展示在Xcode中。如果你想了解如何在Xcode中生成warning，参考<a href="https://krakendev.io/blog/generating-warnings-in-xcode">Generating Warnings in Xcode</a>。</p>
 
 <blockquote><p>我试了<a href="https://krakendev.io/blog/generating-warnings-in-xcode">Generating Warnings in Xcode</a>中说的方法，脚本有错误，为了将comment中有TODO:和FIXME:的地方标记为warning，将有ERROR:的地方标记为error，可以尝试将下面的脚本写到Build Phase的运行脚本（Run Script）中（参考<a href="https://medium.com/ios-os-x-development/highlight-warnings-in-xcode-521125121a75">Highlight Warnings in Xcode</a>）：</p>
 
@@ -223,9 +225,43 @@ find "${SRCROOT}" \( -name "*.h" -or -name "*.m" -or -name "*.swift" \) -print0 
 
 <blockquote><p>如果是刚安装的pmd，可能需要重启Xcode，让pmd命令生效。</p></blockquote>
 
+<h3><a href="https://github.com/kucherenko/jscpd">jscpd</a></h3>
+
+<p>生成的中间结果文件格式和pmd是一样的，节点名字也叫做<code>pmd-cpd</code>。</p>
+
+<p>但是：<strong>jscpd支持yaml格式的配置文件。</strong>这一点很重要，我在工作中也是用jscpd，而不是pmd的cpd。</p>
+
+<p>yaml语法参考<a href="http://www.ruanyifeng.com/blog/2016/07/yaml.html">YAML语言教程</a>。</p>
+
+<h2>什么时候使用</h2>
+
+<p>Finding clones is typically useful in the following cases:</p>
+
+<ul>
+<li><p><strong>When updating existing code</strong>. When you are fixing a bug, or responding to changes in requirements, you usually start by finding the location in the code that you need to change. Before you make the change, search for clones of that code segment. If clones are discovered:</p>
+
+<ul>
+<li>Consider whether you need to make the same change to each clone.</li>
+<li>Consider also whether this is a good opportunity to refactor the cloned code into a shared method or class.</li>
+</ul>
+</li>
+<li><p><strong>Architectural cleanup</strong>. Towards the end of every iteration, use Analyze Solution for Code Clones on the Analyze menu.</p></li>
+<li><p><strong>When you create code</strong>. When you have written new code, use the tool to find similar code that already existed.</p></li>
+</ul>
+
+
 <h2>结论</h2>
 
-<p>重复代码清理是一件刻不容缓的事情。这个工具放在这里，没有任何副作用，建议大家能正确对待重复代码。</p>
+<p>作者：重复代码清理刻不容缓。这个工具可以帮助我们做这件事情，而且，几乎没有任何副作用。</p>
+
+<h2>参考</h2>
+
+<ul>
+<li>翻译部分<a href="https://medium.com/@nvashanin/%D0%B8%D0%BD%D1%82%D0%B5%D0%B3%D1%80%D0%B8%D1%80%D1%83%D0%B5%D0%BC-copy-paste-detector-%D0%B4%D0%BB%D1%8F-swift-%D0%B2-xcode-9ae87c20748">Integrating Copy-Paste-Detector for Swift in Xcode</a>。</li>
+<li>如何在Xcode中生成warning，参考<a href="https://krakendev.io/blog/generating-warnings-in-xcode">Generating Warnings in Xcode</a>。</li>
+<li>如何编写jscpd的yaml配置文件，参考<a href="http://www.ruanyifeng.com/blog/2016/07/yaml.html">YAML 语言教程</a>。</li>
+</ul>
+
 </div>
 
 </article>

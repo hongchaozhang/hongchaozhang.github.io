@@ -9,7 +9,7 @@
 	<meta name="author" content="Zhang Hongchao">
 
 	
-	<meta name="description" content="iOS代码查重工具 很多IDE里面都有自己的代码查重工具，比如WebStorm的代码查重工具做的非常好用。但是Xcode里面至今没有自己的代码查重工具。这里调研了一些常见的代码查重工具，最后选择PMD里面的CPD，并将其集成到Xcode中，重复代码会以warning的形式出现在Xcode里面。 &hellip;">
+	<meta name="description" content="iOS代码查重工具 很多IDE里面都有自己的代码查重工具，比如WebStorm的代码查重工具做的非常好用。但是Xcode里面至今没有自己的代码查重工具。这里调研了一些常见的代码查重工具，最后选择PMD里面的CPDjscpd，并将其集成到Xcode中， &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -93,7 +93,7 @@
 
 
 <section class="categories">
-          <ul id="category_cloud" class="nav nav-list"><a href='/blog/categories/android' style='font-size: 107.89473684210526%'>android(5)</a> <a href='/blog/categories/android-studio' style='font-size: 101.57894736842105%'>android_studio(1)</a> <a href='/blog/categories/design-pattern' style='font-size: 101.57894736842105%'>design_pattern(1)</a> <a href='/blog/categories/ios' style='font-size: 160.0%'>ios(38)</a> <a href='/blog/categories/java' style='font-size: 103.15789473684211%'>java(2)</a> <a href='/blog/categories/javascript' style='font-size: 103.15789473684211%'>javascript(2)</a> <a href='/blog/categories/machine-learning' style='font-size: 101.57894736842105%'>machine learning(1)</a> <a href='/blog/categories/map-tech' style='font-size: 103.15789473684211%'>map tech(2)</a> <a href='/blog/categories/mobile' style='font-size: 101.57894736842105%'>mobile(1)</a> <a href='/blog/categories/node' style='font-size: 104.73684210526315%'>node(3)</a> <a href='/blog/categories/objective-c' style='font-size: 131.57894736842104%'>objective-c(20)</a> <a href='/blog/categories/philosophy' style='font-size: 103.15789473684211%'>philosophy(2)</a> <a href='/blog/categories/productivity' style='font-size: 128.42105263157896%'>productivity(18)</a> <a href='/blog/categories/python' style='font-size: 104.73684210526315%'>python(3)</a> <a href='/blog/categories/reading' style='font-size: 103.15789473684211%'>reading(2)</a> <a href='/blog/categories/swift' style='font-size: 104.73684210526315%'>swift(3)</a> <a href='/blog/categories/web' style='font-size: 103.15789473684211%'>web(2)</a> <a href='/blog/categories/wwdc' style='font-size: 103.15789473684211%'>wwdc(2)</a> <a href='/blog/categories/xcode' style='font-size: 109.47368421052632%'>xcode(6)</a> </ul>
+          <ul id="category_cloud" class="nav nav-list"><a href='/blog/categories/android' style='font-size: 107.89473684210526%'>android(5)</a> <a href='/blog/categories/android-studio' style='font-size: 101.57894736842105%'>android_studio(1)</a> <a href='/blog/categories/design-pattern' style='font-size: 101.57894736842105%'>design_pattern(1)</a> <a href='/blog/categories/ios' style='font-size: 160.0%'>ios(38)</a> <a href='/blog/categories/java' style='font-size: 103.15789473684211%'>java(2)</a> <a href='/blog/categories/javascript' style='font-size: 103.15789473684211%'>javascript(2)</a> <a href='/blog/categories/machine-learning' style='font-size: 101.57894736842105%'>machine learning(1)</a> <a href='/blog/categories/map-tech' style='font-size: 103.15789473684211%'>map tech(2)</a> <a href='/blog/categories/mobile' style='font-size: 101.57894736842105%'>mobile(1)</a> <a href='/blog/categories/node' style='font-size: 104.73684210526315%'>node(3)</a> <a href='/blog/categories/objective-c' style='font-size: 131.57894736842104%'>objective-c(20)</a> <a href='/blog/categories/philosophy' style='font-size: 103.15789473684211%'>philosophy(2)</a> <a href='/blog/categories/productivity' style='font-size: 128.42105263157896%'>productivity(18)</a> <a href='/blog/categories/python' style='font-size: 104.73684210526315%'>python(3)</a> <a href='/blog/categories/reading' style='font-size: 104.73684210526315%'>reading(3)</a> <a href='/blog/categories/swift' style='font-size: 104.73684210526315%'>swift(3)</a> <a href='/blog/categories/web' style='font-size: 103.15789473684211%'>web(2)</a> <a href='/blog/categories/wwdc' style='font-size: 103.15789473684211%'>wwdc(2)</a> <a href='/blog/categories/xcode' style='font-size: 109.47368421052632%'>xcode(6)</a> </ul>
       </section>
 
 
@@ -110,7 +110,7 @@
 	<div class="entry-content" itemprop="articleBody"><!-- more -->
 
 
-<p>很多IDE里面都有自己的代码查重工具，比如WebStorm的代码查重工具做的非常好用。但是Xcode里面至今没有自己的代码查重工具。这里调研了一些常见的代码查重工具，最后选择PMD里面的CPD，并将其集成到Xcode中，重复代码会以warning的形式出现在Xcode里面。</p>
+<p>很多IDE里面都有自己的代码查重工具，比如WebStorm的代码查重工具做的非常好用。但是Xcode里面至今没有自己的代码查重工具。这里调研了一些常见的代码查重工具，最后选择<del>PMD里面的CPD</del>jscpd，并将其集成到Xcode中，重复代码会以warning的形式出现在Xcode里面，方便查看。</p>
 
 <h2>jscpd</h2>
 
@@ -150,7 +150,8 @@
 
 <ul>
 <li>安装使用简单</li>
-<li>运行速度快。</li>
+<li>运行速度快</li>
+<li><strong>支持yaml配置文件进行配置</strong></li>
 </ul>
 
 
@@ -252,11 +253,32 @@
 
 <p>NiCad handles a range of languages, including C, Java, Python, and C#, and provides a range of normalizations, filters and abstractions.</p>
 
+<h2>Android Studio</h2>
+
+<p>Find and Replace Code Duplicates&hellip;</p>
+
+<h2>WebStorm</h2>
+
+<p>WebStorm has built in copy paste detection tool, but it is expensive.</p>
+
+<h2>VSCode</h2>
+
+<p>Copy/Paste Detector extension, based on jscpd.</p>
+
 <h2>AppCode</h2>
 
-<h2>Code Clone Detection</h2>
+<p>AppCode has no copy paste detection tool, the same with Xcode.</p>
+
+<h2>Visual Studio</h2>
 
 <p>Visual Studio Enterprise有自己的code clone analysis，see <a href="https://msdn.microsoft.com/en-us/library/hh205279.aspx">Finding Duplicate Code by using Code Clone Detection</a>。copy一段code，然后改了某个变量名称，仍然可以被检测出重复。</p>
+
+<p>The following modifications can be made, and the clone will still be recognized. In each case, there is a tolerance of a specific number of such modifications:</p>
+
+<pre><code>* Rename identifiers.
+* Insert and delete statements.
+* Rearrange statements.
+</code></pre>
 
 <h2>Simian - Similarity Analyser</h2>
 
