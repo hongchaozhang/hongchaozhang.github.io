@@ -10,7 +10,7 @@ published: true
 
 <!-- more -->
 
-很多IDE里面都有自己的代码查重工具，比如WebStorm的代码查重工具做的非常好用。但是Xcode里面至今没有自己的代码查重工具。这里调研了一些常见的代码查重工具，最后选择PMD里面的CPD，并将其集成到Xcode中，重复代码会以warning的形式出现在Xcode里面。
+很多IDE里面都有自己的代码查重工具，比如WebStorm的代码查重工具做的非常好用。但是Xcode里面至今没有自己的代码查重工具。这里调研了一些常见的代码查重工具，最后选择~~PMD里面的CPD~~jscpd，并将其集成到Xcode中，重复代码会以warning的形式出现在Xcode里面，方便查看。
 
 ## jscpd
 
@@ -46,7 +46,8 @@ Supported languages：
 ### 优点
 
 * 安装使用简单
-* 运行速度快。
+* 运行速度快
+* **支持yaml配置文件进行配置**
 
 ### 缺点：
 
@@ -133,12 +134,31 @@ The CPD in PMD is the core of JenkinsCI-iOS.
 
 NiCad handles a range of languages, including C, Java, Python, and C#, and provides a range of normalizations, filters and abstractions.
 
+## Android Studio 
+
+Find and Replace Code Duplicates...
+
+## WebStorm
+
+WebStorm has built in copy paste detection tool, but it is expensive.
+
+## VSCode
+
+Copy/Paste Detector extension, based on jscpd.
 
 ## AppCode
 
-## Code Clone Detection
+AppCode has no copy paste detection tool, the same with Xcode.
+
+## Visual Studio
 
 Visual Studio Enterprise有自己的code clone analysis，see [Finding Duplicate Code by using Code Clone Detection](https://msdn.microsoft.com/en-us/library/hh205279.aspx)。copy一段code，然后改了某个变量名称，仍然可以被检测出重复。
+
+The following modifications can be made, and the clone will still be recognized. In each case, there is a tolerance of a specific number of such modifications:
+    
+    * Rename identifiers.
+    * Insert and delete statements.
+    * Rearrange statements.
 
 ## Simian - Similarity Analyser
 

@@ -8,11 +8,11 @@ categories: [xcode, productivity]
 
 <!-- more -->
 
-翻译部分[Integrating Copy-Paste-Detector for Swift in Xcode](https://medium.com/@nvashanin/%D0%B8%D0%BD%D1%82%D0%B5%D0%B3%D1%80%D0%B8%D1%80%D1%83%D0%B5%D0%BC-copy-paste-detector-%D0%B4%D0%BB%D1%8F-swift-%D0%B2-xcode-9ae87c20748)。
+![copy and paster image](/images/copy_and_paste_image.jpeg)
 
 ## DRY准则
 
-编程到一个基本准则就是DRY（Don't Repeat Yourself)，不写重复代码。简单来说，就是不要复制黏贴。
+编程的一个基本准则就是DRY（Don't Repeat Yourself)，不写重复代码。简单来说，就是不要复制黏贴。
 
 在开始之前，我们先讨论一下什么叫做“复制黏贴”？首先，如果你有相同的文件，肯定是极其糟糕的“复制黏贴”。如果你有两个类只是类名不同，但是做着相同或者类似的事情，也是很严重的“复制黏贴”。即使只有10行代码的重复，也是”复制黏贴“。根据作者个人经验，一个100000行的工程，完全不需要复制黏贴。
 
@@ -32,6 +32,8 @@ categories: [xcode, productivity]
 
 * [jscpd](https://github.com/kucherenko/jscpd)
 * [pmd](https://pmd.github.io/)
+
+### [pmd](https://pmd.github.io/)
 
 其中，pmd可定制，并且比较稳定。开始之前，先通过homebrew进行安装：
 
@@ -60,7 +62,7 @@ php ./cpd_script.php -cpd-xml cpd-output.xml
 * `--formant`指定输出格式，这里指定为xml文件。
 * `--failOnViolation`标识为设置为`true`，意思是只要检测到重复代码，就不继续进行编译。
 
-> 经测试，无论`--failOnViolation`设置成`true`，还是`false`，都不能阻断编译的正常运行。但是warning能正常地给出。
+> 经测试，无论`--failOnViolation`设置成`true`，还是`false`，都不能阻断编译的正常运行。所有的warning都能正常地输出。
 
 第一部分脚本执行的结果，是一个xml文件，里面包含了整个工程里面的重复代码及其位置、行数等信息。下面让我们看看，怎么将这个难读的xml文件以warning的形式展示给开发者。
 
@@ -79,7 +81,7 @@ foreach (simplexml_load_file('cpd-output.xml')->duplication as $duplication) {
 ?>
 ```
 
-我们在Build Phase中添加的脚本的第二部分就是运行这一段脚本，将生成的xml文件中的所有重复代码信息以warning的形式展示在Xcode中。如果你想了解如何在Xcod中生成warning，参考[Generating Warnings in Xcode](https://krakendev.io/blog/generating-warnings-in-xcode)。
+我们在Build Phase中添加的脚本的第二部分就是运行这一段脚本，将生成的xml文件中的所有重复代码信息以warning的形式展示在Xcode中。如果你想了解如何在Xcode中生成warning，参考[Generating Warnings in Xcode](https://krakendev.io/blog/generating-warnings-in-xcode)。
 
 > 我试了[Generating Warnings in Xcode](https://krakendev.io/blog/generating-warnings-in-xcode)中说的方法，脚本有错误，为了将comment中有TODO:和FIXME:的地方标记为warning，将有ERROR:的地方标记为error，可以尝试将下面的脚本写到Build Phase的运行脚本（Run Script）中（参考[Highlight Warnings in Xcode](https://medium.com/ios-os-x-development/highlight-warnings-in-xcode-521125121a75)）：
 > 
@@ -104,6 +106,34 @@ foreach (simplexml_load_file('cpd-output.xml')->duplication as $duplication) {
 > 如果是刚安装的pmd，可能需要重启Xcode，让pmd命令生效。
 
 
+### [jscpd](https://github.com/kucherenko/jscpd)
+
+生成的中间结果文件格式和pmd是一样的，节点名字也叫做`pmd-cpd`。
+
+但是：**jscpd支持yaml格式的配置文件。**这一点很重要，我在工作中也是用jscpd，而不是pmd的cpd。
+
+yaml语法参考[YAML语言教程](http://www.ruanyifeng.com/blog/2016/07/yaml.html)。
+
+## 什么时候使用
+
+Finding clones is typically useful in the following cases:
+
+* **When updating existing code**. When you are fixing a bug, or responding to changes in requirements, you usually start by finding the location in the code that you need to change. Before you make the change, search for clones of that code segment. If clones are discovered:
+
+    * Consider whether you need to make the same change to each clone.
+    * Consider also whether this is a good opportunity to refactor the cloned code into a shared method or class.
+
+* **Architectural cleanup**. Towards the end of every iteration, use Analyze Solution for Code Clones on the Analyze menu.
+
+* **When you create code**. When you have written new code, use the tool to find similar code that already existed.
+
+
 ## 结论
 
-重复代码清理是一件刻不容缓的事情。这个工具放在这里，没有任何副作用，建议大家能正确对待重复代码。
+作者：重复代码清理刻不容缓。这个工具可以帮助我们做这件事情，而且，几乎没有任何副作用。
+
+## 参考
+
+* 翻译部分[Integrating Copy-Paste-Detector for Swift in Xcode](https://medium.com/@nvashanin/%D0%B8%D0%BD%D1%82%D0%B5%D0%B3%D1%80%D0%B8%D1%80%D1%83%D0%B5%D0%BC-copy-paste-detector-%D0%B4%D0%BB%D1%8F-swift-%D0%B2-xcode-9ae87c20748)。
+* 如何在Xcode中生成warning，参考[Generating Warnings in Xcode](https://krakendev.io/blog/generating-warnings-in-xcode)。
+* 如何编写jscpd的yaml配置文件，参考[YAML 语言教程](http://www.ruanyifeng.com/blog/2016/07/yaml.html)。
