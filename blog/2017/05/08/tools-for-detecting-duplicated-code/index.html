@@ -9,7 +9,7 @@
 	<meta name="author" content="Zhang Hongchao">
 
 	
-	<meta name="description" content="iOS代码查重工具 很多IDE里面都有自己的代码查重工具，比如WebStorm的代码查重工具做的非常好用。但是Xcode里面至今没有自己的代码查重工具。这里调研了一些常见的代码查重工具，最后选择PMD里面的CPDjscpd，并将其集成到Xcode中， &hellip;">
+	<meta name="description" content="iOS代码查重工具 代码查重现状 很多IDE里面都有自己的代码查重工具，比如WebStorm的代码查重工具做的非常好用。但是Xcode里面至今没有自己的代码查重工具。这里调研了一些常见的代码查重工具，最后选择PMD里面的CPDjscpd，并将其集成到Xcode中， &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -110,64 +110,104 @@
 	<div class="entry-content" itemprop="articleBody"><!-- more -->
 
 
+<h2>代码查重现状</h2>
+
 <p>很多IDE里面都有自己的代码查重工具，比如WebStorm的代码查重工具做的非常好用。但是Xcode里面至今没有自己的代码查重工具。这里调研了一些常见的代码查重工具，最后选择<del>PMD里面的CPD</del>jscpd，并将其集成到Xcode中，重复代码会以warning的形式出现在Xcode里面，方便查看。</p>
 
-<h2>jscpd</h2>
+<p>一些IDE调研结果：</p>
 
-<p><a href="https://github.com/kucherenko/jscpd">jscpd</a></p>
-
-<p>Supported languages：</p>
-
-<ul>
-<li>JavaScript</li>
-<li>Java</li>
-<li>YAML</li>
-<li>CoffeeScript</li>
-<li>C++</li>
-<li>Haxe</li>
-<li>PHP</li>
-<li>C#</li>
-<li>TypeScript</li>
-<li>Go</li>
-<li>Python</li>
-<li>Mixed HTML</li>
-<li>Ruby</li>
-<li>C</li>
-<li>SCSS</li>
-<li>Less</li>
-<li>CSS</li>
-<li>erlang</li>
-<li><strong>Swift</strong></li>
-<li>xml/xslt</li>
-<li><strong>Objective-C</strong></li>
-<li>Puppet</li>
-<li>Twig</li>
-<li>Vue.js</li>
-</ul>
-
-
-<h3>优点</h3>
-
-<ul>
-<li>安装使用简单</li>
-<li>运行速度快</li>
-<li><strong>支持yaml配置文件进行配置</strong></li>
-</ul>
-
-
-<h3>缺点：</h3>
-
-<ul>
-<li>没有GUI</li>
-<li>算法简单：复制一段，修改其中的一行，就不会被认为复制。</li>
-</ul>
+<table>
+<thead>
+<tr>
+<th>IDE </th>
+<th> Build-in Tool </th>
+<th> Extension</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Xcode </td>
+<td> No </td>
+<td> No</td>
+</tr>
+<tr>
+<td>AppCode </td>
+<td> No </td>
+<td> No</td>
+</tr>
+<tr>
+<td>Android Studio </td>
+<td> Yes (Find and Replace Code Duplications&hellip;) </td>
+<td> &ndash;</td>
+</tr>
+<tr>
+<td>WebStorm </td>
+<td> Yes </td>
+<td> &ndash;</td>
+</tr>
+<tr>
+<td>VSCode </td>
+<td> No </td>
+<td> Copy/Paste Detector extension, based on jscpd</td>
+</tr>
+<tr>
+<td>Visual Studio </td>
+<td> Yes </td>
+<td> &ndash;</td>
+</tr>
+</tbody>
+</table>
 
 
-<h2>PMD</h2>
+<p>一些查重工具调研结果：</p>
+
+<table>
+<thead>
+<tr>
+<th>Tool </th>
+<th> Swift Support </th>
+<th> Objc Support </th>
+<th> configuration file </th>
+<th> Xocde Integration </th>
+<th> Note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://github.com/cyupa/JenkinsCI-iOS">JenkinsCI-iOS</a> </td>
+<td> Yes </td>
+<td> Yes </td>
+<td> &ndash; </td>
+<td> &ndash; </td>
+<td> A Jenkins job setup for your XCode project. The CPD in PMD is the core of JenkinsCI-iOS.</td>
+</tr>
+<tr>
+<td>CPD in <a href="https://pmd.github.io/">PMD</a> </td>
+<td> Yes </td>
+<td> Yes </td>
+<td> No </td>
+<td> Yes </td>
+<td> 对于其他语言，pmd都包含代码静态分析工具，但是对于Swift，只有一个代码查重工具CPD（Copy Paste Detector）。因此，如果想对Swift代码进行静态分析，可以选择SwiftLint。</td>
+</tr>
+<tr>
+<td><a href="https://github.com/kucherenko/jscpd">jscpd</a> </td>
+<td> Yes </td>
+<td> Yes </td>
+<td> Yes (yaml) </td>
+<td> Yes </td>
+<td> 支持swift、objective-c以及其它一些语言。</td>
+</tr>
+</tbody>
+</table>
+
+
+<h2>一些不容易写到表格中的信息</h2>
+
+<h3>PMD</h3>
 
 <p><a href="https://pmd.github.io/">PMD</a></p>
 
-<h3>Supported IDEs</h3>
+<h4>Supported IDEs</h4>
 
 <ul>
 <li>Maven PMD plugin</li>
@@ -182,40 +222,7 @@
 
 <p>没有Xcode的插件，但是可以通过在Build Phase里面加入Run Script来使用。</p>
 
-<h3>Supported Languages of PMD commonded line:</h3>
-
-<ul>
-<li>java</li>
-<li>ecmascript (JavaScript)</li>
-<li>jsp</li>
-<li>plsql</li>
-<li>vm (Apache Velocity)</li>
-<li>xml and xsl</li>
-</ul>
-
-
-<h3>Supported Languages of CPD:</h3>
-
-<ul>
-<li>cs</li>
-<li>cpp</li>
-<li>ecmascript (JavaScript)</li>
-<li>fortran</li>
-<li>go</li>
-<li>java</li>
-<li>jsp</li>
-<li>matlab</li>
-<li><strong>objectivec</strong></li>
-<li>php</li>
-<li>plsql</li>
-<li>python</li>
-<li>ruby</li>
-<li>scala</li>
-<li><strong>swift</strong></li>
-</ul>
-
-
-<h3>CPD has GUI</h3>
+<h4>CPD has GUI</h4>
 
 <p>On Mac, display the GUI by running:</p>
 
@@ -227,7 +234,7 @@
 
 <p><img src="/images/screenshot_cpd.png" alt="screenshot_cpd" /></p>
 
-<h3>将CPD集成到XCode里面</h3>
+<h4>将CPD集成到XCode里面</h4>
 
 <p><a href="https://medium.com/@nvashanin/%D0%B8%D0%BD%D1%82%D0%B5%D0%B3%D1%80%D0%B8%D1%80%D1%83%D0%B5%D0%BC-copy-paste-detector-%D0%B4%D0%BB%D1%8F-swift-%D0%B2-xcode-9ae87c20748">Integrating Copy-Paste-Detector for Swift in Xcode</a>: This is a newer post on April 2017 and gives a detailed step by step way for integrating CPD into Xcode:</p>
 
@@ -241,35 +248,13 @@
 
 <p><a href="https://habrahabr.ru/post/137875/"><del>Интегрируем Copy-Paste-Detection в Xcode, и не только</del></a>: Integrate CPD into XCode, but this post is a little older on 2012.</p>
 
-<h2>JenkinsCI-iOS</h2>
-
-<p><a href="https://github.com/cyupa/JenkinsCI-iOS">JenkinsCI-iOS</a></p>
-
-<p>The CPD in PMD is the core of JenkinsCI-iOS.</p>
-
-<h2>NiCad4 Clone Detector</h2>
+<h3>NiCad4 Clone Detector</h3>
 
 <p><a href="http://www.txl.ca/nicaddownload.html">NiCad4 Clone Detector</a></p>
 
 <p>NiCad handles a range of languages, including C, Java, Python, and C#, and provides a range of normalizations, filters and abstractions.</p>
 
-<h2>Android Studio</h2>
-
-<p>Find and Replace Code Duplicates&hellip;</p>
-
-<h2>WebStorm</h2>
-
-<p>WebStorm has built in copy paste detection tool, but it is expensive.</p>
-
-<h2>VSCode</h2>
-
-<p>Copy/Paste Detector extension, based on jscpd.</p>
-
-<h2>AppCode</h2>
-
-<p>AppCode has no copy paste detection tool, the same with Xcode.</p>
-
-<h2>Visual Studio</h2>
+<h3>Visual Studio</h3>
 
 <p>Visual Studio Enterprise有自己的code clone analysis，see <a href="https://msdn.microsoft.com/en-us/library/hh205279.aspx">Finding Duplicate Code by using Code Clone Detection</a>。copy一段code，然后改了某个变量名称，仍然可以被检测出重复。</p>
 
@@ -280,7 +265,7 @@
 * Rearrange statements.
 </code></pre>
 
-<h2>Simian - Similarity Analyser</h2>
+<h3>Simian - Similarity Analyser</h3>
 
 <p><a href="http://www.harukizaemon.com/simian/">Simian - Similarity Analyser</a></p>
 </div>
