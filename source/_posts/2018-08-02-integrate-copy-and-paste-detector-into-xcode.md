@@ -110,7 +110,7 @@ foreach (simplexml_load_file('cpd-output.xml')->duplication as $duplication) {
 
 生成的中间结果文件格式和pmd是一样的，节点名字也叫做`pmd-cpd`。
 
-但是：**jscpd支持yaml格式的配置文件。**这一点很重要，我在工作中也是用jscpd，而不是pmd的cpd。
+但是：**jscpd支持yaml格式的配置文件。**这一点很重要，我在工作中也是用jscpd，而不是pmd的cpd。jscpd的安装和使用方法同pmd的cpd基本一样，不再重复。
 
 yaml语法参考[YAML语言教程](http://www.ruanyifeng.com/blog/2016/07/yaml.html)。
 
