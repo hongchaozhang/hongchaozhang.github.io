@@ -1,0 +1,281 @@
+
+<!DOCTYPE HTML>
+
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>在swift和Objc之间转换的一些想法 - Reading Space</title>
+	<meta name="author" content="Zhang Hongchao">
+
+	
+	<meta name="description" content="在swift和Objc之间转换的一些想法 在工作中我们有时候需要在swift和objc之间进行转换，这时候有没有一些工具可以帮助我们呢？ 当然，大部分时候，我们不需要转换，因为swift和objc的类和方法可以互相暴露给对方。 objc转换成swfit 搜索了一下，找到了两个工具可以做这个事情 &hellip;">
+	
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="Reading Space" type="application/atom+xml">
+	
+	<link rel="canonical" href="http://hongchaozhang.github.io/blog/2018/11/13/some-ideas-on-converting-between-objc-and-swift/">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<link href="/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<link href='http://fonts.googleapis.com/css?family=Nunito:400,300,700' rel='stylesheet' type='text/css'>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	
+  
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-62806905-2']);
+		_gaq.push(['_trackPageview']);
+
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
+
+
+</head>
+
+
+<body>
+	<div class="container">
+		<div class="left-col">
+			<div class="intrude-less">
+			<header id="header" class="inner"><div class="profilepic">
+	
+	<script src="/javascripts/md5.js"></script>
+	<script type="text/javascript">
+		$(function(){
+			$('.profilepic').append("<img src='http://www.gravatar.com/avatar/" + MD5("") + "?s=160' alt='Profile Picture' style='width: 160px;' />");
+		});
+	</script>
+	
+</div>
+
+<nav id="main-nav"><ul class="main">
+    <li><a href="/">Blog</a></li>
+    <li><a href="/blog/archives">Archives</a></li>
+    <li><a href="#">About</a></li>
+</ul>
+</nav>
+<nav id="sub-nav">
+	<div class="social">
+		
+		
+		
+		
+		
+			<a class="github" href="https://github.com/hongchaozhang" title="GitHub">GitHub</a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+    	
+    	
+			<a class="rss" href="/atom.xml" title="RSS">RSS</a>
+		
+	</div>
+</nav>
+
+
+
+<section class="categories">
+          <ul id="category_cloud" class="nav nav-list"><a href='/blog/categories/android' style='font-size: 107.89473684210526%'>android(5)</a> <a href='/blog/categories/android-studio' style='font-size: 101.57894736842105%'>android_studio(1)</a> <a href='/blog/categories/design-pattern' style='font-size: 101.57894736842105%'>design_pattern(1)</a> <a href='/blog/categories/ios' style='font-size: 160.0%'>ios(38)</a> <a href='/blog/categories/java' style='font-size: 103.15789473684211%'>java(2)</a> <a href='/blog/categories/javascript' style='font-size: 103.15789473684211%'>javascript(2)</a> <a href='/blog/categories/machine-learning' style='font-size: 101.57894736842105%'>machine learning(1)</a> <a href='/blog/categories/map-tech' style='font-size: 103.15789473684211%'>map tech(2)</a> <a href='/blog/categories/mobile' style='font-size: 101.57894736842105%'>mobile(1)</a> <a href='/blog/categories/node' style='font-size: 104.73684210526315%'>node(3)</a> <a href='/blog/categories/objective-c' style='font-size: 133.1578947368421%'>objective-c(21)</a> <a href='/blog/categories/philosophy' style='font-size: 103.15789473684211%'>philosophy(2)</a> <a href='/blog/categories/productivity' style='font-size: 128.42105263157896%'>productivity(18)</a> <a href='/blog/categories/python' style='font-size: 104.73684210526315%'>python(3)</a> <a href='/blog/categories/reading' style='font-size: 104.73684210526315%'>reading(3)</a> <a href='/blog/categories/swift' style='font-size: 106.3157894736842%'>swift(4)</a> <a href='/blog/categories/web' style='font-size: 103.15789473684211%'>web(2)</a> <a href='/blog/categories/wwdc' style='font-size: 103.15789473684211%'>wwdc(2)</a> <a href='/blog/categories/xcode' style='font-size: 111.05263157894737%'>xcode(7)</a> </ul>
+      </section>
+
+
+</header>				
+			</div>
+		</div>	
+		<div class="mid-col">
+			
+				
+			
+			<div class="mid-col-container">
+				<div id="content" class="inner"><article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+	<h1 class="title" itemprop="name">在swift和Objc之间转换的一些想法</h1>
+	<div class="entry-content" itemprop="articleBody"><!-- more -->
+
+
+<p>在工作中我们有时候需要在swift和objc之间进行转换，这时候有没有一些工具可以帮助我们呢？</p>
+
+<blockquote><p>当然，大部分时候，我们不需要转换，因为swift和objc的类和方法可以互相暴露给对方。</p></blockquote>
+
+<h2>objc转换成swfit</h2>
+
+<p>搜索了一下，找到了两个工具可以做这个事情：</p>
+
+<h3><a href="https://github.com/yahoojapan/objc2swift">objc2swift</a></h3>
+
+<p>objc2swift是雅虎日本的一个工具，支持在线转换。<a href="https://github.com/dzenbot/XCSwiftr/blob/master/README.md">XCSwiftr</a>就是一个基于objc2swift的xcode插件，通过<a href="https://github.com/alcatraz/Alcatraz">Alcatraz</a>进行管理安装，可以在Xcode里面进行objc到swift的转换。但是xcode自从8.0开始就不支持插件了。</p>
+
+<blockquote><p>插件(plugin)只在xcode 8.0之前的版本才支持。从8.0开始，插件就不再支持，但是引入了扩展(extension)。扩展和插件不同的一点是：扩展在独立的进程里面运行，所以扩展的崩溃不会影响到xcode，但是插件的崩溃，则会导致xcode也崩溃。估计插件崩溃导致的xcode崩溃的锅都是Apple来背，Apple很不爽，就让xcode跟插件分开在不同的进程中运行。</p></blockquote>
+
+<p>objc2swift的转换效果很一般。</p>
+
+<p>objc源代码：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">@interface</span> <span class="nc">MyClass</span>: <span class="bp">NSObject</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">sayHelloTo:</span><span class="p">(</span><span class="bp">NSString</span><span class="o">*</span><span class="p">)</span><span class="nv">person</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@implementation</span> <span class="nc">MyClass</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">sayHelloTo:</span><span class="p">(</span><span class="bp">NSString</span><span class="o">*</span><span class="p">)</span><span class="nv">person</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">NSLog</span><span class="p">([</span><span class="bp">NSString</span> <span class="nl">stringWithFormat</span><span class="p">:</span><span class="s">@&quot;Hello, %@.&quot;</span><span class="p">,</span> <span class="n">person</span><span class="p">]);</span>
+</span><span class='line'>    <span class="p">[</span><span class="nb">self</span> <span class="nl">performSelector</span><span class="p">:</span><span class="k">@selector</span><span class="p">(</span><span class="n">test</span><span class="p">)];</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">test</span> <span class="p">{</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>转换之后：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">class</span> <span class="nl">MyClass</span><span class="p">:</span> <span class="bp">NSObject</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">func</span> <span class="n">sayHelloTo</span><span class="p">(</span><span class="nl">person</span><span class="p">:</span> <span class="n">String</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">print</span><span class="p">(</span><span class="s">&quot;Hello, \(person).&quot;</span><span class="p">)</span>
+</span><span class='line'>        <span class="nb">self</span><span class="p">.</span><span class="n">performSelector</span><span class="p">(</span><span class="s">&quot;test&quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">func</span> <span class="n">test</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>几个问题：</p>
+
+<ol>
+<li>方法名称没有按照swift的习惯改写：应该为<code>sayHello(to person: String)</code>，而不是<code>sayHelloTo(person: String)</code>。</li>
+<li><code>performSelector:</code>方法完全转换错误：方法名称错误，应该为<code>perform(_ aSelector: Selector!)</code>，而且参数也错误，不应该为<code>String</code>类型，应该为<code>Selector</code>类型。</li>
+<li><code>test</code>方法前面没有加上<code>@objc</code>，所以不能作为<code>#selector</code>的参数。</li>
+</ol>
+
+
+<h3><a href="https://objectivec2swift.com/#/home">Swiftify</a></h3>
+
+<p>swiftify也支持在线转换，而且转换效果明显好于objc2swift。如果愿意花钱，swiftify还可以支持很多功能，包括xcode扩展（注意，这里是“扩展extension”，不是“插件plugin”）、finder扩展、整个工程的转换、离线转换等。</p>
+
+<p>同样用上述objc源代码，转换之后为：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">class</span> <span class="nl">MyClass</span><span class="p">:</span> <span class="bp">NSObject</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">func</span> <span class="n">sayHello</span><span class="p">(</span><span class="n">to</span> <span class="nl">person</span><span class="p">:</span> <span class="n">String</span><span class="o">?</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">print</span><span class="p">(</span><span class="s">&quot;Hello Swift, Goodbye Obj-C!&quot;</span><span class="p">)</span>
+</span><span class='line'>        <span class="n">perform</span><span class="p">(</span><span class="err">#</span><span class="n">selector</span><span class="p">(</span><span class="n">MyClass</span><span class="p">.</span><span class="n">test</span><span class="p">))</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="p">@</span><span class="n">objc</span> <span class="k">func</span> <span class="n">test</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>swift转换成objc</h2>
+
+<p><a href="https://objectivec2swift.com/#/home">Swiftify</a>的作者写了一篇博客<a href="https://www.quora.com/How-can-you-convert-Swift-to-Objective-C">How can you convert Swift to Objective-C?</a>，说明了这个问题：</p>
+
+<p>原文是：</p>
+
+<blockquote><p>When speaking about idiomatic Swift, converting method implementations from Swift to Objective-C is the task that cannot be solved for all cases. As you might imagine, many “modern” Swift features do not have any counterparts in Objective-C and thus cannot be converted without a human brain :)</p></blockquote>
+
+<p>结论就是：由于swift有很多objc没有的语言特性，所以swift到objc无法完成自动转换。</p>
+
+<p>但是转换之后的objc的头文件可以从build in “Generated Interface” ([ProjectName]-Swift.h)里面找到，拷贝出来，稍作修改即可。但是仅限于swift暴漏给objc的接口和属性。那些没有暴漏给objc的接口和属性，就需要手动去转换啦。</p>
+
+<blockquote><p>[ProjectName]-Swift.h如果不能通过cmd+shift+O找到，可以从引用这个头文件的objc文件中通过“go to declaration"找到。</p></blockquote>
+</div>
+
+</article>
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+	
+	
+	
+	<a class="addthis_counter addthis_pill_style"></a>
+	</div>
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
+</div>
+
+
+</div>
+			</div>
+			<footer id="footer" class="inner">Copyright &copy; 2018
+
+    Zhang Hongchao
+
+
+<!--Design credit: <a href="http://shashankmehta.in/archive/2012/greyshade.html">Shashank Mehta</a>--></footer>
+		</div>
+	</div>
+	<!-- 
+ -->
+
+
+
+
+
+
+
+
+
+</body>
+</html>

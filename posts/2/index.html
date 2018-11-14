@@ -9,7 +9,7 @@
 	<meta name="author" content="Zhang Hongchao">
 
 	
-	<meta name="description" content="Oct 25th, 2016 android Android开发中使用的度量单位px、dp、sp、pt、in、mm 关于多屏的支持，最好的文章当然是官方文档：Supporting Multiple Screens。一篇文章，从概念到解决方案，非常全面。 &hellip;">
+	<meta name="description" content="Oct 31st, 2016 ios iOS中多线程任务之间的同步 当我们使用iOS的多线程并发执行一些任务的时候，有时候需要考虑任务之间的同步问题，比如任务1和任务2执行完之后，才可以执行任务3，原因可能是任务3需要任务1和任务2执行得到的结果。 Read on &rarr; Oct 25th &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -93,7 +93,7 @@
 
 
 <section class="categories">
-          <ul id="category_cloud" class="nav nav-list"><a href='/blog/categories/android' style='font-size: 107.89473684210526%'>android(5)</a> <a href='/blog/categories/android-studio' style='font-size: 101.57894736842105%'>android_studio(1)</a> <a href='/blog/categories/design-pattern' style='font-size: 101.57894736842105%'>design_pattern(1)</a> <a href='/blog/categories/ios' style='font-size: 160.0%'>ios(38)</a> <a href='/blog/categories/java' style='font-size: 103.15789473684211%'>java(2)</a> <a href='/blog/categories/javascript' style='font-size: 103.15789473684211%'>javascript(2)</a> <a href='/blog/categories/machine-learning' style='font-size: 101.57894736842105%'>machine learning(1)</a> <a href='/blog/categories/map-tech' style='font-size: 103.15789473684211%'>map tech(2)</a> <a href='/blog/categories/mobile' style='font-size: 101.57894736842105%'>mobile(1)</a> <a href='/blog/categories/node' style='font-size: 104.73684210526315%'>node(3)</a> <a href='/blog/categories/objective-c' style='font-size: 131.57894736842104%'>objective-c(20)</a> <a href='/blog/categories/philosophy' style='font-size: 103.15789473684211%'>philosophy(2)</a> <a href='/blog/categories/productivity' style='font-size: 128.42105263157896%'>productivity(18)</a> <a href='/blog/categories/python' style='font-size: 104.73684210526315%'>python(3)</a> <a href='/blog/categories/reading' style='font-size: 104.73684210526315%'>reading(3)</a> <a href='/blog/categories/swift' style='font-size: 104.73684210526315%'>swift(3)</a> <a href='/blog/categories/web' style='font-size: 103.15789473684211%'>web(2)</a> <a href='/blog/categories/wwdc' style='font-size: 103.15789473684211%'>wwdc(2)</a> <a href='/blog/categories/xcode' style='font-size: 109.47368421052632%'>xcode(6)</a> </ul>
+          <ul id="category_cloud" class="nav nav-list"><a href='/blog/categories/android' style='font-size: 107.89473684210526%'>android(5)</a> <a href='/blog/categories/android-studio' style='font-size: 101.57894736842105%'>android_studio(1)</a> <a href='/blog/categories/design-pattern' style='font-size: 101.57894736842105%'>design_pattern(1)</a> <a href='/blog/categories/ios' style='font-size: 160.0%'>ios(38)</a> <a href='/blog/categories/java' style='font-size: 103.15789473684211%'>java(2)</a> <a href='/blog/categories/javascript' style='font-size: 103.15789473684211%'>javascript(2)</a> <a href='/blog/categories/machine-learning' style='font-size: 101.57894736842105%'>machine learning(1)</a> <a href='/blog/categories/map-tech' style='font-size: 103.15789473684211%'>map tech(2)</a> <a href='/blog/categories/mobile' style='font-size: 101.57894736842105%'>mobile(1)</a> <a href='/blog/categories/node' style='font-size: 104.73684210526315%'>node(3)</a> <a href='/blog/categories/objective-c' style='font-size: 133.1578947368421%'>objective-c(21)</a> <a href='/blog/categories/philosophy' style='font-size: 103.15789473684211%'>philosophy(2)</a> <a href='/blog/categories/productivity' style='font-size: 128.42105263157896%'>productivity(18)</a> <a href='/blog/categories/python' style='font-size: 104.73684210526315%'>python(3)</a> <a href='/blog/categories/reading' style='font-size: 104.73684210526315%'>reading(3)</a> <a href='/blog/categories/swift' style='font-size: 106.3157894736842%'>swift(4)</a> <a href='/blog/categories/web' style='font-size: 103.15789473684211%'>web(2)</a> <a href='/blog/categories/wwdc' style='font-size: 103.15789473684211%'>wwdc(2)</a> <a href='/blog/categories/xcode' style='font-size: 111.05263157894737%'>xcode(7)</a> </ul>
       </section>
 
 
@@ -107,6 +107,43 @@
 			<div class="mid-col-container">
 				<div id="content" class="inner">
 <div itemscope itemtype="http://schema.org/Blog">
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2016-10-31T10:41:27+08:00" pubdate data-updated="true">Oct 31st, 2016</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/ios/'>ios</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2016/10/31/sync-between-multiplele-threads-tasks-in-ios-app/" itemprop="url">iOS中多线程任务之间的同步</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>当我们使用iOS的多线程并发执行一些任务的时候，有时候需要考虑任务之间的同步问题，比如任务1和任务2执行完之后，才可以执行任务3，原因可能是任务3需要任务1和任务2执行得到的结果。</p>
+
+
+		
+		<a href="/blog/2016/10/31/sync-between-multiplele-threads-tasks-in-ios-app/" class="more-link">Read on &rarr;</a>
+	</div>
+
+</article>
 
 
     <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
@@ -843,41 +880,6 @@
 
 		
 		<a href="/blog/2015/12/19/propety-instance-variable-and-at-synthesize/" class="more-link">Read on &rarr;</a>
-	</div>
-
-</article>
-
-
-    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-
-<time datetime="2015-12-17T10:49:54+08:00" pubdate data-updated="true">Dec 17th, 2015</time></div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/objective-c/'>objective-c</a>
-
-
-</div>
-		
-	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2015/12/17/ios-coding-best-practice/" itemprop="url">Ios Coding Best Practice</a></h1>
-	<div class="entry-content" itemprop="articleBody">
-		
-		
-		<a href="/blog/2015/12/17/ios-coding-best-practice/" class="more-link">Read on &rarr;</a>
 	</div>
 
 </article>

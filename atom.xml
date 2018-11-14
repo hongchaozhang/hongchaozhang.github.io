@@ -4,7 +4,7 @@
   <title><![CDATA[Reading Space]]></title>
   <link href="http://hongchaozhang.github.io/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2018-11-13T10:03:11+08:00</updated>
+  <updated>2018-11-14T10:30:05+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -12,6 +12,148 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[在swift和Objc之间转换的一些想法]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2018/11/13/some-ideas-on-converting-between-objc-and-swift/"/>
+    <updated>2018-11-13T10:50:18+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2018/11/13/some-ideas-on-converting-between-objc-and-swift</id>
+    <content type="html"><![CDATA[<!-- more -->
+
+
+<p>在工作中我们有时候需要在swift和objc之间进行转换，这时候有没有一些工具可以帮助我们呢？</p>
+
+<blockquote><p>当然，大部分时候，我们不需要转换，因为swift和objc的类和方法可以互相暴露给对方。</p></blockquote>
+
+<h2>objc转换成swfit</h2>
+
+<p>搜索了一下，找到了两个工具可以做这个事情：</p>
+
+<h3><a href="https://github.com/yahoojapan/objc2swift">objc2swift</a></h3>
+
+<p>objc2swift是雅虎日本的一个工具，支持在线转换。<a href="https://github.com/dzenbot/XCSwiftr/blob/master/README.md">XCSwiftr</a>就是一个基于objc2swift的xcode插件，通过<a href="https://github.com/alcatraz/Alcatraz">Alcatraz</a>进行管理安装，可以在Xcode里面进行objc到swift的转换。但是xcode自从8.0开始就不支持插件了。</p>
+
+<blockquote><p>插件(plugin)只在xcode 8.0之前的版本才支持。从8.0开始，插件就不再支持，但是引入了扩展(extension)。扩展和插件不同的一点是：扩展在独立的进程里面运行，所以扩展的崩溃不会影响到xcode，但是插件的崩溃，则会导致xcode也崩溃。估计插件崩溃导致的xcode崩溃的锅都是Apple来背，Apple很不爽，就让xcode跟插件分开在不同的进程中运行。</p></blockquote>
+
+<p>objc2swift的转换效果很一般。</p>
+
+<p>objc源代码：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">@interface</span> <span class="nc">MyClass</span>: <span class="bp">NSObject</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">sayHelloTo:</span><span class="p">(</span><span class="bp">NSString</span><span class="o">*</span><span class="p">)</span><span class="nv">person</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@implementation</span> <span class="nc">MyClass</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">sayHelloTo:</span><span class="p">(</span><span class="bp">NSString</span><span class="o">*</span><span class="p">)</span><span class="nv">person</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">NSLog</span><span class="p">([</span><span class="bp">NSString</span> <span class="nl">stringWithFormat</span><span class="p">:</span><span class="s">@&quot;Hello, %@.&quot;</span><span class="p">,</span> <span class="n">person</span><span class="p">]);</span>
+</span><span class='line'>    <span class="p">[</span><span class="nb">self</span> <span class="nl">performSelector</span><span class="p">:</span><span class="k">@selector</span><span class="p">(</span><span class="n">test</span><span class="p">)];</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">test</span> <span class="p">{</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">@end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>转换之后：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">class</span> <span class="nl">MyClass</span><span class="p">:</span> <span class="bp">NSObject</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">func</span> <span class="n">sayHelloTo</span><span class="p">(</span><span class="nl">person</span><span class="p">:</span> <span class="n">String</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">print</span><span class="p">(</span><span class="s">&quot;Hello, \(person).&quot;</span><span class="p">)</span>
+</span><span class='line'>        <span class="nb">self</span><span class="p">.</span><span class="n">performSelector</span><span class="p">(</span><span class="s">&quot;test&quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">func</span> <span class="n">test</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>几个问题：</p>
+
+<ol>
+<li>方法名称没有按照swift的习惯改写：应该为<code>sayHello(to person: String)</code>，而不是<code>sayHelloTo(person: String)</code>。</li>
+<li><code>performSelector:</code>方法完全转换错误：方法名称错误，应该为<code>perform(_ aSelector: Selector!)</code>，而且参数也错误，不应该为<code>String</code>类型，应该为<code>Selector</code>类型。</li>
+<li><code>test</code>方法前面没有加上<code>@objc</code>，所以不能作为<code>#selector</code>的参数。</li>
+</ol>
+
+
+<h3><a href="https://objectivec2swift.com/#/home">Swiftify</a></h3>
+
+<p>swiftify也支持在线转换，而且转换效果明显好于objc2swift。如果愿意花钱，swiftify还可以支持很多功能，包括xcode扩展（注意，这里是“扩展extension”，不是“插件plugin”）、finder扩展、整个工程的转换、离线转换等。</p>
+
+<p>同样用上述objc源代码，转换之后为：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">class</span> <span class="nl">MyClass</span><span class="p">:</span> <span class="bp">NSObject</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">func</span> <span class="n">sayHello</span><span class="p">(</span><span class="n">to</span> <span class="nl">person</span><span class="p">:</span> <span class="n">String</span><span class="o">?</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">print</span><span class="p">(</span><span class="s">&quot;Hello Swift, Goodbye Obj-C!&quot;</span><span class="p">)</span>
+</span><span class='line'>        <span class="n">perform</span><span class="p">(</span><span class="err">#</span><span class="n">selector</span><span class="p">(</span><span class="n">MyClass</span><span class="p">.</span><span class="n">test</span><span class="p">))</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="p">@</span><span class="n">objc</span> <span class="k">func</span> <span class="n">test</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>swift转换成objc</h2>
+
+<p><a href="https://objectivec2swift.com/#/home">Swiftify</a>的作者写了一篇博客<a href="https://www.quora.com/How-can-you-convert-Swift-to-Objective-C">How can you convert Swift to Objective-C?</a>，说明了这个问题：</p>
+
+<p>原文是：</p>
+
+<blockquote><p>When speaking about idiomatic Swift, converting method implementations from Swift to Objective-C is the task that cannot be solved for all cases. As you might imagine, many “modern” Swift features do not have any counterparts in Objective-C and thus cannot be converted without a human brain :)</p></blockquote>
+
+<p>结论就是：由于swift有很多objc没有的语言特性，所以swift到objc无法完成自动转换。</p>
+
+<p>但是转换之后的objc的头文件可以从build in “Generated Interface” ([ProjectName]-Swift.h)里面找到，拷贝出来，稍作修改即可。但是仅限于swift暴漏给objc的接口和属性。那些没有暴漏给objc的接口和属性，就需要手动去转换啦。</p>
+
+<blockquote><p>[ProjectName]-Swift.h如果不能通过cmd+shift+O找到，可以从引用这个头文件的objc文件中通过“go to declaration"找到。</p></blockquote>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[读朱光潜《谈修养》]]></title>
@@ -121,7 +263,7 @@
 
 <p>休息不仅为蓄力，也为整理酝酿，让筋肉技巧在潜意识中酝酿凝固。</p>
 
-<p>我（朱光潜）生平最爱陶渊明在自祭文里所说的两句话：“勤靡余劳，心有常闲》”这是修养的极境，人事算尽了，而神仙福分也就在尽人事中享着。现代人的毛病是“勤有余劳，心无偶闲”。这使人心地驳杂，缺乏冲和弘毅的气象，日日困于名缰利锁，叫整个世界日趋于干枯黑暗。</p>
+<p>我（朱光潜）生平最爱陶渊明在自祭文里所说的两句话：“勤靡余劳，心有常闲”，这是修养的极境，人事算尽了，而神仙福分也就在尽人事中享着。现代人的毛病是“勤有余劳，心无偶闲”。这使人心地驳杂，缺乏冲和弘毅的气象，日日困于名缰利锁，叫整个世界日趋于干枯黑暗。</p>
 
 <h2>谈消遣</h2>
 
@@ -5943,465 +6085,6 @@ The code does not provide, unlock or enable additional features or functionality
 <p>申请过程中可以看到下面的页面，可以看出现在<strong>小程序是不向个人开放的</strong>。</p>
 
 <p><img src="http://hongchaozhang.github.io/images/wechat_micro_program_6.png" alt="do_not_open_to_individual" /></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS中多线程任务之间的同步]]></title>
-    <link href="http://hongchaozhang.github.io/blog/2016/10/31/sync-between-multiplele-threads-tasks-in-ios-app/"/>
-    <updated>2016-10-31T10:41:27+08:00</updated>
-    <id>http://hongchaozhang.github.io/blog/2016/10/31/sync-between-multiplele-threads-tasks-in-ios-app</id>
-    <content type="html"><![CDATA[<p>当我们使用iOS的多线程并发执行一些任务的时候，有时候需要考虑任务之间的同步问题，比如任务1和任务2执行完之后，才可以执行任务3，原因可能是任务3需要任务1和任务2执行得到的结果。</p>
-
-<!-- more -->
-
-
-<p>部分内容参考：
-<a href="http://stackoverflow.com/questions/11909629/waiting-until-two-async-blocks-are-executed-before-starting-another-block">Waiting until two async blocks are executed before starting another block</a></p>
-
-<h3>dispatch_group_notify</h3>
-
-<p>当group中所有的block都执行完之后，<code>dispatch_group_notify</code>对应的block才会执行。并且放在同一个group中的block可以是不同queue里面的block。</p>
-
-<p>例子：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="kt">dispatch_group_t</span> <span class="n">group</span> <span class="o">=</span> <span class="n">dispatch_group_create</span><span class="p">();</span>
-</span><span class='line'><span class="kt">dispatch_queue_t</span> <span class="n">queue</span> <span class="o">=</span> <span class="n">dispatch_get_global_queue</span><span class="p">(</span><span class="n">DISPATCH_QUEUE_PRIORITY_HIGH</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">dispatch_group_async</span><span class="p">(</span><span class="n">group</span><span class="p">,</span> <span class="n">queue</span><span class="p">,</span> <span class="o">^</span> <span class="p">{</span>
-</span><span class='line'>    <span class="c1">// block1</span>
-</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Block1 Start&quot;</span><span class="p">);</span>
-</span><span class='line'>    <span class="p">[</span><span class="bp">NSThread</span> <span class="nl">sleepForTimeInterval</span><span class="p">:</span><span class="mf">2.0</span><span class="p">];</span>
-</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Block1 End&quot;</span><span class="p">);</span>
-</span><span class='line'><span class="p">});</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">dispatch_group_async</span><span class="p">(</span><span class="n">group</span><span class="p">,</span> <span class="n">queue</span><span class="p">,</span> <span class="o">^</span> <span class="p">{</span>
-</span><span class='line'>    <span class="c1">// block2</span>
-</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Block2 Start&quot;</span><span class="p">);</span>
-</span><span class='line'>    <span class="p">[</span><span class="bp">NSThread</span> <span class="nl">sleepForTimeInterval</span><span class="p">:</span><span class="mf">1.0</span><span class="p">];</span>
-</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Block2 End&quot;</span><span class="p">);</span>
-</span><span class='line'><span class="p">});</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">dispatch_group_notify</span><span class="p">(</span><span class="n">group</span><span class="p">,</span> <span class="n">queue</span><span class="p">,</span> <span class="o">^</span> <span class="p">{</span>
-</span><span class='line'>    <span class="c1">// block3</span>
-</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Block3&quot;</span><span class="p">);</span>
-</span><span class='line'><span class="p">});</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>输出：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="mi">2016</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">31</span> <span class="mi">11</span><span class="o">:</span><span class="mi">14</span><span class="o">:</span><span class="mf">28.076</span> <span class="n">OCPlayground</span><span class="p">[</span><span class="mi">82366</span><span class="o">:</span><span class="mi">5830581</span><span class="p">]</span> <span class="n">Block2</span> <span class="n">Start</span>
-</span><span class='line'><span class="mi">2016</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">31</span> <span class="mi">11</span><span class="o">:</span><span class="mi">14</span><span class="o">:</span><span class="mf">28.076</span> <span class="n">OCPlayground</span><span class="p">[</span><span class="mi">82366</span><span class="o">:</span><span class="mi">5830578</span><span class="p">]</span> <span class="n">Block1</span> <span class="n">Start</span>
-</span><span class='line'><span class="mi">2016</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">31</span> <span class="mi">11</span><span class="o">:</span><span class="mi">14</span><span class="o">:</span><span class="mf">29.081</span> <span class="n">OCPlayground</span><span class="p">[</span><span class="mi">82366</span><span class="o">:</span><span class="mi">5830581</span><span class="p">]</span> <span class="n">Block2</span> <span class="n">End</span>
-</span><span class='line'><span class="mi">2016</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">31</span> <span class="mi">11</span><span class="o">:</span><span class="mi">14</span><span class="o">:</span><span class="mf">30.078</span> <span class="n">OCPlayground</span><span class="p">[</span><span class="mi">82366</span><span class="o">:</span><span class="mi">5830578</span><span class="p">]</span> <span class="n">Block1</span> <span class="n">End</span>
-</span><span class='line'><span class="mi">2016</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">31</span> <span class="mi">11</span><span class="o">:</span><span class="mi">14</span><span class="o">:</span><span class="mf">30.078</span> <span class="n">OCPlayground</span><span class="p">[</span><span class="mi">82366</span><span class="o">:</span><span class="mi">5830578</span><span class="p">]</span> <span class="n">Block3</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>dispatch_barrier_async</h3>
-
-<p><code>dispatch_barrier_async</code>函数的作用与barrier的意思相同，在线程任务管理中起到一个栅栏的作用，它等待所有位于barrier函数之前的操作执行完毕后执行，并且在barrier函数执行之后，barrier函数之后的操作才会得到执行，该函数需要同<code>dispatch_queue_create</code>函数生成的并行队列一起使用，不能同<code>dispatch_get_global_queue</code>返回的并行队列一起使用。</p>
-
-<p>例子：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="c1">// dispatch_barrier_async can not be used together with dispatch_get_global_queue</span>
-</span><span class='line'><span class="c1">// dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0);</span>
-</span><span class='line'><span class="kt">dispatch_queue_t</span> <span class="n">queue</span> <span class="o">=</span> <span class="n">dispatch_queue_create</span><span class="p">(</span><span class="s">&quot;com.company.app.queue&quot;</span><span class="p">,</span> <span class="n">DISPATCH_QUEUE_CONCURRENT</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">dispatch_async</span><span class="p">(</span><span class="n">queue</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
-</span><span class='line'>    <span class="c1">// block1</span>
-</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Block1 Start&quot;</span><span class="p">);</span>
-</span><span class='line'>    <span class="p">[</span><span class="bp">NSThread</span> <span class="nl">sleepForTimeInterval</span><span class="p">:</span><span class="mf">2.0</span><span class="p">];</span>
-</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Block1 End&quot;</span><span class="p">);</span>
-</span><span class='line'><span class="p">});</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">dispatch_async</span><span class="p">(</span><span class="n">queue</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
-</span><span class='line'>    <span class="c1">// block2</span>
-</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Block2 Start&quot;</span><span class="p">);</span>
-</span><span class='line'>    <span class="p">[</span><span class="bp">NSThread</span> <span class="nl">sleepForTimeInterval</span><span class="p">:</span><span class="mf">1.0</span><span class="p">];</span>
-</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Block2 End&quot;</span><span class="p">);</span>
-</span><span class='line'><span class="p">});</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">dispatch_barrier_async</span><span class="p">(</span><span class="n">queue</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
-</span><span class='line'>    <span class="c1">// block3</span>
-</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Block3&quot;</span><span class="p">);</span>
-</span><span class='line'><span class="p">});</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">dispatch_async</span><span class="p">(</span><span class="n">queue</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
-</span><span class='line'>    <span class="c1">// block4</span>
-</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Block4 Start&quot;</span><span class="p">);</span>
-</span><span class='line'>    <span class="p">[</span><span class="bp">NSThread</span> <span class="nl">sleepForTimeInterval</span><span class="p">:</span><span class="mf">3.0</span><span class="p">];</span>
-</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Block4 End&quot;</span><span class="p">);</span>
-</span><span class='line'><span class="p">});</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>输出：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="mi">2016</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">31</span> <span class="mi">12</span><span class="o">:</span><span class="mo">02</span><span class="o">:</span><span class="mf">08.468</span> <span class="n">OCPlayground</span><span class="p">[</span><span class="mi">83918</span><span class="o">:</span><span class="mi">5867777</span><span class="p">]</span> <span class="n">Block1</span> <span class="n">Start</span>
-</span><span class='line'><span class="mi">2016</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">31</span> <span class="mi">12</span><span class="o">:</span><span class="mo">02</span><span class="o">:</span><span class="mf">08.468</span> <span class="n">OCPlayground</span><span class="p">[</span><span class="mi">83918</span><span class="o">:</span><span class="mi">5867807</span><span class="p">]</span> <span class="n">Block2</span> <span class="n">Start</span>
-</span><span class='line'><span class="mi">2016</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">31</span> <span class="mi">12</span><span class="o">:</span><span class="mo">02</span><span class="o">:</span><span class="mf">09.474</span> <span class="n">OCPlayground</span><span class="p">[</span><span class="mi">83918</span><span class="o">:</span><span class="mi">5867807</span><span class="p">]</span> <span class="n">Block2</span> <span class="n">End</span>
-</span><span class='line'><span class="mi">2016</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">31</span> <span class="mi">12</span><span class="o">:</span><span class="mo">02</span><span class="o">:</span><span class="mf">10.469</span> <span class="n">OCPlayground</span><span class="p">[</span><span class="mi">83918</span><span class="o">:</span><span class="mi">5867777</span><span class="p">]</span> <span class="n">Block1</span> <span class="n">End</span>
-</span><span class='line'><span class="mi">2016</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">31</span> <span class="mi">12</span><span class="o">:</span><span class="mo">02</span><span class="o">:</span><span class="mf">10.469</span> <span class="n">OCPlayground</span><span class="p">[</span><span class="mi">83918</span><span class="o">:</span><span class="mi">5867777</span><span class="p">]</span> <span class="n">Block3</span>
-</span><span class='line'><span class="mi">2016</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">31</span> <span class="mi">12</span><span class="o">:</span><span class="mo">02</span><span class="o">:</span><span class="mf">10.470</span> <span class="n">OCPlayground</span><span class="p">[</span><span class="mi">83918</span><span class="o">:</span><span class="mi">5867777</span><span class="p">]</span> <span class="n">Block4</span> <span class="n">Start</span>
-</span><span class='line'><span class="mi">2016</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">31</span> <span class="mi">12</span><span class="o">:</span><span class="mo">02</span><span class="o">:</span><span class="mf">13.473</span> <span class="n">OCPlayground</span><span class="p">[</span><span class="mi">83918</span><span class="o">:</span><span class="mi">5867777</span><span class="p">]</span> <span class="n">Block4</span> <span class="n">End</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>addDependency</h3>
-
-<p>苹果对GCD进行了封装，有了自己的<code>NSOperationQueue</code>和<code>NSBlockOperation</code>。其中<code>NSBlockOperation</code>中添加了<code>addDepencency:</code>方法可以指定operation block之间的依赖关系。</p>
-
-<p>例子：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="bp">NSOperationQueue</span> <span class="o">*</span><span class="n">queue</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">NSOperationQueue</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
-</span><span class='line'>
-</span><span class='line'><span class="bp">NSOperation</span> <span class="o">*</span><span class="n">completionOperation</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSBlockOperation</span> <span class="nl">blockOperationWithBlock</span><span class="p">:</span><span class="o">^</span><span class="p">{</span>
-</span><span class='line'>    <span class="c1">// block3</span>
-</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Block3&quot;</span><span class="p">);</span>
-</span><span class='line'><span class="p">}];</span>
-</span><span class='line'>
-</span><span class='line'><span class="bp">NSOperation</span> <span class="o">*</span><span class="n">operation</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">operation</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSBlockOperation</span> <span class="nl">blockOperationWithBlock</span><span class="p">:</span><span class="o">^</span><span class="p">{</span>
-</span><span class='line'>    <span class="c1">// block1</span>
-</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Block1 Start&quot;</span><span class="p">);</span>
-</span><span class='line'>    <span class="p">[</span><span class="bp">NSThread</span> <span class="nl">sleepForTimeInterval</span><span class="p">:</span><span class="mf">2.0</span><span class="p">];</span>
-</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Block1 End&quot;</span><span class="p">);</span>
-</span><span class='line'><span class="p">}];</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">[</span><span class="n">completionOperation</span> <span class="nl">addDependency</span><span class="p">:</span><span class="n">operation</span><span class="p">];</span>
-</span><span class='line'><span class="p">[</span><span class="n">queue</span> <span class="nl">addOperation</span><span class="p">:</span><span class="n">operation</span><span class="p">];</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">operation</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSBlockOperation</span> <span class="nl">blockOperationWithBlock</span><span class="p">:</span><span class="o">^</span><span class="p">{</span>
-</span><span class='line'>    <span class="c1">// block2</span>
-</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Block2 Start&quot;</span><span class="p">);</span>
-</span><span class='line'>    <span class="p">[</span><span class="bp">NSThread</span> <span class="nl">sleepForTimeInterval</span><span class="p">:</span><span class="mf">1.0</span><span class="p">];</span>
-</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Block2 End&quot;</span><span class="p">);</span>
-</span><span class='line'><span class="p">}];</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">[</span><span class="n">completionOperation</span> <span class="nl">addDependency</span><span class="p">:</span><span class="n">operation</span><span class="p">];</span>
-</span><span class='line'><span class="p">[</span><span class="n">queue</span> <span class="nl">addOperation</span><span class="p">:</span><span class="n">operation</span><span class="p">];</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">[</span><span class="n">queue</span> <span class="nl">addOperation</span><span class="p">:</span><span class="n">completionOperation</span><span class="p">];</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>输出：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="mi">2016</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">31</span> <span class="mi">12</span><span class="o">:</span><span class="mi">22</span><span class="o">:</span><span class="mf">49.774</span> <span class="n">OCPlayground</span><span class="p">[</span><span class="mi">84061</span><span class="o">:</span><span class="mi">5887605</span><span class="p">]</span> <span class="n">Block1</span> <span class="n">Start</span>
-</span><span class='line'><span class="mi">2016</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">31</span> <span class="mi">12</span><span class="o">:</span><span class="mi">22</span><span class="o">:</span><span class="mf">49.774</span> <span class="n">OCPlayground</span><span class="p">[</span><span class="mi">84061</span><span class="o">:</span><span class="mi">5887572</span><span class="p">]</span> <span class="n">Block2</span> <span class="n">Start</span>
-</span><span class='line'><span class="mi">2016</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">31</span> <span class="mi">12</span><span class="o">:</span><span class="mi">22</span><span class="o">:</span><span class="mf">50.776</span> <span class="n">OCPlayground</span><span class="p">[</span><span class="mi">84061</span><span class="o">:</span><span class="mi">5887572</span><span class="p">]</span> <span class="n">Block2</span> <span class="n">End</span>
-</span><span class='line'><span class="mi">2016</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">31</span> <span class="mi">12</span><span class="o">:</span><span class="mi">22</span><span class="o">:</span><span class="mf">51.848</span> <span class="n">OCPlayground</span><span class="p">[</span><span class="mi">84061</span><span class="o">:</span><span class="mi">5887605</span><span class="p">]</span> <span class="n">Block1</span> <span class="n">End</span>
-</span><span class='line'><span class="mi">2016</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">31</span> <span class="mi">12</span><span class="o">:</span><span class="mi">22</span><span class="o">:</span><span class="mf">51.849</span> <span class="n">OCPlayground</span><span class="p">[</span><span class="mi">84061</span><span class="o">:</span><span class="mi">5887605</span><span class="p">]</span> <span class="n">Block3</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>dispatch_semaphore</h3>
-
-<p><a href="http://www.cnblogs.com/snailHL/p/3906112.html">关于dispatch_semaphore的使用</a>讲解的很详细。</p>
-
-<p>dispatch_semaphore是GCD用来同步的一种方式，与他相关的共有三个函数，分别是<code>dispatch_semaphore_create</code>、<code>dispatch_semaphore_signal</code>和<code>dispatch_semaphore_wait</code>。</p>
-
-<p>下面我们逐一介绍三个函数：</p>
-
-<p>（1）<code>dispatch_semaphore_create</code>的声明为：<code>dispatch_semaphore_t  dispatch_semaphore_create(long value);</code>
-返回一个<code>dispatch_semaphore_t</code>类型且值为<code>value</code>的信号量。这里的传入的参数<code>value</code>必须大于或等于0，否则<code>dispatch_semaphore_create</code>会返回<code>NULL</code>。</p>
-
-<p>（2）<code>dispatch_semaphore_signal</code>的声明为：<code>long dispatch_semaphore_signal(dispatch_semaphore_t dsema);</code>这个函数会使传入的信号量<code>dsema</code>的值加1。（至于返回值，参考<a href="http://www.cnblogs.com/snailHL/p/3906112.html">关于dispatch_semaphore的使用</a>。）</p>
-
-<p> (3) <code>dispatch_semaphore_wait</code>的声明为：<code>long dispatch_semaphore_wait(dispatch_semaphore_t dsema, dispatch_time_t timeout)；</code>这个函数会使传入的信号量<code>dsema</code>的值减1。这个函数的作用是这样的：</p>
-
-<ul>
-<li>如果<code>dsema</code>信号量的值大于0，该函数所处线程就继续执行下面的语句，并且将信号量的值减1；</li>
-<li>如果<code>dsema</code>的值为0，那么这个函数就阻塞当前线程等待timeout，如果等待期间<code>dsema</code>的值被<code>dispatch_semaphore_signal</code>函数加1了，且该函数（即<code>dispatch_semaphore_wait</code>）所处线程获得了信号量，那么就继续向下执行并将信号量减1。</li>
-<li>如果等待期间没有获取到信号量或者信号量的值一直为0，那么等到timeout时，其所处线程自动执行其后语句。</li>
-</ul>
-
-
-<p>例子：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="kt">dispatch_queue_t</span> <span class="n">queue</span> <span class="o">=</span> <span class="n">dispatch_queue_create</span><span class="p">(</span><span class="s">&quot;my.conQ&quot;</span><span class="p">,</span> <span class="n">DISPATCH_QUEUE_CONCURRENT</span><span class="p">);</span>
-</span><span class='line'><span class="kt">dispatch_semaphore_t</span> <span class="n">mySem</span> <span class="o">=</span> <span class="n">dispatch_semaphore_create</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">dispatch_async</span><span class="p">(</span><span class="n">queue</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
-</span><span class='line'>    <span class="c1">// block1</span>
-</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Block1 Start&quot;</span><span class="p">);</span>
-</span><span class='line'>    <span class="p">[</span><span class="bp">NSThread</span> <span class="nl">sleepForTimeInterval</span><span class="p">:</span><span class="mf">2.0</span><span class="p">];</span>
-</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Block1 End&quot;</span><span class="p">);</span>
-</span><span class='line'>    <span class="n">dispatch_semaphore_signal</span><span class="p">(</span><span class="n">mySem</span><span class="p">);</span>
-</span><span class='line'><span class="p">});</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">dispatch_async</span><span class="p">(</span><span class="n">queue</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
-</span><span class='line'>    <span class="c1">// block2</span>
-</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Block2 Start&quot;</span><span class="p">);</span>
-</span><span class='line'>    <span class="p">[</span><span class="bp">NSThread</span> <span class="nl">sleepForTimeInterval</span><span class="p">:</span><span class="mf">1.0</span><span class="p">];</span>
-</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Block2 End&quot;</span><span class="p">);</span>
-</span><span class='line'>    <span class="n">dispatch_semaphore_signal</span><span class="p">(</span><span class="n">mySem</span><span class="p">);</span>
-</span><span class='line'><span class="p">});</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">dispatch_async</span><span class="p">(</span><span class="n">queue</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
-</span><span class='line'>    <span class="n">dispatch_semaphore_wait</span><span class="p">(</span><span class="n">mySem</span><span class="p">,</span> <span class="n">DISPATCH_TIME_FOREVER</span><span class="p">);</span>
-</span><span class='line'>    <span class="n">dispatch_semaphore_wait</span><span class="p">(</span><span class="n">mySem</span><span class="p">,</span> <span class="n">DISPATCH_TIME_FOREVER</span><span class="p">);</span>
-</span><span class='line'>    <span class="c1">// block3</span>
-</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Block3&quot;</span><span class="p">);</span>
-</span><span class='line'><span class="p">});</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>输出：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="mi">2016</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">31</span> <span class="mi">22</span><span class="o">:</span><span class="mi">16</span><span class="o">:</span><span class="mf">34.402</span> <span class="n">OCPlayground</span><span class="p">[</span><span class="mi">85158</span><span class="o">:</span><span class="mi">6133417</span><span class="p">]</span> <span class="n">Block1</span> <span class="n">Start</span>
-</span><span class='line'><span class="mi">2016</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">31</span> <span class="mi">22</span><span class="o">:</span><span class="mi">16</span><span class="o">:</span><span class="mf">34.402</span> <span class="n">OCPlayground</span><span class="p">[</span><span class="mi">85158</span><span class="o">:</span><span class="mi">6133423</span><span class="p">]</span> <span class="n">Block2</span> <span class="n">Start</span>
-</span><span class='line'><span class="mi">2016</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">31</span> <span class="mi">22</span><span class="o">:</span><span class="mi">16</span><span class="o">:</span><span class="mf">35.405</span> <span class="n">OCPlayground</span><span class="p">[</span><span class="mi">85158</span><span class="o">:</span><span class="mi">6133423</span><span class="p">]</span> <span class="n">Block2</span> <span class="n">End</span>
-</span><span class='line'><span class="mi">2016</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">31</span> <span class="mi">22</span><span class="o">:</span><span class="mi">16</span><span class="o">:</span><span class="mf">36.403</span> <span class="n">OCPlayground</span><span class="p">[</span><span class="mi">85158</span><span class="o">:</span><span class="mi">6133417</span><span class="p">]</span> <span class="n">Block1</span> <span class="n">End</span>
-</span><span class='line'><span class="mi">2016</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">31</span> <span class="mi">22</span><span class="o">:</span><span class="mi">16</span><span class="o">:</span><span class="mf">36.404</span> <span class="n">OCPlayground</span><span class="p">[</span><span class="mi">85158</span><span class="o">:</span><span class="mi">6133426</span><span class="p">]</span> <span class="n">Block3</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>dispatch_group_enter和dispatch_group_leave</h3>
-
-<p>当我们碰到block里面有嵌套的block的时候，简单地使用<code>dispatch_group_notify</code>就不能解决问题了：<code>dispatch_group_notify</code>不会等到嵌套的block执行完再执行。对于这种情况，如果还坚持用<code>dispatch_group_notify</code>，可以有两种解决方案：</p>
-
-<p><strong>方案1：</strong></p>
-
-<p>对于嵌套的block，仍然使用<code>dispatch_group_async</code>将block放入对应的group。比如下面的例子，对于Block1里面的Block4，我们仍然使用<code>dispatch_group_async</code>将Block4放入对应的group，即可以保证Block3在Block4之后执行。也就是说，只要是在<code>dispatch_group_notify</code>对应的Block3执行之前加入group的block，都需要执行，然后才能执行<code>dispatch_group_notify</code>对应的Block3，即，当<code>dispatch_group_notify</code>对应的Block3执行的时候，group中不能有任何没有执行的其它block存在。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">dispatch_group_async</span><span class="p">(</span><span class="n">group</span><span class="p">,</span> <span class="n">queue</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
-</span><span class='line'>    <span class="c1">// block4 inside block 1</span>
-</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Block4 inside Block1 Start&quot;</span><span class="p">);</span>
-</span><span class='line'>    <span class="p">[</span><span class="bp">NSThread</span> <span class="nl">sleepForTimeInterval</span><span class="p">:</span><span class="mf">1.0</span><span class="p">];</span>
-</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Block4 inside Block1 End&quot;</span><span class="p">);</span>
-</span><span class='line'><span class="p">});</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>如果嵌套的block对应的是服务器请求的callback（比如<code>onSuccess:</code>和<code>onFailure:</code>），就不方便将其加入对应的group中。这时候就需要使用方案2。</p>
-
-<p><strong>方案2：</strong>
-通过<code>dispatch_group_enter</code>和<code>dispatch_group_leave</code>手动管理group关联的block的运行状态（或计数）。但是需要注意：进入和退出group次数必须匹配，不仅是code书写方面一致，code执行也要保证一致，否则<code>dispatch_group_notify</code>对应的Block3就不会执行到。</p>
-
-<p>例子：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="kt">dispatch_group_t</span> <span class="n">group</span> <span class="o">=</span> <span class="n">dispatch_group_create</span><span class="p">();</span>
-</span><span class='line'><span class="kt">dispatch_queue_t</span> <span class="n">queue</span> <span class="o">=</span> <span class="n">dispatch_get_global_queue</span><span class="p">(</span><span class="n">DISPATCH_QUEUE_PRIORITY_HIGH</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">dispatch_group_async</span><span class="p">(</span><span class="n">group</span><span class="p">,</span> <span class="n">queue</span><span class="p">,</span> <span class="o">^</span> <span class="p">{</span>
-</span><span class='line'>    <span class="c1">// block1</span>
-</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Block1 Start&quot;</span><span class="p">);</span>
-</span><span class='line'>    <span class="p">[</span><span class="bp">NSThread</span> <span class="nl">sleepForTimeInterval</span><span class="p">:</span><span class="mf">2.0</span><span class="p">];</span>
-</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Block1 End&quot;</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="n">dispatch_group_enter</span><span class="p">(</span><span class="n">group</span><span class="p">);</span>
-</span><span class='line'>    <span class="n">dispatch_async</span><span class="p">(</span><span class="n">queue</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
-</span><span class='line'>        <span class="c1">// block4 inside block 1</span>
-</span><span class='line'>        <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Block4 inside Block1 Start&quot;</span><span class="p">);</span>
-</span><span class='line'>        <span class="p">[</span><span class="bp">NSThread</span> <span class="nl">sleepForTimeInterval</span><span class="p">:</span><span class="mf">1.0</span><span class="p">];</span>
-</span><span class='line'>        <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Block4 inside Block1 End&quot;</span><span class="p">);</span>
-</span><span class='line'>        <span class="n">dispatch_group_leave</span><span class="p">(</span><span class="n">group</span><span class="p">);</span>
-</span><span class='line'>    <span class="p">});</span>
-</span><span class='line'><span class="p">});</span>
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'><span class="n">dispatch_group_async</span><span class="p">(</span><span class="n">group</span><span class="p">,</span> <span class="n">queue</span><span class="p">,</span> <span class="o">^</span> <span class="p">{</span>
-</span><span class='line'>    <span class="c1">// block2</span>
-</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Block2 Start&quot;</span><span class="p">);</span>
-</span><span class='line'>    <span class="p">[</span><span class="bp">NSThread</span> <span class="nl">sleepForTimeInterval</span><span class="p">:</span><span class="mf">1.0</span><span class="p">];</span>
-</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Block2 End&quot;</span><span class="p">);</span>
-</span><span class='line'><span class="p">});</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">dispatch_group_notify</span><span class="p">(</span><span class="n">group</span><span class="p">,</span> <span class="n">queue</span><span class="p">,</span> <span class="o">^</span> <span class="p">{</span>
-</span><span class='line'>    <span class="c1">// block3</span>
-</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Block3&quot;</span><span class="p">);</span>
-</span><span class='line'><span class="p">});</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>输出：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="mi">2016</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">31</span> <span class="mi">13</span><span class="o">:</span><span class="mi">51</span><span class="o">:</span><span class="mf">23.512</span> <span class="n">OCPlayground</span><span class="p">[</span><span class="mi">84646</span><span class="o">:</span><span class="mi">5947063</span><span class="p">]</span> <span class="n">Block2</span> <span class="n">Start</span>
-</span><span class='line'><span class="mi">2016</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">31</span> <span class="mi">13</span><span class="o">:</span><span class="mi">51</span><span class="o">:</span><span class="mf">23.512</span> <span class="n">OCPlayground</span><span class="p">[</span><span class="mi">84646</span><span class="o">:</span><span class="mi">5947080</span><span class="p">]</span> <span class="n">Block1</span> <span class="n">Start</span>
-</span><span class='line'><span class="mi">2016</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">31</span> <span class="mi">13</span><span class="o">:</span><span class="mi">51</span><span class="o">:</span><span class="mf">24.518</span> <span class="n">OCPlayground</span><span class="p">[</span><span class="mi">84646</span><span class="o">:</span><span class="mi">5947063</span><span class="p">]</span> <span class="n">Block2</span> <span class="n">End</span>
-</span><span class='line'><span class="mi">2016</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">31</span> <span class="mi">13</span><span class="o">:</span><span class="mi">51</span><span class="o">:</span><span class="mf">25.518</span> <span class="n">OCPlayground</span><span class="p">[</span><span class="mi">84646</span><span class="o">:</span><span class="mi">5947080</span><span class="p">]</span> <span class="n">Block1</span> <span class="n">End</span>
-</span><span class='line'><span class="mi">2016</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">31</span> <span class="mi">13</span><span class="o">:</span><span class="mi">51</span><span class="o">:</span><span class="mf">25.518</span> <span class="n">OCPlayground</span><span class="p">[</span><span class="mi">84646</span><span class="o">:</span><span class="mi">5947080</span><span class="p">]</span> <span class="n">Block4</span> <span class="n">inside</span> <span class="n">Block1</span> <span class="n">Start</span>
-</span><span class='line'><span class="mi">2016</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">31</span> <span class="mi">13</span><span class="o">:</span><span class="mi">51</span><span class="o">:</span><span class="mf">26.521</span> <span class="n">OCPlayground</span><span class="p">[</span><span class="mi">84646</span><span class="o">:</span><span class="mi">5947080</span><span class="p">]</span> <span class="n">Block4</span> <span class="n">inside</span> <span class="n">Block1</span> <span class="n">End</span>
-</span><span class='line'><span class="mi">2016</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">31</span> <span class="mi">13</span><span class="o">:</span><span class="mi">51</span><span class="o">:</span><span class="mf">26.522</span> <span class="n">OCPlayground</span><span class="p">[</span><span class="mi">84646</span><span class="o">:</span><span class="mi">5947063</span><span class="p">]</span> <span class="n">Block3</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
 ]]></content>
   </entry>
   
