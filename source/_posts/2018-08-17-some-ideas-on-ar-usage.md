@@ -3,7 +3,7 @@ layout: post
 title: "关于AR的一些使用场景"
 date: 2018-08-17 15:13:58 +0800
 comments: true
-categories: 
+categories: [ios, machine learning, augmented reality]
 ---
 
 

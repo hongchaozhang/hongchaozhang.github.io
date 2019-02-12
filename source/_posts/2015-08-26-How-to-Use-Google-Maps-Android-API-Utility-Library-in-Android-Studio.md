@@ -1,7 +1,7 @@
 ---
 layout: post
 comments: true
-categories: [android,android_studio]
+categories: [android,android studio]
 title: How to Use Google Maps Android API Utility Library in Android Studio
 ---
 

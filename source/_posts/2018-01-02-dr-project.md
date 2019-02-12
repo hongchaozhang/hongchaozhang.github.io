@@ -4,7 +4,7 @@ title: "DR Project"
 date: 2018-01-02 13:39:28 +0800
 comments: true
 published: true
-categories: [ios]
+categories: [ios, machine learning, augmented reality]
 ---
 
 Key words: ARKit, CoreML, SceneKit

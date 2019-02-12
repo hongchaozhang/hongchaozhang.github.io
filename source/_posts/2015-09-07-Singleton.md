@@ -1,7 +1,7 @@
 ---
 layout: post
 comments: true
-categories: [design_pattern,objective-c]
+categories: [design pattern,objective-c]
 title: Singleton
 published: true
 ---

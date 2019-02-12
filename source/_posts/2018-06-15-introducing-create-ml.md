@@ -4,7 +4,7 @@ title: "Introducing Create ML"
 date: 2018-06-15 17:39:30 +0800
 comments: true
 published: true
-categories: [ios, wwdc]
+categories: [ios, wwdc, machine learning]
 ---
 
 <!-- more -->

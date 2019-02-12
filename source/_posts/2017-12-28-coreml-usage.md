@@ -3,7 +3,7 @@ layout: post
 title: "CoreML Usage"
 date: 2017-12-28 17:25:39 +0800
 comments: true
-categories: [ios]
+categories: [ios, machine learning]
 ---
 
 <!-- more -->

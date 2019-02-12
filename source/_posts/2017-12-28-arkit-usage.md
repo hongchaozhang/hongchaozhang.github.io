@@ -3,7 +3,7 @@ layout: post
 title: "ARKit Usage"
 date: 2017-12-28 17:25:27 +0800
 comments: true
-categories: [ios]
+categories: [ios, machine learning, augmented reality]
 ---
 
 
