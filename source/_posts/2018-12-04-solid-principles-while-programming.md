@@ -12,7 +12,6 @@ Robert C. Martin (Bob大叔)在《敏捷软件开发》中提出了编程过程�
 
 <br>
 
-- [categories: [design pattern]](#categories-design-pattern)
 - [SOLID原则](#solid%E5%8E%9F%E5%88%99)
 - [单一职责原则（The Single Responsibility Principle，简称SRP）](#%E5%8D%95%E4%B8%80%E8%81%8C%E8%B4%A3%E5%8E%9F%E5%88%99the-single-responsibility-principle%E7%AE%80%E7%A7%B0srp)
   - [定义](#%E5%AE%9A%E4%B9%89)
