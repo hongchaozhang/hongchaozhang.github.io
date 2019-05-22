@@ -4,7 +4,7 @@
   <title><![CDATA[Category: xcode | Reading Space]]></title>
   <link href="http://hongchaozhang.github.io/blog/categories/xcode/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2019-01-09T16:08:25+08:00</updated>
+  <updated>2019-05-22T17:08:30+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -12,6 +12,126 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[如何控制iOS应用的屏幕方向]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2019/05/21/understand-ios-app-orientations/"/>
+    <updated>2019-05-21T18:24:35+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2019/05/21/understand-ios-app-orientations</id>
+    <content type="html"><![CDATA[<!-- more -->
+
+
+<h2>背景</h2>
+
+<p>一个iOS应用默认都会支持所有的是个方向，当用户旋转屏幕的时候，应用会自动旋转。</p>
+
+<p>有些时候，这可能不是我们想要的。比如你设计了一个只支持竖屏方向的应用，但是又想在某些时候支持Landscape模式，比如播放视频的时候。iOS应用有很多地方的设置会影响屏幕方向，iOS9之后，iPad又支持了split view，使得这个控制更加复杂。</p>
+
+<h2>总起</h2>
+
+<p>iPhone比较简单，因为其没有spit view的功能，iPad因为有了spilt view功能，在屏幕方向的控制上更复杂一些。</p>
+
+<p>首先，需要明确：有哪些因素会影响到App的屏幕方向？</p>
+
+<p><strong>1. Project设置（info.plist）</strong></p>
+
+<p>有两个地方可以进行该项设置：</p>
+
+<ul>
+<li><p>Project->Target->General->Device Orientation</p>
+
+<p><img src="/images/ScreenOrientationProjectSetting.png" alt="screen orientation project setting" /></p></li>
+<li><p>Project的info.plist配置文件</p>
+
+<p><img src="/images/ScreenOrientationInfoPlist.png" alt="screen orientation info plist" /></p></li>
+</ul>
+
+
+<p>这两个地方的设置是一致的：在一个地方改动，另一个地方会同步修改。其中：info.plist中的“Supported interface orientations (iPad)”属性对应于iPad的设置（Device选择iPad），info.plist中的“Supported interface orientations”属性对应于iPhone和Universal的设置（Device选择iPhone或者Universal，这两项的设置始终保持一致）。</p>
+
+<p><strong>2. 在代码中设置应用支持的屏幕方向</strong></p>
+
+<p>有两种方法可以在代码中设置应用支持的屏幕方向：</p>
+
+<ul>
+<li><code>UIApplicationDelegate</code>中的<code>supportedInterfaceOrientationsForWindow:</code>方法</li>
+<li>每个<code>UIViewController</code>还可以通过<code>supportedInterfaceOrientations</code>方法设置自己支持的屏幕方向</li>
+</ul>
+
+
+<p>系统会自动将两种方法中支持的屏幕方向取交集，作为最终该view controller支持的屏幕方向。如果交集为空，那么应用将会Crash。</p>
+
+<p><strong>3. <code>UIViewController</code>中的<code>shouldAutorotate</code>属性</strong></p>
+
+<p>该属性是只读属性，用来控制该view controller可不可以旋转。可以在自己的view controller中将其override，返回自己的逻辑，甚至将其override为读写属性，可以在其它地方进行设置。比如：</p>
+
+<pre><code class="swift">override public var shouldAutorotate: Bool {
+    get {
+        return self.shouldAutorotateVariable
+    }
+    set {
+        self.shouldAutorotateVariable = newValue
+    }
+}
+</code></pre>
+
+<p>其中<code>shouldAutorotateVariable</code>为view controller中自定义的一私有变量。</p>
+
+<h2>iPhone</h2>
+
+<p>如果某个view controller中的<code>shouldAutorotate</code>被设置为<code>false</code>，那么系统将忽略下面的设置：</p>
+
+<ul>
+<li><code>UIApplicationDelegate</code>中的<code>supportedInterfaceOrientationsForWindow:</code>方法</li>
+<li>该<code>UIViewController</code>通过<code>supportedInterfaceOrientations</code>方法设置的自己支持的屏幕方向</li>
+</ul>
+
+
+<p>系统只考虑用户在“Project设置（info.plist）”中的设置。</p>
+
+<p>如果某个view controller中的<code>shouldAutorotate</code>未被重写（或者被重写为<code>true</code>），那么系统将优先考虑使用下面两个设置的交集：</p>
+
+<ul>
+<li><code>UIApplicationDelegate</code>中的<code>supportedInterfaceOrientationsForWindow:</code>方法</li>
+<li>该<code>UIViewController</code>通过<code>supportedInterfaceOrientations</code>方法设置的自己支持的屏幕方向</li>
+</ul>
+
+
+<p>如果没有以上两个设置，再使用“Project设置（info.plist）”中的设置。</p>
+
+<h2>iPad</h2>
+
+<p>从iOS9开始，iPad开始支持split view功能。关于这个功能的设置说明，可以参考苹果官方文档：<a href="https://developer.apple.com/library/archive/documentation/WindowsViews/Conceptual/AdoptingMultitaskingOniPad/QuickStartForSlideOverAndSplitView.html#//apple_ref/doc/uid/TP40015145-CH13-SW1">Slide Over and Split View Quick Start</a>。简单的说，就是：如果info.plist中的“Supported interface orientations (iPad)”属性对应的值包含了四个方向，同时<code>UIRequiresFullScreen</code>对应的值为<code>NO</code>，那么系统默认该应用支持split view属性，同时系统将忽略下面两处代码：</p>
+
+<ul>
+<li><code>UIApplicationDelegate</code>中的<code>supportedInterfaceOrientationsForWindow:</code>方法</li>
+<li><code>UIViewController</code>通过<code>supportedInterfaceOrientations</code>方法设置的自己支持的屏幕方向</li>
+</ul>
+
+
+<p>以及<code>UIViewController</code>中<code>shouldAutorotate</code>的值。</p>
+
+<p>也就是说：支持split view的应用将不能被禁止旋转，至少不能通过本文中的方法进行禁止旋转。</p>
+
+<p>如果info.plist中的“Supported interface orientations (iPad)”属性对应的值未包含四个方向，或者“UIRequiresFullScreen”对应的值为<code>NO</code>，那么该应用不支持split view功能，其屏幕方向控制方法同iPhone相同。</p>
+
+<blockquote><p>注意：对于“Project设置（info.plist）”设置，建议在info.plist中进行，直接设置一下三个属性的值：
+* Supported interface orientations (iPad)
+* Supported interface orientations
+* UIRequiresFullScreen</p>
+
+<p>在Project->Target->General->Device Orientation中进行设置，有点迷惑性：因为即使“Device”选的是“Universal”，“iPad”下面的设置也会起作用。</p></blockquote>
+
+<h2>参考</h2>
+
+<ol>
+<li><a href="https://mobiarch.wordpress.com/2017/04/22/controlling-screen-orientation-of-ios-apps/">Controlling Screen Orientation of iOS Apps</a></li>
+<li><a href="https://stackoverflow.com/questions/32782044/ios-9-supportedinterfaceorientations-not-working/32782517#32782517">iOS 9 supportedInterfaceOrientations not working</a></li>
+<li><a href="https://developer.apple.com/library/archive/documentation/WindowsViews/Conceptual/AdoptingMultitaskingOniPad/QuickStartForSlideOverAndSplitView.html#//apple_ref/doc/uid/TP40015145-CH13-SW1">Slide Over and Split View Quick Start</a></li>
+</ol>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[在swift和Objc之间转换的一些想法]]></title>
@@ -438,170 +558,6 @@ find "${SRCROOT}" \( -name "*.h" -or -name "*.m" -or -name "*.swift" \) -print0 
     <content type="html"><![CDATA[<p><a href="https://www.raywenderlich.com/66395/documenting-in-xcode-with-headerdoc-tutorial">Documenting in Xcode with HeaderDoc Tutorial</a> 讲解的非常全面详细可操作。</p>
 
 <p>补充一点：如果最终导出的html文件想转换成docx或者pdf文件，只需要用word打开，然后另存为你想要的格式即可，多数情况下，word可以处理好格式的问题。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[ios内存管理——调试]]></title>
-    <link href="http://hongchaozhang.github.io/blog/2016/02/24/ios-memory-managemement-debugging/"/>
-    <updated>2016-02-24T20:51:01+08:00</updated>
-    <id>http://hongchaozhang.github.io/blog/2016/02/24/ios-memory-managemement-debugging</id>
-    <content type="html"><![CDATA[<p><a href="http://www.cocoachina.com/ios/20160222/15333.html">iOS/OS X 内存管理(二)：借助工具解决内存问题</a>讲了一些调试技巧，包括：</p>
-
-<!-- more -->
-
-
-<ul>
-<li>启用Zombie Object进行悬挂指针的检测。</li>
-<li>应用<em>Product -> Analysis</em>进行内存泄露的初步检测。</li>
-<li>应用Leak Instrument进行内存泄露查找。</li>
-<li>在以上方法不奏效的情况下，通过查看<code>dealloc</code>是否调用查看某个class是否泄露的问题。</li>
-</ul>
-
-
-<p>补充一下：在<em>Leak</em>页面可以打开<em>Cycles &amp; Roots</em>用图的方式查看ratain cycle的问题，截图如下：</p>
-
-<p><img src="/images/xcode_leak_instrument_cycles_and_roots_view.png" alt="xcode_leak_instrument_cycles_and_roots_view" /></p>
-
-<p>上文没有介绍的，也是比较麻烦的，就是leak instrument没法查出的内存泄露。最近在调试一个这样的问题，写点心得。</p>
-
-<h3>行动前的准备</h3>
-
-<h4>认识工具</h4>
-
-<p>参看<a href="https://developer.apple.com/library/ios/documentation/AnalysisTools/Reference/Instruments_User_Reference/LeaksInstrument/LeaksInstrument.html">Leaks Instrument</a>和<a href="https://developer.apple.com/library/ios/documentation/AnalysisTools/Reference/Instruments_User_Reference/AllocationsInstrument/AllocationsInstrument.html#//apple_ref/doc/uid/TP40011355-CH40-SW1">Allocation Instrument</a>的官方文档。</p>
-
-<p>补充：</p>
-
-<ul>
-<li>Leak Instrument有<em>Cycles &amp; Roots</em>界面，见上。</li>
-<li>Persistent Bytes和#Persistent。#Persistent是object的数量，也就是allocation的次数，而Persistent Bytes是具体的内存大小。<strong>#Persistent是我们需要关注的，内存有没有泄露也是看这个值是不是只增不减。</strong></li>
-<li>Allocation Instrument进行profile的时候，为<em>Launch Configuration for Heap Allocations</em>勾选<em>Record reference counts</em>。</li>
-</ul>
-
-
-<h4>编译参数设置</h4>
-
-<p>为了保证看到代码，而不是一堆无意义的内存地址，参考<a href="http://hongchaozhang.github.io/blog/2015/08/17/the-dSYM-file-in-ios-project/">The .dSYM File in Ios Project</a>进行xcode的设置。</p>
-
-<h3>如果<code>dealloc</code>没有被调用</h3>
-
-<p>通过Allocation Instrument，我们可以得到内存使用情况。为了清楚地看出是哪部分最可能是内存泄露，可以使用<em>Call Trees</em>视图，然后在右边：</p>
-
-<ul>
-<li>勾选<em>Hide System Libraries</em>，排除系统影响。</li>
-<li>勾选<em>Invert Call Tree</em>，使占用内存最多的分支在最前面。</li>
-</ul>
-
-
-<p>通过以上方法，可以大概确定是哪部分内存泄露。然后看看该class是不是被<code>dealloc</code>了。</p>
-
-<ul>
-<li>如果<code>dealloc</code>了，那不是本文要解决的问题。</li>
-<li>如果<code>dealloc</code>没有调用到，继续往下看。</li>
-</ul>
-
-
-<h4>Retain Cycle导致<code>dealloc</code>没有被调用</h4>
-
-<p>在ARC下，<code>dealloc</code>不能被调用，一般是因为存在Retain Cycle，而导致Retain Cycle的情况可能是下面几种可能(参考<a href="http://kkoval.blogspot.com/2014/03/ios-retain-cycle-in-arc.html">iOS Retain Cycle in ARC</a>和<a href="http://stackoverflow.com/questions/9219030/dealloc-not-being-called-on-arc-app">Dealloc not being called on ARC app</a>):</p>
-
-<h5>1. Blocks</h5>
-
-<p>并不是所有在block中引用<code>self</code>都会带来retain cycle，比如下面的代码就不会有内存泄露：</p>
-
-<pre><code class="objc">- (void)testSelfInCocoaBlocks
-{
-    NSArray *cats = @[@"Smily", @"Garfild", @"Other cat"];
-    [cats enumerateObjectsUsingBlock:^(NSString *cat, NSUInteger idx, BOOL *stop) {
-        [self doSomethingWithCat:cat];
-    }];
-}
-</code></pre>
-
-<p>因为在上面的代码中，block ratain了self，但是self中没有retain这个block。只有当block中引用了self，并且self又以某种方式（比如用一个具有strong属性的Property指向该block，或者将该block加入了self的一个具有strong属性的array中）强引用了该block，才会引起内存泄露，比如：</p>
-
-<pre><code class="objc">- (void)testSelfInBlock
-{
-    self.block = ^{
-        [self doSomethingWithCat:@"Fat Cat"];
-    };
-}
-</code></pre>
-
-<p>有时候即使没有直接引用self，也可能导致self被retain，这叫做“implicit retain”。一种可能的情况就是在block中引用了self的实例变量，比如：</p>
-
-<pre><code class="objc">- (void)testHiddenSelfInCocoaBlocks
-{
-    NSArray *cats = @[@"Smily", @"Garfild", @"Other cat"];
-    [cats enumerateObjectsUsingBlock:^(NSString *cat, NSUInteger idx, BOOL *stop) {
-        _aCat = cat;
-        *stop = YES;
-    }];
-}
-</code></pre>
-
-<p>这段code在block中引用了self的实例变量<code>_aCat</code>。</p>
-
-<p>为了避免implicit retain，可以在xcode的build setting中打开<em>implicit retain of &lsquo;self&rsquo; within blocks</em>，xcode编译器会给出警告。</p>
-
-<h5>2. NSTimer</h5>
-
-<p>如果在view controller中创建了NSTimer，在消失view controller的时候需要调用<code>invalidate</code>，否则会产生ratain cycle。</p>
-
-<h5>3. Observers/NSNotificationCenter</h5>
-
-<p>当我们在NSNotificationCenter的block中引用self的时候，也会产生retain cycle，比如：</p>
-
-<pre><code class="objc">[[NSNotificationCenter defaultCenter] addObserverForName:@"not"
-                                                      object:nil
-                                                       queue:[NSOperationQueue mainQueue]
-                                                  usingBlock:^(NSNotification *note) {
-        [self doSomethingWithCat:@"Noty cat"];
-    }];
-</code></pre>
-
-<p>在不用的时候需要将self从NSNotificationCenter中移除。</p>
-
-<h5>4. Array contained reference</h5>
-
-<p>比如在view controller中将self放在了一个array中，而这个array在view controller消失的时候不会被释放，view controller的<code>dealloc</code>就不会被调用。</p>
-
-<h5>5. Delegate</h5>
-
-<p>delegate的属性应该为weak。</p>
-
-<h4>dealloc没被调用的调试</h4>
-
-<p>调试dealloc没有被调用的情况，参考<a href="http://stackoverflow.com/questions/14890402/instruments-allocations-track-alloc-and-dealloc-of-objects-of-user-defined-class/14891837#14891837">Instruments Allocations track alloc and dealloc of objects of user defined classes</a>，可以看到对应实例在整个生命周期中发生的所有和内存有关的事件，包括malloc，ratain，release等和每次事件的call stack。注意其中的两项设置：</p>
-
-<ul>
-<li>勾选Record reference counts，记录retain，release和autorelease事件。</li>
-<li>为Allocation Lifespan选择All Objects Created，如果你想看到已经被dealloc的实例，这个可以不选。</li>
-<li>在<em>Allocation List -> All Allocations</em> 中可以搜索自己感兴趣的class。</li>
-<li>在reference count页面，注意使用<em>All</em>、<em>uppair</em>等进行过滤。</li>
-</ul>
-
-
-<h3>关于ARC下的retainCount</h3>
-
-<p>在ARC之前，我们可以使用<code>retainCount</code>得到一个Object被retain的次数。
-引入ARC之后，这个方法不能在code中使用，可以使用下面的方法获得retain的次数：</p>
-
-<pre><code class="objc">NSLog(@"Retain count is %ld", CFGetRetainCount((__bridge CFTypeRef)myObject));
-</code></pre>
-
-<p>或者通过设置断点，在调试窗口输入如下命令：</p>
-
-<pre><code>po object.retainCount
-</code></pre>
-
-<blockquote><p> <strong>我们什么时候使用retainCount？</strong></p>
-
-<p><strong>Never！</strong></p></blockquote>
-
-<p>参考 <a href="http://stackoverflow.com/questions/4636146/when-to-use-retaincount">When to use -retainCount?</a>。
-但是偶尔在调试的时候用一下，对于一些内存管理概念的理解还是有好处的，仅此而已。</p>
 ]]></content>
   </entry>
   

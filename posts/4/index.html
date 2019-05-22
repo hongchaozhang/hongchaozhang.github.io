@@ -9,7 +9,7 @@
 	<meta name="author" content="Zhang Hongchao">
 
 	
-	<meta name="description" content="Aug 9th, 2015 ios Resources for iOS Developers Refer Mac和iOS开发资源汇总 Another good github page for iOS resources: iOS 学习资料整理. 其中，最近（2015年）仍然在更新的中文博客： &hellip;">
+	<meta name="description" content="Aug 14th, 2015 ios, objective-c 自动引用计数(ARC)和垃圾回收(GC) 在Java或者Javascript的开发中，我们会碰到垃圾回收（Garbage Collection，GC），它和iOS中的自动引用计数（Auto Reference Count，ARC） &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -93,7 +93,7 @@
 
 
 <section class="categories">
-          <ul id="category_cloud" class="nav nav-list"><a href='/blog/categories/android' style='font-size: 107.6923076923077%'>android(5)</a> <a href='/blog/categories/android-studio' style='font-size: 101.53846153846153%'>android studio(1)</a> <a href='/blog/categories/augmented-reality' style='font-size: 106.15384615384616%'>augmented reality(4)</a> <a href='/blog/categories/design-pattern' style='font-size: 103.07692307692308%'>design pattern(2)</a> <a href='/blog/categories/ios' style='font-size: 160.0%'>ios(39)</a> <a href='/blog/categories/java' style='font-size: 103.07692307692308%'>java(2)</a> <a href='/blog/categories/javascript' style='font-size: 103.07692307692308%'>javascript(2)</a> <a href='/blog/categories/machine-learning' style='font-size: 110.76923076923077%'>machine learning(7)</a> <a href='/blog/categories/map-tech' style='font-size: 103.07692307692308%'>map tech(2)</a> <a href='/blog/categories/mobile' style='font-size: 101.53846153846153%'>mobile(1)</a> <a href='/blog/categories/node' style='font-size: 104.61538461538461%'>node(3)</a> <a href='/blog/categories/objective-c' style='font-size: 132.30769230769232%'>objective-c(21)</a> <a href='/blog/categories/philosophy' style='font-size: 103.07692307692308%'>philosophy(2)</a> <a href='/blog/categories/productivity' style='font-size: 127.6923076923077%'>productivity(18)</a> <a href='/blog/categories/python' style='font-size: 104.61538461538461%'>python(3)</a> <a href='/blog/categories/reading' style='font-size: 104.61538461538461%'>reading(3)</a> <a href='/blog/categories/swift' style='font-size: 106.15384615384616%'>swift(4)</a> <a href='/blog/categories/web' style='font-size: 103.07692307692308%'>web(2)</a> <a href='/blog/categories/wwdc' style='font-size: 103.07692307692308%'>wwdc(2)</a> <a href='/blog/categories/xcode' style='font-size: 110.76923076923077%'>xcode(7)</a> </ul>
+          <ul id="category_cloud" class="nav nav-list"><a href='/blog/categories/android' style='font-size: 107.3170731707317%'>android(5)</a> <a href='/blog/categories/android-studio' style='font-size: 101.46341463414635%'>android studio(1)</a> <a href='/blog/categories/augmented-reality' style='font-size: 105.85365853658537%'>augmented reality(4)</a> <a href='/blog/categories/design-pattern' style='font-size: 102.92682926829268%'>design pattern(2)</a> <a href='/blog/categories/ios' style='font-size: 160.0%'>ios(41)</a> <a href='/blog/categories/java' style='font-size: 102.92682926829268%'>java(2)</a> <a href='/blog/categories/javascript' style='font-size: 102.92682926829268%'>javascript(2)</a> <a href='/blog/categories/machine-learning' style='font-size: 111.70731707317073%'>machine learning(8)</a> <a href='/blog/categories/map-tech' style='font-size: 102.92682926829268%'>map tech(2)</a> <a href='/blog/categories/mobile' style='font-size: 101.46341463414635%'>mobile(1)</a> <a href='/blog/categories/nlp' style='font-size: 101.46341463414635%'>nlp(1)</a> <a href='/blog/categories/nlu' style='font-size: 101.46341463414635%'>nlu(1)</a> <a href='/blog/categories/node' style='font-size: 104.39024390243902%'>node(3)</a> <a href='/blog/categories/objective-c' style='font-size: 130.73170731707316%'>objective-c(21)</a> <a href='/blog/categories/philosophy' style='font-size: 102.92682926829268%'>philosophy(2)</a> <a href='/blog/categories/productivity' style='font-size: 126.34146341463415%'>productivity(18)</a> <a href='/blog/categories/python' style='font-size: 104.39024390243902%'>python(3)</a> <a href='/blog/categories/reading' style='font-size: 104.39024390243902%'>reading(3)</a> <a href='/blog/categories/swift' style='font-size: 105.85365853658537%'>swift(4)</a> <a href='/blog/categories/web' style='font-size: 102.92682926829268%'>web(2)</a> <a href='/blog/categories/wwdc' style='font-size: 102.92682926829268%'>wwdc(2)</a> <a href='/blog/categories/xcode' style='font-size: 111.70731707317073%'>xcode(8)</a> </ul>
       </section>
 
 
@@ -107,6 +107,96 @@
 			<div class="mid-col-container">
 				<div id="content" class="inner">
 <div itemscope itemtype="http://schema.org/Blog">
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2015-08-14T00:00:00+08:00" pubdate data-updated="true">Aug 14th, 2015</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/ios/'>ios</a>, <a class='category' href='/blog/categories/objective-c/'>objective-c</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2015/08/14/ARC-and-Memory-Leak/" itemprop="url">自动引用计数(ARC)和垃圾回收(GC)</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>在Java或者Javascript的开发中，我们会碰到垃圾回收（Garbage Collection，GC），它和iOS中的自动引用计数（Auto Reference Count，ARC）有什么区别呢？</p>
+
+
+		
+		<a href="/blog/2015/08/14/ARC-and-Memory-Leak/" class="more-link">Read on &rarr;</a>
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2015-08-13T00:00:00+08:00" pubdate data-updated="true">Aug 13th, 2015</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/ios/'>ios</a>, <a class='category' href='/blog/categories/objective-c/'>objective-c</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2015/08/13/Understanding-KVC-and-KVO/" itemprop="url">Understanding KVC and KVO in Objective-C</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>Contents:</p>
+
+<ul>
+<li><a href="#description">Description</a></li>
+<li><a href="#kvc">KVC</a></li>
+<li><a href="#kvo">KVO</a></li>
+<li><a href="#remove_observers">Remove Observers</a></li>
+</ul>
+
+
+<h2><a name="description"></a>Description</h2>
+
+<p>In Cocoa, the Model-View-Controller pattern, a controller’s responsibility is to keep the view and the model synchronized. There are two parts to this: when the model object changes, the views have to be updated to reflect this change, and when the user interacts with controls, the model has to be updated accordingly.</p>
+
+<p>Key-Value Observing helps us update the views to reflect changes to model objects. The controller can observe changes to those property values that the views depend on.</p>
+
+<p>For more details, refer <a href="http://www.objc.io/issues/7-foundation/key-value-coding-and-observing/">Key-Value Coding and Observing</a> from <a href="objc.io">objc.io</a>;</p>
+
+
+		
+		<a href="/blog/2015/08/13/Understanding-KVC-and-KVO/" class="more-link">Read on &rarr;</a>
+	</div>
+
+</article>
 
 
     <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
@@ -967,64 +1057,13 @@ With these comments, we can alt+click a used function to see some useful info.</
 
 </article>
 
-
-    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-
-<time datetime="2015-05-09T00:00:00+08:00" pubdate data-updated="true">May 9th, 2015</time></div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/javascript/'>javascript</a>
-
-
-</div>
-		
-	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2015/05/09/How-to-Add-a-Clone-function-to-Function/" itemprop="url">How to Add a Clone Function to Function?</a></h1>
-	<div class="entry-content" itemprop="articleBody">
-		<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nb">Function</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">clone</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-</span><span class='line'>    <span class="kd">var</span> <span class="nx">that</span> <span class="o">=</span> <span class="k">this</span><span class="p">;</span>
-</span><span class='line'>    <span class="kd">var</span> <span class="nx">temp</span> <span class="o">=</span> <span class="kd">function</span> <span class="nx">temporary</span><span class="p">()</span> <span class="p">{</span> <span class="k">return</span> <span class="nx">that</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="nx">arguments</span><span class="p">);</span> <span class="p">};</span>
-</span><span class='line'>    <span class="k">for</span><span class="p">(</span> <span class="nx">key</span> <span class="k">in</span> <span class="k">this</span> <span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>        <span class="nx">temp</span><span class="p">[</span><span class="nx">key</span><span class="p">]</span> <span class="o">=</span> <span class="k">this</span><span class="p">[</span><span class="nx">key</span><span class="p">];</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>    <span class="k">return</span> <span class="nx">temp</span><span class="p">;</span>
-</span><span class='line'><span class="p">};</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-		
-		
-	</div>
-
-</article>
-
 </div>
 <nav id="pagenavi">
     
         <a href="3" class="prev">Prev</a>
     
+    
+        <a href="5" class="next">Next</a>
     
     <div class="center"><a href="/blog/archives">Blog Archives</a></div>
 </nav></div>

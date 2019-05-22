@@ -4,7 +4,7 @@
   <title><![CDATA[Category: design pattern | Reading Space]]></title>
   <link href="http://hongchaozhang.github.io/blog/categories/design-pattern/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2019-01-09T16:08:25+08:00</updated>
+  <updated>2019-05-22T17:08:30+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -26,7 +26,6 @@
 <p><br></p>
 
 <ul>
-<li><a href="#categories-design-pattern">categories: [design pattern]</a></li>
 <li><a href="#solid%E5%8E%9F%E5%88%99">SOLID原则</a></li>
 <li><a href="#%E5%8D%95%E4%B8%80%E8%81%8C%E8%B4%A3%E5%8E%9F%E5%88%99the-single-responsibility-principle%E7%AE%80%E7%A7%B0srp">单一职责原则（The Single Responsibility Principle，简称SRP）</a>
 

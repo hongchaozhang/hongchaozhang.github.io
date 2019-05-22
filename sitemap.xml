@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
+<loc>http://hongchaozhang.github.io/blog/2019/05/22/offline-natural-language-understanding-engine-on-ios/</loc>
+<lastmod>2019-05-22T16:04:28+08:00</lastmod>
+</url>
+<url>
+<loc>http://hongchaozhang.github.io/blog/2019/05/21/understand-ios-app-orientations/</loc>
+<lastmod>2019-05-21T18:24:35+08:00</lastmod>
+</url>
+<url>
 <loc>http://hongchaozhang.github.io/blog/2018/12/04/solid-principles-while-programming/</loc>
 <lastmod>2018-12-04T11:31:35+08:00</lastmod>
 </url>
@@ -386,12 +394,9 @@
 <loc>http://hongchaozhang.github.io/blog/categories/wwdc/</loc>
 </url>
 <url>
-<loc>http://hongchaozhang.github.io/posts/2/</loc>
+<loc>http://hongchaozhang.github.io/blog/categories/nlp/</loc>
 </url>
 <url>
-<loc>http://hongchaozhang.github.io/posts/3/</loc>
-</url>
-<url>
-<loc>http://hongchaozhang.github.io/posts/4/</loc>
+<loc>http://hongchaozhang.github.io/blog/categories/nlu/</loc>
 </url>
 </urlset>

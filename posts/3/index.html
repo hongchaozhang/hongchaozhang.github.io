@@ -9,7 +9,7 @@
 	<meta name="author" content="Zhang Hongchao">
 
 	
-	<meta name="description" content="Dec 19th, 2015 ios, objective-c Propety, Instance Variable and @synthesize 这一段时间，在对自己不是很了解的代码进行重构，重新了解了一下Property、Instance Variable和@synthesize，总结一下 &hellip;">
+	<meta name="description" content="Dec 29th, 2015 web Https工作过程 摘录在此，备忘。 HTTPS其实是有两部分组成：HTTP + SSL / TLS，也就是在HTTP上又加了一层处理加密信息的模块。服务端和客户端的信息传输都会通过TLS进行加密，所以传输的数据都是加密后的数据。 具体的加密过程看下图： &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -93,7 +93,7 @@
 
 
 <section class="categories">
-          <ul id="category_cloud" class="nav nav-list"><a href='/blog/categories/android' style='font-size: 107.6923076923077%'>android(5)</a> <a href='/blog/categories/android-studio' style='font-size: 101.53846153846153%'>android studio(1)</a> <a href='/blog/categories/augmented-reality' style='font-size: 106.15384615384616%'>augmented reality(4)</a> <a href='/blog/categories/design-pattern' style='font-size: 103.07692307692308%'>design pattern(2)</a> <a href='/blog/categories/ios' style='font-size: 160.0%'>ios(39)</a> <a href='/blog/categories/java' style='font-size: 103.07692307692308%'>java(2)</a> <a href='/blog/categories/javascript' style='font-size: 103.07692307692308%'>javascript(2)</a> <a href='/blog/categories/machine-learning' style='font-size: 110.76923076923077%'>machine learning(7)</a> <a href='/blog/categories/map-tech' style='font-size: 103.07692307692308%'>map tech(2)</a> <a href='/blog/categories/mobile' style='font-size: 101.53846153846153%'>mobile(1)</a> <a href='/blog/categories/node' style='font-size: 104.61538461538461%'>node(3)</a> <a href='/blog/categories/objective-c' style='font-size: 132.30769230769232%'>objective-c(21)</a> <a href='/blog/categories/philosophy' style='font-size: 103.07692307692308%'>philosophy(2)</a> <a href='/blog/categories/productivity' style='font-size: 127.6923076923077%'>productivity(18)</a> <a href='/blog/categories/python' style='font-size: 104.61538461538461%'>python(3)</a> <a href='/blog/categories/reading' style='font-size: 104.61538461538461%'>reading(3)</a> <a href='/blog/categories/swift' style='font-size: 106.15384615384616%'>swift(4)</a> <a href='/blog/categories/web' style='font-size: 103.07692307692308%'>web(2)</a> <a href='/blog/categories/wwdc' style='font-size: 103.07692307692308%'>wwdc(2)</a> <a href='/blog/categories/xcode' style='font-size: 110.76923076923077%'>xcode(7)</a> </ul>
+          <ul id="category_cloud" class="nav nav-list"><a href='/blog/categories/android' style='font-size: 107.3170731707317%'>android(5)</a> <a href='/blog/categories/android-studio' style='font-size: 101.46341463414635%'>android studio(1)</a> <a href='/blog/categories/augmented-reality' style='font-size: 105.85365853658537%'>augmented reality(4)</a> <a href='/blog/categories/design-pattern' style='font-size: 102.92682926829268%'>design pattern(2)</a> <a href='/blog/categories/ios' style='font-size: 160.0%'>ios(41)</a> <a href='/blog/categories/java' style='font-size: 102.92682926829268%'>java(2)</a> <a href='/blog/categories/javascript' style='font-size: 102.92682926829268%'>javascript(2)</a> <a href='/blog/categories/machine-learning' style='font-size: 111.70731707317073%'>machine learning(8)</a> <a href='/blog/categories/map-tech' style='font-size: 102.92682926829268%'>map tech(2)</a> <a href='/blog/categories/mobile' style='font-size: 101.46341463414635%'>mobile(1)</a> <a href='/blog/categories/nlp' style='font-size: 101.46341463414635%'>nlp(1)</a> <a href='/blog/categories/nlu' style='font-size: 101.46341463414635%'>nlu(1)</a> <a href='/blog/categories/node' style='font-size: 104.39024390243902%'>node(3)</a> <a href='/blog/categories/objective-c' style='font-size: 130.73170731707316%'>objective-c(21)</a> <a href='/blog/categories/philosophy' style='font-size: 102.92682926829268%'>philosophy(2)</a> <a href='/blog/categories/productivity' style='font-size: 126.34146341463415%'>productivity(18)</a> <a href='/blog/categories/python' style='font-size: 104.39024390243902%'>python(3)</a> <a href='/blog/categories/reading' style='font-size: 104.39024390243902%'>reading(3)</a> <a href='/blog/categories/swift' style='font-size: 105.85365853658537%'>swift(4)</a> <a href='/blog/categories/web' style='font-size: 102.92682926829268%'>web(2)</a> <a href='/blog/categories/wwdc' style='font-size: 102.92682926829268%'>wwdc(2)</a> <a href='/blog/categories/xcode' style='font-size: 111.70731707317073%'>xcode(8)</a> </ul>
       </section>
 
 
@@ -107,6 +107,88 @@
 			<div class="mid-col-container">
 				<div id="content" class="inner">
 <div itemscope itemtype="http://schema.org/Blog">
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2015-12-29T16:21:19+08:00" pubdate data-updated="true">Dec 29th, 2015</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/web/'>web</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2015/12/29/https-workflow/" itemprop="url">Https工作过程</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>摘录在此，备忘。</p>
+
+<p>HTTPS其实是有两部分组成：HTTP + SSL / TLS，也就是在HTTP上又加了一层处理加密信息的模块。服务端和客户端的信息传输都会通过TLS进行加密，所以传输的数据都是加密后的数据。</p>
+
+<p>具体的加密过程看下图：</p>
+
+
+		
+		<a href="/blog/2015/12/29/https-workflow/" class="more-link">Read on &rarr;</a>
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2015-12-22T13:18:48+08:00" pubdate data-updated="true">Dec 22nd, 2015</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/ios/'>ios</a>, <a class='category' href='/blog/categories/objective-c/'>objective-c</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2015/12/22/generics-in-objective-c/" itemprop="url">Generics in Objective-c</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>参考：<a href="http://stackoverflow.com/questions/649483/is-there-any-way-to-enforce-typing-on-nsarray-nsmutablearray-etc">Is there any way to enforce typing on NSArray, NSMutableArray, etc.?</a></p>
+
+<p>参考：<a href="http://drekka.ghost.io/objective-c-generics/">Objective C Generics</a></p>
+
+<p>随着Xcode7的发布，苹果实现了collection类（NSArray，NSDictionary，NSSet）的generics功能。</p>
+
+
+		
+		<a href="/blog/2015/12/22/generics-in-objective-c/" class="more-link">Read on &rarr;</a>
+	</div>
+
+</article>
 
 
     <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
@@ -907,96 +989,6 @@
 
 		
 		<a href="/blog/2015/08/17/the-dSYM-file-in-ios-project/" class="more-link">Read on &rarr;</a>
-	</div>
-
-</article>
-
-
-    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-
-<time datetime="2015-08-14T00:00:00+08:00" pubdate data-updated="true">Aug 14th, 2015</time></div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/ios/'>ios</a>, <a class='category' href='/blog/categories/objective-c/'>objective-c</a>
-
-
-</div>
-		
-	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2015/08/14/ARC-and-Memory-Leak/" itemprop="url">自动引用计数(ARC)和垃圾回收(GC)</a></h1>
-	<div class="entry-content" itemprop="articleBody">
-		<p>在Java或者Javascript的开发中，我们会碰到垃圾回收（Garbage Collection，GC），它和iOS中的自动引用计数（Auto Reference Count，ARC）有什么区别呢？</p>
-
-
-		
-		<a href="/blog/2015/08/14/ARC-and-Memory-Leak/" class="more-link">Read on &rarr;</a>
-	</div>
-
-</article>
-
-
-    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-
-<time datetime="2015-08-13T00:00:00+08:00" pubdate data-updated="true">Aug 13th, 2015</time></div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/ios/'>ios</a>, <a class='category' href='/blog/categories/objective-c/'>objective-c</a>
-
-
-</div>
-		
-	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2015/08/13/Understanding-KVC-and-KVO/" itemprop="url">Understanding KVC and KVO in Objective-C</a></h1>
-	<div class="entry-content" itemprop="articleBody">
-		<p>Contents:</p>
-
-<ul>
-<li><a href="#description">Description</a></li>
-<li><a href="#kvc">KVC</a></li>
-<li><a href="#kvo">KVO</a></li>
-<li><a href="#remove_observers">Remove Observers</a></li>
-</ul>
-
-
-<h2><a name="description"></a>Description</h2>
-
-<p>In Cocoa, the Model-View-Controller pattern, a controller’s responsibility is to keep the view and the model synchronized. There are two parts to this: when the model object changes, the views have to be updated to reflect this change, and when the user interacts with controls, the model has to be updated accordingly.</p>
-
-<p>Key-Value Observing helps us update the views to reflect changes to model objects. The controller can observe changes to those property values that the views depend on.</p>
-
-<p>For more details, refer <a href="http://www.objc.io/issues/7-foundation/key-value-coding-and-observing/">Key-Value Coding and Observing</a> from <a href="objc.io">objc.io</a>;</p>
-
-
-		
-		<a href="/blog/2015/08/13/Understanding-KVC-and-KVO/" class="more-link">Read on &rarr;</a>
 	</div>
 
 </article>

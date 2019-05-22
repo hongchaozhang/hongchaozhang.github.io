@@ -4,7 +4,7 @@
   <title><![CDATA[Reading Space]]></title>
   <link href="http://hongchaozhang.github.io/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2019-01-09T16:08:25+08:00</updated>
+  <updated>2019-05-22T17:08:30+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -12,6 +12,570 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Offline Natural Language Understanding Engine on iOS]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2019/05/22/offline-natural-language-understanding-engine-on-ios/"/>
+    <updated>2019-05-22T16:04:28+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2019/05/22/offline-natural-language-understanding-engine-on-ios</id>
+    <content type="html"><![CDATA[<!-- more -->
+
+
+<h2>Objective</h2>
+
+<p><img src="http://hongchaozhang.github.io/images/NLUObjective.png" alt="nlu objective" /></p>
+
+<p>We want an NLU Engine to understand the normal text command on Mobile. We hope the engine can know the command&rsquo;s intent and the info the command needs to execute.</p>
+
+<p>Currently, there are many NLU related tools, like Google Dialogflow, Amazon Lex, Facebook Wit.ai, Microsoft Luis. However, they are all online tools. Considering the privacy problem, we are trying to build our own offline NLU Engine.</p>
+
+<h3>What is a good NLU engine</h3>
+
+<p>Let’s start by looking at a simple example, and see what you would expect from a good NLU engine.</p>
+
+<p>First, we need some examples to train the NLU engine. Consider the following dataset, used to train a simple weather assistant with a few query examples:</p>
+
+<ul>
+<li>Give me the weather for [tomorrow](date)</li>
+<li>Show me the [Paris](location) weather for [Sunday](date)</li>
+</ul>
+
+
+<h4>Deterministic behavior</h4>
+
+<p>The first thing you want is that all the examples you give to train the model are correctly supported by the engine. This makes the system predictable and easy to use: if a query is not correctly parsed, then add it to the dataset and it will work right away.</p>
+
+<h4>Generalization power</h4>
+
+<p>Having this deterministic behavior is great for robustness and predictability, but a powerful NLU engine also needs to have some generalization power. You want the system not only to recognize patterns provided in the training set, but also all the possible variations that come from speaking naturally. If we go back to the previous dataset, it is reasonable to expect the NLU engine to parse a query like: “What’s the weather in Beijing right now?” even though it is not one of the training examples.</p>
+
+<h2>Design and Workflow</h2>
+
+<p><img src="http://hongchaozhang.github.io/images/NLUDesign.png" alt="nlu design" /></p>
+
+<p>In order to satisfy these objectives: deterministic behavior and generalization power, we built the processing pipeline described in the figure above. It receives a text as input, and outputs a structured response containing the intent and the list of slots. The main processing unit of the pipeline is the NLU engine. It contains two intent parsers which are called successively: a deterministic intent parser and a probabilistic one.</p>
+
+<p>The deterministic parser relies on regular expressions to match intent and slots, which results in perfect behavior on training examples but doesn’t generalize. This parser is the first to be used because of its strictness.</p>
+
+<p>The probabilistic parser is used whenever the first parser fails to find a match. It uses machine learning to generalize beyond the set of sentences seen at train time, thus making our NLU engine be able to cope with examples which are not in the scope of the training data set. This parser involves two successive steps: intent classification and slot filling. These two steps rely on trained machine learning models to classify intent and extract slots.</p>
+
+<h2>Deterministic Intent Parser</h2>
+
+<p>The Deterministic Intent Parse is the first step to be used. This parser relies on some regular expressions to match the intent and slots. If the new input has the same structure with one of the training examples, we will find its intent and slots by comparing the input with the matched regular expression.</p>
+
+<p>The regular expressions are built based on the training examples. For a training case:</p>
+
+<ul>
+<li>What is the weather in [Alaska](location)</li>
+</ul>
+
+
+<p>We will build a regular expression:</p>
+
+<ul>
+<li>(what is the weather in)(?&lt;location1&gt;.+)</li>
+</ul>
+
+
+<h2>Probabilistic Intent Parser</h2>
+
+<p>If the Deterministic Intent Parser fails to find the intent and slots, the Probabilistic Intent Parser will be used.</p>
+
+<p>The Probabilistic Intent Parser has two steps:</p>
+
+<ul>
+<li>Intent Classification</li>
+<li>Slot Filling</li>
+</ul>
+
+
+<p>The Intent Classification is to find the intent of the input command text, and the Slot Filling is to extract all the slots needed by the intent. These two steps are both based on trained machine models.</p>
+
+<p>Apple has released CreateML for training natural language models, which also integrates the powerful NatrualLanguage framework functions, like Tokenization, Part of Speech, Lemmatization, Name Entity Recognition, etc. This will make the training process very simple, and the trained model will be more accurate and smaller.</p>
+
+<h3>Intent Classification</h3>
+
+<h4>Model Training</h4>
+
+<p>For Intent Classification model training, we prepare the data set as follows (The size of the training data is 3282 falling into four intents.):</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class='json'><span class='line'><span class="p">[</span>
+</span><span class='line'>  <span class="p">{</span>
+</span><span class='line'>    <span class="nt">&quot;text&quot;</span><span class="p">:</span> <span class="s2">&quot;I would like the forecast in cupertino california  tomorrow&quot;</span><span class="p">,</span>
+</span><span class='line'>    <span class="nt">&quot;label&quot;</span><span class="p">:</span> <span class="s2">&quot;searchWeatherForecast&quot;</span>
+</span><span class='line'>  <span class="p">},</span>
+</span><span class='line'>  <span class="p">{</span>
+</span><span class='line'>    <span class="nt">&quot;text&quot;</span><span class="p">:</span> <span class="s2">&quot;Forecast in Maine USA next week&quot;</span><span class="p">,</span>
+</span><span class='line'>    <span class="nt">&quot;label&quot;</span><span class="p">:</span> <span class="s2">&quot;searchWeatherForecast&quot;</span>
+</span><span class='line'>  <span class="p">},</span>
+</span><span class='line'><span class="err">...</span>
+</span><span class='line'><span class="err">...</span>
+</span><span class='line'>  <span class="p">{</span>
+</span><span class='line'>    <span class="nt">&quot;text&quot;</span><span class="p">:</span> <span class="s2">&quot;Will I be able to wear open-toed shoes twenty three hours and seven minutes from now in Severn?&quot;</span><span class="p">,</span>
+</span><span class='line'>    <span class="nt">&quot;label&quot;</span><span class="p">:</span> <span class="s2">&quot;searchWeatherForecastItem&quot;</span>
+</span><span class='line'>  <span class="p">},</span>
+</span><span class='line'>  <span class="p">{</span>
+</span><span class='line'>    <span class="nt">&quot;text&quot;</span><span class="p">:</span> <span class="s2">&quot;Should I bring a raincoat to the Belgrade and Loreto areas of Oman at midnight?&quot;</span><span class="p">,</span>
+</span><span class='line'>    <span class="nt">&quot;label&quot;</span><span class="p">:</span> <span class="s2">&quot;searchWeatherForecastItem&quot;</span>
+</span><span class='line'>  <span class="p">},</span>
+</span><span class='line'><span class="err">...</span>
+</span><span class='line'><span class="err">...</span>
+</span><span class='line'><span class="p">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Apple has release CreateML framework for training machine learning models easily inside Swift playground and the trained model can be saved as mlmodel type. And the MLTextClassifier class from CreateML will benefit from Apple&rsquo;s NatrualLanguage framework for Tokenization, Part of Speech, Lemmatization, etc.</p>
+
+<p>The training script is:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">let</span> <span class="n">trainingDataPath</span> <span class="o">=</span> <span class="n">Bundle</span><span class="p">.</span><span class="n">main</span><span class="p">.</span><span class="n">path</span><span class="p">(</span><span class="nl">forResource</span><span class="p">:</span> <span class="s">&quot;intentClassificationFile&quot;</span><span class="p">,</span> <span class="nl">ofType</span><span class="p">:</span> <span class="s">&quot;json&quot;</span><span class="p">,</span> <span class="nl">inDirectory</span><span class="p">:</span> <span class="s">&quot;Data/text/train&quot;</span><span class="p">)</span><span class="o">!</span>
+</span><span class='line'><span class="k">let</span> <span class="n">trainingData</span> <span class="o">=</span> <span class="n">try</span><span class="o">!</span> <span class="n">MLDataTable</span><span class="p">(</span><span class="nl">contentsOf</span><span class="p">:</span>  <span class="n">URL</span><span class="p">(</span><span class="nl">fileURLWithPath</span><span class="p">:</span> <span class="n">trainingDataPath</span><span class="p">))</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// Initializing the classifier with a training data.</span>
+</span><span class='line'><span class="k">let</span> <span class="n">classifier</span> <span class="o">=</span> <span class="n">try</span><span class="o">!</span> <span class="n">MLTextClassifier</span><span class="p">(</span><span class="nl">trainingData</span><span class="p">:</span> <span class="n">trainingData</span><span class="p">,</span> <span class="nl">textColumn</span><span class="p">:</span> <span class="s">&quot;text&quot;</span><span class="p">,</span> <span class="nl">labelColumn</span><span class="p">:</span> <span class="s">&quot;label&quot;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// Evaluating training &amp; validation accuracies.</span>
+</span><span class='line'><span class="k">let</span> <span class="n">trainingAccuracy</span> <span class="o">=</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">classifier</span><span class="p">.</span><span class="n">trainingMetrics</span><span class="p">.</span><span class="n">classificationError</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span>
+</span><span class='line'><span class="k">let</span> <span class="n">validationAccuracy</span> <span class="o">=</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">classifier</span><span class="p">.</span><span class="n">validationMetrics</span><span class="p">.</span><span class="n">classificationError</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// Initializing the properly labeled testing data from Resources folder.</span>
+</span><span class='line'><span class="k">let</span> <span class="n">testingDataPath</span> <span class="o">=</span> <span class="n">Bundle</span><span class="p">.</span><span class="n">main</span><span class="p">.</span><span class="n">path</span><span class="p">(</span><span class="nl">forResource</span><span class="p">:</span> <span class="s">&quot;intentClassificationFile&quot;</span><span class="p">,</span> <span class="nl">ofType</span><span class="p">:</span> <span class="s">&quot;json&quot;</span><span class="p">,</span> <span class="nl">inDirectory</span><span class="p">:</span> <span class="s">&quot;Data/text/test&quot;</span><span class="p">)</span><span class="o">!</span>
+</span><span class='line'><span class="k">let</span> <span class="n">testingData</span> <span class="o">=</span> <span class="n">try</span><span class="o">!</span> <span class="n">MLDataTable</span><span class="p">(</span><span class="nl">contentsOf</span><span class="p">:</span> <span class="n">URL</span><span class="p">(</span><span class="nl">fileURLWithPath</span><span class="p">:</span><span class="n">testingDataPath</span><span class="p">))</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// Counting the testing evaluation.</span>
+</span><span class='line'><span class="k">let</span> <span class="n">evaluationMetrics</span> <span class="o">=</span> <span class="n">classifier</span><span class="p">.</span><span class="n">evaluation</span><span class="p">(</span><span class="nl">on</span><span class="p">:</span> <span class="n">testingData</span><span class="p">)</span>
+</span><span class='line'><span class="k">let</span> <span class="n">evaluationAccuracy</span> <span class="o">=</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">evaluationMetrics</span><span class="p">.</span><span class="n">classificationError</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// Confusion matrix in order to see which labels were classified wrongly.</span>
+</span><span class='line'><span class="k">let</span> <span class="n">confusionMatrix</span> <span class="o">=</span> <span class="n">evaluationMetrics</span><span class="p">.</span><span class="n">confusion</span>
+</span><span class='line'><span class="n">print</span><span class="p">(</span><span class="s">&quot;Confusion matrix: \(confusionMatrix)&quot;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// Metadata for saving the model.</span>
+</span><span class='line'><span class="k">let</span> <span class="n">metadata</span> <span class="o">=</span> <span class="n">MLModelMetadata</span><span class="p">(</span><span class="nl">author</span><span class="p">:</span> <span class="s">&quot;Hongchao Zhang&quot;</span><span class="p">,</span>
+</span><span class='line'>                            <span class="nl">shortDescription</span><span class="p">:</span> <span class="s">&quot;A model trained to classify weather related commands.&quot;</span><span class="p">,</span>
+</span><span class='line'>                            <span class="nl">version</span><span class="p">:</span> <span class="s">&quot;1.0&quot;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// Saving the model. Remember to update the path.</span>
+</span><span class='line'><span class="n">try</span><span class="o">!</span> <span class="n">classifier</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="nl">to</span><span class="p">:</span> <span class="n">URL</span><span class="p">(</span><span class="nl">fileURLWithPath</span><span class="p">:</span> <span class="s">&quot;/Users/hozhang/Downloads/textClassifier.mlmodel&quot;</span><span class="p">),</span>
+</span><span class='line'>                    <span class="nl">metadata</span><span class="p">:</span> <span class="n">metadata</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>We can get 99.23% training accuracy and 98.87% validation accuracy.</p>
+
+<h4>Model Usage</h4>
+
+<p>For the trained model of mlmodel type, we can use it in our iOS app through NLModel (from NatrualLanguage framework). The demo swift code may be like:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">let</span> <span class="n">modelUrl</span> <span class="o">=</span> <span class="n">Bundle</span><span class="p">.</span><span class="n">main</span><span class="p">.</span><span class="n">url</span><span class="p">(</span><span class="nl">forResource</span><span class="p">:</span> <span class="s">&quot;Data/text/textClassifier&quot;</span><span class="p">,</span> <span class="nl">withExtension</span><span class="p">:</span> <span class="s">&quot;mlmodel&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="k">let</span> <span class="n">compiledModelUrl</span> <span class="o">=</span> <span class="n">try</span><span class="o">!</span> <span class="n">MLModel</span><span class="p">.</span><span class="n">compileModel</span><span class="p">(</span><span class="nl">at</span><span class="p">:</span> <span class="n">modelUrl</span><span class="o">!</span><span class="p">)</span>
+</span><span class='line'><span class="k">let</span> <span class="n">classifier</span> <span class="o">=</span> <span class="n">try</span><span class="o">!</span> <span class="n">NLModel</span><span class="p">(</span><span class="nl">contentsOf</span><span class="p">:</span> <span class="n">compiledModelUrl</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">let</span> <span class="n">text</span> <span class="o">=</span> <span class="n">requestText</span>
+</span><span class='line'><span class="k">let</span> <span class="n">label</span> <span class="o">=</span> <span class="n">classifier</span><span class="p">.</span><span class="n">predictedLabel</span><span class="p">(</span><span class="k">for</span><span class="o">:</span> <span class="n">text</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">print</span><span class="p">(</span><span class="s">&quot;text: \(text)</span><span class="se">\n</span><span class="s">label:\(label ?? &quot;</span><span class="n">Not</span> <span class="n">detected</span><span class="o">!</span><span class="s">&quot;)&quot;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Slot Filling</h3>
+
+<h4>Model Training</h4>
+
+<p>For Slot Filling model training, we prepare the data set as follows (The size of the training data is: 3282.):</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='json'><span class='line'><span class="p">[</span>
+</span><span class='line'>  <span class="p">{</span>
+</span><span class='line'>    <span class="nt">&quot;tokens&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;I&quot;</span><span class="p">,</span> <span class="s2">&quot;would&quot;</span><span class="p">,</span> <span class="s2">&quot;like&quot;</span><span class="p">,</span> <span class="s2">&quot;the&quot;</span><span class="p">,</span> <span class="s2">&quot;forecast&quot;</span><span class="p">,</span> <span class="s2">&quot;in&quot;</span><span class="p">,</span> <span class="s2">&quot;california&quot;</span><span class="p">,</span> <span class="s2">&quot;tomorrow&quot;</span><span class="p">],</span>
+</span><span class='line'>    <span class="nt">&quot;labels&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;none&quot;</span><span class="p">,</span> <span class="s2">&quot;none&quot;</span><span class="p">,</span> <span class="s2">&quot;none&quot;</span><span class="p">,</span> <span class="s2">&quot;none&quot;</span><span class="p">,</span> <span class="s2">&quot;none&quot;</span><span class="p">,</span> <span class="s2">&quot;none&quot;</span><span class="p">,</span> <span class="s2">&quot;location&quot;</span><span class="p">,</span> <span class="s2">&quot;date&quot;</span><span class="p">]</span>
+</span><span class='line'>  <span class="p">},</span>
+</span><span class='line'>  <span class="p">{</span>
+</span><span class='line'>    <span class="nt">&quot;tokens&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;Forecast&quot;</span><span class="p">,</span> <span class="s2">&quot;in&quot;</span><span class="p">,</span> <span class="s2">&quot;Maine&quot;</span><span class="p">,</span> <span class="s2">&quot;next week&quot;</span><span class="p">],</span>
+</span><span class='line'>    <span class="nt">&quot;labels&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;none&quot;</span><span class="p">,</span> <span class="s2">&quot;none&quot;</span><span class="p">,</span> <span class="s2">&quot;location&quot;</span><span class="p">,</span> <span class="s2">&quot;date&quot;</span><span class="p">]</span>
+</span><span class='line'>  <span class="p">},</span>
+</span><span class='line'><span class="err">...</span>
+</span><span class='line'><span class="err">...</span>
+</span><span class='line'><span class="p">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Like Intent Classification model training, CreateML framework also makes it easy. Like MLTextClassifier, the MLWordTagger class from CreateML will also benefit from NatrualLanguage framework for Part of Speech, Lemmatization, Name Entity Recognition, etc.</p>
+
+<p>The training script is:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="c1">// Initializing the training data from Resources folder.</span>
+</span><span class='line'><span class="k">let</span> <span class="n">trainingDataPath</span> <span class="o">=</span> <span class="n">Bundle</span><span class="p">.</span><span class="n">main</span><span class="p">.</span><span class="n">path</span><span class="p">(</span><span class="nl">forResource</span><span class="p">:</span> <span class="s">&quot;slotParsingFile&quot;</span><span class="p">,</span> <span class="nl">ofType</span><span class="p">:</span> <span class="s">&quot;json&quot;</span><span class="p">,</span> <span class="nl">inDirectory</span><span class="p">:</span> <span class="s">&quot;Data/text/train&quot;</span><span class="p">)</span><span class="o">!</span>
+</span><span class='line'><span class="k">let</span> <span class="n">trainingData</span> <span class="o">=</span> <span class="n">try</span><span class="o">!</span> <span class="n">MLDataTable</span><span class="p">(</span><span class="nl">contentsOf</span><span class="p">:</span>  <span class="n">URL</span><span class="p">(</span><span class="nl">fileURLWithPath</span><span class="p">:</span> <span class="n">trainingDataPath</span><span class="p">))</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// Initializing the classifier with a training data.</span>
+</span><span class='line'><span class="k">let</span> <span class="n">classifier</span> <span class="o">=</span> <span class="n">try</span><span class="o">!</span> <span class="n">MLWordTagger</span><span class="p">(</span><span class="nl">trainingData</span><span class="p">:</span> <span class="n">trainingData</span><span class="p">,</span> <span class="nl">tokenColumn</span><span class="p">:</span> <span class="s">&quot;tokens&quot;</span><span class="p">,</span> <span class="nl">labelColumn</span><span class="p">:</span> <span class="s">&quot;labels&quot;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// Evaluating training &amp; validation accuracies.</span>
+</span><span class='line'><span class="k">let</span> <span class="n">trainingAccuracy</span> <span class="o">=</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">classifier</span><span class="p">.</span><span class="n">trainingMetrics</span><span class="p">.</span><span class="n">taggingError</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span>
+</span><span class='line'><span class="k">let</span> <span class="n">validationAccuracy</span> <span class="o">=</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">classifier</span><span class="p">.</span><span class="n">validationMetrics</span><span class="p">.</span><span class="n">taggingError</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// Initializing the properly labeled testing data from Resources folder.</span>
+</span><span class='line'><span class="k">let</span> <span class="n">testingDataPath</span> <span class="o">=</span> <span class="n">Bundle</span><span class="p">.</span><span class="n">main</span><span class="p">.</span><span class="n">path</span><span class="p">(</span><span class="nl">forResource</span><span class="p">:</span> <span class="s">&quot;slotParsingFile&quot;</span><span class="p">,</span> <span class="nl">ofType</span><span class="p">:</span> <span class="s">&quot;json&quot;</span><span class="p">,</span> <span class="nl">inDirectory</span><span class="p">:</span> <span class="s">&quot;Data/text/test&quot;</span><span class="p">)</span><span class="o">!</span>
+</span><span class='line'><span class="k">let</span> <span class="n">testingData</span> <span class="o">=</span> <span class="n">try</span><span class="o">!</span> <span class="n">MLDataTable</span><span class="p">(</span><span class="nl">contentsOf</span><span class="p">:</span> <span class="n">URL</span><span class="p">(</span><span class="nl">fileURLWithPath</span><span class="p">:</span><span class="n">testingDataPath</span><span class="p">))</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// Counting the testing evaluation.</span>
+</span><span class='line'><span class="k">let</span> <span class="n">evaluationMetrics</span> <span class="o">=</span> <span class="n">classifier</span><span class="p">.</span><span class="n">evaluation</span><span class="p">(</span><span class="nl">on</span><span class="p">:</span> <span class="n">testingData</span><span class="p">)</span>
+</span><span class='line'><span class="k">let</span> <span class="n">evaluationAccuracy</span> <span class="o">=</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">evaluationMetrics</span><span class="p">.</span><span class="n">taggingError</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// Confusion matrix in order to see which labels were classified wrongly.</span>
+</span><span class='line'><span class="k">let</span> <span class="n">confusionMatrix</span> <span class="o">=</span> <span class="n">evaluationMetrics</span><span class="p">.</span><span class="n">confusion</span>
+</span><span class='line'><span class="n">print</span><span class="p">(</span><span class="s">&quot;Confusion matrix: \(confusionMatrix)&quot;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// Metadata for saving the model.</span>
+</span><span class='line'><span class="k">let</span> <span class="n">metadata</span> <span class="o">=</span> <span class="n">MLModelMetadata</span><span class="p">(</span><span class="nl">author</span><span class="p">:</span> <span class="s">&quot;Hongchao Zhang&quot;</span><span class="p">,</span>
+</span><span class='line'>                                <span class="nl">shortDescription</span><span class="p">:</span> <span class="s">&quot;A model trained to parse slots from weather related commands.&quot;</span><span class="p">,</span>
+</span><span class='line'>                                <span class="nl">version</span><span class="p">:</span> <span class="s">&quot;1.0&quot;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// Saving the model. Remember to update the path.</span>
+</span><span class='line'><span class="n">try</span><span class="o">!</span> <span class="n">classifier</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="nl">to</span><span class="p">:</span> <span class="n">URL</span><span class="p">(</span><span class="nl">fileURLWithPath</span><span class="p">:</span> <span class="s">&quot;/Users/hozhang/Downloads/slotParsing.mlmodel&quot;</span><span class="p">),</span>
+</span><span class='line'>                        <span class="nl">metadata</span><span class="p">:</span> <span class="n">metadata</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>We can get 99.64% training accuracy and 98.38% validation accuracy.</p>
+
+<h4>Model Usage</h4>
+
+<p>We can load the mlmodel into an NLTagger (from NatrualLanguage framework), and use the NLTagger to tag labels for each word of the input command text. The demo swift script is like:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">let</span> <span class="n">weatherTagSchema</span> <span class="o">=</span> <span class="n">NLTagScheme</span><span class="p">(</span><span class="s">&quot;Weather&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="k">let</span> <span class="n">modelUrl</span> <span class="o">=</span> <span class="n">Bundle</span><span class="p">.</span><span class="n">main</span><span class="p">.</span><span class="n">url</span><span class="p">(</span><span class="nl">forResource</span><span class="p">:</span> <span class="s">&quot;Data/text/slotParsing&quot;</span><span class="p">,</span> <span class="nl">withExtension</span><span class="p">:</span> <span class="s">&quot;mlmodel&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="k">let</span> <span class="n">compiledModelUrl</span> <span class="o">=</span> <span class="n">try</span><span class="o">!</span> <span class="n">MLModel</span><span class="p">.</span><span class="n">compileModel</span><span class="p">(</span><span class="nl">at</span><span class="p">:</span> <span class="n">modelUrl</span><span class="o">!</span><span class="p">)</span>
+</span><span class='line'><span class="k">let</span> <span class="n">taggerModel</span> <span class="o">=</span> <span class="n">try</span><span class="o">!</span> <span class="n">NLModel</span><span class="p">(</span><span class="nl">contentsOf</span><span class="p">:</span> <span class="n">compiledModelUrl</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">let</span> <span class="n">weatherTagger</span> <span class="o">=</span> <span class="n">NLTagger</span><span class="p">(</span><span class="nl">tagSchemes</span><span class="p">:</span> <span class="p">[</span><span class="n">weatherTagSchema</span><span class="p">])</span>
+</span><span class='line'><span class="n">weatherTagger</span><span class="p">.</span><span class="n">setModels</span><span class="p">([</span><span class="n">taggerModel</span><span class="p">],</span> <span class="nl">forTagScheme</span><span class="p">:</span> <span class="n">weatherTagSchema</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">let</span> <span class="n">text</span> <span class="o">=</span> <span class="n">requestText</span>
+</span><span class='line'><span class="n">weatherTagger</span><span class="p">.</span><span class="n">string</span> <span class="o">=</span> <span class="n">text</span>
+</span><span class='line'><span class="n">weatherTagger</span><span class="p">.</span><span class="n">enumerateTags</span><span class="p">(</span><span class="k">in</span><span class="o">:</span> <span class="n">text</span><span class="p">.</span><span class="n">startIndex</span><span class="p">..</span><span class="o">&lt;</span><span class="n">text</span><span class="p">.</span><span class="n">endIndex</span><span class="p">,</span> <span class="nl">unit</span><span class="p">:</span> <span class="p">.</span><span class="n">word</span><span class="p">,</span> <span class="nl">scheme</span><span class="p">:</span> <span class="n">weatherTagSchema</span><span class="p">,</span> <span class="nl">options</span><span class="p">:</span> <span class="p">[])</span> <span class="p">{</span> <span class="p">(</span><span class="n">tag</span><span class="p">,</span> <span class="n">tokenRange</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bool</span> <span class="k">in</span>
+</span><span class='line'>    <span class="k">if</span> <span class="k">let</span> <span class="n">tag</span> <span class="o">=</span> <span class="n">tag</span><span class="p">,</span> <span class="n">tag</span><span class="p">.</span><span class="n">rawValue</span> <span class="o">!=</span> <span class="s">&quot;Whitespace&quot;</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">print</span><span class="p">(</span><span class="s">&quot;\(text[tokenRange]): \(tag.rawValue)&quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="k">return</span> <span class="nb">true</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Model Size</h3>
+
+<p>For the iOS app, we hope the machine learning model size is small enough. Apple&rsquo;s NatrualLanguage framework has done many optimizations on machine learning model size. The following data is from WWDC 2018 (session 713: Introducing NatrualLanguage Framework):</p>
+
+<table>
+<thead>
+<tr>
+<th>&ndash; </th>
+<th> Open Source CRFSuite </th>
+<th> Natural Language Framework</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Name Entity Recognition </td>
+<td> 70MB  </td>
+<td> 1.4MB</td>
+</tr>
+<tr>
+<td>Chunking </td>
+<td> 30MB </td>
+<td> 1.8MB</td>
+</tr>
+</tbody>
+</table>
+
+
+<p>We can see that the model will be much smaller than that trained from an open source platform.</p>
+
+<p>The size of the two models we trained is (The training data size is: 3282):</p>
+
+<table>
+<thead>
+<tr>
+<th>Model </th>
+<th> Size</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Intent Classification </td>
+<td> 41K</td>
+</tr>
+<tr>
+<td>Slot Filling </td>
+<td> 609K</td>
+</tr>
+</tbody>
+</table>
+
+
+<h3>Problems to Be Solved</h3>
+
+<p>For Probabilistic Intent Parser, we still have some problems.</p>
+
+<h4>Intent Classification Model Has No Probability Output</h4>
+
+<p>We may need the probability to define the reliability of the estimated intent of an input command text.</p>
+
+<p>However, the model trained through <code>MLTextClassifier</code> has no probability output API. If we really need the probability output, we can use other platforms to train the model, like tensorflow. That way, we will not benefit from NatrualLanguage framework and we need to consider these things by ourselves, like Tokenization, Part of Speech, Lemmatization, etc.</p>
+
+<h4>Slot Filling Model Tagges the Label by Words, not Phrase</h4>
+
+<p>The NLTagger class only supply the following four tag level: word, sentence, paragraph, and document. There is no &ldquo;phrase&rdquo; tag level. For example, &ldquo;New York&rdquo; will be treated as &ldquo;New&rdquo; and &ldquo;York&rdquo;, and the tagged label will both be &ldquo;location&rdquo;. We need to compose them together manually.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[如何控制iOS应用的屏幕方向]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2019/05/21/understand-ios-app-orientations/"/>
+    <updated>2019-05-21T18:24:35+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2019/05/21/understand-ios-app-orientations</id>
+    <content type="html"><![CDATA[<!-- more -->
+
+
+<h2>背景</h2>
+
+<p>一个iOS应用默认都会支持所有的是个方向，当用户旋转屏幕的时候，应用会自动旋转。</p>
+
+<p>有些时候，这可能不是我们想要的。比如你设计了一个只支持竖屏方向的应用，但是又想在某些时候支持Landscape模式，比如播放视频的时候。iOS应用有很多地方的设置会影响屏幕方向，iOS9之后，iPad又支持了split view，使得这个控制更加复杂。</p>
+
+<h2>总起</h2>
+
+<p>iPhone比较简单，因为其没有spit view的功能，iPad因为有了spilt view功能，在屏幕方向的控制上更复杂一些。</p>
+
+<p>首先，需要明确：有哪些因素会影响到App的屏幕方向？</p>
+
+<p><strong>1. Project设置（info.plist）</strong></p>
+
+<p>有两个地方可以进行该项设置：</p>
+
+<ul>
+<li><p>Project->Target->General->Device Orientation</p>
+
+<p><img src="http://hongchaozhang.github.io/images/ScreenOrientationProjectSetting.png" alt="screen orientation project setting" /></p></li>
+<li><p>Project的info.plist配置文件</p>
+
+<p><img src="http://hongchaozhang.github.io/images/ScreenOrientationInfoPlist.png" alt="screen orientation info plist" /></p></li>
+</ul>
+
+
+<p>这两个地方的设置是一致的：在一个地方改动，另一个地方会同步修改。其中：info.plist中的“Supported interface orientations (iPad)”属性对应于iPad的设置（Device选择iPad），info.plist中的“Supported interface orientations”属性对应于iPhone和Universal的设置（Device选择iPhone或者Universal，这两项的设置始终保持一致）。</p>
+
+<p><strong>2. 在代码中设置应用支持的屏幕方向</strong></p>
+
+<p>有两种方法可以在代码中设置应用支持的屏幕方向：</p>
+
+<ul>
+<li><code>UIApplicationDelegate</code>中的<code>supportedInterfaceOrientationsForWindow:</code>方法</li>
+<li>每个<code>UIViewController</code>还可以通过<code>supportedInterfaceOrientations</code>方法设置自己支持的屏幕方向</li>
+</ul>
+
+
+<p>系统会自动将两种方法中支持的屏幕方向取交集，作为最终该view controller支持的屏幕方向。如果交集为空，那么应用将会Crash。</p>
+
+<p><strong>3. <code>UIViewController</code>中的<code>shouldAutorotate</code>属性</strong></p>
+
+<p>该属性是只读属性，用来控制该view controller可不可以旋转。可以在自己的view controller中将其override，返回自己的逻辑，甚至将其override为读写属性，可以在其它地方进行设置。比如：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="kr">override</span> <span class="n">public</span> <span class="k">var</span> <span class="nl">shouldAutorotate</span><span class="p">:</span> <span class="n">Bool</span> <span class="p">{</span>
+</span><span class='line'>    <span class="kr">get</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="nb">self</span><span class="p">.</span><span class="n">shouldAutorotateVariable</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="kr">set</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nb">self</span><span class="p">.</span><span class="n">shouldAutorotateVariable</span> <span class="o">=</span> <span class="n">newValue</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>其中<code>shouldAutorotateVariable</code>为view controller中自定义的一私有变量。</p>
+
+<h2>iPhone</h2>
+
+<p>如果某个view controller中的<code>shouldAutorotate</code>被设置为<code>false</code>，那么系统将忽略下面的设置：</p>
+
+<ul>
+<li><code>UIApplicationDelegate</code>中的<code>supportedInterfaceOrientationsForWindow:</code>方法</li>
+<li>该<code>UIViewController</code>通过<code>supportedInterfaceOrientations</code>方法设置的自己支持的屏幕方向</li>
+</ul>
+
+
+<p>系统只考虑用户在“Project设置（info.plist）”中的设置。</p>
+
+<p>如果某个view controller中的<code>shouldAutorotate</code>未被重写（或者被重写为<code>true</code>），那么系统将优先考虑使用下面两个设置的交集：</p>
+
+<ul>
+<li><code>UIApplicationDelegate</code>中的<code>supportedInterfaceOrientationsForWindow:</code>方法</li>
+<li>该<code>UIViewController</code>通过<code>supportedInterfaceOrientations</code>方法设置的自己支持的屏幕方向</li>
+</ul>
+
+
+<p>如果没有以上两个设置，再使用“Project设置（info.plist）”中的设置。</p>
+
+<h2>iPad</h2>
+
+<p>从iOS9开始，iPad开始支持split view功能。关于这个功能的设置说明，可以参考苹果官方文档：<a href="https://developer.apple.com/library/archive/documentation/WindowsViews/Conceptual/AdoptingMultitaskingOniPad/QuickStartForSlideOverAndSplitView.html#//apple_ref/doc/uid/TP40015145-CH13-SW1">Slide Over and Split View Quick Start</a>。简单的说，就是：如果info.plist中的“Supported interface orientations (iPad)”属性对应的值包含了四个方向，同时<code>UIRequiresFullScreen</code>对应的值为<code>NO</code>，那么系统默认该应用支持split view属性，同时系统将忽略下面两处代码：</p>
+
+<ul>
+<li><code>UIApplicationDelegate</code>中的<code>supportedInterfaceOrientationsForWindow:</code>方法</li>
+<li><code>UIViewController</code>通过<code>supportedInterfaceOrientations</code>方法设置的自己支持的屏幕方向</li>
+</ul>
+
+
+<p>以及<code>UIViewController</code>中<code>shouldAutorotate</code>的值。</p>
+
+<p>也就是说：支持split view的应用将不能被禁止旋转，至少不能通过本文中的方法进行禁止旋转。</p>
+
+<p>如果info.plist中的“Supported interface orientations (iPad)”属性对应的值未包含四个方向，或者“UIRequiresFullScreen”对应的值为<code>NO</code>，那么该应用不支持split view功能，其屏幕方向控制方法同iPhone相同。</p>
+
+<blockquote><p>注意：对于“Project设置（info.plist）”设置，建议在info.plist中进行，直接设置一下三个属性的值：
+* Supported interface orientations (iPad)
+* Supported interface orientations
+* UIRequiresFullScreen</p>
+
+<p>在Project->Target->General->Device Orientation中进行设置，有点迷惑性：因为即使“Device”选的是“Universal”，“iPad”下面的设置也会起作用。</p></blockquote>
+
+<h2>参考</h2>
+
+<ol>
+<li><a href="https://mobiarch.wordpress.com/2017/04/22/controlling-screen-orientation-of-ios-apps/">Controlling Screen Orientation of iOS Apps</a></li>
+<li><a href="https://stackoverflow.com/questions/32782044/ios-9-supportedinterfaceorientations-not-working/32782517#32782517">iOS 9 supportedInterfaceOrientations not working</a></li>
+<li><a href="https://developer.apple.com/library/archive/documentation/WindowsViews/Conceptual/AdoptingMultitaskingOniPad/QuickStartForSlideOverAndSplitView.html#//apple_ref/doc/uid/TP40015145-CH13-SW1">Slide Over and Split View Quick Start</a></li>
+</ol>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[编程中的SOLID原则]]></title>
@@ -26,7 +590,6 @@
 <p><br></p>
 
 <ul>
-<li><a href="#categories-design-pattern">categories: [design pattern]</a></li>
 <li><a href="#solid%E5%8E%9F%E5%88%99">SOLID原则</a></li>
 <li><a href="#%E5%8D%95%E4%B8%80%E8%81%8C%E8%B4%A3%E5%8E%9F%E5%88%99the-single-responsibility-principle%E7%AE%80%E7%A7%B0srp">单一职责原则（The Single Responsibility Principle，简称SRP）</a>
 
@@ -772,18 +1335,8 @@
 <li><a href="#%E8%B0%88%E4%BC%91%E6%81%AF">谈休息</a></li>
 <li><a href="#%E8%B0%88%E6%B6%88%E9%81%A3">谈消遣</a></li>
 <li><a href="#%E8%B0%88%E4%BD%93%E8%82%B2">谈体育</a></li>
-<li><a href="#%E8%B0%88%E7%BE%8E%E6%84%9F%E6%95%99%E8%82%B2">谈美感教育</a>
-
-<pre><code>  - [美育是本能冲动和情感的解放。](#美育是本能冲动和情感的解放)
-  - [美育是眼界的解放。](#美育是眼界的解放)
-  - [美育是自然限制的解放。](#美育是自然限制的解放)
-</code></pre>
-
-<ul>
-<li><a href="#%E7%88%B1%E7%BE%8E%E7%9A%84%E5%A4%A9%E6%80%A7%E9%9C%80%E8%A6%81%E5%9F%B9%E5%85%BB">爱美的天性需要培养</a></li>
-</ul>
-</li>
-<li><a href="#%E7%BB%99%E7%94%B3%E6%8A%A5%E9%9D%92%E5%B9%B4%E7%9A%84%E9%9D%92%E5%B9%B4%E8%AF%BB%E8%80%85%E4%B8%80">给《申报青年》的青年读者一</a></li>
+<li><a href="#%E8%B0%88%E7%BE%8E%E6%84%9F%E6%95%99%E8%82%B2">谈美感教育</a></li>
+<li><a href="#%E7%BB%99%E7%94%B3%E6%8A%A5%E9%9D%92%E5%B9%B4%E7%9A%84%E9%9D%92%E5%B9%B4%E8%AF%BB%E8%80%85">给《申报青年》的青年读者</a></li>
 </ul>
 
 
@@ -920,9 +1473,9 @@
 
 <p>从历史看，一个民族在最兴旺的时候，艺术成就必伟大，美育必发达。史诗悲剧时代的希腊、文艺复兴时代的意大利、莎士比亚时代的英国、歌德和贝多芬时代的德国都可以作证。现在我们要想复兴民族，必须恢复周以前歌乐舞的盛况，这就是说，必须提倡普及的美感教育。</p>
 
-<h2>给《申报青年》的青年读者一</h2>
+<h2>给《申报青年》的青年读者</h2>
 
-<p>我很佩服英国人，他们总是事到头来，才想办法。事没有来到头来，他们总是冷静地等待着，观察着，今天决不打明天的计算。但是他妈呢也决不肯放弃现在的机会，觉得一件事应该去做，就马上去做，不张皇也不迟疑。他们的国家内政外交如此，个人经营的事业也是如此。他们不幻想未来，他们的老谋深算都费在抓住现在和认清现在上面。他们出死力抓住现在，事到头来时，他们总是不慌不忙地处理的很妥当。这种冷静沉着的态度就是值得我们观摩的。</p>
+<p>我很佩服英国人，他们总是事到头来，才想办法。事没有来到头来，他们总是冷静地等待着，观察着，今天决不打明天的计算。但是他们也决不肯放弃现在的机会，觉得一件事应该去做，就马上去做，不张皇也不迟疑。他们的国家内政外交如此，个人经营的事业也是如此。他们不幻想未来，他们的老谋深算都费在抓住现在和认清现在上面。他们出死力抓住现在，事到头来时，他们总是不慌不忙地处理的很妥当。这种冷静沉着的态度就是值得我们观摩的。</p>
 
 <p>“三此”：此身，此时，此地。</p>
 ]]></content>
@@ -6242,465 +6795,6 @@ Provides AR experiences that use the front-facing camera and track the movement 
 
 
 <p>就不起作用了，必须通过<code>UIGestureRecognizerDelegate</code>里面的方法实现。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[室内定位技术现状]]></title>
-    <link href="http://hongchaozhang.github.io/blog/2017/02/21/indoor-position/"/>
-    <updated>2017-02-21T13:37:02+08:00</updated>
-    <id>http://hongchaozhang.github.io/blog/2017/02/21/indoor-position</id>
-    <content type="html"><![CDATA[<ol>
-<li>室内定位各种技术的特点。</li>
-<li>室内定位技术的现状：简单介绍苹果、高德、百度、识途等公司的技术。</li>
-</ol>
-
-
-<!-- more -->
-
-
-<h2>室内定位技术简介</h2>
-
-<p>室内定位的应用场景，参见<a href="https://senion.com/indoor-positioning-for-retail/">室内定位应用场合</a>。</p>
-
-<h3>室内地图</h3>
-
-<p>要进行室内定位，首先需要有室内地图。</p>
-
-<h3>室内定位技术</h3>
-
-<table>
-<thead>
-<tr>
-<th> &mdash; </th>
-<th> 工作原理  </th>
-<th> 应用场合  </th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td> GPS </td>
-<td> 接收多个卫星信号计算位置，信号中包含卫星信息和时间戳，根据时间差计算距离。 </td>
-<td> 室外定位跟踪，农业和军事应用 </td>
-</tr>
-<tr>
-<td> 基站定位 </td>
-<td> 接收多个基站信号，信号中包含基站信息，根据信号强度计算距离。</td>
-<td> &mdash; </td>
-</tr>
-<tr>
-<td> Wi-Fi    </td>
-<td> 接收多个Wi-Fi信号，根据强度计算距离。   </td>
-<td> 室内定位 </td>
-</tr>
-<tr>
-<td> 蓝牙</td>
-<td> 接收低功耗蓝牙beacon发射的信号获取beacon信息，通过信号强度计算距离。  </td>
-<td> 室内定位 </td>
-</tr>
-<tr>
-<td> RFID</td>
-<td> &mdash;  </td>
-<td> 存货跟踪，厘米级精度定位要求 </td>
-</tr>
-<tr>
-<td> 地磁</td>
-<td> 在地磁指纹采集的基础上，通过磁感应器和网络请求获取位置信息。</td>
-<td> &mdash; </td>
-</tr>
-<tr>
-<td> NFC </td>
-<td> &mdash;  </td>
-<td> 支付／票务</td>
-</tr>
-<tr>
-<td> 陀螺</td>
-<td> 在初始状态已知的情况下，通过积分计算未来状态。    </td>
-<td> 和其它定位方式结合使用，在保证一定精度的基础上，降低功耗。 </td>
-</tr>
-</tbody>
-</table>
-
-
-<table>
-<thead>
-<tr>
-<th> &mdash;   </th>
-<th> GPS</th>
-<th> 基站定位</th>
-<th> Wi-Fi</th>
-<th> 蓝牙</th>
-<th> RFID   </th>
-<th> 地磁 </th>
-<th> NFC    </th>
-<th> 陀螺  </th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td> 配置密度   </td>
-<td> 全球    </td>
-<td> 200米-2000米 </td>
-<td> 20米-50米 </td>
-<td> 1米-50米 </td>
-<td> 1厘米-100米 </td>
-<td> 全球 </td>
-<td> &mdash;    </td>
-<td> 不限  </td>
-</tr>
-<tr>
-<td> 可接入（1-5）   </td>
-<td> 4  </td>
-<td> 4  </td>
-<td> 3    </td>
-<td> 4   </td>
-<td> 2 </td>
-<td> 2    </td>
-<td> 3 </td>
-<td> 4</td>
-</tr>
-<tr>
-<td> 精度（1-5）</td>
-<td> 1(10米) </td>
-<td> 0.5(100米)   </td>
-<td> 3(3-5米)  </td>
-<td> 4(1-3米) </td>
-<td> 5(厘米级别) </td>
-<td> &mdash;  </td>
-<td> 5(厘米级别) </td>
-<td> 0.5(10米／100米) </td>
-</tr>
-<tr>
-<td> 隐私安全（1-5） </td>
-<td> 3  </td>
-<td> 3  </td>
-<td> 2    </td>
-<td> 3   </td>
-<td> 4 </td>
-<td> 5    </td>
-<td> 4.5    </td>
-<td> 5</td>
-</tr>
-<tr>
-<td> 代价（1-5）</td>
-<td> 5  </td>
-<td> 5  </td>
-<td> 3    </td>
-<td> 4   </td>
-<td> 2 </td>
-<td> 1.5  </td>
-<td> 3 </td>
-<td> 1</td>
-</tr>
-</tbody>
-</table>
-
-
-<p> 参考：<a href="http://lighthouse.io/indoor-location-technologies-compared/">Indoor location technologies compared</a></p>
-
-<p> <strong>指纹技术</strong></p>
-
-<p> 直接根据Wi-Fi或者蓝牙的信号强度计算距离会有比较大的误差，因为每个接入点的信号强度衰减模型不统一，并且受所在环境（遮挡等）的影响比较大。所以，就实地采集每个位置处每个接入点的信号强度，并存入服务器供后续定位请求使用。</p>
-
-<p> 其它定位原理参考<a href="http://bbs.lbsyun.baidu.com/forum.php?mod=viewthread&amp;tid=116547&amp;extra=page%3D1">室内定位技术原理揭秘</a>。</p>
-
-<h2>各厂商实现的室内定位技术</h2>
-
-<h3>苹果</h3>
-
-<p>苹果在2014年的WWDC上（Taking Core Location Indoors）推出了iBeacon技术和协议，以及对应的SDK，实现室内定位。</p>
-
-<p>关于iBeacon的几个问题。</p>
-
-<ul>
-<li><p>我部署的iBeacon节点是否会被别的商家使用？</p>
-
-<p>  回答是Yes！由于iBeacon协议开放，而且易于伪造，你部署的节点完全可以被竞争企业使用。甚至是伪造一个跟你的ID完全相同的Beacon。防止冒用蹭用是一个课题。</p>
-
-<p>  设备商应该会给出一个解决方案，但截止目前还是可以被冒用。由于现在还没大规模部署，还有时间去解决这个问题。</p></li>
-<li><p>iBeacon的耗电量如何？</p>
-
-<p>  现在市售方案除Estimote比较特殊外，基本上都是采用的TI2540或2541方案。Beacon作为蓝牙基站发射时间特别短只有4mS左右。</p>
-
-<p>  Beacon的发射周期可调，比如苹果规定100mS发射一次，也就是说100mS里只发射4ms。不同的使用场景可以根据实际需要调整发射周期、发射频率，功耗也会有差别，短的半年，长的3-4年。</p></li>
-</ul>
-
-
-<p><strong>参考</strong></p>
-
-<ul>
-<li><a href="http://www.voidcn.com/blog/u012716788/article/p-4590383.html">iBeacon能否精确室内定位等10个技术问题</a></li>
-</ul>
-
-
-<h3>高德</h3>
-
-<p>高德地图支持Wi-Fi和蓝牙iBeacon室内定位。如果是iOS系统，只能用iBeacon定位，因为iOS系统不提供Wi-Fi底层数据接口。</p>
-
-<table>
-<thead>
-<tr>
-<th> 设备 </th>
-<th> 精度  </th>
-<th> 支持系统   </th>
-<th> 部署密度  </th>
-<th> 设备单价 </th>
-<th> 支持标准  </th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td> WIFI </td>
-<td> 3~8米 </td>
-<td> Android 4.0及以上    </td>
-<td> 间隔30米部署，700平米1个 </td>
-<td> 上百元   </td>
-<td> 标准2.4G/5G频段</td>
-</tr>
-<tr>
-<td> 蓝牙 </td>
-<td> 1~5米 </td>
-<td> Android 4.3及以上，iOS 8及以上 </td>
-<td> 间隔 8米部署，50平1个    </td>
-<td> 数十元   </td>
-<td> 标准蓝牙4.0广播协议 </td>
-</tr>
-</tbody>
-</table>
-
-
-<p>应用高德进行室内定位的步骤：</p>
-
-<ol>
-<li>准备室内地图（使用高德已有的或者自己制作）。</li>
-<li>铺设Wi-Fi或iBeacon接入点。</li>
-<li>使用高德提供的定位数据采集工具进行数据采集。</li>
-<li>数据采集完毕编译后，上传至服务器。</li>
-<li>使用高德提供的定位数据检测工具现场体验定位效果。</li>
-<li>开发应用，使用高德室内定位SDK获取位置，包括经纬度和楼层信息。</li>
-</ol>
-
-
-<p>关于室内地图：</p>
-
-<ol>
-<li><p>高德已覆盖数据</p>
-
-<p> 高德已有室内地图数据，可免费申请使用。</p></li>
-<li><p>高德未覆盖数据</p>
-
-<p> 若为高德未覆盖室内地图数据，提供如下两种数据生产方案：</p>
-
-<ul>
-<li>委托与高德合作的第三方生产。</li>
-<li>申请自主生产。</li>
-</ul>
-</li>
-</ol>
-
-
-<p><strong>参考</strong></p>
-
-<ul>
-<li><a href="https://lbs.amap.com/getting-started/locate">高德室外定位技术</a></li>
-<li><a href="https://lbs.amap.com/getting-started/indoorlocation/">高德室内定位方案</a></li>
-<li><a href="https://lbs.amap.com/getting-started/indoorintro">高德室内地图数据</a></li>
-</ul>
-
-
-<h3>百度</h3>
-
-<p>大型商超内寻找店铺、停车场内反向寻车等业务的发展基础都是室内高精度定位。利用三角定位技术、增强WiFi指纹模型技术、地磁技术、蓝牙技术等， 提供精度1-3m的室内高精度定位服务。结合百度室内图服务，更好帮助开发者解决室内定位难题。</p>
-
-<h3>识途</h3>
-
-<p>特色：地磁定位技术。</p>
-
-<p><a href="http://www.ubirouting.com/creator.php">定位和采集工具：识途 Creator</a></p>
-
-<p>仅通过上面的视频很难理解其采集原理，但是，识途提出了采集过程中以下几点注意事项：</p>
-
-<ol>
-<li>在按下采集按钮开始采集的时候，请<strong>即刻</strong>开始行走；在到达终点停止行走后，请<strong>即刻</strong>按下采集按钮结束采集。</li>
-<li>在采集过程中请保持<strong>统一、稳定、自然</strong>的行走速度, 尽可能保持在道路的中央行走，并且采集过程中尽可能避免晃动手机。</li>
-<li>如果在某段路径受到了外界的严重干扰，无法保持一致的行走速度或预定的行走方向，务必针对这段路径进行重新采集。</li>
-</ol>
-
-
-<p>从上面的注意事项，可以大致猜测他是如何做到测量的地磁信号和地理位置的对应。</p>
-
-<p><strong>参考</strong></p>
-
-<ul>
-<li><a href="http://www.ubirouting.com/%E8%AF%86%E9%80%94%E5%AE%A4%E5%86%85%E5%AE%9A%E4%BD%8D%E6%8A%80%E6%9C%AF%E7%BB%BC%E8%BF%B0.pdf">识途室内定位技术综述</a></li>
-<li><a href="http://ubirouting.com/%E8%AF%86%E9%80%94%E5%AE%A4%E5%86%85%E5%9C%B0%E7%A3%81%E7%8E%AF%E5%A2%83%E6%95%B0%E6%8D%AE%E9%87%87%E9%9B%86%E6%96%B9%E6%B3%95%E5%8F%8A%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9.pdf">识途室内地磁环境数据采集方法及注意事项</a></li>
-</ul>
-
-
-<h2>闲谈</h2>
-
-<ul>
-<li><p>GPS不是泛指，是特指。</p>
-
-<p>  我们一提到定位，大家印象中最熟悉的技术可能就是GPS定位。其实更为准确的说法是GNSS(Global Navigation Satellite System)定位，中文含义就是全球卫星定位系统。GPS只是GNSS中的一种实现方法，该系统是由美国部署的。另外，还有其他类型的定位系统，例如，俄罗斯的格洛纳斯（GLONASS），欧洲的伽利略和中国的北斗。关系如下：</p>
-
-<ul>
-<li>GNSS
-
-<ul>
-<li>GPS（美国）</li>
-<li>GLONASS（俄罗斯）</li>
-<li>北斗（中国）</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-
-
-<h2>参考</h2>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS语音控制系统]]></title>
-    <link href="http://hongchaozhang.github.io/blog/2017/02/08/voice-command-implementation-for-ios/"/>
-    <updated>2017-02-08T22:53:14+08:00</updated>
-    <id>http://hongchaozhang.github.io/blog/2017/02/08/voice-command-implementation-for-ios</id>
-    <content type="html"><![CDATA[<p>介绍了iOS10开放的语音识别库Speech的特点和使用。</p>
-
-<!-- more -->
-
-
-<h2>语音识别</h2>
-
-<p>ios10之前，用户和iOS系统进行语音交互有两种途径：</p>
-
-<ol>
-<li>Siri</li>
-<li>通过键盘的麦克风按钮，进入听写模式</li>
-</ol>
-
-
-<p><strong>Siri</strong></p>
-
-<p>缺点：</p>
-
-<p>虽然Siri在iOS10中也开放了一些接口，但是非常有限：</p>
-
-<ol>
-<li>VoIP calling</li>
-<li>Messaging</li>
-<li>Payments</li>
-<li>Photo</li>
-<li>Workouts</li>
-<li>Ride booking</li>
-<li>CarPlay (automotive vendors only)</li>
-<li>Restaurant reservations (requires additional support from Apple)</li>
-</ol>
-
-
-<p>而且，还必须以App Extension的形式实现。</p>
-
-<p>优点：</p>
-
-<p>但是优点也是很明显的，比如，在一个支持Siri的Messaging的应用中，可能出现下面的对话：</p>
-
-<table>
-<thead>
-<tr>
-<th>Siri </th>
-<th> User</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td></td>
-<td> Hi, Siri, send a app_name message.</td>
-</tr>
-<tr>
-<td>to whom? </td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td> Hongchao</td>
-</tr>
-<tr>
-<td>What do you want to say to Hongchao? </td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td> Good job on Jarvis for Map.</td>
-</tr>
-</tbody>
-</table>
-
-
-<p><strong>Speech</strong></p>
-
-<p>iOS10除了通过SiriKit开发了Siri的一些功能之外，还开放了Siri使用的语音识别库Speech，该库是一个在线语音识别库。通过Speech进行语音识别非常简单、好用识别率高。详情参照<a href="https://developer.apple.com/reference/speech">官方文档</a>。</p>
-
-<p>虽然ios10开放了Speech，但是也是有限制的开放：</p>
-
-<ol>
-<li>最长一分钟的持续时间。</li>
-<li>对每个设备和每个应用，每天都有请求次数限制，但是具体次数没有公布。</li>
-</ol>
-
-
-<h2>命令提取</h2>
-
-<p>Speech识别请求会返回最长一分钟的音频识别结果，如何从这段识别结果里面提取出需要执行的命令呢？我们使用下面两条原则：</p>
-
-<ol>
-<li>从后往前提取出第一个匹配命令库中的命令。</li>
-<li>设计一些断句词帮助断句、提取命令。</li>
-</ol>
-
-
-<p>通过原则1，可以解决不带参数的固定命令的提取，但是对命令有个要求：</p>
-
-<ul>
-<li>任何命令不能是另一个命令的后缀。</li>
-</ul>
-
-
-<p>否则较长的命令就不能被执行。</p>
-
-<p>对于有参数的变化命令，通过原则1就不能解决了。</p>
-
-<p>比如，有命令<em>search for new york</em>，其中<em>search for</em>是命令，<em>new york</em>是参数。当执行完此命令之后，继续说了一些“无关紧要”的话，就会导致系统继续执行此命令。这里说的“无关紧要”是指：</p>
-
-<ul>
-<li>不是固定命令</li>
-<li>不是断句词</li>
-</ul>
-
-
-<p>执行完带有参数的变化命令之后，需要使用断句词进行断句。这就是原则2的必要性。</p>
-
-<p><strong>更自然的命令提取方法</strong></p>
-
-<ul>
-<li>只要能得到每个单词的时间戳，就可以通过停顿进行断句和命令提取，更加自然。</li>
-<li>参考Siri在某个固定场景下的对话方式。</li>
-</ul>
-
-
-<h2>通过扬声器发声</h2>
-
-<p>需要设置<code>AVAudioSession</code>的状态，保证既可以录音，也可以发声，同时发出的声音不应该再被录入。</p>
-
-<p>这个需求应该可以通过<code>AVSpeechSynthesizerDelegate</code>中下面的方法实现：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="n">public</span> <span class="k">func</span> <span class="n">speechSynthesizer</span><span class="p">(</span><span class="n">_</span> <span class="nl">synthesizer</span><span class="p">:</span> <span class="bp">AVSpeechSynthesizer</span><span class="p">,</span> <span class="n">didFinish</span> <span class="nl">utterance</span><span class="p">:</span> <span class="bp">AVSpeechUtterance</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
 ]]></content>
   </entry>
   
