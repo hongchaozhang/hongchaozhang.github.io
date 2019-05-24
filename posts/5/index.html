@@ -9,15 +9,7 @@
 	<meta name="author" content="Zhang Hongchao">
 
 	
-	<meta name="description" content="May 9th, 2015 javascript How to Add a Clone Function to Function? 1
-2
-3
-4
-5
-6
-7
-8
-Function.prototype.clone = function() { var that = this; var temp &hellip;">
+	<meta name="description" content="May 9th, 2015 javascript Caution Javascript Closure in Loop Object Define a function addTimer, to log executed time for all function-type property &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -101,7 +93,7 @@ Function.prototype.clone = function() { var that = this; var temp &hellip;">
 
 
 <section class="categories">
-          <ul id="category_cloud" class="nav nav-list"><a href='/blog/categories/android' style='font-size: 107.3170731707317%'>android(5)</a> <a href='/blog/categories/android-studio' style='font-size: 101.46341463414635%'>android studio(1)</a> <a href='/blog/categories/augmented-reality' style='font-size: 105.85365853658537%'>augmented reality(4)</a> <a href='/blog/categories/design-pattern' style='font-size: 102.92682926829268%'>design pattern(2)</a> <a href='/blog/categories/ios' style='font-size: 160.0%'>ios(41)</a> <a href='/blog/categories/java' style='font-size: 102.92682926829268%'>java(2)</a> <a href='/blog/categories/javascript' style='font-size: 102.92682926829268%'>javascript(2)</a> <a href='/blog/categories/machine-learning' style='font-size: 111.70731707317073%'>machine learning(8)</a> <a href='/blog/categories/map-tech' style='font-size: 102.92682926829268%'>map tech(2)</a> <a href='/blog/categories/mobile' style='font-size: 101.46341463414635%'>mobile(1)</a> <a href='/blog/categories/nlp' style='font-size: 101.46341463414635%'>nlp(1)</a> <a href='/blog/categories/nlu' style='font-size: 101.46341463414635%'>nlu(1)</a> <a href='/blog/categories/node' style='font-size: 104.39024390243902%'>node(3)</a> <a href='/blog/categories/objective-c' style='font-size: 130.73170731707316%'>objective-c(21)</a> <a href='/blog/categories/philosophy' style='font-size: 102.92682926829268%'>philosophy(2)</a> <a href='/blog/categories/productivity' style='font-size: 126.34146341463415%'>productivity(18)</a> <a href='/blog/categories/python' style='font-size: 104.39024390243902%'>python(3)</a> <a href='/blog/categories/reading' style='font-size: 104.39024390243902%'>reading(3)</a> <a href='/blog/categories/swift' style='font-size: 105.85365853658537%'>swift(4)</a> <a href='/blog/categories/web' style='font-size: 102.92682926829268%'>web(2)</a> <a href='/blog/categories/wwdc' style='font-size: 102.92682926829268%'>wwdc(2)</a> <a href='/blog/categories/xcode' style='font-size: 111.70731707317073%'>xcode(8)</a> </ul>
+          <ul id="category_cloud" class="nav nav-list"><a href='/blog/categories/android' style='font-size: 107.3170731707317%'>android(5)</a> <a href='/blog/categories/android-studio' style='font-size: 101.46341463414635%'>android studio(1)</a> <a href='/blog/categories/augmented-reality' style='font-size: 105.85365853658537%'>augmented reality(4)</a> <a href='/blog/categories/design-pattern' style='font-size: 104.39024390243902%'>design pattern(3)</a> <a href='/blog/categories/ios' style='font-size: 160.0%'>ios(41)</a> <a href='/blog/categories/java' style='font-size: 102.92682926829268%'>java(2)</a> <a href='/blog/categories/javascript' style='font-size: 102.92682926829268%'>javascript(2)</a> <a href='/blog/categories/machine-learning' style='font-size: 111.70731707317073%'>machine learning(8)</a> <a href='/blog/categories/map-tech' style='font-size: 102.92682926829268%'>map tech(2)</a> <a href='/blog/categories/mobile' style='font-size: 101.46341463414635%'>mobile(1)</a> <a href='/blog/categories/nlp' style='font-size: 101.46341463414635%'>nlp(1)</a> <a href='/blog/categories/nlu' style='font-size: 101.46341463414635%'>nlu(1)</a> <a href='/blog/categories/node' style='font-size: 104.39024390243902%'>node(3)</a> <a href='/blog/categories/objective-c' style='font-size: 130.73170731707316%'>objective-c(21)</a> <a href='/blog/categories/philosophy' style='font-size: 102.92682926829268%'>philosophy(2)</a> <a href='/blog/categories/productivity' style='font-size: 126.34146341463415%'>productivity(18)</a> <a href='/blog/categories/python' style='font-size: 104.39024390243902%'>python(3)</a> <a href='/blog/categories/reading' style='font-size: 104.39024390243902%'>reading(3)</a> <a href='/blog/categories/swift' style='font-size: 105.85365853658537%'>swift(4)</a> <a href='/blog/categories/web' style='font-size: 102.92682926829268%'>web(2)</a> <a href='/blog/categories/wwdc' style='font-size: 102.92682926829268%'>wwdc(2)</a> <a href='/blog/categories/xcode' style='font-size: 111.70731707317073%'>xcode(8)</a> </ul>
       </section>
 
 
@@ -115,6 +107,47 @@ Function.prototype.clone = function() { var that = this; var temp &hellip;">
 			<div class="mid-col-container">
 				<div id="content" class="inner">
 <div itemscope itemtype="http://schema.org/Blog">
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2015-05-09T00:00:00+08:00" pubdate data-updated="true">May 9th, 2015</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/javascript/'>javascript</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2015/05/09/caution-javascript-closure-in-loop/" itemprop="url">Caution Javascript Closure in Loop</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<h3>Object</h3>
+
+<p>Define a function <span style="background-color:yellow;"><em>addTimer</em></span>, to log executed time for all function-type property of an object</p>
+
+<h3>Definition 1</h3>
+
+
+		
+		<a href="/blog/2015/05/09/caution-javascript-closure-in-loop/" class="more-link">Read on &rarr;</a>
+	</div>
+
+</article>
 
 
     <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
