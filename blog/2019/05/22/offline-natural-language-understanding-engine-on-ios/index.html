@@ -93,7 +93,7 @@
 
 
 <section class="categories">
-          <ul id="category_cloud" class="nav nav-list"><a href='/blog/categories/android' style='font-size: 107.3170731707317%'>android(5)</a> <a href='/blog/categories/android-studio' style='font-size: 101.46341463414635%'>android studio(1)</a> <a href='/blog/categories/augmented-reality' style='font-size: 105.85365853658537%'>augmented reality(4)</a> <a href='/blog/categories/design-pattern' style='font-size: 104.39024390243902%'>design pattern(3)</a> <a href='/blog/categories/ios' style='font-size: 160.0%'>ios(41)</a> <a href='/blog/categories/java' style='font-size: 102.92682926829268%'>java(2)</a> <a href='/blog/categories/javascript' style='font-size: 102.92682926829268%'>javascript(2)</a> <a href='/blog/categories/machine-learning' style='font-size: 111.70731707317073%'>machine learning(8)</a> <a href='/blog/categories/map-tech' style='font-size: 102.92682926829268%'>map tech(2)</a> <a href='/blog/categories/mobile' style='font-size: 101.46341463414635%'>mobile(1)</a> <a href='/blog/categories/nlp' style='font-size: 101.46341463414635%'>nlp(1)</a> <a href='/blog/categories/nlu' style='font-size: 101.46341463414635%'>nlu(1)</a> <a href='/blog/categories/node' style='font-size: 104.39024390243902%'>node(3)</a> <a href='/blog/categories/objective-c' style='font-size: 130.73170731707316%'>objective-c(21)</a> <a href='/blog/categories/philosophy' style='font-size: 102.92682926829268%'>philosophy(2)</a> <a href='/blog/categories/productivity' style='font-size: 126.34146341463415%'>productivity(18)</a> <a href='/blog/categories/python' style='font-size: 104.39024390243902%'>python(3)</a> <a href='/blog/categories/reading' style='font-size: 104.39024390243902%'>reading(3)</a> <a href='/blog/categories/swift' style='font-size: 105.85365853658537%'>swift(4)</a> <a href='/blog/categories/web' style='font-size: 102.92682926829268%'>web(2)</a> <a href='/blog/categories/wwdc' style='font-size: 102.92682926829268%'>wwdc(2)</a> <a href='/blog/categories/xcode' style='font-size: 111.70731707317073%'>xcode(8)</a> </ul>
+          <ul id="category_cloud" class="nav nav-list"><a href='/blog/categories/android' style='font-size: 107.14285714285714%'>android(5)</a> <a href='/blog/categories/android-studio' style='font-size: 101.42857142857143%'>android studio(1)</a> <a href='/blog/categories/augmented-reality' style='font-size: 105.71428571428571%'>augmented reality(4)</a> <a href='/blog/categories/design-pattern' style='font-size: 104.28571428571429%'>design pattern(3)</a> <a href='/blog/categories/ios' style='font-size: 160.0%'>ios(42)</a> <a href='/blog/categories/java' style='font-size: 102.85714285714286%'>java(2)</a> <a href='/blog/categories/javascript' style='font-size: 102.85714285714286%'>javascript(2)</a> <a href='/blog/categories/machine-learning' style='font-size: 111.42857142857143%'>machine learning(8)</a> <a href='/blog/categories/map-tech' style='font-size: 102.85714285714286%'>map tech(2)</a> <a href='/blog/categories/mobile' style='font-size: 101.42857142857143%'>mobile(1)</a> <a href='/blog/categories/nlp' style='font-size: 101.42857142857143%'>nlp(1)</a> <a href='/blog/categories/nlu' style='font-size: 101.42857142857143%'>nlu(1)</a> <a href='/blog/categories/node' style='font-size: 104.28571428571429%'>node(3)</a> <a href='/blog/categories/objective-c' style='font-size: 130.0%'>objective-c(21)</a> <a href='/blog/categories/philosophy' style='font-size: 102.85714285714286%'>philosophy(2)</a> <a href='/blog/categories/productivity' style='font-size: 125.71428571428572%'>productivity(18)</a> <a href='/blog/categories/python' style='font-size: 104.28571428571429%'>python(3)</a> <a href='/blog/categories/reading' style='font-size: 104.28571428571429%'>reading(3)</a> <a href='/blog/categories/swift' style='font-size: 107.14285714285714%'>swift(5)</a> <a href='/blog/categories/web' style='font-size: 102.85714285714286%'>web(2)</a> <a href='/blog/categories/wwdc' style='font-size: 102.85714285714286%'>wwdc(2)</a> <a href='/blog/categories/xcode' style='font-size: 111.42857142857143%'>xcode(8)</a> </ul>
       </section>
 
 
@@ -327,6 +327,16 @@
 </span></code></pre></td></tr></table></div></figure>
 
 
+<blockquote><p><strong>How to use .mlmodel file?</strong></p>
+
+<p>.mlmodel file needs to be compiled before using. There are two ways to do this: offline and online:</p>
+
+<ol>
+<li>offline: drag the mlmodel into your project, xcode will compile the .mlmodel for you before you build you app.</li>
+<li>online: use <code>MLModel.compileModel</code> to compile your .mlmodel file at runtime. This is especially useful when your are at swift playground, where you cannot get xcode&rsquo;s help for comipling.</li>
+</ol>
+</blockquote>
+
 <h3>Slot Filling</h3>
 
 <h4>Model Training</h4>
@@ -470,6 +480,14 @@
 </span></code></pre></td></tr></table></div></figure>
 
 
+<p><strong> Reference </strong></p>
+
+<ol>
+<li><a href="https://developer.apple.com/documentation/createml/creating_a_text_classifier_model">Creating a Text Classifier Model</a>: Apple offical site for training and using machine learning models through CreateML framework.</li>
+<li>WWDC video <a href="https://developer.apple.com/videos/play/wwdc2018/713/">Introducing Natural Language Framework</a>: This session introduces NLP framework and its relation with CreateML framework.</li>
+</ol>
+
+
 <h3>Model Size</h3>
 
 <p>For the iOS app, we hope the machine learning model size is small enough. Apple&rsquo;s NatrualLanguage framework has done many optimizations on machine learning model size. The following data is from WWDC 2018 (session 713: Introducing NatrualLanguage Framework):</p>
@@ -521,6 +539,12 @@
 </table>
 
 
+<p>If your model is a neural network, you can reduce the size of your model by the following way:
+<a href="https://developer.apple.com/documentation/coreml/reducing_the_size_of_your_core_ml_app">Reducing the Size of Your Core ML App</a>. You can control the precision of the neural network parameters, and thus the size of the trained model.</p>
+
+<p>If still your model is large, you can
+<a href="https://developer.apple.com/documentation/coreml/core_ml_api/downloading_and_compiling_a_model_on_the_user_s_device">Downloading and Compiling a Model on the User&rsquo;s Device</a> at runtime.</p>
+
 <h3>Problems to Be Solved</h3>
 
 <p>For Probabilistic Intent Parser, we still have some problems.</p>
@@ -530,6 +554,8 @@
 <p>We may need the probability to define the reliability of the estimated intent of an input command text.</p>
 
 <p>However, the model trained through <code>MLTextClassifier</code> has no probability output API. If we really need the probability output, we can use other platforms to train the model, like tensorflow. That way, we will not benefit from NatrualLanguage framework and we need to consider these things by ourselves, like Tokenization, Part of Speech, Lemmatization, etc.</p>
+
+<blockquote><p>Try other tools for training models with probability output, like Turi.</p></blockquote>
 
 <h4>Slot Filling Model Tagges the Label by Words, not Phrase</h4>
 

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: swift | Reading Space]]></title>
   <link href="http://hongchaozhang.github.io/blog/categories/swift/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2019-05-24T11:51:50+08:00</updated>
+  <updated>2019-06-03T17:42:05+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -12,6 +12,325 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Sequece and Collection in Swift]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2019/06/03/sequece-and-collection-in-swift/"/>
+    <updated>2019-06-03T16:22:33+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2019/06/03/sequece-and-collection-in-swift</id>
+    <content type="html"><![CDATA[<!-- more -->
+
+
+<p>The content comes from the following posts:</p>
+
+<ol>
+<li><a href="https://medium.com/swift-programming/swift-sequences-ce22d76f120c">Swift Sequences</a></li>
+<li><a href="https://medium.com/swift-programming/swift-collections-e5fff3cd6759">Swift Collections</a></li>
+</ol>
+
+
+<p>But some of the code inside is old and can&rsquo;t be compiled with swift 5.0. So rewritten the code using swift 5.0.</p>
+
+<h2><code>Array</code> out of Range Crash</h2>
+
+<p>Before diving into Swift Sequences, let’s see a strange behavior.</p>
+
+<pre><code class="swift">let array = [1, 2, 3]
+array[7] 😭
+
+let dic = ["a": 1, "b": 2]
+dic["z"] 😎
+
+🤔
+</code></pre>
+
+<p>In other words, when requesting an element that doesn’t exist, why arrays crash whereas dictionaries don’t?</p>
+
+<p>Arrays and dictionaries are two base collections provided by the Swift standard library. We can access those collections elements through the [] notation, also known as subscript. Let’s see how those subscripts are defined.</p>
+
+<pre><code class="swift">struct Array&lt;Element&gt; {
+    subscript(index: Int) -&gt; Element
+}
+
+struct Dictionary&lt;Key: Hashable, Value&gt; {
+    subscript(key: Key) -&gt; Value?
+}
+</code></pre>
+
+<p>What’s interesting is that arrays have a non optional return type. Subscript can’t throw errors so there are no alternatives other than a fatalError if we request an index that doesn’t exist.</p>
+
+<p>For dictionaries, on the other hand, an optional Value is returned, which allows to gracefully return nil if the index doesn’t exist.</p>
+
+<p>We can adopt dictionaries safer approach by overloading the arrays subscript — we can’t override them. Adding an external name to the parameter is enough.</p>
+
+<pre><code class="swift">extension Array {
+    subscript(safe index: Int) -&gt; Element? {
+        return index &gt;= 0 &amp;&amp; index &lt; count ? self[index] : nil
+    }
+}
+</code></pre>
+
+<p>We saw how we can create a new accessor to the elements of an array, but can we do the same with a homemade collection?</p>
+
+<h2>Homemade collection</h2>
+
+<pre><code class="swift">struct Section&lt;T&gt; {
+    let title: String
+    let elements: [T]
+}
+</code></pre>
+
+<p>Internally, this ‘collection’ is based on an array. This is an implementation detail for the simplicity of the example. We could have used a linked list as in this <a href="http://austinzheng.com/2015/01/24/swift-seq/">excellent article</a> by <a href="https://twitter.com/austinzheng">Austin Zheng</a>.</p>
+
+<p>Creating a subscript on our collection is very easy, we can even reuse the array’s extension we made earlier.</p>
+
+<pre><code class="swift">struct Section&lt;T&gt; {
+    let title: String
+    let elements: [T]
+
+    subscript(safe index: Int) -&gt; T? {
+        return elements[safe: index]
+    }
+}
+</code></pre>
+
+<p>An example in practice :</p>
+
+<pre><code class="swift">let cars = ["911", "Cayman", "Cayenne"]
+let section = Section(title: "Porsche", elements: cars)
+
+section[1]
+// Optional("Cayman")
+</code></pre>
+
+<p>Great! But does that make our type a collection, as Swift defines it?</p>
+
+<h2>Sequences</h2>
+
+<p>When it comes to manipulating sets, the most abstract notion given by the standard library is the Sequence, defined as</p>
+
+<blockquote><p>A type that can be iterated with a <code>for…in</code> loop.</p></blockquote>
+
+<h3>How to Conform to <code>Sequence</code> Protocol</h3>
+
+<p>This section is from <a href="https://developer.apple.com/documentation/swift/sequence">Sequece official site</a>.</p>
+
+<p>Making your own custom types conform to Sequence enables many useful operations, like for-in looping and the contains method, without much effort. To add Sequence conformance to your own custom type, add a makeIterator() method that returns an iterator.</p>
+
+<p>Alternatively, if your type can act as its own iterator, implementing the requirements of the IteratorProtocol protocol and declaring conformance to both Sequence and IteratorProtocol are sufficient.</p>
+
+<p>Here’s a definition of a Countdown sequence that serves as its own iterator. The makeIterator() method is provided as a default implementation.</p>
+
+<pre><code class="swift">struct Countdown: Sequence, IteratorProtocol {
+    var count: Int
+
+    mutating func next() -&gt; Int? {
+        if count == 0 {
+            return nil
+        } else {
+            defer { count -= 1 }
+            return count
+        }
+    }
+}
+
+let threeToGo = Countdown(count: 3)
+for i in threeToGo {
+    print(i)
+}
+// Prints "3"
+// Prints "2"
+// Prints "1"
+</code></pre>
+
+<h3>Make our <code>Section</code> Conform to <code>Sequence</code> Protocol</h3>
+
+<p>The <code>Section</code> struct can&rsquo;t act as its own iterator, we need to define an iterator for it, and then return an instance of the defined iterator inside <code>func makeIterator() -&gt; Section&lt;T&gt;.Iterator</code> method.</p>
+
+<pre><code class="swift">struct Section&lt;T&gt;: Sequence {
+    let title: String
+    let elements: [T]
+
+    subscript(safe index: Int) -&gt; T? {
+        return elements[safe: index]
+    }
+
+    struct Iterator: IteratorProtocol {
+        let array: [T]
+        var currentIndex = 0
+
+        init (_ array: [T]) {
+            self.array = array
+        }
+
+        mutating func next() -&gt; T? {
+            let tempIndex = currentIndex
+            currentIndex += 1
+            return array[safe: tempIndex]
+
+        }
+    }
+
+    func makeIterator() -&gt; Section&lt;T&gt;.Iterator {
+        return Iterator(elements)
+    }
+}
+</code></pre>
+
+<h3>Gifts</h3>
+
+<p>Is that all? No! By conforming to SequenceType we also get methods for free, here is some of them.</p>
+
+<pre><code class="swift">section.min()
+// 911
+section.max()
+// Cayman
+section.sorted()
+// ["911", "Cayenne", "Cayman"]
+section.contains("911")
+// true
+</code></pre>
+
+<p>We get the min, max &amp; sort methods because the elements of our sequence, String in our case, are Comparable. Contains is available thanks to our elements being Equatable.</p>
+
+<pre><code class="swift">section.filter { $0.count &gt; 3 }
+// ["Cayman", "Cayenne"]
+section.map { $0.count }
+// [3, 6, 7]
+section.reduce(0) { $0 + $1.count }
+// 16
+</code></pre>
+
+<p>And for functional programming fans, filter, map and reduce are also given.</p>
+
+<h2>Collections</h2>
+
+<p>Sequence is the most basic set notion given by the Swift standard library. There is a more evolved one.</p>
+
+<p>A collection is defined as follow :</p>
+
+<blockquote><p>A multi-pass <em>sequence</em> with addressable positions</p></blockquote>
+
+<p>As we saw previously, a sequence is a type that can be iterated with a <code>for…in</code> loop. It doesn’t need that the elements might be iterated over several times. And it doesn’t need that we give a way to access directly an element.</p>
+
+<p>Collections require those last two points. As a side effect, it no longer allows us to have an infinite number of elements.</p>
+
+<p>To be a collection, a type must conform to the <code>Collection</code> protocol.</p>
+
+<h3>How to Conform to <code>Collection</code> Protocol</h3>
+
+<p>This section comes from <a href="https://developer.apple.com/documentation/swift/collection">Collection official site</a>.</p>
+
+<p>If you create a custom sequence that can provide repeated access to its elements, make sure that its type conforms to the Collection protocol in order to give a more useful and more efficient interface for sequence and collection operations. To add Collection conformance to your type, you must declare at least the following requirements:</p>
+
+<ol>
+<li>The <code>startIndex</code> and <code>endIndex</code> properties</li>
+<li>A subscript that provides at least read-only access to your type’s elements</li>
+<li>The <code>index(after:)</code> method for advancing an index into your collection</li>
+<li>Conform to <code>Sequece</code> Protocol, as <code>Collection</code> is inherited from <code>Sequence</code></li>
+</ol>
+
+
+<h3>Make our <code>Section</code> Conform to <code>Collection</code> Protocol</h3>
+
+<pre><code class="swift">struct Section&lt;T&gt;: Collection {
+    let title: String
+    let elements: [T]
+
+    // begin: required for Collection
+    var startIndex: Int { return 0 }
+    var endIndex: Int { return elements.count }
+
+    func index(after i: Int) -&gt; Int {
+        return i + 1
+    }
+
+    subscript(index: Int) -&gt; T {
+        return elements[index]
+    }
+    // end: required for Collection
+
+
+    subscript(safe index: Int) -&gt; T? {
+        return elements[safe: index]
+    }
+
+
+    // begin: required for Sequence
+    struct Iterator: IteratorProtocol {
+        let array: [T]
+        var currentIndex = 0
+
+        init (_ array: [T]) {
+            self.array = array
+        }
+
+        mutating func next() -&gt; T? {
+            let tempIndex = currentIndex
+            currentIndex += 1
+            return array[safe: tempIndex]
+
+        }
+    }
+
+    func makeIterator() -&gt; Section&lt;T&gt;.Iterator {
+        return Iterator(elements)
+    }
+    // end: required for Sequence
+}
+</code></pre>
+
+<p>The <code>endIndex</code> has to be after the last element. It allows to define an empty collection with <code>startIndex</code> = <code>endIndex</code>.</p>
+
+<p>Like conforming to <code>Sequence</code>, we get some methods / properties for free:</p>
+
+<pre><code class="swift">section.count
+// 3
+section.first
+// 911
+section.isEmpty
+// false
+section.index(of: "911")
+// 0
+</code></pre>
+
+<p>We get indexOf thanks to our Elements being Equatable.</p>
+
+<h2>Difference between <code>Array</code> and <code>Collection</code></h2>
+
+<p>We created our own collection, which is great, but what about that difference of behavior between Arrays and Dictionaries we talked about at the beginning of the post? We saw that Array’s dangerous subscript was coming from the Indexable protocol, but what about Dictionaries?</p>
+
+<p>Dictionaries, like Arrays, are a collection, as Swift defines it. They both conform to CollectionType. So Dictionaries are also required to provide an ‘unsafe’ subscript that takes an Index and returns a non optional Element. The one we’re used to is just a convenience subscript.</p>
+
+<p>A simple example shows that it is also really easy to get a crash with Dictionaries.</p>
+
+<pre><code class="swift">let dic = ["a": "bmw", "b": "audi", "c": "citroen"]
+
+var index = dic.startIndex
+dic[index]
+// (key: "c", value: "citroen")
+
+index = dic.index(after: index)
+print(dic[index])
+// (key: "b", value: "audi")
+
+index = dic.index(after: index)
+index = dic.index(after: index)
+dic[index]
+// Fatal error
+</code></pre>
+
+<p><strong>The last question that remains is why <code>Collection</code> requires a subscript that may crash? Simply for performance reason, it costs too much to check the validity of the given index. Crashing is faster :)</strong></p>
+
+<h2>Reference</h2>
+
+<ol>
+<li><a href="https://medium.com/swift-programming/swift-sequences-ce22d76f120c">Swift Sequences</a></li>
+<li><a href="https://medium.com/swift-programming/swift-collections-e5fff3cd6759">Swift Collections</a></li>
+</ol>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[在swift和Objc之间转换的一些想法]]></title>

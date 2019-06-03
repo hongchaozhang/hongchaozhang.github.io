@@ -4,7 +4,7 @@
   <title><![CDATA[Category: nlp | Reading Space]]></title>
   <link href="http://hongchaozhang.github.io/blog/categories/nlp/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2019-05-24T11:51:50+08:00</updated>
+  <updated>2019-06-03T17:42:05+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -175,6 +175,16 @@ let label = classifier.predictedLabel(for: text)
 print("text: \(text)\nlabel:\(label ?? "Not detected!")")
 </code></pre>
 
+<blockquote><p><strong>How to use .mlmodel file?</strong></p>
+
+<p>.mlmodel file needs to be compiled before using. There are two ways to do this: offline and online:</p>
+
+<ol>
+<li>offline: drag the mlmodel into your project, xcode will compile the .mlmodel for you before you build you app.</li>
+<li>online: use <code>MLModel.compileModel</code> to compile your .mlmodel file at runtime. This is especially useful when your are at swift playground, where you cannot get xcode&rsquo;s help for comipling.</li>
+</ol>
+</blockquote>
+
 <h3>Slot Filling</h3>
 
 <h4>Model Training</h4>
@@ -256,6 +266,14 @@ weatherTagger.enumerateTags(in: text.startIndex..&lt;text.endIndex, unit: .word,
 }
 </code></pre>
 
+<p><strong> Reference </strong></p>
+
+<ol>
+<li><a href="https://developer.apple.com/documentation/createml/creating_a_text_classifier_model">Creating a Text Classifier Model</a>: Apple offical site for training and using machine learning models through CreateML framework.</li>
+<li>WWDC video <a href="https://developer.apple.com/videos/play/wwdc2018/713/">Introducing Natural Language Framework</a>: This session introduces NLP framework and its relation with CreateML framework.</li>
+</ol>
+
+
 <h3>Model Size</h3>
 
 <p>For the iOS app, we hope the machine learning model size is small enough. Apple&rsquo;s NatrualLanguage framework has done many optimizations on machine learning model size. The following data is from WWDC 2018 (session 713: Introducing NatrualLanguage Framework):</p>
@@ -307,6 +325,12 @@ weatherTagger.enumerateTags(in: text.startIndex..&lt;text.endIndex, unit: .word,
 </table>
 
 
+<p>If your model is a neural network, you can reduce the size of your model by the following way:
+<a href="https://developer.apple.com/documentation/coreml/reducing_the_size_of_your_core_ml_app">Reducing the Size of Your Core ML App</a>. You can control the precision of the neural network parameters, and thus the size of the trained model.</p>
+
+<p>If still your model is large, you can
+<a href="https://developer.apple.com/documentation/coreml/core_ml_api/downloading_and_compiling_a_model_on_the_user_s_device">Downloading and Compiling a Model on the User&rsquo;s Device</a> at runtime.</p>
+
 <h3>Problems to Be Solved</h3>
 
 <p>For Probabilistic Intent Parser, we still have some problems.</p>
@@ -316,6 +340,8 @@ weatherTagger.enumerateTags(in: text.startIndex..&lt;text.endIndex, unit: .word,
 <p>We may need the probability to define the reliability of the estimated intent of an input command text.</p>
 
 <p>However, the model trained through <code>MLTextClassifier</code> has no probability output API. If we really need the probability output, we can use other platforms to train the model, like tensorflow. That way, we will not benefit from NatrualLanguage framework and we need to consider these things by ourselves, like Tokenization, Part of Speech, Lemmatization, etc.</p>
+
+<blockquote><p>Try other tools for training models with probability output, like Turi.</p></blockquote>
 
 <h4>Slot Filling Model Tagges the Label by Words, not Phrase</h4>
 

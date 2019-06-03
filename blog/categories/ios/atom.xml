@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ios | Reading Space]]></title>
   <link href="http://hongchaozhang.github.io/blog/categories/ios/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2019-05-24T11:51:50+08:00</updated>
+  <updated>2019-06-03T17:42:05+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -12,6 +12,325 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Sequece and Collection in Swift]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2019/06/03/sequece-and-collection-in-swift/"/>
+    <updated>2019-06-03T16:22:33+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2019/06/03/sequece-and-collection-in-swift</id>
+    <content type="html"><![CDATA[<!-- more -->
+
+
+<p>The content comes from the following posts:</p>
+
+<ol>
+<li><a href="https://medium.com/swift-programming/swift-sequences-ce22d76f120c">Swift Sequences</a></li>
+<li><a href="https://medium.com/swift-programming/swift-collections-e5fff3cd6759">Swift Collections</a></li>
+</ol>
+
+
+<p>But some of the code inside is old and can&rsquo;t be compiled with swift 5.0. So rewritten the code using swift 5.0.</p>
+
+<h2><code>Array</code> out of Range Crash</h2>
+
+<p>Before diving into Swift Sequences, let’s see a strange behavior.</p>
+
+<pre><code class="swift">let array = [1, 2, 3]
+array[7] 😭
+
+let dic = ["a": 1, "b": 2]
+dic["z"] 😎
+
+🤔
+</code></pre>
+
+<p>In other words, when requesting an element that doesn’t exist, why arrays crash whereas dictionaries don’t?</p>
+
+<p>Arrays and dictionaries are two base collections provided by the Swift standard library. We can access those collections elements through the [] notation, also known as subscript. Let’s see how those subscripts are defined.</p>
+
+<pre><code class="swift">struct Array&lt;Element&gt; {
+    subscript(index: Int) -&gt; Element
+}
+
+struct Dictionary&lt;Key: Hashable, Value&gt; {
+    subscript(key: Key) -&gt; Value?
+}
+</code></pre>
+
+<p>What’s interesting is that arrays have a non optional return type. Subscript can’t throw errors so there are no alternatives other than a fatalError if we request an index that doesn’t exist.</p>
+
+<p>For dictionaries, on the other hand, an optional Value is returned, which allows to gracefully return nil if the index doesn’t exist.</p>
+
+<p>We can adopt dictionaries safer approach by overloading the arrays subscript — we can’t override them. Adding an external name to the parameter is enough.</p>
+
+<pre><code class="swift">extension Array {
+    subscript(safe index: Int) -&gt; Element? {
+        return index &gt;= 0 &amp;&amp; index &lt; count ? self[index] : nil
+    }
+}
+</code></pre>
+
+<p>We saw how we can create a new accessor to the elements of an array, but can we do the same with a homemade collection?</p>
+
+<h2>Homemade collection</h2>
+
+<pre><code class="swift">struct Section&lt;T&gt; {
+    let title: String
+    let elements: [T]
+}
+</code></pre>
+
+<p>Internally, this ‘collection’ is based on an array. This is an implementation detail for the simplicity of the example. We could have used a linked list as in this <a href="http://austinzheng.com/2015/01/24/swift-seq/">excellent article</a> by <a href="https://twitter.com/austinzheng">Austin Zheng</a>.</p>
+
+<p>Creating a subscript on our collection is very easy, we can even reuse the array’s extension we made earlier.</p>
+
+<pre><code class="swift">struct Section&lt;T&gt; {
+    let title: String
+    let elements: [T]
+
+    subscript(safe index: Int) -&gt; T? {
+        return elements[safe: index]
+    }
+}
+</code></pre>
+
+<p>An example in practice :</p>
+
+<pre><code class="swift">let cars = ["911", "Cayman", "Cayenne"]
+let section = Section(title: "Porsche", elements: cars)
+
+section[1]
+// Optional("Cayman")
+</code></pre>
+
+<p>Great! But does that make our type a collection, as Swift defines it?</p>
+
+<h2>Sequences</h2>
+
+<p>When it comes to manipulating sets, the most abstract notion given by the standard library is the Sequence, defined as</p>
+
+<blockquote><p>A type that can be iterated with a <code>for…in</code> loop.</p></blockquote>
+
+<h3>How to Conform to <code>Sequence</code> Protocol</h3>
+
+<p>This section is from <a href="https://developer.apple.com/documentation/swift/sequence">Sequece official site</a>.</p>
+
+<p>Making your own custom types conform to Sequence enables many useful operations, like for-in looping and the contains method, without much effort. To add Sequence conformance to your own custom type, add a makeIterator() method that returns an iterator.</p>
+
+<p>Alternatively, if your type can act as its own iterator, implementing the requirements of the IteratorProtocol protocol and declaring conformance to both Sequence and IteratorProtocol are sufficient.</p>
+
+<p>Here’s a definition of a Countdown sequence that serves as its own iterator. The makeIterator() method is provided as a default implementation.</p>
+
+<pre><code class="swift">struct Countdown: Sequence, IteratorProtocol {
+    var count: Int
+
+    mutating func next() -&gt; Int? {
+        if count == 0 {
+            return nil
+        } else {
+            defer { count -= 1 }
+            return count
+        }
+    }
+}
+
+let threeToGo = Countdown(count: 3)
+for i in threeToGo {
+    print(i)
+}
+// Prints "3"
+// Prints "2"
+// Prints "1"
+</code></pre>
+
+<h3>Make our <code>Section</code> Conform to <code>Sequence</code> Protocol</h3>
+
+<p>The <code>Section</code> struct can&rsquo;t act as its own iterator, we need to define an iterator for it, and then return an instance of the defined iterator inside <code>func makeIterator() -&gt; Section&lt;T&gt;.Iterator</code> method.</p>
+
+<pre><code class="swift">struct Section&lt;T&gt;: Sequence {
+    let title: String
+    let elements: [T]
+
+    subscript(safe index: Int) -&gt; T? {
+        return elements[safe: index]
+    }
+
+    struct Iterator: IteratorProtocol {
+        let array: [T]
+        var currentIndex = 0
+
+        init (_ array: [T]) {
+            self.array = array
+        }
+
+        mutating func next() -&gt; T? {
+            let tempIndex = currentIndex
+            currentIndex += 1
+            return array[safe: tempIndex]
+
+        }
+    }
+
+    func makeIterator() -&gt; Section&lt;T&gt;.Iterator {
+        return Iterator(elements)
+    }
+}
+</code></pre>
+
+<h3>Gifts</h3>
+
+<p>Is that all? No! By conforming to SequenceType we also get methods for free, here is some of them.</p>
+
+<pre><code class="swift">section.min()
+// 911
+section.max()
+// Cayman
+section.sorted()
+// ["911", "Cayenne", "Cayman"]
+section.contains("911")
+// true
+</code></pre>
+
+<p>We get the min, max &amp; sort methods because the elements of our sequence, String in our case, are Comparable. Contains is available thanks to our elements being Equatable.</p>
+
+<pre><code class="swift">section.filter { $0.count &gt; 3 }
+// ["Cayman", "Cayenne"]
+section.map { $0.count }
+// [3, 6, 7]
+section.reduce(0) { $0 + $1.count }
+// 16
+</code></pre>
+
+<p>And for functional programming fans, filter, map and reduce are also given.</p>
+
+<h2>Collections</h2>
+
+<p>Sequence is the most basic set notion given by the Swift standard library. There is a more evolved one.</p>
+
+<p>A collection is defined as follow :</p>
+
+<blockquote><p>A multi-pass <em>sequence</em> with addressable positions</p></blockquote>
+
+<p>As we saw previously, a sequence is a type that can be iterated with a <code>for…in</code> loop. It doesn’t need that the elements might be iterated over several times. And it doesn’t need that we give a way to access directly an element.</p>
+
+<p>Collections require those last two points. As a side effect, it no longer allows us to have an infinite number of elements.</p>
+
+<p>To be a collection, a type must conform to the <code>Collection</code> protocol.</p>
+
+<h3>How to Conform to <code>Collection</code> Protocol</h3>
+
+<p>This section comes from <a href="https://developer.apple.com/documentation/swift/collection">Collection official site</a>.</p>
+
+<p>If you create a custom sequence that can provide repeated access to its elements, make sure that its type conforms to the Collection protocol in order to give a more useful and more efficient interface for sequence and collection operations. To add Collection conformance to your type, you must declare at least the following requirements:</p>
+
+<ol>
+<li>The <code>startIndex</code> and <code>endIndex</code> properties</li>
+<li>A subscript that provides at least read-only access to your type’s elements</li>
+<li>The <code>index(after:)</code> method for advancing an index into your collection</li>
+<li>Conform to <code>Sequece</code> Protocol, as <code>Collection</code> is inherited from <code>Sequence</code></li>
+</ol>
+
+
+<h3>Make our <code>Section</code> Conform to <code>Collection</code> Protocol</h3>
+
+<pre><code class="swift">struct Section&lt;T&gt;: Collection {
+    let title: String
+    let elements: [T]
+
+    // begin: required for Collection
+    var startIndex: Int { return 0 }
+    var endIndex: Int { return elements.count }
+
+    func index(after i: Int) -&gt; Int {
+        return i + 1
+    }
+
+    subscript(index: Int) -&gt; T {
+        return elements[index]
+    }
+    // end: required for Collection
+
+
+    subscript(safe index: Int) -&gt; T? {
+        return elements[safe: index]
+    }
+
+
+    // begin: required for Sequence
+    struct Iterator: IteratorProtocol {
+        let array: [T]
+        var currentIndex = 0
+
+        init (_ array: [T]) {
+            self.array = array
+        }
+
+        mutating func next() -&gt; T? {
+            let tempIndex = currentIndex
+            currentIndex += 1
+            return array[safe: tempIndex]
+
+        }
+    }
+
+    func makeIterator() -&gt; Section&lt;T&gt;.Iterator {
+        return Iterator(elements)
+    }
+    // end: required for Sequence
+}
+</code></pre>
+
+<p>The <code>endIndex</code> has to be after the last element. It allows to define an empty collection with <code>startIndex</code> = <code>endIndex</code>.</p>
+
+<p>Like conforming to <code>Sequence</code>, we get some methods / properties for free:</p>
+
+<pre><code class="swift">section.count
+// 3
+section.first
+// 911
+section.isEmpty
+// false
+section.index(of: "911")
+// 0
+</code></pre>
+
+<p>We get indexOf thanks to our Elements being Equatable.</p>
+
+<h2>Difference between <code>Array</code> and <code>Collection</code></h2>
+
+<p>We created our own collection, which is great, but what about that difference of behavior between Arrays and Dictionaries we talked about at the beginning of the post? We saw that Array’s dangerous subscript was coming from the Indexable protocol, but what about Dictionaries?</p>
+
+<p>Dictionaries, like Arrays, are a collection, as Swift defines it. They both conform to CollectionType. So Dictionaries are also required to provide an ‘unsafe’ subscript that takes an Index and returns a non optional Element. The one we’re used to is just a convenience subscript.</p>
+
+<p>A simple example shows that it is also really easy to get a crash with Dictionaries.</p>
+
+<pre><code class="swift">let dic = ["a": "bmw", "b": "audi", "c": "citroen"]
+
+var index = dic.startIndex
+dic[index]
+// (key: "c", value: "citroen")
+
+index = dic.index(after: index)
+print(dic[index])
+// (key: "b", value: "audi")
+
+index = dic.index(after: index)
+index = dic.index(after: index)
+dic[index]
+// Fatal error
+</code></pre>
+
+<p><strong>The last question that remains is why <code>Collection</code> requires a subscript that may crash? Simply for performance reason, it costs too much to check the validity of the given index. Crashing is faster :)</strong></p>
+
+<h2>Reference</h2>
+
+<ol>
+<li><a href="https://medium.com/swift-programming/swift-sequences-ce22d76f120c">Swift Sequences</a></li>
+<li><a href="https://medium.com/swift-programming/swift-collections-e5fff3cd6759">Swift Collections</a></li>
+</ol>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Offline Natural Language Understanding Engine on iOS]]></title>
@@ -175,6 +494,16 @@ let label = classifier.predictedLabel(for: text)
 print("text: \(text)\nlabel:\(label ?? "Not detected!")")
 </code></pre>
 
+<blockquote><p><strong>How to use .mlmodel file?</strong></p>
+
+<p>.mlmodel file needs to be compiled before using. There are two ways to do this: offline and online:</p>
+
+<ol>
+<li>offline: drag the mlmodel into your project, xcode will compile the .mlmodel for you before you build you app.</li>
+<li>online: use <code>MLModel.compileModel</code> to compile your .mlmodel file at runtime. This is especially useful when your are at swift playground, where you cannot get xcode&rsquo;s help for comipling.</li>
+</ol>
+</blockquote>
+
 <h3>Slot Filling</h3>
 
 <h4>Model Training</h4>
@@ -256,6 +585,14 @@ weatherTagger.enumerateTags(in: text.startIndex..&lt;text.endIndex, unit: .word,
 }
 </code></pre>
 
+<p><strong> Reference </strong></p>
+
+<ol>
+<li><a href="https://developer.apple.com/documentation/createml/creating_a_text_classifier_model">Creating a Text Classifier Model</a>: Apple offical site for training and using machine learning models through CreateML framework.</li>
+<li>WWDC video <a href="https://developer.apple.com/videos/play/wwdc2018/713/">Introducing Natural Language Framework</a>: This session introduces NLP framework and its relation with CreateML framework.</li>
+</ol>
+
+
 <h3>Model Size</h3>
 
 <p>For the iOS app, we hope the machine learning model size is small enough. Apple&rsquo;s NatrualLanguage framework has done many optimizations on machine learning model size. The following data is from WWDC 2018 (session 713: Introducing NatrualLanguage Framework):</p>
@@ -307,6 +644,12 @@ weatherTagger.enumerateTags(in: text.startIndex..&lt;text.endIndex, unit: .word,
 </table>
 
 
+<p>If your model is a neural network, you can reduce the size of your model by the following way:
+<a href="https://developer.apple.com/documentation/coreml/reducing_the_size_of_your_core_ml_app">Reducing the Size of Your Core ML App</a>. You can control the precision of the neural network parameters, and thus the size of the trained model.</p>
+
+<p>If still your model is large, you can
+<a href="https://developer.apple.com/documentation/coreml/core_ml_api/downloading_and_compiling_a_model_on_the_user_s_device">Downloading and Compiling a Model on the User&rsquo;s Device</a> at runtime.</p>
+
 <h3>Problems to Be Solved</h3>
 
 <p>For Probabilistic Intent Parser, we still have some problems.</p>
@@ -316,6 +659,8 @@ weatherTagger.enumerateTags(in: text.startIndex..&lt;text.endIndex, unit: .word,
 <p>We may need the probability to define the reliability of the estimated intent of an input command text.</p>
 
 <p>However, the model trained through <code>MLTextClassifier</code> has no probability output API. If we really need the probability output, we can use other platforms to train the model, like tensorflow. That way, we will not benefit from NatrualLanguage framework and we need to consider these things by ourselves, like Tokenization, Part of Speech, Lemmatization, etc.</p>
+
+<blockquote><p>Try other tools for training models with probability output, like Turi.</p></blockquote>
 
 <h4>Slot Filling Model Tagges the Label by Words, not Phrase</h4>
 
@@ -815,354 +1160,6 @@ Includes over 10,000 anatomical models with descriptions in English, Spanish, Fr
 <li><p><a href="https://www.raywenderlich.com/196233/create-ml-tutorial-getting-started">Create ML Tutorial: Getting Started</a> describes the usage of Create ML and Turi Create, including the history, code, data preparation, improving model accuracy and so on.</p></li>
 </ol>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[What is new in ARKit 2]]></title>
-    <link href="http://hongchaozhang.github.io/blog/2018/06/13/what-is-new-in-n-arkit-2/"/>
-    <updated>2018-06-13T13:24:59+08:00</updated>
-    <id>http://hongchaozhang.github.io/blog/2018/06/13/what-is-new-in-n-arkit-2</id>
-    <content type="html"><![CDATA[<!-- more -->
-
-
-<h2>Overview</h2>
-
-<p>In ARKit 1, we have:</p>
-
-<ul>
-<li>Device positioning from world tracking process</li>
-<li>Horizontal and vertical plane detection from world tracking process</li>
-<li>Lighting estimation</li>
-<li>AR face tracking</li>
-</ul>
-
-
-<p>In ARKit 2, we have:</p>
-
-<ul>
-<li>Saving and loading maps</li>
-<li>Environment Texturing</li>
-<li>Image detection and tracking</li>
-<li>3D object tracking</li>
-<li>Improved face tracking</li>
-</ul>
-
-
-<h2>New Features in ARKit 2</h2>
-
-<h3>Saving and Loading Maps</h3>
-
-<h4>World Tracking Recap:</h4>
-
-<ul>
-<li>Position and orientation of the device.</li>
-<li>Physical scale in the scene.</li>
-<li>3D feature points.</li>
-<li>Relocalization (iOS 11.3): we can relocalize objects when your AR session is interrupted, like phone coming or going from background. This feature is implemented by storing the mapping <code>ARWorldMap</code> between real world and the coordinate system. However the mapping is not exposed to developers.</li>
-</ul>
-
-
-<h4>World Tracking Enhancement:</h4>
-
-<ul>
-<li><strong>Saving and loading maps</strong>: expose the <code>ARWorldMap</code> to developers.</li>
-<li>Faster initialization and plane detection</li>
-<li>Robust tracking and plane detection</li>
-<li>More accurate extent and boundary Continuous autofocus</li>
-<li>New 4:3 video formats (iPad is also 4:3)</li>
-</ul>
-
-
-<h4>Saving and loading maps:</h4>
-
-<p><code>ARWorldmap</code> contains:</p>
-
-<ul>
-<li>Mapping of physical 3D space: for representing 3D feature points in the coordinate system.</li>
-<li>Mutable list of named anchors: for restoring previous 3D environment (like lighting node anchor), and relocalizing previously added virtual objects.</li>
-<li>Raw feature points and extent: for debugging and visualization.</li>
-<li>Serialization: for storing and recovering from an file.</li>
-</ul>
-
-
-<p><img src="/images/arkit2_arworldmap.jpg" width="500" alt="arkit arworldmap" /></p>
-
-<p>We can use the map in two different ways:</p>
-
-<ul>
-<li>Persistent: Restore previous AR scene for a new AR session. For example, you go to another room and come back or close the AR app and open it some time later.</li>
-<li>Multiuser experience: We can share the map among devices through WiFi or bluetooth.</li>
-</ul>
-
-
-<p>The SwiftShot is an multiuser experience AR game:</p>
-
-<p><img src="/images/swiftshot.jpg" alt="arkit2 swiftshot" /></p>
-
-<p>and the following is a small piece of the demo:</p>
-
-<p><img src="/images/arkit2_multiuser_experience_demo.gif" alt="swift shot game" /></p>
-
-<h4>How to get a good map</h4>
-
-<p>In order to share or restore the map, we need to get a good one first. A good map should be:</p>
-
-<!-- * Important for relocalization -->
-
-
-<ul>
-<li>Multiple points of view: If we record the mapping from one point of view, and try to restore the coordinate system from another point of view, it will fail.</li>
-<li>Static, well-textured environment.</li>
-<li>Dense feature points on the map.</li>
-</ul>
-
-
-<p>We can use the <code>WorldMappingStatus</code> status from <code>ARFrame</code> to decide if the current map is good enough for sharing or storing:</p>
-
-<pre><code class="swift">public enum WorldMappingStatus : Int {
-   case notAvailable
-   case limited
-   case extending
-   case mapped 
-}
-</code></pre>
-
-<h3>Environment Texturing</h3>
-
-<p>With the help of Environment Texturing, AR scene objects can reflect the environment texture on the surface of themselves, just like:</p>
-
-<p><img src="/images/arkit2_environment_texturing_demo.jpg" alt="arkit2 environment texturing demo" /></p>
-
-<h3>Image Tracking</h3>
-
-<p>Moving objects can not be positioned in ARKit 1. In ARKit 2, specified images can be tracked in AR scene.</p>
-
-<p><img src="/images/arkit2_image_tracking.gif" alt="arkit 2 image tracking" /></p>
-
-<p>The classes in ARKit 2 for image tracking are:</p>
-
-<p><img src="/images/arkit2_image_tracking_classes.jpg" alt="arkit 2 image tracking classes" /></p>
-
-<p>The detected <code>ARImageAnchor</code>s have properties like:</p>
-
-<pre><code class="swift">open class ARImageAnchor : ARAnchor, ARTrackable { 
-    public var isTracked: Bool { get }
-    open var transform: simd_float4x4 { get }
-    open var referenceImage: ARReferenceImage { get }
-}
-</code></pre>
-
-<p>The specified image should:</p>
-
-<ul>
-<li>Histogram should be broad</li>
-<li>Not have multiple uniform color regions</li>
-<li>Not have repeated structures</li>
-</ul>
-
-
-<p>The following is the demo:</p>
-
-<p><img src="/images/arkit2_image_tracking_demo.gif" alt="arkit 2 image tracking demo" /></p>
-
-<p>The inputs of the above demo are:</p>
-
-<ul>
-<li>an static image of the cat, the same as it is in the picture frame</li>
-<li>an video of the cat</li>
-</ul>
-
-
-<p>The video is played at the position of the specified picture frame, with the same orientation of the picture frame.</p>
-
-<p>There are two classes related to image tracking:</p>
-
-<table>
-<thead>
-<tr>
-<th>ARImageTrackingConfiguration </th>
-<th> ARWorldTrackingConfiguration</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Has No World Origin </td>
-<td> Has World Origin</td>
-</tr>
-<tr>
-<td>After detecting the image, only do things inside the place of the image. </td>
-<td> After detecting the image, place some virtual objects outside the detected image plane.</td>
-</tr>
-</tbody>
-</table>
-
-
-<h3>3D Object Detection</h3>
-
-<p>3D object detection workflow is:</p>
-
-<p><img src="/images/arkit2_3D_object_tracking_classes.jpg" alt="arkit2 3D object tracking classes" /></p>
-
-<p>The <code>ARObjectAnchor</code> contains properties like:</p>
-
-<pre><code class="swift">open class ARObjectAnchor : ARAnchor {
-    open var transform: simd_float4x4 { get }
-    open var referenceObject: ARReferenceObject { get }
-}
-</code></pre>
-
-<p>and <code>ARReferenceObject</code> is the scanned 3D object:</p>
-
-<pre><code class="swift">open class ARReferenceObject
-    : NSObject, NSCopying, NSSecureCoding {
-    open var name: String?
-    open var center: simd_float3 { get }
-    open var extent: simd_float3 { get }
-    open var rawFeaturePoints: ARPointCloud { get }
-}
-</code></pre>
-
-<blockquote><p>An <code>ARReferenceObject</code> contains only the spatial feature information needed for ARKit to recognize the real-world object, and is not a displayable 3D reconstruction of that object.</p></blockquote>
-
-<p>In order to get the <code>ARReferenceObject</code>, we should scan the real object, and store the result as an file (.arobject) or an xcode asset catalog for ARKit to use. Fortunately, Apple supplies a demo for scanning 3D object to get the <code>ARReferenceObject</code>. Refer to: <a href="https://developer.apple.com/documentation/arkit/scanning_and_detecting_3d_objects">Scanning and Detecting 3D Objects</a> for detail and the rough steps of object scanning are:</p>
-
-<p><img src="/images/arkit2_3D_object_scan.jpg" alt="arkit2 3D object scan" /></p>
-
-<p>For scanned object in the real world, we can dynamically add some info around it (Museum is a good use case.), like the demo does:</p>
-
-<p><img src="/images/arkit2_3D_object_tracking_demo.gif" alt="arkit2 object tracking demo" /></p>
-
-<h3>Face Tracking Enhancements</h3>
-
-<p>With face tracking, we can place something on it or around it.</p>
-
-<p>Enhancements in ARKit 2:</p>
-
-<ul>
-<li>Gaze tracking</li>
-<li>Tongue support</li>
-</ul>
-
-
-<blockquote><p>Gaze and Tongue can be input of the AR app.</p></blockquote>
-
-<p>New changes in one screenshot:</p>
-
-<p><img src="/images/what-is-new-in-arkit-2.jpg" alt="what-is-new-in-arkit-2" /></p>
-
-<h2>Some other WWDC Sessions Related to AR</h2>
-
-<h3><a href="https://developer.apple.com/videos/play/wwdc2018/603/">Integrating Apps and Content with AR Quick Look</a></h3>
-
-<p>A deeper dive into a new feature in iOS that provides a way to preview any AR object from a USDZ file.</p>
-
-<p><img src="/images/QLPreviewController.png" alt="QLPreviewController" /></p>
-
-<ul>
-<li>There’s a great sequence diagram presented (see above) (I wish more sessions would have these!) for previewing USDZ objects, of which the <code>QLPreviewController</code> plays a central role.</li>
-<li>For web developers, it covers HTML samples for how to preview USDZ objects in Safari.</li>
-<li>Then it goes into a deep dive on how to create the actual USDZ objects, with more examples on new AR texturing capabilities.</li>
-<li>There’s also a quick overview on how to optimize the files, to keep the size down, and there’s a breakdown of the files that make up the USDZ format.</li>
-</ul>
-
-
-<h3><a href="https://developer.apple.com/videos/play/wwdc2018/605/">Inside SwiftShot: Creating an AR Game</a></h3>
-
-<p>Covers world map sharing, networking, and the physics of how to build an AR game, as well as some design insight (I have limited game dev experience so I’ll do the best I can below).</p>
-
-<ul>
-<li>Pointers to remember with designing an AR game, such as “encouraging” the user to slowly move the device for world mapping!</li>
-<li>It demonstrates the usage of image &amp; object detection, world map sharing, and iBeacons for the game.</li>
-<li>Integrating <code>ARKit</code> with <code>SceneKit</code> and <code>Metal</code>, including the translation of physics data between each — position, velocity, and orientation.</li>
-<li>Performance enhancement with the <code>BitStreamCodable</code> protocol.</li>
-<li>A small look at how audio was integrated into the game.</li>
-</ul>
-
-
-<h3><a href="https://developer.apple.com/videos/play/wwdc2018/805/">Creating Great AR Experiences</a></h3>
-
-<p>Best practises mainly from a UX &amp; design perspective (there are no code samples in this session).</p>
-
-<ul>
-<li>Logical dos and don’ts that may be useful, if you need help with thought towards product and empathy towards the user.</li>
-<li>They emphasize the importance of using transitions between AR scapes.</li>
-<li>Why AR is a special combination of touch and movement.</li>
-<li>They advise that minimal battery impact should be a huge focus! This is a challenge, given that they recommend to render the FPS at 60 to avoid latency.</li>
-<li>There’s a lengthy demonstration of creating an AR fireplace, with complex texturing, etc. It looks great, but unfortunately there were no coding samples accompanying the demo.</li>
-</ul>
-
-
-<h3><a href="https://developer.apple.com/videos/play/wwdc2018/610/">Understanding ARKit Tracking and Detection</a></h3>
-
-<p>A good broad overview of all of the main AR concepts.</p>
-
-<ul>
-<li>This is such a good intro into not only AR on iOS, but AR in general, that it should have been part of 2017’s sessions when ARKit was first introduced. Better late than never. If you’re only going to watch one session, watch this one!</li>
-<li>It recaps the main features of ARKit — <strong>orientation</strong>, <strong>world tracking</strong>, and <strong>plane detection</strong>, and demos all of these in depth with coding samples.</li>
-<li>It then demos the new features of ARKit 2 — <strong>shared world mapping</strong>, <strong>image tracking</strong>, and <strong>object detection</strong> (which has been available in the Vision framework recapped above, but is now also accessible in ARKit).</li>
-<li>A good explanation on a core AR principle, <strong>Visual Inertial Odometry</strong>, is given. Short of going into the actual physics equations behind it, this should give you a great understanding of VIO.</li>
-</ul>
-
-
-<h2>Some other materials for a better AR app:</h2>
-
-<h3><a href="https://developer.apple.com/documentation/arkit/building_your_first_ar_experience">Building Your First AR Experience</a></h3>
-
-<p>This document demos an app for basic usage of ARKit.</p>
-
-<h3><a href="https://developer.apple.com/documentation/arkit/managing_session_lifecycle_and_tracking_quality">Managing Session Lifecycle and Tracking Quality</a></h3>
-
-<p>Make your AR experience more robust by</p>
-
-<ul>
-<li>providing clear feedback, using <code>ARCamera.TrackingState</code>.</li>
-<li>recovering from interruptions, using <code>ARCamera.TrackingState.Reason.relocalizing</code>.</li>
-<li>resuming previous sessions, using <code>ARWorldMap</code>.</li>
-</ul>
-
-
-<h3><a href="https://developer.apple.com/design/human-interface-guidelines/ios/system-capabilities/augmented-reality/">Human Interface Guidelines - Augmented Reality</a></h3>
-
-<p>This post describes how to rendering virtual objects, how to interact with virtual objects, how to handling interruptions. It is for UX.</p>
-
-<h3><a href="https://developer.apple.com/documentation/arkit/handling_3d_interaction_and_ui_controls_in_augmented_reality">Handling 3D Interaction and UI Controls in Augmented Reality</a></h3>
-
-<p>This document describes the best practices for visual feedback, gesture interactions, and realistic rendering in AR experiences. And a demo app is supplied.</p>
-
-<p><img src="/images/arkit_demo_screenshot.jpg" alt="arkit demo" /></p>
-
-<h3><a href="https://developer.apple.com/documentation/arkit/creating_a_multiuser_ar_experience">Creating a Multiuser AR Experience</a></h3>
-
-<p>This document demos an app (with source code) on how to transmit ARKit world-mapping data between nearby devices with the <a href="https://developer.apple.com/documentation/multipeerconnectivity">MultipeerConnectivity</a> framework (introduced in iOS 7.0) to create a shared basis for AR experiences. MultipeerConnectivity supports peer-to-peer connectivity and the discovery of nearby devices. With MultipeerConnectivity, you can not only share <code>ARWorldMap</code>, but also some actions. This makes multiuser AR game possible.</p>
-
-<p>However:</p>
-
-<ul>
-<li>Recording and transmitting a world map and relocalizing to a world map are time-consuming, bandwidth-intensive operations. A good design is needed for better performance.</li>
-<li>The persons received the world map data need to move their device so they see a similar perspective (also sent by the host) helps ARKit process the received map and establish a shared frame of reference for the multiuser experience.</li>
-</ul>
-
-
-<h3><a href="https://developer.apple.com/documentation/arkit/swiftshot_creating_a_game_for_augmented_reality">SwiftShot: Creating a Game for Augmented Reality</a></h3>
-
-<p>This document demos the SwiftShot game shown on WWDC 2018, including:</p>
-
-<ul>
-<li>Designing Gameplay for AR</li>
-<li>Using Local Multipeer Networking and Sharing World Maps</li>
-<li>Synchronizing Gameplay Actions</li>
-<li>Solving Multiplayer Physics</li>
-</ul>
-
-
-<h3><a href="https://developer.apple.com/documentation/arkit/recognizing_images_in_an_ar_experience">Recognizing Images in an AR Experience</a></h3>
-
-<p>Detect known 2D images in the user’s environment, and use their positions to place AR content.</p>
-
-<h3><a href="https://developer.apple.com/documentation/arkit/scanning_and_detecting_3d_objects">Scanning and Detecting 3D Objects</a></h3>
-
-<p>Record spatial features of real-world objects, then use the results to find those objects in the user’s environment and trigger AR content.</p>
 ]]></content>
   </entry>
   

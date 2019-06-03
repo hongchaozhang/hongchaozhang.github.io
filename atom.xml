@@ -4,7 +4,7 @@
   <title><![CDATA[Reading Space]]></title>
   <link href="http://hongchaozhang.github.io/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2019-05-24T11:51:50+08:00</updated>
+  <updated>2019-06-03T17:42:05+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -12,6 +12,503 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Sequece and Collection in Swift]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2019/06/03/sequece-and-collection-in-swift/"/>
+    <updated>2019-06-03T16:22:33+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2019/06/03/sequece-and-collection-in-swift</id>
+    <content type="html"><![CDATA[<!-- more -->
+
+
+<p>The content comes from the following posts:</p>
+
+<ol>
+<li><a href="https://medium.com/swift-programming/swift-sequences-ce22d76f120c">Swift Sequences</a></li>
+<li><a href="https://medium.com/swift-programming/swift-collections-e5fff3cd6759">Swift Collections</a></li>
+</ol>
+
+
+<p>But some of the code inside is old and can&rsquo;t be compiled with swift 5.0. So rewritten the code using swift 5.0.</p>
+
+<h2><code>Array</code> out of Range Crash</h2>
+
+<p>Before diving into Swift Sequences, let’s see a strange behavior.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">let</span> <span class="n">array</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+</span><span class='line'><span class="n">array</span><span class="p">[</span><span class="mi">7</span><span class="p">]</span> <span class="err">😭</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">let</span> <span class="n">dic</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;a&quot;</span><span class="o">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s">&quot;b&quot;</span><span class="o">:</span> <span class="mi">2</span><span class="p">]</span>
+</span><span class='line'><span class="n">dic</span><span class="p">[</span><span class="s">&quot;z&quot;</span><span class="p">]</span> <span class="err">😎</span>
+</span><span class='line'>
+</span><span class='line'><span class="err">🤔</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>In other words, when requesting an element that doesn’t exist, why arrays crash whereas dictionaries don’t?</p>
+
+<p>Arrays and dictionaries are two base collections provided by the Swift standard library. We can access those collections elements through the [] notation, also known as subscript. Let’s see how those subscripts are defined.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">struct</span> <span class="n">Array</span><span class="o">&lt;</span><span class="n">Element</span><span class="o">&gt;</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">subscript</span><span class="p">(</span><span class="nl">index</span><span class="p">:</span> <span class="n">Int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Element</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">struct</span> <span class="n">Dictionary</span><span class="o">&lt;</span><span class="nl">Key</span><span class="p">:</span> <span class="n">Hashable</span><span class="p">,</span> <span class="n">Value</span><span class="o">&gt;</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">subscript</span><span class="p">(</span><span class="nl">key</span><span class="p">:</span> <span class="n">Key</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Value</span><span class="o">?</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>What’s interesting is that arrays have a non optional return type. Subscript can’t throw errors so there are no alternatives other than a fatalError if we request an index that doesn’t exist.</p>
+
+<p>For dictionaries, on the other hand, an optional Value is returned, which allows to gracefully return nil if the index doesn’t exist.</p>
+
+<p>We can adopt dictionaries safer approach by overloading the arrays subscript — we can’t override them. Adding an external name to the parameter is enough.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">extension</span> <span class="n">Array</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">subscript</span><span class="p">(</span><span class="n">safe</span> <span class="nl">index</span><span class="p">:</span> <span class="n">Int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Element</span><span class="o">?</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">index</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">index</span> <span class="o">&lt;</span> <span class="n">count</span> <span class="o">?</span> <span class="nb">self</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="o">:</span> <span class="nb">nil</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>We saw how we can create a new accessor to the elements of an array, but can we do the same with a homemade collection?</p>
+
+<h2>Homemade collection</h2>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">struct</span> <span class="n">Section</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">let</span> <span class="nl">title</span><span class="p">:</span> <span class="n">String</span>
+</span><span class='line'>    <span class="k">let</span> <span class="nl">elements</span><span class="p">:</span> <span class="p">[</span><span class="n">T</span><span class="p">]</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Internally, this ‘collection’ is based on an array. This is an implementation detail for the simplicity of the example. We could have used a linked list as in this <a href="http://austinzheng.com/2015/01/24/swift-seq/">excellent article</a> by <a href="https://twitter.com/austinzheng">Austin Zheng</a>.</p>
+
+<p>Creating a subscript on our collection is very easy, we can even reuse the array’s extension we made earlier.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">struct</span> <span class="n">Section</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">let</span> <span class="nl">title</span><span class="p">:</span> <span class="n">String</span>
+</span><span class='line'>    <span class="k">let</span> <span class="nl">elements</span><span class="p">:</span> <span class="p">[</span><span class="n">T</span><span class="p">]</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">subscript</span><span class="p">(</span><span class="n">safe</span> <span class="nl">index</span><span class="p">:</span> <span class="n">Int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">?</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">elements</span><span class="p">[</span><span class="nl">safe</span><span class="p">:</span> <span class="n">index</span><span class="p">]</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>An example in practice :</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">let</span> <span class="n">cars</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;911&quot;</span><span class="p">,</span> <span class="s">&quot;Cayman&quot;</span><span class="p">,</span> <span class="s">&quot;Cayenne&quot;</span><span class="p">]</span>
+</span><span class='line'><span class="k">let</span> <span class="n">section</span> <span class="o">=</span> <span class="n">Section</span><span class="p">(</span><span class="nl">title</span><span class="p">:</span> <span class="s">&quot;Porsche&quot;</span><span class="p">,</span> <span class="nl">elements</span><span class="p">:</span> <span class="n">cars</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">section</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+</span><span class='line'><span class="c1">// Optional(&quot;Cayman&quot;)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Great! But does that make our type a collection, as Swift defines it?</p>
+
+<h2>Sequences</h2>
+
+<p>When it comes to manipulating sets, the most abstract notion given by the standard library is the Sequence, defined as</p>
+
+<blockquote><p>A type that can be iterated with a <code>for…in</code> loop.</p></blockquote>
+
+<h3>How to Conform to <code>Sequence</code> Protocol</h3>
+
+<p>This section is from <a href="https://developer.apple.com/documentation/swift/sequence">Sequece official site</a>.</p>
+
+<p>Making your own custom types conform to Sequence enables many useful operations, like for-in looping and the contains method, without much effort. To add Sequence conformance to your own custom type, add a makeIterator() method that returns an iterator.</p>
+
+<p>Alternatively, if your type can act as its own iterator, implementing the requirements of the IteratorProtocol protocol and declaring conformance to both Sequence and IteratorProtocol are sufficient.</p>
+
+<p>Here’s a definition of a Countdown sequence that serves as its own iterator. The makeIterator() method is provided as a default implementation.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">struct</span> <span class="nl">Countdown</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">IteratorProtocol</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">var</span> <span class="nl">count</span><span class="p">:</span> <span class="n">Int</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kr">mutating</span> <span class="k">func</span> <span class="n">next</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Int</span><span class="o">?</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">if</span> <span class="n">count</span> <span class="o">==</span> <span class="mi">0</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">return</span> <span class="nb">nil</span>
+</span><span class='line'>        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>            <span class="n">defer</span> <span class="p">{</span> <span class="n">count</span> <span class="o">-=</span> <span class="mi">1</span> <span class="p">}</span>
+</span><span class='line'>            <span class="k">return</span> <span class="n">count</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">let</span> <span class="n">threeToGo</span> <span class="o">=</span> <span class="n">Countdown</span><span class="p">(</span><span class="nl">count</span><span class="p">:</span> <span class="mi">3</span><span class="p">)</span>
+</span><span class='line'><span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="n">threeToGo</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">print</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="c1">// Prints &quot;3&quot;</span>
+</span><span class='line'><span class="c1">// Prints &quot;2&quot;</span>
+</span><span class='line'><span class="c1">// Prints &quot;1&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Make our <code>Section</code> Conform to <code>Sequence</code> Protocol</h3>
+
+<p>The <code>Section</code> struct can&rsquo;t act as its own iterator, we need to define an iterator for it, and then return an instance of the defined iterator inside <code>func makeIterator() -&gt; Section&lt;T&gt;.Iterator</code> method.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">struct</span> <span class="n">Section</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;:</span> <span class="n">Sequence</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">let</span> <span class="nl">title</span><span class="p">:</span> <span class="n">String</span>
+</span><span class='line'>    <span class="k">let</span> <span class="nl">elements</span><span class="p">:</span> <span class="p">[</span><span class="n">T</span><span class="p">]</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">subscript</span><span class="p">(</span><span class="n">safe</span> <span class="nl">index</span><span class="p">:</span> <span class="n">Int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">?</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">elements</span><span class="p">[</span><span class="nl">safe</span><span class="p">:</span> <span class="n">index</span><span class="p">]</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">struct</span> <span class="nl">Iterator</span><span class="p">:</span> <span class="n">IteratorProtocol</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">let</span> <span class="nl">array</span><span class="p">:</span> <span class="p">[</span><span class="n">T</span><span class="p">]</span>
+</span><span class='line'>        <span class="k">var</span> <span class="n">currentIndex</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">init</span> <span class="p">(</span><span class="n">_</span> <span class="nl">array</span><span class="p">:</span> <span class="p">[</span><span class="n">T</span><span class="p">])</span> <span class="p">{</span>
+</span><span class='line'>            <span class="nb">self</span><span class="p">.</span><span class="n">array</span> <span class="o">=</span> <span class="n">array</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="kr">mutating</span> <span class="k">func</span> <span class="n">next</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">?</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">let</span> <span class="n">tempIndex</span> <span class="o">=</span> <span class="n">currentIndex</span>
+</span><span class='line'>            <span class="n">currentIndex</span> <span class="o">+=</span> <span class="mi">1</span>
+</span><span class='line'>            <span class="k">return</span> <span class="n">array</span><span class="p">[</span><span class="nl">safe</span><span class="p">:</span> <span class="n">tempIndex</span><span class="p">]</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">func</span> <span class="n">makeIterator</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Section</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="p">.</span><span class="n">Iterator</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">Iterator</span><span class="p">(</span><span class="n">elements</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Gifts</h3>
+
+<p>Is that all? No! By conforming to SequenceType we also get methods for free, here is some of them.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="n">section</span><span class="p">.</span><span class="n">min</span><span class="p">()</span>
+</span><span class='line'><span class="c1">// 911</span>
+</span><span class='line'><span class="n">section</span><span class="p">.</span><span class="n">max</span><span class="p">()</span>
+</span><span class='line'><span class="c1">// Cayman</span>
+</span><span class='line'><span class="n">section</span><span class="p">.</span><span class="n">sorted</span><span class="p">()</span>
+</span><span class='line'><span class="c1">// [&quot;911&quot;, &quot;Cayenne&quot;, &quot;Cayman&quot;]</span>
+</span><span class='line'><span class="n">section</span><span class="p">.</span><span class="n">contains</span><span class="p">(</span><span class="s">&quot;911&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="c1">// true</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>We get the min, max &amp; sort methods because the elements of our sequence, String in our case, are Comparable. Contains is available thanks to our elements being Equatable.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="n">section</span><span class="p">.</span><span class="n">filter</span> <span class="p">{</span> <span class="err">$</span><span class="mf">0.</span><span class="n">count</span> <span class="o">&gt;</span> <span class="mi">3</span> <span class="p">}</span>
+</span><span class='line'><span class="c1">// [&quot;Cayman&quot;, &quot;Cayenne&quot;]</span>
+</span><span class='line'><span class="n">section</span><span class="p">.</span><span class="n">map</span> <span class="p">{</span> <span class="err">$</span><span class="mf">0.</span><span class="n">count</span> <span class="p">}</span>
+</span><span class='line'><span class="c1">// [3, 6, 7]</span>
+</span><span class='line'><span class="n">section</span><span class="p">.</span><span class="n">reduce</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="p">{</span> <span class="err">$</span><span class="mi">0</span> <span class="o">+</span> <span class="err">$</span><span class="mf">1.</span><span class="n">count</span> <span class="p">}</span>
+</span><span class='line'><span class="c1">// 16</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>And for functional programming fans, filter, map and reduce are also given.</p>
+
+<h2>Collections</h2>
+
+<p>Sequence is the most basic set notion given by the Swift standard library. There is a more evolved one.</p>
+
+<p>A collection is defined as follow :</p>
+
+<blockquote><p>A multi-pass <em>sequence</em> with addressable positions</p></blockquote>
+
+<p>As we saw previously, a sequence is a type that can be iterated with a <code>for…in</code> loop. It doesn’t need that the elements might be iterated over several times. And it doesn’t need that we give a way to access directly an element.</p>
+
+<p>Collections require those last two points. As a side effect, it no longer allows us to have an infinite number of elements.</p>
+
+<p>To be a collection, a type must conform to the <code>Collection</code> protocol.</p>
+
+<h3>How to Conform to <code>Collection</code> Protocol</h3>
+
+<p>This section comes from <a href="https://developer.apple.com/documentation/swift/collection">Collection official site</a>.</p>
+
+<p>If you create a custom sequence that can provide repeated access to its elements, make sure that its type conforms to the Collection protocol in order to give a more useful and more efficient interface for sequence and collection operations. To add Collection conformance to your type, you must declare at least the following requirements:</p>
+
+<ol>
+<li>The <code>startIndex</code> and <code>endIndex</code> properties</li>
+<li>A subscript that provides at least read-only access to your type’s elements</li>
+<li>The <code>index(after:)</code> method for advancing an index into your collection</li>
+<li>Conform to <code>Sequece</code> Protocol, as <code>Collection</code> is inherited from <code>Sequence</code></li>
+</ol>
+
+
+<h3>Make our <code>Section</code> Conform to <code>Collection</code> Protocol</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">struct</span> <span class="n">Section</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;:</span> <span class="n">Collection</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">let</span> <span class="nl">title</span><span class="p">:</span> <span class="n">String</span>
+</span><span class='line'>    <span class="k">let</span> <span class="nl">elements</span><span class="p">:</span> <span class="p">[</span><span class="n">T</span><span class="p">]</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">// begin: required for Collection</span>
+</span><span class='line'>    <span class="k">var</span> <span class="nl">startIndex</span><span class="p">:</span> <span class="n">Int</span> <span class="p">{</span> <span class="k">return</span> <span class="mi">0</span> <span class="p">}</span>
+</span><span class='line'>    <span class="k">var</span> <span class="nl">endIndex</span><span class="p">:</span> <span class="n">Int</span> <span class="p">{</span> <span class="k">return</span> <span class="n">elements</span><span class="p">.</span><span class="n">count</span> <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">func</span> <span class="n">index</span><span class="p">(</span><span class="n">after</span> <span class="nl">i</span><span class="p">:</span> <span class="n">Int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Int</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">subscript</span><span class="p">(</span><span class="nl">index</span><span class="p">:</span> <span class="n">Int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">elements</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="c1">// end: required for Collection</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">subscript</span><span class="p">(</span><span class="n">safe</span> <span class="nl">index</span><span class="p">:</span> <span class="n">Int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">?</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">elements</span><span class="p">[</span><span class="nl">safe</span><span class="p">:</span> <span class="n">index</span><span class="p">]</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">// begin: required for Sequence</span>
+</span><span class='line'>    <span class="k">struct</span> <span class="nl">Iterator</span><span class="p">:</span> <span class="n">IteratorProtocol</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">let</span> <span class="nl">array</span><span class="p">:</span> <span class="p">[</span><span class="n">T</span><span class="p">]</span>
+</span><span class='line'>        <span class="k">var</span> <span class="n">currentIndex</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">init</span> <span class="p">(</span><span class="n">_</span> <span class="nl">array</span><span class="p">:</span> <span class="p">[</span><span class="n">T</span><span class="p">])</span> <span class="p">{</span>
+</span><span class='line'>            <span class="nb">self</span><span class="p">.</span><span class="n">array</span> <span class="o">=</span> <span class="n">array</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="kr">mutating</span> <span class="k">func</span> <span class="n">next</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">?</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">let</span> <span class="n">tempIndex</span> <span class="o">=</span> <span class="n">currentIndex</span>
+</span><span class='line'>            <span class="n">currentIndex</span> <span class="o">+=</span> <span class="mi">1</span>
+</span><span class='line'>            <span class="k">return</span> <span class="n">array</span><span class="p">[</span><span class="nl">safe</span><span class="p">:</span> <span class="n">tempIndex</span><span class="p">]</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">func</span> <span class="n">makeIterator</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Section</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="p">.</span><span class="n">Iterator</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">Iterator</span><span class="p">(</span><span class="n">elements</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="c1">// end: required for Sequence</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The <code>endIndex</code> has to be after the last element. It allows to define an empty collection with <code>startIndex</code> = <code>endIndex</code>.</p>
+
+<p>Like conforming to <code>Sequence</code>, we get some methods / properties for free:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="n">section</span><span class="p">.</span><span class="n">count</span>
+</span><span class='line'><span class="c1">// 3</span>
+</span><span class='line'><span class="n">section</span><span class="p">.</span><span class="n">first</span>
+</span><span class='line'><span class="c1">// 911</span>
+</span><span class='line'><span class="n">section</span><span class="p">.</span><span class="n">isEmpty</span>
+</span><span class='line'><span class="c1">// false</span>
+</span><span class='line'><span class="n">section</span><span class="p">.</span><span class="n">index</span><span class="p">(</span><span class="nl">of</span><span class="p">:</span> <span class="s">&quot;911&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="c1">// 0</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>We get indexOf thanks to our Elements being Equatable.</p>
+
+<h2>Difference between <code>Array</code> and <code>Collection</code></h2>
+
+<p>We created our own collection, which is great, but what about that difference of behavior between Arrays and Dictionaries we talked about at the beginning of the post? We saw that Array’s dangerous subscript was coming from the Indexable protocol, but what about Dictionaries?</p>
+
+<p>Dictionaries, like Arrays, are a collection, as Swift defines it. They both conform to CollectionType. So Dictionaries are also required to provide an ‘unsafe’ subscript that takes an Index and returns a non optional Element. The one we’re used to is just a convenience subscript.</p>
+
+<p>A simple example shows that it is also really easy to get a crash with Dictionaries.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">let</span> <span class="n">dic</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;a&quot;</span><span class="o">:</span> <span class="s">&quot;bmw&quot;</span><span class="p">,</span> <span class="s">&quot;b&quot;</span><span class="o">:</span> <span class="s">&quot;audi&quot;</span><span class="p">,</span> <span class="s">&quot;c&quot;</span><span class="o">:</span> <span class="s">&quot;citroen&quot;</span><span class="p">]</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">var</span> <span class="n">index</span> <span class="o">=</span> <span class="n">dic</span><span class="p">.</span><span class="n">startIndex</span>
+</span><span class='line'><span class="n">dic</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
+</span><span class='line'><span class="c1">// (key: &quot;c&quot;, value: &quot;citroen&quot;)</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">index</span> <span class="o">=</span> <span class="n">dic</span><span class="p">.</span><span class="n">index</span><span class="p">(</span><span class="nl">after</span><span class="p">:</span> <span class="n">index</span><span class="p">)</span>
+</span><span class='line'><span class="n">print</span><span class="p">(</span><span class="n">dic</span><span class="p">[</span><span class="n">index</span><span class="p">])</span>
+</span><span class='line'><span class="c1">// (key: &quot;b&quot;, value: &quot;audi&quot;)</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">index</span> <span class="o">=</span> <span class="n">dic</span><span class="p">.</span><span class="n">index</span><span class="p">(</span><span class="nl">after</span><span class="p">:</span> <span class="n">index</span><span class="p">)</span>
+</span><span class='line'><span class="n">index</span> <span class="o">=</span> <span class="n">dic</span><span class="p">.</span><span class="n">index</span><span class="p">(</span><span class="nl">after</span><span class="p">:</span> <span class="n">index</span><span class="p">)</span>
+</span><span class='line'><span class="n">dic</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
+</span><span class='line'><span class="c1">// Fatal error</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>The last question that remains is why <code>Collection</code> requires a subscript that may crash? Simply for performance reason, it costs too much to check the validity of the given index. Crashing is faster :)</strong></p>
+
+<h2>Reference</h2>
+
+<ol>
+<li><a href="https://medium.com/swift-programming/swift-sequences-ce22d76f120c">Swift Sequences</a></li>
+<li><a href="https://medium.com/swift-programming/swift-collections-e5fff3cd6759">Swift Collections</a></li>
+</ol>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Offline Natural Language Understanding Engine on iOS]]></title>
@@ -238,6 +735,16 @@
 </span></code></pre></td></tr></table></div></figure>
 
 
+<blockquote><p><strong>How to use .mlmodel file?</strong></p>
+
+<p>.mlmodel file needs to be compiled before using. There are two ways to do this: offline and online:</p>
+
+<ol>
+<li>offline: drag the mlmodel into your project, xcode will compile the .mlmodel for you before you build you app.</li>
+<li>online: use <code>MLModel.compileModel</code> to compile your .mlmodel file at runtime. This is especially useful when your are at swift playground, where you cannot get xcode&rsquo;s help for comipling.</li>
+</ol>
+</blockquote>
+
 <h3>Slot Filling</h3>
 
 <h4>Model Training</h4>
@@ -381,6 +888,14 @@
 </span></code></pre></td></tr></table></div></figure>
 
 
+<p><strong> Reference </strong></p>
+
+<ol>
+<li><a href="https://developer.apple.com/documentation/createml/creating_a_text_classifier_model">Creating a Text Classifier Model</a>: Apple offical site for training and using machine learning models through CreateML framework.</li>
+<li>WWDC video <a href="https://developer.apple.com/videos/play/wwdc2018/713/">Introducing Natural Language Framework</a>: This session introduces NLP framework and its relation with CreateML framework.</li>
+</ol>
+
+
 <h3>Model Size</h3>
 
 <p>For the iOS app, we hope the machine learning model size is small enough. Apple&rsquo;s NatrualLanguage framework has done many optimizations on machine learning model size. The following data is from WWDC 2018 (session 713: Introducing NatrualLanguage Framework):</p>
@@ -432,6 +947,12 @@
 </table>
 
 
+<p>If your model is a neural network, you can reduce the size of your model by the following way:
+<a href="https://developer.apple.com/documentation/coreml/reducing_the_size_of_your_core_ml_app">Reducing the Size of Your Core ML App</a>. You can control the precision of the neural network parameters, and thus the size of the trained model.</p>
+
+<p>If still your model is large, you can
+<a href="https://developer.apple.com/documentation/coreml/core_ml_api/downloading_and_compiling_a_model_on_the_user_s_device">Downloading and Compiling a Model on the User&rsquo;s Device</a> at runtime.</p>
+
 <h3>Problems to Be Solved</h3>
 
 <p>For Probabilistic Intent Parser, we still have some problems.</p>
@@ -441,6 +962,8 @@
 <p>We may need the probability to define the reliability of the estimated intent of an input command text.</p>
 
 <p>However, the model trained through <code>MLTextClassifier</code> has no probability output API. If we really need the probability output, we can use other platforms to train the model, like tensorflow. That way, we will not benefit from NatrualLanguage framework and we need to consider these things by ourselves, like Tokenization, Part of Speech, Lemmatization, etc.</p>
+
+<blockquote><p>Try other tools for training models with probability output, like Turi.</p></blockquote>
 
 <h4>Slot Filling Model Tagges the Label by Words, not Phrase</h4>
 
@@ -6859,48 +7382,6 @@ Provides AR experiences that use the front-facing camera and track the movement 
 <p><a id="markdown-结束" name="结束"></a></p>
 
 <h1>结束</h1>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[layoutSubviews的调用机制]]></title>
-    <link href="http://hongchaozhang.github.io/blog/2017/03/28/when-is-layoutsubviews-called/"/>
-    <updated>2017-03-28T09:25:06+08:00</updated>
-    <id>http://hongchaozhang.github.io/blog/2017/03/28/when-is-layoutsubviews-called</id>
-    <content type="html"><![CDATA[<!-- more -->
-
-
-<h2><code>layoutSubviews</code>什么时候被调用？</h2>
-
-<p>为了方便描述，假设视图结构如下：</p>
-
-<p><strong>父视图</strong>包含<strong>子视图1</strong>和<strong>子视图2</strong>。</p>
-
-<ol>
-<li><code>init</code>不会调用<code>layoutSubviews</code>，即使使用了<code>init(frame: CGRect)</code>进行初始化。</li>
-<li>当调用<code>addSubview(:)</code>将子视图2加入父视图的时候，子视图2和父视图的<code>layoutSubviews</code>会被调用，但是子视图1的<code>layoutSubviews</code>方法不会被调用。</li>
-<li>当我们设置子视图2的<code>frame</code>的时候，如果<code>frame</code>的<code>size</code>有变化，同结论2<code>addSubview</code>；如果<code>frame</code>的<code>size</code>没有变化，则不会有<code>layoutSubviews</code>被调用。</li>
-<li>当调用<code>removeFromSuperview</code>将视图2从父视图中删除的时候，只有父视图的<code>layoutSubviews</code>会被调用。</li>
-<li>当旋转设备的时候，只有根视图的<code>layoutSubviews</code>会被调用。</li>
-<li>当滑动<code>UIScrollView</code>的时候，<code>UIScrollView</code>的<code>layoutSubviews</code>会被调用。</li>
-</ol>
-
-
-<h2>auto layout和autoSizing</h2>
-
-<p>以上结论有个前提：视图通过设置<code>frame</code>或者autoSizing机制确定位置和大小，不使用auto layout。</p>
-
-<blockquote><p><strong>auto layout和autoSizing的区别</strong>：autoSizing确定的是子视图和父视图之间的位置大小关系，auto layout确定的是子视图、父视图以及兄弟视图之间的位置大小关系。</p></blockquote>
-
-<p>在使用auto layout的时候，当调用<code>addSubview(:)</code>将子视图2加入父视图的时候，子视图2和父视图的<code>layoutSubviews</code>会被调用，同时子视图1的<code>layoutSubviews</code>方法也会被调用。设置<code>frame</code>和<code>removeFromSuperview</code>有类似的结论。</p>
-
-<h2><code>setNeedsLayout</code>和<code>layoutIfNeeded</code></h2>
-
-<ul>
-<li><code>setNeedsLayout</code>：如果一个视图调用了<code>setNeedsLayout</code>，那么在下一个更新周期该视图的<code>layoutSubviews</code>会被调用。</li>
-<li><code>layoutIfNeeded</code>：如果一个视图调用了<code>layoutIfNeeded</code>，那么该视图的<code>layoutSubviews</code>会被<strong>立刻</strong>调用。</li>
-</ul>
-
 ]]></content>
   </entry>
   
