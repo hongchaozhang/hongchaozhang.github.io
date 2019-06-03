@@ -153,6 +153,13 @@ let label = classifier.predictedLabel(for: text)
 print("text: \(text)\nlabel:\(label ?? "Not detected!")")
 ```
 
+> **How to use .mlmodel file?**
+>  
+> .mlmodel file needs to be compiled before using. There are two ways to do this: offline and online:
+>  
+> 1. offline: drag the mlmodel into your project, xcode will compile the .mlmodel for you before you build you app.
+> 2. online: use `MLModel.compileModel` to compile your .mlmodel file at runtime. This is especially useful when your are at swift playground, where you cannot get xcode's help for comipling.
+
 ### Slot Filling
 
 #### Model Training
@@ -237,6 +244,11 @@ weatherTagger.enumerateTags(in: text.startIndex..<text.endIndex, unit: .word, sc
 }
 ```
 
+** Reference **
+
+1. [Creating a Text Classifier Model](https://developer.apple.com/documentation/createml/creating_a_text_classifier_model): Apple offical site for training and using machine learning models through CreateML framework.
+2. WWDC video [Introducing Natural Language Framework](https://developer.apple.com/videos/play/wwdc2018/713/): This session introduces NLP framework and its relation with CreateML framework.
+
 ### Model Size
 
 For the iOS app, we hope the machine learning model size is small enough. Apple's NatrualLanguage framework has done many optimizations on machine learning model size. The following data is from WWDC 2018 (session 713: Introducing NatrualLanguage Framework):
@@ -255,6 +267,12 @@ The size of the two models we trained is (The training data size is: 3282):
 Intent Classification | 41K
 Slot Filling | 609K
 
+If your model is a neural network, you can reduce the size of your model by the following way:
+[Reducing the Size of Your Core ML App](https://developer.apple.com/documentation/coreml/reducing_the_size_of_your_core_ml_app). You can control the precision of the neural network parameters, and thus the size of the trained model.
+
+If still your model is large, you can
+[Downloading and Compiling a Model on the User's Device](https://developer.apple.com/documentation/coreml/core_ml_api/downloading_and_compiling_a_model_on_the_user_s_device) at runtime.
+
 ### Problems to Be Solved
 
 For Probabilistic Intent Parser, we still have some problems.
@@ -264,6 +282,8 @@ For Probabilistic Intent Parser, we still have some problems.
 We may need the probability to define the reliability of the estimated intent of an input command text.
 
 However, the model trained through `MLTextClassifier` has no probability output API. If we really need the probability output, we can use other platforms to train the model, like tensorflow. That way, we will not benefit from NatrualLanguage framework and we need to consider these things by ourselves, like Tokenization, Part of Speech, Lemmatization, etc.
+
+> Try other tools for training models with probability output, like Turi.
 
 #### Slot Filling Model Tagges the Label by Words, not Phrase
 
