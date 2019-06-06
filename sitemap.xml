@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
+<loc>http://hongchaozhang.github.io/blog/2019/06/04/on-swift-closure/</loc>
+<lastmod>2019-06-04T17:24:47+08:00</lastmod>
+</url>
+<url>
 <loc>http://hongchaozhang.github.io/blog/2019/06/03/sequece-and-collection-in-swift/</loc>
 <lastmod>2019-06-03T16:22:33+08:00</lastmod>
 </url>
@@ -406,5 +410,17 @@
 </url>
 <url>
 <loc>http://hongchaozhang.github.io/blog/categories/nlu/</loc>
+</url>
+<url>
+<loc>http://hongchaozhang.github.io/posts/2/</loc>
+</url>
+<url>
+<loc>http://hongchaozhang.github.io/posts/3/</loc>
+</url>
+<url>
+<loc>http://hongchaozhang.github.io/posts/4/</loc>
+</url>
+<url>
+<loc>http://hongchaozhang.github.io/posts/5/</loc>
 </url>
 </urlset>

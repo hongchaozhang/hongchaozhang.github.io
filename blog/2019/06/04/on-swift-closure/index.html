@@ -1,0 +1,457 @@
+
+<!DOCTYPE HTML>
+
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>Swift Closure - Reading Space</title>
+	<meta name="author" content="Zhang Hongchao">
+
+	
+	<meta name="description" content="Swift Closure Functional swift: All about Closures 这篇全面详细易懂地介绍了Swift的Closure，包括 Closure的语法，包括一些简化写法，如Trailing Closures
+Closure与Function的区别 &hellip;">
+	
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="Reading Space" type="application/atom+xml">
+	
+	<link rel="canonical" href="http://hongchaozhang.github.io/blog/2019/06/04/on-swift-closure/">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<link href="/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<link href='http://fonts.googleapis.com/css?family=Nunito:400,300,700' rel='stylesheet' type='text/css'>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	
+  
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-62806905-2']);
+		_gaq.push(['_trackPageview']);
+
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
+
+
+</head>
+
+
+<body>
+	<div class="container">
+		<div class="left-col">
+			<div class="intrude-less">
+			<header id="header" class="inner"><div class="profilepic">
+	
+	<script src="/javascripts/md5.js"></script>
+	<script type="text/javascript">
+		$(function(){
+			$('.profilepic').append("<img src='http://www.gravatar.com/avatar/" + MD5("") + "?s=160' alt='Profile Picture' style='width: 160px;' />");
+		});
+	</script>
+	
+</div>
+
+<nav id="main-nav"><ul class="main">
+    <li><a href="/">Blog</a></li>
+    <li><a href="/blog/archives">Archives</a></li>
+    <li><a href="#">About</a></li>
+</ul>
+</nav>
+<nav id="sub-nav">
+	<div class="social">
+		
+		
+		
+		
+		
+			<a class="github" href="https://github.com/hongchaozhang" title="GitHub">GitHub</a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+    	
+    	
+			<a class="rss" href="/atom.xml" title="RSS">RSS</a>
+		
+	</div>
+</nav>
+
+
+
+<section class="categories">
+          <ul id="category_cloud" class="nav nav-list"><a href='/blog/categories/android' style='font-size: 106.97674418604652%'>android(5)</a> <a href='/blog/categories/android-studio' style='font-size: 101.3953488372093%'>android studio(1)</a> <a href='/blog/categories/augmented-reality' style='font-size: 105.5813953488372%'>augmented reality(4)</a> <a href='/blog/categories/design-pattern' style='font-size: 104.18604651162791%'>design pattern(3)</a> <a href='/blog/categories/ios' style='font-size: 160.0%'>ios(43)</a> <a href='/blog/categories/java' style='font-size: 102.79069767441861%'>java(2)</a> <a href='/blog/categories/javascript' style='font-size: 102.79069767441861%'>javascript(2)</a> <a href='/blog/categories/machine-learning' style='font-size: 111.16279069767442%'>machine learning(8)</a> <a href='/blog/categories/map-tech' style='font-size: 102.79069767441861%'>map tech(2)</a> <a href='/blog/categories/mobile' style='font-size: 101.3953488372093%'>mobile(1)</a> <a href='/blog/categories/nlp' style='font-size: 101.3953488372093%'>nlp(1)</a> <a href='/blog/categories/nlu' style='font-size: 101.3953488372093%'>nlu(1)</a> <a href='/blog/categories/node' style='font-size: 104.18604651162791%'>node(3)</a> <a href='/blog/categories/objective-c' style='font-size: 129.30232558139534%'>objective-c(21)</a> <a href='/blog/categories/philosophy' style='font-size: 102.79069767441861%'>philosophy(2)</a> <a href='/blog/categories/productivity' style='font-size: 125.11627906976744%'>productivity(18)</a> <a href='/blog/categories/python' style='font-size: 104.18604651162791%'>python(3)</a> <a href='/blog/categories/reading' style='font-size: 104.18604651162791%'>reading(3)</a> <a href='/blog/categories/swift' style='font-size: 108.37209302325581%'>swift(6)</a> <a href='/blog/categories/web' style='font-size: 102.79069767441861%'>web(2)</a> <a href='/blog/categories/wwdc' style='font-size: 102.79069767441861%'>wwdc(2)</a> <a href='/blog/categories/xcode' style='font-size: 111.16279069767442%'>xcode(8)</a> </ul>
+      </section>
+
+
+</header>				
+			</div>
+		</div>	
+		<div class="mid-col">
+			
+				
+			
+			<div class="mid-col-container">
+				<div id="content" class="inner"><article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+	<h1 class="title" itemprop="name">Swift Closure</h1>
+	<div class="entry-content" itemprop="articleBody"><!-- more -->
+
+
+<p><a href="https://medium.com/@abhimuralidharan/functional-swift-all-about-closures-310bc8af31dd">Functional swift: All about Closures</a></p>
+
+<p>这篇全面详细易懂地介绍了Swift的Closure，包括</p>
+
+<ul>
+<li>Closure的语法，包括一些简化写法，如Trailing Closures</li>
+<li>Closure与Function的区别</li>
+<li>Closure与内存管理、内存泄漏，如capture list的使用，weak与unowned的区别</li>
+<li>Functions和closures都是引用类型，不是值类型</li>
+</ul>
+
+
+<p>也可以看<a href="https://docs.swift.org/swift-book/LanguageGuide/Closures.html">官方文档Closures</a>，但是官方文档没有上面的文章详细。</p>
+
+<p>下面有选择地记录一下。</p>
+
+<h2>Function与Closure的关系：</h2>
+
+<p>参考<a href="https://docs.swift.org/swift-book/LanguageGuide/Closures.html">官方文档Closures</a>里面的三句话理解一下：</p>
+
+<blockquote><ul>
+<li>Global functions are closures that have a name and do not capture any values.</li>
+<li>Nested functions are closures that have a name and can capture values from their enclosing function.</li>
+<li>Closure expressions are unnamed closures written in a lightweight syntax that can capture values from their surrounding context.</li>
+</ul>
+</blockquote>
+
+<p>还有一点很重要：<strong>Closures and functions are first class types in swift</strong>。</p>
+
+<blockquote><p>Functions and closures are first-class citizens in Swift because you can treat then like a normal value. For example, you can：</p>
+
+<ul>
+<li>assign a function/closure to a local variable .</li>
+<li>pass a function/closure as an argument .</li>
+<li>return a function/closure .</li>
+</ul>
+</blockquote>
+
+<h2>用Closure初始化一个变量</h2>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">let</span> <span class="nl">setupViewUsingClosure</span><span class="p">:</span> <span class="bp">UIView</span> <span class="o">=</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">let</span> <span class="n">view</span> <span class="o">=</span> <span class="bp">UIView</span><span class="p">()</span>
+</span><span class='line'>    <span class="n">view</span><span class="p">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="p">.</span><span class="n">green</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">view</span>
+</span><span class='line'><span class="p">}()</span> <span class="c1">//IMPORTANT!!! I have added () at the end.</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Closure的语法糖：</h2>
+
+<p><a href="https://docs.swift.org/swift-book/LanguageGuide/Closures.html">官方文档Closures</a>有个总的说明：</p>
+
+<blockquote><p>Swift’s closure expressions have a clean, clear style, with optimizations that encourage brief, clutter-free syntax in common scenarios. These optimizations include:</p>
+
+<ul>
+<li>Inferring parameter and return value types from context</li>
+<li>Implicit returns from single-expression closures</li>
+<li>Shorthand argument names</li>
+<li>Trailing closure syntax</li>
+</ul>
+</blockquote>
+
+<p>当你第一次看到这个写法的时候肯定很疑惑：参数、类型、函数调用时的括号都跑哪去了？</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">let</span> <span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;Chris&quot;</span><span class="p">,</span> <span class="s">&quot;Alex&quot;</span><span class="p">,</span> <span class="s">&quot;Ewa&quot;</span><span class="p">,</span> <span class="s">&quot;Barry&quot;</span><span class="p">,</span> <span class="s">&quot;Daniella&quot;</span><span class="p">]</span>
+</span><span class='line'><span class="n">rreversedNames</span> <span class="o">=</span> <span class="n">names</span><span class="p">.</span><span class="n">sorted</span> <span class="p">{</span> <span class="err">$</span><span class="mi">0</span> <span class="o">&gt;</span> <span class="err">$</span><span class="mi">1</span> <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>理解了上面几点，就可以明白为什么可以这么写，下面让我们一步步看清楚。</p>
+
+<p>Closure的定义如下：</p>
+
+<blockquote><p>Closure expressions are unnamed closures written in a lightweight syntax that can capture values from their surrounding context.</p>
+
+<pre><code class="swift">{ (params) -&gt; returnType in
+    statements
+}
+</code></pre></blockquote>
+
+<p>举个具体的例子：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">let</span> <span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;Chris&quot;</span><span class="p">,</span> <span class="s">&quot;Alex&quot;</span><span class="p">,</span> <span class="s">&quot;Ewa&quot;</span><span class="p">,</span> <span class="s">&quot;Barry&quot;</span><span class="p">,</span> <span class="s">&quot;Daniella&quot;</span><span class="p">]</span>
+</span><span class='line'><span class="n">reversedNames</span> <span class="o">=</span> <span class="n">names</span><span class="p">.</span><span class="n">sorted</span><span class="p">(</span><span class="nl">by</span><span class="p">:</span> <span class="p">{</span> <span class="p">(</span><span class="nl">s1</span><span class="p">:</span> <span class="n">String</span><span class="p">,</span> <span class="nl">s2</span><span class="p">:</span> <span class="n">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bool</span> <span class="k">in</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">s1</span> <span class="o">&gt;</span> <span class="n">s2</span>
+</span><span class='line'><span class="p">})</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>因为：</p>
+
+<blockquote><ul>
+<li><strong>Inferring parameter and return value types from context</strong></li>
+</ul>
+
+
+<p>Because the sorting closure is passed as an argument to a method, Swift can infer the types of its parameters and the type of the value it returns.</p></blockquote>
+
+<p>所以，上面的代码可以写为：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">let</span> <span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;Chris&quot;</span><span class="p">,</span> <span class="s">&quot;Alex&quot;</span><span class="p">,</span> <span class="s">&quot;Ewa&quot;</span><span class="p">,</span> <span class="s">&quot;Barry&quot;</span><span class="p">,</span> <span class="s">&quot;Daniella&quot;</span><span class="p">]</span>
+</span><span class='line'><span class="n">reversedNames</span> <span class="o">=</span> <span class="n">names</span><span class="p">.</span><span class="n">sorted</span><span class="p">(</span><span class="nl">by</span><span class="p">:</span> <span class="p">{</span> <span class="n">s1</span><span class="p">,</span> <span class="n">s2</span> <span class="k">in</span> <span class="k">return</span> <span class="n">s1</span> <span class="o">&gt;</span> <span class="n">s2</span> <span class="p">}</span> <span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>再因为：</p>
+
+<blockquote><ul>
+<li><strong>Implicit returns from single-expression closures</strong></li>
+</ul>
+
+
+<p>Single-expression closures can implicitly return the result of their single expression by omitting the return keyword from their declaration.</p></blockquote>
+
+<p>所以，代码继续改为：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">let</span> <span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;Chris&quot;</span><span class="p">,</span> <span class="s">&quot;Alex&quot;</span><span class="p">,</span> <span class="s">&quot;Ewa&quot;</span><span class="p">,</span> <span class="s">&quot;Barry&quot;</span><span class="p">,</span> <span class="s">&quot;Daniella&quot;</span><span class="p">]</span>
+</span><span class='line'><span class="n">reversedNames</span> <span class="o">=</span> <span class="n">names</span><span class="p">.</span><span class="n">sorted</span><span class="p">(</span><span class="nl">by</span><span class="p">:</span> <span class="p">{</span> <span class="n">s1</span><span class="p">,</span> <span class="n">s2</span> <span class="k">in</span> <span class="n">s1</span> <span class="o">&gt;</span> <span class="n">s2</span> <span class="p">}</span> <span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>再因为：</p>
+
+<blockquote><ul>
+<li><strong>Shorthand argument names</strong></li>
+</ul>
+
+
+<p>Swift automatically provides shorthand argument names to inline closures, which can be used to refer to the values of the closure’s arguments by the names $0, $1, $2, and so on.</p></blockquote>
+
+<p>代码继续改为：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">let</span> <span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;Chris&quot;</span><span class="p">,</span> <span class="s">&quot;Alex&quot;</span><span class="p">,</span> <span class="s">&quot;Ewa&quot;</span><span class="p">,</span> <span class="s">&quot;Barry&quot;</span><span class="p">,</span> <span class="s">&quot;Daniella&quot;</span><span class="p">]</span>
+</span><span class='line'><span class="n">rreversedNames</span> <span class="o">=</span> <span class="n">names</span><span class="p">.</span><span class="n">sorted</span><span class="p">(</span><span class="nl">by</span><span class="p">:</span> <span class="p">{</span> <span class="err">$</span><span class="mi">0</span> <span class="o">&gt;</span> <span class="err">$</span><span class="mi">1</span> <span class="p">}</span> <span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>再因为：</p>
+
+<blockquote><ul>
+<li><strong>Trailing closure syntax</strong></li>
+</ul>
+
+
+<p>If you need to pass a closure expression to a function as the function’s final argument and the closure expression is long, it can be useful to write it as a trailing closure instead. A trailing closure is written after the function call’s parentheses, even though it is still an argument to the function. When you use the trailing closure syntax, you don’t write the argument label for the closure as part of the function call.</p></blockquote>
+
+<p>代码就可以写成：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">let</span> <span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;Chris&quot;</span><span class="p">,</span> <span class="s">&quot;Alex&quot;</span><span class="p">,</span> <span class="s">&quot;Ewa&quot;</span><span class="p">,</span> <span class="s">&quot;Barry&quot;</span><span class="p">,</span> <span class="s">&quot;Daniella&quot;</span><span class="p">]</span>
+</span><span class='line'><span class="n">rreversedNames</span> <span class="o">=</span> <span class="n">names</span><span class="p">.</span><span class="n">sorted</span> <span class="p">{</span> <span class="err">$</span><span class="mi">0</span> <span class="o">&gt;</span> <span class="err">$</span><span class="mi">1</span> <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Closure与内存管理、内存泄漏</h2>
+
+<p>Closure带来的循环引用和内存泄漏，主要通过Capture List来解决：</p>
+
+<blockquote><p>You resolve a strong reference cycle between a closure and a class instance by defining a capture list as part of the closure’s definition. A capture list defines the rules to use when capturing one or more reference types within the closure’s body.</p></blockquote>
+
+<p>详细内容参考<a href="https://docs.swift.org/swift-book/LanguageGuide/AutomaticReferenceCounting.html#ID56">Resolving Strong Reference Cycles for Closures</a>。下面摘要一下。</p>
+
+<h3>Capture List的定义</h3>
+
+<blockquote><p>Each item in a capture list is a pairing of the weak or unowned keyword with a reference to a class instance (such as self) or a variable initialized with some value (such as delegate = self.delegate!). These pairings are written within a pair of square braces, separated by commas.</p></blockquote>
+
+<p>Place the capture list before a closure’s parameter list and return type if they are provided:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="n">lazy</span> <span class="k">var</span> <span class="nl">someClosure</span><span class="p">:</span> <span class="p">(</span><span class="n">Int</span><span class="p">,</span> <span class="n">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">String</span> <span class="o">=</span> <span class="p">{</span>
+</span><span class='line'>    <span class="p">[</span><span class="kr">unowned</span> <span class="nb">self</span><span class="p">,</span> <span class="k">weak</span> <span class="n">delegate</span> <span class="o">=</span> <span class="nb">self</span><span class="p">.</span><span class="n">delegate</span><span class="o">!</span><span class="p">]</span> <span class="p">(</span><span class="nl">index</span><span class="p">:</span> <span class="n">Int</span><span class="p">,</span> <span class="nl">stringToProcess</span><span class="p">:</span> <span class="n">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">String</span> <span class="k">in</span>
+</span><span class='line'>    <span class="c1">// closure body goes here</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Weak and Unowned References</h3>
+
+<blockquote><p>Define a capture in a closure as an unowned reference when the closure and the instance it captures will always refer to each other, and will always be deallocated at the same time.</p>
+
+<p>Conversely, define a capture as a weak reference when the captured reference may become nil at some point in the future. Weak references are always of an optional type, and automatically become nil when the instance they reference is deallocated. This enables you to check for their existence within the closure’s body.</p>
+
+<p>NOTE: If the captured reference will never become nil, it should always be captured as an unowned reference, rather than a weak reference.</p></blockquote>
+
+<p>关于unowned的另一个解释更清楚：</p>
+
+<blockquote><p>Like a weak reference, an unowned reference does not keep a strong hold on the instance it refers to. Unlike a weak reference, however, an unowned reference is used when the other instance has the same lifetime or a longer lifetime.</p></blockquote>
+
+<h2>Closure捕获变量</h2>
+
+<blockquote><p>Closures can capture and store references to any constants and variables from the context in which they are defined. This is known as closing over those constants and variables.</p></blockquote>
+
+<p>比如：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="c1">// capturing values</span>
+</span><span class='line'><span class="k">var</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class='line'><span class="k">var</span> <span class="n">closureArray</span> <span class="o">=</span> <span class="p">[()</span><span class="o">-&gt;</span><span class="p">()]()</span>
+</span><span class='line'><span class="k">for</span> <span class="n">_</span> <span class="k">in</span> <span class="mf">1.</span><span class="p">.</span><span class="mf">.5</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">closureArray</span><span class="p">.</span><span class="n">append</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">print</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="c1">// here i will be 5</span>
+</span><span class='line'><span class="n">closureArray</span><span class="p">[</span><span class="mi">0</span><span class="p">]()</span> <span class="c1">// prints 5</span>
+</span><span class='line'><span class="n">closureArray</span><span class="p">[</span><span class="mi">1</span><span class="p">]()</span> <span class="c1">// prints 5</span>
+</span><span class='line'><span class="n">closureArray</span><span class="p">[</span><span class="mi">2</span><span class="p">]()</span> <span class="c1">// prints 5</span>
+</span><span class='line'><span class="n">closureArray</span><span class="p">[</span><span class="mi">3</span><span class="p">]()</span> <span class="c1">// prints 5</span>
+</span><span class='line'><span class="n">closureArray</span><span class="p">[</span><span class="mi">4</span><span class="p">]()</span> <span class="c1">// prints 5</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The closure captures the current address of <code>i</code> and every time we access <code>i</code> , it . returns the current value.</p>
+
+<p>If we want to prevent this behavior (capturing values) and print the value of i even if the properties change after their capturing inside the closure, we can explicitly capture the variable with a capture list like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">var</span> <span class="n">closureArray2</span> <span class="o">=</span> <span class="p">[()</span><span class="o">-&gt;</span><span class="p">()]()</span>
+</span><span class='line'><span class="k">var</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class='line'><span class="k">for</span> <span class="n">_</span> <span class="k">in</span> <span class="mf">1.</span><span class="p">.</span><span class="mf">.5</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">closureArray2</span><span class="p">.</span><span class="n">append</span> <span class="p">{</span> <span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="k">in</span>
+</span><span class='line'>        <span class="n">print</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="n">j</span> <span class="o">+=</span> <span class="mi">1</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="c1">// here i will be 5</span>
+</span><span class='line'><span class="n">closureArray2</span><span class="p">[</span><span class="mi">0</span><span class="p">]()</span> <span class="c1">// prints 0</span>
+</span><span class='line'><span class="n">closureArray2</span><span class="p">[</span><span class="mi">1</span><span class="p">]()</span> <span class="c1">// prints 1</span>
+</span><span class='line'><span class="n">closureArray2</span><span class="p">[</span><span class="mi">2</span><span class="p">]()</span> <span class="c1">// prints 2</span>
+</span><span class='line'><span class="n">closureArray2</span><span class="p">[</span><span class="mi">3</span><span class="p">]()</span> <span class="c1">// prints 3</span>
+</span><span class='line'><span class="n">closureArray2</span><span class="p">[</span><span class="mi">4</span><span class="p">]()</span> <span class="c1">// prints 4</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>In this way, we keep an immutable copy of the variable <code>j</code>. Thanks to this copy, further changes to <code>j</code>, outside the closure, will not affect the closure. <code>j</code> is a let constant here. It is not mutable.</p>
+
+<p>We can add multiple values to the capture list :</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="n">closure</span><span class="p">.</span><span class="n">append</span> <span class="p">{</span> <span class="p">[</span><span class="n">j</span><span class="p">,</span><span class="n">k</span><span class="p">,</span><span class="n">l</span><span class="p">]</span> <span class="k">in</span>
+</span><span class='line'>    <span class="n">print</span><span class="p">(</span><span class="s">&quot;\(j) \(k) \(l)&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>also, you can have alias names for the values captured.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="n">closure</span><span class="p">.</span><span class="n">append</span> <span class="p">{</span> <span class="p">[</span><span class="n">a</span> <span class="o">=</span> <span class="n">j</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">k</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="n">l</span><span class="p">]</span> <span class="k">in</span>
+</span><span class='line'>    <span class="n">print</span><span class="p">(</span><span class="s">&quot;\(a) \(b) \(c)&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+</div>
+
+</article>
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+	
+	
+	
+	<a class="addthis_counter addthis_pill_style"></a>
+	</div>
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
+</div>
+
+
+</div>
+			</div>
+			<footer id="footer" class="inner">Copyright &copy; 2019
+
+    Zhang Hongchao
+
+
+<!--Design credit: <a href="http://shashankmehta.in/archive/2012/greyshade.html">Shashank Mehta</a>--></footer>
+		</div>
+	</div>
+	<!-- 
+ -->
+
+
+
+
+
+
+
+
+
+</body>
+</html>
