@@ -4,7 +4,7 @@
   <title><![CDATA[Category: nlu | Reading Space]]></title>
   <link href="http://hongchaozhang.github.io/blog/categories/nlu/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2019-06-06T16:51:44+08:00</updated>
+  <updated>2019-06-12T18:23:24+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -12,6 +12,367 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[自然语言理解（NLU）综述]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2019/05/29/overview-of-nlp-and-nlu/"/>
+    <updated>2019-05-29T17:27:58+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2019/05/29/overview-of-nlp-and-nlu</id>
+    <content type="html"><![CDATA[<!-- more -->
+
+
+<p>这篇总结有点乱，权当留作自己看。</p>
+
+<ul>
+<li><a href="#%E4%BA%BA%E6%9C%BA%E5%AF%B9%E8%AF%9D%E7%9A%84%E4%B8%A4%E7%A7%8D%E6%A8%A1%E5%9E%8B">人机对话的两种模型</a></li>
+<li><a href="#nlu%E4%B8%8Enlp">NLU与NLP</a>
+
+<ul>
+<li><a href="#stanford-corenlp">Stanford CoreNLP</a></li>
+<li><a href="#ios-naturallanguage-framework">iOS <em>NaturalLanguage</em> framework</a>
+
+<ul>
+<li><a href="#custom-machine-learning-models">Custom Machine Learning Models</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E7%90%86%E8%A7%A3%E5%B9%B3%E5%8F%B0">自然语言理解平台</a></li>
+<li><a href="#google%E7%9A%84dialogflow">Google的Dialogflow</a>
+
+<ul>
+<li><a href="#dialogflow%E7%9A%84%E5%8E%86%E5%8F%B2">Dialogflow的历史</a></li>
+<li><a href="#dialogflow%E7%9A%84%E4%B8%80%E4%BA%9B%E6%A6%82%E5%BF%B5">Dialogflow的一些概念</a></li>
+<li><a href="#%E4%B8%A4%E7%A7%8D%E6%96%B9%E6%B3%95%E5%AE%9E%E7%8E%B0intents%E4%B9%8B%E9%97%B4%E7%9A%84entities%E5%85%B1%E4%BA%AB">两种方法实现intents之间的entities共享</a></li>
+<li><a href="#training-tab-in-dialogflow-platform">“Training” tab in Dialogflow platform</a></li>
+<li><a href="#integrations-analytics-and-fulfillment">“Integrations”, “Analytics” and “Fulfillment”</a></li>
+<li><a href="#prebuild-agent-and-small-talk">“Prebuild Agent” and “Small Talk”</a></li>
+<li><a href="#%E4%B8%80%E4%BA%9B%E4%BD%BF%E7%94%A8dialogflow%E7%9A%84%E4%BE%8B%E5%AD%90">一些使用Dialogflow的例子</a></li>
+</ul>
+</li>
+<li><a href="#alexa-and-lex">Alexa and Lex</a></li>
+<li><a href="#microsoft-luis-text-analytics-api">Microsoft LUIS Text Analytics API</a></li>
+<li><a href="#facebook%E7%9A%84witai">Facebook的wit.ai</a></li>
+<li><a href="#snips">Snips</a>
+
+<ul>
+<li><a href="#duckling">Duckling</a></li>
+</ul>
+</li>
+<li><a href="#ibm%E7%9A%84watson">IBM的Watson</a></li>
+<li><a href="#swiftnlc">SwiftNLC</a>
+
+<ul>
+<li><a href="#xunfei-command-recognition">Xunfei Command Recognition</a></li>
+</ul>
+</li>
+<li><a href="#siri-and-sirikit">Siri and SiriKit</a>
+
+<ul>
+<li><a href="#sirikit-build-in-domain">SiriKit build-in domain</a></li>
+<li><a href="#sirikit-custom-intent">SiriKit custom intent</a></li>
+</ul>
+</li>
+</ul>
+
+
+<h2>人机对话的两种模型</h2>
+
+<p>自然语言理解（NLU）的最终目的是让计算机能够理解人类的语言，实现人机对话。目前，人机对话模型基本上有两种：</p>
+
+<ol>
+<li>基于意图(Intent-based)的对话：这是当NLP算法使用intents和entities进行对话时，通过识别用户声明中的名词和动词，然后与它的dictionary交叉引用，让bot可以执行有效的操作。目前，大部分平台都是基于这种模式进行训练的，包括谷歌的Dialogflow。</li>
+<li>基于流程(Flow-based)的对话：基于流程的对话是智能通信的下一个级别。在这里，我们会给予两个人之间对话的许多不同样本的RNN（循环神经网络），创建的机器人将根据你训练的ML模型进行响应。 wit.ai是在这个领域取得巨大进展的少数网站之一。但这个太超前，不是我们考虑使用的对象，接下来也不会讨论。</li>
+</ol>
+
+
+<p>详细讨论参考：<a href="https://chatbotsmagazine.com/bot-talks-intent-based-vs-flow-base-conversations-798788dc9cf6">Bot Talks: Intent-Based vs. Flow-Base Conversations</a>。</p>
+
+<h2>NLU与NLP</h2>
+
+<p>NLP（Natural Language Processing）是NLU（Natural Language Understanding）的一个前期步骤：NLP用于对文本或者语音进行机器学习训练和识别时的特征提取阶段。</p>
+
+<h3>Stanford CoreNLP</h3>
+
+<p>可以去<a href="http://nlp.stanford.edu:8080/corenlp/process">Stanford CoreNLP</a>试一下效果。使用界面可以看一下：</p>
+
+<p><img src="/images/NLU_Stanford_CoreNLP.png" alt="stanford CoreNLP" /></p>
+
+<h3>iOS <em>NaturalLanguage</em> framework</h3>
+
+<p>iOS的<em>NaturalLanguage</em>框架可以做的事情如下：</p>
+
+<p><img src="/images/NLU_AppleNLP.png" alt="Apple nlp framework" /></p>
+
+<h4>Custom Machine Learning Models</h4>
+
+<p>用户可以自己训练模型，用于下列事情：</p>
+
+<p>NSLinguisticTagger:</p>
+
+<ul>
+<li>Language identification</li>
+<li>Tokenization in Word/Sentence/Paragraph</li>
+<li>Part of speech</li>
+<li>Lemmatization</li>
+<li>Named entity recognition</li>
+</ul>
+
+
+<p>With custom models:</p>
+
+<ol>
+<li>Text classification
+
+<ul>
+<li>Sentiment classification</li>
+<li>Topic classification</li>
+<li>Domain classification</li>
+</ul>
+</li>
+<li>Word tagging
+
+<ul>
+<li>Part of speech</li>
+<li>Named entity</li>
+<li>Slot parsing
+
+<ul>
+<li>Chunking</li>
+</ul>
+</li>
+<li></li>
+</ul>
+</li>
+</ol>
+
+
+<h2>自然语言理解平台</h2>
+
+<p>一些比较有名气的自然语言理解平台：</p>
+
+<ul>
+<li>Facebook’s Wit.ai,</li>
+<li>IBM Watson’s Conversation Service,</li>
+<li>Microsoft’s Language Understanding and Intelligence Service or</li>
+<li>Google NLP API</li>
+</ul>
+
+
+<p>Wit.ai joined Facebook on 2015.1.5</p>
+
+<p>一些常见产品及其背后的支撑技术：</p>
+
+<ul>
+<li>Amazon: Echo &lt;- Alexa &lt;- Lex</li>
+<li>Apple: iPhone &lt;- Siri &lt;- SiriKit</li>
+<li>Google: Android phone &lt;- Google Asistant &lt;- Dialogflow</li>
+<li>Microsoft: Windows phone &lt;- Cortana &lt;- Luis</li>
+</ul>
+
+
+<p>下面选择一些平台做简单介绍。</p>
+
+<h2>Google的Dialogflow</h2>
+
+<blockquote><p><a href="https://dialogflow.com/">Google的Dialogflow</a>Give users new ways to interact with your product by building engaging voice and text-based conversational interfaces, such as voice apps and chatbots, powered by AI. Connect with users on your website, mobile app, the Google Assistant, Amazon Alexa, Facebook Messenger, and other popular platforms and devices.</p></blockquote>
+
+<h3>Dialogflow的历史</h3>
+
+<p>Dialogflow就是Speaktoit公司的api.ai。</p>
+
+<ul>
+<li>2011: Speaktoit developed an intelligent personal assistant for mobile phones</li>
+<li>2014: Speaktoit released api.ai</li>
+<li>2016: Google buys Speaktoit to power Google Assistant</li>
+<li>2017: api.ai is renamed to Dialogflow</li>
+</ul>
+
+
+<h3>Dialogflow的一些概念</h3>
+
+<ul>
+<li>Agents: 一套module包含dialogflow及自然語言理解使用者的語義後，執行整個動作 action. Ex:如上圖 TestAgent</li>
+<li>Intents: 使用者的意圖。意圖由開發人員配置。</li>
+<li>Entities:重要的關鍵字眼(我真的不知道怎麼翻好，Google說這個字叫做實體?) 從用戶口中所提到的重要的關鍵字眼轉換成重要的資訊，籍此提供給Intent。例如：“訂飛機” ：這句話中還需要 城市 日期 等資訊，來能完成訂飛機這個動作，所以 城市 和 日期 就是Entities.</li>
+<li>Fulfilment: 程式撰寫的地方。例如 訂飛機 還得串飛機公司的API才有可能完成訂購，所以程式邏緝就是寫在這裡。</li>
+<li>Integrations: LINE, Google home etc..</li>
+<li>Prebuilt Agents: dialogflow幫你預先訓練好的Agent，你可以拿來用。</li>
+<li>Smalltalk: 也是dialogflow幫你預先訓練好的Agent，幫助你的chatbot對話更友善.</li>
+</ul>
+
+
+<h3>两种方法实现intents之间的entities共享</h3>
+
+<ul>
+<li>Context: 在线性对话中，完成讯息在Intent中的传送。</li>
+<li>Followup Intent</li>
+</ul>
+
+
+<blockquote><p>对话生命周期，就是这个参数可以存多久。</p></blockquote>
+
+<h3>“Training” tab in Dialogflow platform</h3>
+
+<blockquote><p><a href="https://console.dialogflow.com/api-client/#/agent/dea6f73c-7c22-44b6-a1a8-45cdcd160bfc/training">官方关于Training的说明</a>：你将收到所有发送给agent的回覆讯息以及agent回覆的内容，如果你告诉你的agent一些回应文本，但它回应你不喜欢的输出，这就非常有用，若你稍后意识到忘记了某个关键字的同义词，并且用户正在使用这个关键字，那么也可能会有所帮助，可以去告诉你的代理在这种情况下应该做什么。</p></blockquote>
+
+<h3>“Integrations”, “Analytics” and “Fulfillment”</h3>
+
+<blockquote><p>在Training下方，你可以看到Integrations。在这里，可以管理你的agent去串接不同的服务，例如Google Assistant，Twitter，Slack，Messenger，Cortana，Alexa等等。 Integrations之后，还有Analytics，基本上用来显示建议名称，之后还有Fulfillment，如果你要调用一个API并实现一个webhook，这就是你会需要来的地方。</p></blockquote>
+
+<h3>“Prebuild Agent” and “Small Talk”</h3>
+
+<p>最后两个选项功能非常简单，但很有用。第一个是Prebuilt Agents，在这里，你可以import一个预先存在的代理框架，有很多例子，如食物传递机器人，音乐机器人，甚至（抱歉，但你真的需要知道这个）hotel预订机器人！最后一个选项是Small Talk，如果你将代理设计为像Siri或Google Assistant这样的每日伙伴(daily companion)，这个选项非常有用，Small Talk允许你添加常见问题的答案，我们都喜欢问我们的机器人，如”你几岁？”或”你住哪里？”，以及更热门的问题”你愿意嫁给我吗？”</p>
+
+<h3>一些使用Dialogflow的例子</h3>
+
+<ol>
+<li>林建宏的7篇文章：如何使用Dialogflow建立Chatbot #1-#7</li>
+<li><a href="https://medium.com/@wolkesau/%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8dialogflow%E5%BB%BA%E7%AB%8Bchatbot-1-%E4%BB%8B%E7%B4%B9-62736bcdad95">用Dialogflow建立LINE Chatbot #1 介紹</a></li>
+<li><a href="https://github.com/appcoda/ChatbotHotel">A Demo for booking hotel based on Dialogflow</a></li>
+<li><a href="https://www.appcoda.com.tw/chatbot-dialogflow-ios/">聊天機器人教學：使用Dialogflow (API.AI)開發 iOS Chatbot App</a></li>
+</ol>
+
+
+<h2>Alexa and Lex</h2>
+
+<blockquote><p>Echo to Alexa as iPhone to Siri
+Lex is whats inside Alexa
+Lex is part of AWS, but Alexa isn&rsquo;t</p>
+
+<p>Alexa is more focusing on communication using voice. Hence it has some special requirements for utterances. For example, the number is not supported in the utterances. You need to use &lsquo;Show me three elements&rsquo; instead of &lsquo;Show me 3 elements&rsquo;. For acronym, we need to use &lsquo;n.b.a&rsquo; instead of &lsquo;NBA&rsquo;.</p>
+
+<p>Lex is a platform which can power bot who accept text input.</p>
+
+<p>Amazon Lex 让您可以将语音和文本聊天访问集成到现有应用程序中。Amazon Alexa 允许您使用 Amazon Echo 或任何启用 Alexa Voice Service 的设备为家庭或工作场所的用户提供免提语音接口。</p></blockquote>
+
+<h2>Microsoft LUIS Text Analytics API</h2>
+
+<ol>
+<li>Detect language</li>
+<li>Analyze sentiment</li>
+<li>Extract key phrases
+
+<ul>
+<li>使用方法参考<a href="https://docs.microsoft.com/en-us/azure/cognitive-services/text-analytics/quickstarts/python">Python demo</a>。</li>
+</ul>
+</li>
+<li>Identify entities
+
+<ul>
+<li>使用方法参考<a href="https://docs.microsoft.com/en-us/azure/cognitive-services/text-analytics/quickstarts/python">Python demo</a>。</li>
+</ul>
+</li>
+</ol>
+
+
+<h2>Facebook的wit.ai</h2>
+
+<p>参见<a href="https://wit.ai/">官方文档</a>。</p>
+
+<h2>Snips</h2>
+
+<p>Snips的设计流程还是非常好的 ，包含基于正则表达式的确定性识别和基于机器学习的可能性识别。一些资料：</p>
+
+<ul>
+<li><a href="https://medium.com/snips-ai/an-introduction-to-snips-nlu-the-open-source-library-behind-snips-embedded-voice-platform-b12b1a60a41a">Post</a></li>
+<li><a href="https://snips-nlu.readthedocs.io/en/latest/index.html">Document</a></li>
+<li><a href="https://github.com/snipsco/snips-platform-swift">GitHub for iOS app demo</a></li>
+<li><a href="https://console.snips.ai/assistants/proj_ageaw4b4d83">Snips assistent generation</a></li>
+</ul>
+
+
+<h3>Duckling</h3>
+
+<p>Snips使用<a href="https://github.com/facebook/duckling">Duckling</a>进行下面的理解：</p>
+
+<p>输入："the first Tuesday of October"
+输出：{&ldquo;value&rdquo;:&ldquo;2017-10-03T00:00:00.000-07:00&rdquo;,&ldquo;grain&rdquo;:&ldquo;day&rdquo;}</p>
+
+<blockquote><p>Note:
+* Spin your own Duckling server or using wit.ai’s build entities.
+* <a href="https://medium.com/wit-ai/open-sourcing-duckling-our-probabilistic-date-parser-4351ee66c4ba">Open Sourcing Duckling, our probabilistic (date) parser</a></p></blockquote>
+
+<h2>IBM的Watson</h2>
+
+<p>参看<a href="https://www.ibm.com/watson/services/natural-language-classifier/">官方文档</a>。</p>
+
+<h2>SwiftNLC</h2>
+
+<ul>
+<li><a href="https://chatbotsmagazine.com/coreml-nlc-with-keras-tensorflow-and-apple-nslinguistictagger-1659021ea8e5">Offline Intent Understanding: CoreML NLC with Keras/TensorFlow and Apple NSLinguisticTagger</a></li>
+<li><a href="https://heartbeat.fritz.ai/implementing-a-natural-language-classifier-in-ios-with-keras-core-ml-358f114c0b51">Implementing a Natural Language Classifier in iOS with Keras + Core ML</a></li>
+</ul>
+
+
+<h3>Xunfei Command Recognition</h3>
+
+<p>例如，开发一个简单的语音拨号应用，可定义如下语法：</p>
+
+<pre><code>&amp;lt;commands&amp;gt;:(找一下|打电话给) &amp;lt;name&amp;gt;;
+&amp;lt;name&amp;gt;: 张三|李四;
+</code></pre>
+
+<p>该语法使识别引擎可以支持以下说法：找一下张三 、打电话给张三 、找一下李四 、打电话给李四。
+凡是用户说出这个范围中的任意一句话，均可以被识别系统识别。如果用户说的话不在上述范围中，识别系统可能拒绝识别。</p>
+
+<h2>Siri and SiriKit</h2>
+
+<h3>SiriKit build-in domain</h3>
+
+<p>SiriKit支持的build-in的domain包括：</p>
+
+<ul>
+<li>Messaging</li>
+<li>Lists and Notes</li>
+<li>Workouts</li>
+<li>Payments</li>
+<li>VoIP Calling</li>
+<li>Visual Codes</li>
+<li>Photos</li>
+<li>Ride Booking</li>
+<li>Car Commands</li>
+<li>CarPlay</li>
+<li>Restaurant Reservations</li>
+</ul>
+
+
+<p>基于build-in的domain，可以不经过任何机器模型训练达到下面的效果：</p>
+
+<pre><code>“Hey Siri, send a UnicornChat message”
+“To whom?”
+“Celestra”
+“What do you want to say to Celestra?”
+“Let’s add more sparkle transitions” 
+</code></pre>
+
+<p>当然也可以用机器学习模型做一些事情。</p>
+
+<blockquote><p>Domain model can be trained and used through NLP framework.</p></blockquote>
+
+<p>我们也可以帮助Siri识别自定义的词典（WWDC2017 228_making_great_sirikit_experiences)。可以支持两种自定义的词典：</p>
+
+<ul>
+<li>App vocabulary: known to all your users and unique to your app, supplied in the plist file.</li>
+<li>User vocabulary: known only to some specific users, supplied at the runtime.</li>
+</ul>
+
+
+<p>但是，注意：</p>
+
+<ul>
+<li>Need to update the user vocabulary if some info changes.</li>
+<li>Need to reset the user vocabulary if the user reset the app, or log out.</li>
+</ul>
+
+
+<h3>SiriKit custom intent</h3>
+
+<p>SiriKit的custom intent只是用来实现Siri Shortcut的，不能携带参数。</p>
+
+<blockquote><p>Custom intent can only be used as shortcut and NO parameters will be extracted from the voice command.</p></blockquote>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Offline Natural Language Understanding Engine on iOS]]></title>
