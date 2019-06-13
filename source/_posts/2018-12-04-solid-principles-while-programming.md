@@ -12,42 +12,43 @@ Robert C. Martin (Bob大叔)在《敏捷软件开发》中提出了编程过程�
 
 <br>
 
-- [SOLID原则](#solid%E5%8E%9F%E5%88%99)
-- [单一职责原则（The Single Responsibility Principle，简称SRP）](#%E5%8D%95%E4%B8%80%E8%81%8C%E8%B4%A3%E5%8E%9F%E5%88%99the-single-responsibility-principle%E7%AE%80%E7%A7%B0srp)
-  - [定义](#%E5%AE%9A%E4%B9%89)
-  - [什么是职责](#%E4%BB%80%E4%B9%88%E6%98%AF%E8%81%8C%E8%B4%A3)
-  - [结论](#%E7%BB%93%E8%AE%BA)
-- [开放——封闭原则（The Open-Close Principle，简称OCP）](#%E5%BC%80%E6%94%BE%E5%B0%81%E9%97%AD%E5%8E%9F%E5%88%99the-open-close-principle%E7%AE%80%E7%A7%B0ocp)
-  - [定义](#%E5%AE%9A%E4%B9%89-1)
-  - [关键是抽象](#%E5%85%B3%E9%94%AE%E6%98%AF%E6%8A%BD%E8%B1%A1)
-    - [接口](#%E6%8E%A5%E5%8F%A3)
-    - [继承](#%E7%BB%A7%E6%89%BF)
-  - [什么时候进行抽象](#%E4%BB%80%E4%B9%88%E6%97%B6%E5%80%99%E8%BF%9B%E8%A1%8C%E6%8A%BD%E8%B1%A1)
-  - [结论](#%E7%BB%93%E8%AE%BA-1)
-- [Liskov替换原则（The Liskov Substitution Priciple，简称LSP）](#liskov%E6%9B%BF%E6%8D%A2%E5%8E%9F%E5%88%99the-liskov-substitution-priciple%E7%AE%80%E7%A7%B0lsp)
-  - [定义](#%E5%AE%9A%E4%B9%89-2)
-  - [一个违反LSP的简单例子](#%E4%B8%80%E4%B8%AA%E8%BF%9D%E5%8F%8Dlsp%E7%9A%84%E7%AE%80%E5%8D%95%E4%BE%8B%E5%AD%90)
-  - [正方形和长方形的关系：更微妙的违规](#%E6%AD%A3%E6%96%B9%E5%BD%A2%E5%92%8C%E9%95%BF%E6%96%B9%E5%BD%A2%E7%9A%84%E5%85%B3%E7%B3%BB%E6%9B%B4%E5%BE%AE%E5%A6%99%E7%9A%84%E8%BF%9D%E8%A7%84)
-  - [其它一些容易导致违反LSP的习惯用法](#%E5%85%B6%E5%AE%83%E4%B8%80%E4%BA%9B%E5%AE%B9%E6%98%93%E5%AF%BC%E8%87%B4%E8%BF%9D%E5%8F%8Dlsp%E7%9A%84%E4%B9%A0%E6%83%AF%E7%94%A8%E6%B3%95)
-    - [子类中的退化函数](#%E5%AD%90%E7%B1%BB%E4%B8%AD%E7%9A%84%E9%80%80%E5%8C%96%E5%87%BD%E6%95%B0)
-    - [子类抛出基类没有的异常](#%E5%AD%90%E7%B1%BB%E6%8A%9B%E5%87%BA%E5%9F%BA%E7%B1%BB%E6%B2%A1%E6%9C%89%E7%9A%84%E5%BC%82%E5%B8%B8)
-  - [结论](#%E7%BB%93%E8%AE%BA-2)
-- [依赖倒置原则（The Dependency Inversion Principle，简称DIP）](#%E4%BE%9D%E8%B5%96%E5%80%92%E7%BD%AE%E5%8E%9F%E5%88%99the-dependency-inversion-principle%E7%AE%80%E7%A7%B0dip)
-  - [定义](#%E5%AE%9A%E4%B9%89-3)
-  - [依赖于抽象](#%E4%BE%9D%E8%B5%96%E4%BA%8E%E6%8A%BD%E8%B1%A1)
-  - [一个例子](#%E4%B8%80%E4%B8%AA%E4%BE%8B%E5%AD%90)
-  - [结论](#%E7%BB%93%E8%AE%BA-3)
-- [接口隔离原则（The Interface Segregation Principle，简称ISP）](#%E6%8E%A5%E5%8F%A3%E9%9A%94%E7%A6%BB%E5%8E%9F%E5%88%99the-interface-segregation-principle%E7%AE%80%E7%A7%B0isp)
-  - [定义](#%E5%AE%9A%E4%B9%89-4)
-  - [一个例子：定时门](#%E4%B8%80%E4%B8%AA%E4%BE%8B%E5%AD%90%E5%AE%9A%E6%97%B6%E9%97%A8)
-    - [使用委托对接口分组](#%E4%BD%BF%E7%94%A8%E5%A7%94%E6%89%98%E5%AF%B9%E6%8E%A5%E5%8F%A3%E5%88%86%E7%BB%84)
-    - [使用多重继承对接口分组](#%E4%BD%BF%E7%94%A8%E5%A4%9A%E9%87%8D%E7%BB%A7%E6%89%BF%E5%AF%B9%E6%8E%A5%E5%8F%A3%E5%88%86%E7%BB%84)
-  - [一个例子：ATM界面](#%E4%B8%80%E4%B8%AA%E4%BE%8B%E5%AD%90atm%E7%95%8C%E9%9D%A2)
-    - [多参数形式与单参数形式](#%E5%A4%9A%E5%8F%82%E6%95%B0%E5%BD%A2%E5%BC%8F%E4%B8%8E%E5%8D%95%E5%8F%82%E6%95%B0%E5%BD%A2%E5%BC%8F)
-  - [结论](#%E7%BB%93%E8%AE%BA-4)
+- [SOLID原则](#solid原则)
+- [单一职责原则（The Single Responsibility Principle，简称SRP）](#单一职责原则the-single-responsibility-principle简称srp)
+  - [定义](#定义)
+  - [什么是职责](#什么是职责)
+  - [结论](#结论)
+- [开放——封闭原则（The Open-Close Principle，简称OCP）](#开放封闭原则the-open-close-principle简称ocp)
+  - [定义](#定义-1)
+  - [关键是抽象](#关键是抽象)
+    - [接口](#接口)
+    - [继承](#继承)
+  - [什么时候进行抽象](#什么时候进行抽象)
+  - [结论](#结论-1)
+- [Liskov替换原则（The Liskov Substitution Priciple，简称LSP）](#liskov替换原则the-liskov-substitution-priciple简称lsp)
+  - [定义](#定义-2)
+  - [一个违反LSP的简单例子](#一个违反lsp的简单例子)
+  - [正方形和长方形的关系：更微妙的违规](#正方形和长方形的关系更微妙的违规)
+  - [其它一些容易导致违反LSP的习惯用法](#其它一些容易导致违反lsp的习惯用法)
+    - [子类中的退化函数](#子类中的退化函数)
+    - [子类抛出基类没有的异常](#子类抛出基类没有的异常)
+  - [结论](#结论-2)
+- [依赖倒置原则（The Dependency Inversion Principle，简称DIP）](#依赖倒置原则the-dependency-inversion-principle简称dip)
+  - [定义](#定义-3)
+  - [依赖于抽象](#依赖于抽象)
+  - [一个例子](#一个例子)
+  - [结论](#结论-3)
+- [接口隔离原则（The Interface Segregation Principle，简称ISP）](#接口隔离原则the-interface-segregation-principle简称isp)
+  - [定义](#定义-4)
+  - [一个例子：定时门](#一个例子定时门)
+    - [使用委托对接口分组](#使用委托对接口分组)
+    - [使用多重继承对接口分组](#使用多重继承对接口分组)
+  - [一个例子：ATM界面](#一个例子atm界面)
+    - [多参数形式与单参数形式](#多参数形式与单参数形式)
+  - [结论](#结论-4)
  
  <br>
 
+<a id="markdown-solid原则" name="solid原则"></a>
 ## SOLID原则
 
 SOLID是指我们编程时应该遵守的五个原则：
@@ -60,25 +61,31 @@ SOLID是指我们编程时应该遵守的五个原则：
 
 每个原则取一个字母（**S**RP，**O**CP，**L**SP，**I**SP，**D**IP），合称SOLID原则。
 
+<a id="markdown-单一职责原则the-single-responsibility-principle简称srp" name="单一职责原则the-single-responsibility-principle简称srp"></a>
 ## 单一职责原则（The Single Responsibility Principle，简称SRP）
 
+<a id="markdown-定义" name="定义"></a>
 ### 定义
 **就一个类而言，应该只有一个引起它变化的原因。**
 
 一个类如果有多个职责，但是你只需要其中的一个职责，你也不得不将其它职责包括进来，还有其它职责所依赖的所有组件。
 
+<a id="markdown-什么是职责" name="什么是职责"></a>
 ### 什么是职责
 
 在SRP中，我们把职责定义为“变化的原因”（a reason for change）。如果能够想到多于一个的动机去改变一个类，那么这个类就具有多于一个的职责。
 
 比如Employee这个类如果同时包含了业务规则和对于持久化的控制，多数情况下，我们可以断定它们不应该放在一起：业务规则会频繁地变化，但是持久化的方式却不会如此频繁地变化，并且变化的原因也是完全不同的。
 
+<a id="markdown-结论" name="结论"></a>
 ### 结论
 
 SRP是所有原则中最简单的，也是最难运用的。软件设计很多时候要做的，就是发现职责，并把它分离出来。事实上，我们将要论述的其它原则都会以这样或者那样的方式回到这个问题上。
 
+<a id="markdown-开放封闭原则the-open-close-principle简称ocp" name="开放封闭原则the-open-close-principle简称ocp"></a>
 ## 开放——封闭原则（The Open-Close Principle，简称OCP）
 
+<a id="markdown-定义-1" name="定义-1"></a>
 ### 定义
 
 **软件实体（类、模块、函数等）应该是可以扩展，但是不可修改的。**
@@ -92,12 +99,14 @@ OCP的定义，换个说法：
 
 如何在能在不改变模块原代码的情况下去更改它的行为或者为其添加功能呢？
 
+<a id="markdown-关键是抽象" name="关键是抽象"></a>
 ### 关键是抽象
 
 抽象一般有两种方式：
 1. 接口
 2. 继承
 
+<a id="markdown-接口" name="接口"></a>
 #### 接口
 
 用接口对需要的对象进行抽象，也就是所谓的“面向接口编程”。
@@ -110,6 +119,7 @@ OCP的定义，换个说法：
 
 > 这个接口为什么叫ClientInterface，而不叫ServerInterface或者AbstractServer之类？因为这个接口和Client的关系更密切。
 
+<a id="markdown-继承" name="继承"></a>
 #### 继承
 
 继承一个抽象类（和接口类似）或者重写一个父类中的（虚）方法，也是OCP的惯用伎俩。典型的例子，就是那个图形的绘制的例子。
@@ -140,6 +150,7 @@ void drawAllShapes([Shape] list) {
 
 如果想扩展drawAllShapes方法，使其可以绘制一种新的形状，只需要重新创建一个Shape类的子类，drawAllShapes函数不需要改变，即可实现功能的扩展。这就是OCP。
 
+<a id="markdown-什么时候进行抽象" name="什么时候进行抽象"></a>
 ### 什么时候进行抽象
 
 即使是上面的形状绘制的例子，也不是完全的“对扩展开放，对修改关闭。”比如，我要求所有的圆必须在正方形之前绘制，就没法在不修改drawAllShapes的情况下进行这个功能扩展。
@@ -154,12 +165,15 @@ void drawAllShapes([Shape] list) {
 
 也就是说，在刚开始编写代码的时候，假设变化不会发生。当变化发生时，我们就创建抽象进行隔离，防止以后发生同类变化。
 
+<a id="markdown-结论-1" name="结论-1"></a>
 ### 结论
 
 在很多方面，OCP都是面向对象设计的核心所在。遵循这个原则，可以带来面向对象技术所声称的巨大好处（也就是，灵活性、可重用性以及可维护性）。但是，对程序的每个部分都肆意地进行抽象也不是一个好主意。拒绝不成熟的抽象和抽象本身一样重要。
 
+<a id="markdown-liskov替换原则the-liskov-substitution-priciple简称lsp" name="liskov替换原则the-liskov-substitution-priciple简称lsp"></a>
 ## Liskov替换原则（The Liskov Substitution Priciple，简称LSP）
 
+<a id="markdown-定义-2" name="定义-2"></a>
 ### 定义
 
 **子类型必须能够替换掉它们的基类型。**
@@ -168,6 +182,7 @@ void drawAllShapes([Shape] list) {
 
 此时，f的编写者想在f内对D进行检测，以便在把D传给f时，可以使f具有正确的行为。这个行为又违反了OCP原则，因为此时f对于基类型B的所有子类都不在封闭。
 
+<a id="markdown-一个违反lsp的简单例子" name="一个违反lsp的简单例子"></a>
 ### 一个违反LSP的简单例子
 
 对于LSP的违反常常会导致以明显违反OCP的方式使用运行时类型检测。这种方式常常是使用一个显式的if语句去确定一个对象的类型，以便于能够选择针对该类型的正确行为。考虑下面的例子：
@@ -205,6 +220,7 @@ void drawAllShapes([Shape] list) {
 
 Square和Circle不能替换其基类型Shape就是违反了LSP原则，这又进一步导致了drawAllShapes违反了OCP原则。因而，对于LSP的违反也潜在违反了OCP原则。
 
+<a id="markdown-正方形和长方形的关系更微妙的违规" name="正方形和长方形的关系更微妙的违规"></a>
 ### 正方形和长方形的关系：更微妙的违规
 
 下面正方形继承长方形的例子，很微妙地违反了LSP原则。
@@ -274,24 +290,30 @@ func tempFunc(_ rect: Rectangle) {
 
 **IS-A不应该成为继承的准则，“可替换性”才是。**
 
+<a id="markdown-其它一些容易导致违反lsp的习惯用法" name="其它一些容易导致违反lsp的习惯用法"></a>
 ### 其它一些容易导致违反LSP的习惯用法
 
+<a id="markdown-子类中的退化函数" name="子类中的退化函数"></a>
 #### 子类中的退化函数
 
 当子类在重写基类函数的时候，如果功能不如基类完备，即出现了退化，那么这个子类在某些情况下就不能替换基类，违反了LSP原则。
 
 > 这也许就是一些语言在子类重写基类函数的时候必须通过super调用基类函数，这就保证了重写不会退化。但是在Swift和Objective-C中可以不调用super。
 
+<a id="markdown-子类抛出基类没有的异常" name="子类抛出基类没有的异常"></a>
 #### 子类抛出基类没有的异常
 
 此时要遵循LSP，要么改变使用者的期望，要么子类不抛出这个异常。
 
+<a id="markdown-结论-2" name="结论-2"></a>
 ### 结论
 
 OCP是很多说法的核心，而LSP是使OCP成为可能的主要原则之一。正是子类的可替换性才使得使用基类类型的模块在无需修改的情况下就可以扩展。这种可替换性必须是开发人员可以隐式依赖的东西。
 
+<a id="markdown-依赖倒置原则the-dependency-inversion-principle简称dip" name="依赖倒置原则the-dependency-inversion-principle简称dip"></a>
 ## 依赖倒置原则（The Dependency Inversion Principle，简称DIP）
 
+<a id="markdown-定义-3" name="定义-3"></a>
 ### 定义
 
 * **高层模块不应该依赖于低级模块。二者都应该依赖于抽象。**
@@ -315,6 +337,7 @@ OCP是很多说法的核心，而LSP是使OCP成为可能的主要原则之一�
 
 **这里的倒置不仅仅是依赖关系的倒置，也是接口所有权的倒置。**我们通常认为工具库应该拥有自己的接口，但是当应用了DIP之后，我们发现往往是客户拥有抽象接口，而它们的服务者则从这些抽象接口派生。
 
+<a id="markdown-依赖于抽象" name="依赖于抽象"></a>
 ### 依赖于抽象
 
 “依赖于抽象”这一启发式规则与DIP要求类似，要求我们不应该依赖具体的类，也就是说，程序中所有的依赖关系都应该终止于抽象（抽象类或者接口）。根据这一规则，可知：
@@ -327,6 +350,7 @@ OCP是很多说法的核心，而LSP是使OCP成为可能的主要原则之一�
 
 但是如果一个类不稳定，我们最好不要直接依赖它，而要用一个抽象接口隔离这个类的不稳定性，直接使用接口，而不是这个类。
 
+<a id="markdown-一个例子" name="一个例子"></a>
 ### 一个例子
 
 依赖倒置可以应用于任何存在一个类向另一个类发送消息的地方。例如Button对Lamp的控制。
@@ -341,6 +365,7 @@ OCP是很多说法的核心，而LSP是使OCP成为可能的主要原则之一�
 
 改进之后的b设计则是一个遵守DIP的设计。而且，接口本身没有所有者，可以独立放在一个不同于Button，也不同于Lamp的地方。
 
+<a id="markdown-结论-3" name="结论-3"></a>
 ### 结论
 
 传统程序设计，策略依赖于细节。面向对象设计倒置了这种依赖关系，使得细节和策略都依赖于抽象，并且常常是客户拥有服务接口。
@@ -349,8 +374,10 @@ OCP是很多说法的核心，而LSP是使OCP成为可能的主要原则之一�
 
 依赖倒置关系是实现许多面向对象技术所宣称的好处的基本底层机制。它的正确应用对于创建可重用的框架来说是必要的。同时它对于构建在变化面前富有弹性的代码也是非常重要的。
 
+<a id="markdown-接口隔离原则the-interface-segregation-principle简称isp" name="接口隔离原则the-interface-segregation-principle简称isp"></a>
 ## 接口隔离原则（The Interface Segregation Principle，简称ISP）
 
+<a id="markdown-定义-4" name="定义-4"></a>
 ### 定义
 
 **不应该强迫客户依赖于它们不用的方法。**
@@ -359,6 +386,7 @@ OCP是很多说法的核心，而LSP是使OCP成为可能的主要原则之一�
 
 如果客户程序依赖于一个具有“胖”接口的类，就相当于强迫客户程序依赖它们不使用的方法，那么这些客户程序就面临着由于这些未使用的方法的改变所带来的变更。这无意中导致了所有客户程序之间的耦合。
 
+<a id="markdown-一个例子定时门" name="一个例子定时门"></a>
 ### 一个例子：定时门
 
 **问题描述：**
@@ -375,6 +403,7 @@ OCP是很多说法的核心，而LSP是使OCP成为可能的主要原则之一�
 
 TimerDoor应该“具有”两组接口，一组供Timer使用，一组供Door使用。如何将这两组接口分开呢？该问题的答案基于这样的事实：一个对象的客户不是必须通过该对象才能访问其接口，也可以通过委托或者该对象的基类来访问它。
 
+<a id="markdown-使用委托对接口分组" name="使用委托对接口分组"></a>
 #### 使用委托对接口分组
 
 该方案如下图所示，当TimerDoor需要向Timer对象注册一个超时请求时，它就创建一个DoorTimerAdaper，并把它注册给Timer。当Timer对象发送`timeout`消息给DoorTimerAdapter时，DoorTimerAdapter把这个消息委托给TimerDoor的`doorTimeout`方法。
@@ -383,6 +412,7 @@ TimerDoor应该“具有”两组接口，一组供Timer使用，一组供Door�
 
 这个设计是个比较通用的设计，在其他地方，也叫做“使用组合而非继承（Prefer Composition to Extension）”。但是这个设计略显复杂。下面基于多重继承的实现更加简洁。
 
+<a id="markdown-使用多重继承对接口分组" name="使用多重继承对接口分组"></a>
 #### 使用多重继承对接口分组
 
 不同语言的多重继承的实现是不一样的。倾向于使用Interface或者Protocol实现这一功能。
@@ -395,6 +425,7 @@ TimerDoor继承Door和TimerClient。尽管这两个基类的客户程序都可�
 
 > DoorTimerAdapter将`timeout`接口转换成TimerDoor里面的`doorTimeout`接口，如果需要，在这个转换过程中还可以做些其它事情。
 
+<a id="markdown-一个例子atm界面" name="一个例子atm界面"></a>
 ### 一个例子：ATM界面
 
 现在让我们考虑一个更有意义的例子：自动取款机ATM问题。对于ATM上面可执行的不同操作封装一个抽象接口Transaction，三种具体的操作（Deposit，Withdrawal，Transfer）都实现这个接口。每种操作对应的类都可以调用UI抽象接口中的不同方法，但是**每个操作只调用自己对应的方法**。
@@ -411,6 +442,7 @@ TimerDoor继承Door和TimerClient。尽管这两个基类的客户程序都可�
 
 当我们需要增加一种新的Transaction时，其它Transaction都不需要重新编译部署。
 
+<a id="markdown-多参数形式与单参数形式" name="多参数形式与单参数形式"></a>
 #### 多参数形式与单参数形式
 
 考虑一个既要访问TransferUI又要访问DepositUI的函数。假设我们想把这两个UI传入该函数，是应该这样写：
@@ -432,6 +464,7 @@ tempFunc(ui, ui)
 
 虽然上面的调用看起来有悖常理，但是我们还是应该倾向于多参数形式。单参数形式的函数依赖于UI中包含的每一个接口，如果WithDrawalUI发生了改变，那么函数及其所有客户程序都会受到影响。这更悖常理。此外，我们也不能保证传入函数的两个参数一直是同一个对象。也许以后，接口对象会因为某些原因而分离，此时，函数并不需要关注接口对象是合并还是分拆这一事实。
 
+<a id="markdown-结论-4" name="结论-4"></a>
 ### 结论
 
 “胖”类会导致其客户程序之间的耦合。当一个客户程序要求该“胖”类进行一个改动时，其它客户程序都会受到影响。因此客户程序应该仅仅依赖于它调用的方法，而不应该直接依赖于一个“胖”类。通过把“胖”类的接口分解为多个特定程序的接口，每个针对特定客户程序的接口只声明其对应客户程序需要的接口。接着，该“胖”类就可以继承所有分离出来的接口，并实现它们。这就解除了客户程序和其没有调用的方法间的依赖关系，并使客户程序之间互不依赖。

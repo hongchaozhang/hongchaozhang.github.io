@@ -9,36 +9,7 @@ categories: [ios, machine learning, augmented reality]
 
 <!-- more -->
 
-<!-- TOC -->
-
-- [Cool AR Apps in App Store](#cool-ar-apps-in-app-store)
-    - [World Brush](#world-brush)
-    - [IKEA Place](#ikea-place)
-    - [AR MeasureKit](#ar-measurekit)
-- [Requirement](#requirement)
-- [ARKit Usage](#arkit-usage)
-    - [ARKit Related Techniques](#arkit-related-techniques)
-    - [ARKit in iOS System](#arkit-in-ios-system)
-    - [ARKit Key Classes](#arkit-key-classes)
-    - [`ARSession`](#arsession)
-    - [`ARConfiguration`](#arconfiguration)
-    - [More on `ARWorldTrackingConfiguration`](#more-on-arworldtrackingconfiguration)
-        - [Tracking Quality](#tracking-quality)
-    - [`ARFrame`](#arframe)
-    - [HitTest for Real World Position](#hittest-for-real-world-position)
-        - [`existingPlane`](#existingplane)
-        - [`existingPlaneUsingExtent`](#existingplaneusingextent)
-        - [`estimatedHorizontalPlane`](#estimatedhorizontalplane)
-        - [`featurePoint`](#featurepoint)
-    - [Display Virtual Object in Real World](#display-virtual-object-in-real-world)
-        - [Standard View](#standard-view)
-        - [Custom View](#custom-view)
-- [Best Practices and Limitations](#best-practices-and-limitations)
-    - [Best Practices](#best-practices)
-    - [Limitations](#limitations)
-- [AR from Google](#ar-from-google)
-
-<!-- /TOC -->
+<!-- TOC -->autoauto- [Cool AR Apps in App Store](#cool-ar-apps-in-app-store)auto    - [World Brush](#world-brush)auto    - [IKEA Place](#ikea-place)auto    - [AR MeasureKit](#ar-measurekit)auto- [Requirement](#requirement)auto- [ARKit Usage](#arkit-usage)auto    - [ARKit Related Techniques](#arkit-related-techniques)auto    - [ARKit in iOS System](#arkit-in-ios-system)auto    - [ARKit Key Classes](#arkit-key-classes)auto    - [`ARSession`](#arsession)auto    - [`ARConfiguration`](#arconfiguration)auto    - [More on `ARWorldTrackingConfiguration`](#more-on-arworldtrackingconfiguration)auto        - [Tracking Quality](#tracking-quality)auto    - [`ARFrame`](#arframe)auto    - [HitTest for Real World Position](#hittest-for-real-world-position)auto        - [`existingPlane`](#existingplane)auto        - [`existingPlaneUsingExtent`](#existingplaneusingextent)auto        - [`estimatedHorizontalPlane`](#estimatedhorizontalplane)auto        - [`featurePoint`](#featurepoint)auto    - [Display Virtual Object in Real World](#display-virtual-object-in-real-world)auto        - [Standard View](#standard-view)auto        - [Custom View](#custom-view)auto- [Best Practices and Limitations](#best-practices-and-limitations)auto    - [Best Practices](#best-practices)auto    - [Limitations](#limitations)auto- [AR from Google](#ar-from-google)autoauto<!-- /TOC -->
 
 <a id="markdown-cool-ar-apps-in-app-store" name="cool-ar-apps-in-app-store"></a>
 ## Cool AR Apps in App Store

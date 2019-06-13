@@ -8,6 +8,14 @@ categories: [ios, swift]
 
 <!-- more -->
 
+- [Function与Closure的关系：](#function与closure的关系)
+- [用Closure初始化一个变量](#用closure初始化一个变量)
+- [Closure的语法糖：](#closure的语法糖)
+- [Closure与内存管理、内存泄漏](#closure与内存管理内存泄漏)
+  - [Capture List的定义](#capture-list的定义)
+  - [Weak and Unowned References](#weak-and-unowned-references)
+- [Closure捕获变量](#closure捕获变量)
+
 [Functional swift: All about Closures](https://medium.com/@abhimuralidharan/functional-swift-all-about-closures-310bc8af31dd)
 
 这篇全面详细易懂地介绍了Swift的Closure，包括
@@ -21,6 +29,7 @@ categories: [ios, swift]
 
 下面有选择地记录一下。
 
+<a id="markdown-function与closure的关系" name="function与closure的关系"></a>
 ## Function与Closure的关系：
 
 参考[官方文档Closures](https://docs.swift.org/swift-book/LanguageGuide/Closures.html)里面的三句话理解一下：
@@ -37,6 +46,7 @@ categories: [ios, swift]
 > * pass a function/closure as an argument .
 > * return a function/closure .
 
+<a id="markdown-用closure初始化一个变量" name="用closure初始化一个变量"></a>
 ## 用Closure初始化一个变量
 
 ```swift
@@ -47,6 +57,7 @@ let setupViewUsingClosure: UIView = {
 }() //IMPORTANT!!! I have added () at the end.
 ```
 
+<a id="markdown-closure的语法糖" name="closure的语法糖"></a>
 ## Closure的语法糖：
 
 [官方文档Closures](https://docs.swift.org/swift-book/LanguageGuide/Closures.html)有个总的说明：
@@ -138,6 +149,7 @@ let names = ["Chris", "Alex", "Ewa", "Barry", "Daniella"]
 rreversedNames = names.sorted { $0 > $1 }
 ```
 
+<a id="markdown-closure与内存管理内存泄漏" name="closure与内存管理内存泄漏"></a>
 ## Closure与内存管理、内存泄漏
 
 Closure带来的循环引用和内存泄漏，主要通过Capture List来解决：
@@ -146,6 +158,7 @@ Closure带来的循环引用和内存泄漏，主要通过Capture List来解决�
 
 详细内容参考[Resolving Strong Reference Cycles for Closures](https://docs.swift.org/swift-book/LanguageGuide/AutomaticReferenceCounting.html#ID56)。下面摘要一下。
 
+<a id="markdown-capture-list的定义" name="capture-list的定义"></a>
 ### Capture List的定义
 
 > Each item in a capture list is a pairing of the weak or unowned keyword with a reference to a class instance (such as self) or a variable initialized with some value (such as delegate = self.delegate!). These pairings are written within a pair of square braces, separated by commas.
@@ -159,6 +172,7 @@ lazy var someClosure: (Int, String) -> String = {
 }
 ```
 
+<a id="markdown-weak-and-unowned-references" name="weak-and-unowned-references"></a>
 ### Weak and Unowned References
 
 > Define a capture in a closure as an unowned reference when the closure and the instance it captures will always refer to each other, and will always be deallocated at the same time.
@@ -171,6 +185,7 @@ lazy var someClosure: (Int, String) -> String = {
 
 > Like a weak reference, an unowned reference does not keep a strong hold on the instance it refers to. Unlike a weak reference, however, an unowned reference is used when the other instance has the same lifetime or a longer lifetime.
 
+<a id="markdown-closure捕获变量" name="closure捕获变量"></a>
 ## Closure捕获变量
 
 > Closures can capture and store references to any constants and variables from the context in which they are defined. This is known as closing over those constants and variables.

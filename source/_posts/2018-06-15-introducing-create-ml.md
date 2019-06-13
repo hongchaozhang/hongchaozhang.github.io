@@ -9,10 +9,19 @@ categories: [ios, wwdc, machine learning]
 
 <!-- more -->
 
+- [Background](#background)
+- [Create ML](#create-ml)
+- [Main Advantage: Easy to Use](#main-advantage-easy-to-use)
+  - [Create ML和Turi Create](#create-ml和turi-create)
+- [Transfer Learning](#transfer-learning)
+- [Improving Accuracy](#improving-accuracy)
+- [References and Materials](#references-and-materials)
+
 Apple released Core ML in WWDC2017, and I took a note on [CoreML Usage](../../../../2017/12/28/coreml-usage/), including mlmodel training using Microsoft [Custom Vision](https://www.customvision.ai/).
 
 This post is about the background of Create ML, its advantages, its relations with Turi. There is no code in this post. If you are looking for the usage of Create ML, refer to [Create ML Tutorial: Getting Started](https://www.raywenderlich.com/196233/create-ml-tutorial-getting-started).
 
+<a id="markdown-background" name="background"></a>
 ## Background
 
 Before 2018, where can we get the mlmodel file used in iOS and macOS?
@@ -32,6 +41,7 @@ TensorFlow doesn't support GPU on macOS from version 1.2.
 
 **Turi Create**: Acquired by Apple in 2016 ($200M), it lets you customize existing models with your own data. But … Python :[.
 
+<a id="markdown-create-ml" name="create-ml"></a>
 ## Create ML
 
 Finally in WWDC2018, Apple announced **Create ML**, which can train machine learning models on macOS, able to use the GPU on macOS. The Create ML session and Turi Create session did not mention any word on each other, but obviousely, Create ML is based on Turi Create.
@@ -41,6 +51,7 @@ Based on Trui's model training, Create ML can make model training on macOS using
 With XCode Playground's updates, Apple gives CreateMLUI, a very easy way for model training: just need to drag your training data and test data into Playground.
 
 
+<a id="markdown-main-advantage-easy-to-use" name="main-advantage-easy-to-use"></a>
 ## Main Advantage: Easy to Use
 
 Do model training using Swift in XCode.
@@ -57,6 +68,7 @@ Do model training using Swift in XCode.
 
 Refer to [Create ML Tutorial: Getting Started](https://www.raywenderlich.com/196233/create-ml-tutorial-getting-started) to see how easy it is to use Create ML. There are some code comparasion between Create ML and Turi Create.
 
+<a id="markdown-create-ml和turi-create" name="create-ml和turi-create"></a>
 ### Create ML和Turi Create
 
 Currently Create ML includes only two of Turi Create’s seven task-focused toolkits, plus a generic classifier and regressor, and data tables. Turi Create has five task-focused toolkits that aren’t (yet?) in Create ML:
@@ -67,6 +79,7 @@ Currently Create ML includes only two of Turi Create’s seven task-focused tool
 * Style transfer
 * Activity classification
 
+<a id="markdown-transfer-learning" name="transfer-learning"></a>
 ## Transfer Learning
 
 The description of Transfer Learning from Apple Turi:
@@ -99,12 +112,14 @@ Some comments on transfer learning from web:
 > --Refer to [Create ML Tutorial: Getting Started](https://www.raywenderlich.com/196233/create-ml-tutorial-getting-started)
 
 
+<a id="markdown-improving-accuracy" name="improving-accuracy"></a>
 ## Improving Accuracy
 
 Refer to [Improving Your Model’s Accuracy](https://developer.apple.com/documentation/create_ml/improving_your_model_s_accuracy) from Apple for improving training accuracy.
 
 How to improve the model's training accuracy, validation accuracy and evaluation accuracy. [Create ML Tutorial: Getting Started](https://www.raywenderlich.com/196233/create-ml-tutorial-getting-started) describes the three 'accuracy's.
 
+<a id="markdown-references-and-materials" name="references-and-materials"></a>
 ## References and Materials
 
 1. You might like to browse two fascinating articles about features from (mostly) Google Brain/Research:

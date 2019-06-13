@@ -9,6 +9,33 @@ categories: [ios, wwdc, machine learning, augmented reality]
 
 <!-- more -->
 
+- [Overview](#overview)
+- [New Features in ARKit 2](#new-features-in-arkit-2)
+  - [Saving and Loading Maps](#saving-and-loading-maps)
+    - [World Tracking Recap:](#world-tracking-recap)
+    - [World Tracking Enhancement:](#world-tracking-enhancement)
+    - [Saving and loading maps:](#saving-and-loading-maps)
+    - [How to get a good map](#how-to-get-a-good-map)
+  - [Environment Texturing](#environment-texturing)
+  - [Image Tracking](#image-tracking)
+  - [3D Object Detection](#3d-object-detection)
+  - [Face Tracking Enhancements](#face-tracking-enhancements)
+- [Some other WWDC Sessions Related to AR](#some-other-wwdc-sessions-related-to-ar)
+  - [Integrating Apps and Content with AR Quick Look](#integrating-apps-and-content-with-ar-quick-look)
+  - [Inside SwiftShot: Creating an AR Game](#inside-swiftshot-creating-an-ar-game)
+  - [Creating Great AR Experiences](#creating-great-ar-experiences)
+  - [Understanding ARKit Tracking and Detection](#understanding-arkit-tracking-and-detection)
+- [Some other materials for a better AR app:](#some-other-materials-for-a-better-ar-app)
+  - [Building Your First AR Experience](#building-your-first-ar-experience)
+  - [Managing Session Lifecycle and Tracking Quality](#managing-session-lifecycle-and-tracking-quality)
+  - [Human Interface Guidelines - Augmented Reality](#human-interface-guidelines---augmented-reality)
+  - [Handling 3D Interaction and UI Controls in Augmented Reality](#handling-3d-interaction-and-ui-controls-in-augmented-reality)
+  - [Creating a Multiuser AR Experience](#creating-a-multiuser-ar-experience)
+  - [SwiftShot: Creating a Game for Augmented Reality](#swiftshot-creating-a-game-for-augmented-reality)
+  - [Recognizing Images in an AR Experience](#recognizing-images-in-an-ar-experience)
+  - [Scanning and Detecting 3D Objects](#scanning-and-detecting-3d-objects)
+
+<a id="markdown-overview" name="overview"></a>
 ## Overview
 
 In ARKit 1, we have:
@@ -26,10 +53,13 @@ In ARKit 2, we have:
 * 3D object tracking
 * Improved face tracking
 
+<a id="markdown-new-features-in-arkit-2" name="new-features-in-arkit-2"></a>
 ## New Features in ARKit 2
 
+<a id="markdown-saving-and-loading-maps" name="saving-and-loading-maps"></a>
 ### Saving and Loading Maps 
 
+<a id="markdown-world-tracking-recap" name="world-tracking-recap"></a>
 #### World Tracking Recap:
 
 - Position and orientation of the device.
@@ -37,6 +67,7 @@ In ARKit 2, we have:
 - 3D feature points.
 - Relocalization (iOS 11.3): we can relocalize objects when your AR session is interrupted, like phone coming or going from background. This feature is implemented by storing the mapping `ARWorldMap` between real world and the coordinate system. However the mapping is not exposed to developers.
 
+<a id="markdown-world-tracking-enhancement" name="world-tracking-enhancement"></a>
 #### World Tracking Enhancement:
 
 - **Saving and loading maps**: expose the `ARWorldMap` to developers.
@@ -45,6 +76,7 @@ In ARKit 2, we have:
 - More accurate extent and boundary Continuous autofocus
 - New 4:3 video formats (iPad is also 4:3)
 
+<a id="markdown-saving-and-loading-maps" name="saving-and-loading-maps"></a>
 #### Saving and loading maps:
 
 `ARWorldmap` contains:
@@ -69,6 +101,7 @@ and the following is a small piece of the demo:
 
 ![swift shot game](/images/arkit2_multiuser_experience_demo.gif)
 
+<a id="markdown-how-to-get-a-good-map" name="how-to-get-a-good-map"></a>
 #### How to get a good map
 
 In order to share or restore the map, we need to get a good one first. A good map should be:
@@ -89,12 +122,14 @@ public enum WorldMappingStatus : Int {
 }
 ```
 
+<a id="markdown-environment-texturing" name="environment-texturing"></a>
 ### Environment Texturing 
 
 With the help of Environment Texturing, AR scene objects can reflect the environment texture on the surface of themselves, just like:
 
 ![arkit2 environment texturing demo](/images/arkit2_environment_texturing_demo.jpg)
 
+<a id="markdown-image-tracking" name="image-tracking"></a>
 ### Image Tracking 
 
 Moving objects can not be positioned in ARKit 1. In ARKit 2, specified images can be tracked in AR scene.
@@ -140,6 +175,7 @@ Has No World Origin | Has World Origin
 After detecting the image, only do things inside the place of the image. | After detecting the image, place some virtual objects outside the detected image plane.
 
 
+<a id="markdown-3d-object-detection" name="3d-object-detection"></a>
 ### 3D Object Detection 
 
 
@@ -179,6 +215,7 @@ For scanned object in the real world, we can dynamically add some info around it
 ![arkit2 object tracking demo](/images/arkit2_3D_object_tracking_demo.gif)
 
 
+<a id="markdown-face-tracking-enhancements" name="face-tracking-enhancements"></a>
 ### Face Tracking Enhancements
 
 With face tracking, we can place something on it or around it.
@@ -196,8 +233,10 @@ New changes in one screenshot:
 ![what-is-new-in-arkit-2](/images/what-is-new-in-arkit-2.jpg)
 
 
+<a id="markdown-some-other-wwdc-sessions-related-to-ar" name="some-other-wwdc-sessions-related-to-ar"></a>
 ## Some other WWDC Sessions Related to AR
 
+<a id="markdown-integrating-apps-and-content-with-ar-quick-lookhttpsdeveloperapplecomvideosplaywwdc2018603" name="integrating-apps-and-content-with-ar-quick-lookhttpsdeveloperapplecomvideosplaywwdc2018603"></a>
 ### [Integrating Apps and Content with AR Quick Look](https://developer.apple.com/videos/play/wwdc2018/603/)
 
 A deeper dive into a new feature in iOS that provides a way to preview any AR object from a USDZ file.
@@ -209,6 +248,7 @@ A deeper dive into a new feature in iOS that provides a way to preview any AR ob
 * Then it goes into a deep dive on how to create the actual USDZ objects, with more examples on new AR texturing capabilities.
 * There’s also a quick overview on how to optimize the files, to keep the size down, and there’s a breakdown of the files that make up the USDZ format.
 
+<a id="markdown-inside-swiftshot-creating-an-ar-gamehttpsdeveloperapplecomvideosplaywwdc2018605" name="inside-swiftshot-creating-an-ar-gamehttpsdeveloperapplecomvideosplaywwdc2018605"></a>
 ### [Inside SwiftShot: Creating an AR Game](https://developer.apple.com/videos/play/wwdc2018/605/)
 
 Covers world map sharing, networking, and the physics of how to build an AR game, as well as some design insight (I have limited game dev experience so I’ll do the best I can below).
@@ -219,6 +259,7 @@ Covers world map sharing, networking, and the physics of how to build an AR game
 * Performance enhancement with the `BitStreamCodable` protocol.
 * A small look at how audio was integrated into the game.
 
+<a id="markdown-creating-great-ar-experienceshttpsdeveloperapplecomvideosplaywwdc2018805" name="creating-great-ar-experienceshttpsdeveloperapplecomvideosplaywwdc2018805"></a>
 ### [Creating Great AR Experiences](https://developer.apple.com/videos/play/wwdc2018/805/)
 
 Best practises mainly from a UX & design perspective (there are no code samples in this session).
@@ -229,6 +270,7 @@ Best practises mainly from a UX & design perspective (there are no code samples 
 * They advise that minimal battery impact should be a huge focus! This is a challenge, given that they recommend to render the FPS at 60 to avoid latency.
 * There’s a lengthy demonstration of creating an AR fireplace, with complex texturing, etc. It looks great, but unfortunately there were no coding samples accompanying the demo.
 
+<a id="markdown-understanding-arkit-tracking-and-detectionhttpsdeveloperapplecomvideosplaywwdc2018610" name="understanding-arkit-tracking-and-detectionhttpsdeveloperapplecomvideosplaywwdc2018610"></a>
 ### [Understanding ARKit Tracking and Detection](https://developer.apple.com/videos/play/wwdc2018/610/)
 
 A good broad overview of all of the main AR concepts.
@@ -239,12 +281,15 @@ A good broad overview of all of the main AR concepts.
 * A good explanation on a core AR principle, **Visual Inertial Odometry**, is given. Short of going into the actual physics equations behind it, this should give you a great understanding of VIO.
 
 
+<a id="markdown-some-other-materials-for-a-better-ar-app" name="some-other-materials-for-a-better-ar-app"></a>
 ## Some other materials for a better AR app:
 
+<a id="markdown-building-your-first-ar-experiencehttpsdeveloperapplecomdocumentationarkitbuilding_your_first_ar_experience" name="building-your-first-ar-experiencehttpsdeveloperapplecomdocumentationarkitbuilding_your_first_ar_experience"></a>
 ### [Building Your First AR Experience](https://developer.apple.com/documentation/arkit/building_your_first_ar_experience)
 
 This document demos an app for basic usage of ARKit.
 
+<a id="markdown-managing-session-lifecycle-and-tracking-qualityhttpsdeveloperapplecomdocumentationarkitmanaging_session_lifecycle_and_tracking_quality" name="managing-session-lifecycle-and-tracking-qualityhttpsdeveloperapplecomdocumentationarkitmanaging_session_lifecycle_and_tracking_quality"></a>
 ### [Managing Session Lifecycle and Tracking Quality](https://developer.apple.com/documentation/arkit/managing_session_lifecycle_and_tracking_quality)
 
 Make your AR experience more robust by 
@@ -253,16 +298,19 @@ Make your AR experience more robust by
 * recovering from interruptions, using `ARCamera.TrackingState.Reason.relocalizing`.
 * resuming previous sessions, using `ARWorldMap`.
 
+<a id="markdown-human-interface-guidelines---augmented-realityhttpsdeveloperapplecomdesignhuman-interface-guidelinesiossystem-capabilitiesaugmented-reality" name="human-interface-guidelines---augmented-realityhttpsdeveloperapplecomdesignhuman-interface-guidelinesiossystem-capabilitiesaugmented-reality"></a>
 ### [Human Interface Guidelines - Augmented Reality](https://developer.apple.com/design/human-interface-guidelines/ios/system-capabilities/augmented-reality/)
 
 This post describes how to rendering virtual objects, how to interact with virtual objects, how to handling interruptions. It is for UX.
 
+<a id="markdown-handling-3d-interaction-and-ui-controls-in-augmented-realityhttpsdeveloperapplecomdocumentationarkithandling_3d_interaction_and_ui_controls_in_augmented_reality" name="handling-3d-interaction-and-ui-controls-in-augmented-realityhttpsdeveloperapplecomdocumentationarkithandling_3d_interaction_and_ui_controls_in_augmented_reality"></a>
 ### [Handling 3D Interaction and UI Controls in Augmented Reality](https://developer.apple.com/documentation/arkit/handling_3d_interaction_and_ui_controls_in_augmented_reality)
 
 This document describes the best practices for visual feedback, gesture interactions, and realistic rendering in AR experiences. And a demo app is supplied.
 
 ![arkit demo](/images/arkit_demo_screenshot.jpg)
 
+<a id="markdown-creating-a-multiuser-ar-experiencehttpsdeveloperapplecomdocumentationarkitcreating_a_multiuser_ar_experience" name="creating-a-multiuser-ar-experiencehttpsdeveloperapplecomdocumentationarkitcreating_a_multiuser_ar_experience"></a>
 ### [Creating a Multiuser AR Experience](https://developer.apple.com/documentation/arkit/creating_a_multiuser_ar_experience)
 
 This document demos an app (with source code) on how to transmit ARKit world-mapping data between nearby devices with the [MultipeerConnectivity](https://developer.apple.com/documentation/multipeerconnectivity) framework (introduced in iOS 7.0) to create a shared basis for AR experiences. MultipeerConnectivity supports peer-to-peer connectivity and the discovery of nearby devices. With MultipeerConnectivity, you can not only share `ARWorldMap`, but also some actions. This makes multiuser AR game possible.
@@ -272,6 +320,7 @@ However:
 * Recording and transmitting a world map and relocalizing to a world map are time-consuming, bandwidth-intensive operations. A good design is needed for better performance.
 * The persons received the world map data need to move their device so they see a similar perspective (also sent by the host) helps ARKit process the received map and establish a shared frame of reference for the multiuser experience.
 
+<a id="markdown-swiftshot-creating-a-game-for-augmented-realityhttpsdeveloperapplecomdocumentationarkitswiftshot_creating_a_game_for_augmented_reality" name="swiftshot-creating-a-game-for-augmented-realityhttpsdeveloperapplecomdocumentationarkitswiftshot_creating_a_game_for_augmented_reality"></a>
 ### [SwiftShot: Creating a Game for Augmented Reality](https://developer.apple.com/documentation/arkit/swiftshot_creating_a_game_for_augmented_reality)
 
 This document demos the SwiftShot game shown on WWDC 2018, including:
@@ -281,10 +330,12 @@ This document demos the SwiftShot game shown on WWDC 2018, including:
 * Synchronizing Gameplay Actions
 * Solving Multiplayer Physics
 
+<a id="markdown-recognizing-images-in-an-ar-experiencehttpsdeveloperapplecomdocumentationarkitrecognizing_images_in_an_ar_experience" name="recognizing-images-in-an-ar-experiencehttpsdeveloperapplecomdocumentationarkitrecognizing_images_in_an_ar_experience"></a>
 ### [Recognizing Images in an AR Experience](https://developer.apple.com/documentation/arkit/recognizing_images_in_an_ar_experience)
 
 Detect known 2D images in the user’s environment, and use their positions to place AR content.
 
+<a id="markdown-scanning-and-detecting-3d-objectshttpsdeveloperapplecomdocumentationarkitscanning_and_detecting_3d_objects" name="scanning-and-detecting-3d-objectshttpsdeveloperapplecomdocumentationarkitscanning_and_detecting_3d_objects"></a>
 ### [Scanning and Detecting 3D Objects](https://developer.apple.com/documentation/arkit/scanning_and_detecting_3d_objects)
 
 Record spatial features of real-world objects, then use the results to find those objects in the user’s environment and trigger AR content.

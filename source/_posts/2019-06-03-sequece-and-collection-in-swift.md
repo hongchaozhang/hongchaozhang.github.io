@@ -8,6 +8,18 @@ categories: [ios, swift]
 
 <!-- more -->
 
+- [`Array` out of Range Crash](#array-out-of-range-crash)
+- [Homemade collection](#homemade-collection)
+- [Sequences](#sequences)
+  - [How to Conform to `Sequence` Protocol](#how-to-conform-to-sequence-protocol)
+  - [Make our `Section` Conform to `Sequence` Protocol](#make-our-section-conform-to-sequence-protocol)
+  - [Gifts](#gifts)
+- [Collections](#collections)
+  - [How to Conform to `Collection` Protocol](#how-to-conform-to-collection-protocol)
+  - [Make our `Section` Conform to `Collection` Protocol](#make-our-section-conform-to-collection-protocol)
+- [Difference between `Array` and `Collection`](#difference-between-array-and-collection)
+- [Reference](#reference)
+
 The content comes from the following posts:
 
 1. [Swift Sequences](https://medium.com/swift-programming/swift-sequences-ce22d76f120c)
@@ -15,6 +27,7 @@ The content comes from the following posts:
 
 But some of the code inside is old and can't be compiled with swift 5.0. So rewritten the code using swift 5.0.
 
+<a id="markdown-array-out-of-range-crash" name="array-out-of-range-crash"></a>
 ## `Array` out of Range Crash
 
 Before diving into Swift Sequences, let’s see a strange behavior.
@@ -59,6 +72,7 @@ extension Array {
 
 We saw how we can create a new accessor to the elements of an array, but can we do the same with a homemade collection?
 
+<a id="markdown-homemade-collection" name="homemade-collection"></a>
 ## Homemade collection
 
 ```swift
@@ -95,12 +109,14 @@ section[1]
 
 Great! But does that make our type a collection, as Swift defines it?
 
+<a id="markdown-sequences" name="sequences"></a>
 ## Sequences
 
 When it comes to manipulating sets, the most abstract notion given by the standard library is the Sequence, defined as
 
 > A type that can be iterated with a `for…in` loop.
 
+<a id="markdown-how-to-conform-to-sequence-protocol" name="how-to-conform-to-sequence-protocol"></a>
 ### How to Conform to `Sequence` Protocol
 
 This section is from [Sequece official site](https://developer.apple.com/documentation/swift/sequence).
@@ -134,6 +150,7 @@ for i in threeToGo {
 // Prints "1"
 ```
 
+<a id="markdown-make-our-section-conform-to-sequence-protocol" name="make-our-section-conform-to-sequence-protocol"></a>
 ### Make our `Section` Conform to `Sequence` Protocol
 
 The `Section` struct can't act as its own iterator, we need to define an iterator for it, and then return an instance of the defined iterator inside `func makeIterator() -> Section<T>.Iterator` method.
@@ -169,6 +186,7 @@ struct Section<T>: Sequence {
 }
 ```
 
+<a id="markdown-gifts" name="gifts"></a>
 ### Gifts
 
 Is that all? No! By conforming to SequenceType we also get methods for free, here is some of them.
@@ -197,6 +215,7 @@ section.reduce(0) { $0 + $1.count }
 
 And for functional programming fans, filter, map and reduce are also given.
 
+<a id="markdown-collections" name="collections"></a>
 ## Collections
 
 Sequence is the most basic set notion given by the Swift standard library. There is a more evolved one.
@@ -211,6 +230,7 @@ Collections require those last two points. As a side effect, it no longer allows
 
 To be a collection, a type must conform to the `Collection` protocol.
 
+<a id="markdown-how-to-conform-to-collection-protocol" name="how-to-conform-to-collection-protocol"></a>
 ### How to Conform to `Collection` Protocol
 
 This section comes from [Collection official site](https://developer.apple.com/documentation/swift/collection).
@@ -222,6 +242,7 @@ If you create a custom sequence that can provide repeated access to its elements
 3. The `index(after:)` method for advancing an index into your collection
 4. Conform to `Sequece` Protocol, as `Collection` is inherited from `Sequence`
 
+<a id="markdown-make-our-section-conform-to-collection-protocol" name="make-our-section-conform-to-collection-protocol"></a>
 ### Make our `Section` Conform to `Collection` Protocol
 
 ```swift
@@ -289,6 +310,7 @@ section.index(of: "911")
 
 We get indexOf thanks to our Elements being Equatable.
 
+<a id="markdown-difference-between-array-and-collection" name="difference-between-array-and-collection"></a>
 ## Difference between `Array` and `Collection`
 
 We created our own collection, which is great, but what about that difference of behavior between Arrays and Dictionaries we talked about at the beginning of the post? We saw that Array’s dangerous subscript was coming from the Indexable protocol, but what about Dictionaries?
@@ -316,6 +338,7 @@ dic[index]
 
 **The last question that remains is why `Collection` requires a subscript that may crash? Simply for performance reason, it costs too much to check the validity of the given index. Crashing is faster :)**
 
+<a id="markdown-reference" name="reference"></a>
 ## Reference
 
 1. [Swift Sequences](https://medium.com/swift-programming/swift-sequences-ce22d76f120c)

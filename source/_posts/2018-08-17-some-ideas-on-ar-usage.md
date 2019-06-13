@@ -11,27 +11,29 @@ categories: [ios, machine learning, augmented reality]
 <!-- more -->
 主要参考：[Awesome ARKit](https://github.com/olucurious/Awesome-ARKit)。这篇post里面还有很多实用的AR Tutorial和Resouces，如果自己动手，可以参考。
 
-- [App Store上面的App](#app-store%E4%B8%8A%E9%9D%A2%E7%9A%84app)
-    - [神奇AR](#%E7%A5%9E%E5%A5%87ar)
-    - [IKEA Place](#ikea-place)
-    - [Wallr](#wallr)
-    - [Horizon Explorer](#horizon-explorer)
-    - [WeAre](#weare)
-    - [Waazy - Magic AR Video Maker](#waazy---magic-ar-video-maker)
-    - [Human Anatomy Atlas 2019](#human-anatomy-atlas-2019)
-- [Github上面的项目](#github%E4%B8%8A%E9%9D%A2%E7%9A%84%E9%A1%B9%E7%9B%AE)
-    - [arkit-occlusion-demo](#arkit-occlusion-demo)
-    - [[ARVideoKit]()](#arvideokit)
-    - [arkit-smb-homage](#arkit-smb-homage)
-    - [ARKit-CoreLocation](#arkit-corelocation)
-    - [ARKitNavigationDemo](#arkitnavigationdemo)
-    - [FineMe](#fineme)
-    - [ARKitSpitfire](#arkitspitfire)
+- [App Store上面的App](#app-store上面的app)
+  - [神奇AR](#神奇ar)
+  - [IKEA Place](#ikea-place)
+  - [Wallr](#wallr)
+  - [Horizon Explorer](#horizon-explorer)
+  - [WeAre](#weare)
+  - [Waazy - Magic AR Video Maker](#waazy---magic-ar-video-maker)
+  - [Human Anatomy Atlas 2019](#human-anatomy-atlas-2019)
+- [Github上面的项目](#github上面的项目)
+  - [arkit-occlusion-demo](#arkit-occlusion-demo)
+  - [[ARVideoKit]()](#arvideokit)
+  - [arkit-smb-homage](#arkit-smb-homage)
+  - [ARKit-CoreLocation](#arkit-corelocation)
+  - [ARKitNavigationDemo](#arkitnavigationdemo)
+  - [FineMe](#fineme)
+  - [ARKitSpitfire](#arkitspitfire)
 - [Resources](#resources)
-    - [Poly](#poly)
+  - [Poly](#poly)
 
+<a id="markdown-app-store上面的app" name="app-store上面的app"></a>
 ## App Store上面的App
 
+<a id="markdown-神奇arhttpsitunesapplecomcnappar-arid1327719623mt8" name="神奇ar"></a>
 ### [神奇AR](https://itunes.apple.com/cn/app/%E7%A5%9E%E5%A5%87ar-%E7%89%B9%E6%95%88ar%E7%9B%B8%E6%9C%BA%E5%92%8C%E7%9F%AD%E8%A7%86%E9%A2%91%E6%8B%8D%E6%91%84%E7%A5%9E%E5%99%A8/id1327719623?mt=8)
 
 这个AR应用非常棒，号称“中国第一AR平台”。打开App，以为自己是打开了“抖音”呢。其模仿抖音的痕迹很重，但是神奇AR的视频不同于抖音里面的视频：都是真实世界和虚拟世界的深入互动。支持下载很多3D模型。
@@ -51,6 +53,7 @@ categories: [ios, machine learning, augmented reality]
 
 ![神奇 AR](/images/shenqiar.jpg)
 
+<a id="markdown-ikea-placehttpsitunesapplecomusappikea-placeid1279244498mt8" name="ikea-place"></a>
 ### [IKEA Place](https://itunes.apple.com/us/app/ikea-place/id1279244498?mt=8)
 
 宜家的官方App，有丰富的宜家家具的3D模型，真实尺寸，可以提前放置到自己的房间，看看效果。
@@ -60,6 +63,7 @@ categories: [ios, machine learning, augmented reality]
 ![ikea place](/images/IKEAPlace.jpg)
 
 
+<a id="markdown-wallrhttpsitunesapplecomusappwallrid1278372745" name="wallr"></a>
 ### [Wallr](https://itunes.apple.com/us/app/wallr/id1278372745)
 
 Wallr可以让你将图片放置到真实场景的墙面上。如果你想买画装饰墙面，可以试试。不过这个功能已经在[神奇AR](https://itunes.apple.com/cn/app/%E7%A5%9E%E5%A5%87ar-%E7%89%B9%E6%95%88ar%E7%9B%B8%E6%9C%BA%E5%92%8C%E7%9F%AD%E8%A7%86%E9%A2%91%E6%8B%8D%E6%91%84%E7%A5%9E%E5%99%A8/id1327719623?mt=8)中实现了，而且是免费的。
@@ -68,6 +72,7 @@ Wallr可以让你将图片放置到真实场景的墙面上。如果你想买画
 
 ![wallr](/images/wallr.jpg)
 
+<a id="markdown-horizon-explorerhttpsitunesapplecomgbapphorizon-explorerid1326860431platformipadpreservescrollpositiontrueplatformipad" name="horizon-explorer"></a>
 ### [Horizon Explorer](https://itunes.apple.com/gb/app/horizon-explorer/id1326860431?platform=ipad&preserveScrollPosition=true#platform/ipad)
 
 AR和地图、地理位置结合的一个应用。
@@ -90,6 +95,7 @@ AR和地图、地理位置结合的一个应用。
 
 ![Horizon Explorer](/images/HorizonExplorer.jpg)
 
+<a id="markdown-wearehttpsitunesapplecomcnappweareid1304227680platformiphonepreservescrollpositiontrueplatformiphoneplatformiphoneplatformiphone" name="weare"></a>
 ### [WeAre](https://itunes.apple.com/cn/app/weare/id1304227680?platform=iphone&preserveScrollPosition=true&platform=iphone#platform/iphone&platform=iphone)
 
 这个应用可以让你选择一些照片，以设备为中心围成一圈，并缓慢移动。还可以播放视频、背景音乐和编辑3D文字。用作者的话说，“可以打造一个或温馨浪漫的回忆相册,或缥缈遥远的世界.”
@@ -98,6 +104,7 @@ AR和地图、地理位置结合的一个应用。
 
 ![WeAre](/images/weare.jpg)
 
+<a id="markdown-waazy---magic-ar-video-makerhttpsitunesapplecomusappwaazy-magic-ar-video-makerid1286992749" name="waazy---magic-ar-video-maker"></a>
 ### [Waazy - Magic AR Video Maker](https://itunes.apple.com/us/app/waazy-magic-ar-video-maker/id1286992749)
 
 没太看懂这个应用。感觉主要做社交视频分享。录制视频还需要AR Lens。直接看官方介绍吧：
@@ -115,6 +122,7 @@ AR和地图、地理位置结合的一个应用。
 
 ![wazzy](/images/wazzy.jpg)
 
+<a id="markdown-human-anatomy-atlas-2019httpsitunesapplecomappid1117998129" name="human-anatomy-atlas-2019"></a>
 ### [Human Anatomy Atlas 2019](https://itunes.apple.com/app/id1117998129)
 
 其实这个主要是展示人体内部结构的3D素材，借助AR技术投射到真实场景，没有很新鲜的AR应用场景。
@@ -128,14 +136,17 @@ AR和地图、地理位置结合的一个应用。
 
 ![Human Anatomy Atlas 2019 2](/images/HumanAnatomyAtlas2019_2.jpg)
 
+<a id="markdown-github上面的项目" name="github上面的项目"></a>
 ## Github上面的项目
 
+<a id="markdown-arkit-occlusion-demohttpsgithubcombjarnelarkit-occlusion" name="arkit-occlusion-demo"></a>
 ### [arkit-occlusion-demo](https://github.com/bjarnel/arkit-occlusion)
 
 事先用一些虚拟平面将真实的墙面、柜子面、门等标记出来，就可以让虚拟的小球在房间里面来回反弹，就像撞到真实的墙上返回来一样。
 
 ![occlusion game](/images/occlusiongame.jpg =600x)
 
+<a id="markdown-arvideokit" name="arvideokit"></a>
 ### [ARVideoKit]()
 
 一个用来录制AR视频的框架。
@@ -160,6 +171,7 @@ AR和地图、地理位置结合的一个应用。
 > 
 > ✅ Returns rendered and raw buffers in a protocol method for additional Image & Video processing
 
+<a id="markdown-arkit-smb-homagehttpsgithubcombjarnelarkit-smb-homage" name="arkit-smb-homage"></a>
 ### [arkit-smb-homage](https://github.com/bjarnel/arkit-smb-homage)
 
 在现实场景中玩超级玛丽。非常粗糙，但是创意还不错。
@@ -168,6 +180,7 @@ AR和地图、地理位置结合的一个应用。
 
 ![super mario flag](/images/supermario_flag.jpg =600x)
 
+<a id="markdown-arkit-corelocationhttpsgithubcomprojectdentarkit-corelocation" name="arkit-corelocation"></a>
 ### [ARKit-CoreLocation](https://github.com/ProjectDent/ARKit-CoreLocation)
 
 功能：
@@ -181,6 +194,7 @@ TODO: 可以仔细看看此库附带的demo：
 
 ![arkit + corelocation](/images/arkit+corelocation.jpg =600x)
 
+<a id="markdown-arkitnavigationdemohttpsgithubcomchriswebb09arkitnavigationdemo" name="arkitnavigationdemo"></a>
 ### [ARKitNavigationDemo](https://github.com/chriswebb09/ARKitNavigationDemo)
 
 在地图上选择目的地，然后在真实场景中进行AR导航。
@@ -193,6 +207,7 @@ TODO: 这个项目中推荐的一些参考文献还是值得看一看的。
 
 ![ARKitNavigationDemo](/images/ARKitNavigationDemo.gif)
 
+<a id="markdown-finemehttpsgithubcommmoaayfindme" name="fineme"></a>
 ### [FineMe](https://github.com/mmoaay/Findme)
 
 可以让你的朋友根据你录制的路线图找到你：
@@ -208,14 +223,17 @@ TODO: 这个项目中推荐的一些参考文献还是值得看一看的。
 * [According to location](https://github.com/mmoaay/Findme/tree/feature/location_optimize)
 * [According to distance](https://github.com/mmoaay/Findme/tree/feature/distance_optimize)
 
+<a id="markdown-arkitspitfirehttpsgithubcomchriswebb09arkitspitfire" name="arkitspitfire"></a>
 ### [ARKitSpitfire](https://github.com/chriswebb09/ARKitSpitfire)
 
 可以让一架3D飞机模型，根据提供的地理位置经纬度，调整姿态，并飞向那里。
 
 ![ARKitSpitfire](/images/ARKitSpitfire.gif)
 
+<a id="markdown-resources" name="resources"></a>
 ## Resources
 
+<a id="markdown-polyhttpsgithubcompiemontepoly" name="poly"></a>
 ### [Poly](https://github.com/piemonte/Poly)
 
 [Poly](https://github.com/piemonte/Poly)是一个iOS库，用来从[Google Poly](https://developers.google.com/poly/)上下载3D模型，包含搜索、下载管理和缓存功能。
