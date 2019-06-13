@@ -9,8 +9,10 @@
 	<meta name="author" content="Zhang Hongchao">
 
 	
-	<meta name="description" content="What Is New in ARKit 2 Overview In ARKit 1, we have: Device positioning from world tracking process
-Horizontal and vertical plane detection from &hellip;">
+	<meta name="description" content="What Is New in ARKit 2 Overview
+New Features in ARKit 2 Saving and Loading Maps World Tracking Recap:
+World Tracking Enhancement:
+Saving and loading &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -111,6 +113,53 @@ Horizontal and vertical plane detection from &hellip;">
 	<div class="entry-content" itemprop="articleBody"><!-- more -->
 
 
+<ul>
+<li><a href="#overview">Overview</a></li>
+<li><a href="#new-features-in-arkit-2">New Features in ARKit 2</a>
+
+<ul>
+<li><a href="#saving-and-loading-maps">Saving and Loading Maps</a>
+
+<ul>
+<li><a href="#world-tracking-recap">World Tracking Recap:</a></li>
+<li><a href="#world-tracking-enhancement">World Tracking Enhancement:</a></li>
+<li><a href="#saving-and-loading-maps">Saving and loading maps:</a></li>
+<li><a href="#how-to-get-a-good-map">How to get a good map</a></li>
+</ul>
+</li>
+<li><a href="#environment-texturing">Environment Texturing</a></li>
+<li><a href="#image-tracking">Image Tracking</a></li>
+<li><a href="#3d-object-detection">3D Object Detection</a></li>
+<li><a href="#face-tracking-enhancements">Face Tracking Enhancements</a></li>
+</ul>
+</li>
+<li><a href="#some-other-wwdc-sessions-related-to-ar">Some other WWDC Sessions Related to AR</a>
+
+<ul>
+<li><a href="#integrating-apps-and-content-with-ar-quick-look">Integrating Apps and Content with AR Quick Look</a></li>
+<li><a href="#inside-swiftshot-creating-an-ar-game">Inside SwiftShot: Creating an AR Game</a></li>
+<li><a href="#creating-great-ar-experiences">Creating Great AR Experiences</a></li>
+<li><a href="#understanding-arkit-tracking-and-detection">Understanding ARKit Tracking and Detection</a></li>
+</ul>
+</li>
+<li><a href="#some-other-materials-for-a-better-ar-app">Some other materials for a better AR app:</a>
+
+<ul>
+<li><a href="#building-your-first-ar-experience">Building Your First AR Experience</a></li>
+<li><a href="#managing-session-lifecycle-and-tracking-quality">Managing Session Lifecycle and Tracking Quality</a></li>
+<li><a href="#human-interface-guidelines---augmented-reality">Human Interface Guidelines - Augmented Reality</a></li>
+<li><a href="#handling-3d-interaction-and-ui-controls-in-augmented-reality">Handling 3D Interaction and UI Controls in Augmented Reality</a></li>
+<li><a href="#creating-a-multiuser-ar-experience">Creating a Multiuser AR Experience</a></li>
+<li><a href="#swiftshot-creating-a-game-for-augmented-reality">SwiftShot: Creating a Game for Augmented Reality</a></li>
+<li><a href="#recognizing-images-in-an-ar-experience">Recognizing Images in an AR Experience</a></li>
+<li><a href="#scanning-and-detecting-3d-objects">Scanning and Detecting 3D Objects</a></li>
+</ul>
+</li>
+</ul>
+
+
+<p><a id="markdown-overview" name="overview"></a></p>
+
 <h2>Overview</h2>
 
 <p>In ARKit 1, we have:</p>
@@ -134,9 +183,15 @@ Horizontal and vertical plane detection from &hellip;">
 </ul>
 
 
+<p><a id="markdown-new-features-in-arkit-2" name="new-features-in-arkit-2"></a></p>
+
 <h2>New Features in ARKit 2</h2>
 
+<p><a id="markdown-saving-and-loading-maps" name="saving-and-loading-maps"></a></p>
+
 <h3>Saving and Loading Maps</h3>
+
+<p><a id="markdown-world-tracking-recap" name="world-tracking-recap"></a></p>
 
 <h4>World Tracking Recap:</h4>
 
@@ -148,6 +203,8 @@ Horizontal and vertical plane detection from &hellip;">
 </ul>
 
 
+<p><a id="markdown-world-tracking-enhancement" name="world-tracking-enhancement"></a></p>
+
 <h4>World Tracking Enhancement:</h4>
 
 <ul>
@@ -158,6 +215,8 @@ Horizontal and vertical plane detection from &hellip;">
 <li>New 4:3 video formats (iPad is also 4:3)</li>
 </ul>
 
+
+<p><a id="markdown-saving-and-loading-maps" name="saving-and-loading-maps"></a></p>
 
 <h4>Saving and loading maps:</h4>
 
@@ -188,6 +247,8 @@ Horizontal and vertical plane detection from &hellip;">
 <p>and the following is a small piece of the demo:</p>
 
 <p><img src="/images/arkit2_multiuser_experience_demo.gif" alt="swift shot game" /></p>
+
+<p><a id="markdown-how-to-get-a-good-map" name="how-to-get-a-good-map"></a></p>
 
 <h4>How to get a good map</h4>
 
@@ -220,11 +281,15 @@ Horizontal and vertical plane detection from &hellip;">
 </span></code></pre></td></tr></table></div></figure>
 
 
+<p><a id="markdown-environment-texturing" name="environment-texturing"></a></p>
+
 <h3>Environment Texturing</h3>
 
 <p>With the help of Environment Texturing, AR scene objects can reflect the environment texture on the surface of themselves, just like:</p>
 
 <p><img src="/images/arkit2_environment_texturing_demo.jpg" alt="arkit2 environment texturing demo" /></p>
+
+<p><a id="markdown-image-tracking" name="image-tracking"></a></p>
 
 <h3>Image Tracking</h3>
 
@@ -296,6 +361,8 @@ Horizontal and vertical plane detection from &hellip;">
 </table>
 
 
+<p><a id="markdown-3d-object-detection" name="3d-object-detection"></a></p>
+
 <h3>3D Object Detection</h3>
 
 <p>3D object detection workflow is:</p>
@@ -344,6 +411,8 @@ Horizontal and vertical plane detection from &hellip;">
 
 <p><img src="/images/arkit2_3D_object_tracking_demo.gif" alt="arkit2 object tracking demo" /></p>
 
+<p><a id="markdown-face-tracking-enhancements" name="face-tracking-enhancements"></a></p>
+
 <h3>Face Tracking Enhancements</h3>
 
 <p>With face tracking, we can place something on it or around it.</p>
@@ -362,7 +431,11 @@ Horizontal and vertical plane detection from &hellip;">
 
 <p><img src="/images/what-is-new-in-arkit-2.jpg" alt="what-is-new-in-arkit-2" /></p>
 
+<p><a id="markdown-some-other-wwdc-sessions-related-to-ar" name="some-other-wwdc-sessions-related-to-ar"></a></p>
+
 <h2>Some other WWDC Sessions Related to AR</h2>
+
+<p><a id="markdown-integrating-apps-and-content-with-ar-quick-lookhttpsdeveloperapplecomvideosplaywwdc2018603" name="integrating-apps-and-content-with-ar-quick-lookhttpsdeveloperapplecomvideosplaywwdc2018603"></a></p>
 
 <h3><a href="https://developer.apple.com/videos/play/wwdc2018/603/">Integrating Apps and Content with AR Quick Look</a></h3>
 
@@ -378,6 +451,8 @@ Horizontal and vertical plane detection from &hellip;">
 </ul>
 
 
+<p><a id="markdown-inside-swiftshot-creating-an-ar-gamehttpsdeveloperapplecomvideosplaywwdc2018605" name="inside-swiftshot-creating-an-ar-gamehttpsdeveloperapplecomvideosplaywwdc2018605"></a></p>
+
 <h3><a href="https://developer.apple.com/videos/play/wwdc2018/605/">Inside SwiftShot: Creating an AR Game</a></h3>
 
 <p>Covers world map sharing, networking, and the physics of how to build an AR game, as well as some design insight (I have limited game dev experience so I’ll do the best I can below).</p>
@@ -390,6 +465,8 @@ Horizontal and vertical plane detection from &hellip;">
 <li>A small look at how audio was integrated into the game.</li>
 </ul>
 
+
+<p><a id="markdown-creating-great-ar-experienceshttpsdeveloperapplecomvideosplaywwdc2018805" name="creating-great-ar-experienceshttpsdeveloperapplecomvideosplaywwdc2018805"></a></p>
 
 <h3><a href="https://developer.apple.com/videos/play/wwdc2018/805/">Creating Great AR Experiences</a></h3>
 
@@ -404,6 +481,8 @@ Horizontal and vertical plane detection from &hellip;">
 </ul>
 
 
+<p><a id="markdown-understanding-arkit-tracking-and-detectionhttpsdeveloperapplecomvideosplaywwdc2018610" name="understanding-arkit-tracking-and-detectionhttpsdeveloperapplecomvideosplaywwdc2018610"></a></p>
+
 <h3><a href="https://developer.apple.com/videos/play/wwdc2018/610/">Understanding ARKit Tracking and Detection</a></h3>
 
 <p>A good broad overview of all of the main AR concepts.</p>
@@ -416,11 +495,17 @@ Horizontal and vertical plane detection from &hellip;">
 </ul>
 
 
+<p><a id="markdown-some-other-materials-for-a-better-ar-app" name="some-other-materials-for-a-better-ar-app"></a></p>
+
 <h2>Some other materials for a better AR app:</h2>
+
+<p><a id="markdown-building-your-first-ar-experiencehttpsdeveloperapplecomdocumentationarkitbuilding_your_first_ar_experience" name="building-your-first-ar-experiencehttpsdeveloperapplecomdocumentationarkitbuilding_your_first_ar_experience"></a></p>
 
 <h3><a href="https://developer.apple.com/documentation/arkit/building_your_first_ar_experience">Building Your First AR Experience</a></h3>
 
 <p>This document demos an app for basic usage of ARKit.</p>
+
+<p><a id="markdown-managing-session-lifecycle-and-tracking-qualityhttpsdeveloperapplecomdocumentationarkitmanaging_session_lifecycle_and_tracking_quality" name="managing-session-lifecycle-and-tracking-qualityhttpsdeveloperapplecomdocumentationarkitmanaging_session_lifecycle_and_tracking_quality"></a></p>
 
 <h3><a href="https://developer.apple.com/documentation/arkit/managing_session_lifecycle_and_tracking_quality">Managing Session Lifecycle and Tracking Quality</a></h3>
 
@@ -433,15 +518,21 @@ Horizontal and vertical plane detection from &hellip;">
 </ul>
 
 
+<p><a id="markdown-human-interface-guidelines---augmented-realityhttpsdeveloperapplecomdesignhuman-interface-guidelinesiossystem-capabilitiesaugmented-reality" name="human-interface-guidelines---augmented-realityhttpsdeveloperapplecomdesignhuman-interface-guidelinesiossystem-capabilitiesaugmented-reality"></a></p>
+
 <h3><a href="https://developer.apple.com/design/human-interface-guidelines/ios/system-capabilities/augmented-reality/">Human Interface Guidelines - Augmented Reality</a></h3>
 
 <p>This post describes how to rendering virtual objects, how to interact with virtual objects, how to handling interruptions. It is for UX.</p>
+
+<p><a id="markdown-handling-3d-interaction-and-ui-controls-in-augmented-realityhttpsdeveloperapplecomdocumentationarkithandling_3d_interaction_and_ui_controls_in_augmented_reality" name="handling-3d-interaction-and-ui-controls-in-augmented-realityhttpsdeveloperapplecomdocumentationarkithandling_3d_interaction_and_ui_controls_in_augmented_reality"></a></p>
 
 <h3><a href="https://developer.apple.com/documentation/arkit/handling_3d_interaction_and_ui_controls_in_augmented_reality">Handling 3D Interaction and UI Controls in Augmented Reality</a></h3>
 
 <p>This document describes the best practices for visual feedback, gesture interactions, and realistic rendering in AR experiences. And a demo app is supplied.</p>
 
 <p><img src="/images/arkit_demo_screenshot.jpg" alt="arkit demo" /></p>
+
+<p><a id="markdown-creating-a-multiuser-ar-experiencehttpsdeveloperapplecomdocumentationarkitcreating_a_multiuser_ar_experience" name="creating-a-multiuser-ar-experiencehttpsdeveloperapplecomdocumentationarkitcreating_a_multiuser_ar_experience"></a></p>
 
 <h3><a href="https://developer.apple.com/documentation/arkit/creating_a_multiuser_ar_experience">Creating a Multiuser AR Experience</a></h3>
 
@@ -455,6 +546,8 @@ Horizontal and vertical plane detection from &hellip;">
 </ul>
 
 
+<p><a id="markdown-swiftshot-creating-a-game-for-augmented-realityhttpsdeveloperapplecomdocumentationarkitswiftshot_creating_a_game_for_augmented_reality" name="swiftshot-creating-a-game-for-augmented-realityhttpsdeveloperapplecomdocumentationarkitswiftshot_creating_a_game_for_augmented_reality"></a></p>
+
 <h3><a href="https://developer.apple.com/documentation/arkit/swiftshot_creating_a_game_for_augmented_reality">SwiftShot: Creating a Game for Augmented Reality</a></h3>
 
 <p>This document demos the SwiftShot game shown on WWDC 2018, including:</p>
@@ -467,9 +560,13 @@ Horizontal and vertical plane detection from &hellip;">
 </ul>
 
 
+<p><a id="markdown-recognizing-images-in-an-ar-experiencehttpsdeveloperapplecomdocumentationarkitrecognizing_images_in_an_ar_experience" name="recognizing-images-in-an-ar-experiencehttpsdeveloperapplecomdocumentationarkitrecognizing_images_in_an_ar_experience"></a></p>
+
 <h3><a href="https://developer.apple.com/documentation/arkit/recognizing_images_in_an_ar_experience">Recognizing Images in an AR Experience</a></h3>
 
 <p>Detect known 2D images in the user’s environment, and use their positions to place AR content.</p>
+
+<p><a id="markdown-scanning-and-detecting-3d-objectshttpsdeveloperapplecomdocumentationarkitscanning_and_detecting_3d_objects" name="scanning-and-detecting-3d-objectshttpsdeveloperapplecomdocumentationarkitscanning_and_detecting_3d_objects"></a></p>
 
 <h3><a href="https://developer.apple.com/documentation/arkit/scanning_and_detecting_3d_objects">Scanning and Detecting 3D Objects</a></h3>
 

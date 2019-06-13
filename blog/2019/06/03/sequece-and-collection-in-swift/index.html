@@ -9,8 +9,10 @@
 	<meta name="author" content="Zhang Hongchao">
 
 	
-	<meta name="description" content="Sequece and Collection in Swift The content comes from the following posts: Swift Sequences
-Swift Collections But some of the code inside is old and &hellip;">
+	<meta name="description" content="Sequece and Collection in Swift Array out of Range Crash
+Homemade collection
+Sequences How to Conform to Sequence Protocol
+Make our Section Conform &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -111,6 +113,29 @@ Swift Collections But some of the code inside is old and &hellip;">
 	<div class="entry-content" itemprop="articleBody"><!-- more -->
 
 
+<ul>
+<li><a href="#array-out-of-range-crash"><code>Array</code> out of Range Crash</a></li>
+<li><a href="#homemade-collection">Homemade collection</a></li>
+<li><a href="#sequences">Sequences</a>
+
+<ul>
+<li><a href="#how-to-conform-to-sequence-protocol">How to Conform to <code>Sequence</code> Protocol</a></li>
+<li><a href="#make-our-section-conform-to-sequence-protocol">Make our <code>Section</code> Conform to <code>Sequence</code> Protocol</a></li>
+<li><a href="#gifts">Gifts</a></li>
+</ul>
+</li>
+<li><a href="#collections">Collections</a>
+
+<ul>
+<li><a href="#how-to-conform-to-collection-protocol">How to Conform to <code>Collection</code> Protocol</a></li>
+<li><a href="#make-our-section-conform-to-collection-protocol">Make our <code>Section</code> Conform to <code>Collection</code> Protocol</a></li>
+</ul>
+</li>
+<li><a href="#difference-between-array-and-collection">Difference between <code>Array</code> and <code>Collection</code></a></li>
+<li><a href="#reference">Reference</a></li>
+</ul>
+
+
 <p>The content comes from the following posts:</p>
 
 <ol>
@@ -120,6 +145,8 @@ Swift Collections But some of the code inside is old and &hellip;">
 
 
 <p>But some of the code inside is old and can&rsquo;t be compiled with swift 5.0. So rewritten the code using swift 5.0.</p>
+
+<p><a id="markdown-array-out-of-range-crash" name="array-out-of-range-crash"></a></p>
 
 <h2><code>Array</code> out of Range Crash</h2>
 
@@ -184,6 +211,8 @@ Swift Collections But some of the code inside is old and &hellip;">
 
 <p>We saw how we can create a new accessor to the elements of an array, but can we do the same with a homemade collection?</p>
 
+<p><a id="markdown-homemade-collection" name="homemade-collection"></a></p>
+
 <h2>Homemade collection</h2>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -237,11 +266,15 @@ Swift Collections But some of the code inside is old and &hellip;">
 
 <p>Great! But does that make our type a collection, as Swift defines it?</p>
 
+<p><a id="markdown-sequences" name="sequences"></a></p>
+
 <h2>Sequences</h2>
 
 <p>When it comes to manipulating sets, the most abstract notion given by the standard library is the Sequence, defined as</p>
 
 <blockquote><p>A type that can be iterated with a <code>for…in</code> loop.</p></blockquote>
+
+<p><a id="markdown-how-to-conform-to-sequence-protocol" name="how-to-conform-to-sequence-protocol"></a></p>
 
 <h3>How to Conform to <code>Sequence</code> Protocol</h3>
 
@@ -295,6 +328,8 @@ Swift Collections But some of the code inside is old and &hellip;">
 </span><span class='line'><span class="c1">// Prints &quot;1&quot;</span>
 </span></code></pre></td></tr></table></div></figure>
 
+
+<p><a id="markdown-make-our-section-conform-to-sequence-protocol" name="make-our-section-conform-to-sequence-protocol"></a></p>
 
 <h3>Make our <code>Section</code> Conform to <code>Sequence</code> Protocol</h3>
 
@@ -359,6 +394,8 @@ Swift Collections But some of the code inside is old and &hellip;">
 </span></code></pre></td></tr></table></div></figure>
 
 
+<p><a id="markdown-gifts" name="gifts"></a></p>
+
 <h3>Gifts</h3>
 
 <p>Is that all? No! By conforming to SequenceType we also get methods for free, here is some of them.</p>
@@ -401,6 +438,8 @@ Swift Collections But some of the code inside is old and &hellip;">
 
 <p>And for functional programming fans, filter, map and reduce are also given.</p>
 
+<p><a id="markdown-collections" name="collections"></a></p>
+
 <h2>Collections</h2>
 
 <p>Sequence is the most basic set notion given by the Swift standard library. There is a more evolved one.</p>
@@ -415,6 +454,8 @@ Swift Collections But some of the code inside is old and &hellip;">
 
 <p>To be a collection, a type must conform to the <code>Collection</code> protocol.</p>
 
+<p><a id="markdown-how-to-conform-to-collection-protocol" name="how-to-conform-to-collection-protocol"></a></p>
+
 <h3>How to Conform to <code>Collection</code> Protocol</h3>
 
 <p>This section comes from <a href="https://developer.apple.com/documentation/swift/collection">Collection official site</a>.</p>
@@ -428,6 +469,8 @@ Swift Collections But some of the code inside is old and &hellip;">
 <li>Conform to <code>Sequece</code> Protocol, as <code>Collection</code> is inherited from <code>Sequence</code></li>
 </ol>
 
+
+<p><a id="markdown-make-our-section-conform-to-collection-protocol" name="make-our-section-conform-to-collection-protocol"></a></p>
 
 <h3>Make our <code>Section</code> Conform to <code>Collection</code> Protocol</h3>
 
@@ -549,6 +592,8 @@ Swift Collections But some of the code inside is old and &hellip;">
 
 <p>We get indexOf thanks to our Elements being Equatable.</p>
 
+<p><a id="markdown-difference-between-array-and-collection" name="difference-between-array-and-collection"></a></p>
+
 <h2>Difference between <code>Array</code> and <code>Collection</code></h2>
 
 <p>We created our own collection, which is great, but what about that difference of behavior between Arrays and Dictionaries we talked about at the beginning of the post? We saw that Array’s dangerous subscript was coming from the Indexable protocol, but what about Dictionaries?</p>
@@ -589,6 +634,8 @@ Swift Collections But some of the code inside is old and &hellip;">
 
 
 <p><strong>The last question that remains is why <code>Collection</code> requires a subscript that may crash? Simply for performance reason, it costs too much to check the validity of the given index. Crashing is faster :)</strong></p>
+
+<p><a id="markdown-reference" name="reference"></a></p>
 
 <h2>Reference</h2>
 

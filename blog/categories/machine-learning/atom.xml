@@ -4,7 +4,7 @@
   <title><![CDATA[Category: machine learning | Reading Space]]></title>
   <link href="http://hongchaozhang.github.io/blog/categories/machine-learning/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2019-06-12T18:23:24+08:00</updated>
+  <updated>2019-06-13T13:41:25+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -76,6 +76,8 @@
 </ul>
 
 
+<p><a id="markdown-人机对话的两种模型" name="人机对话的两种模型"></a></p>
+
 <h2>人机对话的两种模型</h2>
 
 <p>自然语言理解（NLU）的最终目的是让计算机能够理解人类的语言，实现人机对话。目前，人机对话模型基本上有两种：</p>
@@ -88,9 +90,13 @@
 
 <p>详细讨论参考：<a href="https://chatbotsmagazine.com/bot-talks-intent-based-vs-flow-base-conversations-798788dc9cf6">Bot Talks: Intent-Based vs. Flow-Base Conversations</a>。</p>
 
+<p><a id="markdown-nlu与nlp" name="nlu与nlp"></a></p>
+
 <h2>NLU与NLP</h2>
 
 <p>NLP（Natural Language Processing）是NLU（Natural Language Understanding）的一个前期步骤：NLP用于对文本或者语音进行机器学习训练和识别时的特征提取阶段。</p>
+
+<p><a id="markdown-stanford-corenlp" name="stanford-corenlp"></a></p>
 
 <h3>Stanford CoreNLP</h3>
 
@@ -98,11 +104,15 @@
 
 <p><img src="/images/NLU_Stanford_CoreNLP.png" alt="stanford CoreNLP" /></p>
 
+<p><a id="markdown-ios-naturallanguage-framework" name="ios-naturallanguage-framework"></a></p>
+
 <h3>iOS <em>NaturalLanguage</em> framework</h3>
 
 <p>iOS的<em>NaturalLanguage</em>框架可以做的事情如下：</p>
 
 <p><img src="/images/NLU_AppleNLP.png" alt="Apple nlp framework" /></p>
+
+<p><a id="markdown-custom-machine-learning-models" name="custom-machine-learning-models"></a></p>
 
 <h4>Custom Machine Learning Models</h4>
 
@@ -147,6 +157,8 @@
 </ol>
 
 
+<p><a id="markdown-自然语言理解平台" name="自然语言理解平台"></a></p>
+
 <h2>自然语言理解平台</h2>
 
 <p>一些比较有名气的自然语言理解平台：</p>
@@ -173,9 +185,13 @@
 
 <p>下面选择一些平台做简单介绍。</p>
 
+<p><a id="markdown-google的dialogflow" name="google的dialogflow"></a></p>
+
 <h2>Google的Dialogflow</h2>
 
 <blockquote><p><a href="https://dialogflow.com/">Google的Dialogflow</a>Give users new ways to interact with your product by building engaging voice and text-based conversational interfaces, such as voice apps and chatbots, powered by AI. Connect with users on your website, mobile app, the Google Assistant, Amazon Alexa, Facebook Messenger, and other popular platforms and devices.</p></blockquote>
+
+<p><a id="markdown-dialogflow的历史" name="dialogflow的历史"></a></p>
 
 <h3>Dialogflow的历史</h3>
 
@@ -188,6 +204,8 @@
 <li>2017: api.ai is renamed to Dialogflow</li>
 </ul>
 
+
+<p><a id="markdown-dialogflow的一些概念" name="dialogflow的一些概念"></a></p>
 
 <h3>Dialogflow的一些概念</h3>
 
@@ -202,6 +220,8 @@
 </ul>
 
 
+<p><a id="markdown-两种方法实现intents之间的entities共享" name="两种方法实现intents之间的entities共享"></a></p>
+
 <h3>两种方法实现intents之间的entities共享</h3>
 
 <ul>
@@ -212,17 +232,25 @@
 
 <blockquote><p>对话生命周期，就是这个参数可以存多久。</p></blockquote>
 
+<p><a id="markdown-training-tab-in-dialogflow-platform" name="training-tab-in-dialogflow-platform"></a></p>
+
 <h3>“Training” tab in Dialogflow platform</h3>
 
 <blockquote><p><a href="https://console.dialogflow.com/api-client/#/agent/dea6f73c-7c22-44b6-a1a8-45cdcd160bfc/training">官方关于Training的说明</a>：你将收到所有发送给agent的回覆讯息以及agent回覆的内容，如果你告诉你的agent一些回应文本，但它回应你不喜欢的输出，这就非常有用，若你稍后意识到忘记了某个关键字的同义词，并且用户正在使用这个关键字，那么也可能会有所帮助，可以去告诉你的代理在这种情况下应该做什么。</p></blockquote>
+
+<p><a id="markdown-integrations-analytics-and-fulfillment" name="integrations-analytics-and-fulfillment"></a></p>
 
 <h3>“Integrations”, “Analytics” and “Fulfillment”</h3>
 
 <blockquote><p>在Training下方，你可以看到Integrations。在这里，可以管理你的agent去串接不同的服务，例如Google Assistant，Twitter，Slack，Messenger，Cortana，Alexa等等。 Integrations之后，还有Analytics，基本上用来显示建议名称，之后还有Fulfillment，如果你要调用一个API并实现一个webhook，这就是你会需要来的地方。</p></blockquote>
 
+<p><a id="markdown-prebuild-agent-and-small-talk" name="prebuild-agent-and-small-talk"></a></p>
+
 <h3>“Prebuild Agent” and “Small Talk”</h3>
 
 <p>最后两个选项功能非常简单，但很有用。第一个是Prebuilt Agents，在这里，你可以import一个预先存在的代理框架，有很多例子，如食物传递机器人，音乐机器人，甚至（抱歉，但你真的需要知道这个）hotel预订机器人！最后一个选项是Small Talk，如果你将代理设计为像Siri或Google Assistant这样的每日伙伴(daily companion)，这个选项非常有用，Small Talk允许你添加常见问题的答案，我们都喜欢问我们的机器人，如”你几岁？”或”你住哪里？”，以及更热门的问题”你愿意嫁给我吗？”</p>
+
+<p><a id="markdown-一些使用dialogflow的例子" name="一些使用dialogflow的例子"></a></p>
 
 <h3>一些使用Dialogflow的例子</h3>
 
@@ -233,6 +261,8 @@
 <li><a href="https://www.appcoda.com.tw/chatbot-dialogflow-ios/">聊天機器人教學：使用Dialogflow (API.AI)開發 iOS Chatbot App</a></li>
 </ol>
 
+
+<p><a id="markdown-alexa-and-lex" name="alexa-and-lex"></a></p>
 
 <h2>Alexa and Lex</h2>
 
@@ -245,6 +275,8 @@ Lex is part of AWS, but Alexa isn&rsquo;t</p>
 <p>Lex is a platform which can power bot who accept text input.</p>
 
 <p>Amazon Lex 让您可以将语音和文本聊天访问集成到现有应用程序中。Amazon Alexa 允许您使用 Amazon Echo 或任何启用 Alexa Voice Service 的设备为家庭或工作场所的用户提供免提语音接口。</p></blockquote>
+
+<p><a id="markdown-microsoft-luis-text-analytics-api" name="microsoft-luis-text-analytics-api"></a></p>
 
 <h2>Microsoft LUIS Text Analytics API</h2>
 
@@ -266,9 +298,13 @@ Lex is part of AWS, but Alexa isn&rsquo;t</p>
 </ol>
 
 
+<p><a id="markdown-facebook的witai" name="facebook的witai"></a></p>
+
 <h2>Facebook的wit.ai</h2>
 
 <p>参见<a href="https://wit.ai/">官方文档</a>。</p>
+
+<p><a id="markdown-snips" name="snips"></a></p>
 
 <h2>Snips</h2>
 
@@ -282,6 +318,8 @@ Lex is part of AWS, but Alexa isn&rsquo;t</p>
 </ul>
 
 
+<p><a id="markdown-duckling" name="duckling"></a></p>
+
 <h3>Duckling</h3>
 
 <p>Snips使用<a href="https://github.com/facebook/duckling">Duckling</a>进行下面的理解：</p>
@@ -293,9 +331,13 @@ Lex is part of AWS, but Alexa isn&rsquo;t</p>
 * Spin your own Duckling server or using wit.ai’s build entities.
 * <a href="https://medium.com/wit-ai/open-sourcing-duckling-our-probabilistic-date-parser-4351ee66c4ba">Open Sourcing Duckling, our probabilistic (date) parser</a></p></blockquote>
 
+<p><a id="markdown-ibm的watson" name="ibm的watson"></a></p>
+
 <h2>IBM的Watson</h2>
 
 <p>参看<a href="https://www.ibm.com/watson/services/natural-language-classifier/">官方文档</a>。</p>
+
+<p><a id="markdown-swiftnlc" name="swiftnlc"></a></p>
 
 <h2>SwiftNLC</h2>
 
@@ -304,6 +346,8 @@ Lex is part of AWS, but Alexa isn&rsquo;t</p>
 <li><a href="https://heartbeat.fritz.ai/implementing-a-natural-language-classifier-in-ios-with-keras-core-ml-358f114c0b51">Implementing a Natural Language Classifier in iOS with Keras + Core ML</a></li>
 </ul>
 
+
+<p><a id="markdown-xunfei-command-recognition" name="xunfei-command-recognition"></a></p>
 
 <h3>Xunfei Command Recognition</h3>
 
@@ -316,7 +360,11 @@ Lex is part of AWS, but Alexa isn&rsquo;t</p>
 <p>该语法使识别引擎可以支持以下说法：找一下张三 、打电话给张三 、找一下李四 、打电话给李四。
 凡是用户说出这个范围中的任意一句话，均可以被识别系统识别。如果用户说的话不在上述范围中，识别系统可能拒绝识别。</p>
 
+<p><a id="markdown-siri-and-sirikit" name="siri-and-sirikit"></a></p>
+
 <h2>Siri and SiriKit</h2>
+
+<p><a id="markdown-sirikit-build-in-domain" name="sirikit-build-in-domain"></a></p>
 
 <h3>SiriKit build-in domain</h3>
 
@@ -366,6 +414,8 @@ Lex is part of AWS, but Alexa isn&rsquo;t</p>
 </ul>
 
 
+<p><a id="markdown-sirikit-custom-intent" name="sirikit-custom-intent"></a></p>
+
 <h3>SiriKit custom intent</h3>
 
 <p>SiriKit的custom intent只是用来实现Siri Shortcut的，不能携带参数。</p>
@@ -382,6 +432,53 @@ Lex is part of AWS, but Alexa isn&rsquo;t</p>
     <content type="html"><![CDATA[<!-- more -->
 
 
+<ul>
+<li><a href="#objective">Objective</a>
+
+<ul>
+<li><a href="#what-is-a-good-nlu-engine">What is a good NLU engine</a>
+
+<ul>
+<li><a href="#deterministic-behavior">Deterministic behavior</a></li>
+<li><a href="#generalization-power">Generalization power</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#design-and-workflow">Design and Workflow</a></li>
+<li><a href="#deterministic-intent-parser">Deterministic Intent Parser</a></li>
+<li><a href="#probabilistic-intent-parser">Probabilistic Intent Parser</a>
+
+<ul>
+<li><a href="#intent-classification">Intent Classification</a>
+
+<ul>
+<li><a href="#model-training">Model Training</a></li>
+<li><a href="#model-usage">Model Usage</a></li>
+</ul>
+</li>
+<li><a href="#slot-filling">Slot Filling</a>
+
+<ul>
+<li><a href="#model-training-1">Model Training</a></li>
+<li><a href="#model-usage-1">Model Usage</a></li>
+</ul>
+</li>
+<li><a href="#model-size">Model Size</a></li>
+<li><a href="#problems-to-be-solved">Problems to Be Solved</a>
+
+<ul>
+<li><a href="#intent-classification-model-has-no-probability-output">Intent Classification Model Has No Probability Output</a></li>
+<li><a href="#slot-filling-model-tagges-the-label-by-words-not-phrase">Slot Filling Model Tagges the Label by Words, not Phrase</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+
+<p><a id="markdown-objective" name="objective"></a></p>
+
 <h2>Objective</h2>
 
 <p><img src="/images/NLUObjective.png" alt="nlu objective" /></p>
@@ -389,6 +486,8 @@ Lex is part of AWS, but Alexa isn&rsquo;t</p>
 <p>We want an NLU Engine to understand the normal text command on Mobile. We hope the engine can know the command&rsquo;s intent and the info the command needs to execute.</p>
 
 <p>Currently, there are many NLU related tools, like Google Dialogflow, Amazon Lex, Facebook Wit.ai, Microsoft Luis. However, they are all online tools. Considering the privacy problem, we are trying to build our own offline NLU Engine.</p>
+
+<p><a id="markdown-what-is-a-good-nlu-engine" name="what-is-a-good-nlu-engine"></a></p>
 
 <h3>What is a good NLU engine</h3>
 
@@ -402,13 +501,19 @@ Lex is part of AWS, but Alexa isn&rsquo;t</p>
 </ul>
 
 
+<p><a id="markdown-deterministic-behavior" name="deterministic-behavior"></a></p>
+
 <h4>Deterministic behavior</h4>
 
 <p>The first thing you want is that all the examples you give to train the model are correctly supported by the engine. This makes the system predictable and easy to use: if a query is not correctly parsed, then add it to the dataset and it will work right away.</p>
 
+<p><a id="markdown-generalization-power" name="generalization-power"></a></p>
+
 <h4>Generalization power</h4>
 
 <p>Having this deterministic behavior is great for robustness and predictability, but a powerful NLU engine also needs to have some generalization power. You want the system not only to recognize patterns provided in the training set, but also all the possible variations that come from speaking naturally. If we go back to the previous dataset, it is reasonable to expect the NLU engine to parse a query like: “What’s the weather in Beijing right now?” even though it is not one of the training examples.</p>
+
+<p><a id="markdown-design-and-workflow" name="design-and-workflow"></a></p>
 
 <h2>Design and Workflow</h2>
 
@@ -419,6 +524,8 @@ Lex is part of AWS, but Alexa isn&rsquo;t</p>
 <p>The deterministic parser relies on regular expressions to match intent and slots, which results in perfect behavior on training examples but doesn’t generalize. This parser is the first to be used because of its strictness.</p>
 
 <p>The probabilistic parser is used whenever the first parser fails to find a match. It uses machine learning to generalize beyond the set of sentences seen at train time, thus making our NLU engine be able to cope with examples which are not in the scope of the training data set. This parser involves two successive steps: intent classification and slot filling. These two steps rely on trained machine learning models to classify intent and extract slots.</p>
+
+<p><a id="markdown-deterministic-intent-parser" name="deterministic-intent-parser"></a></p>
 
 <h2>Deterministic Intent Parser</h2>
 
@@ -438,6 +545,8 @@ Lex is part of AWS, but Alexa isn&rsquo;t</p>
 </ul>
 
 
+<p><a id="markdown-probabilistic-intent-parser" name="probabilistic-intent-parser"></a></p>
+
 <h2>Probabilistic Intent Parser</h2>
 
 <p>If the Deterministic Intent Parser fails to find the intent and slots, the Probabilistic Intent Parser will be used.</p>
@@ -454,7 +563,11 @@ Lex is part of AWS, but Alexa isn&rsquo;t</p>
 
 <p>Apple has released CreateML for training natural language models, which also integrates the powerful NatrualLanguage framework functions, like Tokenization, Part of Speech, Lemmatization, Name Entity Recognition, etc. This will make the training process very simple, and the trained model will be more accurate and smaller.</p>
 
+<p><a id="markdown-intent-classification" name="intent-classification"></a></p>
+
 <h3>Intent Classification</h3>
+
+<p><a id="markdown-model-training" name="model-training"></a></p>
 
 <h4>Model Training</h4>
 
@@ -522,6 +635,8 @@ try! classifier.write(to: URL(fileURLWithPath: "/Users/hozhang/Downloads/textCla
 
 <p>We can get 99.23% training accuracy and 98.87% validation accuracy.</p>
 
+<p><a id="markdown-model-usage" name="model-usage"></a></p>
+
 <h4>Model Usage</h4>
 
 <p>For the trained model of mlmodel type, we can use it in our iOS app through NLModel (from NatrualLanguage framework). The demo swift code may be like:</p>
@@ -546,7 +661,11 @@ print("text: \(text)\nlabel:\(label ?? "Not detected!")")
 </ol>
 </blockquote>
 
+<p><a id="markdown-slot-filling" name="slot-filling"></a></p>
+
 <h3>Slot Filling</h3>
+
+<p><a id="markdown-model-training-1" name="model-training-1"></a></p>
 
 <h4>Model Training</h4>
 
@@ -605,6 +724,8 @@ try! classifier.write(to: URL(fileURLWithPath: "/Users/hozhang/Downloads/slotPar
 
 <p>We can get 99.64% training accuracy and 98.38% validation accuracy.</p>
 
+<p><a id="markdown-model-usage-1" name="model-usage-1"></a></p>
+
 <h4>Model Usage</h4>
 
 <p>We can load the mlmodel into an NLTagger (from NatrualLanguage framework), and use the NLTagger to tag labels for each word of the input command text. The demo swift script is like:</p>
@@ -634,6 +755,8 @@ weatherTagger.enumerateTags(in: text.startIndex..&lt;text.endIndex, unit: .word,
 <li>WWDC video <a href="https://developer.apple.com/videos/play/wwdc2018/713/">Introducing Natural Language Framework</a>: This session introduces NLP framework and its relation with CreateML framework.</li>
 </ol>
 
+
+<p><a id="markdown-model-size" name="model-size"></a></p>
 
 <h3>Model Size</h3>
 
@@ -692,9 +815,13 @@ weatherTagger.enumerateTags(in: text.startIndex..&lt;text.endIndex, unit: .word,
 <p>If still your model is large, you can
 <a href="https://developer.apple.com/documentation/coreml/core_ml_api/downloading_and_compiling_a_model_on_the_user_s_device">Downloading and Compiling a Model on the User&rsquo;s Device</a> at runtime.</p>
 
+<p><a id="markdown-problems-to-be-solved" name="problems-to-be-solved"></a></p>
+
 <h3>Problems to Be Solved</h3>
 
 <p>For Probabilistic Intent Parser, we still have some problems.</p>
+
+<p><a id="markdown-intent-classification-model-has-no-probability-output" name="intent-classification-model-has-no-probability-output"></a></p>
 
 <h4>Intent Classification Model Has No Probability Output</h4>
 
@@ -703,6 +830,8 @@ weatherTagger.enumerateTags(in: text.startIndex..&lt;text.endIndex, unit: .word,
 <p>However, the model trained through <code>MLTextClassifier</code> has no probability output API. If we really need the probability output, we can use other platforms to train the model, like tensorflow. That way, we will not benefit from NatrualLanguage framework and we need to consider these things by ourselves, like Tokenization, Part of Speech, Lemmatization, etc.</p>
 
 <blockquote><p>Try other tools for training models with probability output, like Turi.</p></blockquote>
+
+<p><a id="markdown-slot-filling-model-tagges-the-label-by-words-not-phrase" name="slot-filling-model-tagges-the-label-by-words-not-phrase"></a></p>
 
 <h4>Slot Filling Model Tagges the Label by Words, not Phrase</h4>
 
@@ -756,7 +885,11 @@ weatherTagger.enumerateTags(in: text.startIndex..&lt;text.endIndex, unit: .word,
 </ul>
 
 
+<p><a id="markdown-app-store上面的app" name="app-store上面的app"></a></p>
+
 <h2>App Store上面的App</h2>
+
+<p><a id="markdown-神奇arhttpsitunesapplecomcnappar-arid1327719623mt8" name="神奇ar"></a></p>
 
 <h3><a href="https://itunes.apple.com/cn/app/%E7%A5%9E%E5%A5%87ar-%E7%89%B9%E6%95%88ar%E7%9B%B8%E6%9C%BA%E5%92%8C%E7%9F%AD%E8%A7%86%E9%A2%91%E6%8B%8D%E6%91%84%E7%A5%9E%E5%99%A8/id1327719623?mt=8">神奇AR</a></h3>
 
@@ -777,6 +910,8 @@ weatherTagger.enumerateTags(in: text.startIndex..&lt;text.endIndex, unit: .word,
 
 <p><img src="/images/shenqiar.jpg" alt="神奇 AR" /></p>
 
+<p><a id="markdown-ikea-placehttpsitunesapplecomusappikea-placeid1279244498mt8" name="ikea-place"></a></p>
+
 <h3><a href="https://itunes.apple.com/us/app/ikea-place/id1279244498?mt=8">IKEA Place</a></h3>
 
 <p>宜家的官方App，有丰富的宜家家具的3D模型，真实尺寸，可以提前放置到自己的房间，看看效果。</p>
@@ -785,6 +920,8 @@ weatherTagger.enumerateTags(in: text.startIndex..&lt;text.endIndex, unit: .word,
 
 <p><img src="/images/IKEAPlace.jpg" alt="ikea place" /></p>
 
+<p><a id="markdown-wallrhttpsitunesapplecomusappwallrid1278372745" name="wallr"></a></p>
+
 <h3><a href="https://itunes.apple.com/us/app/wallr/id1278372745">Wallr</a></h3>
 
 <p>Wallr可以让你将图片放置到真实场景的墙面上。如果你想买画装饰墙面，可以试试。不过这个功能已经在<a href="https://itunes.apple.com/cn/app/%E7%A5%9E%E5%A5%87ar-%E7%89%B9%E6%95%88ar%E7%9B%B8%E6%9C%BA%E5%92%8C%E7%9F%AD%E8%A7%86%E9%A2%91%E6%8B%8D%E6%91%84%E7%A5%9E%E5%99%A8/id1327719623?mt=8">神奇AR</a>中实现了，而且是免费的。</p>
@@ -792,6 +929,8 @@ weatherTagger.enumerateTags(in: text.startIndex..&lt;text.endIndex, unit: .word,
 <p>同时放置多张图片需要花钱购买。</p>
 
 <p><img src="/images/wallr.jpg" alt="wallr" /></p>
+
+<p><a id="markdown-horizon-explorerhttpsitunesapplecomgbapphorizon-explorerid1326860431platformipadpreservescrollpositiontrueplatformipad" name="horizon-explorer"></a></p>
 
 <h3><a href="https://itunes.apple.com/gb/app/horizon-explorer/id1326860431?platform=ipad&amp;preserveScrollPosition=true#platform/ipad">Horizon Explorer</a></h3>
 
@@ -815,6 +954,8 @@ weatherTagger.enumerateTags(in: text.startIndex..&lt;text.endIndex, unit: .word,
 
 <p><img src="/images/HorizonExplorer.jpg" alt="Horizon Explorer" /></p>
 
+<p><a id="markdown-wearehttpsitunesapplecomcnappweareid1304227680platformiphonepreservescrollpositiontrueplatformiphoneplatformiphoneplatformiphone" name="weare"></a></p>
+
 <h3><a href="https://itunes.apple.com/cn/app/weare/id1304227680?platform=iphone&amp;preserveScrollPosition=true&amp;platform=iphone#platform/iphone&amp;platform=iphone">WeAre</a></h3>
 
 <p>这个应用可以让你选择一些照片，以设备为中心围成一圈，并缓慢移动。还可以播放视频、背景音乐和编辑3D文字。用作者的话说，“可以打造一个或温馨浪漫的回忆相册,或缥缈遥远的世界.”</p>
@@ -822,6 +963,8 @@ weatherTagger.enumerateTags(in: text.startIndex..&lt;text.endIndex, unit: .word,
 <p>同时还是源码可以参考：<a href="https://github.com/SherlockQi/HeavenMemoirs">HeavenMemoirs - AR相册</a></p>
 
 <p><img src="/images/weare.jpg" alt="WeAre" /></p>
+
+<p><a id="markdown-waazy---magic-ar-video-makerhttpsitunesapplecomusappwaazy-magic-ar-video-makerid1286992749" name="waazy---magic-ar-video-maker"></a></p>
 
 <h3><a href="https://itunes.apple.com/us/app/waazy-magic-ar-video-maker/id1286992749">Waazy - Magic AR Video Maker</a></h3>
 
@@ -840,6 +983,8 @@ weatherTagger.enumerateTags(in: text.startIndex..&lt;text.endIndex, unit: .word,
 
 <p><img src="/images/wazzy.jpg" alt="wazzy" /></p>
 
+<p><a id="markdown-human-anatomy-atlas-2019httpsitunesapplecomappid1117998129" name="human-anatomy-atlas-2019"></a></p>
+
 <h3><a href="https://itunes.apple.com/app/id1117998129">Human Anatomy Atlas 2019</a></h3>
 
 <p>其实这个主要是展示人体内部结构的3D素材，借助AR技术投射到真实场景，没有很新鲜的AR应用场景。</p>
@@ -853,13 +998,19 @@ Includes over 10,000 anatomical models with descriptions in English, Spanish, Fr
 
 <p><img src="/images/HumanAnatomyAtlas2019_2.jpg" alt="Human Anatomy Atlas 2019 2" /></p>
 
+<p><a id="markdown-github上面的项目" name="github上面的项目"></a></p>
+
 <h2>Github上面的项目</h2>
+
+<p><a id="markdown-arkit-occlusion-demohttpsgithubcombjarnelarkit-occlusion" name="arkit-occlusion-demo"></a></p>
 
 <h3><a href="https://github.com/bjarnel/arkit-occlusion">arkit-occlusion-demo</a></h3>
 
 <p>事先用一些虚拟平面将真实的墙面、柜子面、门等标记出来，就可以让虚拟的小球在房间里面来回反弹，就像撞到真实的墙上返回来一样。</p>
 
 <p><img src="/images/occlusiongame.jpg" width="600" alt="occlusion game" /></p>
+
+<p><a id="markdown-arvideokit" name="arvideokit"></a></p>
 
 <h3><a href="">ARVideoKit</a></h3>
 
@@ -885,6 +1036,8 @@ Includes over 10,000 anatomical models with descriptions in English, Spanish, Fr
 
 <p>✅ Returns rendered and raw buffers in a protocol method for additional Image &amp; Video processing</p></blockquote>
 
+<p><a id="markdown-arkit-smb-homagehttpsgithubcombjarnelarkit-smb-homage" name="arkit-smb-homage"></a></p>
+
 <h3><a href="https://github.com/bjarnel/arkit-smb-homage">arkit-smb-homage</a></h3>
 
 <p>在现实场景中玩超级玛丽。非常粗糙，但是创意还不错。</p>
@@ -892,6 +1045,8 @@ Includes over 10,000 anatomical models with descriptions in English, Spanish, Fr
 <p><img src="/images/supermario_beginning.jpg" width="600" alt="super mario beginning" /></p>
 
 <p><img src="/images/supermario_flag.jpg" width="600" alt="super mario flag" /></p>
+
+<p><a id="markdown-arkit-corelocationhttpsgithubcomprojectdentarkit-corelocation" name="arkit-corelocation"></a></p>
 
 <h3><a href="https://github.com/ProjectDent/ARKit-CoreLocation">ARKit-CoreLocation</a></h3>
 
@@ -909,6 +1064,8 @@ Includes over 10,000 anatomical models with descriptions in English, Spanish, Fr
 
 <p><img src="/images/arkit+corelocation.jpg" width="600" alt="arkit + corelocation" /></p>
 
+<p><a id="markdown-arkitnavigationdemohttpsgithubcomchriswebb09arkitnavigationdemo" name="arkitnavigationdemo"></a></p>
+
 <h3><a href="https://github.com/chriswebb09/ARKitNavigationDemo">ARKitNavigationDemo</a></h3>
 
 <p>在地图上选择目的地，然后在真实场景中进行AR导航。</p>
@@ -920,6 +1077,8 @@ Includes over 10,000 anatomical models with descriptions in English, Spanish, Fr
 <p>TODO: 这个项目中推荐的一些参考文献还是值得看一看的。</p>
 
 <p><img src="/images/ARKitNavigationDemo.gif" alt="ARKitNavigationDemo" /></p>
+
+<p><a id="markdown-finemehttpsgithubcommmoaayfindme" name="fineme"></a></p>
 
 <h3><a href="https://github.com/mmoaay/Findme">FineMe</a></h3>
 
@@ -942,13 +1101,19 @@ Includes over 10,000 anatomical models with descriptions in English, Spanish, Fr
 </ul>
 
 
+<p><a id="markdown-arkitspitfirehttpsgithubcomchriswebb09arkitspitfire" name="arkitspitfire"></a></p>
+
 <h3><a href="https://github.com/chriswebb09/ARKitSpitfire">ARKitSpitfire</a></h3>
 
 <p>可以让一架3D飞机模型，根据提供的地理位置经纬度，调整姿态，并飞向那里。</p>
 
 <p><img src="/images/ARKitSpitfire.gif" alt="ARKitSpitfire" /></p>
 
+<p><a id="markdown-resources" name="resources"></a></p>
+
 <h2>Resources</h2>
+
+<p><a id="markdown-polyhttpsgithubcompiemontepoly" name="poly"></a></p>
 
 <h3><a href="https://github.com/piemonte/Poly">Poly</a></h3>
 
@@ -966,9 +1131,26 @@ Includes over 10,000 anatomical models with descriptions in English, Spanish, Fr
     <content type="html"><![CDATA[<!-- more -->
 
 
+<ul>
+<li><a href="#background">Background</a></li>
+<li><a href="#create-ml">Create ML</a></li>
+<li><a href="#main-advantage-easy-to-use">Main Advantage: Easy to Use</a>
+
+<ul>
+<li><a href="#create-ml%E5%92%8Cturi-create">Create ML和Turi Create</a></li>
+</ul>
+</li>
+<li><a href="#transfer-learning">Transfer Learning</a></li>
+<li><a href="#improving-accuracy">Improving Accuracy</a></li>
+<li><a href="#references-and-materials">References and Materials</a></li>
+</ul>
+
+
 <p>Apple released Core ML in WWDC2017, and I took a note on <a href="../../../../2017/12/28/coreml-usage/">CoreML Usage</a>, including mlmodel training using Microsoft <a href="https://www.customvision.ai/">Custom Vision</a>.</p>
 
 <p>This post is about the background of Create ML, its advantages, its relations with Turi. There is no code in this post. If you are looking for the usage of Create ML, refer to <a href="https://www.raywenderlich.com/196233/create-ml-tutorial-getting-started">Create ML Tutorial: Getting Started</a>.</p>
+
+<p><a id="markdown-background" name="background"></a></p>
 
 <h2>Background</h2>
 
@@ -992,6 +1174,8 @@ Includes over 10,000 anatomical models with descriptions in English, Spanish, Fr
 
 <p><strong>Turi Create</strong>: Acquired by Apple in 2016 ($200M), it lets you customize existing models with your own data. But … Python :[.</p>
 
+<p><a id="markdown-create-ml" name="create-ml"></a></p>
+
 <h2>Create ML</h2>
 
 <p>Finally in WWDC2018, Apple announced <strong>Create ML</strong>, which can train machine learning models on macOS, able to use the GPU on macOS. The Create ML session and Turi Create session did not mention any word on each other, but obviousely, Create ML is based on Turi Create.</p>
@@ -999,6 +1183,8 @@ Includes over 10,000 anatomical models with descriptions in English, Spanish, Fr
 <p>Based on Trui&rsquo;s model training, Create ML can make model training on macOS using GPU (maybe through Metal), and come up with models which can be used by Core ML framework.</p>
 
 <p>With XCode Playground&rsquo;s updates, Apple gives CreateMLUI, a very easy way for model training: just need to drag your training data and test data into Playground.</p>
+
+<p><a id="markdown-main-advantage-easy-to-use" name="main-advantage-easy-to-use"></a></p>
 
 <h2>Main Advantage: Easy to Use</h2>
 
@@ -1014,6 +1200,8 @@ Includes over 10,000 anatomical models with descriptions in English, Spanish, Fr
 
 <p>Refer to <a href="https://www.raywenderlich.com/196233/create-ml-tutorial-getting-started">Create ML Tutorial: Getting Started</a> to see how easy it is to use Create ML. There are some code comparasion between Create ML and Turi Create.</p>
 
+<p><a id="markdown-create-ml和turi-create" name="create-ml和turi-create"></a></p>
+
 <h3>Create ML和Turi Create</h3>
 
 <p>Currently Create ML includes only two of Turi Create’s seven task-focused toolkits, plus a generic classifier and regressor, and data tables. Turi Create has five task-focused toolkits that aren’t (yet?) in Create ML:</p>
@@ -1026,6 +1214,8 @@ Includes over 10,000 anatomical models with descriptions in English, Spanish, Fr
 <li>Activity classification</li>
 </ul>
 
+
+<p><a id="markdown-transfer-learning" name="transfer-learning"></a></p>
 
 <h2>Transfer Learning</h2>
 
@@ -1057,11 +1247,15 @@ Includes over 10,000 anatomical models with descriptions in English, Spanish, Fr
 
 <p>&ndash;Refer to <a href="https://www.raywenderlich.com/196233/create-ml-tutorial-getting-started">Create ML Tutorial: Getting Started</a></p></blockquote>
 
+<p><a id="markdown-improving-accuracy" name="improving-accuracy"></a></p>
+
 <h2>Improving Accuracy</h2>
 
 <p>Refer to <a href="https://developer.apple.com/documentation/create_ml/improving_your_model_s_accuracy">Improving Your Model’s Accuracy</a> from Apple for improving training accuracy.</p>
 
 <p>How to improve the model&rsquo;s training accuracy, validation accuracy and evaluation accuracy. <a href="https://www.raywenderlich.com/196233/create-ml-tutorial-getting-started">Create ML Tutorial: Getting Started</a> describes the three &lsquo;accuracy&rsquo;s.</p>
+
+<p><a id="markdown-references-and-materials" name="references-and-materials"></a></p>
 
 <h2>References and Materials</h2>
 
@@ -1093,6 +1287,53 @@ Includes over 10,000 anatomical models with descriptions in English, Spanish, Fr
     <content type="html"><![CDATA[<!-- more -->
 
 
+<ul>
+<li><a href="#overview">Overview</a></li>
+<li><a href="#new-features-in-arkit-2">New Features in ARKit 2</a>
+
+<ul>
+<li><a href="#saving-and-loading-maps">Saving and Loading Maps</a>
+
+<ul>
+<li><a href="#world-tracking-recap">World Tracking Recap:</a></li>
+<li><a href="#world-tracking-enhancement">World Tracking Enhancement:</a></li>
+<li><a href="#saving-and-loading-maps">Saving and loading maps:</a></li>
+<li><a href="#how-to-get-a-good-map">How to get a good map</a></li>
+</ul>
+</li>
+<li><a href="#environment-texturing">Environment Texturing</a></li>
+<li><a href="#image-tracking">Image Tracking</a></li>
+<li><a href="#3d-object-detection">3D Object Detection</a></li>
+<li><a href="#face-tracking-enhancements">Face Tracking Enhancements</a></li>
+</ul>
+</li>
+<li><a href="#some-other-wwdc-sessions-related-to-ar">Some other WWDC Sessions Related to AR</a>
+
+<ul>
+<li><a href="#integrating-apps-and-content-with-ar-quick-look">Integrating Apps and Content with AR Quick Look</a></li>
+<li><a href="#inside-swiftshot-creating-an-ar-game">Inside SwiftShot: Creating an AR Game</a></li>
+<li><a href="#creating-great-ar-experiences">Creating Great AR Experiences</a></li>
+<li><a href="#understanding-arkit-tracking-and-detection">Understanding ARKit Tracking and Detection</a></li>
+</ul>
+</li>
+<li><a href="#some-other-materials-for-a-better-ar-app">Some other materials for a better AR app:</a>
+
+<ul>
+<li><a href="#building-your-first-ar-experience">Building Your First AR Experience</a></li>
+<li><a href="#managing-session-lifecycle-and-tracking-quality">Managing Session Lifecycle and Tracking Quality</a></li>
+<li><a href="#human-interface-guidelines---augmented-reality">Human Interface Guidelines - Augmented Reality</a></li>
+<li><a href="#handling-3d-interaction-and-ui-controls-in-augmented-reality">Handling 3D Interaction and UI Controls in Augmented Reality</a></li>
+<li><a href="#creating-a-multiuser-ar-experience">Creating a Multiuser AR Experience</a></li>
+<li><a href="#swiftshot-creating-a-game-for-augmented-reality">SwiftShot: Creating a Game for Augmented Reality</a></li>
+<li><a href="#recognizing-images-in-an-ar-experience">Recognizing Images in an AR Experience</a></li>
+<li><a href="#scanning-and-detecting-3d-objects">Scanning and Detecting 3D Objects</a></li>
+</ul>
+</li>
+</ul>
+
+
+<p><a id="markdown-overview" name="overview"></a></p>
+
 <h2>Overview</h2>
 
 <p>In ARKit 1, we have:</p>
@@ -1116,9 +1357,15 @@ Includes over 10,000 anatomical models with descriptions in English, Spanish, Fr
 </ul>
 
 
+<p><a id="markdown-new-features-in-arkit-2" name="new-features-in-arkit-2"></a></p>
+
 <h2>New Features in ARKit 2</h2>
 
+<p><a id="markdown-saving-and-loading-maps" name="saving-and-loading-maps"></a></p>
+
 <h3>Saving and Loading Maps</h3>
+
+<p><a id="markdown-world-tracking-recap" name="world-tracking-recap"></a></p>
 
 <h4>World Tracking Recap:</h4>
 
@@ -1130,6 +1377,8 @@ Includes over 10,000 anatomical models with descriptions in English, Spanish, Fr
 </ul>
 
 
+<p><a id="markdown-world-tracking-enhancement" name="world-tracking-enhancement"></a></p>
+
 <h4>World Tracking Enhancement:</h4>
 
 <ul>
@@ -1140,6 +1389,8 @@ Includes over 10,000 anatomical models with descriptions in English, Spanish, Fr
 <li>New 4:3 video formats (iPad is also 4:3)</li>
 </ul>
 
+
+<p><a id="markdown-saving-and-loading-maps" name="saving-and-loading-maps"></a></p>
 
 <h4>Saving and loading maps:</h4>
 
@@ -1171,6 +1422,8 @@ Includes over 10,000 anatomical models with descriptions in English, Spanish, Fr
 
 <p><img src="/images/arkit2_multiuser_experience_demo.gif" alt="swift shot game" /></p>
 
+<p><a id="markdown-how-to-get-a-good-map" name="how-to-get-a-good-map"></a></p>
+
 <h4>How to get a good map</h4>
 
 <p>In order to share or restore the map, we need to get a good one first. A good map should be:</p>
@@ -1195,11 +1448,15 @@ Includes over 10,000 anatomical models with descriptions in English, Spanish, Fr
 }
 </code></pre>
 
+<p><a id="markdown-environment-texturing" name="environment-texturing"></a></p>
+
 <h3>Environment Texturing</h3>
 
 <p>With the help of Environment Texturing, AR scene objects can reflect the environment texture on the surface of themselves, just like:</p>
 
 <p><img src="/images/arkit2_environment_texturing_demo.jpg" alt="arkit2 environment texturing demo" /></p>
+
+<p><a id="markdown-image-tracking" name="image-tracking"></a></p>
 
 <h3>Image Tracking</h3>
 
@@ -1265,6 +1522,8 @@ Includes over 10,000 anatomical models with descriptions in English, Spanish, Fr
 </table>
 
 
+<p><a id="markdown-3d-object-detection" name="3d-object-detection"></a></p>
+
 <h3>3D Object Detection</h3>
 
 <p>3D object detection workflow is:</p>
@@ -1300,6 +1559,8 @@ Includes over 10,000 anatomical models with descriptions in English, Spanish, Fr
 
 <p><img src="/images/arkit2_3D_object_tracking_demo.gif" alt="arkit2 object tracking demo" /></p>
 
+<p><a id="markdown-face-tracking-enhancements" name="face-tracking-enhancements"></a></p>
+
 <h3>Face Tracking Enhancements</h3>
 
 <p>With face tracking, we can place something on it or around it.</p>
@@ -1318,7 +1579,11 @@ Includes over 10,000 anatomical models with descriptions in English, Spanish, Fr
 
 <p><img src="/images/what-is-new-in-arkit-2.jpg" alt="what-is-new-in-arkit-2" /></p>
 
+<p><a id="markdown-some-other-wwdc-sessions-related-to-ar" name="some-other-wwdc-sessions-related-to-ar"></a></p>
+
 <h2>Some other WWDC Sessions Related to AR</h2>
+
+<p><a id="markdown-integrating-apps-and-content-with-ar-quick-lookhttpsdeveloperapplecomvideosplaywwdc2018603" name="integrating-apps-and-content-with-ar-quick-lookhttpsdeveloperapplecomvideosplaywwdc2018603"></a></p>
 
 <h3><a href="https://developer.apple.com/videos/play/wwdc2018/603/">Integrating Apps and Content with AR Quick Look</a></h3>
 
@@ -1334,6 +1599,8 @@ Includes over 10,000 anatomical models with descriptions in English, Spanish, Fr
 </ul>
 
 
+<p><a id="markdown-inside-swiftshot-creating-an-ar-gamehttpsdeveloperapplecomvideosplaywwdc2018605" name="inside-swiftshot-creating-an-ar-gamehttpsdeveloperapplecomvideosplaywwdc2018605"></a></p>
+
 <h3><a href="https://developer.apple.com/videos/play/wwdc2018/605/">Inside SwiftShot: Creating an AR Game</a></h3>
 
 <p>Covers world map sharing, networking, and the physics of how to build an AR game, as well as some design insight (I have limited game dev experience so I’ll do the best I can below).</p>
@@ -1346,6 +1613,8 @@ Includes over 10,000 anatomical models with descriptions in English, Spanish, Fr
 <li>A small look at how audio was integrated into the game.</li>
 </ul>
 
+
+<p><a id="markdown-creating-great-ar-experienceshttpsdeveloperapplecomvideosplaywwdc2018805" name="creating-great-ar-experienceshttpsdeveloperapplecomvideosplaywwdc2018805"></a></p>
 
 <h3><a href="https://developer.apple.com/videos/play/wwdc2018/805/">Creating Great AR Experiences</a></h3>
 
@@ -1360,6 +1629,8 @@ Includes over 10,000 anatomical models with descriptions in English, Spanish, Fr
 </ul>
 
 
+<p><a id="markdown-understanding-arkit-tracking-and-detectionhttpsdeveloperapplecomvideosplaywwdc2018610" name="understanding-arkit-tracking-and-detectionhttpsdeveloperapplecomvideosplaywwdc2018610"></a></p>
+
 <h3><a href="https://developer.apple.com/videos/play/wwdc2018/610/">Understanding ARKit Tracking and Detection</a></h3>
 
 <p>A good broad overview of all of the main AR concepts.</p>
@@ -1372,11 +1643,17 @@ Includes over 10,000 anatomical models with descriptions in English, Spanish, Fr
 </ul>
 
 
+<p><a id="markdown-some-other-materials-for-a-better-ar-app" name="some-other-materials-for-a-better-ar-app"></a></p>
+
 <h2>Some other materials for a better AR app:</h2>
+
+<p><a id="markdown-building-your-first-ar-experiencehttpsdeveloperapplecomdocumentationarkitbuilding_your_first_ar_experience" name="building-your-first-ar-experiencehttpsdeveloperapplecomdocumentationarkitbuilding_your_first_ar_experience"></a></p>
 
 <h3><a href="https://developer.apple.com/documentation/arkit/building_your_first_ar_experience">Building Your First AR Experience</a></h3>
 
 <p>This document demos an app for basic usage of ARKit.</p>
+
+<p><a id="markdown-managing-session-lifecycle-and-tracking-qualityhttpsdeveloperapplecomdocumentationarkitmanaging_session_lifecycle_and_tracking_quality" name="managing-session-lifecycle-and-tracking-qualityhttpsdeveloperapplecomdocumentationarkitmanaging_session_lifecycle_and_tracking_quality"></a></p>
 
 <h3><a href="https://developer.apple.com/documentation/arkit/managing_session_lifecycle_and_tracking_quality">Managing Session Lifecycle and Tracking Quality</a></h3>
 
@@ -1389,15 +1666,21 @@ Includes over 10,000 anatomical models with descriptions in English, Spanish, Fr
 </ul>
 
 
+<p><a id="markdown-human-interface-guidelines---augmented-realityhttpsdeveloperapplecomdesignhuman-interface-guidelinesiossystem-capabilitiesaugmented-reality" name="human-interface-guidelines---augmented-realityhttpsdeveloperapplecomdesignhuman-interface-guidelinesiossystem-capabilitiesaugmented-reality"></a></p>
+
 <h3><a href="https://developer.apple.com/design/human-interface-guidelines/ios/system-capabilities/augmented-reality/">Human Interface Guidelines - Augmented Reality</a></h3>
 
 <p>This post describes how to rendering virtual objects, how to interact with virtual objects, how to handling interruptions. It is for UX.</p>
+
+<p><a id="markdown-handling-3d-interaction-and-ui-controls-in-augmented-realityhttpsdeveloperapplecomdocumentationarkithandling_3d_interaction_and_ui_controls_in_augmented_reality" name="handling-3d-interaction-and-ui-controls-in-augmented-realityhttpsdeveloperapplecomdocumentationarkithandling_3d_interaction_and_ui_controls_in_augmented_reality"></a></p>
 
 <h3><a href="https://developer.apple.com/documentation/arkit/handling_3d_interaction_and_ui_controls_in_augmented_reality">Handling 3D Interaction and UI Controls in Augmented Reality</a></h3>
 
 <p>This document describes the best practices for visual feedback, gesture interactions, and realistic rendering in AR experiences. And a demo app is supplied.</p>
 
 <p><img src="/images/arkit_demo_screenshot.jpg" alt="arkit demo" /></p>
+
+<p><a id="markdown-creating-a-multiuser-ar-experiencehttpsdeveloperapplecomdocumentationarkitcreating_a_multiuser_ar_experience" name="creating-a-multiuser-ar-experiencehttpsdeveloperapplecomdocumentationarkitcreating_a_multiuser_ar_experience"></a></p>
 
 <h3><a href="https://developer.apple.com/documentation/arkit/creating_a_multiuser_ar_experience">Creating a Multiuser AR Experience</a></h3>
 
@@ -1411,6 +1694,8 @@ Includes over 10,000 anatomical models with descriptions in English, Spanish, Fr
 </ul>
 
 
+<p><a id="markdown-swiftshot-creating-a-game-for-augmented-realityhttpsdeveloperapplecomdocumentationarkitswiftshot_creating_a_game_for_augmented_reality" name="swiftshot-creating-a-game-for-augmented-realityhttpsdeveloperapplecomdocumentationarkitswiftshot_creating_a_game_for_augmented_reality"></a></p>
+
 <h3><a href="https://developer.apple.com/documentation/arkit/swiftshot_creating_a_game_for_augmented_reality">SwiftShot: Creating a Game for Augmented Reality</a></h3>
 
 <p>This document demos the SwiftShot game shown on WWDC 2018, including:</p>
@@ -1423,9 +1708,13 @@ Includes over 10,000 anatomical models with descriptions in English, Spanish, Fr
 </ul>
 
 
+<p><a id="markdown-recognizing-images-in-an-ar-experiencehttpsdeveloperapplecomdocumentationarkitrecognizing_images_in_an_ar_experience" name="recognizing-images-in-an-ar-experiencehttpsdeveloperapplecomdocumentationarkitrecognizing_images_in_an_ar_experience"></a></p>
+
 <h3><a href="https://developer.apple.com/documentation/arkit/recognizing_images_in_an_ar_experience">Recognizing Images in an AR Experience</a></h3>
 
 <p>Detect known 2D images in the user’s environment, and use their positions to place AR content.</p>
+
+<p><a id="markdown-scanning-and-detecting-3d-objectshttpsdeveloperapplecomdocumentationarkitscanning_and_detecting_3d_objects" name="scanning-and-detecting-3d-objectshttpsdeveloperapplecomdocumentationarkitscanning_and_detecting_3d_objects"></a></p>
 
 <h3><a href="https://developer.apple.com/documentation/arkit/scanning_and_detecting_3d_objects">Scanning and Detecting 3D Objects</a></h3>
 

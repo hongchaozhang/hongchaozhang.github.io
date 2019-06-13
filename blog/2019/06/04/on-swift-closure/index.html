@@ -9,8 +9,11 @@
 	<meta name="author" content="Zhang Hongchao">
 
 	
-	<meta name="description" content="Swift Closure Functional swift: All about Closures 这篇全面详细易懂地介绍了Swift的Closure，包括 Closure的语法，包括一些简化写法，如Trailing Closures
-Closure与Function的区别 &hellip;">
+	<meta name="description" content="Swift Closure Function与Closure的关系：
+用Closure初始化一个变量
+Closure的语法糖：
+Closure与内存管理、内存泄漏 Capture List的定义
+Weak and Unowned References Closure捕获变量 Functional &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -111,6 +114,21 @@ Closure与Function的区别 &hellip;">
 	<div class="entry-content" itemprop="articleBody"><!-- more -->
 
 
+<ul>
+<li><a href="#function%E4%B8%8Eclosure%E7%9A%84%E5%85%B3%E7%B3%BB">Function与Closure的关系：</a></li>
+<li><a href="#%E7%94%A8closure%E5%88%9D%E5%A7%8B%E5%8C%96%E4%B8%80%E4%B8%AA%E5%8F%98%E9%87%8F">用Closure初始化一个变量</a></li>
+<li><a href="#closure%E7%9A%84%E8%AF%AD%E6%B3%95%E7%B3%96">Closure的语法糖：</a></li>
+<li><a href="#closure%E4%B8%8E%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F">Closure与内存管理、内存泄漏</a>
+
+<ul>
+<li><a href="#capture-list%E7%9A%84%E5%AE%9A%E4%B9%89">Capture List的定义</a></li>
+<li><a href="#weak-and-unowned-references">Weak and Unowned References</a></li>
+</ul>
+</li>
+<li><a href="#closure%E6%8D%95%E8%8E%B7%E5%8F%98%E9%87%8F">Closure捕获变量</a></li>
+</ul>
+
+
 <p><a href="https://medium.com/@abhimuralidharan/functional-swift-all-about-closures-310bc8af31dd">Functional swift: All about Closures</a></p>
 
 <p>这篇全面详细易懂地介绍了Swift的Closure，包括</p>
@@ -126,6 +144,8 @@ Closure与Function的区别 &hellip;">
 <p>也可以看<a href="https://docs.swift.org/swift-book/LanguageGuide/Closures.html">官方文档Closures</a>，但是官方文档没有上面的文章详细。</p>
 
 <p>下面有选择地记录一下。</p>
+
+<p><a id="markdown-function与closure的关系" name="function与closure的关系"></a></p>
 
 <h2>Function与Closure的关系：</h2>
 
@@ -149,6 +169,8 @@ Closure与Function的区别 &hellip;">
 </ul>
 </blockquote>
 
+<p><a id="markdown-用closure初始化一个变量" name="用closure初始化一个变量"></a></p>
+
 <h2>用Closure初始化一个变量</h2>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -163,6 +185,8 @@ Closure与Function的区别 &hellip;">
 </span><span class='line'><span class="p">}()</span> <span class="c1">//IMPORTANT!!! I have added () at the end.</span>
 </span></code></pre></td></tr></table></div></figure>
 
+
+<p><a id="markdown-closure的语法糖" name="closure的语法糖"></a></p>
 
 <h2>Closure的语法糖：</h2>
 
@@ -283,6 +307,8 @@ Closure与Function的区别 &hellip;">
 </span></code></pre></td></tr></table></div></figure>
 
 
+<p><a id="markdown-closure与内存管理内存泄漏" name="closure与内存管理内存泄漏"></a></p>
+
 <h2>Closure与内存管理、内存泄漏</h2>
 
 <p>Closure带来的循环引用和内存泄漏，主要通过Capture List来解决：</p>
@@ -290,6 +316,8 @@ Closure与Function的区别 &hellip;">
 <blockquote><p>You resolve a strong reference cycle between a closure and a class instance by defining a capture list as part of the closure’s definition. A capture list defines the rules to use when capturing one or more reference types within the closure’s body.</p></blockquote>
 
 <p>详细内容参考<a href="https://docs.swift.org/swift-book/LanguageGuide/AutomaticReferenceCounting.html#ID56">Resolving Strong Reference Cycles for Closures</a>。下面摘要一下。</p>
+
+<p><a id="markdown-capture-list的定义" name="capture-list的定义"></a></p>
 
 <h3>Capture List的定义</h3>
 
@@ -308,6 +336,8 @@ Closure与Function的区别 &hellip;">
 </span></code></pre></td></tr></table></div></figure>
 
 
+<p><a id="markdown-weak-and-unowned-references" name="weak-and-unowned-references"></a></p>
+
 <h3>Weak and Unowned References</h3>
 
 <blockquote><p>Define a capture in a closure as an unowned reference when the closure and the instance it captures will always refer to each other, and will always be deallocated at the same time.</p>
@@ -319,6 +349,8 @@ Closure与Function的区别 &hellip;">
 <p>关于unowned的另一个解释更清楚：</p>
 
 <blockquote><p>Like a weak reference, an unowned reference does not keep a strong hold on the instance it refers to. Unlike a weak reference, however, an unowned reference is used when the other instance has the same lifetime or a longer lifetime.</p></blockquote>
+
+<p><a id="markdown-closure捕获变量" name="closure捕获变量"></a></p>
 
 <h2>Closure捕获变量</h2>
 

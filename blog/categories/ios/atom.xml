@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ios | Reading Space]]></title>
   <link href="http://hongchaozhang.github.io/blog/categories/ios/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2019-06-12T18:23:24+08:00</updated>
+  <updated>2019-06-13T13:41:25+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -19,6 +19,21 @@
     <updated>2019-06-04T17:24:47+08:00</updated>
     <id>http://hongchaozhang.github.io/blog/2019/06/04/on-swift-closure</id>
     <content type="html"><![CDATA[<!-- more -->
+
+
+<ul>
+<li><a href="#function%E4%B8%8Eclosure%E7%9A%84%E5%85%B3%E7%B3%BB">Function与Closure的关系：</a></li>
+<li><a href="#%E7%94%A8closure%E5%88%9D%E5%A7%8B%E5%8C%96%E4%B8%80%E4%B8%AA%E5%8F%98%E9%87%8F">用Closure初始化一个变量</a></li>
+<li><a href="#closure%E7%9A%84%E8%AF%AD%E6%B3%95%E7%B3%96">Closure的语法糖：</a></li>
+<li><a href="#closure%E4%B8%8E%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F">Closure与内存管理、内存泄漏</a>
+
+<ul>
+<li><a href="#capture-list%E7%9A%84%E5%AE%9A%E4%B9%89">Capture List的定义</a></li>
+<li><a href="#weak-and-unowned-references">Weak and Unowned References</a></li>
+</ul>
+</li>
+<li><a href="#closure%E6%8D%95%E8%8E%B7%E5%8F%98%E9%87%8F">Closure捕获变量</a></li>
+</ul>
 
 
 <p><a href="https://medium.com/@abhimuralidharan/functional-swift-all-about-closures-310bc8af31dd">Functional swift: All about Closures</a></p>
@@ -36,6 +51,8 @@
 <p>也可以看<a href="https://docs.swift.org/swift-book/LanguageGuide/Closures.html">官方文档Closures</a>，但是官方文档没有上面的文章详细。</p>
 
 <p>下面有选择地记录一下。</p>
+
+<p><a id="markdown-function与closure的关系" name="function与closure的关系"></a></p>
 
 <h2>Function与Closure的关系：</h2>
 
@@ -59,6 +76,8 @@
 </ul>
 </blockquote>
 
+<p><a id="markdown-用closure初始化一个变量" name="用closure初始化一个变量"></a></p>
+
 <h2>用Closure初始化一个变量</h2>
 
 <pre><code class="swift">let setupViewUsingClosure: UIView = {
@@ -67,6 +86,8 @@
     return view
 }() //IMPORTANT!!! I have added () at the end.
 </code></pre>
+
+<p><a id="markdown-closure的语法糖" name="closure的语法糖"></a></p>
 
 <h2>Closure的语法糖：</h2>
 
@@ -167,6 +188,8 @@ rreversedNames = names.sorted(by: { $0 &gt; $1 } )
 rreversedNames = names.sorted { $0 &gt; $1 }
 </code></pre>
 
+<p><a id="markdown-closure与内存管理内存泄漏" name="closure与内存管理内存泄漏"></a></p>
+
 <h2>Closure与内存管理、内存泄漏</h2>
 
 <p>Closure带来的循环引用和内存泄漏，主要通过Capture List来解决：</p>
@@ -174,6 +197,8 @@ rreversedNames = names.sorted { $0 &gt; $1 }
 <blockquote><p>You resolve a strong reference cycle between a closure and a class instance by defining a capture list as part of the closure’s definition. A capture list defines the rules to use when capturing one or more reference types within the closure’s body.</p></blockquote>
 
 <p>详细内容参考<a href="https://docs.swift.org/swift-book/LanguageGuide/AutomaticReferenceCounting.html#ID56">Resolving Strong Reference Cycles for Closures</a>。下面摘要一下。</p>
+
+<p><a id="markdown-capture-list的定义" name="capture-list的定义"></a></p>
 
 <h3>Capture List的定义</h3>
 
@@ -187,6 +212,8 @@ rreversedNames = names.sorted { $0 &gt; $1 }
 }
 </code></pre>
 
+<p><a id="markdown-weak-and-unowned-references" name="weak-and-unowned-references"></a></p>
+
 <h3>Weak and Unowned References</h3>
 
 <blockquote><p>Define a capture in a closure as an unowned reference when the closure and the instance it captures will always refer to each other, and will always be deallocated at the same time.</p>
@@ -198,6 +225,8 @@ rreversedNames = names.sorted { $0 &gt; $1 }
 <p>关于unowned的另一个解释更清楚：</p>
 
 <blockquote><p>Like a weak reference, an unowned reference does not keep a strong hold on the instance it refers to. Unlike a weak reference, however, an unowned reference is used when the other instance has the same lifetime or a longer lifetime.</p></blockquote>
+
+<p><a id="markdown-closure捕获变量" name="closure捕获变量"></a></p>
 
 <h2>Closure捕获变量</h2>
 
@@ -268,6 +297,29 @@ closureArray2[4]() // prints 4
     <content type="html"><![CDATA[<!-- more -->
 
 
+<ul>
+<li><a href="#array-out-of-range-crash"><code>Array</code> out of Range Crash</a></li>
+<li><a href="#homemade-collection">Homemade collection</a></li>
+<li><a href="#sequences">Sequences</a>
+
+<ul>
+<li><a href="#how-to-conform-to-sequence-protocol">How to Conform to <code>Sequence</code> Protocol</a></li>
+<li><a href="#make-our-section-conform-to-sequence-protocol">Make our <code>Section</code> Conform to <code>Sequence</code> Protocol</a></li>
+<li><a href="#gifts">Gifts</a></li>
+</ul>
+</li>
+<li><a href="#collections">Collections</a>
+
+<ul>
+<li><a href="#how-to-conform-to-collection-protocol">How to Conform to <code>Collection</code> Protocol</a></li>
+<li><a href="#make-our-section-conform-to-collection-protocol">Make our <code>Section</code> Conform to <code>Collection</code> Protocol</a></li>
+</ul>
+</li>
+<li><a href="#difference-between-array-and-collection">Difference between <code>Array</code> and <code>Collection</code></a></li>
+<li><a href="#reference">Reference</a></li>
+</ul>
+
+
 <p>The content comes from the following posts:</p>
 
 <ol>
@@ -277,6 +329,8 @@ closureArray2[4]() // prints 4
 
 
 <p>But some of the code inside is old and can&rsquo;t be compiled with swift 5.0. So rewritten the code using swift 5.0.</p>
+
+<p><a id="markdown-array-out-of-range-crash" name="array-out-of-range-crash"></a></p>
 
 <h2><code>Array</code> out of Range Crash</h2>
 
@@ -319,6 +373,8 @@ struct Dictionary&lt;Key: Hashable, Value&gt; {
 
 <p>We saw how we can create a new accessor to the elements of an array, but can we do the same with a homemade collection?</p>
 
+<p><a id="markdown-homemade-collection" name="homemade-collection"></a></p>
+
 <h2>Homemade collection</h2>
 
 <pre><code class="swift">struct Section&lt;T&gt; {
@@ -352,11 +408,15 @@ section[1]
 
 <p>Great! But does that make our type a collection, as Swift defines it?</p>
 
+<p><a id="markdown-sequences" name="sequences"></a></p>
+
 <h2>Sequences</h2>
 
 <p>When it comes to manipulating sets, the most abstract notion given by the standard library is the Sequence, defined as</p>
 
 <blockquote><p>A type that can be iterated with a <code>for…in</code> loop.</p></blockquote>
+
+<p><a id="markdown-how-to-conform-to-sequence-protocol" name="how-to-conform-to-sequence-protocol"></a></p>
 
 <h3>How to Conform to <code>Sequence</code> Protocol</h3>
 
@@ -389,6 +449,8 @@ for i in threeToGo {
 // Prints "2"
 // Prints "1"
 </code></pre>
+
+<p><a id="markdown-make-our-section-conform-to-sequence-protocol" name="make-our-section-conform-to-sequence-protocol"></a></p>
 
 <h3>Make our <code>Section</code> Conform to <code>Sequence</code> Protocol</h3>
 
@@ -424,6 +486,8 @@ for i in threeToGo {
 }
 </code></pre>
 
+<p><a id="markdown-gifts" name="gifts"></a></p>
+
 <h3>Gifts</h3>
 
 <p>Is that all? No! By conforming to SequenceType we also get methods for free, here is some of them.</p>
@@ -450,6 +514,8 @@ section.reduce(0) { $0 + $1.count }
 
 <p>And for functional programming fans, filter, map and reduce are also given.</p>
 
+<p><a id="markdown-collections" name="collections"></a></p>
+
 <h2>Collections</h2>
 
 <p>Sequence is the most basic set notion given by the Swift standard library. There is a more evolved one.</p>
@@ -464,6 +530,8 @@ section.reduce(0) { $0 + $1.count }
 
 <p>To be a collection, a type must conform to the <code>Collection</code> protocol.</p>
 
+<p><a id="markdown-how-to-conform-to-collection-protocol" name="how-to-conform-to-collection-protocol"></a></p>
+
 <h3>How to Conform to <code>Collection</code> Protocol</h3>
 
 <p>This section comes from <a href="https://developer.apple.com/documentation/swift/collection">Collection official site</a>.</p>
@@ -477,6 +545,8 @@ section.reduce(0) { $0 + $1.count }
 <li>Conform to <code>Sequece</code> Protocol, as <code>Collection</code> is inherited from <code>Sequence</code></li>
 </ol>
 
+
+<p><a id="markdown-make-our-section-conform-to-collection-protocol" name="make-our-section-conform-to-collection-protocol"></a></p>
 
 <h3>Make our <code>Section</code> Conform to <code>Collection</code> Protocol</h3>
 
@@ -543,6 +613,8 @@ section.index(of: "911")
 
 <p>We get indexOf thanks to our Elements being Equatable.</p>
 
+<p><a id="markdown-difference-between-array-and-collection" name="difference-between-array-and-collection"></a></p>
+
 <h2>Difference between <code>Array</code> and <code>Collection</code></h2>
 
 <p>We created our own collection, which is great, but what about that difference of behavior between Arrays and Dictionaries we talked about at the beginning of the post? We saw that Array’s dangerous subscript was coming from the Indexable protocol, but what about Dictionaries?</p>
@@ -569,6 +641,8 @@ dic[index]
 
 <p><strong>The last question that remains is why <code>Collection</code> requires a subscript that may crash? Simply for performance reason, it costs too much to check the validity of the given index. Crashing is faster :)</strong></p>
 
+<p><a id="markdown-reference" name="reference"></a></p>
+
 <h2>Reference</h2>
 
 <ol>
@@ -587,6 +661,53 @@ dic[index]
     <content type="html"><![CDATA[<!-- more -->
 
 
+<ul>
+<li><a href="#objective">Objective</a>
+
+<ul>
+<li><a href="#what-is-a-good-nlu-engine">What is a good NLU engine</a>
+
+<ul>
+<li><a href="#deterministic-behavior">Deterministic behavior</a></li>
+<li><a href="#generalization-power">Generalization power</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#design-and-workflow">Design and Workflow</a></li>
+<li><a href="#deterministic-intent-parser">Deterministic Intent Parser</a></li>
+<li><a href="#probabilistic-intent-parser">Probabilistic Intent Parser</a>
+
+<ul>
+<li><a href="#intent-classification">Intent Classification</a>
+
+<ul>
+<li><a href="#model-training">Model Training</a></li>
+<li><a href="#model-usage">Model Usage</a></li>
+</ul>
+</li>
+<li><a href="#slot-filling">Slot Filling</a>
+
+<ul>
+<li><a href="#model-training-1">Model Training</a></li>
+<li><a href="#model-usage-1">Model Usage</a></li>
+</ul>
+</li>
+<li><a href="#model-size">Model Size</a></li>
+<li><a href="#problems-to-be-solved">Problems to Be Solved</a>
+
+<ul>
+<li><a href="#intent-classification-model-has-no-probability-output">Intent Classification Model Has No Probability Output</a></li>
+<li><a href="#slot-filling-model-tagges-the-label-by-words-not-phrase">Slot Filling Model Tagges the Label by Words, not Phrase</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+
+<p><a id="markdown-objective" name="objective"></a></p>
+
 <h2>Objective</h2>
 
 <p><img src="/images/NLUObjective.png" alt="nlu objective" /></p>
@@ -594,6 +715,8 @@ dic[index]
 <p>We want an NLU Engine to understand the normal text command on Mobile. We hope the engine can know the command&rsquo;s intent and the info the command needs to execute.</p>
 
 <p>Currently, there are many NLU related tools, like Google Dialogflow, Amazon Lex, Facebook Wit.ai, Microsoft Luis. However, they are all online tools. Considering the privacy problem, we are trying to build our own offline NLU Engine.</p>
+
+<p><a id="markdown-what-is-a-good-nlu-engine" name="what-is-a-good-nlu-engine"></a></p>
 
 <h3>What is a good NLU engine</h3>
 
@@ -607,13 +730,19 @@ dic[index]
 </ul>
 
 
+<p><a id="markdown-deterministic-behavior" name="deterministic-behavior"></a></p>
+
 <h4>Deterministic behavior</h4>
 
 <p>The first thing you want is that all the examples you give to train the model are correctly supported by the engine. This makes the system predictable and easy to use: if a query is not correctly parsed, then add it to the dataset and it will work right away.</p>
 
+<p><a id="markdown-generalization-power" name="generalization-power"></a></p>
+
 <h4>Generalization power</h4>
 
 <p>Having this deterministic behavior is great for robustness and predictability, but a powerful NLU engine also needs to have some generalization power. You want the system not only to recognize patterns provided in the training set, but also all the possible variations that come from speaking naturally. If we go back to the previous dataset, it is reasonable to expect the NLU engine to parse a query like: “What’s the weather in Beijing right now?” even though it is not one of the training examples.</p>
+
+<p><a id="markdown-design-and-workflow" name="design-and-workflow"></a></p>
 
 <h2>Design and Workflow</h2>
 
@@ -624,6 +753,8 @@ dic[index]
 <p>The deterministic parser relies on regular expressions to match intent and slots, which results in perfect behavior on training examples but doesn’t generalize. This parser is the first to be used because of its strictness.</p>
 
 <p>The probabilistic parser is used whenever the first parser fails to find a match. It uses machine learning to generalize beyond the set of sentences seen at train time, thus making our NLU engine be able to cope with examples which are not in the scope of the training data set. This parser involves two successive steps: intent classification and slot filling. These two steps rely on trained machine learning models to classify intent and extract slots.</p>
+
+<p><a id="markdown-deterministic-intent-parser" name="deterministic-intent-parser"></a></p>
 
 <h2>Deterministic Intent Parser</h2>
 
@@ -643,6 +774,8 @@ dic[index]
 </ul>
 
 
+<p><a id="markdown-probabilistic-intent-parser" name="probabilistic-intent-parser"></a></p>
+
 <h2>Probabilistic Intent Parser</h2>
 
 <p>If the Deterministic Intent Parser fails to find the intent and slots, the Probabilistic Intent Parser will be used.</p>
@@ -659,7 +792,11 @@ dic[index]
 
 <p>Apple has released CreateML for training natural language models, which also integrates the powerful NatrualLanguage framework functions, like Tokenization, Part of Speech, Lemmatization, Name Entity Recognition, etc. This will make the training process very simple, and the trained model will be more accurate and smaller.</p>
 
+<p><a id="markdown-intent-classification" name="intent-classification"></a></p>
+
 <h3>Intent Classification</h3>
+
+<p><a id="markdown-model-training" name="model-training"></a></p>
 
 <h4>Model Training</h4>
 
@@ -727,6 +864,8 @@ try! classifier.write(to: URL(fileURLWithPath: "/Users/hozhang/Downloads/textCla
 
 <p>We can get 99.23% training accuracy and 98.87% validation accuracy.</p>
 
+<p><a id="markdown-model-usage" name="model-usage"></a></p>
+
 <h4>Model Usage</h4>
 
 <p>For the trained model of mlmodel type, we can use it in our iOS app through NLModel (from NatrualLanguage framework). The demo swift code may be like:</p>
@@ -751,7 +890,11 @@ print("text: \(text)\nlabel:\(label ?? "Not detected!")")
 </ol>
 </blockquote>
 
+<p><a id="markdown-slot-filling" name="slot-filling"></a></p>
+
 <h3>Slot Filling</h3>
+
+<p><a id="markdown-model-training-1" name="model-training-1"></a></p>
 
 <h4>Model Training</h4>
 
@@ -810,6 +953,8 @@ try! classifier.write(to: URL(fileURLWithPath: "/Users/hozhang/Downloads/slotPar
 
 <p>We can get 99.64% training accuracy and 98.38% validation accuracy.</p>
 
+<p><a id="markdown-model-usage-1" name="model-usage-1"></a></p>
+
 <h4>Model Usage</h4>
 
 <p>We can load the mlmodel into an NLTagger (from NatrualLanguage framework), and use the NLTagger to tag labels for each word of the input command text. The demo swift script is like:</p>
@@ -839,6 +984,8 @@ weatherTagger.enumerateTags(in: text.startIndex..&lt;text.endIndex, unit: .word,
 <li>WWDC video <a href="https://developer.apple.com/videos/play/wwdc2018/713/">Introducing Natural Language Framework</a>: This session introduces NLP framework and its relation with CreateML framework.</li>
 </ol>
 
+
+<p><a id="markdown-model-size" name="model-size"></a></p>
 
 <h3>Model Size</h3>
 
@@ -897,9 +1044,13 @@ weatherTagger.enumerateTags(in: text.startIndex..&lt;text.endIndex, unit: .word,
 <p>If still your model is large, you can
 <a href="https://developer.apple.com/documentation/coreml/core_ml_api/downloading_and_compiling_a_model_on_the_user_s_device">Downloading and Compiling a Model on the User&rsquo;s Device</a> at runtime.</p>
 
+<p><a id="markdown-problems-to-be-solved" name="problems-to-be-solved"></a></p>
+
 <h3>Problems to Be Solved</h3>
 
 <p>For Probabilistic Intent Parser, we still have some problems.</p>
+
+<p><a id="markdown-intent-classification-model-has-no-probability-output" name="intent-classification-model-has-no-probability-output"></a></p>
 
 <h4>Intent Classification Model Has No Probability Output</h4>
 
@@ -908,6 +1059,8 @@ weatherTagger.enumerateTags(in: text.startIndex..&lt;text.endIndex, unit: .word,
 <p>However, the model trained through <code>MLTextClassifier</code> has no probability output API. If we really need the probability output, we can use other platforms to train the model, like tensorflow. That way, we will not benefit from NatrualLanguage framework and we need to consider these things by ourselves, like Tokenization, Part of Speech, Lemmatization, etc.</p>
 
 <blockquote><p>Try other tools for training models with probability output, like Turi.</p></blockquote>
+
+<p><a id="markdown-slot-filling-model-tagges-the-label-by-words-not-phrase" name="slot-filling-model-tagges-the-label-by-words-not-phrase"></a></p>
 
 <h4>Slot Filling Model Tagges the Label by Words, not Phrase</h4>
 
@@ -1081,7 +1234,11 @@ weatherTagger.enumerateTags(in: text.startIndex..&lt;text.endIndex, unit: .word,
 </ul>
 
 
+<p><a id="markdown-app-store上面的app" name="app-store上面的app"></a></p>
+
 <h2>App Store上面的App</h2>
+
+<p><a id="markdown-神奇arhttpsitunesapplecomcnappar-arid1327719623mt8" name="神奇ar"></a></p>
 
 <h3><a href="https://itunes.apple.com/cn/app/%E7%A5%9E%E5%A5%87ar-%E7%89%B9%E6%95%88ar%E7%9B%B8%E6%9C%BA%E5%92%8C%E7%9F%AD%E8%A7%86%E9%A2%91%E6%8B%8D%E6%91%84%E7%A5%9E%E5%99%A8/id1327719623?mt=8">神奇AR</a></h3>
 
@@ -1102,6 +1259,8 @@ weatherTagger.enumerateTags(in: text.startIndex..&lt;text.endIndex, unit: .word,
 
 <p><img src="/images/shenqiar.jpg" alt="神奇 AR" /></p>
 
+<p><a id="markdown-ikea-placehttpsitunesapplecomusappikea-placeid1279244498mt8" name="ikea-place"></a></p>
+
 <h3><a href="https://itunes.apple.com/us/app/ikea-place/id1279244498?mt=8">IKEA Place</a></h3>
 
 <p>宜家的官方App，有丰富的宜家家具的3D模型，真实尺寸，可以提前放置到自己的房间，看看效果。</p>
@@ -1110,6 +1269,8 @@ weatherTagger.enumerateTags(in: text.startIndex..&lt;text.endIndex, unit: .word,
 
 <p><img src="/images/IKEAPlace.jpg" alt="ikea place" /></p>
 
+<p><a id="markdown-wallrhttpsitunesapplecomusappwallrid1278372745" name="wallr"></a></p>
+
 <h3><a href="https://itunes.apple.com/us/app/wallr/id1278372745">Wallr</a></h3>
 
 <p>Wallr可以让你将图片放置到真实场景的墙面上。如果你想买画装饰墙面，可以试试。不过这个功能已经在<a href="https://itunes.apple.com/cn/app/%E7%A5%9E%E5%A5%87ar-%E7%89%B9%E6%95%88ar%E7%9B%B8%E6%9C%BA%E5%92%8C%E7%9F%AD%E8%A7%86%E9%A2%91%E6%8B%8D%E6%91%84%E7%A5%9E%E5%99%A8/id1327719623?mt=8">神奇AR</a>中实现了，而且是免费的。</p>
@@ -1117,6 +1278,8 @@ weatherTagger.enumerateTags(in: text.startIndex..&lt;text.endIndex, unit: .word,
 <p>同时放置多张图片需要花钱购买。</p>
 
 <p><img src="/images/wallr.jpg" alt="wallr" /></p>
+
+<p><a id="markdown-horizon-explorerhttpsitunesapplecomgbapphorizon-explorerid1326860431platformipadpreservescrollpositiontrueplatformipad" name="horizon-explorer"></a></p>
 
 <h3><a href="https://itunes.apple.com/gb/app/horizon-explorer/id1326860431?platform=ipad&amp;preserveScrollPosition=true#platform/ipad">Horizon Explorer</a></h3>
 
@@ -1140,6 +1303,8 @@ weatherTagger.enumerateTags(in: text.startIndex..&lt;text.endIndex, unit: .word,
 
 <p><img src="/images/HorizonExplorer.jpg" alt="Horizon Explorer" /></p>
 
+<p><a id="markdown-wearehttpsitunesapplecomcnappweareid1304227680platformiphonepreservescrollpositiontrueplatformiphoneplatformiphoneplatformiphone" name="weare"></a></p>
+
 <h3><a href="https://itunes.apple.com/cn/app/weare/id1304227680?platform=iphone&amp;preserveScrollPosition=true&amp;platform=iphone#platform/iphone&amp;platform=iphone">WeAre</a></h3>
 
 <p>这个应用可以让你选择一些照片，以设备为中心围成一圈，并缓慢移动。还可以播放视频、背景音乐和编辑3D文字。用作者的话说，“可以打造一个或温馨浪漫的回忆相册,或缥缈遥远的世界.”</p>
@@ -1147,6 +1312,8 @@ weatherTagger.enumerateTags(in: text.startIndex..&lt;text.endIndex, unit: .word,
 <p>同时还是源码可以参考：<a href="https://github.com/SherlockQi/HeavenMemoirs">HeavenMemoirs - AR相册</a></p>
 
 <p><img src="/images/weare.jpg" alt="WeAre" /></p>
+
+<p><a id="markdown-waazy---magic-ar-video-makerhttpsitunesapplecomusappwaazy-magic-ar-video-makerid1286992749" name="waazy---magic-ar-video-maker"></a></p>
 
 <h3><a href="https://itunes.apple.com/us/app/waazy-magic-ar-video-maker/id1286992749">Waazy - Magic AR Video Maker</a></h3>
 
@@ -1165,6 +1332,8 @@ weatherTagger.enumerateTags(in: text.startIndex..&lt;text.endIndex, unit: .word,
 
 <p><img src="/images/wazzy.jpg" alt="wazzy" /></p>
 
+<p><a id="markdown-human-anatomy-atlas-2019httpsitunesapplecomappid1117998129" name="human-anatomy-atlas-2019"></a></p>
+
 <h3><a href="https://itunes.apple.com/app/id1117998129">Human Anatomy Atlas 2019</a></h3>
 
 <p>其实这个主要是展示人体内部结构的3D素材，借助AR技术投射到真实场景，没有很新鲜的AR应用场景。</p>
@@ -1178,13 +1347,19 @@ Includes over 10,000 anatomical models with descriptions in English, Spanish, Fr
 
 <p><img src="/images/HumanAnatomyAtlas2019_2.jpg" alt="Human Anatomy Atlas 2019 2" /></p>
 
+<p><a id="markdown-github上面的项目" name="github上面的项目"></a></p>
+
 <h2>Github上面的项目</h2>
+
+<p><a id="markdown-arkit-occlusion-demohttpsgithubcombjarnelarkit-occlusion" name="arkit-occlusion-demo"></a></p>
 
 <h3><a href="https://github.com/bjarnel/arkit-occlusion">arkit-occlusion-demo</a></h3>
 
 <p>事先用一些虚拟平面将真实的墙面、柜子面、门等标记出来，就可以让虚拟的小球在房间里面来回反弹，就像撞到真实的墙上返回来一样。</p>
 
 <p><img src="/images/occlusiongame.jpg" width="600" alt="occlusion game" /></p>
+
+<p><a id="markdown-arvideokit" name="arvideokit"></a></p>
 
 <h3><a href="">ARVideoKit</a></h3>
 
@@ -1210,6 +1385,8 @@ Includes over 10,000 anatomical models with descriptions in English, Spanish, Fr
 
 <p>✅ Returns rendered and raw buffers in a protocol method for additional Image &amp; Video processing</p></blockquote>
 
+<p><a id="markdown-arkit-smb-homagehttpsgithubcombjarnelarkit-smb-homage" name="arkit-smb-homage"></a></p>
+
 <h3><a href="https://github.com/bjarnel/arkit-smb-homage">arkit-smb-homage</a></h3>
 
 <p>在现实场景中玩超级玛丽。非常粗糙，但是创意还不错。</p>
@@ -1217,6 +1394,8 @@ Includes over 10,000 anatomical models with descriptions in English, Spanish, Fr
 <p><img src="/images/supermario_beginning.jpg" width="600" alt="super mario beginning" /></p>
 
 <p><img src="/images/supermario_flag.jpg" width="600" alt="super mario flag" /></p>
+
+<p><a id="markdown-arkit-corelocationhttpsgithubcomprojectdentarkit-corelocation" name="arkit-corelocation"></a></p>
 
 <h3><a href="https://github.com/ProjectDent/ARKit-CoreLocation">ARKit-CoreLocation</a></h3>
 
@@ -1234,6 +1413,8 @@ Includes over 10,000 anatomical models with descriptions in English, Spanish, Fr
 
 <p><img src="/images/arkit+corelocation.jpg" width="600" alt="arkit + corelocation" /></p>
 
+<p><a id="markdown-arkitnavigationdemohttpsgithubcomchriswebb09arkitnavigationdemo" name="arkitnavigationdemo"></a></p>
+
 <h3><a href="https://github.com/chriswebb09/ARKitNavigationDemo">ARKitNavigationDemo</a></h3>
 
 <p>在地图上选择目的地，然后在真实场景中进行AR导航。</p>
@@ -1245,6 +1426,8 @@ Includes over 10,000 anatomical models with descriptions in English, Spanish, Fr
 <p>TODO: 这个项目中推荐的一些参考文献还是值得看一看的。</p>
 
 <p><img src="/images/ARKitNavigationDemo.gif" alt="ARKitNavigationDemo" /></p>
+
+<p><a id="markdown-finemehttpsgithubcommmoaayfindme" name="fineme"></a></p>
 
 <h3><a href="https://github.com/mmoaay/Findme">FineMe</a></h3>
 
@@ -1267,13 +1450,19 @@ Includes over 10,000 anatomical models with descriptions in English, Spanish, Fr
 </ul>
 
 
+<p><a id="markdown-arkitspitfirehttpsgithubcomchriswebb09arkitspitfire" name="arkitspitfire"></a></p>
+
 <h3><a href="https://github.com/chriswebb09/ARKitSpitfire">ARKitSpitfire</a></h3>
 
 <p>可以让一架3D飞机模型，根据提供的地理位置经纬度，调整姿态，并飞向那里。</p>
 
 <p><img src="/images/ARKitSpitfire.gif" alt="ARKitSpitfire" /></p>
 
+<p><a id="markdown-resources" name="resources"></a></p>
+
 <h2>Resources</h2>
+
+<p><a id="markdown-polyhttpsgithubcompiemontepoly" name="poly"></a></p>
 
 <h3><a href="https://github.com/piemonte/Poly">Poly</a></h3>
 

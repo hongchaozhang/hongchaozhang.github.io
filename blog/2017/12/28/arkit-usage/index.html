@@ -9,11 +9,7 @@
 	<meta name="author" content="Zhang Hongchao">
 
 	
-	<meta name="description" content="ARKit Usage Cool AR Apps in App Store World Brush
-IKEA Place
-AR MeasureKit Requirement
-ARKit Usage ARKit Related Techniques
-ARKit in iOS System &hellip;">
+	<meta name="description" content="ARKit Usage autoauto- Cool AR Apps in App Storeauto - World Brushauto - IKEA Placeauto - AR MeasureKitauto- Requirementauto- ARKit Usageauto - ARKit &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -116,65 +112,7 @@ ARKit in iOS System &hellip;">
 
 
 
-<!-- TOC -->
-
-
-<ul>
-<li><a href="#cool-ar-apps-in-app-store">Cool AR Apps in App Store</a>
-
-<ul>
-<li><a href="#world-brush">World Brush</a></li>
-<li><a href="#ikea-place">IKEA Place</a></li>
-<li><a href="#ar-measurekit">AR MeasureKit</a></li>
-</ul>
-</li>
-<li><a href="#requirement">Requirement</a></li>
-<li><a href="#arkit-usage">ARKit Usage</a>
-
-<ul>
-<li><a href="#arkit-related-techniques">ARKit Related Techniques</a></li>
-<li><a href="#arkit-in-ios-system">ARKit in iOS System</a></li>
-<li><a href="#arkit-key-classes">ARKit Key Classes</a></li>
-<li><a href="#arsession"><code>ARSession</code></a></li>
-<li><a href="#arconfiguration"><code>ARConfiguration</code></a></li>
-<li><a href="#more-on-arworldtrackingconfiguration">More on <code>ARWorldTrackingConfiguration</code></a>
-
-<ul>
-<li><a href="#tracking-quality">Tracking Quality</a></li>
-</ul>
-</li>
-<li><a href="#arframe"><code>ARFrame</code></a></li>
-<li><a href="#hittest-for-real-world-position">HitTest for Real World Position</a>
-
-<ul>
-<li><a href="#existingplane"><code>existingPlane</code></a></li>
-<li><a href="#existingplaneusingextent"><code>existingPlaneUsingExtent</code></a></li>
-<li><a href="#estimatedhorizontalplane"><code>estimatedHorizontalPlane</code></a></li>
-<li><a href="#featurepoint"><code>featurePoint</code></a></li>
-</ul>
-</li>
-<li><a href="#display-virtual-object-in-real-world">Display Virtual Object in Real World</a>
-
-<ul>
-<li><a href="#standard-view">Standard View</a></li>
-<li><a href="#custom-view">Custom View</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><a href="#best-practices-and-limitations">Best Practices and Limitations</a>
-
-<ul>
-<li><a href="#best-practices">Best Practices</a></li>
-<li><a href="#limitations">Limitations</a></li>
-</ul>
-</li>
-<li><a href="#ar-from-google">AR from Google</a></li>
-</ul>
-
-
-<!-- /TOC -->
-
+<p><!-- TOC -->autoauto- <a href="#cool-ar-apps-in-app-store">Cool AR Apps in App Store</a>auto    - <a href="#world-brush">World Brush</a>auto    - <a href="#ikea-place">IKEA Place</a>auto    - <a href="#ar-measurekit">AR MeasureKit</a>auto- <a href="#requirement">Requirement</a>auto- <a href="#arkit-usage">ARKit Usage</a>auto    - <a href="#arkit-related-techniques">ARKit Related Techniques</a>auto    - <a href="#arkit-in-ios-system">ARKit in iOS System</a>auto    - <a href="#arkit-key-classes">ARKit Key Classes</a>auto    - <a href="#arsession"><code>ARSession</code></a>auto    - <a href="#arconfiguration"><code>ARConfiguration</code></a>auto    - <a href="#more-on-arworldtrackingconfiguration">More on <code>ARWorldTrackingConfiguration</code></a>auto        - <a href="#tracking-quality">Tracking Quality</a>auto    - <a href="#arframe"><code>ARFrame</code></a>auto    - <a href="#hittest-for-real-world-position">HitTest for Real World Position</a>auto        - <a href="#existingplane"><code>existingPlane</code></a>auto        - <a href="#existingplaneusingextent"><code>existingPlaneUsingExtent</code></a>auto        - <a href="#estimatedhorizontalplane"><code>estimatedHorizontalPlane</code></a>auto        - <a href="#featurepoint"><code>featurePoint</code></a>auto    - <a href="#display-virtual-object-in-real-world">Display Virtual Object in Real World</a>auto        - <a href="#standard-view">Standard View</a>auto        - <a href="#custom-view">Custom View</a>auto- <a href="#best-practices-and-limitations">Best Practices and Limitations</a>auto    - <a href="#best-practices">Best Practices</a>auto    - <a href="#limitations">Limitations</a>auto- <a href="#ar-from-google">AR from Google</a>autoauto<!-- /TOC --></p>
 
 <p><a id="markdown-cool-ar-apps-in-app-store" name="cool-ar-apps-in-app-store"></a></p>
 
@@ -307,7 +245,7 @@ Provides AR experiences that use the front-facing camera and track the movement 
 
 <p>And the tracking state changes will be notified by:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -316,11 +254,10 @@ Provides AR experiences that use the front-facing camera and track the movement 
 </pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">func</span> <span class="nf">session</span><span class="p">(</span><span class="n">_</span> <span class="nl">session</span><span class="p">:</span> <span class="n">ARSession</span><span class="p">,</span> <span class="n">cameraDidChangeTrackingState</span> <span class="nl">camera</span><span class="p">:</span> <span class="n">ARCamera</span><span class="p">)</span> <span class="p">{</span>
 </span><span class='line'>    <span class="k">if</span> <span class="k">case</span> <span class="p">.</span><span class="n">limited</span><span class="p">(</span><span class="k">let</span> <span class="n">reason</span><span class="p">)</span> <span class="o">=</span> <span class="n">camera</span><span class="p">.</span><span class="n">trackingState</span> <span class="p">{</span>
 </span><span class='line'>        <span class="c1">// Notify user of limited tracking state</span>
-</span><span class='line'>        <span class="p">...</span>
+</span><span class='line'>        <span class="p">&hellip;</span>
 </span><span class='line'>    <span class="p">}</span>
 </span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p><a id="markdown-arframe" name="arframe"></a></p>
 
@@ -352,10 +289,9 @@ Provides AR experiences that use the front-facing camera and track the movement 
 
 <p>By calling the following method on <code>ARSCNView</code>,</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="n">open</span> <span class="k">func</span> <span class="n">hitTest</span><span class="p">(</span><span class="n">_</span> <span class="nl">point</span><span class="p">:</span> <span class="bp">CGPoint</span><span class="p">,</span> <span class="nl">types</span><span class="p">:</span> <span class="n">ARHitTestResult</span><span class="p">.</span><span class="n">ResultType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="n">ARHitTestResult</span><span class="p">]</span>
-</span></code></pre></td></tr></table></div></figure>
-
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>we can get an array of <code>ARHitTestResult</code>, which stay at the very position point indicates. The <code>ARHitTestResult</code>s are sorted by distance. To call the method, you need to specify the <code>ARHitTestResult.ResultType</code>. There are four kinds of hitTest types:</p>
 

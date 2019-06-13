@@ -167,6 +167,8 @@ iOS NaturalLanguage framework Custom Machine Learning Models 自然语言理解�
 </ul>
 
 
+<p><a id="markdown-人机对话的两种模型" name="人机对话的两种模型"></a></p>
+
 <h2>人机对话的两种模型</h2>
 
 <p>自然语言理解（NLU）的最终目的是让计算机能够理解人类的语言，实现人机对话。目前，人机对话模型基本上有两种：</p>
@@ -179,9 +181,13 @@ iOS NaturalLanguage framework Custom Machine Learning Models 自然语言理解�
 
 <p>详细讨论参考：<a href="https://chatbotsmagazine.com/bot-talks-intent-based-vs-flow-base-conversations-798788dc9cf6">Bot Talks: Intent-Based vs. Flow-Base Conversations</a>。</p>
 
+<p><a id="markdown-nlu与nlp" name="nlu与nlp"></a></p>
+
 <h2>NLU与NLP</h2>
 
 <p>NLP（Natural Language Processing）是NLU（Natural Language Understanding）的一个前期步骤：NLP用于对文本或者语音进行机器学习训练和识别时的特征提取阶段。</p>
+
+<p><a id="markdown-stanford-corenlp" name="stanford-corenlp"></a></p>
 
 <h3>Stanford CoreNLP</h3>
 
@@ -189,11 +195,15 @@ iOS NaturalLanguage framework Custom Machine Learning Models 自然语言理解�
 
 <p><img src="/images/NLU_Stanford_CoreNLP.png" alt="stanford CoreNLP" /></p>
 
+<p><a id="markdown-ios-naturallanguage-framework" name="ios-naturallanguage-framework"></a></p>
+
 <h3>iOS <em>NaturalLanguage</em> framework</h3>
 
 <p>iOS的<em>NaturalLanguage</em>框架可以做的事情如下：</p>
 
 <p><img src="/images/NLU_AppleNLP.png" alt="Apple nlp framework" /></p>
+
+<p><a id="markdown-custom-machine-learning-models" name="custom-machine-learning-models"></a></p>
 
 <h4>Custom Machine Learning Models</h4>
 
@@ -238,6 +248,8 @@ iOS NaturalLanguage framework Custom Machine Learning Models 自然语言理解�
 </ol>
 
 
+<p><a id="markdown-自然语言理解平台" name="自然语言理解平台"></a></p>
+
 <h2>自然语言理解平台</h2>
 
 <p>一些比较有名气的自然语言理解平台：</p>
@@ -264,9 +276,13 @@ iOS NaturalLanguage framework Custom Machine Learning Models 自然语言理解�
 
 <p>下面选择一些平台做简单介绍。</p>
 
+<p><a id="markdown-google的dialogflow" name="google的dialogflow"></a></p>
+
 <h2>Google的Dialogflow</h2>
 
 <blockquote><p><a href="https://dialogflow.com/">Google的Dialogflow</a>Give users new ways to interact with your product by building engaging voice and text-based conversational interfaces, such as voice apps and chatbots, powered by AI. Connect with users on your website, mobile app, the Google Assistant, Amazon Alexa, Facebook Messenger, and other popular platforms and devices.</p></blockquote>
+
+<p><a id="markdown-dialogflow的历史" name="dialogflow的历史"></a></p>
 
 <h3>Dialogflow的历史</h3>
 
@@ -279,6 +295,8 @@ iOS NaturalLanguage framework Custom Machine Learning Models 自然语言理解�
 <li>2017: api.ai is renamed to Dialogflow</li>
 </ul>
 
+
+<p><a id="markdown-dialogflow的一些概念" name="dialogflow的一些概念"></a></p>
 
 <h3>Dialogflow的一些概念</h3>
 
@@ -293,6 +311,8 @@ iOS NaturalLanguage framework Custom Machine Learning Models 自然语言理解�
 </ul>
 
 
+<p><a id="markdown-两种方法实现intents之间的entities共享" name="两种方法实现intents之间的entities共享"></a></p>
+
 <h3>两种方法实现intents之间的entities共享</h3>
 
 <ul>
@@ -303,17 +323,25 @@ iOS NaturalLanguage framework Custom Machine Learning Models 自然语言理解�
 
 <blockquote><p>对话生命周期，就是这个参数可以存多久。</p></blockquote>
 
+<p><a id="markdown-training-tab-in-dialogflow-platform" name="training-tab-in-dialogflow-platform"></a></p>
+
 <h3>“Training” tab in Dialogflow platform</h3>
 
 <blockquote><p><a href="https://console.dialogflow.com/api-client/#/agent/dea6f73c-7c22-44b6-a1a8-45cdcd160bfc/training">官方关于Training的说明</a>：你将收到所有发送给agent的回覆讯息以及agent回覆的内容，如果你告诉你的agent一些回应文本，但它回应你不喜欢的输出，这就非常有用，若你稍后意识到忘记了某个关键字的同义词，并且用户正在使用这个关键字，那么也可能会有所帮助，可以去告诉你的代理在这种情况下应该做什么。</p></blockquote>
+
+<p><a id="markdown-integrations-analytics-and-fulfillment" name="integrations-analytics-and-fulfillment"></a></p>
 
 <h3>“Integrations”, “Analytics” and “Fulfillment”</h3>
 
 <blockquote><p>在Training下方，你可以看到Integrations。在这里，可以管理你的agent去串接不同的服务，例如Google Assistant，Twitter，Slack，Messenger，Cortana，Alexa等等。 Integrations之后，还有Analytics，基本上用来显示建议名称，之后还有Fulfillment，如果你要调用一个API并实现一个webhook，这就是你会需要来的地方。</p></blockquote>
 
+<p><a id="markdown-prebuild-agent-and-small-talk" name="prebuild-agent-and-small-talk"></a></p>
+
 <h3>“Prebuild Agent” and “Small Talk”</h3>
 
 <p>最后两个选项功能非常简单，但很有用。第一个是Prebuilt Agents，在这里，你可以import一个预先存在的代理框架，有很多例子，如食物传递机器人，音乐机器人，甚至（抱歉，但你真的需要知道这个）hotel预订机器人！最后一个选项是Small Talk，如果你将代理设计为像Siri或Google Assistant这样的每日伙伴(daily companion)，这个选项非常有用，Small Talk允许你添加常见问题的答案，我们都喜欢问我们的机器人，如”你几岁？”或”你住哪里？”，以及更热门的问题”你愿意嫁给我吗？”</p>
+
+<p><a id="markdown-一些使用dialogflow的例子" name="一些使用dialogflow的例子"></a></p>
 
 <h3>一些使用Dialogflow的例子</h3>
 
@@ -324,6 +352,8 @@ iOS NaturalLanguage framework Custom Machine Learning Models 自然语言理解�
 <li><a href="https://www.appcoda.com.tw/chatbot-dialogflow-ios/">聊天機器人教學：使用Dialogflow (API.AI)開發 iOS Chatbot App</a></li>
 </ol>
 
+
+<p><a id="markdown-alexa-and-lex" name="alexa-and-lex"></a></p>
 
 <h2>Alexa and Lex</h2>
 
@@ -336,6 +366,8 @@ Lex is part of AWS, but Alexa isn&rsquo;t</p>
 <p>Lex is a platform which can power bot who accept text input.</p>
 
 <p>Amazon Lex 让您可以将语音和文本聊天访问集成到现有应用程序中。Amazon Alexa 允许您使用 Amazon Echo 或任何启用 Alexa Voice Service 的设备为家庭或工作场所的用户提供免提语音接口。</p></blockquote>
+
+<p><a id="markdown-microsoft-luis-text-analytics-api" name="microsoft-luis-text-analytics-api"></a></p>
 
 <h2>Microsoft LUIS Text Analytics API</h2>
 
@@ -357,9 +389,13 @@ Lex is part of AWS, but Alexa isn&rsquo;t</p>
 </ol>
 
 
+<p><a id="markdown-facebook的witai" name="facebook的witai"></a></p>
+
 <h2>Facebook的wit.ai</h2>
 
 <p>参见<a href="https://wit.ai/">官方文档</a>。</p>
+
+<p><a id="markdown-snips" name="snips"></a></p>
 
 <h2>Snips</h2>
 
@@ -373,6 +409,8 @@ Lex is part of AWS, but Alexa isn&rsquo;t</p>
 </ul>
 
 
+<p><a id="markdown-duckling" name="duckling"></a></p>
+
 <h3>Duckling</h3>
 
 <p>Snips使用<a href="https://github.com/facebook/duckling">Duckling</a>进行下面的理解：</p>
@@ -384,9 +422,13 @@ Lex is part of AWS, but Alexa isn&rsquo;t</p>
 * Spin your own Duckling server or using wit.ai’s build entities.
 * <a href="https://medium.com/wit-ai/open-sourcing-duckling-our-probabilistic-date-parser-4351ee66c4ba">Open Sourcing Duckling, our probabilistic (date) parser</a></p></blockquote>
 
+<p><a id="markdown-ibm的watson" name="ibm的watson"></a></p>
+
 <h2>IBM的Watson</h2>
 
 <p>参看<a href="https://www.ibm.com/watson/services/natural-language-classifier/">官方文档</a>。</p>
+
+<p><a id="markdown-swiftnlc" name="swiftnlc"></a></p>
 
 <h2>SwiftNLC</h2>
 
@@ -395,6 +437,8 @@ Lex is part of AWS, but Alexa isn&rsquo;t</p>
 <li><a href="https://heartbeat.fritz.ai/implementing-a-natural-language-classifier-in-ios-with-keras-core-ml-358f114c0b51">Implementing a Natural Language Classifier in iOS with Keras + Core ML</a></li>
 </ul>
 
+
+<p><a id="markdown-xunfei-command-recognition" name="xunfei-command-recognition"></a></p>
 
 <h3>Xunfei Command Recognition</h3>
 
@@ -409,7 +453,11 @@ Lex is part of AWS, but Alexa isn&rsquo;t</p>
 <p>该语法使识别引擎可以支持以下说法：找一下张三 、打电话给张三 、找一下李四 、打电话给李四。
 凡是用户说出这个范围中的任意一句话，均可以被识别系统识别。如果用户说的话不在上述范围中，识别系统可能拒绝识别。</p>
 
+<p><a id="markdown-siri-and-sirikit" name="siri-and-sirikit"></a></p>
+
 <h2>Siri and SiriKit</h2>
+
+<p><a id="markdown-sirikit-build-in-domain" name="sirikit-build-in-domain"></a></p>
 
 <h3>SiriKit build-in domain</h3>
 
@@ -463,6 +511,8 @@ Lex is part of AWS, but Alexa isn&rsquo;t</p>
 <li>Need to reset the user vocabulary if the user reset the app, or log out.</li>
 </ul>
 
+
+<p><a id="markdown-sirikit-custom-intent" name="sirikit-custom-intent"></a></p>
 
 <h3>SiriKit custom intent</h3>
 

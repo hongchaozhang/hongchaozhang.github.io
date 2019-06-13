@@ -9,7 +9,11 @@
 	<meta name="author" content="Zhang Hongchao">
 
 	
-	<meta name="description" content="Introducing Create ML Apple released Core ML in WWDC2017, and I took a note on CoreML Usage, including mlmodel training using Microsoft Custom &hellip;">
+	<meta name="description" content="Introducing Create ML Background
+Create ML
+Main Advantage: Easy to Use Create ML和Turi Create Transfer Learning
+Improving Accuracy
+References and &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -110,9 +114,26 @@
 	<div class="entry-content" itemprop="articleBody"><!-- more -->
 
 
+<ul>
+<li><a href="#background">Background</a></li>
+<li><a href="#create-ml">Create ML</a></li>
+<li><a href="#main-advantage-easy-to-use">Main Advantage: Easy to Use</a>
+
+<ul>
+<li><a href="#create-ml%E5%92%8Cturi-create">Create ML和Turi Create</a></li>
+</ul>
+</li>
+<li><a href="#transfer-learning">Transfer Learning</a></li>
+<li><a href="#improving-accuracy">Improving Accuracy</a></li>
+<li><a href="#references-and-materials">References and Materials</a></li>
+</ul>
+
+
 <p>Apple released Core ML in WWDC2017, and I took a note on <a href="../../../../2017/12/28/coreml-usage/">CoreML Usage</a>, including mlmodel training using Microsoft <a href="https://www.customvision.ai/">Custom Vision</a>.</p>
 
 <p>This post is about the background of Create ML, its advantages, its relations with Turi. There is no code in this post. If you are looking for the usage of Create ML, refer to <a href="https://www.raywenderlich.com/196233/create-ml-tutorial-getting-started">Create ML Tutorial: Getting Started</a>.</p>
+
+<p><a id="markdown-background" name="background"></a></p>
 
 <h2>Background</h2>
 
@@ -136,6 +157,8 @@
 
 <p><strong>Turi Create</strong>: Acquired by Apple in 2016 ($200M), it lets you customize existing models with your own data. But … Python :[.</p>
 
+<p><a id="markdown-create-ml" name="create-ml"></a></p>
+
 <h2>Create ML</h2>
 
 <p>Finally in WWDC2018, Apple announced <strong>Create ML</strong>, which can train machine learning models on macOS, able to use the GPU on macOS. The Create ML session and Turi Create session did not mention any word on each other, but obviousely, Create ML is based on Turi Create.</p>
@@ -143,6 +166,8 @@
 <p>Based on Trui&rsquo;s model training, Create ML can make model training on macOS using GPU (maybe through Metal), and come up with models which can be used by Core ML framework.</p>
 
 <p>With XCode Playground&rsquo;s updates, Apple gives CreateMLUI, a very easy way for model training: just need to drag your training data and test data into Playground.</p>
+
+<p><a id="markdown-main-advantage-easy-to-use" name="main-advantage-easy-to-use"></a></p>
 
 <h2>Main Advantage: Easy to Use</h2>
 
@@ -158,6 +183,8 @@
 
 <p>Refer to <a href="https://www.raywenderlich.com/196233/create-ml-tutorial-getting-started">Create ML Tutorial: Getting Started</a> to see how easy it is to use Create ML. There are some code comparasion between Create ML and Turi Create.</p>
 
+<p><a id="markdown-create-ml和turi-create" name="create-ml和turi-create"></a></p>
+
 <h3>Create ML和Turi Create</h3>
 
 <p>Currently Create ML includes only two of Turi Create’s seven task-focused toolkits, plus a generic classifier and regressor, and data tables. Turi Create has five task-focused toolkits that aren’t (yet?) in Create ML:</p>
@@ -170,6 +197,8 @@
 <li>Activity classification</li>
 </ul>
 
+
+<p><a id="markdown-transfer-learning" name="transfer-learning"></a></p>
 
 <h2>Transfer Learning</h2>
 
@@ -201,11 +230,15 @@
 
 <p>&ndash;Refer to <a href="https://www.raywenderlich.com/196233/create-ml-tutorial-getting-started">Create ML Tutorial: Getting Started</a></p></blockquote>
 
+<p><a id="markdown-improving-accuracy" name="improving-accuracy"></a></p>
+
 <h2>Improving Accuracy</h2>
 
 <p>Refer to <a href="https://developer.apple.com/documentation/create_ml/improving_your_model_s_accuracy">Improving Your Model’s Accuracy</a> from Apple for improving training accuracy.</p>
 
 <p>How to improve the model&rsquo;s training accuracy, validation accuracy and evaluation accuracy. <a href="https://www.raywenderlich.com/196233/create-ml-tutorial-getting-started">Create ML Tutorial: Getting Started</a> describes the three &lsquo;accuracy&rsquo;s.</p>
+
+<p><a id="markdown-references-and-materials" name="references-and-materials"></a></p>
 
 <h2>References and Materials</h2>
 

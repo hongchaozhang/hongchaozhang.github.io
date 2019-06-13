@@ -4,7 +4,7 @@
   <title><![CDATA[Reading Space]]></title>
   <link href="http://hongchaozhang.github.io/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2019-06-12T18:23:24+08:00</updated>
+  <updated>2019-06-13T13:41:25+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -19,6 +19,21 @@
     <updated>2019-06-04T17:24:47+08:00</updated>
     <id>http://hongchaozhang.github.io/blog/2019/06/04/on-swift-closure</id>
     <content type="html"><![CDATA[<!-- more -->
+
+
+<ul>
+<li><a href="#function%E4%B8%8Eclosure%E7%9A%84%E5%85%B3%E7%B3%BB">Function与Closure的关系：</a></li>
+<li><a href="#%E7%94%A8closure%E5%88%9D%E5%A7%8B%E5%8C%96%E4%B8%80%E4%B8%AA%E5%8F%98%E9%87%8F">用Closure初始化一个变量</a></li>
+<li><a href="#closure%E7%9A%84%E8%AF%AD%E6%B3%95%E7%B3%96">Closure的语法糖：</a></li>
+<li><a href="#closure%E4%B8%8E%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F">Closure与内存管理、内存泄漏</a>
+
+<ul>
+<li><a href="#capture-list%E7%9A%84%E5%AE%9A%E4%B9%89">Capture List的定义</a></li>
+<li><a href="#weak-and-unowned-references">Weak and Unowned References</a></li>
+</ul>
+</li>
+<li><a href="#closure%E6%8D%95%E8%8E%B7%E5%8F%98%E9%87%8F">Closure捕获变量</a></li>
+</ul>
 
 
 <p><a href="https://medium.com/@abhimuralidharan/functional-swift-all-about-closures-310bc8af31dd">Functional swift: All about Closures</a></p>
@@ -36,6 +51,8 @@
 <p>也可以看<a href="https://docs.swift.org/swift-book/LanguageGuide/Closures.html">官方文档Closures</a>，但是官方文档没有上面的文章详细。</p>
 
 <p>下面有选择地记录一下。</p>
+
+<p><a id="markdown-function与closure的关系" name="function与closure的关系"></a></p>
 
 <h2>Function与Closure的关系：</h2>
 
@@ -59,6 +76,8 @@
 </ul>
 </blockquote>
 
+<p><a id="markdown-用closure初始化一个变量" name="用closure初始化一个变量"></a></p>
+
 <h2>用Closure初始化一个变量</h2>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -73,6 +92,8 @@
 </span><span class='line'><span class="p">}()</span> <span class="c1">//IMPORTANT!!! I have added () at the end.</span>
 </span></code></pre></td></tr></table></div></figure>
 
+
+<p><a id="markdown-closure的语法糖" name="closure的语法糖"></a></p>
 
 <h2>Closure的语法糖：</h2>
 
@@ -193,6 +214,8 @@
 </span></code></pre></td></tr></table></div></figure>
 
 
+<p><a id="markdown-closure与内存管理内存泄漏" name="closure与内存管理内存泄漏"></a></p>
+
 <h2>Closure与内存管理、内存泄漏</h2>
 
 <p>Closure带来的循环引用和内存泄漏，主要通过Capture List来解决：</p>
@@ -200,6 +223,8 @@
 <blockquote><p>You resolve a strong reference cycle between a closure and a class instance by defining a capture list as part of the closure’s definition. A capture list defines the rules to use when capturing one or more reference types within the closure’s body.</p></blockquote>
 
 <p>详细内容参考<a href="https://docs.swift.org/swift-book/LanguageGuide/AutomaticReferenceCounting.html#ID56">Resolving Strong Reference Cycles for Closures</a>。下面摘要一下。</p>
+
+<p><a id="markdown-capture-list的定义" name="capture-list的定义"></a></p>
 
 <h3>Capture List的定义</h3>
 
@@ -218,6 +243,8 @@
 </span></code></pre></td></tr></table></div></figure>
 
 
+<p><a id="markdown-weak-and-unowned-references" name="weak-and-unowned-references"></a></p>
+
 <h3>Weak and Unowned References</h3>
 
 <blockquote><p>Define a capture in a closure as an unowned reference when the closure and the instance it captures will always refer to each other, and will always be deallocated at the same time.</p>
@@ -229,6 +256,8 @@
 <p>关于unowned的另一个解释更清楚：</p>
 
 <blockquote><p>Like a weak reference, an unowned reference does not keep a strong hold on the instance it refers to. Unlike a weak reference, however, an unowned reference is used when the other instance has the same lifetime or a longer lifetime.</p></blockquote>
+
+<p><a id="markdown-closure捕获变量" name="closure捕获变量"></a></p>
 
 <h2>Closure捕获变量</h2>
 
@@ -338,6 +367,29 @@
     <content type="html"><![CDATA[<!-- more -->
 
 
+<ul>
+<li><a href="#array-out-of-range-crash"><code>Array</code> out of Range Crash</a></li>
+<li><a href="#homemade-collection">Homemade collection</a></li>
+<li><a href="#sequences">Sequences</a>
+
+<ul>
+<li><a href="#how-to-conform-to-sequence-protocol">How to Conform to <code>Sequence</code> Protocol</a></li>
+<li><a href="#make-our-section-conform-to-sequence-protocol">Make our <code>Section</code> Conform to <code>Sequence</code> Protocol</a></li>
+<li><a href="#gifts">Gifts</a></li>
+</ul>
+</li>
+<li><a href="#collections">Collections</a>
+
+<ul>
+<li><a href="#how-to-conform-to-collection-protocol">How to Conform to <code>Collection</code> Protocol</a></li>
+<li><a href="#make-our-section-conform-to-collection-protocol">Make our <code>Section</code> Conform to <code>Collection</code> Protocol</a></li>
+</ul>
+</li>
+<li><a href="#difference-between-array-and-collection">Difference between <code>Array</code> and <code>Collection</code></a></li>
+<li><a href="#reference">Reference</a></li>
+</ul>
+
+
 <p>The content comes from the following posts:</p>
 
 <ol>
@@ -347,6 +399,8 @@
 
 
 <p>But some of the code inside is old and can&rsquo;t be compiled with swift 5.0. So rewritten the code using swift 5.0.</p>
+
+<p><a id="markdown-array-out-of-range-crash" name="array-out-of-range-crash"></a></p>
 
 <h2><code>Array</code> out of Range Crash</h2>
 
@@ -411,6 +465,8 @@
 
 <p>We saw how we can create a new accessor to the elements of an array, but can we do the same with a homemade collection?</p>
 
+<p><a id="markdown-homemade-collection" name="homemade-collection"></a></p>
+
 <h2>Homemade collection</h2>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -464,11 +520,15 @@
 
 <p>Great! But does that make our type a collection, as Swift defines it?</p>
 
+<p><a id="markdown-sequences" name="sequences"></a></p>
+
 <h2>Sequences</h2>
 
 <p>When it comes to manipulating sets, the most abstract notion given by the standard library is the Sequence, defined as</p>
 
 <blockquote><p>A type that can be iterated with a <code>for…in</code> loop.</p></blockquote>
+
+<p><a id="markdown-how-to-conform-to-sequence-protocol" name="how-to-conform-to-sequence-protocol"></a></p>
 
 <h3>How to Conform to <code>Sequence</code> Protocol</h3>
 
@@ -522,6 +582,8 @@
 </span><span class='line'><span class="c1">// Prints &quot;1&quot;</span>
 </span></code></pre></td></tr></table></div></figure>
 
+
+<p><a id="markdown-make-our-section-conform-to-sequence-protocol" name="make-our-section-conform-to-sequence-protocol"></a></p>
 
 <h3>Make our <code>Section</code> Conform to <code>Sequence</code> Protocol</h3>
 
@@ -586,6 +648,8 @@
 </span></code></pre></td></tr></table></div></figure>
 
 
+<p><a id="markdown-gifts" name="gifts"></a></p>
+
 <h3>Gifts</h3>
 
 <p>Is that all? No! By conforming to SequenceType we also get methods for free, here is some of them.</p>
@@ -628,6 +692,8 @@
 
 <p>And for functional programming fans, filter, map and reduce are also given.</p>
 
+<p><a id="markdown-collections" name="collections"></a></p>
+
 <h2>Collections</h2>
 
 <p>Sequence is the most basic set notion given by the Swift standard library. There is a more evolved one.</p>
@@ -642,6 +708,8 @@
 
 <p>To be a collection, a type must conform to the <code>Collection</code> protocol.</p>
 
+<p><a id="markdown-how-to-conform-to-collection-protocol" name="how-to-conform-to-collection-protocol"></a></p>
+
 <h3>How to Conform to <code>Collection</code> Protocol</h3>
 
 <p>This section comes from <a href="https://developer.apple.com/documentation/swift/collection">Collection official site</a>.</p>
@@ -655,6 +723,8 @@
 <li>Conform to <code>Sequece</code> Protocol, as <code>Collection</code> is inherited from <code>Sequence</code></li>
 </ol>
 
+
+<p><a id="markdown-make-our-section-conform-to-collection-protocol" name="make-our-section-conform-to-collection-protocol"></a></p>
 
 <h3>Make our <code>Section</code> Conform to <code>Collection</code> Protocol</h3>
 
@@ -776,6 +846,8 @@
 
 <p>We get indexOf thanks to our Elements being Equatable.</p>
 
+<p><a id="markdown-difference-between-array-and-collection" name="difference-between-array-and-collection"></a></p>
+
 <h2>Difference between <code>Array</code> and <code>Collection</code></h2>
 
 <p>We created our own collection, which is great, but what about that difference of behavior between Arrays and Dictionaries we talked about at the beginning of the post? We saw that Array’s dangerous subscript was coming from the Indexable protocol, but what about Dictionaries?</p>
@@ -816,6 +888,8 @@
 
 
 <p><strong>The last question that remains is why <code>Collection</code> requires a subscript that may crash? Simply for performance reason, it costs too much to check the validity of the given index. Crashing is faster :)</strong></p>
+
+<p><a id="markdown-reference" name="reference"></a></p>
 
 <h2>Reference</h2>
 
@@ -890,6 +964,8 @@
 </ul>
 
 
+<p><a id="markdown-人机对话的两种模型" name="人机对话的两种模型"></a></p>
+
 <h2>人机对话的两种模型</h2>
 
 <p>自然语言理解（NLU）的最终目的是让计算机能够理解人类的语言，实现人机对话。目前，人机对话模型基本上有两种：</p>
@@ -902,9 +978,13 @@
 
 <p>详细讨论参考：<a href="https://chatbotsmagazine.com/bot-talks-intent-based-vs-flow-base-conversations-798788dc9cf6">Bot Talks: Intent-Based vs. Flow-Base Conversations</a>。</p>
 
+<p><a id="markdown-nlu与nlp" name="nlu与nlp"></a></p>
+
 <h2>NLU与NLP</h2>
 
 <p>NLP（Natural Language Processing）是NLU（Natural Language Understanding）的一个前期步骤：NLP用于对文本或者语音进行机器学习训练和识别时的特征提取阶段。</p>
+
+<p><a id="markdown-stanford-corenlp" name="stanford-corenlp"></a></p>
 
 <h3>Stanford CoreNLP</h3>
 
@@ -912,11 +992,15 @@
 
 <p><img src="http://hongchaozhang.github.io/images/NLU_Stanford_CoreNLP.png" alt="stanford CoreNLP" /></p>
 
+<p><a id="markdown-ios-naturallanguage-framework" name="ios-naturallanguage-framework"></a></p>
+
 <h3>iOS <em>NaturalLanguage</em> framework</h3>
 
 <p>iOS的<em>NaturalLanguage</em>框架可以做的事情如下：</p>
 
 <p><img src="http://hongchaozhang.github.io/images/NLU_AppleNLP.png" alt="Apple nlp framework" /></p>
+
+<p><a id="markdown-custom-machine-learning-models" name="custom-machine-learning-models"></a></p>
 
 <h4>Custom Machine Learning Models</h4>
 
@@ -961,6 +1045,8 @@
 </ol>
 
 
+<p><a id="markdown-自然语言理解平台" name="自然语言理解平台"></a></p>
+
 <h2>自然语言理解平台</h2>
 
 <p>一些比较有名气的自然语言理解平台：</p>
@@ -987,9 +1073,13 @@
 
 <p>下面选择一些平台做简单介绍。</p>
 
+<p><a id="markdown-google的dialogflow" name="google的dialogflow"></a></p>
+
 <h2>Google的Dialogflow</h2>
 
 <blockquote><p><a href="https://dialogflow.com/">Google的Dialogflow</a>Give users new ways to interact with your product by building engaging voice and text-based conversational interfaces, such as voice apps and chatbots, powered by AI. Connect with users on your website, mobile app, the Google Assistant, Amazon Alexa, Facebook Messenger, and other popular platforms and devices.</p></blockquote>
+
+<p><a id="markdown-dialogflow的历史" name="dialogflow的历史"></a></p>
 
 <h3>Dialogflow的历史</h3>
 
@@ -1002,6 +1092,8 @@
 <li>2017: api.ai is renamed to Dialogflow</li>
 </ul>
 
+
+<p><a id="markdown-dialogflow的一些概念" name="dialogflow的一些概念"></a></p>
 
 <h3>Dialogflow的一些概念</h3>
 
@@ -1016,6 +1108,8 @@
 </ul>
 
 
+<p><a id="markdown-两种方法实现intents之间的entities共享" name="两种方法实现intents之间的entities共享"></a></p>
+
 <h3>两种方法实现intents之间的entities共享</h3>
 
 <ul>
@@ -1026,17 +1120,25 @@
 
 <blockquote><p>对话生命周期，就是这个参数可以存多久。</p></blockquote>
 
+<p><a id="markdown-training-tab-in-dialogflow-platform" name="training-tab-in-dialogflow-platform"></a></p>
+
 <h3>“Training” tab in Dialogflow platform</h3>
 
 <blockquote><p><a href="https://console.dialogflow.com/api-client/#/agent/dea6f73c-7c22-44b6-a1a8-45cdcd160bfc/training">官方关于Training的说明</a>：你将收到所有发送给agent的回覆讯息以及agent回覆的内容，如果你告诉你的agent一些回应文本，但它回应你不喜欢的输出，这就非常有用，若你稍后意识到忘记了某个关键字的同义词，并且用户正在使用这个关键字，那么也可能会有所帮助，可以去告诉你的代理在这种情况下应该做什么。</p></blockquote>
+
+<p><a id="markdown-integrations-analytics-and-fulfillment" name="integrations-analytics-and-fulfillment"></a></p>
 
 <h3>“Integrations”, “Analytics” and “Fulfillment”</h3>
 
 <blockquote><p>在Training下方，你可以看到Integrations。在这里，可以管理你的agent去串接不同的服务，例如Google Assistant，Twitter，Slack，Messenger，Cortana，Alexa等等。 Integrations之后，还有Analytics，基本上用来显示建议名称，之后还有Fulfillment，如果你要调用一个API并实现一个webhook，这就是你会需要来的地方。</p></blockquote>
 
+<p><a id="markdown-prebuild-agent-and-small-talk" name="prebuild-agent-and-small-talk"></a></p>
+
 <h3>“Prebuild Agent” and “Small Talk”</h3>
 
 <p>最后两个选项功能非常简单，但很有用。第一个是Prebuilt Agents，在这里，你可以import一个预先存在的代理框架，有很多例子，如食物传递机器人，音乐机器人，甚至（抱歉，但你真的需要知道这个）hotel预订机器人！最后一个选项是Small Talk，如果你将代理设计为像Siri或Google Assistant这样的每日伙伴(daily companion)，这个选项非常有用，Small Talk允许你添加常见问题的答案，我们都喜欢问我们的机器人，如”你几岁？”或”你住哪里？”，以及更热门的问题”你愿意嫁给我吗？”</p>
+
+<p><a id="markdown-一些使用dialogflow的例子" name="一些使用dialogflow的例子"></a></p>
 
 <h3>一些使用Dialogflow的例子</h3>
 
@@ -1047,6 +1149,8 @@
 <li><a href="https://www.appcoda.com.tw/chatbot-dialogflow-ios/">聊天機器人教學：使用Dialogflow (API.AI)開發 iOS Chatbot App</a></li>
 </ol>
 
+
+<p><a id="markdown-alexa-and-lex" name="alexa-and-lex"></a></p>
 
 <h2>Alexa and Lex</h2>
 
@@ -1059,6 +1163,8 @@ Lex is part of AWS, but Alexa isn&rsquo;t</p>
 <p>Lex is a platform which can power bot who accept text input.</p>
 
 <p>Amazon Lex 让您可以将语音和文本聊天访问集成到现有应用程序中。Amazon Alexa 允许您使用 Amazon Echo 或任何启用 Alexa Voice Service 的设备为家庭或工作场所的用户提供免提语音接口。</p></blockquote>
+
+<p><a id="markdown-microsoft-luis-text-analytics-api" name="microsoft-luis-text-analytics-api"></a></p>
 
 <h2>Microsoft LUIS Text Analytics API</h2>
 
@@ -1080,9 +1186,13 @@ Lex is part of AWS, but Alexa isn&rsquo;t</p>
 </ol>
 
 
+<p><a id="markdown-facebook的witai" name="facebook的witai"></a></p>
+
 <h2>Facebook的wit.ai</h2>
 
 <p>参见<a href="https://wit.ai/">官方文档</a>。</p>
+
+<p><a id="markdown-snips" name="snips"></a></p>
 
 <h2>Snips</h2>
 
@@ -1096,6 +1206,8 @@ Lex is part of AWS, but Alexa isn&rsquo;t</p>
 </ul>
 
 
+<p><a id="markdown-duckling" name="duckling"></a></p>
+
 <h3>Duckling</h3>
 
 <p>Snips使用<a href="https://github.com/facebook/duckling">Duckling</a>进行下面的理解：</p>
@@ -1107,9 +1219,13 @@ Lex is part of AWS, but Alexa isn&rsquo;t</p>
 * Spin your own Duckling server or using wit.ai’s build entities.
 * <a href="https://medium.com/wit-ai/open-sourcing-duckling-our-probabilistic-date-parser-4351ee66c4ba">Open Sourcing Duckling, our probabilistic (date) parser</a></p></blockquote>
 
+<p><a id="markdown-ibm的watson" name="ibm的watson"></a></p>
+
 <h2>IBM的Watson</h2>
 
 <p>参看<a href="https://www.ibm.com/watson/services/natural-language-classifier/">官方文档</a>。</p>
+
+<p><a id="markdown-swiftnlc" name="swiftnlc"></a></p>
 
 <h2>SwiftNLC</h2>
 
@@ -1118,6 +1234,8 @@ Lex is part of AWS, but Alexa isn&rsquo;t</p>
 <li><a href="https://heartbeat.fritz.ai/implementing-a-natural-language-classifier-in-ios-with-keras-core-ml-358f114c0b51">Implementing a Natural Language Classifier in iOS with Keras + Core ML</a></li>
 </ul>
 
+
+<p><a id="markdown-xunfei-command-recognition" name="xunfei-command-recognition"></a></p>
 
 <h3>Xunfei Command Recognition</h3>
 
@@ -1132,7 +1250,11 @@ Lex is part of AWS, but Alexa isn&rsquo;t</p>
 <p>该语法使识别引擎可以支持以下说法：找一下张三 、打电话给张三 、找一下李四 、打电话给李四。
 凡是用户说出这个范围中的任意一句话，均可以被识别系统识别。如果用户说的话不在上述范围中，识别系统可能拒绝识别。</p>
 
+<p><a id="markdown-siri-and-sirikit" name="siri-and-sirikit"></a></p>
+
 <h2>Siri and SiriKit</h2>
+
+<p><a id="markdown-sirikit-build-in-domain" name="sirikit-build-in-domain"></a></p>
 
 <h3>SiriKit build-in domain</h3>
 
@@ -1187,6 +1309,8 @@ Lex is part of AWS, but Alexa isn&rsquo;t</p>
 </ul>
 
 
+<p><a id="markdown-sirikit-custom-intent" name="sirikit-custom-intent"></a></p>
+
 <h3>SiriKit custom intent</h3>
 
 <p>SiriKit的custom intent只是用来实现Siri Shortcut的，不能携带参数。</p>
@@ -1203,6 +1327,53 @@ Lex is part of AWS, but Alexa isn&rsquo;t</p>
     <content type="html"><![CDATA[<!-- more -->
 
 
+<ul>
+<li><a href="#objective">Objective</a>
+
+<ul>
+<li><a href="#what-is-a-good-nlu-engine">What is a good NLU engine</a>
+
+<ul>
+<li><a href="#deterministic-behavior">Deterministic behavior</a></li>
+<li><a href="#generalization-power">Generalization power</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#design-and-workflow">Design and Workflow</a></li>
+<li><a href="#deterministic-intent-parser">Deterministic Intent Parser</a></li>
+<li><a href="#probabilistic-intent-parser">Probabilistic Intent Parser</a>
+
+<ul>
+<li><a href="#intent-classification">Intent Classification</a>
+
+<ul>
+<li><a href="#model-training">Model Training</a></li>
+<li><a href="#model-usage">Model Usage</a></li>
+</ul>
+</li>
+<li><a href="#slot-filling">Slot Filling</a>
+
+<ul>
+<li><a href="#model-training-1">Model Training</a></li>
+<li><a href="#model-usage-1">Model Usage</a></li>
+</ul>
+</li>
+<li><a href="#model-size">Model Size</a></li>
+<li><a href="#problems-to-be-solved">Problems to Be Solved</a>
+
+<ul>
+<li><a href="#intent-classification-model-has-no-probability-output">Intent Classification Model Has No Probability Output</a></li>
+<li><a href="#slot-filling-model-tagges-the-label-by-words-not-phrase">Slot Filling Model Tagges the Label by Words, not Phrase</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+
+<p><a id="markdown-objective" name="objective"></a></p>
+
 <h2>Objective</h2>
 
 <p><img src="http://hongchaozhang.github.io/images/NLUObjective.png" alt="nlu objective" /></p>
@@ -1210,6 +1381,8 @@ Lex is part of AWS, but Alexa isn&rsquo;t</p>
 <p>We want an NLU Engine to understand the normal text command on Mobile. We hope the engine can know the command&rsquo;s intent and the info the command needs to execute.</p>
 
 <p>Currently, there are many NLU related tools, like Google Dialogflow, Amazon Lex, Facebook Wit.ai, Microsoft Luis. However, they are all online tools. Considering the privacy problem, we are trying to build our own offline NLU Engine.</p>
+
+<p><a id="markdown-what-is-a-good-nlu-engine" name="what-is-a-good-nlu-engine"></a></p>
 
 <h3>What is a good NLU engine</h3>
 
@@ -1223,13 +1396,19 @@ Lex is part of AWS, but Alexa isn&rsquo;t</p>
 </ul>
 
 
+<p><a id="markdown-deterministic-behavior" name="deterministic-behavior"></a></p>
+
 <h4>Deterministic behavior</h4>
 
 <p>The first thing you want is that all the examples you give to train the model are correctly supported by the engine. This makes the system predictable and easy to use: if a query is not correctly parsed, then add it to the dataset and it will work right away.</p>
 
+<p><a id="markdown-generalization-power" name="generalization-power"></a></p>
+
 <h4>Generalization power</h4>
 
 <p>Having this deterministic behavior is great for robustness and predictability, but a powerful NLU engine also needs to have some generalization power. You want the system not only to recognize patterns provided in the training set, but also all the possible variations that come from speaking naturally. If we go back to the previous dataset, it is reasonable to expect the NLU engine to parse a query like: “What’s the weather in Beijing right now?” even though it is not one of the training examples.</p>
+
+<p><a id="markdown-design-and-workflow" name="design-and-workflow"></a></p>
 
 <h2>Design and Workflow</h2>
 
@@ -1240,6 +1419,8 @@ Lex is part of AWS, but Alexa isn&rsquo;t</p>
 <p>The deterministic parser relies on regular expressions to match intent and slots, which results in perfect behavior on training examples but doesn’t generalize. This parser is the first to be used because of its strictness.</p>
 
 <p>The probabilistic parser is used whenever the first parser fails to find a match. It uses machine learning to generalize beyond the set of sentences seen at train time, thus making our NLU engine be able to cope with examples which are not in the scope of the training data set. This parser involves two successive steps: intent classification and slot filling. These two steps rely on trained machine learning models to classify intent and extract slots.</p>
+
+<p><a id="markdown-deterministic-intent-parser" name="deterministic-intent-parser"></a></p>
 
 <h2>Deterministic Intent Parser</h2>
 
@@ -1259,6 +1440,8 @@ Lex is part of AWS, but Alexa isn&rsquo;t</p>
 </ul>
 
 
+<p><a id="markdown-probabilistic-intent-parser" name="probabilistic-intent-parser"></a></p>
+
 <h2>Probabilistic Intent Parser</h2>
 
 <p>If the Deterministic Intent Parser fails to find the intent and slots, the Probabilistic Intent Parser will be used.</p>
@@ -1275,7 +1458,11 @@ Lex is part of AWS, but Alexa isn&rsquo;t</p>
 
 <p>Apple has released CreateML for training natural language models, which also integrates the powerful NatrualLanguage framework functions, like Tokenization, Part of Speech, Lemmatization, Name Entity Recognition, etc. This will make the training process very simple, and the trained model will be more accurate and smaller.</p>
 
+<p><a id="markdown-intent-classification" name="intent-classification"></a></p>
+
 <h3>Intent Classification</h3>
+
+<p><a id="markdown-model-training" name="model-training"></a></p>
 
 <h4>Model Training</h4>
 
@@ -1397,6 +1584,8 @@ Lex is part of AWS, but Alexa isn&rsquo;t</p>
 
 <p>We can get 99.23% training accuracy and 98.87% validation accuracy.</p>
 
+<p><a id="markdown-model-usage" name="model-usage"></a></p>
+
 <h4>Model Usage</h4>
 
 <p>For the trained model of mlmodel type, we can use it in our iOS app through NLModel (from NatrualLanguage framework). The demo swift code may be like:</p>
@@ -1430,7 +1619,11 @@ Lex is part of AWS, but Alexa isn&rsquo;t</p>
 </ol>
 </blockquote>
 
+<p><a id="markdown-slot-filling" name="slot-filling"></a></p>
+
 <h3>Slot Filling</h3>
+
+<p><a id="markdown-model-training-1" name="model-training-1"></a></p>
 
 <h4>Model Training</h4>
 
@@ -1534,6 +1727,8 @@ Lex is part of AWS, but Alexa isn&rsquo;t</p>
 
 <p>We can get 99.64% training accuracy and 98.38% validation accuracy.</p>
 
+<p><a id="markdown-model-usage-1" name="model-usage-1"></a></p>
+
 <h4>Model Usage</h4>
 
 <p>We can load the mlmodel into an NLTagger (from NatrualLanguage framework), and use the NLTagger to tag labels for each word of the input command text. The demo swift script is like:</p>
@@ -1580,6 +1775,8 @@ Lex is part of AWS, but Alexa isn&rsquo;t</p>
 <li>WWDC video <a href="https://developer.apple.com/videos/play/wwdc2018/713/">Introducing Natural Language Framework</a>: This session introduces NLP framework and its relation with CreateML framework.</li>
 </ol>
 
+
+<p><a id="markdown-model-size" name="model-size"></a></p>
 
 <h3>Model Size</h3>
 
@@ -1638,9 +1835,13 @@ Lex is part of AWS, but Alexa isn&rsquo;t</p>
 <p>If still your model is large, you can
 <a href="https://developer.apple.com/documentation/coreml/core_ml_api/downloading_and_compiling_a_model_on_the_user_s_device">Downloading and Compiling a Model on the User&rsquo;s Device</a> at runtime.</p>
 
+<p><a id="markdown-problems-to-be-solved" name="problems-to-be-solved"></a></p>
+
 <h3>Problems to Be Solved</h3>
 
 <p>For Probabilistic Intent Parser, we still have some problems.</p>
+
+<p><a id="markdown-intent-classification-model-has-no-probability-output" name="intent-classification-model-has-no-probability-output"></a></p>
 
 <h4>Intent Classification Model Has No Probability Output</h4>
 
@@ -1649,6 +1850,8 @@ Lex is part of AWS, but Alexa isn&rsquo;t</p>
 <p>However, the model trained through <code>MLTextClassifier</code> has no probability output API. If we really need the probability output, we can use other platforms to train the model, like tensorflow. That way, we will not benefit from NatrualLanguage framework and we need to consider these things by ourselves, like Tokenization, Part of Speech, Lemmatization, etc.</p>
 
 <blockquote><p>Try other tools for training models with probability output, like Turi.</p></blockquote>
+
+<p><a id="markdown-slot-filling-model-tagges-the-label-by-words-not-phrase" name="slot-filling-model-tagges-the-label-by-words-not-phrase"></a></p>
 
 <h4>Slot Filling Model Tagges the Label by Words, not Phrase</h4>
 
@@ -1841,9 +2044,12 @@ Lex is part of AWS, but Alexa isn&rsquo;t</p>
 
 <p>我们希望源码中的依赖关系与其数据流向脱钩，而与组件所在的层次挂钩。高层组件变更的原因具有“稀少而重大”的特点，低层组件变更的原因具有“频繁而不重大”的特点。（第19章）</p>
 
-<p><a id="markdown-章节小结" name="章节小结"></a></p>
+<p><a id="markdown-章节小结" name="章节小结"></a>
+<a id="markdown-章节小结" name="章节小结"></a></p>
 
 <h2>章节小结</h2>
+
+<p><a id="markdown-第2章-两个价值维度" name="第2章-两个价值维度"></a></p>
 
 <h3>第2章 两个价值维度</h3>
 
@@ -1855,9 +2061,13 @@ Lex is part of AWS, but Alexa isn&rsquo;t</p>
 
 <p>请记住：如果忽视软件架构的价值，系统将会变得越来越难以维护，最终再也无法修改。如果系统变成了这个样子，那么说明软件开发团队没有和需求方做足够的抗争，没有完成自己应尽的职责。</p>
 
+<p><a id="markdown-第14章-组件耦合" name="第14章-组件耦合"></a></p>
+
 <h3>第14章 组件耦合</h3>
 
 <p>组件依赖关系图不是系统功能单元关系图，而是应用程序在构建性和维护性方面的一张地图。所以组件依赖关系图不能像系统功能单元关系图一样在设计之初就确定下来，而是随着开发进程中出现的维护性和构建性的需求而产生的。</p>
+
+<p><a id="markdown-第15章-什么是软件架构" name="第15章-什么是软件架构"></a></p>
 
 <h3>第15章 什么是软件架构</h3>
 
@@ -1867,6 +2077,8 @@ Lex is part of AWS, but Alexa isn&rsquo;t</p>
 另外，我们保留这些可选项的时间越长，实验的机会越多，我们做决策的时候就能拥有越充分的信息。</p>
 
 <p><strong>一个优秀的软件架构师应该致力于最大化可选项数量。</strong></p>
+
+<p><a id="markdown-第17章-划分边界" name="第17章-划分边界"></a></p>
 
 <h3>第17章 划分边界</h3>
 
@@ -1880,6 +2092,8 @@ Lex is part of AWS, but Alexa isn&rsquo;t</p>
 
 <p>事实上，软件开发技术发展的历史就是一个如何想方设法方便地增加插件，从而构建一个可扩展、可维护的系统架构的故事。</p>
 
+<p><a id="markdown-第21章-尖叫的软件架构" name="第21章-尖叫的软件架构"></a></p>
+
 <h3>第21章 尖叫的软件架构</h3>
 
 <p>架构设计的核心目标：</p>
@@ -1891,6 +2105,8 @@ Lex is part of AWS, but Alexa isn&rsquo;t</p>
 <p>而且，良好的架构设计应该尽可能地允许用户推迟和延后决定采用什么框架、数据库、Web服务以及其它与环境相关的工具。同时，良好的架构设计还应该让我们很容易改变这些决定。</p>
 
 <p>总之，良好的架构设计应该只关注用例，并能将它们与其他的周边因素隔离。</p>
+
+<p><a id="markdown-第22章-整洁架构" name="第22章-整洁架构"></a></p>
 
 <h3>第22章 整洁架构</h3>
 
@@ -1904,20 +2120,28 @@ Lex is part of AWS, but Alexa isn&rsquo;t</p>
 
 <p><img src="http://hongchaozhang.github.io/images/CleanArchitecture22fig02.jpg" alt="clean architecture example" /></p>
 
+<p><a id="markdown-第23章-展示器和谦卑对象" name="第23章-展示器和谦卑对象"></a></p>
+
 <h3>第23章 展示器和谦卑对象</h3>
 
 <p>应用程序所能控制的，要在屏幕上显示的一切东西，都应该在视图模型中以字符串、布尔值或者枚举类型的形式存在。然后，视图部分除了加载视图模型所需要的值，不应该再做任何其他事情。因此，我们才能说视图是谦卑对象。</p>
 
 <blockquote><p>这里的视图有点像Redux模式下的View了：只负责忠实地将Model展现出来。</p></blockquote>
 
+<p><a id="markdown-第24章-不完全边界" name="第24章-不完全边界"></a></p>
+
 <h3>第24章 不完全边界</h3>
 
 <p>用于管理输入输出数据结构的双向多态边界接口，以及依赖反转关系的管理都需要耗费资源。某些情况下可以采用一些折中方案，采用某种不完全边界：单向边界、门户模式、省掉最后一步…。</p>
+
+<p><a id="markdown-第25章-层次与边界" name="第25章-层次与边界"></a></p>
 
 <h3>第25章 层次与边界</h3>
 
 <p>“中庸”之道：
 过度设计边界不对，一点不设计也是不合理的，我们能做的就是不断观察系统演进，权衡各个位置设计边界的成本与收益。</p>
+
+<p><a id="markdown-第28章-测试边界" name="第28章-测试边界"></a></p>
 
 <h3>第28章 测试边界</h3>
 
@@ -1926,6 +2150,8 @@ Lex is part of AWS, but Alexa isn&rsquo;t</p>
 
 <p>不要依赖于多变的东西。比如GUI一般是多变的，通过GUI来验证系统的测试一定是脆弱的。因此，我们在系统设计与测试设计时，应该让业务逻辑不通过GUI也能被测试。
 怎么做：让GUI成为“谦卑对象”，只是忠实地反应一些数据（Redux模式）。</p>
+
+<p><a id="markdown-第34章-拾遗" name="第34章-拾遗"></a></p>
 
 <h3>第34章 拾遗</h3>
 
@@ -1945,11 +2171,13 @@ Lex is part of AWS, but Alexa isn&rsquo;t</p>
 
 <p><strong>四种模式将完全一样！完全一样，只是由于我们没有严格地使用访问权限修饰符！</strong></p>
 
-<p><a id="markdown-其它人的一些读后总结" name="其它人的一些读后总结"></a></p>
+<p><a id="markdown-其它人的一些读后总结" name="其它人的一些读后总结"></a>
+<a id="markdown-其它人的一些读后总结" name="其它人的一些读后总结"></a></p>
 
 <h2>其它人的一些读后总结</h2>
 
-<p><a id="markdown-为什么说我们需要软件架构图" name="为什么说我们需要软件架构图"></a></p>
+<p><a id="markdown-为什么说我们需要软件架构图" name="为什么说我们需要软件架构图"></a>
+<a id="markdown-为什么说我们需要软件架构图httpswwwinfoqcnarticleghprruloyyoqs8fr1ph" name="为什么说我们需要软件架构图httpswwwinfoqcnarticleghprruloyyoqs8fr1ph"></a></p>
 
 <h3><a href="https://www.infoq.cn/article/GhprrUlOYyOqS8*FR1pH">为什么说我们需要软件架构图？</a></h3>
 
@@ -1959,7 +2187,8 @@ Lex is part of AWS, but Alexa isn&rsquo;t</p>
 3. 请停止为代码中自解释的内容创建详细的架构图，或者当没有真正受众时。
 4. 直接询问利益相关者：你们希望从文档中获得什么信息？</p>
 
-<p><a id="markdown-推荐架构整洁之道" name="推荐架构整洁之道"></a></p>
+<p><a id="markdown-推荐架构整洁之道" name="推荐架构整洁之道"></a>
+<a id="markdown-推荐架构整洁之道httpsblogcsdnnetcsdnsevennarticledetails83189597" name="推荐架构整洁之道httpsblogcsdnnetcsdnsevennarticledetails83189597"></a></p>
 
 <h3><a href="https://blog.csdn.net/csdnsevenn/article/details/83189597">推荐《架构整洁之道》</a></h3>
 
@@ -2056,6 +2285,8 @@ Lex is part of AWS, but Alexa isn&rsquo;t</p>
 
 <p> <br></p>
 
+<p><a id="markdown-solid原则" name="solid原则"></a></p>
+
 <h2>SOLID原则</h2>
 
 <p>SOLID是指我们编程时应该遵守的五个原则：</p>
@@ -2071,7 +2302,11 @@ Lex is part of AWS, but Alexa isn&rsquo;t</p>
 
 <p>每个原则取一个字母（<strong>S</strong>RP，<strong>O</strong>CP，<strong>L</strong>SP，<strong>I</strong>SP，<strong>D</strong>IP），合称SOLID原则。</p>
 
+<p><a id="markdown-单一职责原则the-single-responsibility-principle简称srp" name="单一职责原则the-single-responsibility-principle简称srp"></a></p>
+
 <h2>单一职责原则（The Single Responsibility Principle，简称SRP）</h2>
+
+<p><a id="markdown-定义" name="定义"></a></p>
 
 <h3>定义</h3>
 
@@ -2079,17 +2314,25 @@ Lex is part of AWS, but Alexa isn&rsquo;t</p>
 
 <p>一个类如果有多个职责，但是你只需要其中的一个职责，你也不得不将其它职责包括进来，还有其它职责所依赖的所有组件。</p>
 
+<p><a id="markdown-什么是职责" name="什么是职责"></a></p>
+
 <h3>什么是职责</h3>
 
 <p>在SRP中，我们把职责定义为“变化的原因”（a reason for change）。如果能够想到多于一个的动机去改变一个类，那么这个类就具有多于一个的职责。</p>
 
 <p>比如Employee这个类如果同时包含了业务规则和对于持久化的控制，多数情况下，我们可以断定它们不应该放在一起：业务规则会频繁地变化，但是持久化的方式却不会如此频繁地变化，并且变化的原因也是完全不同的。</p>
 
+<p><a id="markdown-结论" name="结论"></a></p>
+
 <h3>结论</h3>
 
 <p>SRP是所有原则中最简单的，也是最难运用的。软件设计很多时候要做的，就是发现职责，并把它分离出来。事实上，我们将要论述的其它原则都会以这样或者那样的方式回到这个问题上。</p>
 
+<p><a id="markdown-开放封闭原则the-open-close-principle简称ocp" name="开放封闭原则the-open-close-principle简称ocp"></a></p>
+
 <h2>开放——封闭原则（The Open-Close Principle，简称OCP）</h2>
+
+<p><a id="markdown-定义-1" name="定义-1"></a></p>
 
 <h3>定义</h3>
 
@@ -2107,11 +2350,15 @@ Lex is part of AWS, but Alexa isn&rsquo;t</p>
 
 <p>如何在能在不改变模块原代码的情况下去更改它的行为或者为其添加功能呢？</p>
 
+<p><a id="markdown-关键是抽象" name="关键是抽象"></a></p>
+
 <h3>关键是抽象</h3>
 
 <p>抽象一般有两种方式：
 1. 接口
 2. 继承</p>
+
+<p><a id="markdown-接口" name="接口"></a></p>
 
 <h4>接口</h4>
 
@@ -2124,6 +2371,8 @@ Lex is part of AWS, but Alexa isn&rsquo;t</p>
 <p>上面的b图是一个符合OCP的设计。如果需要使用一个不同的服务器类，只需要重新实现这个类，保证这个类也实现类ClientInterface接口，则Client这个类不需要做修改，同时扩展类Client的功能。</p>
 
 <blockquote><p>这个接口为什么叫ClientInterface，而不叫ServerInterface或者AbstractServer之类？因为这个接口和Client的关系更密切。</p></blockquote>
+
+<p><a id="markdown-继承" name="继承"></a></p>
 
 <h4>继承</h4>
 
@@ -2176,6 +2425,8 @@ Lex is part of AWS, but Alexa isn&rsquo;t</p>
 
 <p>如果想扩展drawAllShapes方法，使其可以绘制一种新的形状，只需要重新创建一个Shape类的子类，drawAllShapes函数不需要改变，即可实现功能的扩展。这就是OCP。</p>
 
+<p><a id="markdown-什么时候进行抽象" name="什么时候进行抽象"></a></p>
+
 <h3>什么时候进行抽象</h3>
 
 <p>即使是上面的形状绘制的例子，也不是完全的“对扩展开放，对修改关闭。”比如，我要求所有的圆必须在正方形之前绘制，就没法在不修改drawAllShapes的情况下进行这个功能扩展。</p>
@@ -2193,11 +2444,17 @@ Lex is part of AWS, but Alexa isn&rsquo;t</p>
 
 <p>也就是说，在刚开始编写代码的时候，假设变化不会发生。当变化发生时，我们就创建抽象进行隔离，防止以后发生同类变化。</p>
 
+<p><a id="markdown-结论-1" name="结论-1"></a></p>
+
 <h3>结论</h3>
 
 <p>在很多方面，OCP都是面向对象设计的核心所在。遵循这个原则，可以带来面向对象技术所声称的巨大好处（也就是，灵活性、可重用性以及可维护性）。但是，对程序的每个部分都肆意地进行抽象也不是一个好主意。拒绝不成熟的抽象和抽象本身一样重要。</p>
 
+<p><a id="markdown-liskov替换原则the-liskov-substitution-priciple简称lsp" name="liskov替换原则the-liskov-substitution-priciple简称lsp"></a></p>
+
 <h2>Liskov替换原则（The Liskov Substitution Priciple，简称LSP）</h2>
+
+<p><a id="markdown-定义-2" name="定义-2"></a></p>
 
 <h3>定义</h3>
 
@@ -2206,6 +2463,8 @@ Lex is part of AWS, but Alexa isn&rsquo;t</p>
 <p>假设一个函数f，它的参数是某个基类型B。如果将基类型B的子类D传给f，会导致f出现错误的行为，那么D就违反了LSP原则。</p>
 
 <p>此时，f的编写者想在f内对D进行检测，以便在把D传给f时，可以使f具有正确的行为。这个行为又违反了OCP原则，因为此时f对于基类型B的所有子类都不在封闭。</p>
+
+<p><a id="markdown-一个违反lsp的简单例子" name="一个违反lsp的简单例子"></a></p>
 
 <h3>一个违反LSP的简单例子</h3>
 
@@ -2267,6 +2526,8 @@ Lex is part of AWS, but Alexa isn&rsquo;t</p>
 <p>很显然，上面的drawAllShapes违反了OCP原则，它必须知道所有的Shape的子类，并且，每创建一个子类，都需要修改drawAllShapes函数。</p>
 
 <p>Square和Circle不能替换其基类型Shape就是违反了LSP原则，这又进一步导致了drawAllShapes违反了OCP原则。因而，对于LSP的违反也潜在违反了OCP原则。</p>
+
+<p><a id="markdown-正方形和长方形的关系更微妙的违规" name="正方形和长方形的关系更微妙的违规"></a></p>
 
 <h3>正方形和长方形的关系：更微妙的违规</h3>
 
@@ -2377,7 +2638,11 @@ Lex is part of AWS, but Alexa isn&rsquo;t</p>
 
 <p><strong>IS-A不应该成为继承的准则，“可替换性”才是。</strong></p>
 
+<p><a id="markdown-其它一些容易导致违反lsp的习惯用法" name="其它一些容易导致违反lsp的习惯用法"></a></p>
+
 <h3>其它一些容易导致违反LSP的习惯用法</h3>
+
+<p><a id="markdown-子类中的退化函数" name="子类中的退化函数"></a></p>
 
 <h4>子类中的退化函数</h4>
 
@@ -2385,15 +2650,23 @@ Lex is part of AWS, but Alexa isn&rsquo;t</p>
 
 <blockquote><p>这也许就是一些语言在子类重写基类函数的时候必须通过super调用基类函数，这就保证了重写不会退化。但是在Swift和Objective-C中可以不调用super。</p></blockquote>
 
+<p><a id="markdown-子类抛出基类没有的异常" name="子类抛出基类没有的异常"></a></p>
+
 <h4>子类抛出基类没有的异常</h4>
 
 <p>此时要遵循LSP，要么改变使用者的期望，要么子类不抛出这个异常。</p>
+
+<p><a id="markdown-结论-2" name="结论-2"></a></p>
 
 <h3>结论</h3>
 
 <p>OCP是很多说法的核心，而LSP是使OCP成为可能的主要原则之一。正是子类的可替换性才使得使用基类类型的模块在无需修改的情况下就可以扩展。这种可替换性必须是开发人员可以隐式依赖的东西。</p>
 
+<p><a id="markdown-依赖倒置原则the-dependency-inversion-principle简称dip" name="依赖倒置原则the-dependency-inversion-principle简称dip"></a></p>
+
 <h2>依赖倒置原则（The Dependency Inversion Principle，简称DIP）</h2>
+
+<p><a id="markdown-定义-3" name="定义-3"></a></p>
 
 <h3>定义</h3>
 
@@ -2421,6 +2694,8 @@ Lex is part of AWS, but Alexa isn&rsquo;t</p>
 
 <p><strong>这里的倒置不仅仅是依赖关系的倒置，也是接口所有权的倒置。</strong>我们通常认为工具库应该拥有自己的接口，但是当应用了DIP之后，我们发现往往是客户拥有抽象接口，而它们的服务者则从这些抽象接口派生。</p>
 
+<p><a id="markdown-依赖于抽象" name="依赖于抽象"></a></p>
+
 <h3>依赖于抽象</h3>
 
 <p>“依赖于抽象”这一启发式规则与DIP要求类似，要求我们不应该依赖具体的类，也就是说，程序中所有的依赖关系都应该终止于抽象（抽象类或者接口）。根据这一规则，可知：</p>
@@ -2436,6 +2711,8 @@ Lex is part of AWS, but Alexa isn&rsquo;t</p>
 
 <p>但是如果一个类不稳定，我们最好不要直接依赖它，而要用一个抽象接口隔离这个类的不稳定性，直接使用接口，而不是这个类。</p>
 
+<p><a id="markdown-一个例子" name="一个例子"></a></p>
+
 <h3>一个例子</h3>
 
 <p>依赖倒置可以应用于任何存在一个类向另一个类发送消息的地方。例如Button对Lamp的控制。</p>
@@ -2450,6 +2727,8 @@ Lex is part of AWS, but Alexa isn&rsquo;t</p>
 
 <p>改进之后的b设计则是一个遵守DIP的设计。而且，接口本身没有所有者，可以独立放在一个不同于Button，也不同于Lamp的地方。</p>
 
+<p><a id="markdown-结论-3" name="结论-3"></a></p>
+
 <h3>结论</h3>
 
 <p>传统程序设计，策略依赖于细节。面向对象设计倒置了这种依赖关系，使得细节和策略都依赖于抽象，并且常常是客户拥有服务接口。</p>
@@ -2458,7 +2737,11 @@ Lex is part of AWS, but Alexa isn&rsquo;t</p>
 
 <p>依赖倒置关系是实现许多面向对象技术所宣称的好处的基本底层机制。它的正确应用对于创建可重用的框架来说是必要的。同时它对于构建在变化面前富有弹性的代码也是非常重要的。</p>
 
+<p><a id="markdown-接口隔离原则the-interface-segregation-principle简称isp" name="接口隔离原则the-interface-segregation-principle简称isp"></a></p>
+
 <h2>接口隔离原则（The Interface Segregation Principle，简称ISP）</h2>
+
+<p><a id="markdown-定义-4" name="定义-4"></a></p>
 
 <h3>定义</h3>
 
@@ -2467,6 +2750,8 @@ Lex is part of AWS, but Alexa isn&rsquo;t</p>
 <p>这个原则是用来处理“胖”接口所具有的缺点。如果类的接口不是内聚（cohesive）的，就表示该类具有“胖”的接口。换句话说，类的“胖”接口可以分解成多组方法，每一组方法都服务于不同的客户程序。</p>
 
 <p>如果客户程序依赖于一个具有“胖”接口的类，就相当于强迫客户程序依赖它们不使用的方法，那么这些客户程序就面临着由于这些未使用的方法的改变所带来的变更。这无意中导致了所有客户程序之间的耦合。</p>
+
+<p><a id="markdown-一个例子定时门" name="一个例子定时门"></a></p>
 
 <h3>一个例子：定时门</h3>
 
@@ -2484,6 +2769,8 @@ Lex is part of AWS, but Alexa isn&rsquo;t</p>
 
 <p>TimerDoor应该“具有”两组接口，一组供Timer使用，一组供Door使用。如何将这两组接口分开呢？该问题的答案基于这样的事实：一个对象的客户不是必须通过该对象才能访问其接口，也可以通过委托或者该对象的基类来访问它。</p>
 
+<p><a id="markdown-使用委托对接口分组" name="使用委托对接口分组"></a></p>
+
 <h4>使用委托对接口分组</h4>
 
 <p>该方案如下图所示，当TimerDoor需要向Timer对象注册一个超时请求时，它就创建一个DoorTimerAdaper，并把它注册给Timer。当Timer对象发送<code>timeout</code>消息给DoorTimerAdapter时，DoorTimerAdapter把这个消息委托给TimerDoor的<code>doorTimeout</code>方法。</p>
@@ -2491,6 +2778,8 @@ Lex is part of AWS, but Alexa isn&rsquo;t</p>
 <p><img src="http://hongchaozhang.github.io/images/door_good_design_1.jpg" alt="timer door good design 1" /></p>
 
 <p>这个设计是个比较通用的设计，在其他地方，也叫做“使用组合而非继承（Prefer Composition to Extension）”。但是这个设计略显复杂。下面基于多重继承的实现更加简洁。</p>
+
+<p><a id="markdown-使用多重继承对接口分组" name="使用多重继承对接口分组"></a></p>
 
 <h4>使用多重继承对接口分组</h4>
 
@@ -2503,6 +2792,8 @@ Lex is part of AWS, but Alexa isn&rsquo;t</p>
 <p>通常情况下，我们都会优先选择多重继承方法，只有当DoorTimerAdapter所做的转换是必须的时候，才考虑使用委托方案。</p>
 
 <blockquote><p>DoorTimerAdapter将<code>timeout</code>接口转换成TimerDoor里面的<code>doorTimeout</code>接口，如果需要，在这个转换过程中还可以做些其它事情。</p></blockquote>
+
+<p><a id="markdown-一个例子atm界面" name="一个例子atm界面"></a></p>
 
 <h3>一个例子：ATM界面</h3>
 
@@ -2519,6 +2810,8 @@ Lex is part of AWS, but Alexa isn&rsquo;t</p>
 <p><img src="http://hongchaozhang.github.io/images/ATM_good_design.jpg" width="600" alt="atm good design" /></p>
 
 <p>当我们需要增加一种新的Transaction时，其它Transaction都不需要重新编译部署。</p>
+
+<p><a id="markdown-多参数形式与单参数形式" name="多参数形式与单参数形式"></a></p>
 
 <h4>多参数形式与单参数形式</h4>
 
@@ -2544,6 +2837,8 @@ Lex is part of AWS, but Alexa isn&rsquo;t</p>
 
 
 <p>虽然上面的调用看起来有悖常理，但是我们还是应该倾向于多参数形式。单参数形式的函数依赖于UI中包含的每一个接口，如果WithDrawalUI发生了改变，那么函数及其所有客户程序都会受到影响。这更悖常理。此外，我们也不能保证传入函数的两个参数一直是同一个对象。也许以后，接口对象会因为某些原因而分离，此时，函数并不需要关注接口对象是合并还是分拆这一事实。</p>
+
+<p><a id="markdown-结论-4" name="结论-4"></a></p>
 
 <h3>结论</h3>
 
@@ -2727,16 +3022,28 @@ Lex is part of AWS, but Alexa isn&rsquo;t</p>
 <li><a href="#%E8%B0%88%E4%BC%91%E6%81%AF">谈休息</a></li>
 <li><a href="#%E8%B0%88%E6%B6%88%E9%81%A3">谈消遣</a></li>
 <li><a href="#%E8%B0%88%E4%BD%93%E8%82%B2">谈体育</a></li>
-<li><a href="#%E8%B0%88%E7%BE%8E%E6%84%9F%E6%95%99%E8%82%B2">谈美感教育</a></li>
+<li><a href="#%E8%B0%88%E7%BE%8E%E6%84%9F%E6%95%99%E8%82%B2">谈美感教育</a>
+
+<ul>
+<li><a href="#%E7%BE%8E%E8%82%B2%E6%98%AF%E6%9C%AC%E8%83%BD%E5%86%B2%E5%8A%A8%E5%92%8C%E6%83%85%E6%84%9F%E7%9A%84%E8%A7%A3%E6%94%BE">美育是本能冲动和情感的解放。</a></li>
+<li><a href="#%E7%BE%8E%E8%82%B2%E6%98%AF%E7%9C%BC%E7%95%8C%E7%9A%84%E8%A7%A3%E6%94%BE">美育是眼界的解放。</a></li>
+<li><a href="#%E7%BE%8E%E8%82%B2%E6%98%AF%E8%87%AA%E7%84%B6%E9%99%90%E5%88%B6%E7%9A%84%E8%A7%A3%E6%94%BE">美育是自然限制的解放。</a></li>
+<li><a href="#%E7%88%B1%E7%BE%8E%E7%9A%84%E5%A4%A9%E6%80%A7%E9%9C%80%E8%A6%81%E5%9F%B9%E5%85%BB">爱美的天性需要培养</a></li>
+</ul>
+</li>
 <li><a href="#%E7%BB%99%E7%94%B3%E6%8A%A5%E9%9D%92%E5%B9%B4%E7%9A%84%E9%9D%92%E5%B9%B4%E8%AF%BB%E8%80%85">给《申报青年》的青年读者</a></li>
 </ul>
 
 
 <p><br></p>
 
+<p><a id="markdown-谈处群上中下" name="谈处群上中下"></a></p>
+
 <h2>谈处群（上、中、下）</h2>
 
 <p>说了很多，也颇有感触，但是没能总结出来。</p>
+
+<p><a id="markdown-谈学问" name="谈学问"></a></p>
 
 <h2>谈学问</h2>
 
@@ -2754,7 +3061,11 @@ Lex is part of AWS, but Alexa isn&rsquo;t</p>
 
 <p>而现在的学校不在这两个方面努力，只尽量在灌输知识。这种教育对于学问不仅无裨益，而且是障碍。</p>
 
+<p><a id="markdown-谈读书" name="谈读书"></a></p>
+
 <h2>谈读书</h2>
+
+<p><a id="markdown-好书不厌百回读" name="好书不厌百回读"></a></p>
 
 <h3>好书不厌百回读</h3>
 
@@ -2762,13 +3073,19 @@ Lex is part of AWS, but Alexa isn&rsquo;t</p>
 
 <p>多读不能算作荣誉，少读也不能算是耻辱。少读如果彻底，必能养成深思熟虑的习惯，涵泳优游，以至于变化气质；多读而不求甚解，则如驰骋十里洋场，虽珍奇满目，徒惹得心花意乱，空手而归。世间许多读书人只为装点门面，如暴发户炫耀家私，以多为贵。这在治学方面是自欺欺人，在做人方面是趣味低劣。</p>
 
+<p><a id="markdown-知识系统化" name="知识系统化"></a></p>
+
 <h3>知识系统化</h3>
 
 <p>一书做几遍看，每一遍只着重某一方面。也就是说读书要有中心，有中心才易有系统组织。</p>
 
 <p>一个人心中可以有多个系统中心，将看到的知识归到不同的系统框架中去。大凡零星片段的知识，不但易忘，而且无用。每次所得的新知识必须与旧有的知识联络贯穿，这就是说，必须围绕一个中心归聚到一个系统里去，才会生根，才会开花结果。</p>
 
+<p><a id="markdown-谈英雄崇拜" name="谈英雄崇拜"></a></p>
+
 <h2>谈英雄崇拜</h2>
+
+<p><a id="markdown-英雄与历史" name="英雄与历史"></a></p>
 
 <h3>英雄与历史</h3>
 
@@ -2781,11 +3098,15 @@ Lex is part of AWS, but Alexa isn&rsquo;t</p>
 
 <p>托尔斯泰的《战争与和平》在传达“时势造英雄”的理念。</p>
 
+<p><a id="markdown-英雄与人格提升" name="英雄与人格提升"></a></p>
+
 <h3>英雄与人格提升</h3>
 
 <p>撇开英雄和历史的关系不说，但是对人的教育感化的作用，就不能否定英雄崇拜。正所谓“高山仰止，景行行止。虽不能至，然心向往之。”</p>
 
 <p>尤其在青少年时代，意向的力量大于概念，与其向他们说仁义道德，不如指点几个有血有肉的具有仁义道德的人给他们看。教育重人格感化，必须是一个具体的人格才真正有感化力。</p>
+
+<p><a id="markdown-谈交友" name="谈交友"></a></p>
 
 <h2>谈交友</h2>
 
@@ -2794,6 +3115,8 @@ Lex is part of AWS, but Alexa isn&rsquo;t</p>
 <p>与善人交，如入芝兰之室，久而不闻其香；与恶人交，如入鲍鱼之市，久而不闻其臭。</p>
 
 <p>诤友难得</p>
+
+<p><a id="markdown-谈青年与恋爱结婚" name="谈青年与恋爱结婚"></a></p>
 
 <h2>谈青年与恋爱结婚</h2>
 
@@ -2805,6 +3128,8 @@ Lex is part of AWS, but Alexa isn&rsquo;t</p>
 </ol>
 
 
+<p><a id="markdown-谈休息" name="谈休息"></a></p>
+
 <h2>谈休息</h2>
 
 <p>节奏，优游涵泳</p>
@@ -2812,6 +3137,8 @@ Lex is part of AWS, but Alexa isn&rsquo;t</p>
 <p>休息不仅为蓄力，也为整理酝酿，让筋肉技巧在潜意识中酝酿凝固。</p>
 
 <p>我（朱光潜）生平最爱陶渊明在自祭文里所说的两句话：“勤靡余劳，心有常闲”，这是修养的极境，人事算尽了，而神仙福分也就在尽人事中享着。现代人的毛病是“勤有余劳，心无偶闲”。这使人心地驳杂，缺乏冲和弘毅的气象，日日困于名缰利锁，叫整个世界日趋于干枯黑暗。</p>
+
+<p><a id="markdown-谈消遣" name="谈消遣"></a></p>
 
 <h2>谈消遣</h2>
 
@@ -2823,6 +3150,8 @@ Lex is part of AWS, but Alexa isn&rsquo;t</p>
 
 <p>世间欢喜消遣的人，无论他们到嗜好如何不同，都有一个共同点，就是他们必都有强旺的生活力，运动家和艺术家如此，嫖客赌徒乃至于烟鬼也是如此。他们到生活力强旺，发泄到需求也就急迫。他们所不同者只在发泄方式。这有如大水，可以灌田、发电或推动机器，也可以泛滥横流，淹毙人畜草木。同是强旺到生活力，用在运动可以健身，用在艺术可以怡情养性，用在吃喝嫖赌就可以劳民伤财，为非作歹。“浪子回头是个宝”，也是这个道理。浪子必是生活力强旺到人，如果可以用于正道，也必是人上之人。</p>
 
+<p><a id="markdown-谈体育" name="谈体育"></a></p>
+
 <h2>谈体育</h2>
 
 <p>德、智、体、美均衡发展。</p>
@@ -2833,17 +3162,25 @@ Lex is part of AWS, but Alexa isn&rsquo;t</p>
 
 <p>要训练互助、尊重纪律的精神，最好的运动场所是运动场。</p>
 
+<p><a id="markdown-谈美感教育" name="谈美感教育"></a></p>
+
 <h2>谈美感教育</h2>
 
 <p>朱子诗云：“半亩方塘一鉴开，天光云影共徘徊。问渠哪得清如许？为有源头活水来。”这诗所写的是一种修养的胜境。美感教育给我们的是“源头活水”。</p>
+
+<p><a id="markdown-美育是本能冲动和情感的解放" name="美育是本能冲动和情感的解放"></a></p>
 
 <h4>美育是本能冲动和情感的解放。</h4>
 
 <p>宗教、法律、道德约束下的欲望，可以在美育中得到解放。</p>
 
+<p><a id="markdown-美育是眼界的解放" name="美育是眼界的解放"></a></p>
+
 <h4>美育是眼界的解放。</h4>
 
 <p>美育可以培养发现生活美的眼睛。</p>
+
+<p><a id="markdown-美育是自然限制的解放" name="美育是自然限制的解放"></a></p>
 
 <h4>美育是自然限制的解放。</h4>
 
@@ -2855,6 +3192,8 @@ Lex is part of AWS, but Alexa isn&rsquo;t</p>
 
 <p>多接受美感教育，就是多学会如何从自然限制中解放出来，由奴隶变成上帝，充分地感觉人的尊严。</p>
 
+<p><a id="markdown-爱美的天性需要培养" name="爱美的天性需要培养"></a></p>
+
 <h3>爱美的天性需要培养</h3>
 
 <p>爱美是人的天性，虽是天性，仍需要培养，否则，便会凋零。</p>
@@ -2864,6 +3203,8 @@ Lex is part of AWS, but Alexa isn&rsquo;t</p>
 <p>我时常想，无论学哪一科专门学问，干哪一行职业，每个人都应该会听音乐，不断地读文学作品，偶尔有欣赏图画、雕刻的机会。</p>
 
 <p>从历史看，一个民族在最兴旺的时候，艺术成就必伟大，美育必发达。史诗悲剧时代的希腊、文艺复兴时代的意大利、莎士比亚时代的英国、歌德和贝多芬时代的德国都可以作证。现在我们要想复兴民族，必须恢复周以前歌乐舞的盛况，这就是说，必须提倡普及的美感教育。</p>
+
+<p><a id="markdown-给申报青年的青年读者" name="给申报青年的青年读者"></a></p>
 
 <h2>给《申报青年》的青年读者</h2>
 
@@ -2919,7 +3260,11 @@ Lex is part of AWS, but Alexa isn&rsquo;t</p>
 </ul>
 
 
+<p><a id="markdown-app-store上面的app" name="app-store上面的app"></a></p>
+
 <h2>App Store上面的App</h2>
+
+<p><a id="markdown-神奇arhttpsitunesapplecomcnappar-arid1327719623mt8" name="神奇ar"></a></p>
 
 <h3><a href="https://itunes.apple.com/cn/app/%E7%A5%9E%E5%A5%87ar-%E7%89%B9%E6%95%88ar%E7%9B%B8%E6%9C%BA%E5%92%8C%E7%9F%AD%E8%A7%86%E9%A2%91%E6%8B%8D%E6%91%84%E7%A5%9E%E5%99%A8/id1327719623?mt=8">神奇AR</a></h3>
 
@@ -2940,6 +3285,8 @@ Lex is part of AWS, but Alexa isn&rsquo;t</p>
 
 <p><img src="http://hongchaozhang.github.io/images/shenqiar.jpg" alt="神奇 AR" /></p>
 
+<p><a id="markdown-ikea-placehttpsitunesapplecomusappikea-placeid1279244498mt8" name="ikea-place"></a></p>
+
 <h3><a href="https://itunes.apple.com/us/app/ikea-place/id1279244498?mt=8">IKEA Place</a></h3>
 
 <p>宜家的官方App，有丰富的宜家家具的3D模型，真实尺寸，可以提前放置到自己的房间，看看效果。</p>
@@ -2948,6 +3295,8 @@ Lex is part of AWS, but Alexa isn&rsquo;t</p>
 
 <p><img src="http://hongchaozhang.github.io/images/IKEAPlace.jpg" alt="ikea place" /></p>
 
+<p><a id="markdown-wallrhttpsitunesapplecomusappwallrid1278372745" name="wallr"></a></p>
+
 <h3><a href="https://itunes.apple.com/us/app/wallr/id1278372745">Wallr</a></h3>
 
 <p>Wallr可以让你将图片放置到真实场景的墙面上。如果你想买画装饰墙面，可以试试。不过这个功能已经在<a href="https://itunes.apple.com/cn/app/%E7%A5%9E%E5%A5%87ar-%E7%89%B9%E6%95%88ar%E7%9B%B8%E6%9C%BA%E5%92%8C%E7%9F%AD%E8%A7%86%E9%A2%91%E6%8B%8D%E6%91%84%E7%A5%9E%E5%99%A8/id1327719623?mt=8">神奇AR</a>中实现了，而且是免费的。</p>
@@ -2955,6 +3304,8 @@ Lex is part of AWS, but Alexa isn&rsquo;t</p>
 <p>同时放置多张图片需要花钱购买。</p>
 
 <p><img src="http://hongchaozhang.github.io/images/wallr.jpg" alt="wallr" /></p>
+
+<p><a id="markdown-horizon-explorerhttpsitunesapplecomgbapphorizon-explorerid1326860431platformipadpreservescrollpositiontrueplatformipad" name="horizon-explorer"></a></p>
 
 <h3><a href="https://itunes.apple.com/gb/app/horizon-explorer/id1326860431?platform=ipad&amp;preserveScrollPosition=true#platform/ipad">Horizon Explorer</a></h3>
 
@@ -2978,6 +3329,8 @@ Lex is part of AWS, but Alexa isn&rsquo;t</p>
 
 <p><img src="http://hongchaozhang.github.io/images/HorizonExplorer.jpg" alt="Horizon Explorer" /></p>
 
+<p><a id="markdown-wearehttpsitunesapplecomcnappweareid1304227680platformiphonepreservescrollpositiontrueplatformiphoneplatformiphoneplatformiphone" name="weare"></a></p>
+
 <h3><a href="https://itunes.apple.com/cn/app/weare/id1304227680?platform=iphone&amp;preserveScrollPosition=true&amp;platform=iphone#platform/iphone&amp;platform=iphone">WeAre</a></h3>
 
 <p>这个应用可以让你选择一些照片，以设备为中心围成一圈，并缓慢移动。还可以播放视频、背景音乐和编辑3D文字。用作者的话说，“可以打造一个或温馨浪漫的回忆相册,或缥缈遥远的世界.”</p>
@@ -2985,6 +3338,8 @@ Lex is part of AWS, but Alexa isn&rsquo;t</p>
 <p>同时还是源码可以参考：<a href="https://github.com/SherlockQi/HeavenMemoirs">HeavenMemoirs - AR相册</a></p>
 
 <p><img src="http://hongchaozhang.github.io/images/weare.jpg" alt="WeAre" /></p>
+
+<p><a id="markdown-waazy---magic-ar-video-makerhttpsitunesapplecomusappwaazy-magic-ar-video-makerid1286992749" name="waazy---magic-ar-video-maker"></a></p>
 
 <h3><a href="https://itunes.apple.com/us/app/waazy-magic-ar-video-maker/id1286992749">Waazy - Magic AR Video Maker</a></h3>
 
@@ -3003,6 +3358,8 @@ Lex is part of AWS, but Alexa isn&rsquo;t</p>
 
 <p><img src="http://hongchaozhang.github.io/images/wazzy.jpg" alt="wazzy" /></p>
 
+<p><a id="markdown-human-anatomy-atlas-2019httpsitunesapplecomappid1117998129" name="human-anatomy-atlas-2019"></a></p>
+
 <h3><a href="https://itunes.apple.com/app/id1117998129">Human Anatomy Atlas 2019</a></h3>
 
 <p>其实这个主要是展示人体内部结构的3D素材，借助AR技术投射到真实场景，没有很新鲜的AR应用场景。</p>
@@ -3016,13 +3373,19 @@ Includes over 10,000 anatomical models with descriptions in English, Spanish, Fr
 
 <p><img src="http://hongchaozhang.github.io/images/HumanAnatomyAtlas2019_2.jpg" alt="Human Anatomy Atlas 2019 2" /></p>
 
+<p><a id="markdown-github上面的项目" name="github上面的项目"></a></p>
+
 <h2>Github上面的项目</h2>
+
+<p><a id="markdown-arkit-occlusion-demohttpsgithubcombjarnelarkit-occlusion" name="arkit-occlusion-demo"></a></p>
 
 <h3><a href="https://github.com/bjarnel/arkit-occlusion">arkit-occlusion-demo</a></h3>
 
 <p>事先用一些虚拟平面将真实的墙面、柜子面、门等标记出来，就可以让虚拟的小球在房间里面来回反弹，就像撞到真实的墙上返回来一样。</p>
 
 <p><img src="http://hongchaozhang.github.io/images/occlusiongame.jpg" width="600" alt="occlusion game" /></p>
+
+<p><a id="markdown-arvideokit" name="arvideokit"></a></p>
 
 <h3><a href="">ARVideoKit</a></h3>
 
@@ -3048,6 +3411,8 @@ Includes over 10,000 anatomical models with descriptions in English, Spanish, Fr
 
 <p>✅ Returns rendered and raw buffers in a protocol method for additional Image &amp; Video processing</p></blockquote>
 
+<p><a id="markdown-arkit-smb-homagehttpsgithubcombjarnelarkit-smb-homage" name="arkit-smb-homage"></a></p>
+
 <h3><a href="https://github.com/bjarnel/arkit-smb-homage">arkit-smb-homage</a></h3>
 
 <p>在现实场景中玩超级玛丽。非常粗糙，但是创意还不错。</p>
@@ -3055,6 +3420,8 @@ Includes over 10,000 anatomical models with descriptions in English, Spanish, Fr
 <p><img src="http://hongchaozhang.github.io/images/supermario_beginning.jpg" width="600" alt="super mario beginning" /></p>
 
 <p><img src="http://hongchaozhang.github.io/images/supermario_flag.jpg" width="600" alt="super mario flag" /></p>
+
+<p><a id="markdown-arkit-corelocationhttpsgithubcomprojectdentarkit-corelocation" name="arkit-corelocation"></a></p>
 
 <h3><a href="https://github.com/ProjectDent/ARKit-CoreLocation">ARKit-CoreLocation</a></h3>
 
@@ -3072,6 +3439,8 @@ Includes over 10,000 anatomical models with descriptions in English, Spanish, Fr
 
 <p><img src="http://hongchaozhang.github.io/images/arkit+corelocation.jpg" width="600" alt="arkit + corelocation" /></p>
 
+<p><a id="markdown-arkitnavigationdemohttpsgithubcomchriswebb09arkitnavigationdemo" name="arkitnavigationdemo"></a></p>
+
 <h3><a href="https://github.com/chriswebb09/ARKitNavigationDemo">ARKitNavigationDemo</a></h3>
 
 <p>在地图上选择目的地，然后在真实场景中进行AR导航。</p>
@@ -3083,6 +3452,8 @@ Includes over 10,000 anatomical models with descriptions in English, Spanish, Fr
 <p>TODO: 这个项目中推荐的一些参考文献还是值得看一看的。</p>
 
 <p><img src="http://hongchaozhang.github.io/images/ARKitNavigationDemo.gif" alt="ARKitNavigationDemo" /></p>
+
+<p><a id="markdown-finemehttpsgithubcommmoaayfindme" name="fineme"></a></p>
 
 <h3><a href="https://github.com/mmoaay/Findme">FineMe</a></h3>
 
@@ -3105,13 +3476,19 @@ Includes over 10,000 anatomical models with descriptions in English, Spanish, Fr
 </ul>
 
 
+<p><a id="markdown-arkitspitfirehttpsgithubcomchriswebb09arkitspitfire" name="arkitspitfire"></a></p>
+
 <h3><a href="https://github.com/chriswebb09/ARKitSpitfire">ARKitSpitfire</a></h3>
 
 <p>可以让一架3D飞机模型，根据提供的地理位置经纬度，调整姿态，并飞向那里。</p>
 
 <p><img src="http://hongchaozhang.github.io/images/ARKitSpitfire.gif" alt="ARKitSpitfire" /></p>
 
+<p><a id="markdown-resources" name="resources"></a></p>
+
 <h2>Resources</h2>
+
+<p><a id="markdown-polyhttpsgithubcompiemontepoly" name="poly"></a></p>
 
 <h3><a href="https://github.com/piemonte/Poly">Poly</a></h3>
 
@@ -3292,9 +3669,26 @@ find "${SRCROOT}" \( -name "*.h" -or -name "*.m" -or -name "*.swift" \) -print0 
     <content type="html"><![CDATA[<!-- more -->
 
 
+<ul>
+<li><a href="#background">Background</a></li>
+<li><a href="#create-ml">Create ML</a></li>
+<li><a href="#main-advantage-easy-to-use">Main Advantage: Easy to Use</a>
+
+<ul>
+<li><a href="#create-ml%E5%92%8Cturi-create">Create ML和Turi Create</a></li>
+</ul>
+</li>
+<li><a href="#transfer-learning">Transfer Learning</a></li>
+<li><a href="#improving-accuracy">Improving Accuracy</a></li>
+<li><a href="#references-and-materials">References and Materials</a></li>
+</ul>
+
+
 <p>Apple released Core ML in WWDC2017, and I took a note on <a href="../../../../2017/12/28/coreml-usage/">CoreML Usage</a>, including mlmodel training using Microsoft <a href="https://www.customvision.ai/">Custom Vision</a>.</p>
 
 <p>This post is about the background of Create ML, its advantages, its relations with Turi. There is no code in this post. If you are looking for the usage of Create ML, refer to <a href="https://www.raywenderlich.com/196233/create-ml-tutorial-getting-started">Create ML Tutorial: Getting Started</a>.</p>
+
+<p><a id="markdown-background" name="background"></a></p>
 
 <h2>Background</h2>
 
@@ -3318,6 +3712,8 @@ find "${SRCROOT}" \( -name "*.h" -or -name "*.m" -or -name "*.swift" \) -print0 
 
 <p><strong>Turi Create</strong>: Acquired by Apple in 2016 ($200M), it lets you customize existing models with your own data. But … Python :[.</p>
 
+<p><a id="markdown-create-ml" name="create-ml"></a></p>
+
 <h2>Create ML</h2>
 
 <p>Finally in WWDC2018, Apple announced <strong>Create ML</strong>, which can train machine learning models on macOS, able to use the GPU on macOS. The Create ML session and Turi Create session did not mention any word on each other, but obviousely, Create ML is based on Turi Create.</p>
@@ -3325,6 +3721,8 @@ find "${SRCROOT}" \( -name "*.h" -or -name "*.m" -or -name "*.swift" \) -print0 
 <p>Based on Trui&rsquo;s model training, Create ML can make model training on macOS using GPU (maybe through Metal), and come up with models which can be used by Core ML framework.</p>
 
 <p>With XCode Playground&rsquo;s updates, Apple gives CreateMLUI, a very easy way for model training: just need to drag your training data and test data into Playground.</p>
+
+<p><a id="markdown-main-advantage-easy-to-use" name="main-advantage-easy-to-use"></a></p>
 
 <h2>Main Advantage: Easy to Use</h2>
 
@@ -3340,6 +3738,8 @@ find "${SRCROOT}" \( -name "*.h" -or -name "*.m" -or -name "*.swift" \) -print0 
 
 <p>Refer to <a href="https://www.raywenderlich.com/196233/create-ml-tutorial-getting-started">Create ML Tutorial: Getting Started</a> to see how easy it is to use Create ML. There are some code comparasion between Create ML and Turi Create.</p>
 
+<p><a id="markdown-create-ml和turi-create" name="create-ml和turi-create"></a></p>
+
 <h3>Create ML和Turi Create</h3>
 
 <p>Currently Create ML includes only two of Turi Create’s seven task-focused toolkits, plus a generic classifier and regressor, and data tables. Turi Create has five task-focused toolkits that aren’t (yet?) in Create ML:</p>
@@ -3352,6 +3752,8 @@ find "${SRCROOT}" \( -name "*.h" -or -name "*.m" -or -name "*.swift" \) -print0 
 <li>Activity classification</li>
 </ul>
 
+
+<p><a id="markdown-transfer-learning" name="transfer-learning"></a></p>
 
 <h2>Transfer Learning</h2>
 
@@ -3383,11 +3785,15 @@ find "${SRCROOT}" \( -name "*.h" -or -name "*.m" -or -name "*.swift" \) -print0 
 
 <p>&ndash;Refer to <a href="https://www.raywenderlich.com/196233/create-ml-tutorial-getting-started">Create ML Tutorial: Getting Started</a></p></blockquote>
 
+<p><a id="markdown-improving-accuracy" name="improving-accuracy"></a></p>
+
 <h2>Improving Accuracy</h2>
 
 <p>Refer to <a href="https://developer.apple.com/documentation/create_ml/improving_your_model_s_accuracy">Improving Your Model’s Accuracy</a> from Apple for improving training accuracy.</p>
 
 <p>How to improve the model&rsquo;s training accuracy, validation accuracy and evaluation accuracy. <a href="https://www.raywenderlich.com/196233/create-ml-tutorial-getting-started">Create ML Tutorial: Getting Started</a> describes the three &lsquo;accuracy&rsquo;s.</p>
+
+<p><a id="markdown-references-and-materials" name="references-and-materials"></a></p>
 
 <h2>References and Materials</h2>
 
@@ -3419,6 +3825,53 @@ find "${SRCROOT}" \( -name "*.h" -or -name "*.m" -or -name "*.swift" \) -print0 
     <content type="html"><![CDATA[<!-- more -->
 
 
+<ul>
+<li><a href="#overview">Overview</a></li>
+<li><a href="#new-features-in-arkit-2">New Features in ARKit 2</a>
+
+<ul>
+<li><a href="#saving-and-loading-maps">Saving and Loading Maps</a>
+
+<ul>
+<li><a href="#world-tracking-recap">World Tracking Recap:</a></li>
+<li><a href="#world-tracking-enhancement">World Tracking Enhancement:</a></li>
+<li><a href="#saving-and-loading-maps">Saving and loading maps:</a></li>
+<li><a href="#how-to-get-a-good-map">How to get a good map</a></li>
+</ul>
+</li>
+<li><a href="#environment-texturing">Environment Texturing</a></li>
+<li><a href="#image-tracking">Image Tracking</a></li>
+<li><a href="#3d-object-detection">3D Object Detection</a></li>
+<li><a href="#face-tracking-enhancements">Face Tracking Enhancements</a></li>
+</ul>
+</li>
+<li><a href="#some-other-wwdc-sessions-related-to-ar">Some other WWDC Sessions Related to AR</a>
+
+<ul>
+<li><a href="#integrating-apps-and-content-with-ar-quick-look">Integrating Apps and Content with AR Quick Look</a></li>
+<li><a href="#inside-swiftshot-creating-an-ar-game">Inside SwiftShot: Creating an AR Game</a></li>
+<li><a href="#creating-great-ar-experiences">Creating Great AR Experiences</a></li>
+<li><a href="#understanding-arkit-tracking-and-detection">Understanding ARKit Tracking and Detection</a></li>
+</ul>
+</li>
+<li><a href="#some-other-materials-for-a-better-ar-app">Some other materials for a better AR app:</a>
+
+<ul>
+<li><a href="#building-your-first-ar-experience">Building Your First AR Experience</a></li>
+<li><a href="#managing-session-lifecycle-and-tracking-quality">Managing Session Lifecycle and Tracking Quality</a></li>
+<li><a href="#human-interface-guidelines---augmented-reality">Human Interface Guidelines - Augmented Reality</a></li>
+<li><a href="#handling-3d-interaction-and-ui-controls-in-augmented-reality">Handling 3D Interaction and UI Controls in Augmented Reality</a></li>
+<li><a href="#creating-a-multiuser-ar-experience">Creating a Multiuser AR Experience</a></li>
+<li><a href="#swiftshot-creating-a-game-for-augmented-reality">SwiftShot: Creating a Game for Augmented Reality</a></li>
+<li><a href="#recognizing-images-in-an-ar-experience">Recognizing Images in an AR Experience</a></li>
+<li><a href="#scanning-and-detecting-3d-objects">Scanning and Detecting 3D Objects</a></li>
+</ul>
+</li>
+</ul>
+
+
+<p><a id="markdown-overview" name="overview"></a></p>
+
 <h2>Overview</h2>
 
 <p>In ARKit 1, we have:</p>
@@ -3442,9 +3895,15 @@ find "${SRCROOT}" \( -name "*.h" -or -name "*.m" -or -name "*.swift" \) -print0 
 </ul>
 
 
+<p><a id="markdown-new-features-in-arkit-2" name="new-features-in-arkit-2"></a></p>
+
 <h2>New Features in ARKit 2</h2>
 
+<p><a id="markdown-saving-and-loading-maps" name="saving-and-loading-maps"></a></p>
+
 <h3>Saving and Loading Maps</h3>
+
+<p><a id="markdown-world-tracking-recap" name="world-tracking-recap"></a></p>
 
 <h4>World Tracking Recap:</h4>
 
@@ -3456,6 +3915,8 @@ find "${SRCROOT}" \( -name "*.h" -or -name "*.m" -or -name "*.swift" \) -print0 
 </ul>
 
 
+<p><a id="markdown-world-tracking-enhancement" name="world-tracking-enhancement"></a></p>
+
 <h4>World Tracking Enhancement:</h4>
 
 <ul>
@@ -3466,6 +3927,8 @@ find "${SRCROOT}" \( -name "*.h" -or -name "*.m" -or -name "*.swift" \) -print0 
 <li>New 4:3 video formats (iPad is also 4:3)</li>
 </ul>
 
+
+<p><a id="markdown-saving-and-loading-maps" name="saving-and-loading-maps"></a></p>
 
 <h4>Saving and loading maps:</h4>
 
@@ -3496,6 +3959,8 @@ find "${SRCROOT}" \( -name "*.h" -or -name "*.m" -or -name "*.swift" \) -print0 
 <p>and the following is a small piece of the demo:</p>
 
 <p><img src="http://hongchaozhang.github.io/images/arkit2_multiuser_experience_demo.gif" alt="swift shot game" /></p>
+
+<p><a id="markdown-how-to-get-a-good-map" name="how-to-get-a-good-map"></a></p>
 
 <h4>How to get a good map</h4>
 
@@ -3528,11 +3993,15 @@ find "${SRCROOT}" \( -name "*.h" -or -name "*.m" -or -name "*.swift" \) -print0 
 </span></code></pre></td></tr></table></div></figure>
 
 
+<p><a id="markdown-environment-texturing" name="environment-texturing"></a></p>
+
 <h3>Environment Texturing</h3>
 
 <p>With the help of Environment Texturing, AR scene objects can reflect the environment texture on the surface of themselves, just like:</p>
 
 <p><img src="http://hongchaozhang.github.io/images/arkit2_environment_texturing_demo.jpg" alt="arkit2 environment texturing demo" /></p>
+
+<p><a id="markdown-image-tracking" name="image-tracking"></a></p>
 
 <h3>Image Tracking</h3>
 
@@ -3604,6 +4073,8 @@ find "${SRCROOT}" \( -name "*.h" -or -name "*.m" -or -name "*.swift" \) -print0 
 </table>
 
 
+<p><a id="markdown-3d-object-detection" name="3d-object-detection"></a></p>
+
 <h3>3D Object Detection</h3>
 
 <p>3D object detection workflow is:</p>
@@ -3652,6 +4123,8 @@ find "${SRCROOT}" \( -name "*.h" -or -name "*.m" -or -name "*.swift" \) -print0 
 
 <p><img src="http://hongchaozhang.github.io/images/arkit2_3D_object_tracking_demo.gif" alt="arkit2 object tracking demo" /></p>
 
+<p><a id="markdown-face-tracking-enhancements" name="face-tracking-enhancements"></a></p>
+
 <h3>Face Tracking Enhancements</h3>
 
 <p>With face tracking, we can place something on it or around it.</p>
@@ -3670,7 +4143,11 @@ find "${SRCROOT}" \( -name "*.h" -or -name "*.m" -or -name "*.swift" \) -print0 
 
 <p><img src="http://hongchaozhang.github.io/images/what-is-new-in-arkit-2.jpg" alt="what-is-new-in-arkit-2" /></p>
 
+<p><a id="markdown-some-other-wwdc-sessions-related-to-ar" name="some-other-wwdc-sessions-related-to-ar"></a></p>
+
 <h2>Some other WWDC Sessions Related to AR</h2>
+
+<p><a id="markdown-integrating-apps-and-content-with-ar-quick-lookhttpsdeveloperapplecomvideosplaywwdc2018603" name="integrating-apps-and-content-with-ar-quick-lookhttpsdeveloperapplecomvideosplaywwdc2018603"></a></p>
 
 <h3><a href="https://developer.apple.com/videos/play/wwdc2018/603/">Integrating Apps and Content with AR Quick Look</a></h3>
 
@@ -3686,6 +4163,8 @@ find "${SRCROOT}" \( -name "*.h" -or -name "*.m" -or -name "*.swift" \) -print0 
 </ul>
 
 
+<p><a id="markdown-inside-swiftshot-creating-an-ar-gamehttpsdeveloperapplecomvideosplaywwdc2018605" name="inside-swiftshot-creating-an-ar-gamehttpsdeveloperapplecomvideosplaywwdc2018605"></a></p>
+
 <h3><a href="https://developer.apple.com/videos/play/wwdc2018/605/">Inside SwiftShot: Creating an AR Game</a></h3>
 
 <p>Covers world map sharing, networking, and the physics of how to build an AR game, as well as some design insight (I have limited game dev experience so I’ll do the best I can below).</p>
@@ -3698,6 +4177,8 @@ find "${SRCROOT}" \( -name "*.h" -or -name "*.m" -or -name "*.swift" \) -print0 
 <li>A small look at how audio was integrated into the game.</li>
 </ul>
 
+
+<p><a id="markdown-creating-great-ar-experienceshttpsdeveloperapplecomvideosplaywwdc2018805" name="creating-great-ar-experienceshttpsdeveloperapplecomvideosplaywwdc2018805"></a></p>
 
 <h3><a href="https://developer.apple.com/videos/play/wwdc2018/805/">Creating Great AR Experiences</a></h3>
 
@@ -3712,6 +4193,8 @@ find "${SRCROOT}" \( -name "*.h" -or -name "*.m" -or -name "*.swift" \) -print0 
 </ul>
 
 
+<p><a id="markdown-understanding-arkit-tracking-and-detectionhttpsdeveloperapplecomvideosplaywwdc2018610" name="understanding-arkit-tracking-and-detectionhttpsdeveloperapplecomvideosplaywwdc2018610"></a></p>
+
 <h3><a href="https://developer.apple.com/videos/play/wwdc2018/610/">Understanding ARKit Tracking and Detection</a></h3>
 
 <p>A good broad overview of all of the main AR concepts.</p>
@@ -3724,11 +4207,17 @@ find "${SRCROOT}" \( -name "*.h" -or -name "*.m" -or -name "*.swift" \) -print0 
 </ul>
 
 
+<p><a id="markdown-some-other-materials-for-a-better-ar-app" name="some-other-materials-for-a-better-ar-app"></a></p>
+
 <h2>Some other materials for a better AR app:</h2>
+
+<p><a id="markdown-building-your-first-ar-experiencehttpsdeveloperapplecomdocumentationarkitbuilding_your_first_ar_experience" name="building-your-first-ar-experiencehttpsdeveloperapplecomdocumentationarkitbuilding_your_first_ar_experience"></a></p>
 
 <h3><a href="https://developer.apple.com/documentation/arkit/building_your_first_ar_experience">Building Your First AR Experience</a></h3>
 
 <p>This document demos an app for basic usage of ARKit.</p>
+
+<p><a id="markdown-managing-session-lifecycle-and-tracking-qualityhttpsdeveloperapplecomdocumentationarkitmanaging_session_lifecycle_and_tracking_quality" name="managing-session-lifecycle-and-tracking-qualityhttpsdeveloperapplecomdocumentationarkitmanaging_session_lifecycle_and_tracking_quality"></a></p>
 
 <h3><a href="https://developer.apple.com/documentation/arkit/managing_session_lifecycle_and_tracking_quality">Managing Session Lifecycle and Tracking Quality</a></h3>
 
@@ -3741,15 +4230,21 @@ find "${SRCROOT}" \( -name "*.h" -or -name "*.m" -or -name "*.swift" \) -print0 
 </ul>
 
 
+<p><a id="markdown-human-interface-guidelines---augmented-realityhttpsdeveloperapplecomdesignhuman-interface-guidelinesiossystem-capabilitiesaugmented-reality" name="human-interface-guidelines---augmented-realityhttpsdeveloperapplecomdesignhuman-interface-guidelinesiossystem-capabilitiesaugmented-reality"></a></p>
+
 <h3><a href="https://developer.apple.com/design/human-interface-guidelines/ios/system-capabilities/augmented-reality/">Human Interface Guidelines - Augmented Reality</a></h3>
 
 <p>This post describes how to rendering virtual objects, how to interact with virtual objects, how to handling interruptions. It is for UX.</p>
+
+<p><a id="markdown-handling-3d-interaction-and-ui-controls-in-augmented-realityhttpsdeveloperapplecomdocumentationarkithandling_3d_interaction_and_ui_controls_in_augmented_reality" name="handling-3d-interaction-and-ui-controls-in-augmented-realityhttpsdeveloperapplecomdocumentationarkithandling_3d_interaction_and_ui_controls_in_augmented_reality"></a></p>
 
 <h3><a href="https://developer.apple.com/documentation/arkit/handling_3d_interaction_and_ui_controls_in_augmented_reality">Handling 3D Interaction and UI Controls in Augmented Reality</a></h3>
 
 <p>This document describes the best practices for visual feedback, gesture interactions, and realistic rendering in AR experiences. And a demo app is supplied.</p>
 
 <p><img src="http://hongchaozhang.github.io/images/arkit_demo_screenshot.jpg" alt="arkit demo" /></p>
+
+<p><a id="markdown-creating-a-multiuser-ar-experiencehttpsdeveloperapplecomdocumentationarkitcreating_a_multiuser_ar_experience" name="creating-a-multiuser-ar-experiencehttpsdeveloperapplecomdocumentationarkitcreating_a_multiuser_ar_experience"></a></p>
 
 <h3><a href="https://developer.apple.com/documentation/arkit/creating_a_multiuser_ar_experience">Creating a Multiuser AR Experience</a></h3>
 
@@ -3763,6 +4258,8 @@ find "${SRCROOT}" \( -name "*.h" -or -name "*.m" -or -name "*.swift" \) -print0 
 </ul>
 
 
+<p><a id="markdown-swiftshot-creating-a-game-for-augmented-realityhttpsdeveloperapplecomdocumentationarkitswiftshot_creating_a_game_for_augmented_reality" name="swiftshot-creating-a-game-for-augmented-realityhttpsdeveloperapplecomdocumentationarkitswiftshot_creating_a_game_for_augmented_reality"></a></p>
+
 <h3><a href="https://developer.apple.com/documentation/arkit/swiftshot_creating_a_game_for_augmented_reality">SwiftShot: Creating a Game for Augmented Reality</a></h3>
 
 <p>This document demos the SwiftShot game shown on WWDC 2018, including:</p>
@@ -3775,9 +4272,13 @@ find "${SRCROOT}" \( -name "*.h" -or -name "*.m" -or -name "*.swift" \) -print0 
 </ul>
 
 
+<p><a id="markdown-recognizing-images-in-an-ar-experiencehttpsdeveloperapplecomdocumentationarkitrecognizing_images_in_an_ar_experience" name="recognizing-images-in-an-ar-experiencehttpsdeveloperapplecomdocumentationarkitrecognizing_images_in_an_ar_experience"></a></p>
+
 <h3><a href="https://developer.apple.com/documentation/arkit/recognizing_images_in_an_ar_experience">Recognizing Images in an AR Experience</a></h3>
 
 <p>Detect known 2D images in the user’s environment, and use their positions to place AR content.</p>
+
+<p><a id="markdown-scanning-and-detecting-3d-objectshttpsdeveloperapplecomdocumentationarkitscanning_and_detecting_3d_objects" name="scanning-and-detecting-3d-objectshttpsdeveloperapplecomdocumentationarkitscanning_and_detecting_3d_objects"></a></p>
 
 <h3><a href="https://developer.apple.com/documentation/arkit/scanning_and_detecting_3d_objects">Scanning and Detecting 3D Objects</a></h3>
 
@@ -4730,65 +5231,7 @@ When the operation is naturally described by a noun, use the noun for the nonmut
 
 
 
-<!-- TOC -->
-
-
-<ul>
-<li><a href="#cool-ar-apps-in-app-store">Cool AR Apps in App Store</a>
-
-<ul>
-<li><a href="#world-brush">World Brush</a></li>
-<li><a href="#ikea-place">IKEA Place</a></li>
-<li><a href="#ar-measurekit">AR MeasureKit</a></li>
-</ul>
-</li>
-<li><a href="#requirement">Requirement</a></li>
-<li><a href="#arkit-usage">ARKit Usage</a>
-
-<ul>
-<li><a href="#arkit-related-techniques">ARKit Related Techniques</a></li>
-<li><a href="#arkit-in-ios-system">ARKit in iOS System</a></li>
-<li><a href="#arkit-key-classes">ARKit Key Classes</a></li>
-<li><a href="#arsession"><code>ARSession</code></a></li>
-<li><a href="#arconfiguration"><code>ARConfiguration</code></a></li>
-<li><a href="#more-on-arworldtrackingconfiguration">More on <code>ARWorldTrackingConfiguration</code></a>
-
-<ul>
-<li><a href="#tracking-quality">Tracking Quality</a></li>
-</ul>
-</li>
-<li><a href="#arframe"><code>ARFrame</code></a></li>
-<li><a href="#hittest-for-real-world-position">HitTest for Real World Position</a>
-
-<ul>
-<li><a href="#existingplane"><code>existingPlane</code></a></li>
-<li><a href="#existingplaneusingextent"><code>existingPlaneUsingExtent</code></a></li>
-<li><a href="#estimatedhorizontalplane"><code>estimatedHorizontalPlane</code></a></li>
-<li><a href="#featurepoint"><code>featurePoint</code></a></li>
-</ul>
-</li>
-<li><a href="#display-virtual-object-in-real-world">Display Virtual Object in Real World</a>
-
-<ul>
-<li><a href="#standard-view">Standard View</a></li>
-<li><a href="#custom-view">Custom View</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><a href="#best-practices-and-limitations">Best Practices and Limitations</a>
-
-<ul>
-<li><a href="#best-practices">Best Practices</a></li>
-<li><a href="#limitations">Limitations</a></li>
-</ul>
-</li>
-<li><a href="#ar-from-google">AR from Google</a></li>
-</ul>
-
-
-<!-- /TOC -->
-
+<p><!-- TOC -->autoauto- <a href="#cool-ar-apps-in-app-store">Cool AR Apps in App Store</a>auto    - <a href="#world-brush">World Brush</a>auto    - <a href="#ikea-place">IKEA Place</a>auto    - <a href="#ar-measurekit">AR MeasureKit</a>auto- <a href="#requirement">Requirement</a>auto- <a href="#arkit-usage">ARKit Usage</a>auto    - <a href="#arkit-related-techniques">ARKit Related Techniques</a>auto    - <a href="#arkit-in-ios-system">ARKit in iOS System</a>auto    - <a href="#arkit-key-classes">ARKit Key Classes</a>auto    - <a href="#arsession"><code>ARSession</code></a>auto    - <a href="#arconfiguration"><code>ARConfiguration</code></a>auto    - <a href="#more-on-arworldtrackingconfiguration">More on <code>ARWorldTrackingConfiguration</code></a>auto        - <a href="#tracking-quality">Tracking Quality</a>auto    - <a href="#arframe"><code>ARFrame</code></a>auto    - <a href="#hittest-for-real-world-position">HitTest for Real World Position</a>auto        - <a href="#existingplane"><code>existingPlane</code></a>auto        - <a href="#existingplaneusingextent"><code>existingPlaneUsingExtent</code></a>auto        - <a href="#estimatedhorizontalplane"><code>estimatedHorizontalPlane</code></a>auto        - <a href="#featurepoint"><code>featurePoint</code></a>auto    - <a href="#display-virtual-object-in-real-world">Display Virtual Object in Real World</a>auto        - <a href="#standard-view">Standard View</a>auto        - <a href="#custom-view">Custom View</a>auto- <a href="#best-practices-and-limitations">Best Practices and Limitations</a>auto    - <a href="#best-practices">Best Practices</a>auto    - <a href="#limitations">Limitations</a>auto- <a href="#ar-from-google">AR from Google</a>autoauto<!-- /TOC --></p>
 
 <p><a id="markdown-cool-ar-apps-in-app-store" name="cool-ar-apps-in-app-store"></a></p>
 
@@ -4921,7 +5364,7 @@ Provides AR experiences that use the front-facing camera and track the movement 
 
 <p>And the tracking state changes will be notified by:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -4930,11 +5373,10 @@ Provides AR experiences that use the front-facing camera and track the movement 
 </pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">func</span> <span class="nf">session</span><span class="p">(</span><span class="n">_</span> <span class="nl">session</span><span class="p">:</span> <span class="n">ARSession</span><span class="p">,</span> <span class="n">cameraDidChangeTrackingState</span> <span class="nl">camera</span><span class="p">:</span> <span class="n">ARCamera</span><span class="p">)</span> <span class="p">{</span>
 </span><span class='line'>    <span class="k">if</span> <span class="k">case</span> <span class="p">.</span><span class="n">limited</span><span class="p">(</span><span class="k">let</span> <span class="n">reason</span><span class="p">)</span> <span class="o">=</span> <span class="n">camera</span><span class="p">.</span><span class="n">trackingState</span> <span class="p">{</span>
 </span><span class='line'>        <span class="c1">// Notify user of limited tracking state</span>
-</span><span class='line'>        <span class="p">...</span>
+</span><span class='line'>        <span class="p">&hellip;</span>
 </span><span class='line'>    <span class="p">}</span>
 </span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p><a id="markdown-arframe" name="arframe"></a></p>
 
@@ -4966,10 +5408,9 @@ Provides AR experiences that use the front-facing camera and track the movement 
 
 <p>By calling the following method on <code>ARSCNView</code>,</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="n">open</span> <span class="k">func</span> <span class="n">hitTest</span><span class="p">(</span><span class="n">_</span> <span class="nl">point</span><span class="p">:</span> <span class="bp">CGPoint</span><span class="p">,</span> <span class="nl">types</span><span class="p">:</span> <span class="n">ARHitTestResult</span><span class="p">.</span><span class="n">ResultType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="n">ARHitTestResult</span><span class="p">]</span>
-</span></code></pre></td></tr></table></div></figure>
-
+</span></code></pre></td></tr></table></div></figure></p>
 
 <p>we can get an array of <code>ARHitTestResult</code>, which stay at the very position point indicates. The <code>ARHitTestResult</code>s are sorted by distance. To call the method, you need to specify the <code>ARHitTestResult.ResultType</code>. There are four kinds of hitTest types:</p>
 

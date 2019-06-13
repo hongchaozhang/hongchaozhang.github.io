@@ -4,7 +4,7 @@
   <title><![CDATA[Category: augmented reality | Reading Space]]></title>
   <link href="http://hongchaozhang.github.io/blog/categories/augmented-reality/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2019-06-12T18:23:24+08:00</updated>
+  <updated>2019-06-13T13:41:25+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -59,7 +59,11 @@
 </ul>
 
 
+<p><a id="markdown-app-store上面的app" name="app-store上面的app"></a></p>
+
 <h2>App Store上面的App</h2>
+
+<p><a id="markdown-神奇arhttpsitunesapplecomcnappar-arid1327719623mt8" name="神奇ar"></a></p>
 
 <h3><a href="https://itunes.apple.com/cn/app/%E7%A5%9E%E5%A5%87ar-%E7%89%B9%E6%95%88ar%E7%9B%B8%E6%9C%BA%E5%92%8C%E7%9F%AD%E8%A7%86%E9%A2%91%E6%8B%8D%E6%91%84%E7%A5%9E%E5%99%A8/id1327719623?mt=8">神奇AR</a></h3>
 
@@ -80,6 +84,8 @@
 
 <p><img src="/images/shenqiar.jpg" alt="神奇 AR" /></p>
 
+<p><a id="markdown-ikea-placehttpsitunesapplecomusappikea-placeid1279244498mt8" name="ikea-place"></a></p>
+
 <h3><a href="https://itunes.apple.com/us/app/ikea-place/id1279244498?mt=8">IKEA Place</a></h3>
 
 <p>宜家的官方App，有丰富的宜家家具的3D模型，真实尺寸，可以提前放置到自己的房间，看看效果。</p>
@@ -88,6 +94,8 @@
 
 <p><img src="/images/IKEAPlace.jpg" alt="ikea place" /></p>
 
+<p><a id="markdown-wallrhttpsitunesapplecomusappwallrid1278372745" name="wallr"></a></p>
+
 <h3><a href="https://itunes.apple.com/us/app/wallr/id1278372745">Wallr</a></h3>
 
 <p>Wallr可以让你将图片放置到真实场景的墙面上。如果你想买画装饰墙面，可以试试。不过这个功能已经在<a href="https://itunes.apple.com/cn/app/%E7%A5%9E%E5%A5%87ar-%E7%89%B9%E6%95%88ar%E7%9B%B8%E6%9C%BA%E5%92%8C%E7%9F%AD%E8%A7%86%E9%A2%91%E6%8B%8D%E6%91%84%E7%A5%9E%E5%99%A8/id1327719623?mt=8">神奇AR</a>中实现了，而且是免费的。</p>
@@ -95,6 +103,8 @@
 <p>同时放置多张图片需要花钱购买。</p>
 
 <p><img src="/images/wallr.jpg" alt="wallr" /></p>
+
+<p><a id="markdown-horizon-explorerhttpsitunesapplecomgbapphorizon-explorerid1326860431platformipadpreservescrollpositiontrueplatformipad" name="horizon-explorer"></a></p>
 
 <h3><a href="https://itunes.apple.com/gb/app/horizon-explorer/id1326860431?platform=ipad&amp;preserveScrollPosition=true#platform/ipad">Horizon Explorer</a></h3>
 
@@ -118,6 +128,8 @@
 
 <p><img src="/images/HorizonExplorer.jpg" alt="Horizon Explorer" /></p>
 
+<p><a id="markdown-wearehttpsitunesapplecomcnappweareid1304227680platformiphonepreservescrollpositiontrueplatformiphoneplatformiphoneplatformiphone" name="weare"></a></p>
+
 <h3><a href="https://itunes.apple.com/cn/app/weare/id1304227680?platform=iphone&amp;preserveScrollPosition=true&amp;platform=iphone#platform/iphone&amp;platform=iphone">WeAre</a></h3>
 
 <p>这个应用可以让你选择一些照片，以设备为中心围成一圈，并缓慢移动。还可以播放视频、背景音乐和编辑3D文字。用作者的话说，“可以打造一个或温馨浪漫的回忆相册,或缥缈遥远的世界.”</p>
@@ -125,6 +137,8 @@
 <p>同时还是源码可以参考：<a href="https://github.com/SherlockQi/HeavenMemoirs">HeavenMemoirs - AR相册</a></p>
 
 <p><img src="/images/weare.jpg" alt="WeAre" /></p>
+
+<p><a id="markdown-waazy---magic-ar-video-makerhttpsitunesapplecomusappwaazy-magic-ar-video-makerid1286992749" name="waazy---magic-ar-video-maker"></a></p>
 
 <h3><a href="https://itunes.apple.com/us/app/waazy-magic-ar-video-maker/id1286992749">Waazy - Magic AR Video Maker</a></h3>
 
@@ -143,6 +157,8 @@
 
 <p><img src="/images/wazzy.jpg" alt="wazzy" /></p>
 
+<p><a id="markdown-human-anatomy-atlas-2019httpsitunesapplecomappid1117998129" name="human-anatomy-atlas-2019"></a></p>
+
 <h3><a href="https://itunes.apple.com/app/id1117998129">Human Anatomy Atlas 2019</a></h3>
 
 <p>其实这个主要是展示人体内部结构的3D素材，借助AR技术投射到真实场景，没有很新鲜的AR应用场景。</p>
@@ -156,13 +172,19 @@ Includes over 10,000 anatomical models with descriptions in English, Spanish, Fr
 
 <p><img src="/images/HumanAnatomyAtlas2019_2.jpg" alt="Human Anatomy Atlas 2019 2" /></p>
 
+<p><a id="markdown-github上面的项目" name="github上面的项目"></a></p>
+
 <h2>Github上面的项目</h2>
+
+<p><a id="markdown-arkit-occlusion-demohttpsgithubcombjarnelarkit-occlusion" name="arkit-occlusion-demo"></a></p>
 
 <h3><a href="https://github.com/bjarnel/arkit-occlusion">arkit-occlusion-demo</a></h3>
 
 <p>事先用一些虚拟平面将真实的墙面、柜子面、门等标记出来，就可以让虚拟的小球在房间里面来回反弹，就像撞到真实的墙上返回来一样。</p>
 
 <p><img src="/images/occlusiongame.jpg" width="600" alt="occlusion game" /></p>
+
+<p><a id="markdown-arvideokit" name="arvideokit"></a></p>
 
 <h3><a href="">ARVideoKit</a></h3>
 
@@ -188,6 +210,8 @@ Includes over 10,000 anatomical models with descriptions in English, Spanish, Fr
 
 <p>✅ Returns rendered and raw buffers in a protocol method for additional Image &amp; Video processing</p></blockquote>
 
+<p><a id="markdown-arkit-smb-homagehttpsgithubcombjarnelarkit-smb-homage" name="arkit-smb-homage"></a></p>
+
 <h3><a href="https://github.com/bjarnel/arkit-smb-homage">arkit-smb-homage</a></h3>
 
 <p>在现实场景中玩超级玛丽。非常粗糙，但是创意还不错。</p>
@@ -195,6 +219,8 @@ Includes over 10,000 anatomical models with descriptions in English, Spanish, Fr
 <p><img src="/images/supermario_beginning.jpg" width="600" alt="super mario beginning" /></p>
 
 <p><img src="/images/supermario_flag.jpg" width="600" alt="super mario flag" /></p>
+
+<p><a id="markdown-arkit-corelocationhttpsgithubcomprojectdentarkit-corelocation" name="arkit-corelocation"></a></p>
 
 <h3><a href="https://github.com/ProjectDent/ARKit-CoreLocation">ARKit-CoreLocation</a></h3>
 
@@ -212,6 +238,8 @@ Includes over 10,000 anatomical models with descriptions in English, Spanish, Fr
 
 <p><img src="/images/arkit+corelocation.jpg" width="600" alt="arkit + corelocation" /></p>
 
+<p><a id="markdown-arkitnavigationdemohttpsgithubcomchriswebb09arkitnavigationdemo" name="arkitnavigationdemo"></a></p>
+
 <h3><a href="https://github.com/chriswebb09/ARKitNavigationDemo">ARKitNavigationDemo</a></h3>
 
 <p>在地图上选择目的地，然后在真实场景中进行AR导航。</p>
@@ -223,6 +251,8 @@ Includes over 10,000 anatomical models with descriptions in English, Spanish, Fr
 <p>TODO: 这个项目中推荐的一些参考文献还是值得看一看的。</p>
 
 <p><img src="/images/ARKitNavigationDemo.gif" alt="ARKitNavigationDemo" /></p>
+
+<p><a id="markdown-finemehttpsgithubcommmoaayfindme" name="fineme"></a></p>
 
 <h3><a href="https://github.com/mmoaay/Findme">FineMe</a></h3>
 
@@ -245,13 +275,19 @@ Includes over 10,000 anatomical models with descriptions in English, Spanish, Fr
 </ul>
 
 
+<p><a id="markdown-arkitspitfirehttpsgithubcomchriswebb09arkitspitfire" name="arkitspitfire"></a></p>
+
 <h3><a href="https://github.com/chriswebb09/ARKitSpitfire">ARKitSpitfire</a></h3>
 
 <p>可以让一架3D飞机模型，根据提供的地理位置经纬度，调整姿态，并飞向那里。</p>
 
 <p><img src="/images/ARKitSpitfire.gif" alt="ARKitSpitfire" /></p>
 
+<p><a id="markdown-resources" name="resources"></a></p>
+
 <h2>Resources</h2>
+
+<p><a id="markdown-polyhttpsgithubcompiemontepoly" name="poly"></a></p>
 
 <h3><a href="https://github.com/piemonte/Poly">Poly</a></h3>
 
@@ -268,6 +304,53 @@ Includes over 10,000 anatomical models with descriptions in English, Spanish, Fr
     <id>http://hongchaozhang.github.io/blog/2018/06/13/what-is-new-in-n-arkit-2</id>
     <content type="html"><![CDATA[<!-- more -->
 
+
+<ul>
+<li><a href="#overview">Overview</a></li>
+<li><a href="#new-features-in-arkit-2">New Features in ARKit 2</a>
+
+<ul>
+<li><a href="#saving-and-loading-maps">Saving and Loading Maps</a>
+
+<ul>
+<li><a href="#world-tracking-recap">World Tracking Recap:</a></li>
+<li><a href="#world-tracking-enhancement">World Tracking Enhancement:</a></li>
+<li><a href="#saving-and-loading-maps">Saving and loading maps:</a></li>
+<li><a href="#how-to-get-a-good-map">How to get a good map</a></li>
+</ul>
+</li>
+<li><a href="#environment-texturing">Environment Texturing</a></li>
+<li><a href="#image-tracking">Image Tracking</a></li>
+<li><a href="#3d-object-detection">3D Object Detection</a></li>
+<li><a href="#face-tracking-enhancements">Face Tracking Enhancements</a></li>
+</ul>
+</li>
+<li><a href="#some-other-wwdc-sessions-related-to-ar">Some other WWDC Sessions Related to AR</a>
+
+<ul>
+<li><a href="#integrating-apps-and-content-with-ar-quick-look">Integrating Apps and Content with AR Quick Look</a></li>
+<li><a href="#inside-swiftshot-creating-an-ar-game">Inside SwiftShot: Creating an AR Game</a></li>
+<li><a href="#creating-great-ar-experiences">Creating Great AR Experiences</a></li>
+<li><a href="#understanding-arkit-tracking-and-detection">Understanding ARKit Tracking and Detection</a></li>
+</ul>
+</li>
+<li><a href="#some-other-materials-for-a-better-ar-app">Some other materials for a better AR app:</a>
+
+<ul>
+<li><a href="#building-your-first-ar-experience">Building Your First AR Experience</a></li>
+<li><a href="#managing-session-lifecycle-and-tracking-quality">Managing Session Lifecycle and Tracking Quality</a></li>
+<li><a href="#human-interface-guidelines---augmented-reality">Human Interface Guidelines - Augmented Reality</a></li>
+<li><a href="#handling-3d-interaction-and-ui-controls-in-augmented-reality">Handling 3D Interaction and UI Controls in Augmented Reality</a></li>
+<li><a href="#creating-a-multiuser-ar-experience">Creating a Multiuser AR Experience</a></li>
+<li><a href="#swiftshot-creating-a-game-for-augmented-reality">SwiftShot: Creating a Game for Augmented Reality</a></li>
+<li><a href="#recognizing-images-in-an-ar-experience">Recognizing Images in an AR Experience</a></li>
+<li><a href="#scanning-and-detecting-3d-objects">Scanning and Detecting 3D Objects</a></li>
+</ul>
+</li>
+</ul>
+
+
+<p><a id="markdown-overview" name="overview"></a></p>
 
 <h2>Overview</h2>
 
@@ -292,9 +375,15 @@ Includes over 10,000 anatomical models with descriptions in English, Spanish, Fr
 </ul>
 
 
+<p><a id="markdown-new-features-in-arkit-2" name="new-features-in-arkit-2"></a></p>
+
 <h2>New Features in ARKit 2</h2>
 
+<p><a id="markdown-saving-and-loading-maps" name="saving-and-loading-maps"></a></p>
+
 <h3>Saving and Loading Maps</h3>
+
+<p><a id="markdown-world-tracking-recap" name="world-tracking-recap"></a></p>
 
 <h4>World Tracking Recap:</h4>
 
@@ -306,6 +395,8 @@ Includes over 10,000 anatomical models with descriptions in English, Spanish, Fr
 </ul>
 
 
+<p><a id="markdown-world-tracking-enhancement" name="world-tracking-enhancement"></a></p>
+
 <h4>World Tracking Enhancement:</h4>
 
 <ul>
@@ -316,6 +407,8 @@ Includes over 10,000 anatomical models with descriptions in English, Spanish, Fr
 <li>New 4:3 video formats (iPad is also 4:3)</li>
 </ul>
 
+
+<p><a id="markdown-saving-and-loading-maps" name="saving-and-loading-maps"></a></p>
 
 <h4>Saving and loading maps:</h4>
 
@@ -347,6 +440,8 @@ Includes over 10,000 anatomical models with descriptions in English, Spanish, Fr
 
 <p><img src="/images/arkit2_multiuser_experience_demo.gif" alt="swift shot game" /></p>
 
+<p><a id="markdown-how-to-get-a-good-map" name="how-to-get-a-good-map"></a></p>
+
 <h4>How to get a good map</h4>
 
 <p>In order to share or restore the map, we need to get a good one first. A good map should be:</p>
@@ -371,11 +466,15 @@ Includes over 10,000 anatomical models with descriptions in English, Spanish, Fr
 }
 </code></pre>
 
+<p><a id="markdown-environment-texturing" name="environment-texturing"></a></p>
+
 <h3>Environment Texturing</h3>
 
 <p>With the help of Environment Texturing, AR scene objects can reflect the environment texture on the surface of themselves, just like:</p>
 
 <p><img src="/images/arkit2_environment_texturing_demo.jpg" alt="arkit2 environment texturing demo" /></p>
+
+<p><a id="markdown-image-tracking" name="image-tracking"></a></p>
 
 <h3>Image Tracking</h3>
 
@@ -441,6 +540,8 @@ Includes over 10,000 anatomical models with descriptions in English, Spanish, Fr
 </table>
 
 
+<p><a id="markdown-3d-object-detection" name="3d-object-detection"></a></p>
+
 <h3>3D Object Detection</h3>
 
 <p>3D object detection workflow is:</p>
@@ -476,6 +577,8 @@ Includes over 10,000 anatomical models with descriptions in English, Spanish, Fr
 
 <p><img src="/images/arkit2_3D_object_tracking_demo.gif" alt="arkit2 object tracking demo" /></p>
 
+<p><a id="markdown-face-tracking-enhancements" name="face-tracking-enhancements"></a></p>
+
 <h3>Face Tracking Enhancements</h3>
 
 <p>With face tracking, we can place something on it or around it.</p>
@@ -494,7 +597,11 @@ Includes over 10,000 anatomical models with descriptions in English, Spanish, Fr
 
 <p><img src="/images/what-is-new-in-arkit-2.jpg" alt="what-is-new-in-arkit-2" /></p>
 
+<p><a id="markdown-some-other-wwdc-sessions-related-to-ar" name="some-other-wwdc-sessions-related-to-ar"></a></p>
+
 <h2>Some other WWDC Sessions Related to AR</h2>
+
+<p><a id="markdown-integrating-apps-and-content-with-ar-quick-lookhttpsdeveloperapplecomvideosplaywwdc2018603" name="integrating-apps-and-content-with-ar-quick-lookhttpsdeveloperapplecomvideosplaywwdc2018603"></a></p>
 
 <h3><a href="https://developer.apple.com/videos/play/wwdc2018/603/">Integrating Apps and Content with AR Quick Look</a></h3>
 
@@ -510,6 +617,8 @@ Includes over 10,000 anatomical models with descriptions in English, Spanish, Fr
 </ul>
 
 
+<p><a id="markdown-inside-swiftshot-creating-an-ar-gamehttpsdeveloperapplecomvideosplaywwdc2018605" name="inside-swiftshot-creating-an-ar-gamehttpsdeveloperapplecomvideosplaywwdc2018605"></a></p>
+
 <h3><a href="https://developer.apple.com/videos/play/wwdc2018/605/">Inside SwiftShot: Creating an AR Game</a></h3>
 
 <p>Covers world map sharing, networking, and the physics of how to build an AR game, as well as some design insight (I have limited game dev experience so I’ll do the best I can below).</p>
@@ -522,6 +631,8 @@ Includes over 10,000 anatomical models with descriptions in English, Spanish, Fr
 <li>A small look at how audio was integrated into the game.</li>
 </ul>
 
+
+<p><a id="markdown-creating-great-ar-experienceshttpsdeveloperapplecomvideosplaywwdc2018805" name="creating-great-ar-experienceshttpsdeveloperapplecomvideosplaywwdc2018805"></a></p>
 
 <h3><a href="https://developer.apple.com/videos/play/wwdc2018/805/">Creating Great AR Experiences</a></h3>
 
@@ -536,6 +647,8 @@ Includes over 10,000 anatomical models with descriptions in English, Spanish, Fr
 </ul>
 
 
+<p><a id="markdown-understanding-arkit-tracking-and-detectionhttpsdeveloperapplecomvideosplaywwdc2018610" name="understanding-arkit-tracking-and-detectionhttpsdeveloperapplecomvideosplaywwdc2018610"></a></p>
+
 <h3><a href="https://developer.apple.com/videos/play/wwdc2018/610/">Understanding ARKit Tracking and Detection</a></h3>
 
 <p>A good broad overview of all of the main AR concepts.</p>
@@ -548,11 +661,17 @@ Includes over 10,000 anatomical models with descriptions in English, Spanish, Fr
 </ul>
 
 
+<p><a id="markdown-some-other-materials-for-a-better-ar-app" name="some-other-materials-for-a-better-ar-app"></a></p>
+
 <h2>Some other materials for a better AR app:</h2>
+
+<p><a id="markdown-building-your-first-ar-experiencehttpsdeveloperapplecomdocumentationarkitbuilding_your_first_ar_experience" name="building-your-first-ar-experiencehttpsdeveloperapplecomdocumentationarkitbuilding_your_first_ar_experience"></a></p>
 
 <h3><a href="https://developer.apple.com/documentation/arkit/building_your_first_ar_experience">Building Your First AR Experience</a></h3>
 
 <p>This document demos an app for basic usage of ARKit.</p>
+
+<p><a id="markdown-managing-session-lifecycle-and-tracking-qualityhttpsdeveloperapplecomdocumentationarkitmanaging_session_lifecycle_and_tracking_quality" name="managing-session-lifecycle-and-tracking-qualityhttpsdeveloperapplecomdocumentationarkitmanaging_session_lifecycle_and_tracking_quality"></a></p>
 
 <h3><a href="https://developer.apple.com/documentation/arkit/managing_session_lifecycle_and_tracking_quality">Managing Session Lifecycle and Tracking Quality</a></h3>
 
@@ -565,15 +684,21 @@ Includes over 10,000 anatomical models with descriptions in English, Spanish, Fr
 </ul>
 
 
+<p><a id="markdown-human-interface-guidelines---augmented-realityhttpsdeveloperapplecomdesignhuman-interface-guidelinesiossystem-capabilitiesaugmented-reality" name="human-interface-guidelines---augmented-realityhttpsdeveloperapplecomdesignhuman-interface-guidelinesiossystem-capabilitiesaugmented-reality"></a></p>
+
 <h3><a href="https://developer.apple.com/design/human-interface-guidelines/ios/system-capabilities/augmented-reality/">Human Interface Guidelines - Augmented Reality</a></h3>
 
 <p>This post describes how to rendering virtual objects, how to interact with virtual objects, how to handling interruptions. It is for UX.</p>
+
+<p><a id="markdown-handling-3d-interaction-and-ui-controls-in-augmented-realityhttpsdeveloperapplecomdocumentationarkithandling_3d_interaction_and_ui_controls_in_augmented_reality" name="handling-3d-interaction-and-ui-controls-in-augmented-realityhttpsdeveloperapplecomdocumentationarkithandling_3d_interaction_and_ui_controls_in_augmented_reality"></a></p>
 
 <h3><a href="https://developer.apple.com/documentation/arkit/handling_3d_interaction_and_ui_controls_in_augmented_reality">Handling 3D Interaction and UI Controls in Augmented Reality</a></h3>
 
 <p>This document describes the best practices for visual feedback, gesture interactions, and realistic rendering in AR experiences. And a demo app is supplied.</p>
 
 <p><img src="/images/arkit_demo_screenshot.jpg" alt="arkit demo" /></p>
+
+<p><a id="markdown-creating-a-multiuser-ar-experiencehttpsdeveloperapplecomdocumentationarkitcreating_a_multiuser_ar_experience" name="creating-a-multiuser-ar-experiencehttpsdeveloperapplecomdocumentationarkitcreating_a_multiuser_ar_experience"></a></p>
 
 <h3><a href="https://developer.apple.com/documentation/arkit/creating_a_multiuser_ar_experience">Creating a Multiuser AR Experience</a></h3>
 
@@ -587,6 +712,8 @@ Includes over 10,000 anatomical models with descriptions in English, Spanish, Fr
 </ul>
 
 
+<p><a id="markdown-swiftshot-creating-a-game-for-augmented-realityhttpsdeveloperapplecomdocumentationarkitswiftshot_creating_a_game_for_augmented_reality" name="swiftshot-creating-a-game-for-augmented-realityhttpsdeveloperapplecomdocumentationarkitswiftshot_creating_a_game_for_augmented_reality"></a></p>
+
 <h3><a href="https://developer.apple.com/documentation/arkit/swiftshot_creating_a_game_for_augmented_reality">SwiftShot: Creating a Game for Augmented Reality</a></h3>
 
 <p>This document demos the SwiftShot game shown on WWDC 2018, including:</p>
@@ -599,9 +726,13 @@ Includes over 10,000 anatomical models with descriptions in English, Spanish, Fr
 </ul>
 
 
+<p><a id="markdown-recognizing-images-in-an-ar-experiencehttpsdeveloperapplecomdocumentationarkitrecognizing_images_in_an_ar_experience" name="recognizing-images-in-an-ar-experiencehttpsdeveloperapplecomdocumentationarkitrecognizing_images_in_an_ar_experience"></a></p>
+
 <h3><a href="https://developer.apple.com/documentation/arkit/recognizing_images_in_an_ar_experience">Recognizing Images in an AR Experience</a></h3>
 
 <p>Detect known 2D images in the user’s environment, and use their positions to place AR content.</p>
+
+<p><a id="markdown-scanning-and-detecting-3d-objectshttpsdeveloperapplecomdocumentationarkitscanning_and_detecting_3d_objects" name="scanning-and-detecting-3d-objectshttpsdeveloperapplecomdocumentationarkitscanning_and_detecting_3d_objects"></a></p>
 
 <h3><a href="https://developer.apple.com/documentation/arkit/scanning_and_detecting_3d_objects">Scanning and Detecting 3D Objects</a></h3>
 
@@ -675,65 +806,7 @@ Includes over 10,000 anatomical models with descriptions in English, Spanish, Fr
 
 
 
-<!-- TOC -->
-
-
-<ul>
-<li><a href="#cool-ar-apps-in-app-store">Cool AR Apps in App Store</a>
-
-<ul>
-<li><a href="#world-brush">World Brush</a></li>
-<li><a href="#ikea-place">IKEA Place</a></li>
-<li><a href="#ar-measurekit">AR MeasureKit</a></li>
-</ul>
-</li>
-<li><a href="#requirement">Requirement</a></li>
-<li><a href="#arkit-usage">ARKit Usage</a>
-
-<ul>
-<li><a href="#arkit-related-techniques">ARKit Related Techniques</a></li>
-<li><a href="#arkit-in-ios-system">ARKit in iOS System</a></li>
-<li><a href="#arkit-key-classes">ARKit Key Classes</a></li>
-<li><a href="#arsession"><code>ARSession</code></a></li>
-<li><a href="#arconfiguration"><code>ARConfiguration</code></a></li>
-<li><a href="#more-on-arworldtrackingconfiguration">More on <code>ARWorldTrackingConfiguration</code></a>
-
-<ul>
-<li><a href="#tracking-quality">Tracking Quality</a></li>
-</ul>
-</li>
-<li><a href="#arframe"><code>ARFrame</code></a></li>
-<li><a href="#hittest-for-real-world-position">HitTest for Real World Position</a>
-
-<ul>
-<li><a href="#existingplane"><code>existingPlane</code></a></li>
-<li><a href="#existingplaneusingextent"><code>existingPlaneUsingExtent</code></a></li>
-<li><a href="#estimatedhorizontalplane"><code>estimatedHorizontalPlane</code></a></li>
-<li><a href="#featurepoint"><code>featurePoint</code></a></li>
-</ul>
-</li>
-<li><a href="#display-virtual-object-in-real-world">Display Virtual Object in Real World</a>
-
-<ul>
-<li><a href="#standard-view">Standard View</a></li>
-<li><a href="#custom-view">Custom View</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><a href="#best-practices-and-limitations">Best Practices and Limitations</a>
-
-<ul>
-<li><a href="#best-practices">Best Practices</a></li>
-<li><a href="#limitations">Limitations</a></li>
-</ul>
-</li>
-<li><a href="#ar-from-google">AR from Google</a></li>
-</ul>
-
-
-<!-- /TOC -->
-
+<p><!-- TOC -->autoauto- <a href="#cool-ar-apps-in-app-store">Cool AR Apps in App Store</a>auto    - <a href="#world-brush">World Brush</a>auto    - <a href="#ikea-place">IKEA Place</a>auto    - <a href="#ar-measurekit">AR MeasureKit</a>auto- <a href="#requirement">Requirement</a>auto- <a href="#arkit-usage">ARKit Usage</a>auto    - <a href="#arkit-related-techniques">ARKit Related Techniques</a>auto    - <a href="#arkit-in-ios-system">ARKit in iOS System</a>auto    - <a href="#arkit-key-classes">ARKit Key Classes</a>auto    - <a href="#arsession"><code>ARSession</code></a>auto    - <a href="#arconfiguration"><code>ARConfiguration</code></a>auto    - <a href="#more-on-arworldtrackingconfiguration">More on <code>ARWorldTrackingConfiguration</code></a>auto        - <a href="#tracking-quality">Tracking Quality</a>auto    - <a href="#arframe"><code>ARFrame</code></a>auto    - <a href="#hittest-for-real-world-position">HitTest for Real World Position</a>auto        - <a href="#existingplane"><code>existingPlane</code></a>auto        - <a href="#existingplaneusingextent"><code>existingPlaneUsingExtent</code></a>auto        - <a href="#estimatedhorizontalplane"><code>estimatedHorizontalPlane</code></a>auto        - <a href="#featurepoint"><code>featurePoint</code></a>auto    - <a href="#display-virtual-object-in-real-world">Display Virtual Object in Real World</a>auto        - <a href="#standard-view">Standard View</a>auto        - <a href="#custom-view">Custom View</a>auto- <a href="#best-practices-and-limitations">Best Practices and Limitations</a>auto    - <a href="#best-practices">Best Practices</a>auto    - <a href="#limitations">Limitations</a>auto- <a href="#ar-from-google">AR from Google</a>autoauto<!-- /TOC --></p>
 
 <p><a id="markdown-cool-ar-apps-in-app-store" name="cool-ar-apps-in-app-store"></a></p>
 

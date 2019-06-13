@@ -4,7 +4,7 @@
   <title><![CDATA[Category: wwdc | Reading Space]]></title>
   <link href="http://hongchaozhang.github.io/blog/categories/wwdc/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2019-06-12T18:23:24+08:00</updated>
+  <updated>2019-06-13T13:41:25+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -21,9 +21,26 @@
     <content type="html"><![CDATA[<!-- more -->
 
 
+<ul>
+<li><a href="#background">Background</a></li>
+<li><a href="#create-ml">Create ML</a></li>
+<li><a href="#main-advantage-easy-to-use">Main Advantage: Easy to Use</a>
+
+<ul>
+<li><a href="#create-ml%E5%92%8Cturi-create">Create ML和Turi Create</a></li>
+</ul>
+</li>
+<li><a href="#transfer-learning">Transfer Learning</a></li>
+<li><a href="#improving-accuracy">Improving Accuracy</a></li>
+<li><a href="#references-and-materials">References and Materials</a></li>
+</ul>
+
+
 <p>Apple released Core ML in WWDC2017, and I took a note on <a href="../../../../2017/12/28/coreml-usage/">CoreML Usage</a>, including mlmodel training using Microsoft <a href="https://www.customvision.ai/">Custom Vision</a>.</p>
 
 <p>This post is about the background of Create ML, its advantages, its relations with Turi. There is no code in this post. If you are looking for the usage of Create ML, refer to <a href="https://www.raywenderlich.com/196233/create-ml-tutorial-getting-started">Create ML Tutorial: Getting Started</a>.</p>
+
+<p><a id="markdown-background" name="background"></a></p>
 
 <h2>Background</h2>
 
@@ -47,6 +64,8 @@
 
 <p><strong>Turi Create</strong>: Acquired by Apple in 2016 ($200M), it lets you customize existing models with your own data. But … Python :[.</p>
 
+<p><a id="markdown-create-ml" name="create-ml"></a></p>
+
 <h2>Create ML</h2>
 
 <p>Finally in WWDC2018, Apple announced <strong>Create ML</strong>, which can train machine learning models on macOS, able to use the GPU on macOS. The Create ML session and Turi Create session did not mention any word on each other, but obviousely, Create ML is based on Turi Create.</p>
@@ -54,6 +73,8 @@
 <p>Based on Trui&rsquo;s model training, Create ML can make model training on macOS using GPU (maybe through Metal), and come up with models which can be used by Core ML framework.</p>
 
 <p>With XCode Playground&rsquo;s updates, Apple gives CreateMLUI, a very easy way for model training: just need to drag your training data and test data into Playground.</p>
+
+<p><a id="markdown-main-advantage-easy-to-use" name="main-advantage-easy-to-use"></a></p>
 
 <h2>Main Advantage: Easy to Use</h2>
 
@@ -69,6 +90,8 @@
 
 <p>Refer to <a href="https://www.raywenderlich.com/196233/create-ml-tutorial-getting-started">Create ML Tutorial: Getting Started</a> to see how easy it is to use Create ML. There are some code comparasion between Create ML and Turi Create.</p>
 
+<p><a id="markdown-create-ml和turi-create" name="create-ml和turi-create"></a></p>
+
 <h3>Create ML和Turi Create</h3>
 
 <p>Currently Create ML includes only two of Turi Create’s seven task-focused toolkits, plus a generic classifier and regressor, and data tables. Turi Create has five task-focused toolkits that aren’t (yet?) in Create ML:</p>
@@ -81,6 +104,8 @@
 <li>Activity classification</li>
 </ul>
 
+
+<p><a id="markdown-transfer-learning" name="transfer-learning"></a></p>
 
 <h2>Transfer Learning</h2>
 
@@ -112,11 +137,15 @@
 
 <p>&ndash;Refer to <a href="https://www.raywenderlich.com/196233/create-ml-tutorial-getting-started">Create ML Tutorial: Getting Started</a></p></blockquote>
 
+<p><a id="markdown-improving-accuracy" name="improving-accuracy"></a></p>
+
 <h2>Improving Accuracy</h2>
 
 <p>Refer to <a href="https://developer.apple.com/documentation/create_ml/improving_your_model_s_accuracy">Improving Your Model’s Accuracy</a> from Apple for improving training accuracy.</p>
 
 <p>How to improve the model&rsquo;s training accuracy, validation accuracy and evaluation accuracy. <a href="https://www.raywenderlich.com/196233/create-ml-tutorial-getting-started">Create ML Tutorial: Getting Started</a> describes the three &lsquo;accuracy&rsquo;s.</p>
+
+<p><a id="markdown-references-and-materials" name="references-and-materials"></a></p>
 
 <h2>References and Materials</h2>
 
@@ -148,6 +177,53 @@
     <content type="html"><![CDATA[<!-- more -->
 
 
+<ul>
+<li><a href="#overview">Overview</a></li>
+<li><a href="#new-features-in-arkit-2">New Features in ARKit 2</a>
+
+<ul>
+<li><a href="#saving-and-loading-maps">Saving and Loading Maps</a>
+
+<ul>
+<li><a href="#world-tracking-recap">World Tracking Recap:</a></li>
+<li><a href="#world-tracking-enhancement">World Tracking Enhancement:</a></li>
+<li><a href="#saving-and-loading-maps">Saving and loading maps:</a></li>
+<li><a href="#how-to-get-a-good-map">How to get a good map</a></li>
+</ul>
+</li>
+<li><a href="#environment-texturing">Environment Texturing</a></li>
+<li><a href="#image-tracking">Image Tracking</a></li>
+<li><a href="#3d-object-detection">3D Object Detection</a></li>
+<li><a href="#face-tracking-enhancements">Face Tracking Enhancements</a></li>
+</ul>
+</li>
+<li><a href="#some-other-wwdc-sessions-related-to-ar">Some other WWDC Sessions Related to AR</a>
+
+<ul>
+<li><a href="#integrating-apps-and-content-with-ar-quick-look">Integrating Apps and Content with AR Quick Look</a></li>
+<li><a href="#inside-swiftshot-creating-an-ar-game">Inside SwiftShot: Creating an AR Game</a></li>
+<li><a href="#creating-great-ar-experiences">Creating Great AR Experiences</a></li>
+<li><a href="#understanding-arkit-tracking-and-detection">Understanding ARKit Tracking and Detection</a></li>
+</ul>
+</li>
+<li><a href="#some-other-materials-for-a-better-ar-app">Some other materials for a better AR app:</a>
+
+<ul>
+<li><a href="#building-your-first-ar-experience">Building Your First AR Experience</a></li>
+<li><a href="#managing-session-lifecycle-and-tracking-quality">Managing Session Lifecycle and Tracking Quality</a></li>
+<li><a href="#human-interface-guidelines---augmented-reality">Human Interface Guidelines - Augmented Reality</a></li>
+<li><a href="#handling-3d-interaction-and-ui-controls-in-augmented-reality">Handling 3D Interaction and UI Controls in Augmented Reality</a></li>
+<li><a href="#creating-a-multiuser-ar-experience">Creating a Multiuser AR Experience</a></li>
+<li><a href="#swiftshot-creating-a-game-for-augmented-reality">SwiftShot: Creating a Game for Augmented Reality</a></li>
+<li><a href="#recognizing-images-in-an-ar-experience">Recognizing Images in an AR Experience</a></li>
+<li><a href="#scanning-and-detecting-3d-objects">Scanning and Detecting 3D Objects</a></li>
+</ul>
+</li>
+</ul>
+
+
+<p><a id="markdown-overview" name="overview"></a></p>
+
 <h2>Overview</h2>
 
 <p>In ARKit 1, we have:</p>
@@ -171,9 +247,15 @@
 </ul>
 
 
+<p><a id="markdown-new-features-in-arkit-2" name="new-features-in-arkit-2"></a></p>
+
 <h2>New Features in ARKit 2</h2>
 
+<p><a id="markdown-saving-and-loading-maps" name="saving-and-loading-maps"></a></p>
+
 <h3>Saving and Loading Maps</h3>
+
+<p><a id="markdown-world-tracking-recap" name="world-tracking-recap"></a></p>
 
 <h4>World Tracking Recap:</h4>
 
@@ -185,6 +267,8 @@
 </ul>
 
 
+<p><a id="markdown-world-tracking-enhancement" name="world-tracking-enhancement"></a></p>
+
 <h4>World Tracking Enhancement:</h4>
 
 <ul>
@@ -195,6 +279,8 @@
 <li>New 4:3 video formats (iPad is also 4:3)</li>
 </ul>
 
+
+<p><a id="markdown-saving-and-loading-maps" name="saving-and-loading-maps"></a></p>
 
 <h4>Saving and loading maps:</h4>
 
@@ -226,6 +312,8 @@
 
 <p><img src="/images/arkit2_multiuser_experience_demo.gif" alt="swift shot game" /></p>
 
+<p><a id="markdown-how-to-get-a-good-map" name="how-to-get-a-good-map"></a></p>
+
 <h4>How to get a good map</h4>
 
 <p>In order to share or restore the map, we need to get a good one first. A good map should be:</p>
@@ -250,11 +338,15 @@
 }
 </code></pre>
 
+<p><a id="markdown-environment-texturing" name="environment-texturing"></a></p>
+
 <h3>Environment Texturing</h3>
 
 <p>With the help of Environment Texturing, AR scene objects can reflect the environment texture on the surface of themselves, just like:</p>
 
 <p><img src="/images/arkit2_environment_texturing_demo.jpg" alt="arkit2 environment texturing demo" /></p>
+
+<p><a id="markdown-image-tracking" name="image-tracking"></a></p>
 
 <h3>Image Tracking</h3>
 
@@ -320,6 +412,8 @@
 </table>
 
 
+<p><a id="markdown-3d-object-detection" name="3d-object-detection"></a></p>
+
 <h3>3D Object Detection</h3>
 
 <p>3D object detection workflow is:</p>
@@ -355,6 +449,8 @@
 
 <p><img src="/images/arkit2_3D_object_tracking_demo.gif" alt="arkit2 object tracking demo" /></p>
 
+<p><a id="markdown-face-tracking-enhancements" name="face-tracking-enhancements"></a></p>
+
 <h3>Face Tracking Enhancements</h3>
 
 <p>With face tracking, we can place something on it or around it.</p>
@@ -373,7 +469,11 @@
 
 <p><img src="/images/what-is-new-in-arkit-2.jpg" alt="what-is-new-in-arkit-2" /></p>
 
+<p><a id="markdown-some-other-wwdc-sessions-related-to-ar" name="some-other-wwdc-sessions-related-to-ar"></a></p>
+
 <h2>Some other WWDC Sessions Related to AR</h2>
+
+<p><a id="markdown-integrating-apps-and-content-with-ar-quick-lookhttpsdeveloperapplecomvideosplaywwdc2018603" name="integrating-apps-and-content-with-ar-quick-lookhttpsdeveloperapplecomvideosplaywwdc2018603"></a></p>
 
 <h3><a href="https://developer.apple.com/videos/play/wwdc2018/603/">Integrating Apps and Content with AR Quick Look</a></h3>
 
@@ -389,6 +489,8 @@
 </ul>
 
 
+<p><a id="markdown-inside-swiftshot-creating-an-ar-gamehttpsdeveloperapplecomvideosplaywwdc2018605" name="inside-swiftshot-creating-an-ar-gamehttpsdeveloperapplecomvideosplaywwdc2018605"></a></p>
+
 <h3><a href="https://developer.apple.com/videos/play/wwdc2018/605/">Inside SwiftShot: Creating an AR Game</a></h3>
 
 <p>Covers world map sharing, networking, and the physics of how to build an AR game, as well as some design insight (I have limited game dev experience so I’ll do the best I can below).</p>
@@ -401,6 +503,8 @@
 <li>A small look at how audio was integrated into the game.</li>
 </ul>
 
+
+<p><a id="markdown-creating-great-ar-experienceshttpsdeveloperapplecomvideosplaywwdc2018805" name="creating-great-ar-experienceshttpsdeveloperapplecomvideosplaywwdc2018805"></a></p>
 
 <h3><a href="https://developer.apple.com/videos/play/wwdc2018/805/">Creating Great AR Experiences</a></h3>
 
@@ -415,6 +519,8 @@
 </ul>
 
 
+<p><a id="markdown-understanding-arkit-tracking-and-detectionhttpsdeveloperapplecomvideosplaywwdc2018610" name="understanding-arkit-tracking-and-detectionhttpsdeveloperapplecomvideosplaywwdc2018610"></a></p>
+
 <h3><a href="https://developer.apple.com/videos/play/wwdc2018/610/">Understanding ARKit Tracking and Detection</a></h3>
 
 <p>A good broad overview of all of the main AR concepts.</p>
@@ -427,11 +533,17 @@
 </ul>
 
 
+<p><a id="markdown-some-other-materials-for-a-better-ar-app" name="some-other-materials-for-a-better-ar-app"></a></p>
+
 <h2>Some other materials for a better AR app:</h2>
+
+<p><a id="markdown-building-your-first-ar-experiencehttpsdeveloperapplecomdocumentationarkitbuilding_your_first_ar_experience" name="building-your-first-ar-experiencehttpsdeveloperapplecomdocumentationarkitbuilding_your_first_ar_experience"></a></p>
 
 <h3><a href="https://developer.apple.com/documentation/arkit/building_your_first_ar_experience">Building Your First AR Experience</a></h3>
 
 <p>This document demos an app for basic usage of ARKit.</p>
+
+<p><a id="markdown-managing-session-lifecycle-and-tracking-qualityhttpsdeveloperapplecomdocumentationarkitmanaging_session_lifecycle_and_tracking_quality" name="managing-session-lifecycle-and-tracking-qualityhttpsdeveloperapplecomdocumentationarkitmanaging_session_lifecycle_and_tracking_quality"></a></p>
 
 <h3><a href="https://developer.apple.com/documentation/arkit/managing_session_lifecycle_and_tracking_quality">Managing Session Lifecycle and Tracking Quality</a></h3>
 
@@ -444,15 +556,21 @@
 </ul>
 
 
+<p><a id="markdown-human-interface-guidelines---augmented-realityhttpsdeveloperapplecomdesignhuman-interface-guidelinesiossystem-capabilitiesaugmented-reality" name="human-interface-guidelines---augmented-realityhttpsdeveloperapplecomdesignhuman-interface-guidelinesiossystem-capabilitiesaugmented-reality"></a></p>
+
 <h3><a href="https://developer.apple.com/design/human-interface-guidelines/ios/system-capabilities/augmented-reality/">Human Interface Guidelines - Augmented Reality</a></h3>
 
 <p>This post describes how to rendering virtual objects, how to interact with virtual objects, how to handling interruptions. It is for UX.</p>
+
+<p><a id="markdown-handling-3d-interaction-and-ui-controls-in-augmented-realityhttpsdeveloperapplecomdocumentationarkithandling_3d_interaction_and_ui_controls_in_augmented_reality" name="handling-3d-interaction-and-ui-controls-in-augmented-realityhttpsdeveloperapplecomdocumentationarkithandling_3d_interaction_and_ui_controls_in_augmented_reality"></a></p>
 
 <h3><a href="https://developer.apple.com/documentation/arkit/handling_3d_interaction_and_ui_controls_in_augmented_reality">Handling 3D Interaction and UI Controls in Augmented Reality</a></h3>
 
 <p>This document describes the best practices for visual feedback, gesture interactions, and realistic rendering in AR experiences. And a demo app is supplied.</p>
 
 <p><img src="/images/arkit_demo_screenshot.jpg" alt="arkit demo" /></p>
+
+<p><a id="markdown-creating-a-multiuser-ar-experiencehttpsdeveloperapplecomdocumentationarkitcreating_a_multiuser_ar_experience" name="creating-a-multiuser-ar-experiencehttpsdeveloperapplecomdocumentationarkitcreating_a_multiuser_ar_experience"></a></p>
 
 <h3><a href="https://developer.apple.com/documentation/arkit/creating_a_multiuser_ar_experience">Creating a Multiuser AR Experience</a></h3>
 
@@ -466,6 +584,8 @@
 </ul>
 
 
+<p><a id="markdown-swiftshot-creating-a-game-for-augmented-realityhttpsdeveloperapplecomdocumentationarkitswiftshot_creating_a_game_for_augmented_reality" name="swiftshot-creating-a-game-for-augmented-realityhttpsdeveloperapplecomdocumentationarkitswiftshot_creating_a_game_for_augmented_reality"></a></p>
+
 <h3><a href="https://developer.apple.com/documentation/arkit/swiftshot_creating_a_game_for_augmented_reality">SwiftShot: Creating a Game for Augmented Reality</a></h3>
 
 <p>This document demos the SwiftShot game shown on WWDC 2018, including:</p>
@@ -478,9 +598,13 @@
 </ul>
 
 
+<p><a id="markdown-recognizing-images-in-an-ar-experiencehttpsdeveloperapplecomdocumentationarkitrecognizing_images_in_an_ar_experience" name="recognizing-images-in-an-ar-experiencehttpsdeveloperapplecomdocumentationarkitrecognizing_images_in_an_ar_experience"></a></p>
+
 <h3><a href="https://developer.apple.com/documentation/arkit/recognizing_images_in_an_ar_experience">Recognizing Images in an AR Experience</a></h3>
 
 <p>Detect known 2D images in the user’s environment, and use their positions to place AR content.</p>
+
+<p><a id="markdown-scanning-and-detecting-3d-objectshttpsdeveloperapplecomdocumentationarkitscanning_and_detecting_3d_objects" name="scanning-and-detecting-3d-objectshttpsdeveloperapplecomdocumentationarkitscanning_and_detecting_3d_objects"></a></p>
 
 <h3><a href="https://developer.apple.com/documentation/arkit/scanning_and_detecting_3d_objects">Scanning and Detecting 3D Objects</a></h3>
 

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: swift | Reading Space]]></title>
   <link href="http://hongchaozhang.github.io/blog/categories/swift/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2019-06-12T18:23:24+08:00</updated>
+  <updated>2019-06-13T13:41:25+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -19,6 +19,21 @@
     <updated>2019-06-04T17:24:47+08:00</updated>
     <id>http://hongchaozhang.github.io/blog/2019/06/04/on-swift-closure</id>
     <content type="html"><![CDATA[<!-- more -->
+
+
+<ul>
+<li><a href="#function%E4%B8%8Eclosure%E7%9A%84%E5%85%B3%E7%B3%BB">Function与Closure的关系：</a></li>
+<li><a href="#%E7%94%A8closure%E5%88%9D%E5%A7%8B%E5%8C%96%E4%B8%80%E4%B8%AA%E5%8F%98%E9%87%8F">用Closure初始化一个变量</a></li>
+<li><a href="#closure%E7%9A%84%E8%AF%AD%E6%B3%95%E7%B3%96">Closure的语法糖：</a></li>
+<li><a href="#closure%E4%B8%8E%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F">Closure与内存管理、内存泄漏</a>
+
+<ul>
+<li><a href="#capture-list%E7%9A%84%E5%AE%9A%E4%B9%89">Capture List的定义</a></li>
+<li><a href="#weak-and-unowned-references">Weak and Unowned References</a></li>
+</ul>
+</li>
+<li><a href="#closure%E6%8D%95%E8%8E%B7%E5%8F%98%E9%87%8F">Closure捕获变量</a></li>
+</ul>
 
 
 <p><a href="https://medium.com/@abhimuralidharan/functional-swift-all-about-closures-310bc8af31dd">Functional swift: All about Closures</a></p>
@@ -36,6 +51,8 @@
 <p>也可以看<a href="https://docs.swift.org/swift-book/LanguageGuide/Closures.html">官方文档Closures</a>，但是官方文档没有上面的文章详细。</p>
 
 <p>下面有选择地记录一下。</p>
+
+<p><a id="markdown-function与closure的关系" name="function与closure的关系"></a></p>
 
 <h2>Function与Closure的关系：</h2>
 
@@ -59,6 +76,8 @@
 </ul>
 </blockquote>
 
+<p><a id="markdown-用closure初始化一个变量" name="用closure初始化一个变量"></a></p>
+
 <h2>用Closure初始化一个变量</h2>
 
 <pre><code class="swift">let setupViewUsingClosure: UIView = {
@@ -67,6 +86,8 @@
     return view
 }() //IMPORTANT!!! I have added () at the end.
 </code></pre>
+
+<p><a id="markdown-closure的语法糖" name="closure的语法糖"></a></p>
 
 <h2>Closure的语法糖：</h2>
 
@@ -167,6 +188,8 @@ rreversedNames = names.sorted(by: { $0 &gt; $1 } )
 rreversedNames = names.sorted { $0 &gt; $1 }
 </code></pre>
 
+<p><a id="markdown-closure与内存管理内存泄漏" name="closure与内存管理内存泄漏"></a></p>
+
 <h2>Closure与内存管理、内存泄漏</h2>
 
 <p>Closure带来的循环引用和内存泄漏，主要通过Capture List来解决：</p>
@@ -174,6 +197,8 @@ rreversedNames = names.sorted { $0 &gt; $1 }
 <blockquote><p>You resolve a strong reference cycle between a closure and a class instance by defining a capture list as part of the closure’s definition. A capture list defines the rules to use when capturing one or more reference types within the closure’s body.</p></blockquote>
 
 <p>详细内容参考<a href="https://docs.swift.org/swift-book/LanguageGuide/AutomaticReferenceCounting.html#ID56">Resolving Strong Reference Cycles for Closures</a>。下面摘要一下。</p>
+
+<p><a id="markdown-capture-list的定义" name="capture-list的定义"></a></p>
 
 <h3>Capture List的定义</h3>
 
@@ -187,6 +212,8 @@ rreversedNames = names.sorted { $0 &gt; $1 }
 }
 </code></pre>
 
+<p><a id="markdown-weak-and-unowned-references" name="weak-and-unowned-references"></a></p>
+
 <h3>Weak and Unowned References</h3>
 
 <blockquote><p>Define a capture in a closure as an unowned reference when the closure and the instance it captures will always refer to each other, and will always be deallocated at the same time.</p>
@@ -198,6 +225,8 @@ rreversedNames = names.sorted { $0 &gt; $1 }
 <p>关于unowned的另一个解释更清楚：</p>
 
 <blockquote><p>Like a weak reference, an unowned reference does not keep a strong hold on the instance it refers to. Unlike a weak reference, however, an unowned reference is used when the other instance has the same lifetime or a longer lifetime.</p></blockquote>
+
+<p><a id="markdown-closure捕获变量" name="closure捕获变量"></a></p>
 
 <h2>Closure捕获变量</h2>
 
@@ -268,6 +297,29 @@ closureArray2[4]() // prints 4
     <content type="html"><![CDATA[<!-- more -->
 
 
+<ul>
+<li><a href="#array-out-of-range-crash"><code>Array</code> out of Range Crash</a></li>
+<li><a href="#homemade-collection">Homemade collection</a></li>
+<li><a href="#sequences">Sequences</a>
+
+<ul>
+<li><a href="#how-to-conform-to-sequence-protocol">How to Conform to <code>Sequence</code> Protocol</a></li>
+<li><a href="#make-our-section-conform-to-sequence-protocol">Make our <code>Section</code> Conform to <code>Sequence</code> Protocol</a></li>
+<li><a href="#gifts">Gifts</a></li>
+</ul>
+</li>
+<li><a href="#collections">Collections</a>
+
+<ul>
+<li><a href="#how-to-conform-to-collection-protocol">How to Conform to <code>Collection</code> Protocol</a></li>
+<li><a href="#make-our-section-conform-to-collection-protocol">Make our <code>Section</code> Conform to <code>Collection</code> Protocol</a></li>
+</ul>
+</li>
+<li><a href="#difference-between-array-and-collection">Difference between <code>Array</code> and <code>Collection</code></a></li>
+<li><a href="#reference">Reference</a></li>
+</ul>
+
+
 <p>The content comes from the following posts:</p>
 
 <ol>
@@ -277,6 +329,8 @@ closureArray2[4]() // prints 4
 
 
 <p>But some of the code inside is old and can&rsquo;t be compiled with swift 5.0. So rewritten the code using swift 5.0.</p>
+
+<p><a id="markdown-array-out-of-range-crash" name="array-out-of-range-crash"></a></p>
 
 <h2><code>Array</code> out of Range Crash</h2>
 
@@ -319,6 +373,8 @@ struct Dictionary&lt;Key: Hashable, Value&gt; {
 
 <p>We saw how we can create a new accessor to the elements of an array, but can we do the same with a homemade collection?</p>
 
+<p><a id="markdown-homemade-collection" name="homemade-collection"></a></p>
+
 <h2>Homemade collection</h2>
 
 <pre><code class="swift">struct Section&lt;T&gt; {
@@ -352,11 +408,15 @@ section[1]
 
 <p>Great! But does that make our type a collection, as Swift defines it?</p>
 
+<p><a id="markdown-sequences" name="sequences"></a></p>
+
 <h2>Sequences</h2>
 
 <p>When it comes to manipulating sets, the most abstract notion given by the standard library is the Sequence, defined as</p>
 
 <blockquote><p>A type that can be iterated with a <code>for…in</code> loop.</p></blockquote>
+
+<p><a id="markdown-how-to-conform-to-sequence-protocol" name="how-to-conform-to-sequence-protocol"></a></p>
 
 <h3>How to Conform to <code>Sequence</code> Protocol</h3>
 
@@ -389,6 +449,8 @@ for i in threeToGo {
 // Prints "2"
 // Prints "1"
 </code></pre>
+
+<p><a id="markdown-make-our-section-conform-to-sequence-protocol" name="make-our-section-conform-to-sequence-protocol"></a></p>
 
 <h3>Make our <code>Section</code> Conform to <code>Sequence</code> Protocol</h3>
 
@@ -424,6 +486,8 @@ for i in threeToGo {
 }
 </code></pre>
 
+<p><a id="markdown-gifts" name="gifts"></a></p>
+
 <h3>Gifts</h3>
 
 <p>Is that all? No! By conforming to SequenceType we also get methods for free, here is some of them.</p>
@@ -450,6 +514,8 @@ section.reduce(0) { $0 + $1.count }
 
 <p>And for functional programming fans, filter, map and reduce are also given.</p>
 
+<p><a id="markdown-collections" name="collections"></a></p>
+
 <h2>Collections</h2>
 
 <p>Sequence is the most basic set notion given by the Swift standard library. There is a more evolved one.</p>
@@ -464,6 +530,8 @@ section.reduce(0) { $0 + $1.count }
 
 <p>To be a collection, a type must conform to the <code>Collection</code> protocol.</p>
 
+<p><a id="markdown-how-to-conform-to-collection-protocol" name="how-to-conform-to-collection-protocol"></a></p>
+
 <h3>How to Conform to <code>Collection</code> Protocol</h3>
 
 <p>This section comes from <a href="https://developer.apple.com/documentation/swift/collection">Collection official site</a>.</p>
@@ -477,6 +545,8 @@ section.reduce(0) { $0 + $1.count }
 <li>Conform to <code>Sequece</code> Protocol, as <code>Collection</code> is inherited from <code>Sequence</code></li>
 </ol>
 
+
+<p><a id="markdown-make-our-section-conform-to-collection-protocol" name="make-our-section-conform-to-collection-protocol"></a></p>
 
 <h3>Make our <code>Section</code> Conform to <code>Collection</code> Protocol</h3>
 
@@ -543,6 +613,8 @@ section.index(of: "911")
 
 <p>We get indexOf thanks to our Elements being Equatable.</p>
 
+<p><a id="markdown-difference-between-array-and-collection" name="difference-between-array-and-collection"></a></p>
+
 <h2>Difference between <code>Array</code> and <code>Collection</code></h2>
 
 <p>We created our own collection, which is great, but what about that difference of behavior between Arrays and Dictionaries we talked about at the beginning of the post? We saw that Array’s dangerous subscript was coming from the Indexable protocol, but what about Dictionaries?</p>
@@ -568,6 +640,8 @@ dic[index]
 </code></pre>
 
 <p><strong>The last question that remains is why <code>Collection</code> requires a subscript that may crash? Simply for performance reason, it costs too much to check the validity of the given index. Crashing is faster :)</strong></p>
+
+<p><a id="markdown-reference" name="reference"></a></p>
 
 <h2>Reference</h2>
 

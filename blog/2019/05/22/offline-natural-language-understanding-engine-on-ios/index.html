@@ -9,7 +9,8 @@
 	<meta name="author" content="Zhang Hongchao">
 
 	
-	<meta name="description" content="Offline Natural Language Understanding Engine on iOS Objective We want an NLU Engine to understand the normal text command on Mobile. We hope the &hellip;">
+	<meta name="description" content="Offline Natural Language Understanding Engine on iOS Objective What is a good NLU engine Deterministic behavior
+Generalization power Design and &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -110,6 +111,53 @@
 	<div class="entry-content" itemprop="articleBody"><!-- more -->
 
 
+<ul>
+<li><a href="#objective">Objective</a>
+
+<ul>
+<li><a href="#what-is-a-good-nlu-engine">What is a good NLU engine</a>
+
+<ul>
+<li><a href="#deterministic-behavior">Deterministic behavior</a></li>
+<li><a href="#generalization-power">Generalization power</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#design-and-workflow">Design and Workflow</a></li>
+<li><a href="#deterministic-intent-parser">Deterministic Intent Parser</a></li>
+<li><a href="#probabilistic-intent-parser">Probabilistic Intent Parser</a>
+
+<ul>
+<li><a href="#intent-classification">Intent Classification</a>
+
+<ul>
+<li><a href="#model-training">Model Training</a></li>
+<li><a href="#model-usage">Model Usage</a></li>
+</ul>
+</li>
+<li><a href="#slot-filling">Slot Filling</a>
+
+<ul>
+<li><a href="#model-training-1">Model Training</a></li>
+<li><a href="#model-usage-1">Model Usage</a></li>
+</ul>
+</li>
+<li><a href="#model-size">Model Size</a></li>
+<li><a href="#problems-to-be-solved">Problems to Be Solved</a>
+
+<ul>
+<li><a href="#intent-classification-model-has-no-probability-output">Intent Classification Model Has No Probability Output</a></li>
+<li><a href="#slot-filling-model-tagges-the-label-by-words-not-phrase">Slot Filling Model Tagges the Label by Words, not Phrase</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+
+<p><a id="markdown-objective" name="objective"></a></p>
+
 <h2>Objective</h2>
 
 <p><img src="/images/NLUObjective.png" alt="nlu objective" /></p>
@@ -117,6 +165,8 @@
 <p>We want an NLU Engine to understand the normal text command on Mobile. We hope the engine can know the command&rsquo;s intent and the info the command needs to execute.</p>
 
 <p>Currently, there are many NLU related tools, like Google Dialogflow, Amazon Lex, Facebook Wit.ai, Microsoft Luis. However, they are all online tools. Considering the privacy problem, we are trying to build our own offline NLU Engine.</p>
+
+<p><a id="markdown-what-is-a-good-nlu-engine" name="what-is-a-good-nlu-engine"></a></p>
 
 <h3>What is a good NLU engine</h3>
 
@@ -130,13 +180,19 @@
 </ul>
 
 
+<p><a id="markdown-deterministic-behavior" name="deterministic-behavior"></a></p>
+
 <h4>Deterministic behavior</h4>
 
 <p>The first thing you want is that all the examples you give to train the model are correctly supported by the engine. This makes the system predictable and easy to use: if a query is not correctly parsed, then add it to the dataset and it will work right away.</p>
 
+<p><a id="markdown-generalization-power" name="generalization-power"></a></p>
+
 <h4>Generalization power</h4>
 
 <p>Having this deterministic behavior is great for robustness and predictability, but a powerful NLU engine also needs to have some generalization power. You want the system not only to recognize patterns provided in the training set, but also all the possible variations that come from speaking naturally. If we go back to the previous dataset, it is reasonable to expect the NLU engine to parse a query like: “What’s the weather in Beijing right now?” even though it is not one of the training examples.</p>
+
+<p><a id="markdown-design-and-workflow" name="design-and-workflow"></a></p>
 
 <h2>Design and Workflow</h2>
 
@@ -147,6 +203,8 @@
 <p>The deterministic parser relies on regular expressions to match intent and slots, which results in perfect behavior on training examples but doesn’t generalize. This parser is the first to be used because of its strictness.</p>
 
 <p>The probabilistic parser is used whenever the first parser fails to find a match. It uses machine learning to generalize beyond the set of sentences seen at train time, thus making our NLU engine be able to cope with examples which are not in the scope of the training data set. This parser involves two successive steps: intent classification and slot filling. These two steps rely on trained machine learning models to classify intent and extract slots.</p>
+
+<p><a id="markdown-deterministic-intent-parser" name="deterministic-intent-parser"></a></p>
 
 <h2>Deterministic Intent Parser</h2>
 
@@ -166,6 +224,8 @@
 </ul>
 
 
+<p><a id="markdown-probabilistic-intent-parser" name="probabilistic-intent-parser"></a></p>
+
 <h2>Probabilistic Intent Parser</h2>
 
 <p>If the Deterministic Intent Parser fails to find the intent and slots, the Probabilistic Intent Parser will be used.</p>
@@ -182,7 +242,11 @@
 
 <p>Apple has released CreateML for training natural language models, which also integrates the powerful NatrualLanguage framework functions, like Tokenization, Part of Speech, Lemmatization, Name Entity Recognition, etc. This will make the training process very simple, and the trained model will be more accurate and smaller.</p>
 
+<p><a id="markdown-intent-classification" name="intent-classification"></a></p>
+
 <h3>Intent Classification</h3>
+
+<p><a id="markdown-model-training" name="model-training"></a></p>
 
 <h4>Model Training</h4>
 
@@ -304,6 +368,8 @@
 
 <p>We can get 99.23% training accuracy and 98.87% validation accuracy.</p>
 
+<p><a id="markdown-model-usage" name="model-usage"></a></p>
+
 <h4>Model Usage</h4>
 
 <p>For the trained model of mlmodel type, we can use it in our iOS app through NLModel (from NatrualLanguage framework). The demo swift code may be like:</p>
@@ -337,7 +403,11 @@
 </ol>
 </blockquote>
 
+<p><a id="markdown-slot-filling" name="slot-filling"></a></p>
+
 <h3>Slot Filling</h3>
+
+<p><a id="markdown-model-training-1" name="model-training-1"></a></p>
 
 <h4>Model Training</h4>
 
@@ -441,6 +511,8 @@
 
 <p>We can get 99.64% training accuracy and 98.38% validation accuracy.</p>
 
+<p><a id="markdown-model-usage-1" name="model-usage-1"></a></p>
+
 <h4>Model Usage</h4>
 
 <p>We can load the mlmodel into an NLTagger (from NatrualLanguage framework), and use the NLTagger to tag labels for each word of the input command text. The demo swift script is like:</p>
@@ -487,6 +559,8 @@
 <li>WWDC video <a href="https://developer.apple.com/videos/play/wwdc2018/713/">Introducing Natural Language Framework</a>: This session introduces NLP framework and its relation with CreateML framework.</li>
 </ol>
 
+
+<p><a id="markdown-model-size" name="model-size"></a></p>
 
 <h3>Model Size</h3>
 
@@ -545,9 +619,13 @@
 <p>If still your model is large, you can
 <a href="https://developer.apple.com/documentation/coreml/core_ml_api/downloading_and_compiling_a_model_on_the_user_s_device">Downloading and Compiling a Model on the User&rsquo;s Device</a> at runtime.</p>
 
+<p><a id="markdown-problems-to-be-solved" name="problems-to-be-solved"></a></p>
+
 <h3>Problems to Be Solved</h3>
 
 <p>For Probabilistic Intent Parser, we still have some problems.</p>
+
+<p><a id="markdown-intent-classification-model-has-no-probability-output" name="intent-classification-model-has-no-probability-output"></a></p>
 
 <h4>Intent Classification Model Has No Probability Output</h4>
 
@@ -556,6 +634,8 @@
 <p>However, the model trained through <code>MLTextClassifier</code> has no probability output API. If we really need the probability output, we can use other platforms to train the model, like tensorflow. That way, we will not benefit from NatrualLanguage framework and we need to consider these things by ourselves, like Tokenization, Part of Speech, Lemmatization, etc.</p>
 
 <blockquote><p>Try other tools for training models with probability output, like Turi.</p></blockquote>
+
+<p><a id="markdown-slot-filling-model-tagges-the-label-by-words-not-phrase" name="slot-filling-model-tagges-the-label-by-words-not-phrase"></a></p>
 
 <h4>Slot Filling Model Tagges the Label by Words, not Phrase</h4>
 

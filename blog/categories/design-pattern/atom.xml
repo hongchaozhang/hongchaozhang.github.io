@@ -4,7 +4,7 @@
   <title><![CDATA[Category: design pattern | Reading Space]]></title>
   <link href="http://hongchaozhang.github.io/blog/categories/design-pattern/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2019-06-12T18:23:24+08:00</updated>
+  <updated>2019-06-13T13:41:25+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -69,9 +69,12 @@
 
 <p>我们希望源码中的依赖关系与其数据流向脱钩，而与组件所在的层次挂钩。高层组件变更的原因具有“稀少而重大”的特点，低层组件变更的原因具有“频繁而不重大”的特点。（第19章）</p>
 
-<p><a id="markdown-章节小结" name="章节小结"></a></p>
+<p><a id="markdown-章节小结" name="章节小结"></a>
+<a id="markdown-章节小结" name="章节小结"></a></p>
 
 <h2>章节小结</h2>
+
+<p><a id="markdown-第2章-两个价值维度" name="第2章-两个价值维度"></a></p>
 
 <h3>第2章 两个价值维度</h3>
 
@@ -83,9 +86,13 @@
 
 <p>请记住：如果忽视软件架构的价值，系统将会变得越来越难以维护，最终再也无法修改。如果系统变成了这个样子，那么说明软件开发团队没有和需求方做足够的抗争，没有完成自己应尽的职责。</p>
 
+<p><a id="markdown-第14章-组件耦合" name="第14章-组件耦合"></a></p>
+
 <h3>第14章 组件耦合</h3>
 
 <p>组件依赖关系图不是系统功能单元关系图，而是应用程序在构建性和维护性方面的一张地图。所以组件依赖关系图不能像系统功能单元关系图一样在设计之初就确定下来，而是随着开发进程中出现的维护性和构建性的需求而产生的。</p>
+
+<p><a id="markdown-第15章-什么是软件架构" name="第15章-什么是软件架构"></a></p>
 
 <h3>第15章 什么是软件架构</h3>
 
@@ -95,6 +102,8 @@
 另外，我们保留这些可选项的时间越长，实验的机会越多，我们做决策的时候就能拥有越充分的信息。</p>
 
 <p><strong>一个优秀的软件架构师应该致力于最大化可选项数量。</strong></p>
+
+<p><a id="markdown-第17章-划分边界" name="第17章-划分边界"></a></p>
 
 <h3>第17章 划分边界</h3>
 
@@ -108,6 +117,8 @@
 
 <p>事实上，软件开发技术发展的历史就是一个如何想方设法方便地增加插件，从而构建一个可扩展、可维护的系统架构的故事。</p>
 
+<p><a id="markdown-第21章-尖叫的软件架构" name="第21章-尖叫的软件架构"></a></p>
+
 <h3>第21章 尖叫的软件架构</h3>
 
 <p>架构设计的核心目标：</p>
@@ -119,6 +130,8 @@
 <p>而且，良好的架构设计应该尽可能地允许用户推迟和延后决定采用什么框架、数据库、Web服务以及其它与环境相关的工具。同时，良好的架构设计还应该让我们很容易改变这些决定。</p>
 
 <p>总之，良好的架构设计应该只关注用例，并能将它们与其他的周边因素隔离。</p>
+
+<p><a id="markdown-第22章-整洁架构" name="第22章-整洁架构"></a></p>
 
 <h3>第22章 整洁架构</h3>
 
@@ -132,20 +145,28 @@
 
 <p><img src="/images/CleanArchitecture22fig02.jpg" alt="clean architecture example" /></p>
 
+<p><a id="markdown-第23章-展示器和谦卑对象" name="第23章-展示器和谦卑对象"></a></p>
+
 <h3>第23章 展示器和谦卑对象</h3>
 
 <p>应用程序所能控制的，要在屏幕上显示的一切东西，都应该在视图模型中以字符串、布尔值或者枚举类型的形式存在。然后，视图部分除了加载视图模型所需要的值，不应该再做任何其他事情。因此，我们才能说视图是谦卑对象。</p>
 
 <blockquote><p>这里的视图有点像Redux模式下的View了：只负责忠实地将Model展现出来。</p></blockquote>
 
+<p><a id="markdown-第24章-不完全边界" name="第24章-不完全边界"></a></p>
+
 <h3>第24章 不完全边界</h3>
 
 <p>用于管理输入输出数据结构的双向多态边界接口，以及依赖反转关系的管理都需要耗费资源。某些情况下可以采用一些折中方案，采用某种不完全边界：单向边界、门户模式、省掉最后一步…。</p>
+
+<p><a id="markdown-第25章-层次与边界" name="第25章-层次与边界"></a></p>
 
 <h3>第25章 层次与边界</h3>
 
 <p>“中庸”之道：
 过度设计边界不对，一点不设计也是不合理的，我们能做的就是不断观察系统演进，权衡各个位置设计边界的成本与收益。</p>
+
+<p><a id="markdown-第28章-测试边界" name="第28章-测试边界"></a></p>
 
 <h3>第28章 测试边界</h3>
 
@@ -154,6 +175,8 @@
 
 <p>不要依赖于多变的东西。比如GUI一般是多变的，通过GUI来验证系统的测试一定是脆弱的。因此，我们在系统设计与测试设计时，应该让业务逻辑不通过GUI也能被测试。
 怎么做：让GUI成为“谦卑对象”，只是忠实地反应一些数据（Redux模式）。</p>
+
+<p><a id="markdown-第34章-拾遗" name="第34章-拾遗"></a></p>
 
 <h3>第34章 拾遗</h3>
 
@@ -173,11 +196,13 @@
 
 <p><strong>四种模式将完全一样！完全一样，只是由于我们没有严格地使用访问权限修饰符！</strong></p>
 
-<p><a id="markdown-其它人的一些读后总结" name="其它人的一些读后总结"></a></p>
+<p><a id="markdown-其它人的一些读后总结" name="其它人的一些读后总结"></a>
+<a id="markdown-其它人的一些读后总结" name="其它人的一些读后总结"></a></p>
 
 <h2>其它人的一些读后总结</h2>
 
-<p><a id="markdown-为什么说我们需要软件架构图" name="为什么说我们需要软件架构图"></a></p>
+<p><a id="markdown-为什么说我们需要软件架构图" name="为什么说我们需要软件架构图"></a>
+<a id="markdown-为什么说我们需要软件架构图httpswwwinfoqcnarticleghprruloyyoqs8fr1ph" name="为什么说我们需要软件架构图httpswwwinfoqcnarticleghprruloyyoqs8fr1ph"></a></p>
 
 <h3><a href="https://www.infoq.cn/article/GhprrUlOYyOqS8*FR1pH">为什么说我们需要软件架构图？</a></h3>
 
@@ -187,7 +212,8 @@
 3. 请停止为代码中自解释的内容创建详细的架构图，或者当没有真正受众时。
 4. 直接询问利益相关者：你们希望从文档中获得什么信息？</p>
 
-<p><a id="markdown-推荐架构整洁之道" name="推荐架构整洁之道"></a></p>
+<p><a id="markdown-推荐架构整洁之道" name="推荐架构整洁之道"></a>
+<a id="markdown-推荐架构整洁之道httpsblogcsdnnetcsdnsevennarticledetails83189597" name="推荐架构整洁之道httpsblogcsdnnetcsdnsevennarticledetails83189597"></a></p>
 
 <h3><a href="https://blog.csdn.net/csdnsevenn/article/details/83189597">推荐《架构整洁之道》</a></h3>
 
@@ -284,6 +310,8 @@
 
 <p> <br></p>
 
+<p><a id="markdown-solid原则" name="solid原则"></a></p>
+
 <h2>SOLID原则</h2>
 
 <p>SOLID是指我们编程时应该遵守的五个原则：</p>
@@ -299,7 +327,11 @@
 
 <p>每个原则取一个字母（<strong>S</strong>RP，<strong>O</strong>CP，<strong>L</strong>SP，<strong>I</strong>SP，<strong>D</strong>IP），合称SOLID原则。</p>
 
+<p><a id="markdown-单一职责原则the-single-responsibility-principle简称srp" name="单一职责原则the-single-responsibility-principle简称srp"></a></p>
+
 <h2>单一职责原则（The Single Responsibility Principle，简称SRP）</h2>
+
+<p><a id="markdown-定义" name="定义"></a></p>
 
 <h3>定义</h3>
 
@@ -307,17 +339,25 @@
 
 <p>一个类如果有多个职责，但是你只需要其中的一个职责，你也不得不将其它职责包括进来，还有其它职责所依赖的所有组件。</p>
 
+<p><a id="markdown-什么是职责" name="什么是职责"></a></p>
+
 <h3>什么是职责</h3>
 
 <p>在SRP中，我们把职责定义为“变化的原因”（a reason for change）。如果能够想到多于一个的动机去改变一个类，那么这个类就具有多于一个的职责。</p>
 
 <p>比如Employee这个类如果同时包含了业务规则和对于持久化的控制，多数情况下，我们可以断定它们不应该放在一起：业务规则会频繁地变化，但是持久化的方式却不会如此频繁地变化，并且变化的原因也是完全不同的。</p>
 
+<p><a id="markdown-结论" name="结论"></a></p>
+
 <h3>结论</h3>
 
 <p>SRP是所有原则中最简单的，也是最难运用的。软件设计很多时候要做的，就是发现职责，并把它分离出来。事实上，我们将要论述的其它原则都会以这样或者那样的方式回到这个问题上。</p>
 
+<p><a id="markdown-开放封闭原则the-open-close-principle简称ocp" name="开放封闭原则the-open-close-principle简称ocp"></a></p>
+
 <h2>开放——封闭原则（The Open-Close Principle，简称OCP）</h2>
+
+<p><a id="markdown-定义-1" name="定义-1"></a></p>
 
 <h3>定义</h3>
 
@@ -335,11 +375,15 @@
 
 <p>如何在能在不改变模块原代码的情况下去更改它的行为或者为其添加功能呢？</p>
 
+<p><a id="markdown-关键是抽象" name="关键是抽象"></a></p>
+
 <h3>关键是抽象</h3>
 
 <p>抽象一般有两种方式：
 1. 接口
 2. 继承</p>
+
+<p><a id="markdown-接口" name="接口"></a></p>
 
 <h4>接口</h4>
 
@@ -352,6 +396,8 @@
 <p>上面的b图是一个符合OCP的设计。如果需要使用一个不同的服务器类，只需要重新实现这个类，保证这个类也实现类ClientInterface接口，则Client这个类不需要做修改，同时扩展类Client的功能。</p>
 
 <blockquote><p>这个接口为什么叫ClientInterface，而不叫ServerInterface或者AbstractServer之类？因为这个接口和Client的关系更密切。</p></blockquote>
+
+<p><a id="markdown-继承" name="继承"></a></p>
 
 <h4>继承</h4>
 
@@ -382,6 +428,8 @@ void drawAllShapes([Shape] list) {
 
 <p>如果想扩展drawAllShapes方法，使其可以绘制一种新的形状，只需要重新创建一个Shape类的子类，drawAllShapes函数不需要改变，即可实现功能的扩展。这就是OCP。</p>
 
+<p><a id="markdown-什么时候进行抽象" name="什么时候进行抽象"></a></p>
+
 <h3>什么时候进行抽象</h3>
 
 <p>即使是上面的形状绘制的例子，也不是完全的“对扩展开放，对修改关闭。”比如，我要求所有的圆必须在正方形之前绘制，就没法在不修改drawAllShapes的情况下进行这个功能扩展。</p>
@@ -399,11 +447,17 @@ void drawAllShapes([Shape] list) {
 
 <p>也就是说，在刚开始编写代码的时候，假设变化不会发生。当变化发生时，我们就创建抽象进行隔离，防止以后发生同类变化。</p>
 
+<p><a id="markdown-结论-1" name="结论-1"></a></p>
+
 <h3>结论</h3>
 
 <p>在很多方面，OCP都是面向对象设计的核心所在。遵循这个原则，可以带来面向对象技术所声称的巨大好处（也就是，灵活性、可重用性以及可维护性）。但是，对程序的每个部分都肆意地进行抽象也不是一个好主意。拒绝不成熟的抽象和抽象本身一样重要。</p>
 
+<p><a id="markdown-liskov替换原则the-liskov-substitution-priciple简称lsp" name="liskov替换原则the-liskov-substitution-priciple简称lsp"></a></p>
+
 <h2>Liskov替换原则（The Liskov Substitution Priciple，简称LSP）</h2>
+
+<p><a id="markdown-定义-2" name="定义-2"></a></p>
 
 <h3>定义</h3>
 
@@ -412,6 +466,8 @@ void drawAllShapes([Shape] list) {
 <p>假设一个函数f，它的参数是某个基类型B。如果将基类型B的子类D传给f，会导致f出现错误的行为，那么D就违反了LSP原则。</p>
 
 <p>此时，f的编写者想在f内对D进行检测，以便在把D传给f时，可以使f具有正确的行为。这个行为又违反了OCP原则，因为此时f对于基类型B的所有子类都不在封闭。</p>
+
+<p><a id="markdown-一个违反lsp的简单例子" name="一个违反lsp的简单例子"></a></p>
 
 <h3>一个违反LSP的简单例子</h3>
 
@@ -447,6 +503,8 @@ void drawAllShapes([Shape] list) {
 <p>很显然，上面的drawAllShapes违反了OCP原则，它必须知道所有的Shape的子类，并且，每创建一个子类，都需要修改drawAllShapes函数。</p>
 
 <p>Square和Circle不能替换其基类型Shape就是违反了LSP原则，这又进一步导致了drawAllShapes违反了OCP原则。因而，对于LSP的违反也潜在违反了OCP原则。</p>
+
+<p><a id="markdown-正方形和长方形的关系更微妙的违规" name="正方形和长方形的关系更微妙的违规"></a></p>
 
 <h3>正方形和长方形的关系：更微妙的违规</h3>
 
@@ -514,7 +572,11 @@ void drawAllShapes([Shape] list) {
 
 <p><strong>IS-A不应该成为继承的准则，“可替换性”才是。</strong></p>
 
+<p><a id="markdown-其它一些容易导致违反lsp的习惯用法" name="其它一些容易导致违反lsp的习惯用法"></a></p>
+
 <h3>其它一些容易导致违反LSP的习惯用法</h3>
+
+<p><a id="markdown-子类中的退化函数" name="子类中的退化函数"></a></p>
 
 <h4>子类中的退化函数</h4>
 
@@ -522,15 +584,23 @@ void drawAllShapes([Shape] list) {
 
 <blockquote><p>这也许就是一些语言在子类重写基类函数的时候必须通过super调用基类函数，这就保证了重写不会退化。但是在Swift和Objective-C中可以不调用super。</p></blockquote>
 
+<p><a id="markdown-子类抛出基类没有的异常" name="子类抛出基类没有的异常"></a></p>
+
 <h4>子类抛出基类没有的异常</h4>
 
 <p>此时要遵循LSP，要么改变使用者的期望，要么子类不抛出这个异常。</p>
+
+<p><a id="markdown-结论-2" name="结论-2"></a></p>
 
 <h3>结论</h3>
 
 <p>OCP是很多说法的核心，而LSP是使OCP成为可能的主要原则之一。正是子类的可替换性才使得使用基类类型的模块在无需修改的情况下就可以扩展。这种可替换性必须是开发人员可以隐式依赖的东西。</p>
 
+<p><a id="markdown-依赖倒置原则the-dependency-inversion-principle简称dip" name="依赖倒置原则the-dependency-inversion-principle简称dip"></a></p>
+
 <h2>依赖倒置原则（The Dependency Inversion Principle，简称DIP）</h2>
+
+<p><a id="markdown-定义-3" name="定义-3"></a></p>
 
 <h3>定义</h3>
 
@@ -558,6 +628,8 @@ void drawAllShapes([Shape] list) {
 
 <p><strong>这里的倒置不仅仅是依赖关系的倒置，也是接口所有权的倒置。</strong>我们通常认为工具库应该拥有自己的接口，但是当应用了DIP之后，我们发现往往是客户拥有抽象接口，而它们的服务者则从这些抽象接口派生。</p>
 
+<p><a id="markdown-依赖于抽象" name="依赖于抽象"></a></p>
+
 <h3>依赖于抽象</h3>
 
 <p>“依赖于抽象”这一启发式规则与DIP要求类似，要求我们不应该依赖具体的类，也就是说，程序中所有的依赖关系都应该终止于抽象（抽象类或者接口）。根据这一规则，可知：</p>
@@ -573,6 +645,8 @@ void drawAllShapes([Shape] list) {
 
 <p>但是如果一个类不稳定，我们最好不要直接依赖它，而要用一个抽象接口隔离这个类的不稳定性，直接使用接口，而不是这个类。</p>
 
+<p><a id="markdown-一个例子" name="一个例子"></a></p>
+
 <h3>一个例子</h3>
 
 <p>依赖倒置可以应用于任何存在一个类向另一个类发送消息的地方。例如Button对Lamp的控制。</p>
@@ -587,6 +661,8 @@ void drawAllShapes([Shape] list) {
 
 <p>改进之后的b设计则是一个遵守DIP的设计。而且，接口本身没有所有者，可以独立放在一个不同于Button，也不同于Lamp的地方。</p>
 
+<p><a id="markdown-结论-3" name="结论-3"></a></p>
+
 <h3>结论</h3>
 
 <p>传统程序设计，策略依赖于细节。面向对象设计倒置了这种依赖关系，使得细节和策略都依赖于抽象，并且常常是客户拥有服务接口。</p>
@@ -595,7 +671,11 @@ void drawAllShapes([Shape] list) {
 
 <p>依赖倒置关系是实现许多面向对象技术所宣称的好处的基本底层机制。它的正确应用对于创建可重用的框架来说是必要的。同时它对于构建在变化面前富有弹性的代码也是非常重要的。</p>
 
+<p><a id="markdown-接口隔离原则the-interface-segregation-principle简称isp" name="接口隔离原则the-interface-segregation-principle简称isp"></a></p>
+
 <h2>接口隔离原则（The Interface Segregation Principle，简称ISP）</h2>
+
+<p><a id="markdown-定义-4" name="定义-4"></a></p>
 
 <h3>定义</h3>
 
@@ -604,6 +684,8 @@ void drawAllShapes([Shape] list) {
 <p>这个原则是用来处理“胖”接口所具有的缺点。如果类的接口不是内聚（cohesive）的，就表示该类具有“胖”的接口。换句话说，类的“胖”接口可以分解成多组方法，每一组方法都服务于不同的客户程序。</p>
 
 <p>如果客户程序依赖于一个具有“胖”接口的类，就相当于强迫客户程序依赖它们不使用的方法，那么这些客户程序就面临着由于这些未使用的方法的改变所带来的变更。这无意中导致了所有客户程序之间的耦合。</p>
+
+<p><a id="markdown-一个例子定时门" name="一个例子定时门"></a></p>
 
 <h3>一个例子：定时门</h3>
 
@@ -621,6 +703,8 @@ void drawAllShapes([Shape] list) {
 
 <p>TimerDoor应该“具有”两组接口，一组供Timer使用，一组供Door使用。如何将这两组接口分开呢？该问题的答案基于这样的事实：一个对象的客户不是必须通过该对象才能访问其接口，也可以通过委托或者该对象的基类来访问它。</p>
 
+<p><a id="markdown-使用委托对接口分组" name="使用委托对接口分组"></a></p>
+
 <h4>使用委托对接口分组</h4>
 
 <p>该方案如下图所示，当TimerDoor需要向Timer对象注册一个超时请求时，它就创建一个DoorTimerAdaper，并把它注册给Timer。当Timer对象发送<code>timeout</code>消息给DoorTimerAdapter时，DoorTimerAdapter把这个消息委托给TimerDoor的<code>doorTimeout</code>方法。</p>
@@ -628,6 +712,8 @@ void drawAllShapes([Shape] list) {
 <p><img src="/images/door_good_design_1.jpg" alt="timer door good design 1" /></p>
 
 <p>这个设计是个比较通用的设计，在其他地方，也叫做“使用组合而非继承（Prefer Composition to Extension）”。但是这个设计略显复杂。下面基于多重继承的实现更加简洁。</p>
+
+<p><a id="markdown-使用多重继承对接口分组" name="使用多重继承对接口分组"></a></p>
 
 <h4>使用多重继承对接口分组</h4>
 
@@ -640,6 +726,8 @@ void drawAllShapes([Shape] list) {
 <p>通常情况下，我们都会优先选择多重继承方法，只有当DoorTimerAdapter所做的转换是必须的时候，才考虑使用委托方案。</p>
 
 <blockquote><p>DoorTimerAdapter将<code>timeout</code>接口转换成TimerDoor里面的<code>doorTimeout</code>接口，如果需要，在这个转换过程中还可以做些其它事情。</p></blockquote>
+
+<p><a id="markdown-一个例子atm界面" name="一个例子atm界面"></a></p>
 
 <h3>一个例子：ATM界面</h3>
 
@@ -656,6 +744,8 @@ void drawAllShapes([Shape] list) {
 <p><img src="/images/ATM_good_design.jpg" width="600" alt="atm good design" /></p>
 
 <p>当我们需要增加一种新的Transaction时，其它Transaction都不需要重新编译部署。</p>
+
+<p><a id="markdown-多参数形式与单参数形式" name="多参数形式与单参数形式"></a></p>
 
 <h4>多参数形式与单参数形式</h4>
 
@@ -675,6 +765,8 @@ void drawAllShapes([Shape] list) {
 </code></pre>
 
 <p>虽然上面的调用看起来有悖常理，但是我们还是应该倾向于多参数形式。单参数形式的函数依赖于UI中包含的每一个接口，如果WithDrawalUI发生了改变，那么函数及其所有客户程序都会受到影响。这更悖常理。此外，我们也不能保证传入函数的两个参数一直是同一个对象。也许以后，接口对象会因为某些原因而分离，此时，函数并不需要关注接口对象是合并还是分拆这一事实。</p>
+
+<p><a id="markdown-结论-4" name="结论-4"></a></p>
 
 <h3>结论</h3>
 
