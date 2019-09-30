@@ -1,0 +1,455 @@
+
+<!DOCTYPE HTML>
+
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>吴军《信息论40讲》小结 - Reading Space</title>
+	<meta name="author" content="Zhang Hongchao">
+
+	
+	<meta name="description" content="吴军《信息论40讲》小结 对得道App上面吴军对信息论40讲的个人小结。 信息熵 比特 信道容量
+哈夫曼编码
+信息正交
+互信息
+信息增益
+香农第二定律
+信息编码中的错误 奇偶校验 工作方式
+优缺点 海明码校验 工作方式
+优缺点 幸存者偏差：如何避免被已知信息误导？ 读书无用论
+飞机问题 &hellip;">
+	
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="Reading Space" type="application/atom+xml">
+	
+	<link rel="canonical" href="http://hongchaozhang.github.io/blog/2019/08/26/infomation-theory/">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<link href="/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<link href='http://fonts.googleapis.com/css?family=Nunito:400,300,700' rel='stylesheet' type='text/css'>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	
+  
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-62806905-2']);
+		_gaq.push(['_trackPageview']);
+
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
+
+
+</head>
+
+
+<body>
+	<div class="container">
+		<div class="left-col">
+			<div class="intrude-less">
+			<header id="header" class="inner"><div class="profilepic">
+	
+	<script src="/javascripts/md5.js"></script>
+	<script type="text/javascript">
+		$(function(){
+			$('.profilepic').append("<img src='http://www.gravatar.com/avatar/" + MD5("") + "?s=160' alt='Profile Picture' style='width: 160px;' />");
+		});
+	</script>
+	
+</div>
+
+<nav id="main-nav"><ul class="main">
+    <li><a href="/">Blog</a></li>
+    <li><a href="/blog/archives">Archives</a></li>
+    <li><a href="#">About</a></li>
+</ul>
+</nav>
+<nav id="sub-nav">
+	<div class="social">
+		
+		
+		
+		
+		
+			<a class="github" href="https://github.com/hongchaozhang" title="GitHub">GitHub</a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+    	
+    	
+			<a class="rss" href="/atom.xml" title="RSS">RSS</a>
+		
+	</div>
+</nav>
+
+
+
+<section class="categories">
+          <ul id="category_cloud" class="nav nav-list"><a href='/blog/categories/android' style='font-size: 106.97674418604652%'>android(5)</a> <a href='/blog/categories/android-studio' style='font-size: 101.3953488372093%'>android studio(1)</a> <a href='/blog/categories/augmented-reality' style='font-size: 105.5813953488372%'>augmented reality(4)</a> <a href='/blog/categories/design-pattern' style='font-size: 104.18604651162791%'>design pattern(3)</a> <a href='/blog/categories/ios' style='font-size: 160.0%'>ios(43)</a> <a href='/blog/categories/java' style='font-size: 102.79069767441861%'>java(2)</a> <a href='/blog/categories/javascript' style='font-size: 102.79069767441861%'>javascript(2)</a> <a href='/blog/categories/machine-learning' style='font-size: 112.55813953488372%'>machine learning(9)</a> <a href='/blog/categories/map-tech' style='font-size: 102.79069767441861%'>map tech(2)</a> <a href='/blog/categories/mobile' style='font-size: 101.3953488372093%'>mobile(1)</a> <a href='/blog/categories/nlp' style='font-size: 102.79069767441861%'>nlp(2)</a> <a href='/blog/categories/nlu' style='font-size: 102.79069767441861%'>nlu(2)</a> <a href='/blog/categories/node' style='font-size: 104.18604651162791%'>node(3)</a> <a href='/blog/categories/objective-c' style='font-size: 129.30232558139534%'>objective-c(21)</a> <a href='/blog/categories/philosophy' style='font-size: 102.79069767441861%'>philosophy(2)</a> <a href='/blog/categories/productivity' style='font-size: 125.11627906976744%'>productivity(18)</a> <a href='/blog/categories/python' style='font-size: 104.18604651162791%'>python(3)</a> <a href='/blog/categories/reading' style='font-size: 105.5813953488372%'>reading(4)</a> <a href='/blog/categories/swift' style='font-size: 108.37209302325581%'>swift(6)</a> <a href='/blog/categories/web' style='font-size: 102.79069767441861%'>web(2)</a> <a href='/blog/categories/wwdc' style='font-size: 102.79069767441861%'>wwdc(2)</a> <a href='/blog/categories/xcode' style='font-size: 111.16279069767442%'>xcode(8)</a> </ul>
+      </section>
+
+
+</header>				
+			</div>
+		</div>	
+		<div class="mid-col">
+			
+				
+			
+			<div class="mid-col-container">
+				<div id="content" class="inner"><article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+	<h1 class="title" itemprop="name">吴军《信息论40讲》小结</h1>
+	<div class="entry-content" itemprop="articleBody"><p>对得道App上面吴军对信息论40讲的个人小结。</p>
+
+<!-- more -->
+
+
+<ul>
+<li><a href="#%E4%BF%A1%E6%81%AF%E7%86%B5">信息熵</a>
+
+<ul>
+<li><a href="#%E6%AF%94%E7%89%B9">比特</a></li>
+</ul>
+</li>
+<li><a href="#%E4%BF%A1%E9%81%93%E5%AE%B9%E9%87%8F">信道容量</a></li>
+<li><a href="#%E5%93%88%E5%A4%AB%E6%9B%BC%E7%BC%96%E7%A0%81">哈夫曼编码</a></li>
+<li><a href="#%E4%BF%A1%E6%81%AF%E6%AD%A3%E4%BA%A4">信息正交</a></li>
+<li><a href="#%E4%BA%92%E4%BF%A1%E6%81%AF">互信息</a></li>
+<li><a href="#%E4%BF%A1%E6%81%AF%E5%A2%9E%E7%9B%8A">信息增益</a></li>
+<li><a href="#%E9%A6%99%E5%86%9C%E7%AC%AC%E4%BA%8C%E5%AE%9A%E5%BE%8B">香农第二定律</a></li>
+<li><a href="#%E4%BF%A1%E6%81%AF%E7%BC%96%E7%A0%81%E4%B8%AD%E7%9A%84%E9%94%99%E8%AF%AF">信息编码中的错误</a>
+
+<ul>
+<li><a href="#%E5%A5%87%E5%81%B6%E6%A0%A1%E9%AA%8C">奇偶校验</a>
+
+<ul>
+<li><a href="#%E5%B7%A5%E4%BD%9C%E6%96%B9%E5%BC%8F">工作方式</a></li>
+<li><a href="#%E4%BC%98%E7%BC%BA%E7%82%B9">优缺点</a></li>
+</ul>
+</li>
+<li><a href="#%E6%B5%B7%E6%98%8E%E7%A0%81%E6%A0%A1%E9%AA%8C">海明码校验</a>
+
+<ul>
+<li><a href="#%E5%B7%A5%E4%BD%9C%E6%96%B9%E5%BC%8F-1">工作方式</a></li>
+<li><a href="#%E4%BC%98%E7%BC%BA%E7%82%B9-1">优缺点</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#%E5%B9%B8%E5%AD%98%E8%80%85%E5%81%8F%E5%B7%AE%E5%A6%82%E4%BD%95%E9%81%BF%E5%85%8D%E8%A2%AB%E5%B7%B2%E7%9F%A5%E4%BF%A1%E6%81%AF%E8%AF%AF%E5%AF%BC">幸存者偏差：如何避免被已知信息误导？</a>
+
+<ul>
+<li><a href="#%E8%AF%BB%E4%B9%A6%E6%97%A0%E7%94%A8%E8%AE%BA">读书无用论</a></li>
+<li><a href="#%E9%A3%9E%E6%9C%BA%E9%97%AE%E9%A2%98">飞机问题</a></li>
+</ul>
+</li>
+<li><a href="#%E5%A5%A5%E5%8D%A1%E5%A7%86%E5%89%83%E5%88%80%E6%B3%95%E5%88%99%E6%9C%80%E7%AE%80%E5%8D%95%E7%9A%84%E5%BE%80%E5%BE%80%E6%98%AF%E6%9C%80%E6%9C%89%E6%95%88%E7%9A%84">奥卡姆剃刀法则：最简单的往往是最有效的</a>
+
+<ul>
+<li><a href="#%E6%89%98%E5%8B%92%E5%AF%86%E5%9C%B0%E5%BF%83%E8%AF%B4">托勒密地心说</a></li>
+<li><a href="#%E6%97%A5%E5%BF%83%E8%AF%B4%E5%92%8C%E7%89%9B%E9%A1%BF%E4%B8%87%E6%9C%89%E5%BC%95%E5%8A%9B%E5%AE%9A%E5%BE%8B">日心说和牛顿万有引力定律</a></li>
+</ul>
+</li>
+<li><a href="#%E7%86%B5%E5%A2%9E%E5%8E%9F%E7%90%86-%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E4%BF%9D%E6%8C%81%E7%B3%BB%E7%BB%9F%E5%BC%80%E6%94%BE%E6%80%A7">熵增原理 为什么要保持系统开放性</a></li>
+<li><a href="#%E6%8E%A7%E5%88%B6%E8%AE%BA%E8%BD%BB%E9%A2%84%E6%B5%8B%E9%87%8D%E5%8F%8D%E5%BA%94%E7%A7%B0%E4%B8%BA%E5%8F%98%E8%89%B2%E9%BE%99">控制论，轻预测重反应，称为变色龙</a>
+
+<ul>
+<li><a href="#%E5%8F%8D%E9%A6%88%E8%AE%BA">反馈论</a>
+
+<ul>
+<li><a href="#%E6%AD%A3%E5%8F%8D%E9%A6%88">正反馈</a></li>
+<li><a href="#%E8%B4%9F%E5%8F%8D%E9%A6%88">负反馈</a></li>
+</ul>
+</li>
+<li><a href="#%E5%9C%A8%E7%AE%A1%E7%90%86%E4%B8%8A%E7%9A%84%E5%BA%94%E7%94%A8">在管理上的应用</a></li>
+</ul>
+</li>
+<li><a href="#%E7%B3%BB%E7%BB%9F%E8%AE%BA">系统论</a></li>
+</ul>
+
+
+<p><a id="markdown-信息熵" name="信息熵"></a></p>
+
+<h2>信息熵</h2>
+
+<p>信息熵是香农提出的用来度量信息量的物理量，其满足以下三个特性：</p>
+
+<ol>
+<li>单调性：发生的概率越大，信息量越小</li>
+<li>非负性</li>
+<li>可加性</li>
+</ol>
+
+
+<p>香农在1948年的《通信的数学理论》中给出了信息熵的一种形式，并且<strong>证明这是唯一的一种形式</strong>。
+信息熵为信息编码提供了理论的最优值，是实用编码的平均码长的理论下限，也就是无损压缩的最小值。</p>
+
+<p>下面是信息熵的数学定义：</p>
+
+<p><img src="/images/xinxishang.jpg" alt="信息熵" /></p>
+
+<p><a id="markdown-比特" name="比特"></a></p>
+
+<h3>比特</h3>
+
+<p>1比特信息：描述一个发生概率50%的事情发生或者不发生的信息的信息量。</p>
+
+<p><a id="markdown-信道容量" name="信道容量"></a></p>
+
+<h2>信道容量</h2>
+
+<p>香农在《通信的数学理论》中从理论上证明，只要通信速率小于信道容量，总可以找到一种编码方式，使得错误率接近于零。信道容量由带宽和信噪比确定。
+信道容量就是信道的临界通信速率值。</p>
+
+<p>下面是香农给出的信道容量的数学公式：</p>
+
+<p><img src="/images/xindaorongliang.jpg" alt="信道容量" /></p>
+
+<p><a id="markdown-哈夫曼编码" name="哈夫曼编码"></a></p>
+
+<h2>哈夫曼编码</h2>
+
+<p>最短编码：哈夫曼编码及其在平时做事时的原则</p>
+
+<p>哈夫曼编码：将最优质的资源（短码）分配给最高概率出现的信息。</p>
+
+<p>哈夫曼编码对我们做事的指导原则：将有限的资源分配给最可能出现的情况，比如投资。</p>
+
+<p><a id="markdown-信息正交" name="信息正交"></a></p>
+
+<h2>信息正交</h2>
+
+<p>信息正交性：在信息很多的情况下如何作决策？</p>
+
+<p><a id="markdown-互信息" name="互信息"></a></p>
+
+<h2>互信息</h2>
+
+<p>互信息：相关不是因果，那相关是什么？</p>
+
+<p><a id="markdown-信息增益" name="信息增益"></a></p>
+
+<h2>信息增益</h2>
+
+<p>条件熵和信息增益：你提供的信息到底值多少钱？第一个提出某个观点的人最受人瞩目，附和的人很少被关注到。</p>
+
+<p><a id="markdown-香农第二定律" name="香农第二定律"></a></p>
+
+<h2>香农第二定律</h2>
+
+<p>香农第二定律（一）：为什么你的网页总是打不开？
+香农第二定律（二）：到底要不要扁平化管理？信道带宽和人际沟通</p>
+
+<p><a id="markdown-信息编码中的错误" name="信息编码中的错误"></a></p>
+
+<h2>信息编码中的错误</h2>
+
+<p>纠错码：对待错误的正确态度是什么？</p>
+
+<p>冗余在信息中的作用
+如果一段文字没有冗余（文字大小严格等于信息熵），即所谓的“字字珠玑”，那么将非常难以理解。如果能从不同侧面加以说明（比如说，也就是说），将易于理解，但势必带来大量信息冗余。</p>
+
+<p>在信息编码和通信领域，信息冗余可以用来较验信息或者对错误信息进行纠错。</p>
+
+<p><a id="markdown-奇偶校验" name="奇偶校验"></a></p>
+
+<h3>奇偶校验</h3>
+
+<p><a id="markdown-工作方式" name="工作方式"></a></p>
+
+<h4>工作方式</h4>
+
+<p>用额外的一位（bit）信息记录一串二进制信息中1的个数是奇数还是偶数，接收方可以根据这一位信息对数据进行验证。</p>
+
+<p><a id="markdown-优缺点" name="优缺点"></a></p>
+
+<h4>优缺点</h4>
+
+<p><strong>缺点</strong></p>
+
+<ul>
+<li>奇偶校验并不总是有效，如果数据中有偶数个位发生变化，则奇偶位仍将是正确的，因此不能检测出错误。</li>
+<li>奇偶校验位是最简单的错误检测码，但是由于没有办法确定哪一位出错，所以它不能进行错误校正。发生错误时必须扔掉全部的数据，然后从头开始传输数据。在噪声很多的媒介上成功传输数据可能要花费很长的时间，甚至根本无法实现。</li>
+</ul>
+
+
+<p><strong>优点</strong></p>
+
+<p>但是奇偶校验位也有它的优点，它是使用一位数据能够达到的最好的校验码，并且它仅仅需要一些异或门就能够生成。奇偶校验被广泛应用</p>
+
+<p><a id="markdown-海明码校验" name="海明码校验"></a></p>
+
+<h3>海明码校验</h3>
+
+<p><a id="markdown-工作方式-1" name="工作方式-1"></a></p>
+
+<h4>工作方式</h4>
+
+<p>如果一条信息中包含更多用于纠错的位，且通过妥善安排这些纠错位使得不同的出错位产生不同的错误结果，那么我们就可以找出出错位了。在一个7位的信息中，单个位出错有7种可能，因此3个错误控制位就足以确定是否出错及哪一位出错了。</p>
+
+<p><a id="markdown-优缺点-1" name="优缺点-1"></a></p>
+
+<h4>优缺点</h4>
+
+<p>相比于奇偶校验，优缺点很明显：可以进行自动纠错，但是需要更大的信息冗余。</p>
+
+<p><a id="markdown-幸存者偏差如何避免被已知信息误导" name="幸存者偏差如何避免被已知信息误导"></a></p>
+
+<h2>幸存者偏差：如何避免被已知信息误导？</h2>
+
+<p>幸存者偏差意思是指，当取得资讯的渠道，仅来自于幸存者时（因为死人不会说话），此资讯可能会存在与实际情况不同的偏差。只能看到经过某种筛选而产生的结果，而没有意识到筛选的过程，因此忽略了被筛选掉的关键信息。在“沉默的数据”、“死人不会说话”等等日常表达中，涉及幸存者偏差。</p>
+
+<p>此规律也适用于金融和商业领域。存活下来的企业往往被视为“传奇”，它们的做法被争相效仿。而其实有些也许只是因为偶然原因幸存下来了而已。</p>
+
+<p><a id="markdown-读书无用论" name="读书无用论"></a></p>
+
+<h3>读书无用论</h3>
+
+<p>如今很多人在说，谁谁谁当初没好好上学如今照样挣大钱，而好多用功读书的人，毕业后反而不如那些没好好学习的人混得好。并且因为这样的例子有很多，所以很多人得出“上学没有用处”，“读书无用”的结论。</p>
+
+<p>这些其实只是个例，因为基数太大，所以看起来有很多。2010年第六次全国人口普查的官方口径，可以算出来大专以上文化程度的人口仅占总人口的8.7%左右。可以看出学历低的人数远高于学历高的人数，所以即便低学历者成功率远低于高学历者，也照样会导致低学历者出现大批成功人士。</p>
+
+<p>对于高学历者，普通人既会关注成功的人，也会关注那些没成功的人，并且高学历却落魄的人尤其受关注，容易被当做新闻报道；而对于低学历者，普通人往往只关注成功者，忽视了广大学历低又没成功的人。正是因为忽视了这些“沉默的数据”，才产生“读书无用”这种错误结论。</p>
+
+<p><a id="markdown-飞机问题" name="飞机问题"></a></p>
+
+<h3>飞机问题</h3>
+
+<p>在二战期间，人们发现幸存的轰炸机中，机翼中弹的数量很多，而机身中弹的却很少。因此人们认为我们应该加固飞机的机翼。其实不然，就是因为机翼中弹多还能飞回来，所以机翼中弹并没有影响飞机返航；而机身中弹的少则说明了子弹打中机身对飞机的影响更大，导致飞机不能返航。</p>
+
+<p>举一个与之相同的例子，经过枪击案而活下来的人当中，手部和腿部中弹的居多，而击中头部和心脏的少之又少，正说明了人的头部和心脏对死亡率的影响更大而不是手和腿。</p>
+
+<p><a id="markdown-奥卡姆剃刀法则最简单的往往是最有效的" name="奥卡姆剃刀法则最简单的往往是最有效的"></a></p>
+
+<h2>奥卡姆剃刀法则：最简单的往往是最有效的</h2>
+
+<p>这个原理称为“如无必要，勿增实体”，即“简单有效原理”。正如奥卡姆在《箴言书注》2卷15题说“切勿浪费较多东西去做，用较少的东西，同样可以做好的事情。”</p>
+
+<p>地心说和日心说的发展过程清洗地展示了奥卡姆剃刀法则。</p>
+
+<p><a id="markdown-托勒密地心说" name="托勒密地心说"></a></p>
+
+<h3>托勒密地心说</h3>
+
+<p>在托勒密之前，很多人就对宇宙模型进行了建模，但是过于复杂。托勒密力求以最简单的假设对各种现象作出统一的解释，这就是“简单性原则”。这也许就是奥卡姆剃刀的雏形。托勒密基于这种原则和当时人们所接受的动力学原理，提出了自己的地心说模型。后来，天主教教会接纳此为世界观的“正统理论”。</p>
+
+<p><a id="markdown-日心说和牛顿万有引力定律" name="日心说和牛顿万有引力定律"></a></p>
+
+<h3>日心说和牛顿万有引力定律</h3>
+
+<p>虽然托勒密的地心说相比于之前的情形已经简化了很多，但是仍然不能很好滴解释很多新的天文观测数据。</p>
+
+<p>尽管如此，信奉地心说的人们并没有认识到这是由于地心说本身的错误造成的，却用增加本轮的方法来补救地心说。起初这种办法还能勉强应付，后来小本轮增加到80多个，但仍不能满意地计算出行星的准确位置，这就不能不使人怀疑地心说的正确性了。</p>
+
+<p>而牛顿的万有引力定律是那么简单完美地解释了一切天文观测数据，因此，日心说才替代地心说，称为主流观点。</p>
+
+<p><a id="markdown-熵增原理-为什么要保持系统开放性" name="熵增原理-为什么要保持系统开放性"></a></p>
+
+<h2>熵增原理 为什么要保持系统开放性</h2>
+
+<p>熵增原理，即热力学第二定律，指的是孤立热力学系统的熵不减少，总是增大或者不变。熵增原理用来给出一个孤立系统的演化方向。说明一个孤立系统不可能朝低熵的状态发展即不会变得有序。</p>
+
+<p>如果一个人严格封闭了自己，那么也不会进步（熵减少，更有序）。只有通过和他人沟通学习（吸取负熵），才能进步。一个公司，一个国家也是如此。</p>
+
+<p><a id="markdown-控制论轻预测重反应称为变色龙" name="控制论轻预测重反应称为变色龙"></a></p>
+
+<h2>控制论，轻预测重反应，称为变色龙</h2>
+
+<p>主要是反馈论，包括从功能的观点对机器和物体中（神经系统、内分泌及其他系统）的调节和控制的一般规律的研究。</p>
+
+<p><a id="markdown-反馈论" name="反馈论"></a></p>
+
+<h3>反馈论</h3>
+
+<p>反馈论主要包括正反馈和负反馈。</p>
+
+<p><a id="markdown-正反馈" name="正反馈"></a></p>
+
+<h4>正反馈</h4>
+
+<p>正反馈是指反馈信息影响系统再输出的结果，更加增大了受控量的实际值和期望值的偏差，从而使系统趋向于不稳定状态。</p>
+
+<p>两个话筒离得很近的时候，“尖叫声”会越来越大，即是正反馈所致。</p>
+
+<p>一般所谓的“恶性循环”即包含正反馈的概念在里面。比如，一旦一个人别贴上了某种标签，他就会更加快地越来越像这种标签描述的人。</p>
+
+<p>生理中，正反馈的意义在于使生理过程不断加强，直至最终完成生理功能，在正反馈情况下，反馈控制系统处于再生状态。体内常见的正反馈现象：排便，排尿，分娩，凝血，射精等。</p>
+
+<p>蜂后的形成过程也是一个正反馈的过程：起初两个蜂是一样的，都会分泌一些抑制对方成为蜂后的化学物质，但是由于起初两只蜂分泌的数量有了一点点差别，导致一只会向蜂后方向发展的快一点，由于快了一点点，分泌出的抑制对方的物质就回更多一点，反过来促使其向蜂后发展的更快&hellip;（记不太清楚这是不是蜂后的演化过程了，也可能是某种细胞的分化过程。）</p>
+
+<p><a id="markdown-负反馈" name="负反馈"></a></p>
+
+<h4>负反馈</h4>
+
+<p>负反馈是指反馈信息影响系统再输出的结果，减小了受控量的实际值和期望值的偏差，从而使系统趋向于稳定状态。</p>
+
+<p>工业系统中的PID控制即是典型的负反馈应用。</p>
+
+<p>汽车的巡航定速系统可以作为负反馈的另一个例子，它会使得车速符合一个预先设定的速度上限。汽车的控制系统的输入包括引擎的扭力和路面的坡度（扰动），而速度计可以测量车速。速度计得到的车速和目标速度（预先设定）之间的差距就是误差信号。控制器接收到这个信号之后会改变加速度，控制流入引擎（效应器）的燃料增多。于是，引擎扭力发生改变，和路面坡度相关的扭力输出的反馈减少了速度的误差，缩小了路面造成的扰动。</p>
+
+<p><a id="markdown-在管理上的应用" name="在管理上的应用"></a></p>
+
+<h3>在管理上的应用</h3>
+
+<p>从控制系统的主要特征出发来考察管理系统，可以得出这样的论：管理系统是一种典型的控制系统。管理系统中的控制过程在本质上与工程的、生物的系统是一样的，都是通过信息反馈来揭示成效与标准之间的差，并采取纠正措施，使系统稳定在预定的目标状态上的。因此，从理论说：适合于工程的、生物的控制论的理论与方法，也适合于分析和说明管理控制问题。</p>
+
+<p><a id="markdown-系统论" name="系统论"></a></p>
+
+<h2>系统论</h2>
+
+<p>找准系统瓶颈，使部分之和大于整体，而不是相反。</p>
+</div>
+
+</article>
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+	
+	
+	
+	<a class="addthis_counter addthis_pill_style"></a>
+	</div>
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
+</div>
+
+
+</div>
+			</div>
+			<footer id="footer" class="inner">Copyright &copy; 2019
+
+    Zhang Hongchao
+
+
+<!--Design credit: <a href="http://shashankmehta.in/archive/2012/greyshade.html">Shashank Mehta</a>--></footer>
+		</div>
+	</div>
+	<!-- 
+ -->
+
+
+
+
+
+
+
+
+
+</body>
+</html>

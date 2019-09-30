@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
+<loc>http://hongchaozhang.github.io/blog/2019/08/26/infomation-theory/</loc>
+<lastmod>2019-08-26T13:16:15+08:00</lastmod>
+</url>
+<url>
+<loc>http://hongchaozhang.github.io/blog/2019/08/25/mobile-comunication-and-internet/</loc>
+<lastmod>2019-08-25T15:32:34+08:00</lastmod>
+</url>
+<url>
+<loc>http://hongchaozhang.github.io/blog/2019/07/09/wujunguigulaixin/</loc>
+<lastmod>2019-07-09T10:13:06+08:00</lastmod>
+</url>
+<url>
 <loc>http://hongchaozhang.github.io/blog/2019/06/04/on-swift-closure/</loc>
 <lastmod>2019-06-04T17:24:47+08:00</lastmod>
 </url>
