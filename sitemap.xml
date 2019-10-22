@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
+<loc>http://hongchaozhang.github.io/blog/2019/10/22/tai-kong-man-you/</loc>
+<lastmod>2019-10-22T15:56:31+08:00</lastmod>
+</url>
+<url>
+<loc>http://hongchaozhang.github.io/blog/2019/10/22/mei-li-xin-shi-jie/</loc>
+<lastmod>2019-10-22T15:29:40+08:00</lastmod>
+</url>
+<url>
+<loc>http://hongchaozhang.github.io/blog/2019/10/22/ren-gong-zhi-neng-shi-dai/</loc>
+<lastmod>2019-10-22T12:41:07+08:00</lastmod>
+</url>
+<url>
 <loc>http://hongchaozhang.github.io/blog/2019/10/22/shangdideshoushudao/</loc>
 <lastmod>2019-10-22T11:25:35+08:00</lastmod>
 </url>
@@ -442,5 +454,17 @@
 </url>
 <url>
 <loc>http://hongchaozhang.github.io/blog/categories/nlu/</loc>
+</url>
+<url>
+<loc>http://hongchaozhang.github.io/posts/2/</loc>
+</url>
+<url>
+<loc>http://hongchaozhang.github.io/posts/3/</loc>
+</url>
+<url>
+<loc>http://hongchaozhang.github.io/posts/4/</loc>
+</url>
+<url>
+<loc>http://hongchaozhang.github.io/posts/5/</loc>
 </url>
 </urlset>
