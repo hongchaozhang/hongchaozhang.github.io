@@ -7,6 +7,8 @@ title: Property vs Instance Variable (iVar) in objective-c
 
 This post is deprecated. Refer to [Propety, Instance Variable and @synthesize](http://hongchaozhang.github.io/blog/2015/12/19/propety-instance-variable-and-at-synthesize/).
 
+<!-- more -->
+
 ## Description
 
 To declare a variable in a objective-c class, we have the following two ways:
@@ -25,8 +27,6 @@ To declare a variable in a objective-c class, we have the following two ways:
 @end
 ```	
 Then, what's the difference?
-
-<!-- more -->
 
 ## Differences
 
@@ -72,11 +72,10 @@ However, when you use `@synthesize photographer` in the implementation file, the
 
 ## References
 
-A more detailed description is [here](http://stackoverflow.com/questions/9086736/why-would-you-use-an-ivar).
+1. A more detailed description is [here](http://stackoverflow.com/questions/9086736/why-would-you-use-an-ivar).
+2. [reference](http://stackoverflow.com/questions/2032826/property-synthesize), answer by *Rachel Henderson*
+3. <del>*Property* session of the </del>[<del>reference</del>](http://www.cocoadevcentral.com/d/learn_objectivec/). <del>This post is old fashioned</del>.
+4. [Here](http://blog.csdn.net/likendsl/article/details/7345485) has a good explaination.
+5. [如何正确使用@synthesize（在有了自动合成属性实例变量之后，@synthesize还有哪些使用场景？）](https://blog.csdn.net/dp948080952/article/details/52611348)得出了一个结论：**`@synthesize`只需要用于声明在protocol中的property**。
 
-[reference](http://stackoverflow.com/questions/2032826/property-synthesize), answer by *Rachel Henderson*
-
-<del>*Property* session of the </del>[<del>reference</del>](http://www.cocoadevcentral.com/d/learn_objectivec/). <del>This post is old fashioned</del>.
-
-[Here](http://blog.csdn.net/likendsl/article/details/7345485) has a good explaination.
 
