@@ -4,7 +4,7 @@
   <title><![CDATA[Reading Space]]></title>
   <link href="http://hongchaozhang.github.io/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2019-10-31T20:21:21+08:00</updated>
+  <updated>2019-11-20T20:59:15+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -14,6 +14,163 @@
 
   
   <entry>
+    <title type="html"><![CDATA[点、线、多边形之间的位置关系]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2019/11/12/position-relation-between-two-polygon-shapes/"/>
+    <updated>2019-11-12T15:20:24+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2019/11/12/position-relation-between-two-polygon-shapes</id>
+    <content type="html"><![CDATA[<!-- more -->
+
+
+<h2>点与多边形的位置关系：</h2>
+
+<p><strong>光线投射方法</strong>（Ray casting algorithm）；从这个点引出一根“射线”，与多边形的任意若干条边相交，累计相交的边的数目，如果是奇数，那么点就在多边形内，否则点就在多边形外。如下图所示：</p>
+
+<p><img src="http://hongchaozhang.github.io/images/%E8%BE%B9%E7%95%8C%E6%97%A0%E6%96%B9%E5%90%91%E7%9A%84%E5%A4%9A%E8%BE%B9%E5%BD%A2.png" alt="边界无方向的多边形" /></p>
+
+<p><a href="http://alienryderflex.com/polygon/">Point-In-Polygon Algorithm — Determining Whether A Point Is Inside A Complex Polygon</a>这篇文章解释了光线投射方法，并且提出下面两种情况应该如何解决：</p>
+
+<ol>
+<li>射线正好穿过多边形顶点：如果顶点正好通过射线，就认为该点在射线的上方，从而保证该点只被计算一次。</li>
+<li>射线正好跟一条边重合：道理与上面相同。如果一条边正好在射线上，就认为该边在射线的上方，从而保证这个地方也只计算一次。</li>
+</ol>
+
+
+<p>Stack Overflow上面有算法实现：
+<a href="https://stackoverflow.com/questions/217578/how-can-i-determine-whether-a-2d-point-is-within-a-polygon">How can I determine whether a 2D Point is within a Polygon?</a></p>
+
+<h3>边界具有方向性的多边形</h3>
+
+<p>除了光线投射方法（Ray casting algorithm），还有<strong>Winding number algorithm（nonzero-rule algorithm）</strong>。这个方法用于边界有方向的多边形的判断。</p>
+
+<p>从待检测点引出一根“射线”，与多边形的任意若干条边相交，计数初始化为0，若相交处被多边形的边从左到右切过，计数+1，若相交处被多边形的边从右到左切过，计数-1，最后检查计数，如果是0，点在多边形外，如果非0，点在多边形内。</p>
+
+<p><img src="http://hongchaozhang.github.io/images/%E8%BE%B9%E7%95%8C%E6%9C%89%E6%96%B9%E5%90%91%E7%9A%84%E5%A4%9A%E8%BE%B9%E5%BD%A2.png" alt="边界有方向的多边形" /></p>
+
+<h2>线段与多边形的位置关系：</h2>
+
+<p><a href="https://www.cnblogs.com/xiaozhi_5638/p/4165353.html">线段与多边形关系的算法</a></p>
+
+<p>有算法，有代码，而且思路清晰。</p>
+
+<p>思路：解决了下面三个问题：</p>
+
+<ul>
+<li>问题一：点与线段的关系</li>
+<li>问题二：线段与线段的关系</li>
+<li>问题三：点与多边形的关系</li>
+</ul>
+
+
+<p>就自然可以解决线段与多边形的位置关系了。</p>
+
+<h2>更一般化的方法：</h2>
+
+<p><strong>给你n个多边形,这些多边形包括线段,三角形,矩形,正方形,和其他多边形. 然后要你输出他们之间相交的情况. 且多边形自己的边不会相交,且三角形不会退化成线段.</strong></p>
+
+<p>判断两个图形是否相交,只需要判断他们中的任意两条边是否有交点即可(线段相交判定).</p>
+
+<p><a href="https://blog.csdn.net/u013480600/article/details/39611949">这里有代码</a></p>
+
+<h2>如果两个多边形都为凸多边形，则有更简单的方法：</h2>
+
+<p>For each edge of both polygons:</p>
+
+<ul>
+<li>Find the axis perpendicular to the current edge.</li>
+<li>Project both polygons on that axis.</li>
+<li>If these projections don&rsquo;t overlap, the polygons don&rsquo;t intersect (exit the loop).</li>
+</ul>
+
+
+<p><img src="http://hongchaozhang.github.io/images/PolygonCollisionSAT.png" alt="PolygonCollisionSAT" /></p>
+
+<h2>参考</h2>
+
+<ol>
+<li><a href="https://en.wikipedia.org/wiki/Point_in_polygon#Ray_casting_algorithm">维基百科</a></li>
+<li><a href="https://www.cnblogs.com/guogangj/p/5127527.html">判断一个点是否在一个多边形里</a></li>
+<li><a href="https://blog.csdn.net/u012138730/article/details/80095375">判断两个凸多边形是否相交—SAT</a></li>
+<li><a href="https://www.codeproject.com/Articles/15573/2D-Polygon-Collision-Detection">2D Polygon Collision Detection</a></li>
+</ol>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[刘慈欣科幻作品科幻元素汇总]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2019/11/05/liucixin-kehuan-zuopin/"/>
+    <updated>2019-11-05T10:25:28+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2019/11/05/liucixin-kehuan-zuopin</id>
+    <content type="html"><![CDATA[<!-- more -->
+
+
+<h2>流浪地球</h2>
+
+<p>电影里面有个很重要的场景没有讲，就是地球人听信谣言，认为流浪地球是阴谋，将流浪地球控制室的5000名人员拉出去，冻死。就在冻死的瞬间，太阳爆炸啦。发动机重启，继续流浪的征程。</p>
+
+<h2>乡村老师</h2>
+
+<p>银河系碳基生命和入侵者硅基生命的战争结束后，胜利者碳基生命准备将银河系第一旋臂上的恒星清空，防止系外生命依靠恒星蛙跳再次入侵。在清理地球的时候，测试地球文明的对象是乡村老师的学生，而这些学生通过老师传授的牛顿三定律过关，地球得救啦。</p>
+
+<h2>吞食者</h2>
+
+<p>故事一波三折，有点三体的影子。吞噬者使者恐龙大牙允许人类逃离，条件是要求人类将月球推开。人类在月球装了很多核弹，在吞噬者来的时候，用月球撞击吞噬者飞船（吞噬者飞船很大，可以套住地球。）。没想到吞噬者飞船强行加速，躲开了。人类以为失败啦，没想到仔细一看，吞噬者飞船裂开啦，死伤无数，而且生态遭到严重破坏。但是吞噬者飞船还是急用地球引力慢慢恢复啦。最终还是以人类失败告终。</p>
+
+<p>讽刺的是，地球战士冬眠很久之后醒来，发现其后代已经完全适应了给吞噬者当家禽的生活。吞噬者会让他们生活的很快乐，这是为了让肉更好吃。
+当大牙邀请战士们上吞噬者飞船，并答应他们可以作为吞噬者公民正常生活时，战士们选择留下来当做蚂蚁的食物，以给地球保留生命的种子。也许这就是对地球家园的依恋吧。</p>
+
+<h2>诗云</h2>
+
+<p>高级文明企图通过遍历所有的诗，找到可以超越李白的诗。结果耗尽太阳系和吞食星球的所有能量，也没有办成。</p>
+
+<h2>微纪元</h2>
+
+<p>宏纪元，十亿分之一缩小人类</p>
+
+<p>为了躲避太阳爆发对人类对灾难影响，人类“制造”出了体积是人类十亿分之一对小人，因为小的个体对外界环境对以来比较小，容易在灾难中生存下去。人类同时放出了一个接近光速对宇宙飞船在100光年之内进行探索，以期能够找到将人类文明延续下去的地方。
+人类制造的小人在和正常人类的世界大战中胜出，而且躲过了太阳大爆发的灾难。同时，外太空飞行的光速飞船也飞回来了，进行了微纪元和宏纪元的一次对话。</p>
+
+<p>想法：将小的东西等比例放大，功能一般很难保存。很可能材料的硬度都不足以支撑庞大的身体。但是将大东西等比例缩小，不存在上面的问题，不知道有没有其他问题存在。</p>
+
+<h2>月夜</h2>
+
+<p>太阳能电池技术</p>
+
+<p>地球电流耗尽，地球磁场消失，辐射危害，太阳风将地球表面的水蒸发掉</p>
+
+<h2>山</h2>
+
+<p>泡世界对外界的探索，以及随着探索的推进，人们世界观的改变，当然还少不了这个过程中保守派和探索派之间的冲突。泡世界是一个球形的空间，外面是厚厚的岩石层，没有人知道岩石有多厚。人们一度相信，岩石层是无限厚的。</p>
+
+<h2>白垩纪往事</h2>
+
+<p>恐龙和蚂蚁之间的战争</p>
+
+<p>对暗物质炸弹的控制方式：负计时。如果你装在对方的炸弹需要接收到信号才爆炸，那么对方只要摧毁你的信号发射装置就可以了。同时，需要重兵守护信号发射装置。但是，如果炸弹默认进入爆炸倒计时，只有接收到信号才重新开始倒计时，那么对方就不会试图摧毁你的信号发射装置，他们甚至会保护你的装置。你就不要守护这个装置了，只需要一些操作维修人员即可。</p>
+
+<h2>镜子</h2>
+
+<p>2018年4月1日</p>
+
+<p>基延：基因改造延长寿命到300岁，进而等待科技发展，可以长生不老，将意识转存到其它地方，比如存储在互联网上</p>
+
+<h2>魔鬼积木</h2>
+
+<p>基因改造人类</p>
+
+<p>吃着西瓜大小的葡萄和葡萄大小的西瓜。</p>
+
+<h2>带上眼睛旅行</h2>
+
+<p>虚拟现实，不仅可以虚拟视觉听觉，还可以虚拟嗅觉、味觉和触觉。</p>
+
+<h2>圆圆的肥皂泡</h2>
+
+<p>很大很大的肥皂泡，带着海洋上面的湿润空气到达内陆沙漠干旱地区</p>
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[如何开发孩子的绘画潜力]]></title>
     <link href="http://hongchaozhang.github.io/blog/2019/10/31/ruhe-kaifa-haizi-de-huihua-qianli/"/>
     <updated>2019-10-31T13:22:52+08:00</updated>
@@ -21,14 +178,27 @@
     <content type="html"><![CDATA[<!-- more -->
 
 
+<ul>
+<li><a href="#%E4%BD%9C%E8%80%85%E8%AF%BE%E7%A8%8B%E4%BB%8B%E7%BB%8D">作者课程介绍</a></li>
+<li><a href="#%E7%9B%B8%E5%85%B3%E9%93%BE%E6%8E%A5">相关链接</a></li>
+<li><a href="#%E6%A0%B8%E5%BF%83%E8%A7%82%E7%82%B9%E6%80%BB%E7%BB%93">核心观点总结</a></li>
+<li><a href="#%E6%80%9D%E7%BB%B4%E5%AF%BC%E5%9B%BE">思维导图</a></li>
+<li><a href="#%E9%9F%B3%E9%A2%91%E5%8E%9F%E7%A8%BF">音频原稿</a></li>
+</ul>
+
+
+<p><a id="markdown-作者课程介绍" name="作者课程介绍"></a></p>
+
 <h2>作者课程介绍</h2>
 
 <ul>
 <li>主讲人：虫虫</li>
 <li>儿童美育研究者，旅行绘本画家，著有《跟我去香港》和《跟我去新加坡》。国家注册心理咨询师，研究方向为绘画治疗。</li>
-<li>这门课主要讲的是怎么给9岁以前的孩子做绘画局蒙。</li>
+<li>这门课主要讲的是怎么给9岁以前的孩子做绘画启蒙。</li>
 </ul>
 
+
+<p><a id="markdown-相关链接" name="相关链接"></a></p>
 
 <h2>相关链接</h2>
 
@@ -37,6 +207,8 @@
 <li>简书上的<a href="https://www.jianshu.com/p/8feef6e170e7">[笔记] 如何开发孩子的绘画潜力</a>用思维导图对每一讲进行了总结，一目了然。</li>
 </ul>
 
+
+<p><a id="markdown-核心观点总结" name="核心观点总结"></a></p>
 
 <h2>核心观点总结</h2>
 
@@ -61,6 +233,8 @@
 </ol>
 
 
+<p><a id="markdown-思维导图" name="思维导图"></a></p>
+
 <h2>思维导图</h2>
 
 <p><img src="http://hongchaozhang.github.io/images/1%E5%84%BF%E7%AB%A5%E7%BB%98%E7%94%BB%E5%90%AF%E8%92%99%E7%9A%84%E5%9B%9B%E4%B8%AA%E9%98%B6%E6%AE%B5%E6%80%9D%E7%BB%B4%E5%AF%BC%E5%9B%BE.webp" alt="1儿童绘画启蒙的四个阶段思维导图" /></p>
@@ -74,6 +248,8 @@
 <p><img src="http://hongchaozhang.github.io/images/5%E5%A6%82%E4%BD%95%E6%AC%A3%E8%B5%8F%E5%92%8C%E5%8F%8D%E9%A6%88%E5%AD%A9%E5%AD%90%E7%9A%84%E4%BD%9C%E5%93%81%E6%80%9D%E7%BB%B4%E5%AF%BC%E5%9B%BE.webp" alt="5如何欣赏和反馈孩子的作品思维导图" /></p>
 
 <p><img src="http://hongchaozhang.github.io/images/6%E5%A6%82%E4%BD%95%E5%B8%A6%E5%AD%A9%E5%AD%90%E7%9C%8B%E5%B1%95%E8%A7%88%E6%80%9D%E7%BB%B4%E5%AF%BC%E5%9B%BE.webp" alt="6如何带孩子看展览思维导图" /></p>
+
+<p><a id="markdown-音频原稿" name="音频原稿"></a></p>
 
 <h2>音频原稿</h2>
 
@@ -6026,374 +6202,6 @@ Lex is part of AWS, but Alexa isn&rsquo;t</p>
 <h3>结论</h3>
 
 <p>“胖”类会导致其客户程序之间的耦合。当一个客户程序要求该“胖”类进行一个改动时，其它客户程序都会受到影响。因此客户程序应该仅仅依赖于它调用的方法，而不应该直接依赖于一个“胖”类。通过把“胖”类的接口分解为多个特定程序的接口，每个针对特定客户程序的接口只声明其对应客户程序需要的接口。接着，该“胖”类就可以继承所有分离出来的接口，并实现它们。这就解除了客户程序和其没有调用的方法间的依赖关系，并使客户程序之间互不依赖。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[在swift和Objc之间转换的一些想法]]></title>
-    <link href="http://hongchaozhang.github.io/blog/2018/11/13/some-ideas-on-converting-between-objc-and-swift/"/>
-    <updated>2018-11-13T10:50:18+08:00</updated>
-    <id>http://hongchaozhang.github.io/blog/2018/11/13/some-ideas-on-converting-between-objc-and-swift</id>
-    <content type="html"><![CDATA[<!-- more -->
-
-
-<p>在工作中我们有时候需要在swift和objc之间进行转换，这时候有没有一些工具可以帮助我们呢？</p>
-
-<blockquote><p>当然，大部分时候，我们不需要转换，因为swift和objc的类和方法可以互相暴露给对方。</p></blockquote>
-
-<h2>objc转换成swfit</h2>
-
-<p>搜索了一下，找到了两个工具可以做这个事情：</p>
-
-<h3><a href="https://github.com/yahoojapan/objc2swift">objc2swift</a></h3>
-
-<p>objc2swift是雅虎日本的一个工具，支持在线转换。<a href="https://github.com/dzenbot/XCSwiftr/blob/master/README.md">XCSwiftr</a>就是一个基于objc2swift的xcode插件，通过<a href="https://github.com/alcatraz/Alcatraz">Alcatraz</a>进行管理安装，可以在Xcode里面进行objc到swift的转换。但是xcode自从8.0开始就不支持插件了。</p>
-
-<blockquote><p>插件(plugin)只在xcode 8.0之前的版本才支持。从8.0开始，插件就不再支持，但是引入了扩展(extension)。扩展和插件不同的一点是：扩展在独立的进程里面运行，所以扩展的崩溃不会影响到xcode，但是插件的崩溃，则会导致xcode也崩溃。估计插件崩溃导致的xcode崩溃的锅都是Apple来背，Apple很不爽，就让xcode跟插件分开在不同的进程中运行。</p></blockquote>
-
-<p>objc2swift的转换效果很一般。</p>
-
-<p>objc源代码：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">@interface</span> <span class="nc">MyClass</span>: <span class="bp">NSObject</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">sayHelloTo:</span><span class="p">(</span><span class="bp">NSString</span><span class="o">*</span><span class="p">)</span><span class="nv">person</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">@end</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">@implementation</span> <span class="nc">MyClass</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">sayHelloTo:</span><span class="p">(</span><span class="bp">NSString</span><span class="o">*</span><span class="p">)</span><span class="nv">person</span> <span class="p">{</span>
-</span><span class='line'>    <span class="n">NSLog</span><span class="p">([</span><span class="bp">NSString</span> <span class="nl">stringWithFormat</span><span class="p">:</span><span class="s">@&quot;Hello, %@.&quot;</span><span class="p">,</span> <span class="n">person</span><span class="p">]);</span>
-</span><span class='line'>    <span class="p">[</span><span class="nb">self</span> <span class="nl">performSelector</span><span class="p">:</span><span class="k">@selector</span><span class="p">(</span><span class="n">test</span><span class="p">)];</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">test</span> <span class="p">{</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">@end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>转换之后：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">class</span> <span class="nl">MyClass</span><span class="p">:</span> <span class="bp">NSObject</span> <span class="p">{</span>
-</span><span class='line'>    <span class="k">func</span> <span class="n">sayHelloTo</span><span class="p">(</span><span class="nl">person</span><span class="p">:</span> <span class="n">String</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>        <span class="n">print</span><span class="p">(</span><span class="s">&quot;Hello, \(person).&quot;</span><span class="p">)</span>
-</span><span class='line'>        <span class="nb">self</span><span class="p">.</span><span class="n">performSelector</span><span class="p">(</span><span class="s">&quot;test&quot;</span><span class="p">)</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="k">func</span> <span class="n">test</span><span class="p">()</span> <span class="p">{</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>几个问题：</p>
-
-<ol>
-<li>方法名称没有按照swift的习惯改写：应该为<code>sayHello(to person: String)</code>，而不是<code>sayHelloTo(person: String)</code>。</li>
-<li><code>performSelector:</code>方法完全转换错误：方法名称错误，应该为<code>perform(_ aSelector: Selector!)</code>，而且参数也错误，不应该为<code>String</code>类型，应该为<code>Selector</code>类型。</li>
-<li><code>test</code>方法前面没有加上<code>@objc</code>，所以不能作为<code>#selector</code>的参数。</li>
-</ol>
-
-
-<h3><a href="https://objectivec2swift.com/#/home">Swiftify</a></h3>
-
-<p>swiftify也支持在线转换，而且转换效果明显好于objc2swift。如果愿意花钱，swiftify还可以支持很多功能，包括xcode扩展（注意，这里是“扩展extension”，不是“插件plugin”）、finder扩展、整个工程的转换、离线转换等。</p>
-
-<p>同样用上述objc源代码，转换之后为：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">class</span> <span class="nl">MyClass</span><span class="p">:</span> <span class="bp">NSObject</span> <span class="p">{</span>
-</span><span class='line'>    <span class="k">func</span> <span class="n">sayHello</span><span class="p">(</span><span class="n">to</span> <span class="nl">person</span><span class="p">:</span> <span class="n">String</span><span class="o">?</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>        <span class="n">print</span><span class="p">(</span><span class="s">&quot;Hello Swift, Goodbye Obj-C!&quot;</span><span class="p">)</span>
-</span><span class='line'>        <span class="n">perform</span><span class="p">(</span><span class="err">#</span><span class="n">selector</span><span class="p">(</span><span class="n">MyClass</span><span class="p">.</span><span class="n">test</span><span class="p">))</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="p">@</span><span class="n">objc</span> <span class="k">func</span> <span class="n">test</span><span class="p">()</span> <span class="p">{</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>swift转换成objc</h2>
-
-<p><a href="https://objectivec2swift.com/#/home">Swiftify</a>的作者写了一篇博客<a href="https://www.quora.com/How-can-you-convert-Swift-to-Objective-C">How can you convert Swift to Objective-C?</a>，说明了这个问题：</p>
-
-<p>原文是：</p>
-
-<blockquote><p>When speaking about idiomatic Swift, converting method implementations from Swift to Objective-C is the task that cannot be solved for all cases. As you might imagine, many “modern” Swift features do not have any counterparts in Objective-C and thus cannot be converted without a human brain :)</p></blockquote>
-
-<p>结论就是：由于swift有很多objc没有的语言特性，所以swift到objc无法完成自动转换。</p>
-
-<p>但是转换之后的objc的头文件可以从build in “Generated Interface” ([ProjectName]-Swift.h)里面找到，拷贝出来，稍作修改即可。但是仅限于swift暴漏给objc的接口和属性。那些没有暴漏给objc的接口和属性，就需要手动去转换啦。</p>
-
-<blockquote><p>[ProjectName]-Swift.h如果不能通过cmd+shift+O找到，可以从引用这个头文件的objc文件中通过“go to declaration"找到。</p></blockquote>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[读朱光潜《谈修养》]]></title>
-    <link href="http://hongchaozhang.github.io/blog/2018/11/05/du-zhu-guang-qian-tan-xiu-yang/"/>
-    <updated>2018-11-05T12:44:57+08:00</updated>
-    <id>http://hongchaozhang.github.io/blog/2018/11/05/du-zhu-guang-qian-tan-xiu-yang</id>
-    <content type="html"><![CDATA[<p>《谈修养》的一点读书杂想和摘抄。</p>
-
-<!-- more -->
-
-
-<p><br></p>
-
-<ul>
-<li><a href="#%E8%B0%88%E5%A4%84%E7%BE%A4%E4%B8%8A%E4%B8%AD%E4%B8%8B">谈处群（上、中、下）</a></li>
-<li><a href="#%E8%B0%88%E5%AD%A6%E9%97%AE">谈学问</a></li>
-<li><a href="#%E8%B0%88%E8%AF%BB%E4%B9%A6">谈读书</a>
-
-<ul>
-<li><a href="#%E5%A5%BD%E4%B9%A6%E4%B8%8D%E5%8E%8C%E7%99%BE%E5%9B%9E%E8%AF%BB">好书不厌百回读</a></li>
-<li><a href="#%E7%9F%A5%E8%AF%86%E7%B3%BB%E7%BB%9F%E5%8C%96">知识系统化</a></li>
-</ul>
-</li>
-<li><a href="#%E8%B0%88%E8%8B%B1%E9%9B%84%E5%B4%87%E6%8B%9C">谈英雄崇拜</a>
-
-<ul>
-<li><a href="#%E8%8B%B1%E9%9B%84%E4%B8%8E%E5%8E%86%E5%8F%B2">英雄与历史</a></li>
-<li><a href="#%E8%8B%B1%E9%9B%84%E4%B8%8E%E4%BA%BA%E6%A0%BC%E6%8F%90%E5%8D%87">英雄与人格提升</a></li>
-</ul>
-</li>
-<li><a href="#%E8%B0%88%E4%BA%A4%E5%8F%8B">谈交友</a></li>
-<li><a href="#%E8%B0%88%E9%9D%92%E5%B9%B4%E4%B8%8E%E6%81%8B%E7%88%B1%E7%BB%93%E5%A9%9A">谈青年与恋爱结婚</a></li>
-<li><a href="#%E8%B0%88%E4%BC%91%E6%81%AF">谈休息</a></li>
-<li><a href="#%E8%B0%88%E6%B6%88%E9%81%A3">谈消遣</a></li>
-<li><a href="#%E8%B0%88%E4%BD%93%E8%82%B2">谈体育</a></li>
-<li><a href="#%E8%B0%88%E7%BE%8E%E6%84%9F%E6%95%99%E8%82%B2">谈美感教育</a>
-
-<ul>
-<li><a href="#%E7%BE%8E%E8%82%B2%E6%98%AF%E6%9C%AC%E8%83%BD%E5%86%B2%E5%8A%A8%E5%92%8C%E6%83%85%E6%84%9F%E7%9A%84%E8%A7%A3%E6%94%BE">美育是本能冲动和情感的解放。</a></li>
-<li><a href="#%E7%BE%8E%E8%82%B2%E6%98%AF%E7%9C%BC%E7%95%8C%E7%9A%84%E8%A7%A3%E6%94%BE">美育是眼界的解放。</a></li>
-<li><a href="#%E7%BE%8E%E8%82%B2%E6%98%AF%E8%87%AA%E7%84%B6%E9%99%90%E5%88%B6%E7%9A%84%E8%A7%A3%E6%94%BE">美育是自然限制的解放。</a></li>
-<li><a href="#%E7%88%B1%E7%BE%8E%E7%9A%84%E5%A4%A9%E6%80%A7%E9%9C%80%E8%A6%81%E5%9F%B9%E5%85%BB">爱美的天性需要培养</a></li>
-</ul>
-</li>
-<li><a href="#%E7%BB%99%E7%94%B3%E6%8A%A5%E9%9D%92%E5%B9%B4%E7%9A%84%E9%9D%92%E5%B9%B4%E8%AF%BB%E8%80%85">给《申报青年》的青年读者</a></li>
-</ul>
-
-
-<p><br></p>
-
-<p><a id="markdown-谈处群上中下" name="谈处群上中下"></a></p>
-
-<h2>谈处群（上、中、下）</h2>
-
-<p>说了很多，也颇有感触，但是没能总结出来。</p>
-
-<p><a id="markdown-谈学问" name="谈学问"></a></p>
-
-<h2>谈学问</h2>
-
-<p>做学问不等同于“读书”。读书只是做学问的一种方式。</p>
-
-<p>孔子那句“学而不思则罔，思而不学则怠”道出了学问的真谛。不能空想，也不能死读书。</p>
-
-<p>学校教育的两个作用应该是：</p>
-
-<ul>
-<li>启发兴趣</li>
-<li>指点门径</li>
-</ul>
-
-
-<p>而现在的学校不在这两个方面努力，只尽量在灌输知识。这种教育对于学问不仅无裨益，而且是障碍。</p>
-
-<p><a id="markdown-谈读书" name="谈读书"></a></p>
-
-<h2>谈读书</h2>
-
-<p><a id="markdown-好书不厌百回读" name="好书不厌百回读"></a></p>
-
-<h3>好书不厌百回读</h3>
-
-<p>“好书不厌百回读，熟读深思子自知。”</p>
-
-<p>多读不能算作荣誉，少读也不能算是耻辱。少读如果彻底，必能养成深思熟虑的习惯，涵泳优游，以至于变化气质；多读而不求甚解，则如驰骋十里洋场，虽珍奇满目，徒惹得心花意乱，空手而归。世间许多读书人只为装点门面，如暴发户炫耀家私，以多为贵。这在治学方面是自欺欺人，在做人方面是趣味低劣。</p>
-
-<p><a id="markdown-知识系统化" name="知识系统化"></a></p>
-
-<h3>知识系统化</h3>
-
-<p>一书做几遍看，每一遍只着重某一方面。也就是说读书要有中心，有中心才易有系统组织。</p>
-
-<p>一个人心中可以有多个系统中心，将看到的知识归到不同的系统框架中去。大凡零星片段的知识，不但易忘，而且无用。每次所得的新知识必须与旧有的知识联络贯穿，这就是说，必须围绕一个中心归聚到一个系统里去，才会生根，才会开花结果。</p>
-
-<p><a id="markdown-谈英雄崇拜" name="谈英雄崇拜"></a></p>
-
-<h2>谈英雄崇拜</h2>
-
-<p><a id="markdown-英雄与历史" name="英雄与历史"></a></p>
-
-<h3>英雄与历史</h3>
-
-<p><strong>英雄造时势</strong></p>
-
-<p>卡莱尔在《英雄崇拜》中说“人类在这世界上所成就的事业的历史，骨子里就是在当中工作的几个伟大任务的历史。”
-尼采的超人主义，也是为英雄崇拜涂上了哲学色彩。</p>
-
-<p><strong>时势造英雄</strong></p>
-
-<p>托尔斯泰的《战争与和平》在传达“时势造英雄”的理念。</p>
-
-<p><a id="markdown-英雄与人格提升" name="英雄与人格提升"></a></p>
-
-<h3>英雄与人格提升</h3>
-
-<p>撇开英雄和历史的关系不说，但是对人的教育感化的作用，就不能否定英雄崇拜。正所谓“高山仰止，景行行止。虽不能至，然心向往之。”</p>
-
-<p>尤其在青少年时代，意向的力量大于概念，与其向他们说仁义道德，不如指点几个有血有肉的具有仁义道德的人给他们看。教育重人格感化，必须是一个具体的人格才真正有感化力。</p>
-
-<p><a id="markdown-谈交友" name="谈交友"></a></p>
-
-<h2>谈交友</h2>
-
-<p>近朱者赤近墨者黑</p>
-
-<p>与善人交，如入芝兰之室，久而不闻其香；与恶人交，如入鲍鱼之市，久而不闻其臭。</p>
-
-<p>诤友难得</p>
-
-<p><a id="markdown-谈青年与恋爱结婚" name="谈青年与恋爱结婚"></a></p>
-
-<h2>谈青年与恋爱结婚</h2>
-
-<p>青年人不宜过早恋爱和结婚，需要自然的方法引导，而非暴力禁止。自然的方法包括：</p>
-
-<ol>
-<li>精力有所发挥，精神有所委托。青年人精力旺盛，要他闲着，难免泛滥横流。假如他在工作里发生兴趣，在文艺里发生兴趣，甚至在游戏运动里发生兴趣，这就可以垄断他的心神，不叫它旁迁他涉。</li>
-<li>改善社交生活，使同情心得到滋养。青年最需要的是同情，最怕的是寂寞，愈寂寞就愈感觉异性需要的迫切。一般青年追求异性，与其说是迫于性的冲动，毋宁说是迫于同情的需要。要满足这需要，社会生活如果丰富也就够了。一个青年如果有亲热的家庭生活，加上温暖的团体生活，不感觉到孤寂，他虽然还有“遇”恋爱的可能，却无“谋”恋爱的必要。交谊愈广泛，发生恋爱的可能性也就愈少。一个青年最危险的遭遇莫过于向来没有和一个女子有较深的接触，一碰见第一个女子就爱上了她。</li>
-</ol>
-
-
-<p><a id="markdown-谈休息" name="谈休息"></a></p>
-
-<h2>谈休息</h2>
-
-<p>节奏，优游涵泳</p>
-
-<p>休息不仅为蓄力，也为整理酝酿，让筋肉技巧在潜意识中酝酿凝固。</p>
-
-<p>我（朱光潜）生平最爱陶渊明在自祭文里所说的两句话：“勤靡余劳，心有常闲”，这是修养的极境，人事算尽了，而神仙福分也就在尽人事中享着。现代人的毛病是“勤有余劳，心无偶闲”。这使人心地驳杂，缺乏冲和弘毅的气象，日日困于名缰利锁，叫整个世界日趋于干枯黑暗。</p>
-
-<p><a id="markdown-谈消遣" name="谈消遣"></a></p>
-
-<h2>谈消遣</h2>
-
-<p>身和心到活动都有有节奏到周期。此所谓“一张一弛文武之道”。</p>
-
-<p>更番瓜代：脑力工作者要时不时地做些体力活动。</p>
-
-<p>儒家六艺：诗书礼乐射御，其中后四项都带有消遣娱乐到意味。孔子谈修养，“局于人”之后即继以“游于艺”。</p>
-
-<p>世间欢喜消遣的人，无论他们到嗜好如何不同，都有一个共同点，就是他们必都有强旺的生活力，运动家和艺术家如此，嫖客赌徒乃至于烟鬼也是如此。他们到生活力强旺，发泄到需求也就急迫。他们所不同者只在发泄方式。这有如大水，可以灌田、发电或推动机器，也可以泛滥横流，淹毙人畜草木。同是强旺到生活力，用在运动可以健身，用在艺术可以怡情养性，用在吃喝嫖赌就可以劳民伤财，为非作歹。“浪子回头是个宝”，也是这个道理。浪子必是生活力强旺到人，如果可以用于正道，也必是人上之人。</p>
-
-<p><a id="markdown-谈体育" name="谈体育"></a></p>
-
-<h2>谈体育</h2>
-
-<p>德、智、体、美均衡发展。</p>
-
-<p>健康有先天因素，也有后天因素。先天因素我们能做的就是优生优育，母亲的体格康健比父亲更重要。后天健康要注意三个方面。一是营养适宜，二是生活规律，三是心境要宽和冲淡，少动气，少存杂念。</p>
-
-<blockquote><p>我国古代特别看中上述的第三点。“养生莫善于寡欲。”近代社会复杂，刺激特多，愈近于文明，愈远于自然，处处都是扰乱心智的事物，就是处处逼我们打消耗战。我们必须淡泊宁静，以逸待劳。这不但可以养生，也可以使学问事业得到较大的成就。</p></blockquote>
-
-<p>要训练互助、尊重纪律的精神，最好的运动场所是运动场。</p>
-
-<p><a id="markdown-谈美感教育" name="谈美感教育"></a></p>
-
-<h2>谈美感教育</h2>
-
-<p>朱子诗云：“半亩方塘一鉴开，天光云影共徘徊。问渠哪得清如许？为有源头活水来。”这诗所写的是一种修养的胜境。美感教育给我们的是“源头活水”。</p>
-
-<p><a id="markdown-美育是本能冲动和情感的解放" name="美育是本能冲动和情感的解放"></a></p>
-
-<h4>美育是本能冲动和情感的解放。</h4>
-
-<p>宗教、法律、道德约束下的欲望，可以在美育中得到解放。</p>
-
-<p><a id="markdown-美育是眼界的解放" name="美育是眼界的解放"></a></p>
-
-<h4>美育是眼界的解放。</h4>
-
-<p>美育可以培养发现生活美的眼睛。</p>
-
-<p><a id="markdown-美育是自然限制的解放" name="美育是自然限制的解放"></a></p>
-
-<h4>美育是自然限制的解放。</h4>
-
-<p>这是德国唯心派哲学家康德、席勒、叔本华、尼采诸人所最看重的一点，现在我们用浅近语来说明它。</p>
-
-<p>自然世界是有限的，受因果律支配的，其中毫末细故都有他的必然性。社会由历史铸就，人由遗传和环境造成。人的活动 寸步离不开物质生存条件的支配，没有翅膀就不能飞，绝饮食就会饿死。由此类推，人在自然中是极不自由的。动植物和非生物一味顺从自然，接受它的限制，没有过分希冀，也就没有失望和痛苦。人却不同，他有心灵，有不可压制的欲望。人可以说是两重奴隶，第一服从自然的限制，其次要受自己的欲望驱使。<strong>以无穷欲望处有限自然，人便觉得处处不如意，不自由，烦闷苦恼都由此起。</strong></p>
-
-<p>专就物质说，人在自然面前是十分渺小的。但在精神方面，人可以跳开自然的圈套而征服自然，他可以在自然世界之外另在想象中造出较能合理慰情的世界。这就是艺术的创造。</p>
-
-<p>多接受美感教育，就是多学会如何从自然限制中解放出来，由奴隶变成上帝，充分地感觉人的尊严。</p>
-
-<p><a id="markdown-爱美的天性需要培养" name="爱美的天性需要培养"></a></p>
-
-<h3>爱美的天性需要培养</h3>
-
-<p>爱美是人的天性，虽是天性，仍需要培养，否则，便会凋零。</p>
-
-<p>美育必须从年轻时入手，年纪愈大，外务愈纷繁，习惯的牢笼愈坚固，感觉愈迟钝，心里愈复杂，欣赏艺术力也就愈薄弱。</p>
-
-<p>我时常想，无论学哪一科专门学问，干哪一行职业，每个人都应该会听音乐，不断地读文学作品，偶尔有欣赏图画、雕刻的机会。</p>
-
-<p>从历史看，一个民族在最兴旺的时候，艺术成就必伟大，美育必发达。史诗悲剧时代的希腊、文艺复兴时代的意大利、莎士比亚时代的英国、歌德和贝多芬时代的德国都可以作证。现在我们要想复兴民族，必须恢复周以前歌乐舞的盛况，这就是说，必须提倡普及的美感教育。</p>
-
-<p><a id="markdown-给申报青年的青年读者" name="给申报青年的青年读者"></a></p>
-
-<h2>给《申报青年》的青年读者</h2>
-
-<p>我很佩服英国人，他们总是事到头来，才想办法。事没有来到头来，他们总是冷静地等待着，观察着，今天决不打明天的计算。但是他们也决不肯放弃现在的机会，觉得一件事应该去做，就马上去做，不张皇也不迟疑。他们的国家内政外交如此，个人经营的事业也是如此。他们不幻想未来，他们的老谋深算都费在抓住现在和认清现在上面。他们出死力抓住现在，事到头来时，他们总是不慌不忙地处理的很妥当。这种冷静沉着的态度就是值得我们观摩的。</p>
-
-<p>“三此”：此身，此时，此地。</p>
 ]]></content>
   </entry>
   

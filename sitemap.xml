@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
+<loc>http://hongchaozhang.github.io/blog/2019/11/12/position-relation-between-two-polygon-shapes/</loc>
+<lastmod>2019-11-12T15:20:24+08:00</lastmod>
+</url>
+<url>
+<loc>http://hongchaozhang.github.io/blog/2019/11/05/liucixin-kehuan-zuopin/</loc>
+<lastmod>2019-11-05T10:25:28+08:00</lastmod>
+</url>
+<url>
 <loc>http://hongchaozhang.github.io/blog/2019/10/31/ruhe-kaifa-haizi-de-huihua-qianli/</loc>
 <lastmod>2019-10-31T13:22:52+08:00</lastmod>
 </url>
@@ -458,5 +466,8 @@
 </url>
 <url>
 <loc>http://hongchaozhang.github.io/blog/categories/nlu/</loc>
+</url>
+<url>
+<loc>http://hongchaozhang.github.io/blog/categories/algorithm/</loc>
 </url>
 </urlset>

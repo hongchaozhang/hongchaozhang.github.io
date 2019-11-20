@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: algorithm | Reading Space]]></title>
+  <link href="http://hongchaozhang.github.io/blog/categories/algorithm/atom.xml" rel="self"/>
+  <link href="http://hongchaozhang.github.io/"/>
+  <updated>2019-11-20T20:59:15+08:00</updated>
+  <id>http://hongchaozhang.github.io/</id>
+  <author>
+    <name><![CDATA[Zhang Hongchao]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[点、线、多边形之间的位置关系]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2019/11/12/position-relation-between-two-polygon-shapes/"/>
+    <updated>2019-11-12T15:20:24+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2019/11/12/position-relation-between-two-polygon-shapes</id>
+    <content type="html"><![CDATA[<!-- more -->
+
+
+<h2>点与多边形的位置关系：</h2>
+
+<p><strong>光线投射方法</strong>（Ray casting algorithm）；从这个点引出一根“射线”，与多边形的任意若干条边相交，累计相交的边的数目，如果是奇数，那么点就在多边形内，否则点就在多边形外。如下图所示：</p>
+
+<p><img src="/images/%E8%BE%B9%E7%95%8C%E6%97%A0%E6%96%B9%E5%90%91%E7%9A%84%E5%A4%9A%E8%BE%B9%E5%BD%A2.png" alt="边界无方向的多边形" /></p>
+
+<p><a href="http://alienryderflex.com/polygon/">Point-In-Polygon Algorithm — Determining Whether A Point Is Inside A Complex Polygon</a>这篇文章解释了光线投射方法，并且提出下面两种情况应该如何解决：</p>
+
+<ol>
+<li>射线正好穿过多边形顶点：如果顶点正好通过射线，就认为该点在射线的上方，从而保证该点只被计算一次。</li>
+<li>射线正好跟一条边重合：道理与上面相同。如果一条边正好在射线上，就认为该边在射线的上方，从而保证这个地方也只计算一次。</li>
+</ol>
+
+
+<p>Stack Overflow上面有算法实现：
+<a href="https://stackoverflow.com/questions/217578/how-can-i-determine-whether-a-2d-point-is-within-a-polygon">How can I determine whether a 2D Point is within a Polygon?</a></p>
+
+<h3>边界具有方向性的多边形</h3>
+
+<p>除了光线投射方法（Ray casting algorithm），还有<strong>Winding number algorithm（nonzero-rule algorithm）</strong>。这个方法用于边界有方向的多边形的判断。</p>
+
+<p>从待检测点引出一根“射线”，与多边形的任意若干条边相交，计数初始化为0，若相交处被多边形的边从左到右切过，计数+1，若相交处被多边形的边从右到左切过，计数-1，最后检查计数，如果是0，点在多边形外，如果非0，点在多边形内。</p>
+
+<p><img src="/images/%E8%BE%B9%E7%95%8C%E6%9C%89%E6%96%B9%E5%90%91%E7%9A%84%E5%A4%9A%E8%BE%B9%E5%BD%A2.png" alt="边界有方向的多边形" /></p>
+
+<h2>线段与多边形的位置关系：</h2>
+
+<p><a href="https://www.cnblogs.com/xiaozhi_5638/p/4165353.html">线段与多边形关系的算法</a></p>
+
+<p>有算法，有代码，而且思路清晰。</p>
+
+<p>思路：解决了下面三个问题：</p>
+
+<ul>
+<li>问题一：点与线段的关系</li>
+<li>问题二：线段与线段的关系</li>
+<li>问题三：点与多边形的关系</li>
+</ul>
+
+
+<p>就自然可以解决线段与多边形的位置关系了。</p>
+
+<h2>更一般化的方法：</h2>
+
+<p><strong>给你n个多边形,这些多边形包括线段,三角形,矩形,正方形,和其他多边形. 然后要你输出他们之间相交的情况. 且多边形自己的边不会相交,且三角形不会退化成线段.</strong></p>
+
+<p>判断两个图形是否相交,只需要判断他们中的任意两条边是否有交点即可(线段相交判定).</p>
+
+<p><a href="https://blog.csdn.net/u013480600/article/details/39611949">这里有代码</a></p>
+
+<h2>如果两个多边形都为凸多边形，则有更简单的方法：</h2>
+
+<p>For each edge of both polygons:</p>
+
+<ul>
+<li>Find the axis perpendicular to the current edge.</li>
+<li>Project both polygons on that axis.</li>
+<li>If these projections don&rsquo;t overlap, the polygons don&rsquo;t intersect (exit the loop).</li>
+</ul>
+
+
+<p><img src="/images/PolygonCollisionSAT.png" alt="PolygonCollisionSAT" /></p>
+
+<h2>参考</h2>
+
+<ol>
+<li><a href="https://en.wikipedia.org/wiki/Point_in_polygon#Ray_casting_algorithm">维基百科</a></li>
+<li><a href="https://www.cnblogs.com/guogangj/p/5127527.html">判断一个点是否在一个多边形里</a></li>
+<li><a href="https://blog.csdn.net/u012138730/article/details/80095375">判断两个凸多边形是否相交—SAT</a></li>
+<li><a href="https://www.codeproject.com/Articles/15573/2D-Polygon-Collision-Detection">2D Polygon Collision Detection</a></li>
+</ol>
+
+]]></content>
+  </entry>
+  
+</feed>
