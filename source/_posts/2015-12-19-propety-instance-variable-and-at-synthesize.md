@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Propety, Instance Variable and @synthesize"
+title: "Property, Instance Variable and @synthesize"
 date: 2015-12-19 15:17:41 +0800
 comments: true
 categories: [ios, objective-c]
@@ -136,7 +136,7 @@ use of undefined identifier '_testString'。
 
 为什么呢？
 
-因为此时auto synthesize没有工作。编译器认为：既然你同时手动接管了getter和setter的实现，那么我就什么也不管了，Instance Variable你也自己声明并起个名字吧。
+因为此时auto synthesize没有工作。编译器认为：**既然你同时手动接管了getter和setter的实现，那么我就什么也不管了，Instance Variable你也自己声明并起个名字吧。**
 
 总结一下auto synthesize不会工作的几种情况（参考[When should I use @synthesize explicitly?](http://stackoverflow.com/questions/19784454/when-should-i-use-synthesize-explicitly)）：
 
@@ -154,9 +154,11 @@ use of undefined identifier '_testString'。
     
     @synthesize will generate getter and setter methods for your property. @dynamic just tells the compiler that the getter and setter methods are implemented not by the class itself but somewhere else (like the superclass)
 
-* properties declared in a @protocol
+* **properties declared in a @protocol**
 
-    when conforming to a protocol, any property the protocol defines won't be automatically synthesized
+    when conforming to a protocol, any property the protocol defines won't be automatically synthesized. You need to synthesize the property manually. **And this is the only senario in which `@synthesize` should be used.**
+
+    There is another way: you can redeclare the property and the compiler will auto synthesize the property and generate the getter and setter methods for you. Of cause, the previous way is recommended.
 
 * properties declared in a category
 
@@ -168,5 +170,5 @@ use of undefined identifier '_testString'。
 
     when you override a property of a superclass, two ways for you:
     * explicitly synthesize it with a different instance variable name from super class.
-    * @dynamic the property to tell the compiler that I will use the getter and setter methods in the super class.
+    * **@dynamic the property to tell the compiler that I will use the getter and setter methods in the super class.**
 
