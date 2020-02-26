@@ -5,11 +5,11 @@
 
 <head>
 	<meta charset="utf-8">
-	<title>Propety, Instance Variable and @synthesize - Reading Space</title>
+	<title>Property, Instance Variable and @synthesize - Reading Space</title>
 	<meta name="author" content="Zhang Hongchao">
 
 	
-	<meta name="description" content="Propety, Instance Variable and @synthesize 这一段时间，在对自己不是很了解的代码进行重构，重新了解了一下Property、Instance Variable和@synthesize，总结一下。 首先需要明白一点：Property和@ &hellip;">
+	<meta name="description" content="Property, Instance Variable and @synthesize 这一段时间，在对自己不是很了解的代码进行重构，重新了解了一下Property、Instance Variable和@synthesize，总结一下。 首先需要明白一点：Property和@ &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -106,7 +106,7 @@
 			
 			<div class="mid-col-container">
 				<div id="content" class="inner"><article class="post" itemscope itemtype="http://schema.org/BlogPosting">
-	<h1 class="title" itemprop="name">Propety, Instance Variable and @synthesize</h1>
+	<h1 class="title" itemprop="name">Property, Instance Variable and @synthesize</h1>
 	<div class="entry-content" itemprop="articleBody"><p>这一段时间，在对自己不是很了解的代码进行重构，重新了解了一下Property、Instance Variable和@synthesize，总结一下。</p>
 
 <p>首先需要明白一点：Property和@synthesize是让编译器帮助我们做一些规律性的工作。</p>
@@ -316,7 +316,7 @@
 
 <p>为什么呢？</p>
 
-<p>因为此时auto synthesize没有工作。编译器认为：既然你同时手动接管了getter和setter的实现，那么我就什么也不管了，Instance Variable你也自己声明并起个名字吧。</p>
+<p>因为此时auto synthesize没有工作。编译器认为：<strong>既然你同时手动接管了getter和setter的实现，那么我就什么也不管了，Instance Variable你也自己声明并起个名字吧。</strong></p>
 
 <p>总结一下auto synthesize不会工作的几种情况（参考<a href="http://stackoverflow.com/questions/19784454/when-should-i-use-synthesize-explicitly">When should I use @synthesize explicitly?</a>）：</p>
 
@@ -332,9 +332,11 @@
 <p>  when using @dynamic propertyName, the property won&rsquo;t be automatically synthesized (pretty obvious, since @dynamic and @synthesize are mutually exclusive).</p>
 
 <p>  @synthesize will generate getter and setter methods for your property. @dynamic just tells the compiler that the getter and setter methods are implemented not by the class itself but somewhere else (like the superclass)</p></li>
-<li><p>properties declared in a @protocol</p>
+<li><p><strong>properties declared in a @protocol</strong></p>
 
-<p>  when conforming to a protocol, any property the protocol defines won&rsquo;t be automatically synthesized</p></li>
+<p>  when conforming to a protocol, any property the protocol defines won&rsquo;t be automatically synthesized. You need to synthesize the property manually. <strong>And this is the only senario in which <code>@synthesize</code> should be used.</strong></p>
+
+<p>  There is another way: you can redeclare the property and the compiler will auto synthesize the property and generate the getter and setter methods for you. Of cause, the previous way is recommended.</p></li>
 <li><p>properties declared in a category</p>
 
 <p>  this is a case in which the @synthesize directive is not automatically inserted by the compiler, but this properties cannot be manually synthesized either. While categories can declare properties, they cannot be synthesized at all, since categories cannot create ivars. For the sake of completeness, I&rsquo;ll add that it&rsquo;s still possible to fake the property synthesis using the Objective-C runtime.</p>
@@ -346,7 +348,7 @@
 
 <ul>
 <li>explicitly synthesize it with a different instance variable name from super class.</li>
-<li>@dynamic the property to tell the compiler that I will use the getter and setter methods in the super class.</li>
+<li><strong>@dynamic the property to tell the compiler that I will use the getter and setter methods in the super class.</strong></li>
 </ul>
 </li>
 </ul>
