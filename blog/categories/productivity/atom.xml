@@ -4,7 +4,7 @@
   <title><![CDATA[Category: productivity | Reading Space]]></title>
   <link href="http://hongchaozhang.github.io/blog/categories/productivity/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2020-02-26T13:31:56+08:00</updated>
+  <updated>2020-02-27T13:43:06+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -12,6 +12,106 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[迁移Octopress到新的机器上]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2020/02/26/deploy-octopress-in-a-new-machine/"/>
+    <updated>2020-02-26T13:36:46+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2020/02/26/deploy-octopress-in-a-new-machine</id>
+    <content type="html"><![CDATA[<!-- more -->
+
+
+
+
+<!-- TOC -->
+
+
+<ul>
+<li><a href="#%E9%97%AE%E9%A2%98">问题</a>
+
+<ul>
+<li><a href="#%E9%97%AE%E9%A2%981-rake%E7%89%88%E6%9C%AC%E9%97%AE%E9%A2%98">问题1: rake版本问题</a></li>
+<li><a href="#%E9%97%AE%E9%A2%982-rake-deploy%E9%94%99%E8%AF%AF">问题2: <code>rake deploy</code>错误</a></li>
+</ul>
+</li>
+<li><a href="#%E5%8F%82%E8%80%83">参考</a></li>
+</ul>
+
+
+<!-- /TOC -->
+
+
+<p><a id="markdown-问题" name="问题"></a></p>
+
+<h2>问题</h2>
+
+<p>在新到Mac上面部署Octopress的时候遇到了几个问题。</p>
+
+<p>将github上面的资源clone到本地，并切换到<code>source</code>分支：</p>
+
+<pre><code>git clone -b source git@github.com:username/username.github.io.git octopress
+cd octopress
+</code></pre>
+
+<p>然后，安装rake：</p>
+
+<pre><code>gem install bundler
+rbenv rehash    # If you use rbenv, rehash to be able to run the bundle command
+bundle install
+</code></pre>
+
+<p><a id="markdown-问题1-rake版本问题" name="问题1-rake版本问题"></a></p>
+
+<h3>问题1: rake版本问题</h3>
+
+<p>之后，试图执行rake命令到时候，会报错：</p>
+
+<pre><code>rake aborted!
+Gem::LoadError: You have already activated rake 12.3.2, but your Gemfile requires rake 10.5.0. Prepending `bundle exec` to your command may solve this.
+/Users/hozhang/Develop/hongchaozhang.github.io/Rakefile:2:in `&lt;top (required)&gt;'
+/Library/Ruby/Gems/2.6.0/gems/rake-12.3.2/exe/rake:27:in `&lt;top (required)&gt;'
+(See full trace by running task with --trace)
+</code></pre>
+
+<p>这个时候，可以根据提示，在rake前面加上<code>bundle exec</code>，比如<code>bundle exec rake preview</code>。每次都这样，比较麻烦。这个问题到根源是Gemfile里面定义使用到rake版本和本地安装到rake版本不一致，这样修改：</p>
+
+<p>在octopress目录下找到我们上面第一步从远端clone下来到Gemfile，打开，将</p>
+
+<pre><code>gem 'rake', '~&gt; 10.0'
+</code></pre>
+
+<p>修改成</p>
+
+<pre><code>gem 'rake', '~&gt; 12.0'
+</code></pre>
+
+<p>即可。上面的<code>10.0</code>表示老版本，<code>12.0</code>表示新版本，查看本地rake的版本，如果是<code>12.3</code>，就用<code>12.0</code>。</p>
+
+<p><a id="markdown-问题2-rake-deploy错误" name="问题2-rake-deploy错误"></a></p>
+
+<h3>问题2: <code>rake deploy</code>错误</h3>
+
+<p>直接执行<code>rake deploy</code>，报错<code>[rejected] master -&gt; master (non-fast-forward)</code>，这是因为_deploy这个目录下面的内容是本地生成的，和远端没有关系，不能push。执行：</p>
+
+<pre><code>rm -rf _deploy
+git clone git@github.com:username/username.github.io.git _deploy
+</code></pre>
+
+<p>解决。</p>
+
+<p>当你在多台机器上同时工作时，经常会出现这个问题。</p>
+
+<p><a id="markdown-参考" name="参考"></a></p>
+
+<h2>参考</h2>
+
+<ol>
+<li><a href="http://michal.codes/setting-up-existing-octopress-blog-on-a-new-machine/">Setting Up Existing Octopress Blog on a New Machine</a></li>
+<li><a href="http://paulcichonski.com/blog/2013/11/10/setting-up-octopress-on-a-new-machine/">Setting Up Octopress on a New Machine</a></li>
+</ol>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[将代码查重工具CPD集成到Xcode]]></title>
@@ -504,62 +604,6 @@ pod 'Charts'
 <p><img src="/images/using_lib_class_in_storyboard.jpg" alt="using_lib_class_in_storyboard" /></p>
 
 <p>原理参考：<a href="https://github.com/CocoaPods/CocoaPods/issues/4373">Unable to satisfy the following requirements with Podfile, but they required a higher minimum deployment target. #4373</a>。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Sublime的一些插件]]></title>
-    <link href="http://hongchaozhang.github.io/blog/2015/11/28/some-useful-plugins-for-sublime/"/>
-    <updated>2015-11-28T23:45:59+08:00</updated>
-    <id>http://hongchaozhang.github.io/blog/2015/11/28/some-useful-plugins-for-sublime</id>
-    <content type="html"><![CDATA[<h3>Package Control</h3>
-
-<p><a href="https://packagecontrol.io/installation#st2">Package Control</a>是Sublime中用于插件管理的工具。安装之后，其它插件基本上可以通过它进行管理：安装、删除、禁用等。</p>
-
-<h3>JSFormat</h3>
-
-<!-- more -->
-
-
-<p>可以对Javascript和json文件进行格式化。</p>
-
-<p>对于json，如果不想用本地插件，可以用<a href="http://jsonviewer.stack.hu/">Online Json Viewer</a>。</p>
-
-<h3>JSHint Guntter</h3>
-
-<ul>
-<li>Run JSHint: Command+Shift+J</li>
-<li>Clear Annotations: Command+Escape</li>
-</ul>
-
-
-<p>对于一些关键字，比如node中的<code>require</code>，在.jshintrc文件中通过设置<code>predef</code>进行排除。.jshintrc通过Preferrences->Package Settings->JSHint Gunter->Set Linting Preferences打开。</p>
-
-<h3>Sublime ​Code​Intel</h3>
-
-<ul>
-<li><p>自动代码补全功能</p></li>
-<li><p>代码间跳转</p>
-
-<ul>
-<li>Jump to definition = Control+Click</li>
-<li>Go back = Control+Alt+Command+Left</li>
-</ul>
-</li>
-</ul>
-
-
-<h3>Bracket Highlighter</h3>
-
-<p>可以对括号（圆括号，方括号，花括号，尖括号等）和标签（html tag等）进行自定义高亮。</p>
-
-<p>自定义方法：</p>
-
-<ul>
-<li>打开Preferences->Package Settings->Bracket Highlighter->Brakets Settings - <strong>Default</strong>，复制。这个文件无法修改。</li>
-<li>打开Preferences->Package Settings->Bracket Highlighter->Brakets Settings - <strong>User</strong>，粘贴。修改<code>bracket styles</code>。此文件中的设置将覆盖<strong>Default</strong>中的设置。</li>
-</ul>
-
 ]]></content>
   </entry>
   

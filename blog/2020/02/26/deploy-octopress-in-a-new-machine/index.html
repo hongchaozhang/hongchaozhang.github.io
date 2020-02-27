@@ -5,11 +5,14 @@
 
 <head>
 	<meta charset="utf-8">
-	<title>some tips on markdown usage - Reading Space</title>
+	<title>迁移Octopress到新的机器上 - Reading Space</title>
 	<meta name="author" content="Zhang Hongchao">
 
 	
-	<meta name="description" content="Some Tips on Markdown Usage Collect some markdown usage tips. insert an image To insert the image, just use the path under the base url, for me, it &hellip;">
+	<meta name="description" content="迁移Octopress到新的机器上 问题 问题1: rake版本问题
+问题2: rake deploy错误 参考 问题 在新到Mac上面部署Octopress的时候遇到了几个问题。 将github上面的资源clone到本地，并切换到source分支： 1
+2
+git clone -b &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -19,7 +22,7 @@
 
 	<link href="/atom.xml" rel="alternate" title="Reading Space" type="application/atom+xml">
 	
-	<link rel="canonical" href="http://hongchaozhang.github.io/blog/2017/11/21/some-tips-on-markdown-usage/">
+	<link rel="canonical" href="http://hongchaozhang.github.io/blog/2020/02/26/deploy-octopress-in-a-new-machine/">
 	<link href="/favicon.png" rel="shortcut icon">
 	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
 	<link href="/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
@@ -106,55 +109,113 @@
 			
 			<div class="mid-col-container">
 				<div id="content" class="inner"><article class="post" itemscope itemtype="http://schema.org/BlogPosting">
-	<h1 class="title" itemprop="name">Some Tips on Markdown Usage</h1>
-	<div class="entry-content" itemprop="articleBody"><p>Collect some markdown usage tips.</p>
-
-<!-- more -->
+	<h1 class="title" itemprop="name">迁移Octopress到新的机器上</h1>
+	<div class="entry-content" itemprop="articleBody"><!-- more -->
 
 
-<h2>insert an image</h2>
 
-<p>To insert the image, just use the path under the base url, for me, it is <em>/GitBlogs/images/<image_name>.png</em>, for example</p>
+
+<!-- TOC -->
+
+
+<ul>
+<li><a href="#%E9%97%AE%E9%A2%98">问题</a>
+
+<ul>
+<li><a href="#%E9%97%AE%E9%A2%981-rake%E7%89%88%E6%9C%AC%E9%97%AE%E9%A2%98">问题1: rake版本问题</a></li>
+<li><a href="#%E9%97%AE%E9%A2%982-rake-deploy%E9%94%99%E8%AF%AF">问题2: <code>rake deploy</code>错误</a></li>
+</ul>
+</li>
+<li><a href="#%E5%8F%82%E8%80%83">参考</a></li>
+</ul>
+
+
+<!-- /TOC -->
+
+
+<p><a id="markdown-问题" name="问题"></a></p>
+
+<h2>问题</h2>
+
+<p>在新到Mac上面部署Octopress的时候遇到了几个问题。</p>
+
+<p>将github上面的资源clone到本地，并切换到<code>source</code>分支：</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>![image annotation](/images/001_ios_frameworks.png)</span></code></pre></td></tr></table></div></figure>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git clone -b source git@github.com:username/username.github.io.git octopress
+</span><span class='line'>cd octopress</span></code></pre></td></tr></table></div></figure>
 
 
-<p>To define the size of the image:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>![image annotation](/images/001_ios_frameworks.png =200x300)</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Or you can omit the <code>height</code> of the image:</p>
+<p>然后，安装rake：</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>![image annotation](/images/001_ios_frameworks.png =200x)</span></code></pre></td></tr></table></div></figure>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>gem install bundler
+</span><span class='line'>rbenv rehash    # If you use rbenv, rehash to be able to run the bundle command
+</span><span class='line'>bundle install</span></code></pre></td></tr></table></div></figure>
 
 
-<p>If the aspect ratio you define is not consistent with the original image, the height will be omitted automatically. That is to say, just define the <code>width</code> you want, and the system will calculate the <code>height</code> for it.</p>
+<p><a id="markdown-问题1-rake版本问题" name="问题1-rake版本问题"></a></p>
 
-<h2>show content while click</h2>
+<h3>问题1: rake版本问题</h3>
 
-<p>Using the following block of code for hiding some content and show the content while click.</p>
+<p>之后，试图执行rake命令到时候，会报错：</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;details&gt;</span>
-</span><span class='line'>  <span class="nt">&lt;summary&gt;</span>Q1: What is the best Language in the World? <span class="nt">&lt;/summary&gt;</span>
-</span><span class='line'>   A1: Swift
-</span><span class='line'><span class="nt">&lt;/details&gt;</span>
-</span></code></pre></td></tr></table></div></figure>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>rake aborted!
+</span><span class='line'>Gem::LoadError: You have already activated rake 12.3.2, but your Gemfile requires rake 10.5.0. Prepending `bundle exec` to your command may solve this.
+</span><span class='line'>/Users/hozhang/Develop/hongchaozhang.github.io/Rakefile:2:in `&lt;top (required)&gt;'
+</span><span class='line'>/Library/Ruby/Gems/2.6.0/gems/rake-12.3.2/exe/rake:27:in `&lt;top (required)&gt;'
+</span><span class='line'>(See full trace by running task with --trace)</span></code></pre></td></tr></table></div></figure>
 
 
-<p>You will get:</p>
+<p>这个时候，可以根据提示，在rake前面加上<code>bundle exec</code>，比如<code>bundle exec rake preview</code>。每次都这样，比较麻烦。这个问题到根源是Gemfile里面定义使用到rake版本和本地安装到rake版本不一致，这样修改：</p>
 
-<p><details>
-  <summary><em>Question: What is the best Language in the World?</em></summary>
-   Answer: Swift
-</details></p>
+<p>在octopress目录下找到我们上面第一步从远端clone下来到Gemfile，打开，将</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>gem 'rake', '~&gt; 10.0'</span></code></pre></td></tr></table></div></figure>
+
+
+<p>修改成</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>gem 'rake', '~&gt; 12.0'</span></code></pre></td></tr></table></div></figure>
+
+
+<p>即可。上面的<code>10.0</code>表示老版本，<code>12.0</code>表示新版本，查看本地rake的版本，如果是<code>12.3</code>，就用<code>12.0</code>。</p>
+
+<p><a id="markdown-问题2-rake-deploy错误" name="问题2-rake-deploy错误"></a></p>
+
+<h3>问题2: <code>rake deploy</code>错误</h3>
+
+<p>直接执行<code>rake deploy</code>，报错<code>[rejected] master -&gt; master (non-fast-forward)</code>，这是因为_deploy这个目录下面的内容是本地生成的，和远端没有关系，不能push。执行：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>rm -rf _deploy
+</span><span class='line'>git clone git@github.com:username/username.github.io.git _deploy</span></code></pre></td></tr></table></div></figure>
+
+
+<p>解决。</p>
+
+<p>当你在多台机器上同时工作时，经常会出现这个问题。</p>
+
+<p><a id="markdown-参考" name="参考"></a></p>
+
+<h2>参考</h2>
+
+<ol>
+<li><a href="http://michal.codes/setting-up-existing-octopress-blog-on-a-new-machine/">Setting Up Existing Octopress Blog on a New Machine</a></li>
+<li><a href="http://paulcichonski.com/blog/2013/11/10/setting-up-octopress-on-a-new-machine/">Setting Up Octopress on a New Machine</a></li>
+</ol>
+
 </div>
 
 </article>

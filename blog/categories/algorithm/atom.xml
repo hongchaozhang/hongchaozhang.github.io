@@ -4,7 +4,7 @@
   <title><![CDATA[Category: algorithm | Reading Space]]></title>
   <link href="http://hongchaozhang.github.io/blog/categories/algorithm/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2020-02-26T13:31:56+08:00</updated>
+  <updated>2020-02-27T13:43:06+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -20,6 +20,30 @@
     <id>http://hongchaozhang.github.io/blog/2019/11/12/position-relation-between-two-polygon-shapes</id>
     <content type="html"><![CDATA[<!-- more -->
 
+
+
+
+<!-- TOC -->
+
+
+<ul>
+<li><a href="#%E7%82%B9%E4%B8%8E%E5%A4%9A%E8%BE%B9%E5%BD%A2%E7%9A%84%E4%BD%8D%E7%BD%AE%E5%85%B3%E7%B3%BB">点与多边形的位置关系：</a>
+
+<ul>
+<li><a href="#%E8%BE%B9%E7%95%8C%E5%85%B7%E6%9C%89%E6%96%B9%E5%90%91%E6%80%A7%E7%9A%84%E5%A4%9A%E8%BE%B9%E5%BD%A2">边界具有方向性的多边形</a></li>
+</ul>
+</li>
+<li><a href="#%E7%BA%BF%E6%AE%B5%E4%B8%8E%E5%A4%9A%E8%BE%B9%E5%BD%A2%E7%9A%84%E4%BD%8D%E7%BD%AE%E5%85%B3%E7%B3%BB">线段与多边形的位置关系：</a></li>
+<li><a href="#%E6%9B%B4%E4%B8%80%E8%88%AC%E5%8C%96%E7%9A%84%E6%96%B9%E6%B3%95">更一般化的方法：</a></li>
+<li><a href="#%E5%A6%82%E6%9E%9C%E4%B8%A4%E4%B8%AA%E5%A4%9A%E8%BE%B9%E5%BD%A2%E9%83%BD%E4%B8%BA%E5%87%B8%E5%A4%9A%E8%BE%B9%E5%BD%A2%E5%88%99%E6%9C%89%E6%9B%B4%E7%AE%80%E5%8D%95%E7%9A%84%E6%96%B9%E6%B3%95">如果两个多边形都为凸多边形，则有更简单的方法：</a></li>
+<li><a href="#%E5%8F%82%E8%80%83">参考</a></li>
+</ul>
+
+
+<!-- /TOC -->
+
+
+<p><a id="markdown-点与多边形的位置关系" name="点与多边形的位置关系"></a></p>
 
 <h2>点与多边形的位置关系：</h2>
 
@@ -38,6 +62,8 @@
 <p>Stack Overflow上面有算法实现：
 <a href="https://stackoverflow.com/questions/217578/how-can-i-determine-whether-a-2d-point-is-within-a-polygon">How can I determine whether a 2D Point is within a Polygon?</a></p>
 
+<p><a id="markdown-边界具有方向性的多边形" name="边界具有方向性的多边形"></a></p>
+
 <h3>边界具有方向性的多边形</h3>
 
 <p>除了光线投射方法（Ray casting algorithm），还有<strong>Winding number algorithm（nonzero-rule algorithm）</strong>。这个方法用于边界有方向的多边形的判断。</p>
@@ -45,6 +71,8 @@
 <p>从待检测点引出一根“射线”，与多边形的任意若干条边相交，计数初始化为0，若相交处被多边形的边从左到右切过，计数+1，若相交处被多边形的边从右到左切过，计数-1，最后检查计数，如果是0，点在多边形外，如果非0，点在多边形内。</p>
 
 <p><img src="/images/%E8%BE%B9%E7%95%8C%E6%9C%89%E6%96%B9%E5%90%91%E7%9A%84%E5%A4%9A%E8%BE%B9%E5%BD%A2.png" alt="边界有方向的多边形" /></p>
+
+<p><a id="markdown-线段与多边形的位置关系" name="线段与多边形的位置关系"></a></p>
 
 <h2>线段与多边形的位置关系：</h2>
 
@@ -63,6 +91,8 @@
 
 <p>就自然可以解决线段与多边形的位置关系了。</p>
 
+<p><a id="markdown-更一般化的方法" name="更一般化的方法"></a></p>
+
 <h2>更一般化的方法：</h2>
 
 <p><strong>给你n个多边形,这些多边形包括线段,三角形,矩形,正方形,和其他多边形. 然后要你输出他们之间相交的情况. 且多边形自己的边不会相交,且三角形不会退化成线段.</strong></p>
@@ -70,6 +100,8 @@
 <p>判断两个图形是否相交,只需要判断他们中的任意两条边是否有交点即可(线段相交判定).</p>
 
 <p><a href="https://blog.csdn.net/u013480600/article/details/39611949">这里有代码</a></p>
+
+<p><a id="markdown-如果两个多边形都为凸多边形则有更简单的方法" name="如果两个多边形都为凸多边形则有更简单的方法"></a></p>
 
 <h2>如果两个多边形都为凸多边形，则有更简单的方法：</h2>
 
@@ -83,6 +115,8 @@
 
 
 <p><img src="/images/PolygonCollisionSAT.png" alt="PolygonCollisionSAT" /></p>
+
+<p><a id="markdown-参考" name="参考"></a></p>
 
 <h2>参考</h2>
 
