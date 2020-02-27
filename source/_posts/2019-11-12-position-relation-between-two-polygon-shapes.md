@@ -8,6 +8,20 @@ categories: [algorithm]
 
 <!-- more -->
 
+<!-- TOC -->
+
+- [点与多边形的位置关系：](#点与多边形的位置关系)
+    - [边界具有方向性的多边形](#边界具有方向性的多边形)
+- [线段与多边形的位置关系：](#线段与多边形的位置关系)
+- [更一般化的方法：](#更一般化的方法)
+- [如果两个多边形都为凸多边形，则有更简单的方法：](#如果两个多边形都为凸多边形则有更简单的方法)
+- [参考](#参考)
+
+<!-- /TOC -->
+
+
+<a id="markdown-点与多边形的位置关系" name="点与多边形的位置关系"></a>
+
 ## 点与多边形的位置关系：
 
 **光线投射方法**（Ray casting algorithm）；从这个点引出一根“射线”，与多边形的任意若干条边相交，累计相交的边的数目，如果是奇数，那么点就在多边形内，否则点就在多边形外。如下图所示：
@@ -22,6 +36,8 @@ categories: [algorithm]
 Stack Overflow上面有算法实现：
 [How can I determine whether a 2D Point is within a Polygon?](https://stackoverflow.com/questions/217578/how-can-i-determine-whether-a-2d-point-is-within-a-polygon)
 
+<a id="markdown-边界具有方向性的多边形" name="边界具有方向性的多边形"></a>
+
 ### 边界具有方向性的多边形
 
 除了光线投射方法（Ray casting algorithm），还有**Winding number algorithm（nonzero-rule algorithm）**。这个方法用于边界有方向的多边形的判断。
@@ -30,6 +46,8 @@ Stack Overflow上面有算法实现：
 
 ![边界有方向的多边形](/images/边界有方向的多边形.png)
 
+
+<a id="markdown-线段与多边形的位置关系" name="线段与多边形的位置关系"></a>
 
 ## 线段与多边形的位置关系：
 
@@ -45,12 +63,16 @@ Stack Overflow上面有算法实现：
   
 就自然可以解决线段与多边形的位置关系了。
 
+<a id="markdown-更一般化的方法" name="更一般化的方法"></a>
+
 ## 更一般化的方法：
 **给你n个多边形,这些多边形包括线段,三角形,矩形,正方形,和其他多边形. 然后要你输出他们之间相交的情况. 且多边形自己的边不会相交,且三角形不会退化成线段.**
        
 判断两个图形是否相交,只需要判断他们中的任意两条边是否有交点即可(线段相交判定).
 
 [这里有代码](https://blog.csdn.net/u013480600/article/details/39611949)
+
+<a id="markdown-如果两个多边形都为凸多边形则有更简单的方法" name="如果两个多边形都为凸多边形则有更简单的方法"></a>
 
 ## 如果两个多边形都为凸多边形，则有更简单的方法：
 
@@ -62,6 +84,8 @@ For each edge of both polygons:
 
 ![PolygonCollisionSAT](/images/PolygonCollisionSAT.png)
 
+
+<a id="markdown-参考" name="参考"></a>
 
 ## 参考
 
