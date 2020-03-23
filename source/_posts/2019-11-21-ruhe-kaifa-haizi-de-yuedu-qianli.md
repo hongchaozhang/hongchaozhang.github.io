@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "如何开发孩子的阅读潜力——周育如得道公开课"
+title: "如何开发孩子的阅读潜力（周育如）"
 date: 2019-11-21 10:06:22 +0800
 comments: true
 categories: [reading]

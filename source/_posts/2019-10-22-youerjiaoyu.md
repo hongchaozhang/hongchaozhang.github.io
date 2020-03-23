@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "关于小孩培养的几个公开课"
+title: "怎样培养亲近自然的孩子"
 date: 2019-10-22 10:48:10 +0800
 comments: true
 categories: [reading]
