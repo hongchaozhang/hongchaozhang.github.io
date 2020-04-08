@@ -9,7 +9,8 @@
 	<meta name="author" content="Zhang Hongchao">
 
 	
-	<meta name="description" content="Jan 15th, 2016 python Python对中文的支持问题 参考官方文档 Read on &rarr; Dec 30th, 2015 objective-c Https在ios客户端的objective-c实现 ios通过NSURLSession进行网络请求， &hellip;">
+	<meta name="description" content="Feb 18th, 2016 ios, objective-c iOS中的动画——UIView 官方文档Animations详细讲述了UIView的animations，
+iOS 开发之动画篇 - 从 UIView 动画说起也阐述了用UIView进行动画的基本用法。 Read on &rarr &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -93,7 +94,7 @@
 
 
 <section class="categories">
-          <ul id="category_cloud" class="nav nav-list"><a href='/blog/categories/algorithm' style='font-size: 101.3953488372093%'>algorithm(1)</a> <a href='/blog/categories/android' style='font-size: 106.97674418604652%'>android(5)</a> <a href='/blog/categories/android-studio' style='font-size: 101.3953488372093%'>android studio(1)</a> <a href='/blog/categories/augmented-reality' style='font-size: 105.5813953488372%'>augmented reality(4)</a> <a href='/blog/categories/design-pattern' style='font-size: 104.18604651162791%'>design pattern(3)</a> <a href='/blog/categories/ios' style='font-size: 160.0%'>ios(43)</a> <a href='/blog/categories/java' style='font-size: 102.79069767441861%'>java(2)</a> <a href='/blog/categories/javascript' style='font-size: 102.79069767441861%'>javascript(2)</a> <a href='/blog/categories/machine-learning' style='font-size: 112.55813953488372%'>machine learning(9)</a> <a href='/blog/categories/map-tech' style='font-size: 102.79069767441861%'>map tech(2)</a> <a href='/blog/categories/mobile' style='font-size: 101.3953488372093%'>mobile(1)</a> <a href='/blog/categories/nlp' style='font-size: 102.79069767441861%'>nlp(2)</a> <a href='/blog/categories/nlu' style='font-size: 102.79069767441861%'>nlu(2)</a> <a href='/blog/categories/node' style='font-size: 104.18604651162791%'>node(3)</a> <a href='/blog/categories/objective-c' style='font-size: 129.30232558139534%'>objective-c(21)</a> <a href='/blog/categories/philosophy' style='font-size: 102.79069767441861%'>philosophy(2)</a> <a href='/blog/categories/productivity' style='font-size: 126.51162790697674%'>productivity(19)</a> <a href='/blog/categories/python' style='font-size: 104.18604651162791%'>python(3)</a> <a href='/blog/categories/reading' style='font-size: 125.11627906976744%'>reading(18)</a> <a href='/blog/categories/swift' style='font-size: 108.37209302325581%'>swift(6)</a> <a href='/blog/categories/web' style='font-size: 102.79069767441861%'>web(2)</a> <a href='/blog/categories/wwdc' style='font-size: 102.79069767441861%'>wwdc(2)</a> <a href='/blog/categories/xcode' style='font-size: 111.16279069767442%'>xcode(8)</a> </ul>
+          <ul id="category_cloud" class="nav nav-list"><a href='/blog/categories/algorithm' style='font-size: 101.3953488372093%'>algorithm(1)</a> <a href='/blog/categories/android' style='font-size: 106.97674418604652%'>android(5)</a> <a href='/blog/categories/android-studio' style='font-size: 101.3953488372093%'>android studio(1)</a> <a href='/blog/categories/augmented-reality' style='font-size: 105.5813953488372%'>augmented reality(4)</a> <a href='/blog/categories/design-pattern' style='font-size: 104.18604651162791%'>design pattern(3)</a> <a href='/blog/categories/ios' style='font-size: 160.0%'>ios(43)</a> <a href='/blog/categories/java' style='font-size: 102.79069767441861%'>java(2)</a> <a href='/blog/categories/javascript' style='font-size: 102.79069767441861%'>javascript(2)</a> <a href='/blog/categories/machine-learning' style='font-size: 112.55813953488372%'>machine learning(9)</a> <a href='/blog/categories/map-tech' style='font-size: 102.79069767441861%'>map tech(2)</a> <a href='/blog/categories/mobile' style='font-size: 101.3953488372093%'>mobile(1)</a> <a href='/blog/categories/nlp' style='font-size: 102.79069767441861%'>nlp(2)</a> <a href='/blog/categories/nlu' style='font-size: 102.79069767441861%'>nlu(2)</a> <a href='/blog/categories/node' style='font-size: 104.18604651162791%'>node(3)</a> <a href='/blog/categories/objective-c' style='font-size: 129.30232558139534%'>objective-c(21)</a> <a href='/blog/categories/philosophy' style='font-size: 102.79069767441861%'>philosophy(2)</a> <a href='/blog/categories/productivity' style='font-size: 126.51162790697674%'>productivity(19)</a> <a href='/blog/categories/python' style='font-size: 104.18604651162791%'>python(3)</a> <a href='/blog/categories/reading' style='font-size: 129.30232558139534%'>reading(21)</a> <a href='/blog/categories/swift' style='font-size: 108.37209302325581%'>swift(6)</a> <a href='/blog/categories/web' style='font-size: 102.79069767441861%'>web(2)</a> <a href='/blog/categories/wwdc' style='font-size: 102.79069767441861%'>wwdc(2)</a> <a href='/blog/categories/xcode' style='font-size: 111.16279069767442%'>xcode(8)</a> </ul>
       </section>
 
 
@@ -107,6 +108,120 @@
 			<div class="mid-col-container">
 				<div id="content" class="inner">
 <div itemscope itemtype="http://schema.org/Blog">
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2016-02-18T11:36:47+08:00" pubdate data-updated="true">Feb 18th, 2016</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/ios/'>ios</a>, <a class='category' href='/blog/categories/objective-c/'>objective-c</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2016/02/18/uiview-animation-in-ios/" itemprop="url">iOS中的动画——UIView</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>官方文档<a href="https://developer.apple.com/library/ios/documentation/WindowsViews/Conceptual/ViewPG_iPhoneOS/AnimatingViews/AnimatingViews.html">Animations</a>详细讲述了UIView的animations，
+<a href="http://www.cocoachina.com/ios/20160215/15262.html">iOS 开发之动画篇 - 从 UIView 动画说起</a>也阐述了用UIView进行动画的基本用法。</p>
+
+
+		
+		<a href="/blog/2016/02/18/uiview-animation-in-ios/" class="more-link">Read on &rarr;</a>
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2016-01-29T13:47:42+08:00" pubdate data-updated="true">Jan 29th, 2016</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/ios/'>ios</a>, <a class='category' href='/blog/categories/map-tech/'>map tech</a>, <a class='category' href='/blog/categories/objective-c/'>objective-c</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2016/01/29/convertion-among-every-geo-system/" itemprop="url">火星坐标导致iOS系统下高德地图定位不准</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>首先感慨一下：神奇的国度，神奇的坐标！</p>
+
+<h3>火星坐标系统介绍</h3>
+
+
+		
+		<a href="/blog/2016/01/29/convertion-among-every-geo-system/" class="more-link">Read on &rarr;</a>
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2016-01-19T13:47:18+08:00" pubdate data-updated="true">Jan 19th, 2016</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/ios/'>ios</a>, <a class='category' href='/blog/categories/productivity/'>productivity</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2016/01/19/cocoapods-for-ios-dependencies-control/" itemprop="url">应用CocoaPods管理iOS的依赖库关系</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>就像Java有Maven，nodejs有npm一样，ios也有自己的库依赖管理工具：CocoaPods。</p>
+
+
+		
+		<a href="/blog/2016/01/19/cocoapods-for-ios-dependencies-control/" class="more-link">Read on &rarr;</a>
+	</div>
+
+</article>
 
 
     <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
@@ -839,142 +954,6 @@
 
 		
 		<a href="/blog/2015/09/07/Singleton/" class="more-link">Read on &rarr;</a>
-	</div>
-
-</article>
-
-
-    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-
-<time datetime="2015-09-02T00:00:00+08:00" pubdate data-updated="true">Sep 2nd, 2015</time></div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/productivity/'>productivity</a>
-
-
-</div>
-		
-	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2015/09/02/Shortcut-of-Chrome-on-Windows-and-Mac/" itemprop="url">Shortcut of Chrome on Windows and Mac</a></h1>
-	<div class="entry-content" itemprop="articleBody">
-		<p>Use shortcut to improve productivity while using Chrome.</p>
-
-<p>A full page is on Chrome helper:</p>
-
-<ul>
-<li><a href="https://support.google.com/chrome/answer/157179?hl=en">English version</a></li>
-<li><a href="https://support.google.com/chrome/answer/157179?hl=zh-Hans">Chinese version</a></li>
-</ul>
-
-
-<p>I will list some common used ones here by myself.</p>
-
-
-		
-		<a href="/blog/2015/09/02/Shortcut-of-Chrome-on-Windows-and-Mac/" class="more-link">Read on &rarr;</a>
-	</div>
-
-</article>
-
-
-    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-
-<time datetime="2015-08-31T00:00:00+08:00" pubdate data-updated="true">Aug 31st, 2015</time></div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/ios/'>ios</a>, <a class='category' href='/blog/categories/xcode/'>xcode</a>
-
-
-</div>
-		
-	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2015/08/31/Warning-Messages-in-Xcode/" itemprop="url">Warning Messages in Xcode</a></h1>
-	<div class="entry-content" itemprop="articleBody">
-		<p><a href="http://oleb.net/blog/2013/04/compiler-warnings-for-objective-c-developers/">Compiler Warnings for Objective-C Developers</a> is a good post for describing warning messages for Objective-C in xcode. A Chinese version can be found <a href="http://onevcat.com/2013/05/talk-about-warning/">谈谈Objective-C的警告</a>.</p>
-
-<p>Some important things are marked here.</p>
-
-<p>Two ways to modify complier&rsquo;s warning setting: <strong>UI Method</strong> and <strong>Custom Compiler Flags Method</strong>.</p>
-
-
-		
-		<a href="/blog/2015/08/31/Warning-Messages-in-Xcode/" class="more-link">Read on &rarr;</a>
-	</div>
-
-</article>
-
-
-    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-
-<time datetime="2015-08-26T00:00:00+08:00" pubdate data-updated="true">Aug 26th, 2015</time></div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/android/'>android</a>, <a class='category' href='/blog/categories/android-studio/'>android studio</a>
-
-
-</div>
-		
-	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2015/08/26/How-to-Use-Google-Maps-Android-API-Utility-Library-in-Android-Studio/" itemprop="url">How to Use Google Maps Android API Utility Library in Android Studio</a></h1>
-	<div class="entry-content" itemprop="articleBody">
-		<p><strong>Google Maps Android API utility library</strong> (the <a href="https://github.com/googlemaps/android-maps-utils">github repo</a> and the <a href="http://googlemaps.github.io/android-maps-utils/">documentation</a>) supplies multiple cool features, including</p>
-
-<ul>
-<li><strong>Marker clustering</strong> — handles the display of a large number of points</li>
-<li><strong>Heat maps</strong> — display a large number of points as a heat map</li>
-<li><strong>IconGenerator</strong> — display text on your Markers</li>
-<li><strong>Poly decoding and encoding</strong> — compact encoding for paths, interoperability with Maps API web services</li>
-<li><strong>Spherical geometry</strong> — for example: computeDistance, computeHeading, computeArea</li>
-<li><strong>KML</strong> — displays KML data (Caution: Beta!)</li>
-<li><strong>GeoJSON</strong> — displays and styles GeoJSON data</li>
-</ul>
-
-
-
-		
-		<a href="/blog/2015/08/26/How-to-Use-Google-Maps-Android-API-Utility-Library-in-Android-Studio/" class="more-link">Read on &rarr;</a>
 	</div>
 
 </article>
