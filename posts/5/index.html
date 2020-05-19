@@ -9,7 +9,7 @@
 	<meta name="author" content="Zhang Hongchao">
 
 	
-	<meta name="description" content="Sep 7th, 2015 design pattern, objective-c Singleton Singleton implementation Objective-C中单例模式的实现 Singleton Design Pattern for Objective-C Read on & &hellip;">
+	<meta name="description" content="Sep 9th, 2015 productivity Migrate Blog to Octopress For basic configuration of octopress blog, go to official site for references. Issue with OS EI &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -93,7 +93,7 @@
 
 
 <section class="categories">
-          <ul id="category_cloud" class="nav nav-list"><a href='/blog/categories/algorithm' style='font-size: 101.3953488372093%'>algorithm(1)</a> <a href='/blog/categories/android' style='font-size: 106.97674418604652%'>android(5)</a> <a href='/blog/categories/android-studio' style='font-size: 101.3953488372093%'>android studio(1)</a> <a href='/blog/categories/augmented-reality' style='font-size: 105.5813953488372%'>augmented reality(4)</a> <a href='/blog/categories/design-pattern' style='font-size: 104.18604651162791%'>design pattern(3)</a> <a href='/blog/categories/ios' style='font-size: 160.0%'>ios(43)</a> <a href='/blog/categories/java' style='font-size: 102.79069767441861%'>java(2)</a> <a href='/blog/categories/javascript' style='font-size: 102.79069767441861%'>javascript(2)</a> <a href='/blog/categories/machine-learning' style='font-size: 112.55813953488372%'>machine learning(9)</a> <a href='/blog/categories/map-tech' style='font-size: 102.79069767441861%'>map tech(2)</a> <a href='/blog/categories/mobile' style='font-size: 101.3953488372093%'>mobile(1)</a> <a href='/blog/categories/nlp' style='font-size: 102.79069767441861%'>nlp(2)</a> <a href='/blog/categories/nlu' style='font-size: 102.79069767441861%'>nlu(2)</a> <a href='/blog/categories/node' style='font-size: 104.18604651162791%'>node(3)</a> <a href='/blog/categories/objective-c' style='font-size: 129.30232558139534%'>objective-c(21)</a> <a href='/blog/categories/philosophy' style='font-size: 102.79069767441861%'>philosophy(2)</a> <a href='/blog/categories/productivity' style='font-size: 126.51162790697674%'>productivity(19)</a> <a href='/blog/categories/python' style='font-size: 104.18604651162791%'>python(3)</a> <a href='/blog/categories/reading' style='font-size: 130.69767441860466%'>reading(22)</a> <a href='/blog/categories/swift' style='font-size: 108.37209302325581%'>swift(6)</a> <a href='/blog/categories/web' style='font-size: 102.79069767441861%'>web(2)</a> <a href='/blog/categories/wwdc' style='font-size: 102.79069767441861%'>wwdc(2)</a> <a href='/blog/categories/xcode' style='font-size: 111.16279069767442%'>xcode(8)</a> </ul>
+          <ul id="category_cloud" class="nav nav-list"><a href='/blog/categories/algorithm' style='font-size: 101.3953488372093%'>algorithm(1)</a> <a href='/blog/categories/android' style='font-size: 106.97674418604652%'>android(5)</a> <a href='/blog/categories/android-studio' style='font-size: 101.3953488372093%'>android studio(1)</a> <a href='/blog/categories/augmented-reality' style='font-size: 105.5813953488372%'>augmented reality(4)</a> <a href='/blog/categories/design-pattern' style='font-size: 104.18604651162791%'>design pattern(3)</a> <a href='/blog/categories/html-css' style='font-size: 101.3953488372093%'>html css(1)</a> <a href='/blog/categories/ios' style='font-size: 160.0%'>ios(43)</a> <a href='/blog/categories/java' style='font-size: 102.79069767441861%'>java(2)</a> <a href='/blog/categories/javascript' style='font-size: 102.79069767441861%'>javascript(2)</a> <a href='/blog/categories/machine-learning' style='font-size: 112.55813953488372%'>machine learning(9)</a> <a href='/blog/categories/map-tech' style='font-size: 102.79069767441861%'>map tech(2)</a> <a href='/blog/categories/mobile' style='font-size: 101.3953488372093%'>mobile(1)</a> <a href='/blog/categories/nlp' style='font-size: 102.79069767441861%'>nlp(2)</a> <a href='/blog/categories/nlu' style='font-size: 102.79069767441861%'>nlu(2)</a> <a href='/blog/categories/node' style='font-size: 104.18604651162791%'>node(3)</a> <a href='/blog/categories/objective-c' style='font-size: 129.30232558139534%'>objective-c(21)</a> <a href='/blog/categories/philosophy' style='font-size: 102.79069767441861%'>philosophy(2)</a> <a href='/blog/categories/productivity' style='font-size: 126.51162790697674%'>productivity(19)</a> <a href='/blog/categories/python' style='font-size: 104.18604651162791%'>python(3)</a> <a href='/blog/categories/reading' style='font-size: 130.69767441860466%'>reading(22)</a> <a href='/blog/categories/swift' style='font-size: 108.37209302325581%'>swift(6)</a> <a href='/blog/categories/web' style='font-size: 102.79069767441861%'>web(2)</a> <a href='/blog/categories/wwdc' style='font-size: 102.79069767441861%'>wwdc(2)</a> <a href='/blog/categories/xcode' style='font-size: 111.16279069767442%'>xcode(8)</a> </ul>
       </section>
 
 
@@ -107,6 +107,75 @@
 			<div class="mid-col-container">
 				<div id="content" class="inner">
 <div itemscope itemtype="http://schema.org/Blog">
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2015-09-09T10:22:17+08:00" pubdate data-updated="true">Sep 9th, 2015</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/productivity/'>productivity</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2015/09/09/migrate-blog-to-octopress/" itemprop="url">Migrate Blog to Octopress</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>For basic configuration of octopress blog, go to <a href="http://octopress.org/">official site</a> for references.</p>
+
+<h2>Issue with OS EI Caption (10.11)</h2>
+
+<p>After updating OS to <strong>EI Caption</strong> (10.11), there is some bugs when we run <code>rake preview</code>. You need to update your ruby version, and reinstall dependencies of octopress.</p>
+
+<p>Refer to <a href="http://schalkneethling.github.io/blog/2015/10/16/errno-enoent-no-such-file-or-directory-jekyll-octopress-el-capitan/">Errno::ENOENT: No Such File or Directory - Jekyll ~ Octopress and El Capitan</a> post for more details.</p>
+
+<p>If you can still not update your ruby version using the way in the above post, try the following commands (Refer to <a href="http://misheska.com/blog/2013/06/15/using-rbenv-to-manage-multiple-versions-of-ruby/">Using Rbenv to Manage Multiple Versions of Ruby</a> for more details.) before install new ruby version:</p>
+
+<ul>
+<li>Add rbenv init to your shell to enable shims and autocompletion:</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ echo 'eval "$(rbenv init -)"' &gt;&gt; $HOME/.bash_profile
+</span><span class='line'>$ source ~/.bash_profile</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>Restart shell as a login shell so that the PATH changes take effect:</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ exec $SHELL -l</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Themes</h2>
+
+<p>Go to <a href="https://github.com/imathis/octopress/wiki/3rd-Party-Octopress-Themes">here</a> to choose the theme you like. Personally, I like the <strong>boldandblue</strong> theme. It is simple and elegant.</p>
+
+
+		
+		<a href="/blog/2015/09/09/migrate-blog-to-octopress/" class="more-link">Read on &rarr;</a>
+	</div>
+
+</article>
 
 
     <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
@@ -952,54 +1021,6 @@ With these comments, we can alt+click a used function to see some useful info.</
 
 		
 		<a href="/blog/2015/07/14/How-to-add-category-or-tag-to-github-pages-posts/" class="more-link">Read on &rarr;</a>
-	</div>
-
-</article>
-
-
-    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-
-<time datetime="2015-07-09T00:00:00+08:00" pubdate data-updated="true">Jul 9th, 2015</time></div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/productivity/'>productivity</a>
-
-
-</div>
-		
-	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2015/07/09/Basic-Git-Commands/" itemprop="url">Basic Git Commands</a></h1>
-	<div class="entry-content" itemprop="articleBody">
-		<h1>Contents</h1>
-
-<ul>
-<li><a href="#check_status">Check Current Status</a></li>
-<li><a href="#branch_operation">Branch Operation</a></li>
-<li><a href="#git_commit_amend">Use <em>git commit &ndash;amend</em></a></li>
-<li><a href="#check_commit_history">Check commit history</a></li>
-<li><a href="#git_ignore">.gitignore</a></li>
-<li><a href="#git_stash">Using <em>git stash</em></a></li>
-<li><a href="#kdiff3">Use <em>kdiff3</em> as the default tool for git</a></li>
-</ul>
-
-
-
-		
-		<a href="/blog/2015/07/09/Basic-Git-Commands/" class="more-link">Read on &rarr;</a>
 	</div>
 
 </article>
