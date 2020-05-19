@@ -36,6 +36,12 @@ categories: [productivity]
 
 Mac上的这个词典好过系统自带的Dictionary很多。引用推荐人的一句话：这是Mac上最好用的词典，没有之一。
 
+但是这是一个收费的软件，只能试用50次。这个值可以在下面文件里面修改：*Users/[User]/Library/Preferences/com.eusoft.eudic.plist*。用Xcode打开此文件，修改`MAIN_TimesLeft`为100000000即可。
+
+> 如果喜欢这个软件，还是花一百多块钱支持一下作者吧。而且这是一次性的费用。
+> 
+> 我用VS Code打开是乱码。
+
 ### calibre
 
 喜欢看电子书的话，用这个编辑电子书非常方便。比如，将一部合集拆成几个部分，或者反过来，将几部分合成一本电子书。
