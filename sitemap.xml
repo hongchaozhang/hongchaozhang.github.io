@@ -1,6 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
+<loc>http://hongchaozhang.github.io/blog/2020/05/23/jixing-banzou-6/</loc>
+<lastmod>2020-05-23T23:37:32+08:00</lastmod>
+</url>
+<url>
+<loc>http://hongchaozhang.github.io/blog/2020/05/23/jixing-banzou-5/</loc>
+<lastmod>2020-05-23T23:34:11+08:00</lastmod>
+</url>
+<url>
+<loc>http://hongchaozhang.github.io/blog/2020/05/23/ruhe-peiyang-shou-huanying-de-haizi/</loc>
+<lastmod>2020-05-23T22:01:41+08:00</lastmod>
+</url>
+<url>
+<loc>http://hongchaozhang.github.io/blog/2020/05/22/jixing-banzou-4/</loc>
+<lastmod>2020-05-22T13:29:50+08:00</lastmod>
+</url>
+<url>
+<loc>http://hongchaozhang.github.io/blog/2020/05/22/jixing-banzou-3/</loc>
+<lastmod>2020-05-22T13:28:01+08:00</lastmod>
+</url>
+<url>
+<loc>http://hongchaozhang.github.io/blog/2020/05/22/jixing-banzou-2/</loc>
+<lastmod>2020-05-22T13:27:57+08:00</lastmod>
+</url>
+<url>
+<loc>http://hongchaozhang.github.io/blog/2020/05/20/jixing-banzou/</loc>
+<lastmod>2020-05-20T14:11:22+08:00</lastmod>
+</url>
+<url>
 <loc>http://hongchaozhang.github.io/blog/2020/05/18/understand-css-z-index/</loc>
 <lastmod>2020-05-18T18:20:46+08:00</lastmod>
 </url>
@@ -516,6 +544,9 @@
 </url>
 <url>
 <loc>http://hongchaozhang.github.io/blog/categories/html-css/</loc>
+</url>
+<url>
+<loc>http://hongchaozhang.github.io/blog/categories/music/</loc>
 </url>
 <url>
 <loc>http://hongchaozhang.github.io/posts/2/</loc>

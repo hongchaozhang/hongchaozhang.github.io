@@ -9,11 +9,7 @@
 	<meta name="author" content="Zhang Hongchao">
 
 	
-	<meta name="description" content="Jul 9th, 2015 productivity Basic Git Commands Contents Check Current Status
-Branch Operation
-Use git commit &ndash;amend
-Check commit history
-. &hellip;">
+	<meta name="description" content="Jul 28th, 2015 android, java Communication Between WebView and Native Android Description In Android project, we sometimes want to rend a page in &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -97,7 +93,7 @@ Check commit history
 
 
 <section class="categories">
-          <ul id="category_cloud" class="nav nav-list"><a href='/blog/categories/algorithm' style='font-size: 101.3953488372093%'>algorithm(1)</a> <a href='/blog/categories/android' style='font-size: 106.97674418604652%'>android(5)</a> <a href='/blog/categories/android-studio' style='font-size: 101.3953488372093%'>android studio(1)</a> <a href='/blog/categories/augmented-reality' style='font-size: 105.5813953488372%'>augmented reality(4)</a> <a href='/blog/categories/design-pattern' style='font-size: 104.18604651162791%'>design pattern(3)</a> <a href='/blog/categories/html-css' style='font-size: 101.3953488372093%'>html css(1)</a> <a href='/blog/categories/ios' style='font-size: 160.0%'>ios(43)</a> <a href='/blog/categories/java' style='font-size: 102.79069767441861%'>java(2)</a> <a href='/blog/categories/javascript' style='font-size: 102.79069767441861%'>javascript(2)</a> <a href='/blog/categories/machine-learning' style='font-size: 112.55813953488372%'>machine learning(9)</a> <a href='/blog/categories/map-tech' style='font-size: 102.79069767441861%'>map tech(2)</a> <a href='/blog/categories/mobile' style='font-size: 101.3953488372093%'>mobile(1)</a> <a href='/blog/categories/nlp' style='font-size: 102.79069767441861%'>nlp(2)</a> <a href='/blog/categories/nlu' style='font-size: 102.79069767441861%'>nlu(2)</a> <a href='/blog/categories/node' style='font-size: 104.18604651162791%'>node(3)</a> <a href='/blog/categories/objective-c' style='font-size: 129.30232558139534%'>objective-c(21)</a> <a href='/blog/categories/philosophy' style='font-size: 102.79069767441861%'>philosophy(2)</a> <a href='/blog/categories/productivity' style='font-size: 126.51162790697674%'>productivity(19)</a> <a href='/blog/categories/python' style='font-size: 104.18604651162791%'>python(3)</a> <a href='/blog/categories/reading' style='font-size: 130.69767441860466%'>reading(22)</a> <a href='/blog/categories/swift' style='font-size: 108.37209302325581%'>swift(6)</a> <a href='/blog/categories/web' style='font-size: 102.79069767441861%'>web(2)</a> <a href='/blog/categories/wwdc' style='font-size: 102.79069767441861%'>wwdc(2)</a> <a href='/blog/categories/xcode' style='font-size: 111.16279069767442%'>xcode(8)</a> </ul>
+          <ul id="category_cloud" class="nav nav-list"><a href='/blog/categories/algorithm' style='font-size: 101.3953488372093%'>algorithm(1)</a> <a href='/blog/categories/android' style='font-size: 106.97674418604652%'>android(5)</a> <a href='/blog/categories/android-studio' style='font-size: 101.3953488372093%'>android studio(1)</a> <a href='/blog/categories/augmented-reality' style='font-size: 105.5813953488372%'>augmented reality(4)</a> <a href='/blog/categories/design-pattern' style='font-size: 104.18604651162791%'>design pattern(3)</a> <a href='/blog/categories/html-css' style='font-size: 101.3953488372093%'>html css(1)</a> <a href='/blog/categories/ios' style='font-size: 160.0%'>ios(43)</a> <a href='/blog/categories/java' style='font-size: 102.79069767441861%'>java(2)</a> <a href='/blog/categories/javascript' style='font-size: 102.79069767441861%'>javascript(2)</a> <a href='/blog/categories/machine-learning' style='font-size: 112.55813953488372%'>machine learning(9)</a> <a href='/blog/categories/map-tech' style='font-size: 102.79069767441861%'>map tech(2)</a> <a href='/blog/categories/mobile' style='font-size: 101.3953488372093%'>mobile(1)</a> <a href='/blog/categories/music' style='font-size: 108.37209302325581%'>music(6)</a> <a href='/blog/categories/nlp' style='font-size: 102.79069767441861%'>nlp(2)</a> <a href='/blog/categories/nlu' style='font-size: 102.79069767441861%'>nlu(2)</a> <a href='/blog/categories/node' style='font-size: 104.18604651162791%'>node(3)</a> <a href='/blog/categories/objective-c' style='font-size: 129.30232558139534%'>objective-c(21)</a> <a href='/blog/categories/philosophy' style='font-size: 102.79069767441861%'>philosophy(2)</a> <a href='/blog/categories/productivity' style='font-size: 126.51162790697674%'>productivity(19)</a> <a href='/blog/categories/python' style='font-size: 104.18604651162791%'>python(3)</a> <a href='/blog/categories/reading' style='font-size: 132.09302325581396%'>reading(23)</a> <a href='/blog/categories/swift' style='font-size: 108.37209302325581%'>swift(6)</a> <a href='/blog/categories/web' style='font-size: 102.79069767441861%'>web(2)</a> <a href='/blog/categories/wwdc' style='font-size: 102.79069767441861%'>wwdc(2)</a> <a href='/blog/categories/xcode' style='font-size: 111.16279069767442%'>xcode(8)</a> </ul>
       </section>
 
 
@@ -111,6 +107,308 @@ Check commit history
 			<div class="mid-col-container">
 				<div id="content" class="inner">
 <div itemscope itemtype="http://schema.org/Blog">
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2015-07-28T00:00:00+08:00" pubdate data-updated="true">Jul 28th, 2015</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/android/'>android</a>, <a class='category' href='/blog/categories/java/'>java</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2015/07/28/Communication-between-WebView-and-native-android/" itemprop="url">Communication Between WebView and Native Android</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<h2>Description</h2>
+
+<p>In Android project, we sometimes want to rend a page in <strong>WebView</strong>, and need communication between webview and native android side.</p>
+
+<p><strong>Note:</strong> Go to <a href="https://github.com/hongchaozhang/android_java_javascript_communication">here</a> for a project as a sample.</p>
+
+<h2>Javascript and Java Bridge</h2>
+
+
+		
+		<a href="/blog/2015/07/28/Communication-between-WebView-and-native-android/" class="more-link">Read on &rarr;</a>
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2015-07-27T00:00:00+08:00" pubdate data-updated="true">Jul 27th, 2015</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/ios/'>ios</a>, <a class='category' href='/blog/categories/objective-c/'>objective-c</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2015/07/27/Property-and-its-Attributes-in-Objective-C/" itemprop="url">Property and Its Attributes in Objective-C</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>All the attributes of a property defines how the compiler generate the <code>getter</code> and <code>setter</code> accessors.</p>
+
+<ul>
+<li>atomic / nonatomic</li>
+<li>strong / weak: used for ARC.</li>
+<li>assign / retain / copy: go to <a href="http://blog.csdn.net/jiarusun000/article/details/6991249">here</a> for reference. These properties define how the compiler generate the <code>setter</code> accessor.</li>
+<li>readonly / readwrite: if a property is declared as <code>readonly</code>, the compiler will only declare the getter accessor, so that you can not call setter accessor.</li>
+</ul>
+
+
+
+		
+		<a href="/blog/2015/07/27/Property-and-its-Attributes-in-Objective-C/" class="more-link">Read on &rarr;</a>
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2015-07-22T00:00:00+08:00" pubdate data-updated="true">Jul 22nd, 2015</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/ios/'>ios</a>, <a class='category' href='/blog/categories/objective-c/'>objective-c</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2015/07/22/Property-vs-Instance-Variable(iVar)-in-Objective-C/" itemprop="url">Property vs Instance Variable (iVar) in Objective-c</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>This post is deprecated. Refer to <a href="http://hongchaozhang.github.io/blog/2015/12/19/propety-instance-variable-and-at-synthesize/">Propety, Instance Variable and @synthesize</a>.</p>
+
+
+		
+		<a href="/blog/2015/07/22/Property-vs-Instance-Variable(iVar)-in-Objective-C/" class="more-link">Read on &rarr;</a>
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2015-07-21T00:00:00+08:00" pubdate data-updated="true">Jul 21st, 2015</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/ios/'>ios</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2015/07/21/Use-Current-Location-Service-in-Map/" itemprop="url">Use Current Location Service in Map</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<h2>Location Service Authorization</h2>
+
+<h3>1. Set <em>info.plist</em></h3>
+
+<p>For iOS SDK 8.0 and later, we need to set <code>NSLocationWhenInUseUsageDescription</code> and &lsquo;NSLocationAlwaysUsageDescription&rsquo; in <em>info.plist</em> file. A sample case is:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='xml'><span class='line'><span class="nt">&lt;key&gt;</span>NSLocationWhenInUseUsageDescription<span class="nt">&lt;/key&gt;</span>
+</span><span class='line'><span class="nt">&lt;string&gt;</span>Do you allow the app to use your location?<span class="nt">&lt;/string&gt;</span>
+</span><span class='line'><span class="nt">&lt;key&gt;</span>NSLocationAlwaysUsageDescription<span class="nt">&lt;/key&gt;</span>
+</span><span class='line'><span class="nt">&lt;string&gt;</span>Are you willing to allow the app to use your location?<span class="nt">&lt;/string&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The <code>string</code> will appear in the popup dialog. You can leave it as empty, and only the system message will appear in the popup.</p>
+
+
+		
+		<a href="/blog/2015/07/21/Use-Current-Location-Service-in-Map/" class="more-link">Read on &rarr;</a>
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2015-07-20T00:00:00+08:00" pubdate data-updated="true">Jul 20th, 2015</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/productivity/'>productivity</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2015/07/20/Some-Useful-Tools-for-Coding/" itemprop="url">Some Useful Tools for Coding</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		
+		
+		<a href="/blog/2015/07/20/Some-Useful-Tools-for-Coding/" class="more-link">Read on &rarr;</a>
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2015-07-14T00:00:00+08:00" pubdate data-updated="true">Jul 14th, 2015</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/ios/'>ios</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2015/07/14/use-MKOverlay-and-MKOverlayRenderer/" itemprop="url">Use MKOverlay and MKOverlayRenderer</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<h3>MKOverlay</h3>
+
+<p>Write your own overlay class (for example, <code>MapOverlay</code>) confirm to <code>MKOverlay</code>, synthesize <code>coordinate</code> and <code>boundingMapRect</code>, so that we can assign value to them while initializing it.</p>
+
+<p>Note that the type of <code>coordinate</code> is <code>CLLocationCoordinate2D</code> with <code>latitude</code> and <code>longitude</code>, while <code>boundingMapRect</code> is <code>MKMapRect</code>. And we need to use <code>MKMapPointForCoordinate</code> method to convert a <code>CLLocationCoordinate2D</code> type data to <code>MKMapPoint</code> type data. If we assign the <code>CLLocationCoordinate2D</code> data directly to <code>boundingMapRect</code>, the overlay will be too small to draw, and the <code>mapView:rendererForOverlay:</code> method will not be called at all. It is very hard for debugging.</p>
+
+
+		
+		<a href="/blog/2015/07/14/use-MKOverlay-and-MKOverlayRenderer/" class="more-link">Read on &rarr;</a>
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2015-07-14T00:00:00+08:00" pubdate data-updated="true">Jul 14th, 2015</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/productivity/'>productivity</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2015/07/14/How-to-add-category-or-tag-to-github-pages-posts/" itemprop="url">How to Add Category or Tag to Github Page Posts</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p><strong>[updated 2015.09.13]</strong> This adding method is only for my project pages (gh-pages) <em>GitBlogs</em>, and for octopress, the way is builded in.</p>
+
+<p><strong>[updated 2015.06.07]</strong> For adding category or tag automatically through python script, go to <a href="http://hongchaozhang.github.io/code/2015/06/27/instructions-for-adding-tags-and-categories.html">here</a>.</p>
+
+<h3>Introduction</h3>
+
+<p>The <strong>index</strong> page includes <em>cat_tag_for_index.html</em> for showing all the categories and tags, and the number of the corresponding posts.</p>
+
+<p>The <strong>_layouts/default.html</strong> describes the content of a post, because post includes it. In the <strong>_layout/default.html</strong> file, it includes the <strong>cat_tag.html</strong> template as the <em>category</em> and <em>tag</em> info in the beginning of the post. And <strong>cat_tag.html</strong> also includes the date behind.</p>
+
+<p><em>_data/categories.yml</em> and <em>_data/tags.yml</em> describe all the categories and tags.</p>
+
+
+		
+		<a href="/blog/2015/07/14/How-to-add-category-or-tag-to-github-pages-posts/" class="more-link">Read on &rarr;</a>
+	</div>
+
+</article>
 
 
     <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: html css | Reading Space]]></title>
   <link href="http://hongchaozhang.github.io/blog/categories/html-css/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2020-05-19T10:51:44+08:00</updated>
+  <updated>2020-05-24T22:47:19+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -58,9 +58,11 @@
 </ol>
 
 
-<blockquote><p><strong>Note</strong>: The hierarchy of stacking contexts is a subset of the hierarchy of HTML elements because only certain elements create stacking contexts.</p></blockquote>
+<blockquote><p><strong>Note</strong>:
+1. The hierarchy of stacking contexts is a subset of the hierarchy of HTML elements because only certain elements create stacking contexts.
+2. iOS可以看成Stacking Context hirarchy和view hirarchy相同的一个特例。</p>
 
-<h2>同一Stacking Context中的元素的排序</h2>
+<h2>同一Stacking Context中的元素的排序</h2></blockquote>
 
 <p>在同一Stacking Context内部，前后顺序是怎么排列的呢？</p>
 
@@ -85,9 +87,14 @@ z-index:  canvas  -1      0    1    2
 
 <p>更全面详细的说明见<a href="https://www.w3.org/TR/CSS2/zindex.html">Appendix E. Elaborate description of Stacking Contexts</a>。</p>
 
+<blockquote><p><strong>Note:</strong>
+这里有一点和iOS很不同：子元素可以跑到父元素的后面 （<code>z-index</code>小于0）。</p></blockquote>
+
 <h2>例子</h2>
 
-<p>看下面三个正方形的前后顺序：</p>
+<p>我们可以借助下面的例子来理解Stacking Context。</p>
+
+<p>下面三个正方形的前后顺序：</p>
 
 <p><img src="/images/CSS_zIndex.png" alt="" /></p>
 

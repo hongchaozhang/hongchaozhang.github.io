@@ -9,7 +9,8 @@
 	<meta name="author" content="Zhang Hongchao">
 
 	
-	<meta name="description" content="Some Useful Tools for Coding Using Plugins for Xcode Using Alcatraz to manage plugins in Xcode. Some recommended plugins: ColorSenseRainBow A plugin &hellip;">
+	<meta name="description" content="Some Useful Tools for Coding kdiff和p4merge kdiff可以用来比较文件和文件夹的不同，也可以集成到Mac的Terminal中。
+相比于kdiff， p4merge的界面更友好，也一样可以集成到Terminal中。唯一的不足是不能比较两个folder的不同 &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -93,7 +94,7 @@
 
 
 <section class="categories">
-          <ul id="category_cloud" class="nav nav-list"><a href='/blog/categories/algorithm' style='font-size: 101.3953488372093%'>algorithm(1)</a> <a href='/blog/categories/android' style='font-size: 106.97674418604652%'>android(5)</a> <a href='/blog/categories/android-studio' style='font-size: 101.3953488372093%'>android studio(1)</a> <a href='/blog/categories/augmented-reality' style='font-size: 105.5813953488372%'>augmented reality(4)</a> <a href='/blog/categories/design-pattern' style='font-size: 104.18604651162791%'>design pattern(3)</a> <a href='/blog/categories/html-css' style='font-size: 101.3953488372093%'>html css(1)</a> <a href='/blog/categories/ios' style='font-size: 160.0%'>ios(43)</a> <a href='/blog/categories/java' style='font-size: 102.79069767441861%'>java(2)</a> <a href='/blog/categories/javascript' style='font-size: 102.79069767441861%'>javascript(2)</a> <a href='/blog/categories/machine-learning' style='font-size: 112.55813953488372%'>machine learning(9)</a> <a href='/blog/categories/map-tech' style='font-size: 102.79069767441861%'>map tech(2)</a> <a href='/blog/categories/mobile' style='font-size: 101.3953488372093%'>mobile(1)</a> <a href='/blog/categories/nlp' style='font-size: 102.79069767441861%'>nlp(2)</a> <a href='/blog/categories/nlu' style='font-size: 102.79069767441861%'>nlu(2)</a> <a href='/blog/categories/node' style='font-size: 104.18604651162791%'>node(3)</a> <a href='/blog/categories/objective-c' style='font-size: 129.30232558139534%'>objective-c(21)</a> <a href='/blog/categories/philosophy' style='font-size: 102.79069767441861%'>philosophy(2)</a> <a href='/blog/categories/productivity' style='font-size: 126.51162790697674%'>productivity(19)</a> <a href='/blog/categories/python' style='font-size: 104.18604651162791%'>python(3)</a> <a href='/blog/categories/reading' style='font-size: 130.69767441860466%'>reading(22)</a> <a href='/blog/categories/swift' style='font-size: 108.37209302325581%'>swift(6)</a> <a href='/blog/categories/web' style='font-size: 102.79069767441861%'>web(2)</a> <a href='/blog/categories/wwdc' style='font-size: 102.79069767441861%'>wwdc(2)</a> <a href='/blog/categories/xcode' style='font-size: 111.16279069767442%'>xcode(8)</a> </ul>
+          <ul id="category_cloud" class="nav nav-list"><a href='/blog/categories/algorithm' style='font-size: 101.3953488372093%'>algorithm(1)</a> <a href='/blog/categories/android' style='font-size: 106.97674418604652%'>android(5)</a> <a href='/blog/categories/android-studio' style='font-size: 101.3953488372093%'>android studio(1)</a> <a href='/blog/categories/augmented-reality' style='font-size: 105.5813953488372%'>augmented reality(4)</a> <a href='/blog/categories/design-pattern' style='font-size: 104.18604651162791%'>design pattern(3)</a> <a href='/blog/categories/html-css' style='font-size: 101.3953488372093%'>html css(1)</a> <a href='/blog/categories/ios' style='font-size: 160.0%'>ios(43)</a> <a href='/blog/categories/java' style='font-size: 102.79069767441861%'>java(2)</a> <a href='/blog/categories/javascript' style='font-size: 102.79069767441861%'>javascript(2)</a> <a href='/blog/categories/machine-learning' style='font-size: 112.55813953488372%'>machine learning(9)</a> <a href='/blog/categories/map-tech' style='font-size: 102.79069767441861%'>map tech(2)</a> <a href='/blog/categories/mobile' style='font-size: 101.3953488372093%'>mobile(1)</a> <a href='/blog/categories/music' style='font-size: 108.37209302325581%'>music(6)</a> <a href='/blog/categories/nlp' style='font-size: 102.79069767441861%'>nlp(2)</a> <a href='/blog/categories/nlu' style='font-size: 102.79069767441861%'>nlu(2)</a> <a href='/blog/categories/node' style='font-size: 104.18604651162791%'>node(3)</a> <a href='/blog/categories/objective-c' style='font-size: 129.30232558139534%'>objective-c(21)</a> <a href='/blog/categories/philosophy' style='font-size: 102.79069767441861%'>philosophy(2)</a> <a href='/blog/categories/productivity' style='font-size: 126.51162790697674%'>productivity(19)</a> <a href='/blog/categories/python' style='font-size: 104.18604651162791%'>python(3)</a> <a href='/blog/categories/reading' style='font-size: 132.09302325581396%'>reading(23)</a> <a href='/blog/categories/swift' style='font-size: 108.37209302325581%'>swift(6)</a> <a href='/blog/categories/web' style='font-size: 102.79069767441861%'>web(2)</a> <a href='/blog/categories/wwdc' style='font-size: 102.79069767441861%'>wwdc(2)</a> <a href='/blog/categories/xcode' style='font-size: 111.16279069767442%'>xcode(8)</a> </ul>
       </section>
 
 
@@ -107,7 +108,53 @@
 			<div class="mid-col-container">
 				<div id="content" class="inner"><article class="post" itemscope itemtype="http://schema.org/BlogPosting">
 	<h1 class="title" itemprop="name">Some Useful Tools for Coding</h1>
-	<div class="entry-content" itemprop="articleBody"><h2>Using Plugins for Xcode</h2>
+	<div class="entry-content" itemprop="articleBody"><!-- more -->
+
+
+<h2>kdiff和p4merge</h2>
+
+<ol>
+<li><strong>kdiff</strong>可以用来比较文件和文件夹的不同，也可以集成到Mac的Terminal中。</li>
+<li>相比于<strong>kdiff</strong>， <strong>p4merge</strong>的界面更友好，也一样可以集成到Terminal中。唯一的不足是不能比较两个folder的不同。</li>
+</ol>
+
+
+<h2>node版本管理</h2>
+
+<p>使用nvm管理node的版本非常方便。</p>
+
+<h2>python版本管理</h2>
+
+<p>用<a href="https://github.com/pyenv/pyenv"><strong>pyenv</strong></a>管理python的不同版本，并在不同版本之间自由切换。使用方法和<strong>nvm</strong>类似。</p>
+
+<p>也可以参照<a href="https://www.chrisjmendez.com/2017/08/03/installing-multiple-versions-of-python-on-your-mac-using-homebrew/">Installing multiple versions of Python on Mac using Homebrew</a>。虽然说运行<code>source ~/.bash_profile</code>可以使配置生效，但是我这边还是没有办法切换成功。最后还是重启了Terminal才成功切换python版本。</p>
+
+<h2>Debugging Network</h2>
+
+<h3>Charles</h3>
+
+<p>用Charles设置代理，抓取数据包。</p>
+
+<h3>Network Link Conditioner</h3>
+
+<p>设置网络状态，比如Edge，3G，wifi等。设置界面：
+<img src="/images/network_link_conditioner.png" alt="network_link_conditioner.png" /></p>
+
+<h2>Goagent for VPN</h2>
+
+<p>For Mac, refer to <a href="http://blog.csdn.net/yanzi1225627/article/details/42886391">this post</a>.</p>
+
+<p>If you meet with httplib.BadStatusLine error while running <code>python uploader.py</code>, refer <a href="https://code.google.com/p/goagent/issues/detail?can=2&amp;start=0&amp;num=100&amp;q=&amp;colspec=ID%20Opened%20Reporter%20Modified%20Summary%20Stars&amp;groupby=&amp;sort=&amp;id=18501">here</a> (tricky here, as the link need vpn to get):</p>
+
+<ul>
+<li>关闭谷歌账户的两部验证功能。</li>
+<li>并且到 <a href="https://www.google.com/settings/security/lesssecureapps">这里</a> 确认"不够安全的应用的访问权限"已启用。</li>
+</ul>
+
+
+<h2>Using Plugins for Xcode</h2>
+
+<p>[2020.05.22 Update]自从XCode 8.0开始，Apple就禁止了插件的使用。</p>
 
 <p>Using <a href="http://alcatraz.io/">Alcatraz</a> to manage plugins in Xcode.</p>
 
@@ -131,36 +178,6 @@
 With these comments, we can alt+click a used function to see some useful info.</p></li>
 </ul>
 
-
-<h2>kdiff</h2>
-
-<!-- more -->
-
-
-<p>Use <strong>kdiff</strong> for comparing and merging files or folders.</p>
-
-<h2>Goagent for VPN</h2>
-
-<p>For Mac, refer to <a href="http://blog.csdn.net/yanzi1225627/article/details/42886391">this post</a>.</p>
-
-<p>If you meet with httplib.BadStatusLine error while running <code>python uploader.py</code>, refer <a href="https://code.google.com/p/goagent/issues/detail?can=2&amp;start=0&amp;num=100&amp;q=&amp;colspec=ID%20Opened%20Reporter%20Modified%20Summary%20Stars&amp;groupby=&amp;sort=&amp;id=18501">here</a> (tricky here, as the link need vpn to get):</p>
-
-<ul>
-<li>关闭谷歌账户的两部验证功能。</li>
-<li>并且到 <a href="https://www.google.com/settings/security/lesssecureapps">这里</a> 确认"不够安全的应用的访问权限"已启用。</li>
-</ul>
-
-
-<h2>Debugging Network</h2>
-
-<h3>Charles</h3>
-
-<p>用Charles设置代理，抓取数据包。</p>
-
-<h3>Network Link Conditioner</h3>
-
-<p>设置网络状态，比如Edge，3G，wifi等。设置界面：
-<img src="/images/network_link_conditioner.png" alt="network_link_conditioner.png" /></p>
 </div>
 
 </article>
