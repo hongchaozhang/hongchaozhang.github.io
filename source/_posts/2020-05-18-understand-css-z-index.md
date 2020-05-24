@@ -38,8 +38,9 @@ A stacking context is formed, anywhere in the document, by any element in the fo
 12. Element with a `contain` value of `layout`, or `paint`, or a composite value that includes either of them (i.e. `contain: strict`, `contain: content`).
 
 
-> **Note**: The hierarchy of stacking contexts is a subset of the hierarchy of HTML elements because only certain elements create stacking contexts.
-
+> **Note**: 
+> 1. The hierarchy of stacking contexts is a subset of the hierarchy of HTML elements because only certain elements create stacking contexts.
+> 2. iOS可以看成Stacking Context hirarchy和view hirarchy相同的一个特例。
 ## 同一Stacking Context中的元素的排序
 
 在同一Stacking Context内部，前后顺序是怎么排列的呢？
@@ -62,8 +63,13 @@ from back to front:
 
 更全面详细的说明见[Appendix E. Elaborate description of Stacking Contexts](https://www.w3.org/TR/CSS2/zindex.html)。
 
+> **Note:**
+> 这里有一点和iOS很不同：子元素可以跑到父元素的后面 （`z-index`小于0）。
+
 ## 例子
-看下面三个正方形的前后顺序：
+我们可以借助下面的例子来理解Stacking Context。
+
+下面三个正方形的前后顺序：
 
 ![](/images/CSS_zIndex.png)
 
