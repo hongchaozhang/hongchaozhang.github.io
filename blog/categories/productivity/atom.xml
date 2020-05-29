@@ -4,7 +4,7 @@
   <title><![CDATA[Category: productivity | Reading Space]]></title>
   <link href="http://hongchaozhang.github.io/blog/categories/productivity/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2020-05-24T22:47:19+08:00</updated>
+  <updated>2020-05-29T17:44:44+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -12,6 +12,137 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[区域位置地理信息的获取、查看、和后期处理]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2020/05/29/quyu-bianjie-dili-weizhi-xinxi/"/>
+    <updated>2020-05-29T16:53:59+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2020/05/29/quyu-bianjie-dili-weizhi-xinxi</id>
+    <content type="html"><![CDATA[<!-- more -->
+
+
+<p>如果想在地图上显示指定区域的边界信息，比如中国国家边界信息，或者各省市的边界信息，首先要获得边界信息数据。下面就介绍一下我在获取中国各省边界信息的过程中用到的一些资源。</p>
+
+<h2>下载</h2>
+
+<p><img src="/images/GADMDownload.jpg" alt="GADMDownload" /></p>
+
+<p><a href="https://gadm.org/download_country_v3.html">GADM</a>可以下载的格式包括KMZ格式和SHP格式。</p>
+
+<ol>
+<li>KMZ格式是KML格式的压缩格式，需要用解压工具解压。</li>
+<li>下载文件中中国各地区的名称都是英文名称，需要写脚本换成中文信息。</li>
+</ol>
+
+
+<h2>查看</h2>
+
+<p><img src="/images/vscodemappreview.jpg" alt="vscodemappreview" /></p>
+
+<p>在VSCode中使用插件VSCode Map Preview进行预览。但是该插件不支持SHP格式文件预览。</p>
+
+<p><img src="/images/mapshaper.jpg" alt="mapshaper" /></p>
+
+<p><a href="https://mapshaper.org/">mapshaper</a>这个地址支持SHP文件的预览，但是不支持KML格式的预览。</p>
+
+<h2>编辑</h2>
+
+<p>在VSCode中编辑，同时结合VSCode Map Preview插件进行预览。</p>
+
+<p>目前为止，发现的编辑工具都只能基于文本进行编辑，还没有发现一款有UI界面的编辑工具。</p>
+
+<h2>绘制</h2>
+
+<p><img src="/images/geojsondraw.jpg" alt="geojsondraw" /></p>
+
+<p><a href="http://geojson.io/">geojson.io</a>手动绘制多边形，并且导出geojson格式的文件。</p>
+
+<h2>格式转换</h2>
+
+<p>GDAL ogr2ogr</p>
+
+<ol>
+<li>安装GDAL
+
+<ol>
+<li>pkg安装</li>
+<li>homebrew 安装</li>
+</ol>
+</li>
+<li>添加环境变量<code>export PATH=/Library/Frameworks/GDAL.framework/Programs/:$PATH</code>到<code>～/.bash_profile</code>文件。</li>
+<li>运行<code>source ~/.bash_profile</code>或者重启Terminal。</li>
+</ol>
+
+
+<p>现在就可以运行ogr2ogr命令进行格式转化了：</p>
+
+<pre><code>ogr2ogr -f “KML” output.kml input.shp
+</code></pre>
+
+<h2>压缩</h2>
+
+<h3>GDAL ogr2ogr压缩点的数量</h3>
+
+<p>除了格式转换，GDAL ogr2ogr还可以进行压缩（ogr2ogr官方网站 <a href="https://gdal.org/programs/ogr2ogr.html%EF%BC%89%EF%BC%9A">https://gdal.org/programs/ogr2ogr.html%EF%BC%89%EF%BC%9A</a></p>
+
+<pre><code>ogr2ogr output.kml input lml 0.0001
+</code></pre>
+
+<p>上面命令中最后一个参数对应的是压缩系数，用来控制点的数量，不代表经纬度的小数点位数。</p>
+
+<h3>google官方工具压缩经纬度的经度</h3>
+
+<p>如果要压缩经纬度的精度，即小数点的位数，可以使用<a href="https://www.gearthblog.com/blog/archives/2016/03/making-kml-files-smaller-reducing-precision.html">google官方工具</a>。</p>
+
+<h3>mapshaper压缩点的数量，并实时查看效果。</h3>
+
+<p><img src="/images/mapshapercompressor.gif" alt="mapshapercompressor" /></p>
+
+<p><a href="https://mapshaper.org/">mapshaper</a>进行压缩很是方便。</p>
+
+<p><strong>优点：</strong></p>
+
+<ol>
+<li>滑块调整压缩系数，同时查看压缩效果。</li>
+<li>可以导出shp格式文件，还有console可以查看shp文件结构。</li>
+</ol>
+
+
+<h2>多边形合并融合</h2>
+
+<p>关键字：merge dissolve</p>
+
+<p>试图寻找中国七大区域（华北、华南、东北等）边界信息，没有找到。理论上可以通过多边形合并得到，但是没有合适的工具。</p>
+
+<p>目前只发现了ArcGIS的desktop可以做这个事情，但是需要收费账号。</p>
+
+<h2>中国各省份的坐标</h2>
+
+<p><a href="https://github.com/baixuexiyang/geocoord">省市坐标</a>上面贴出了中国各省的地理坐标，可能需要用到。</p>
+
+<h2>数据源</h2>
+
+<p>有了各地区的边界信息，我们还需要各地区的一些有意义的数据，比如人口，GDP等，才能在地图上进行查看。这些数据怎么得到呢？</p>
+
+<h3>国家数据网站</h3>
+
+<p><a href="http://data.stats.gov.cn/">国家数据网站</a>提供全国各省很多类型的数据，值得好好挖掘。</p>
+
+<p>其中：</p>
+
+<ol>
+<li><a href="http://data.stats.gov.cn/easyquery.htm?cn=C01">年度数据</a>适合查看变化趋势；</li>
+<li><a href="http://data.stats.gov.cn/easyquery.htm?cn=E0103">分省年度数据</a>适合观察基于地图的地区分布趋势；</li>
+<li><a href="http://www.stats.gov.cn/tjsj/pcsj/">普查数据</a>中的人口普查数据有详细的人口方面的数据。</li>
+<li>&hellip;</li>
+</ol>
+
+
+<h3>使用脚本解析excel</h3>
+
+<p>上面的数据有的是网页数据，有的是excel数据（普查数据），对excel内部数据的结构调整可以参考<a href="http://hongchaozhang.github.io/blog/2016/03/04/parsing-and-write-excel-file-using-node-module/">使用node-xlsx进行excel文件的读写</a>进行。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[迁移Octopress到新的机器上]]></title>
@@ -473,137 +604,6 @@ find "${SRCROOT}" \( -name "*.h" -or -name "*.m" -or -name "*.swift" \) -print0 
 <h3>Simian - Similarity Analyser</h3>
 
 <p><a href="http://www.harukizaemon.com/simian/">Simian - Similarity Analyser</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[应用CocoaPods管理iOS的依赖库关系]]></title>
-    <link href="http://hongchaozhang.github.io/blog/2016/01/19/cocoapods-for-ios-dependencies-control/"/>
-    <updated>2016-01-19T13:47:18+08:00</updated>
-    <id>http://hongchaozhang.github.io/blog/2016/01/19/cocoapods-for-ios-dependencies-control</id>
-    <content type="html"><![CDATA[<p>就像Java有Maven，nodejs有npm一样，ios也有自己的库依赖管理工具：CocoaPods。</p>
-
-<!-- more -->
-
-
-<p>参考<a href="http://www.cnblogs.com/iyuanxiaojun/p/4465850.html">用CocoaPods做iOS程序的依赖管理</a>。</p>
-
-<h3>安装与设置</h3>
-
-<p>Mac下使用自带的ruby的gem命令进行安装：</p>
-
-<pre><code>sudo gem install cocoapods
-</code></pre>
-
-<p>第一次使用之前需要设置CocoaPods：</p>
-
-<pre><code>pod setup
-</code></pre>
-
-<p>此时需要耐心等待，因为CocoaPods会将这些podspec索引文件更新到本地的 ~/.cocoapods/目录下，这个索引文件比较大，有80M左右，比较慢。</p>
-
-<blockquote><p>如果你等太久，可以试着cd到那个目录，用du -sh *来查看下载进度。</p></blockquote>
-
-<h3>使用</h3>
-
-<h4>安装依赖库</h4>
-
-<p>使用时需要新建Podfile文件，格式如下：</p>
-
-<pre><code>platform :ios
-pod 'JSONKit',       '~&gt; 1.4'
-pod 'Reachability',  '~&gt; 3.0.0'
-pod 'ASIHTTPRequest'
-pod 'RegexKitLite'
-</code></pre>
-
-<p>然后你将编辑好的Podfile文件放到你的项目根目录中，执行如下命令即可：</p>
-
-<pre><code>cd "your project home"
-pod install
-</code></pre>
-
-<p>现在，你的所有第三方库都已经下载完成并且设置好了编译参数和依赖，你只需要记住如下两点即可：</p>
-
-<ul>
-<li>使用CocoaPods生成的 .xcworkspace 文件来打开工程，而不是以前的 .xcodeproj 文件。</li>
-<li>每次更改了Podfile文件，你需要重新执行一次pod update命令。</li>
-</ul>
-
-
-<h4>搜索依赖库</h4>
-
-<p>你如果不知道cocoaPods管理的库中，是否有你想要的库，那么你可以通过</p>
-
-<pre><code>pod search
-</code></pre>
-
-<p>命令进行查找。</p>
-
-<h3>问题</h3>
-
-<h4>1. required a higher minimum deployment target</h4>
-
-<p>当我在使用<em><a href="https://github.com/itsbonczek/kingpin">kingpin</a></em>第三方库的时候，出现了下面的问题：</p>
-
-<pre><code>Specs satisfying the `kingpin` dependency were found, but they required a higher minimum deployment target.
-</code></pre>
-
-<p>通过修改Podfile的第一行：</p>
-
-<pre><code>platform :ios
-</code></pre>
-
-<p>为</p>
-
-<pre><code>platform :ios, '7.0'
-</code></pre>
-
-<p>解决。</p>
-
-<p>如果问题仍然存在，将'7.0'改成'8.0'或者'9.0'，直到没有错误。</p>
-
-<h4>2. 在Objective-C中引用swift写的CocoaPod库</h4>
-
-<p>当我在用<em><a href="https://github.com/danielgindi/ios-charts">ios-charts</a></em>库的时候，首先出现了问题1。解决问题1之后，又出现了下面的问题：</p>
-
-<pre><code>[!] Pods written in Swift can only be integrated as frameworks; add `use_frameworks!` to your Podfile or target to opt into using it. The Swift Pod being used is: Charts
-</code></pre>
-
-<p>于是，将Podfile从</p>
-
-<pre><code>platform :ios, '9.0'
-pod 'Charts'
-</code></pre>
-
-<p>改成</p>
-
-<pre><code>platform :ios, '9.0'
-use_frameworks!
-pod 'Charts'
-</code></pre>
-
-<p>解决了这个问题。接着就是如何在Objective-C的project中使用这个swift库了。</p>
-
-<p>首先是官方文档<a href="https://developer.apple.com/library/ios/documentation/Swift/Conceptual/BuildingCocoaApps/MixandMatch.html#//apple_ref/doc/uid/TP40014216-CH10-XID_77">Swift and Objective-C in the Same Project</a>，有点看不懂。</p>
-
-<p>一些人说的：</p>
-
-<pre><code class="objc">@import Charts;
-</code></pre>
-
-<p>会报错。</p>
-
-<p>很庆幸，StackOverflow上有人遇到了相同的问题：<a href="http://stackoverflow.com/questions/33931517/module-not-found-error-when-importing-swift-pod-into-objective-c-project">Module not found error when importing Swift pod into Objective-C project</a>，在需要用到Charts库中的类的文件中，加入下面代码：</p>
-
-<pre><code class="objc">#import "Charts-Swift.h"
-</code></pre>
-
-<p>另外，注意，在Storyboard中使用库中类的时候，在<em>Module</em>框中填上<em>Charts</em>，如下：</p>
-
-<p><img src="/images/using_lib_class_in_storyboard.jpg" alt="using_lib_class_in_storyboard" /></p>
-
-<p>原理参考：<a href="https://github.com/CocoaPods/CocoaPods/issues/4373">Unable to satisfy the following requirements with Podfile, but they required a higher minimum deployment target. #4373</a>。</p>
 ]]></content>
   </entry>
   

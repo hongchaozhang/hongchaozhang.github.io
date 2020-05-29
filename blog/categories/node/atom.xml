@@ -4,7 +4,7 @@
   <title><![CDATA[Category: node | Reading Space]]></title>
   <link href="http://hongchaozhang.github.io/blog/categories/node/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2020-05-24T22:47:19+08:00</updated>
+  <updated>2020-05-29T17:44:44+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -98,6 +98,42 @@ var buffer = xlsx.build([
     ]);
 
 fs.writeFileSync('book.xlsx', buffer, {'flag':'w'}); // 如果文件存在，覆盖
+</code></pre>
+
+<h3>运行</h3>
+
+<p>将上面的代码保存成js文件，比如<code>demo.js</code>，通过node运行即可:</p>
+
+<pre><code>node demo.js
+</code></pre>
+
+<p>如果需要debug，可以使用VSCode。在开始运行的时候碰到下面的错误“Cannot find runtime &lsquo;node&rsquo; on PATH. Is &lsquo;node&rsquo; installed?”。需要将自动生成的launch.json文件添加一行：</p>
+
+<pre><code class="json">"runtimeExecutable": "/Users/hozhang/.nvm/versions/node/v10.15.0/bin/node"
+</code></pre>
+
+<p>改成：</p>
+
+<pre><code class="json">{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Launch Program",
+            "skipFiles": [
+                "&lt;node_internals&gt;/**"
+            ],
+            "program": "${workspaceFolder}/age.js",
+            // 指定node的位置
+            "runtimeExecutable": "/Users/hozhang/.nvm/versions/node/v10.15.0/bin/node"
+        }
+    ]
+}
 </code></pre>
 ]]></content>
   </entry>
