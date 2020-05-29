@@ -90,3 +90,41 @@ var buffer = xlsx.build([
 
 fs.writeFileSync('book.xlsx', buffer, {'flag':'w'}); // 如果文件存在，覆盖
 ```
+
+### 运行
+
+将上面的代码保存成js文件，比如`demo.js`，通过node运行即可:
+
+```
+node demo.js
+```
+
+如果需要debug，可以使用VSCode。在开始运行的时候碰到下面的错误“Cannot find runtime 'node' on PATH. Is 'node' installed?”。需要将自动生成的launch.json文件添加一行：
+
+```json
+"runtimeExecutable": "/Users/hozhang/.nvm/versions/node/v10.15.0/bin/node"
+```
+改成：
+
+```json
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Launch Program",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "program": "${workspaceFolder}/age.js",
+			// 指定node的位置
+            "runtimeExecutable": "/Users/hozhang/.nvm/versions/node/v10.15.0/bin/node"
+        }
+    ]
+}
+```
