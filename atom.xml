@@ -4,7 +4,7 @@
   <title><![CDATA[Reading Space]]></title>
   <link href="http://hongchaozhang.github.io/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2020-05-29T17:44:44+08:00</updated>
+  <updated>2020-05-29T18:40:41+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -21,7 +21,15 @@
     <content type="html"><![CDATA[<!-- more -->
 
 
-<p>如果想在地图上显示指定区域的边界信息，比如中国国家边界信息，或者各省市的边界信息，首先要获得边界信息数据。下面就介绍一下我在获取中国各省边界信息的过程中用到的一些资源。</p>
+<p>如果想展示一些基于地理位置信息的数据，可以考虑使用地图。比如：</p>
+
+<p><img src="http://hongchaozhang.github.io/images/%E5%8C%BA%E5%9F%9F%E7%94%B7%E5%A5%B3%E6%AF%94%E4%BE%8B.gif" alt="区域男女比例" /></p>
+
+<blockquote><p>注：上图是MicroStrategy产品效果。</p></blockquote>
+
+<p>这需要在地图上显示指定区域的边界信息，比如中国国家边界信息，或者各省市的边界信息。</p>
+
+<p>为此，首先要获得边界信息数据。下面就介绍一下我在获取中国各省边界信息的过程中用到的一些资源和工具。</p>
 
 <h2>下载</h2>
 
@@ -32,8 +40,11 @@
 <ol>
 <li>KMZ格式是KML格式的压缩格式，需要用解压工具解压。</li>
 <li>下载文件中中国各地区的名称都是英文名称，需要写脚本换成中文信息。</li>
+<li>下载的中国各省没有包括台湾，需要手动下载台湾，整合起来。</li>
 </ol>
 
+
+<p>贴个我整合好的连结：<a href="http://hongchaozhang.github.io/assets/resources/%E4%B8%AD%E5%9B%BD%E5%90%84%E7%9C%81%E7%94%B7%E5%A5%B3%E6%AF%94%E4%BE%8B%E5%9C%B0%E5%9B%BE%E5%88%86%E6%9E%90.zip">中国各省男女比例地图分析</a>。</p>
 
 <h2>查看</h2>
 
@@ -143,6 +154,8 @@
 <h3>使用脚本解析excel</h3>
 
 <p>上面的数据有的是网页数据，有的是excel数据（普查数据），对excel内部数据的结构调整可以参考<a href="http://hongchaozhang.github.io/blog/2016/03/04/parsing-and-write-excel-file-using-node-module/">使用node-xlsx进行excel文件的读写</a>进行。</p>
+
+<p>最后贴上所有的资源，包括最后写成的文档：<a href="http://hongchaozhang.github.io/assets/resources/%E4%B8%AD%E5%9B%BD%E5%90%84%E7%9C%81%E7%94%B7%E5%A5%B3%E6%AF%94%E4%BE%8B%E5%9C%B0%E5%9B%BE%E5%88%86%E6%9E%90.zip">中国各省男女比例地图分析</a>。</p>
 ]]></content>
   </entry>
   
