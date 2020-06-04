@@ -4,7 +4,7 @@
   <title><![CDATA[Category: productivity | Reading Space]]></title>
   <link href="http://hongchaozhang.github.io/blog/categories/productivity/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2020-05-29T18:40:41+08:00</updated>
+  <updated>2020-06-04T16:09:21+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -414,9 +414,40 @@ find "${SRCROOT}" \( -name "*.h" -or -name "*.m" -or -name "*.swift" \) -print0 
 <!-- more -->
 
 
+<h2>添加表格</h2>
+
+<table>
+<thead>
+<tr>
+<th style="text-align:left;"> 左对齐 </th>
+<th style="text-align:right;"> 右对齐 </th>
+<th style="text-align:center;"> 居中对齐 </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;"> 单元格 </td>
+<td style="text-align:right;"> 单元格 </td>
+<td style="text-align:center;"> 单元格 </td>
+</tr>
+<tr>
+<td style="text-align:left;"> 单元格 </td>
+<td style="text-align:right;"> 单元格 </td>
+<td style="text-align:center;"> 单元格 </td>
+</tr>
+</tbody>
+</table>
+
+
+<p>上面表格的markdown写法如下：</p>
+
+<p><img src="/images/markdown-table.png" alt="markdown table" /></p>
+
+<blockquote><p>注意：上面的<strong>|</strong>必须为英文输入法下面的字符，中文输入法下是不同的字符，而且不易看出差别。</p></blockquote>
+
 <h2>insert an image</h2>
 
-<p>To insert the image, just use the path under the base url, for me, it is <em>/GitBlogs/images/<image_name>.png</em>, for example</p>
+<p>To insert the image, just use the path under the base url, for me, it is <em><delete>/GitBlogs</delete>/images/<image_name>.png</em>, for example</p>
 
 <pre><code>![image annotation](/images/001_ios_frameworks.png)
 </code></pre>
@@ -431,7 +462,7 @@ find "${SRCROOT}" \( -name "*.h" -or -name "*.m" -or -name "*.swift" \) -print0 
 <pre><code>![image annotation](/images/001_ios_frameworks.png =200x)
 </code></pre>
 
-<p>If the aspect ratio you define is not consistent with the original image, the height will be omitted automatically. That is to say, just define the <code>width</code> you want, and the system will calculate the <code>height</code> for it.</p>
+<p>If the aspect ratio you define is not consistent with the original image, the height will be omitted automatically. That is to say, just define the <code>width</code> you want, and the system will calculate the <code>height</code> for you.</p>
 
 <h2>show content while click</h2>
 

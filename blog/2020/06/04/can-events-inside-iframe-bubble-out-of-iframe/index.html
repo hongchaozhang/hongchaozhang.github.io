@@ -1,0 +1,303 @@
+
+<!DOCTYPE HTML>
+
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>iframe之外能否知道iframe里面产生的事件？ - Reading Space</title>
+	<meta name="author" content="Zhang Hongchao">
+
+	
+	<meta name="description" content="Iframe之外能否知道iframe里面产生的事件？ 问题 资料一
+资料二
+资料三 问题 iframe里面产生的click事件，外面有没有办法知道？ 资料一 根据Detect Click into Iframe using JavaScript， 我们只能监测到发生在iframe上的' &hellip;">
+	
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="Reading Space" type="application/atom+xml">
+	
+	<link rel="canonical" href="http://hongchaozhang.github.io/blog/2020/06/04/can-events-inside-iframe-bubble-out-of-iframe/">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<link href="/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<link href='http://fonts.googleapis.com/css?family=Nunito:400,300,700' rel='stylesheet' type='text/css'>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	
+  
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-62806905-2']);
+		_gaq.push(['_trackPageview']);
+
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
+
+
+</head>
+
+
+<body>
+	<div class="container">
+		<div class="left-col">
+			<div class="intrude-less">
+			<header id="header" class="inner"><div class="profilepic">
+	
+	<script src="/javascripts/md5.js"></script>
+	<script type="text/javascript">
+		$(function(){
+			$('.profilepic').append("<img src='http://www.gravatar.com/avatar/" + MD5("") + "?s=160' alt='Profile Picture' style='width: 160px;' />");
+		});
+	</script>
+	
+</div>
+
+<nav id="main-nav"><ul class="main">
+    <li><a href="/">Blog</a></li>
+    <li><a href="/blog/archives">Archives</a></li>
+    <li><a href="#">About</a></li>
+</ul>
+</nav>
+<nav id="sub-nav">
+	<div class="social">
+		
+		
+		
+		
+		
+			<a class="github" href="https://github.com/hongchaozhang" title="GitHub">GitHub</a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+    	
+    	
+			<a class="rss" href="/atom.xml" title="RSS">RSS</a>
+		
+	</div>
+</nav>
+
+
+
+<section class="categories">
+          <ul id="category_cloud" class="nav nav-list"><a href='/blog/categories/algorithm' style='font-size: 101.3953488372093%'>algorithm(1)</a> <a href='/blog/categories/android' style='font-size: 106.97674418604652%'>android(5)</a> <a href='/blog/categories/android-studio' style='font-size: 101.3953488372093%'>android studio(1)</a> <a href='/blog/categories/augmented-reality' style='font-size: 105.5813953488372%'>augmented reality(4)</a> <a href='/blog/categories/design-pattern' style='font-size: 104.18604651162791%'>design pattern(3)</a> <a href='/blog/categories/html' style='font-size: 101.3953488372093%'>html(1)</a> <a href='/blog/categories/html-css' style='font-size: 101.3953488372093%'>html css(1)</a> <a href='/blog/categories/ios' style='font-size: 160.0%'>ios(43)</a> <a href='/blog/categories/java' style='font-size: 102.79069767441861%'>java(2)</a> <a href='/blog/categories/javascript' style='font-size: 102.79069767441861%'>javascript(2)</a> <a href='/blog/categories/machine-learning' style='font-size: 112.55813953488372%'>machine learning(9)</a> <a href='/blog/categories/map-tech' style='font-size: 104.18604651162791%'>map tech(3)</a> <a href='/blog/categories/mobile' style='font-size: 101.3953488372093%'>mobile(1)</a> <a href='/blog/categories/music' style='font-size: 108.37209302325581%'>music(6)</a> <a href='/blog/categories/nlp' style='font-size: 102.79069767441861%'>nlp(2)</a> <a href='/blog/categories/nlu' style='font-size: 102.79069767441861%'>nlu(2)</a> <a href='/blog/categories/node' style='font-size: 104.18604651162791%'>node(3)</a> <a href='/blog/categories/objective-c' style='font-size: 129.30232558139534%'>objective-c(21)</a> <a href='/blog/categories/philosophy' style='font-size: 102.79069767441861%'>philosophy(2)</a> <a href='/blog/categories/productivity' style='font-size: 127.90697674418604%'>productivity(20)</a> <a href='/blog/categories/python' style='font-size: 104.18604651162791%'>python(3)</a> <a href='/blog/categories/reading' style='font-size: 132.09302325581396%'>reading(23)</a> <a href='/blog/categories/swift' style='font-size: 108.37209302325581%'>swift(6)</a> <a href='/blog/categories/web' style='font-size: 105.5813953488372%'>web(4)</a> <a href='/blog/categories/wwdc' style='font-size: 102.79069767441861%'>wwdc(2)</a> <a href='/blog/categories/xcode' style='font-size: 111.16279069767442%'>xcode(8)</a> </ul>
+      </section>
+
+
+</header>				
+			</div>
+		</div>	
+		<div class="mid-col">
+			
+				
+			
+			<div class="mid-col-container">
+				<div id="content" class="inner"><article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+	<h1 class="title" itemprop="name">Iframe之外能否知道iframe里面产生的事件？</h1>
+	<div class="entry-content" itemprop="articleBody"><!-- more -->
+
+
+
+
+<!-- TOC -->
+
+
+<ul>
+<li><a href="#%E9%97%AE%E9%A2%98">问题</a>
+
+<ul>
+<li><a href="#%E8%B5%84%E6%96%99%E4%B8%80">资料一</a></li>
+<li><a href="#%E8%B5%84%E6%96%99%E4%BA%8C">资料二</a></li>
+<li><a href="#%E8%B5%84%E6%96%99%E4%B8%89">资料三</a></li>
+</ul>
+</li>
+</ul>
+
+
+<!-- /TOC -->
+
+
+<p><a id="markdown-问题" name="问题"></a></p>
+
+<h2>问题</h2>
+
+<p>iframe里面产生的click事件，外面有没有办法知道？</p>
+
+<p><a id="markdown-资料一" name="资料一"></a></p>
+
+<h3>资料一</h3>
+
+<p>根据<a href="https://stackoverflow.com/questions/2381336/detect-click-into-iframe-using-javascript/32138108">Detect Click into Iframe using JavaScript</a>，</p>
+
+<ol>
+<li>我们只能监测到发生在iframe上的'mouseover'、'mouseout'等事件，至于鼠标进入iframe之后发生的事情，我们是没有办法获取的。</li>
+<li>对于试图在iframe上面盖一层透明的dom来截获鼠标事件的想法也是不可取的，因为一旦事件被截获，便没有办法再次dispatch到iframe内部去。</li>
+<li>以上结论基于不同源的两个网页。</li>
+</ol>
+
+
+<p><a id="markdown-资料二" name="资料二"></a></p>
+
+<h3>资料二</h3>
+
+<p><a href="https://stackoverflow.com/questions/40109631/event-bubbling-not-happen-in-iframe">Event bubbling not happen in IFrame</a>解释来为什么iframe里面的事件不能bubble出iframe。</p>
+
+<blockquote><p>Bubbling is specced to happen only through a single <strong>document tree</strong>. The iframe is a separate document tree, and so events that bubble through its tree terminate at the root of the iframe&rsquo;s document and do not travel across the boundary into the host document.</p></blockquote>
+
+<p><a id="markdown-资料三" name="资料三"></a></p>
+
+<h3>资料三</h3>
+
+<p>如果满足同源策略，那么可以通过下面的方法将iframe内部的事件传到外部(参考<a href="https://stackoverflow.com/questions/5645485/detect-mousemove-when-over-an-iframe/11865037#11865037">Detect mousemove when over an iframe?</a>)：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="c1">// This example assumes execution from the parent of the the iframe</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">function</span> <span class="nx">bubbleIframeMouseMove</span><span class="p">(</span><span class="nx">iframe</span><span class="p">){</span>
+</span><span class='line'>    <span class="c1">// Save any previous onmousemove handler</span>
+</span><span class='line'>    <span class="kd">var</span> <span class="nx">existingOnMouseMove</span> <span class="o">=</span> <span class="nx">iframe</span><span class="p">.</span><span class="nx">contentWindow</span><span class="p">.</span><span class="nx">onmousemove</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">// Attach a new onmousemove listener</span>
+</span><span class='line'>    <span class="nx">iframe</span><span class="p">.</span><span class="nx">contentWindow</span><span class="p">.</span><span class="nx">onmousemove</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">e</span><span class="p">){</span>
+</span><span class='line'>        <span class="c1">// Fire any existing onmousemove listener </span>
+</span><span class='line'>        <span class="k">if</span><span class="p">(</span><span class="nx">existingOnMouseMove</span><span class="p">)</span> <span class="nx">existingOnMouseMove</span><span class="p">(</span><span class="nx">e</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="c1">// Create a new event for the this window</span>
+</span><span class='line'>        <span class="kd">var</span> <span class="nx">evt</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createEvent</span><span class="p">(</span><span class="s2">&quot;MouseEvents&quot;</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="c1">// We&#39;ll need this to offset the mouse move appropriately</span>
+</span><span class='line'>        <span class="kd">var</span> <span class="nx">boundingClientRect</span> <span class="o">=</span> <span class="nx">iframe</span><span class="p">.</span><span class="nx">getBoundingClientRect</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="c1">// Initialize the event, copying exiting event values</span>
+</span><span class='line'>        <span class="c1">// for the most part</span>
+</span><span class='line'>        <span class="nx">evt</span><span class="p">.</span><span class="nx">initMouseEvent</span><span class="p">(</span>
+</span><span class='line'>            <span class="s2">&quot;mousemove&quot;</span><span class="p">,</span>
+</span><span class='line'>            <span class="kc">true</span><span class="p">,</span> <span class="c1">// bubbles</span>
+</span><span class='line'>            <span class="kc">false</span><span class="p">,</span> <span class="c1">// not cancelable </span>
+</span><span class='line'>            <span class="nb">window</span><span class="p">,</span>
+</span><span class='line'>            <span class="nx">e</span><span class="p">.</span><span class="nx">detail</span><span class="p">,</span>
+</span><span class='line'>            <span class="nx">e</span><span class="p">.</span><span class="nx">screenX</span><span class="p">,</span>
+</span><span class='line'>            <span class="nx">e</span><span class="p">.</span><span class="nx">screenY</span><span class="p">,</span>
+</span><span class='line'>            <span class="nx">e</span><span class="p">.</span><span class="nx">clientX</span> <span class="o">+</span> <span class="nx">boundingClientRect</span><span class="p">.</span><span class="nx">left</span><span class="p">,</span>
+</span><span class='line'>            <span class="nx">e</span><span class="p">.</span><span class="nx">clientY</span> <span class="o">+</span> <span class="nx">boundingClientRect</span><span class="p">.</span><span class="nx">top</span><span class="p">,</span>
+</span><span class='line'>            <span class="nx">e</span><span class="p">.</span><span class="nx">ctrlKey</span><span class="p">,</span>
+</span><span class='line'>            <span class="nx">e</span><span class="p">.</span><span class="nx">altKey</span><span class="p">,</span>
+</span><span class='line'>            <span class="nx">e</span><span class="p">.</span><span class="nx">shiftKey</span><span class="p">,</span>
+</span><span class='line'>            <span class="nx">e</span><span class="p">.</span><span class="nx">metaKey</span><span class="p">,</span>
+</span><span class='line'>            <span class="nx">e</span><span class="p">.</span><span class="nx">button</span><span class="p">,</span>
+</span><span class='line'>            <span class="kc">null</span> <span class="c1">// no related element</span>
+</span><span class='line'>        <span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="c1">// Dispatch the mousemove event on the iframe element</span>
+</span><span class='line'>        <span class="nx">iframe</span><span class="p">.</span><span class="nx">dispatchEvent</span><span class="p">(</span><span class="nx">evt</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">};</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// Get the iframe element we want to track mouse movements on</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">myIframe</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s2">&quot;myIframe&quot;</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// Run it through the function to setup bubbling</span>
+</span><span class='line'><span class="nx">bubbleIframeMouseMove</span><span class="p">(</span><span class="nx">myIframe</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>You can now listen for mousemove on the iframe element or any of its parent elements. As the event will bubble up as you would expect.</p>
+</div>
+
+</article>
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+	
+	
+	
+	<a class="addthis_counter addthis_pill_style"></a>
+	</div>
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
+</div>
+
+
+</div>
+			</div>
+			<footer id="footer" class="inner">Copyright &copy; 2020
+
+    Zhang Hongchao
+
+
+<!--Design credit: <a href="http://shashankmehta.in/archive/2012/greyshade.html">Shashank Mehta</a>--></footer>
+		</div>
+	</div>
+	
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

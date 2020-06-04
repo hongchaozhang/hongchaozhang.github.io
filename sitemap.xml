@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
+<loc>http://hongchaozhang.github.io/blog/2020/06/04/can-events-inside-iframe-bubble-out-of-iframe/</loc>
+<lastmod>2020-06-04T11:55:31+08:00</lastmod>
+</url>
+<url>
+<loc>http://hongchaozhang.github.io/blog/2020/06/04/same-origin-and-cross-domain/</loc>
+<lastmod>2020-06-04T11:21:46+08:00</lastmod>
+</url>
+<url>
 <loc>http://hongchaozhang.github.io/blog/2020/05/29/quyu-bianjie-dili-weizhi-xinxi/</loc>
 <lastmod>2020-05-29T16:53:59+08:00</lastmod>
 </url>
@@ -551,6 +559,24 @@
 </url>
 <url>
 <loc>http://hongchaozhang.github.io/blog/categories/music/</loc>
+</url>
+<url>
+<loc>http://hongchaozhang.github.io/blog/categories/html/</loc>
+</url>
+<url>
+<loc>http://hongchaozhang.github.io/posts/2/</loc>
+</url>
+<url>
+<loc>http://hongchaozhang.github.io/posts/3/</loc>
+</url>
+<url>
+<loc>http://hongchaozhang.github.io/posts/4/</loc>
+</url>
+<url>
+<loc>http://hongchaozhang.github.io/posts/5/</loc>
+</url>
+<url>
+<loc>http://hongchaozhang.github.io/posts/6/</loc>
 </url>
 <url>
 <loc>http://hongchaozhang.github.io/images/%E9%AB%98%E7%88%BD%E5%A4%A9%E6%96%87%E5%AD%A6%E9%80%9A%E8%AF%8630%E8%AE%B2.pdf</loc>

@@ -4,7 +4,7 @@
   <title><![CDATA[Reading Space]]></title>
   <link href="http://hongchaozhang.github.io/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2020-05-29T18:40:41+08:00</updated>
+  <updated>2020-06-04T16:09:21+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -12,6 +12,521 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iframe之外能否知道iframe里面产生的事件？]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2020/06/04/can-events-inside-iframe-bubble-out-of-iframe/"/>
+    <updated>2020-06-04T11:55:31+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2020/06/04/can-events-inside-iframe-bubble-out-of-iframe</id>
+    <content type="html"><![CDATA[<!-- more -->
+
+
+
+
+<!-- TOC -->
+
+
+<ul>
+<li><a href="#%E9%97%AE%E9%A2%98">问题</a>
+
+<ul>
+<li><a href="#%E8%B5%84%E6%96%99%E4%B8%80">资料一</a></li>
+<li><a href="#%E8%B5%84%E6%96%99%E4%BA%8C">资料二</a></li>
+<li><a href="#%E8%B5%84%E6%96%99%E4%B8%89">资料三</a></li>
+</ul>
+</li>
+</ul>
+
+
+<!-- /TOC -->
+
+
+<p><a id="markdown-问题" name="问题"></a></p>
+
+<h2>问题</h2>
+
+<p>iframe里面产生的click事件，外面有没有办法知道？</p>
+
+<p><a id="markdown-资料一" name="资料一"></a></p>
+
+<h3>资料一</h3>
+
+<p>根据<a href="https://stackoverflow.com/questions/2381336/detect-click-into-iframe-using-javascript/32138108">Detect Click into Iframe using JavaScript</a>，</p>
+
+<ol>
+<li>我们只能监测到发生在iframe上的'mouseover'、'mouseout'等事件，至于鼠标进入iframe之后发生的事情，我们是没有办法获取的。</li>
+<li>对于试图在iframe上面盖一层透明的dom来截获鼠标事件的想法也是不可取的，因为一旦事件被截获，便没有办法再次dispatch到iframe内部去。</li>
+<li>以上结论基于不同源的两个网页。</li>
+</ol>
+
+
+<p><a id="markdown-资料二" name="资料二"></a></p>
+
+<h3>资料二</h3>
+
+<p><a href="https://stackoverflow.com/questions/40109631/event-bubbling-not-happen-in-iframe">Event bubbling not happen in IFrame</a>解释来为什么iframe里面的事件不能bubble出iframe。</p>
+
+<blockquote><p>Bubbling is specced to happen only through a single <strong>document tree</strong>. The iframe is a separate document tree, and so events that bubble through its tree terminate at the root of the iframe&rsquo;s document and do not travel across the boundary into the host document.</p></blockquote>
+
+<p><a id="markdown-资料三" name="资料三"></a></p>
+
+<h3>资料三</h3>
+
+<p>如果满足同源策略，那么可以通过下面的方法将iframe内部的事件传到外部(参考<a href="https://stackoverflow.com/questions/5645485/detect-mousemove-when-over-an-iframe/11865037#11865037">Detect mousemove when over an iframe?</a>)：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="c1">// This example assumes execution from the parent of the the iframe</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">function</span> <span class="nx">bubbleIframeMouseMove</span><span class="p">(</span><span class="nx">iframe</span><span class="p">){</span>
+</span><span class='line'>    <span class="c1">// Save any previous onmousemove handler</span>
+</span><span class='line'>    <span class="kd">var</span> <span class="nx">existingOnMouseMove</span> <span class="o">=</span> <span class="nx">iframe</span><span class="p">.</span><span class="nx">contentWindow</span><span class="p">.</span><span class="nx">onmousemove</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">// Attach a new onmousemove listener</span>
+</span><span class='line'>    <span class="nx">iframe</span><span class="p">.</span><span class="nx">contentWindow</span><span class="p">.</span><span class="nx">onmousemove</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">e</span><span class="p">){</span>
+</span><span class='line'>        <span class="c1">// Fire any existing onmousemove listener </span>
+</span><span class='line'>        <span class="k">if</span><span class="p">(</span><span class="nx">existingOnMouseMove</span><span class="p">)</span> <span class="nx">existingOnMouseMove</span><span class="p">(</span><span class="nx">e</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="c1">// Create a new event for the this window</span>
+</span><span class='line'>        <span class="kd">var</span> <span class="nx">evt</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createEvent</span><span class="p">(</span><span class="s2">&quot;MouseEvents&quot;</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="c1">// We&#39;ll need this to offset the mouse move appropriately</span>
+</span><span class='line'>        <span class="kd">var</span> <span class="nx">boundingClientRect</span> <span class="o">=</span> <span class="nx">iframe</span><span class="p">.</span><span class="nx">getBoundingClientRect</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="c1">// Initialize the event, copying exiting event values</span>
+</span><span class='line'>        <span class="c1">// for the most part</span>
+</span><span class='line'>        <span class="nx">evt</span><span class="p">.</span><span class="nx">initMouseEvent</span><span class="p">(</span>
+</span><span class='line'>            <span class="s2">&quot;mousemove&quot;</span><span class="p">,</span>
+</span><span class='line'>            <span class="kc">true</span><span class="p">,</span> <span class="c1">// bubbles</span>
+</span><span class='line'>            <span class="kc">false</span><span class="p">,</span> <span class="c1">// not cancelable </span>
+</span><span class='line'>            <span class="nb">window</span><span class="p">,</span>
+</span><span class='line'>            <span class="nx">e</span><span class="p">.</span><span class="nx">detail</span><span class="p">,</span>
+</span><span class='line'>            <span class="nx">e</span><span class="p">.</span><span class="nx">screenX</span><span class="p">,</span>
+</span><span class='line'>            <span class="nx">e</span><span class="p">.</span><span class="nx">screenY</span><span class="p">,</span>
+</span><span class='line'>            <span class="nx">e</span><span class="p">.</span><span class="nx">clientX</span> <span class="o">+</span> <span class="nx">boundingClientRect</span><span class="p">.</span><span class="nx">left</span><span class="p">,</span>
+</span><span class='line'>            <span class="nx">e</span><span class="p">.</span><span class="nx">clientY</span> <span class="o">+</span> <span class="nx">boundingClientRect</span><span class="p">.</span><span class="nx">top</span><span class="p">,</span>
+</span><span class='line'>            <span class="nx">e</span><span class="p">.</span><span class="nx">ctrlKey</span><span class="p">,</span>
+</span><span class='line'>            <span class="nx">e</span><span class="p">.</span><span class="nx">altKey</span><span class="p">,</span>
+</span><span class='line'>            <span class="nx">e</span><span class="p">.</span><span class="nx">shiftKey</span><span class="p">,</span>
+</span><span class='line'>            <span class="nx">e</span><span class="p">.</span><span class="nx">metaKey</span><span class="p">,</span>
+</span><span class='line'>            <span class="nx">e</span><span class="p">.</span><span class="nx">button</span><span class="p">,</span>
+</span><span class='line'>            <span class="kc">null</span> <span class="c1">// no related element</span>
+</span><span class='line'>        <span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="c1">// Dispatch the mousemove event on the iframe element</span>
+</span><span class='line'>        <span class="nx">iframe</span><span class="p">.</span><span class="nx">dispatchEvent</span><span class="p">(</span><span class="nx">evt</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">};</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// Get the iframe element we want to track mouse movements on</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">myIframe</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s2">&quot;myIframe&quot;</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// Run it through the function to setup bubbling</span>
+</span><span class='line'><span class="nx">bubbleIframeMouseMove</span><span class="p">(</span><span class="nx">myIframe</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>You can now listen for mousemove on the iframe element or any of its parent elements. As the event will bubble up as you would expect.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[浏览器的同源策略和跨域解决方法]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2020/06/04/same-origin-and-cross-domain/"/>
+    <updated>2020-06-04T11:21:46+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2020/06/04/same-origin-and-cross-domain</id>
+    <content type="html"><![CDATA[<!-- more -->
+
+
+
+
+<!-- TOC -->
+
+
+<ul>
+<li><a href="#%E5%90%8C%E6%BA%90%E7%9A%84%E5%AE%9A%E4%B9%89">同源的定义</a></li>
+<li><a href="#%E6%B2%A1%E6%9C%89%E5%90%8C%E6%BA%90%E7%AD%96%E7%95%A5%E7%9A%84%E5%8D%B1%E9%99%A9%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9C%80%E8%A6%81%E5%90%8C%E6%BA%90%E7%AD%96%E7%95%A5">没有同源策略的危险（为什么需要同源策略）</a></li>
+<li><a href="#%E5%90%8C%E6%BA%90%E7%AD%96%E7%95%A5%E7%9A%84%E9%99%90%E5%88%B6">同源策略的限制</a></li>
+<li><a href="#%E5%B8%B8%E7%94%A8%E8%B7%A8%E5%9F%9F%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95--%E6%9C%AC%E5%9C%B0%E9%80%9A%E4%BF%A1">常用跨域的解决方法&ndash;本地通信</a>
+
+<ul>
+<li><a href="#%E4%BF%AE%E6%94%B9documentdomain%E5%B1%9E%E6%80%A7">修改<code>document.domain</code>属性</a></li>
+<li><a href="#%E5%80%9F%E5%8A%A9windownamelocationhash">借助<code>window.name</code>、<code>location.hash</code></a></li>
+<li><a href="#%E4%BD%BF%E7%94%A8windowpostmessage">使用<code>window.postMessage</code></a></li>
+</ul>
+</li>
+<li><a href="#%E5%B8%B8%E7%94%A8%E8%B7%A8%E5%9F%9F%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95--ajax%E8%AF%B7%E6%B1%82%E9%99%90%E5%88%B6">常用跨域的解决方法&ndash;AJAX请求限制</a>
+
+<ul>
+<li><a href="#%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%BB%A3%E7%90%86">服务器代理</a></li>
+<li><a href="#jsonp">JSONP</a></li>
+<li><a href="#websocket">WebSocket</a></li>
+<li><a href="#cors">CORS</a></li>
+</ul>
+</li>
+<li><a href="#%E5%8F%82%E8%80%83">参考</a></li>
+</ul>
+
+
+<!-- /TOC -->
+
+
+<p><a id="markdown-同源的定义" name="同源的定义"></a></p>
+
+<h2>同源的定义</h2>
+
+<p>根据<a href="https://developer.mozilla.org/zh-CN/docs/Web/Security/Same-origin_policy">MDN同源的定义</a>：如果两个URL的protocol、port(如果有指定的话)和host都相同的话，则这两个URL是同源。</p>
+
+<p>下表给出了与 URL <a href="http://store.company.com/dir/page.html">http://store.company.com/dir/page.html</a> 的源进行对比的示例:</p>
+
+<table>
+<thead>
+<tr>
+<th> URL </th>
+<th> 结果 </th>
+<th> 原因 </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td> <a href="http://store.company.com/dir2/other.html">http://store.company.com/dir2/other.html</a> </td>
+<td> 同源 </td>
+<td> 只有路径不同 </td>
+</tr>
+<tr>
+<td> <a href="http://store.company.com/dir/inner/another.html">http://store.company.com/dir/inner/another.html</a> </td>
+<td> 同源 </td>
+<td> 只有路径不同 </td>
+</tr>
+<tr>
+<td> <a href="https://store.company.com/secure.html">https://store.company.com/secure.html</a> </td>
+<td> 失败 </td>
+<td> 协议（protocol）不同 </td>
+</tr>
+<tr>
+<td> <a href="http://store.company.com:81/dir/etc.html">http://store.company.com:81/dir/etc.html</a> </td>
+<td> 失败 </td>
+<td> 端口（port）不同 ( <a href="http://">http://</a> 默认端口是80) </td>
+</tr>
+<tr>
+<td> <a href="http://news.company.com/dir/other.html">http://news.company.com/dir/other.html</a> </td>
+<td> 失败 </td>
+<td> 主机（host）不同 </td>
+</tr>
+</tbody>
+</table>
+
+
+<p><a id="markdown-没有同源策略的危险为什么需要同源策略" name="没有同源策略的危险为什么需要同源策略"></a></p>
+
+<h2>没有同源策略的危险（为什么需要同源策略）</h2>
+
+<p>同源策略的目的，是为了保证用户信息的安全，防止恶意的网站窃取数据。</p>
+
+<p>下面从DOM同源策略和XMLHttpRequest同源策略来举例说明：</p>
+
+<p><strong>如果没有DOM同源策略</strong>，也就是说不同域的iframe之间可以相互访问Dom结构，那么黑客可以这样进行攻击：</p>
+
+<ol>
+<li>做一个假网站，里面用iframe嵌套一个银行网站<a href="">http://mybank.com</a>。</li>
+<li>把iframe宽高啥的调整到页面全部，这样用户进来除了域名，别的部分和银行的网站没有任何差别。</li>
+<li>这时如果用户输入账号密码，我们的主网站可以跨域访问到<a href="">http://mybank.com</a>的dom节点，就可以拿到用户的账户密码了。</li>
+</ol>
+
+
+<p><strong>如果没有XMLHttpRequest同源策略</strong>，那么黑客可以进行CSRF（跨站请求伪造）攻击：</p>
+
+<ol>
+<li>用户登录了自己的银行页面<a href="">http://mybank.com</a>，<a href="">http://mybank.com</a>向用户的cookie中添加用户标识。</li>
+<li>用户浏览了恶意页面<a href="">http://evil.com</a>，执行了页面中的恶意AJAX请求代码。</li>
+<li><a href="">http://evil.com</a>向<a href="">http://mybank.com</a>发起AJAX请求，请求会默认把<a href="">http://mybank.com</a>对应cookie也同时发送过去。</li>
+<li>银行页面从发送的cookie中提取用户标识，验证用户无误，response中返回请求数据。此时数据就泄露了。</li>
+<li>而且由于Ajax在后台执行，用户无法感知这一过程。</li>
+</ol>
+
+
+<p>其它例子可以参考：</p>
+
+<ol>
+<li>知乎<a href="https://zhuanlan.zhihu.com/p/28562290">跨域的那些事儿</a></li>
+<li><a href="https://segmentfault.com/a/1190000015597029">不要再问我跨域的问题了</a></li>
+</ol>
+
+
+<p><a id="markdown-同源策略的限制" name="同源策略的限制"></a></p>
+
+<h2>同源策略的限制</h2>
+
+<p>如果非同源，共有三种行为受到限制。</p>
+
+<ol>
+<li>Cookie、LocalStorage 和 IndexDB 无法读取。</li>
+<li>DOM 无法获得。</li>
+<li>AJAX 请求不能发送。</li>
+</ol>
+
+
+<p>比如试图从不同源的iframe里面获取dom结构就会报错：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s2">&quot;myIFrame&quot;</span><span class="p">).</span><span class="nx">contentWindow</span><span class="p">.</span><span class="nb">document</span>
+</span><span class='line'><span class="c1">// Uncaught DOMException: Blocked a frame from accessing a cross-origin frame.</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>虽然这些限制是必要的，但是有时很不方便，合理的用途也受到影响：明明两个网页都是自己写的，但是属于不同的源，也就没有办法互相访问。</p>
+
+<p>下面列举一些方法，介绍如何规避上面三种限制。前提是两个URL都是自己写的网页，否则无法使用。这也正是同源策略的作用所在：对于第三方的一个网页，你是无法超越上面三种限制的，这也就保证了安全。</p>
+
+<p><a id="markdown-常用跨域的解决方法--本地通信" name="常用跨域的解决方法--本地通信"></a></p>
+
+<h2>常用跨域的解决方法&ndash;本地通信</h2>
+
+<p><a id="markdown-修改documentdomain属性" name="修改documentdomain属性"></a></p>
+
+<h3>修改<code>document.domain</code>属性</h3>
+
+<p>Cookie是服务器写入浏览器的一小段信息，只有同源的网页才能共享。浏览器允许通过设置<code>document.domain</code>共享Cookie。</p>
+
+<p>但是，<code>document.domain</code>只适用于“主域名相同，而子域名不同”的情况。这种方式非常适用于iframe跨域的情况。</p>
+
+<p>举例来说，A网页是<a href="">http://w1.example.com/a.html</a>，B网页是<a href="">http://w2.example.com/b.html</a>，那么只要这两个网页同时设置相同的<code>document.domain</code>，两个网页就可以共享Cookie。</p>
+
+<p>注意，这种方法只适用于Cookie和iframe窗口，LocalStorage和IndexDB无法通过这种方法，规避同源政策，而要使用下文介绍的PostMessage API。</p>
+
+<p>另外，服务器也可以在设置Cookie的时候，指定Cookie的所属域名为一级域名，比如.example.com。这样的话，二级域名和三级域名不用做任何设置，都可以读取这个Cookie。</p>
+
+<p><a id="markdown-借助windownamelocationhash" name="借助windownamelocationhash"></a></p>
+
+<h3>借助<code>window.name</code>、<code>location.hash</code></h3>
+
+<p>这两种方法可以说是一种“破解”。</p>
+
+<p>以<code>window.name</code>为例。浏览器窗口有<code>window.name</code>属性。这个属性的最大特点是，无论是否同源，只要在同一个窗口里，前一个网页设置了这个属性，后一个网页可以读取它。</p>
+
+<p><a id="markdown-使用windowpostmessage" name="使用windowpostmessage"></a></p>
+
+<h3>使用<code>window.postMessage</code></h3>
+
+<p><code>window.name</code>和<code>location.hash</code>是“破解”方法，<code>window.postMessage</code>则具有官方背景。HTML5为了解决跨文档通信（Cross-document messaging）问题，引入了这个全新的API <code>window.postMessage</code>。</p>
+
+<p>这个API为<code>window</code>对象新增了一个<code>window.postMessage</code>方法，允许跨窗口通信，不论这两个窗口是否同源。</p>
+
+<p>举例来说，父窗口<a href="">http://aaa.com</a>向子窗口<a href="">http://bbb.com</a>发消息，调用<code>postMessage</code>方法就可以了。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">popup</span> <span class="o">=</span> <span class="nb">window</span><span class="p">.</span><span class="nx">open</span><span class="p">(</span><span class="s1">&#39;http://bbb.com&#39;</span><span class="p">,</span> <span class="s1">&#39;title&#39;</span><span class="p">);</span>
+</span><span class='line'><span class="nx">popup</span><span class="p">.</span><span class="nx">postMessage</span><span class="p">(</span><span class="s1">&#39;Hello World!&#39;</span><span class="p">,</span> <span class="s1">&#39;http://bbb.com&#39;</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><code>postMessage</code>方法的第一个参数是具体的信息内容，第二个参数是接收消息的窗口的源（origin），即"协议 + 域名 + 端口"。也可以设为*，表示不限制域名，向所有窗口发送。</p>
+
+<p>子窗口向父窗口发送消息的写法类似。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nb">window</span><span class="p">.</span><span class="nx">opener</span><span class="p">.</span><span class="nx">postMessage</span><span class="p">(</span><span class="s1">&#39;Nice to see you&#39;</span><span class="p">,</span> <span class="s1">&#39;http://aaa.com&#39;</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>父窗口和子窗口都可以通过message事件，监听对方的消息。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nb">window</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;message&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">e</span><span class="p">.</span><span class="nx">data</span><span class="p">);</span>
+</span><span class='line'><span class="p">},</span><span class="kc">false</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>message事件的事件对象event，提供以下三个属性。</p>
+
+<ol>
+<li><code>event.source</code>：发送消息的窗口</li>
+<li><code>event.origin</code>: 消息发向的网址</li>
+<li><code>event.data</code>: 消息内容</li>
+</ol>
+
+
+<blockquote><p>注：通过window.postMessage，读写其他窗口的 LocalStorage 也成为了可能。</p></blockquote>
+
+<p><a id="markdown-常用跨域的解决方法--ajax请求限制" name="常用跨域的解决方法--ajax请求限制"></a></p>
+
+<h2>常用跨域的解决方法&ndash;AJAX请求限制</h2>
+
+<p>后面几种方法都是为了解决不同源网页之间的AJAX请求问题。</p>
+
+<p><a id="markdown-服务器代理" name="服务器代理"></a></p>
+
+<h3>服务器代理</h3>
+
+<p>浏览器有跨域限制，但是服务器不存在跨域问题，所以可以由服务器请求所要域的资源再返回给客户端。</p>
+
+<p><a id="markdown-jsonp" name="jsonp"></a></p>
+
+<h3>JSONP</h3>
+
+<p>JSONP是服务器与客户端跨源通信的常用方法。最大特点就是简单适用，老式浏览器全部支持，服务器改造非常小。</p>
+
+<p>它的基本思想是，网页通过添加一个\&lt;script>元素，向服务器请求JSON数据，这种做法不受同源政策限制；服务器收到请求后，将数据放在一个指定名字的回调函数里传回来。</p>
+
+<p>首先，网页动态插入\&lt;script>元素，由它向跨源网址发出请求。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">function</span> <span class="nx">addScriptTag</span><span class="p">(</span><span class="nx">src</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="kd">var</span> <span class="nx">script</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s1">&#39;script&#39;</span><span class="p">);</span>
+</span><span class='line'>  <span class="nx">script</span><span class="p">.</span><span class="nx">setAttribute</span><span class="p">(</span><span class="s2">&quot;type&quot;</span><span class="p">,</span><span class="s2">&quot;text/javascript&quot;</span><span class="p">);</span>
+</span><span class='line'>  <span class="nx">script</span><span class="p">.</span><span class="nx">src</span> <span class="o">=</span> <span class="nx">src</span><span class="p">;</span>
+</span><span class='line'>  <span class="nb">document</span><span class="p">.</span><span class="nx">body</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span><span class="nx">script</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">window</span><span class="p">.</span><span class="nx">onload</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nx">addScriptTag</span><span class="p">(</span><span class="s1">&#39;http://example.com/ip?callback=foo&#39;</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">function</span> <span class="nx">foo</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Your public IP address is: &#39;</span> <span class="o">+</span> <span class="nx">data</span><span class="p">.</span><span class="nx">ip</span><span class="p">);</span>
+</span><span class='line'><span class="p">};</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>上面代码通过动态添加\&lt;script>元素，向服务器<a href="">example.com</a>发出请求。注意，该请求的查询字符串有一个callback参数，用来指定回调函数的名字，这对于JSONP是必需的。</p>
+
+<p>服务器收到这个请求以后，会将数据放在回调函数的参数位置返回。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">foo</span><span class="p">({</span>
+</span><span class='line'>  <span class="s2">&quot;ip&quot;</span><span class="o">:</span> <span class="s2">&quot;8.8.8.8&quot;</span>
+</span><span class='line'><span class="p">});</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>由于\&lt;script>元素请求的脚本，直接作为代码运行。这时，只要浏览器定义了foo函数，该函数就会立即调用。</p>
+
+<p><a id="markdown-websocket" name="websocket"></a></p>
+
+<h3>WebSocket</h3>
+
+<p>WebSocket是一种通信协议。该协议不实行同源政策，只要服务器支持，就可以通过它进行跨源通信。</p>
+
+<p>下面是一个例子，浏览器发出的WebSocket请求的头信息（摘自维基百科）。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='json'><span class='line'><span class="err">GET</span> <span class="err">/chat</span> <span class="err">HTTP/</span><span class="mf">1.1</span>
+</span><span class='line'><span class="err">Host:</span> <span class="err">server.example.com</span>
+</span><span class='line'><span class="err">Upgrade:</span> <span class="err">websocket</span>
+</span><span class='line'><span class="err">Connection:</span> <span class="err">Upgrade</span>
+</span><span class='line'><span class="err">Sec-WebSocket-Key:</span> <span class="err">x</span><span class="mi">3</span><span class="err">JJHMbDL</span><span class="mi">1</span><span class="err">EzLkh</span><span class="mi">9</span><span class="err">GBhXDw==</span>
+</span><span class='line'><span class="err">Sec-WebSocket-Protocol:</span> <span class="err">chat,</span> <span class="err">superchat</span>
+</span><span class='line'><span class="err">Sec-WebSocket-Version:</span> <span class="mi">13</span>
+</span><span class='line'><span class="err">Origin:</span> <span class="err">http://example.com</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>上面代码中，有一个字段是<code>Origin</code>，表示该请求的请求源（<code>origin</code>），即发自哪个域名。</p>
+
+<p>正是因为有了<code>Origin</code>这个字段，所以WebSocket才没有实行同源政策。因为服务器可以根据这个字段，判断是否许可本次通信。如果该域名在白名单内，服务器就会做出如下回应。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='json'><span class='line'><span class="err">HTTP/</span><span class="mf">1.1</span> <span class="mi">101</span> <span class="err">Switching</span> <span class="err">Protocols</span>
+</span><span class='line'><span class="err">Upgrade:</span> <span class="err">websocket</span>
+</span><span class='line'><span class="err">Connection:</span> <span class="err">Upgrade</span>
+</span><span class='line'><span class="err">Sec-WebSocket-Accept:</span> <span class="err">HSmrc</span><span class="mi">0</span><span class="err">sMlYUkAGmm</span><span class="mi">5</span><span class="err">OPpG</span><span class="mi">2</span><span class="err">HaGWk=</span>
+</span><span class='line'><span class="err">Sec-WebSocket-Protocol:</span> <span class="err">chat</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><a id="markdown-cors" name="cors"></a></p>
+
+<h3>CORS</h3>
+
+<p>CORS是跨源资源分享（Cross-Origin Resource Sharing）的缩写。它是W3C标准，是跨源AJAX请求的根本解决方法。相比JSONP只能发GET请求，CORS允许任何类型的请求。</p>
+
+<p><a id="markdown-参考" name="参考"></a></p>
+
+<h2>参考</h2>
+
+<ul>
+<li>阮一峰的<a href="https://www.ruanyifeng.com/blog/2016/04/same-origin-policy.html">浏览器同源政策及其规避方法</a></li>
+<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/Security/Same-origin_policy">MDN同源的定义</a></li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[区域位置地理信息的获取、查看、和后期处理]]></title>
@@ -2421,395 +2936,6 @@ VI常用在重属和弦的前方，在学习重属和弦时，我们知道其前
 <p><strong>雷蕾对莫扎特的看法&hellip;</strong></p>
 
 <p>他甚至没有得到一个普通人应得的公平与尊重。命运毫无遮掩地向他展现来人性中的纯美与善良，冷漠与邪恶&hellip;对于这位音乐神童而言，命运好像一直用现实与无情的一面，考验着他纯真无邪的心性。在莫扎特短暂的生命中，他遍尝了人间的困苦、磨难、无常、贫穷、疾病&hellip;《安魂曲》还未完成，他却和那些飘零在空中的音符一起，消陨于虚空之中。他离开时是那样淡然，好像春天里一支长笛孤独地吟唱，又好似一片羽毛，轻轻地飘向了天堂的彼岸，真正回到了他内心音乐的净土&hellip;</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[如何开发孩子的阅读潜力（周育如）]]></title>
-    <link href="http://hongchaozhang.github.io/blog/2019/11/21/ruhe-kaifa-haizi-de-yuedu-qianli/"/>
-    <updated>2019-11-21T10:06:22+08:00</updated>
-    <id>http://hongchaozhang.github.io/blog/2019/11/21/ruhe-kaifa-haizi-de-yuedu-qianli</id>
-    <content type="html"><![CDATA[<!-- more -->
-
-
-<!-- TOC -->
-
-
-<ul>
-<li><a href="#%E4%BD%9C%E8%80%85%E4%BB%8B%E7%BB%8D">作者介绍</a></li>
-<li><a href="#%E8%AF%BE%E7%A8%8B%E5%86%85%E5%AE%B9">课程内容</a></li>
-<li><a href="#%E9%98%85%E8%AF%BB%E7%9A%84%E7%9B%AE%E7%9A%84%E5%92%8C%E6%96%B9%E5%BC%8F">阅读的目的和方式</a></li>
-<li><a href="#%E9%98%85%E8%AF%BB%E7%9A%84%E5%9B%9B%E4%B8%AA%E9%98%B6%E6%AE%B5">阅读的四个阶段</a>
-
-<ul>
-<li><a href="#%E7%BF%BB%E4%B9%A6%E6%9C%9F">翻书期</a></li>
-<li><a href="#%E5%9B%BE%E7%89%87%E6%9C%9F">图片期</a></li>
-<li><a href="#%E6%95%85%E4%BA%8B%E6%9C%9F">故事期</a></li>
-<li><a href="#%E6%96%87%E5%AD%97%E6%9C%9F">文字期</a></li>
-</ul>
-</li>
-<li><a href="#%E9%80%9A%E8%BF%87%E9%98%85%E8%AF%BB%E5%8F%AF%E4%BB%A5%E5%8F%91%E5%B1%95%E5%AD%A9%E5%AD%90%E7%9A%84%E5%90%84%E9%A1%B9%E8%83%BD%E5%8A%9B">通过阅读可以发展孩子的各项能力：</a>
-
-<ul>
-<li><a href="#%E5%8F%91%E5%B1%95%E8%AF%AD%E8%A8%80%E8%83%BD%E5%8A%9B">发展语言能力</a></li>
-<li><a href="#%E5%8F%91%E5%B1%95%E8%AE%A4%E7%9F%A5%E8%83%BD%E5%8A%9B">发展认知能力</a></li>
-<li><a href="#%E6%8F%90%E9%AB%98%E6%83%85%E5%95%86">提高情商</a></li>
-</ul>
-</li>
-<li><a href="#%E7%BB%99%E5%AE%B6%E9%95%BF%E7%9A%84%E4%B8%80%E4%BA%9B%E5%BB%BA%E8%AE%AE">给家长的一些建议</a>
-
-<ul>
-<li><a href="#1-%E6%89%93%E9%80%A0%E4%B8%80%E4%B8%AA%E5%AF%B9%E5%AD%A9%E5%AD%90%E9%98%85%E8%AF%BB%E5%B9%B2%E6%89%B0%E5%B0%91%E7%9A%84%E7%8E%AF%E5%A2%83">1. 打造一个对孩子阅读干扰少的环境。</a></li>
-<li><a href="#2-%E4%B8%87%E4%BA%8B%E5%BC%80%E5%A4%B4%E9%9A%BE">2. 万事开头难。</a></li>
-<li><a href="#3-%E5%AD%A6%E4%BB%A5%E8%87%B4%E7%94%A8%E5%A2%9E%E5%8A%A0%E9%98%85%E8%AF%BB%E4%B9%90%E8%B6%A3">3. 学以致用，增加阅读乐趣。</a></li>
-<li><a href="#4-%E8%BF%87%E5%BA%A6%E5%85%B3%E5%BF%83%E6%98%AF%E7%A7%8D%E7%97%85">4. 过度关心是种病。</a></li>
-<li><a href="#5-%E8%A8%80%E4%BC%A0%E8%BA%AB%E6%95%99">5. 言传身教</a></li>
-</ul>
-</li>
-<li><a href="#%E7%BB%98%E6%9C%AC%E6%B8%85%E5%8D%95">绘本清单</a></li>
-<li><a href="#%E5%8F%82%E8%80%83">参考</a></li>
-</ul>
-
-
-<!-- /TOC -->
-
-
-<p><a id="markdown-作者介绍" name="作者介绍"></a></p>
-
-<h2>作者介绍</h2>
-
-<p>周育如，台湾清华大学幼教系主任，《亲子天下》专栏作家。在多年的认知科学研究实验基础上，总结出一套系统有效的亲子阅读方法。不仅能够帮孩子养成阅读习惯，更能够同时发展语言、认知和情绪管理能力。</p>
-
-<p><a id="markdown-课程内容" name="课程内容"></a></p>
-
-<h2>课程内容</h2>
-
-<p>这个是得道官方的课程目录：</p>
-
-<p><img src="http://hongchaozhang.github.io/images/%E5%A6%82%E4%BD%95%E5%BC%80%E5%8F%91%E5%AD%A9%E5%AD%90%E7%9A%84%E9%98%85%E8%AF%BB%E6%BD%9C%E5%8A%9B.jpg" alt="如何开发孩子的阅读潜力" /></p>
-
-<p><a id="markdown-阅读的目的和方式" name="阅读的目的和方式"></a></p>
-
-<h2>阅读的目的和方式</h2>
-
-<p>首先要明确跟孩子共读的目的——<strong>开发和培养孩子自己的阅读能力</strong>，高质量的亲子阅读是以提升孩子的能力为核心。</p>
-
-<p>围绕这个目的，亲子阅读方式应该是：<strong>让孩子多表达，父母与孩子多互动</strong>。</p>
-
-<p><a id="markdown-阅读的四个阶段" name="阅读的四个阶段"></a></p>
-
-<h2>阅读的四个阶段</h2>
-
-<p>孩子阅读发展可以分为四个阶段：</p>
-
-<ol>
-<li>翻书期</li>
-<li>图片期</li>
-<li>故事期</li>
-<li>文字期</li>
-</ol>
-
-
-<p>这四个阶段是按孩子不同的能力来划分的，而不是年龄。</p>
-
-<p><a id="markdown-翻书期" name="翻书期"></a></p>
-
-<h3>翻书期</h3>
-
-<p>孩子大概在6个月左右就可以开始阅读了，这个阶段不是真正意义上的阅读，但是只要让孩子知道有“书”这么个东西（发展出对书的概念），而且这个上面有很多好玩的图片颜色让他对书本感兴趣，那这个阶段的目的就达到了。</p>
-
-<p>从小避免孩子陷入电子产品的声光互动效果，养成不爱思考的习惯。三点建议：</p>
-
-<ol>
-<li>尽早开始阅读</li>
-<li>每天阅读</li>
-<li>固定时间阅读</li>
-</ol>
-
-
-<p>翻书期选书三原则：</p>
-
-<ol>
-<li>选跟小宝宝日常生活紧密结合的书</li>
-<li>选择互动性强的书</li>
-<li>选择结实耐撕、安全无毒的书</li>
-</ol>
-
-
-<p><a id="markdown-图片期" name="图片期"></a></p>
-
-<h3>图片期</h3>
-
-<p>孩子喜欢观察他有兴趣的画面，还会观察很多细节，开始对书本真正产生兴趣了。这个阶段可以先引导孩子去观察画面，然后带着孩子指出画面上所有东西的名称，再加上对该物品的描述，比如大小、颜色、形状、数量等。从开始的简单描述慢慢引导到越来越详细复杂的描述，进行口语延展训练。这个阶段读故事要有耐心，一本故事书要讲至少五六遍，读书的原则：第一次逐字讲不讨论，先让孩子熟悉故事，然后一天天重复讲，在重复中做变化，慢慢从父母讲，演化到孩子讲，把主动权让渡给孩子。</p>
-
-<p><a id="markdown-故事期" name="故事期"></a></p>
-
-<h3>故事期</h3>
-
-<p><strong>怎么判断孩子进入故事期</strong>：当你在念故事的时候，孩子不再像之前一样，爱看什么画面就看什么画面，而是开始忽略那些跟故事轴线无关的画面，去看跟故事有关的画面。</p>
-
-<p>这个阶段的孩子开始把注意力放在故事主线上，他会去观察主角在做什么，而不是观察配角。这个阶段除了延续读图期的共读技巧（指物命名、丰富形容和口语延展）外，重点是<strong>口语讨论</strong>，它的共读技巧是：<strong>确认理解</strong>、<strong>预测和回想</strong>、<strong>延伸讨论</strong>，除了语言能力的扩展，还要开始培养理解和因果逻辑的能力。依次顺序进行可以锻炼孩子的理解力、逻辑思考、语言组织、批判思维能力、自我感受与表达能力。</p>
-
-<p>在这个过程中，<strong>父母可以</strong>：</p>
-
-<ol>
-<li>确认理解：让孩子自己表达看到的图片。</li>
-<li>预测：对于看过几遍的书，可以这样问孩子：“接下来呢？“</li>
-<li>更高级的预测：”加入主人公没有怎么样怎么样，结果会怎么样？“</li>
-</ol>
-
-
-<p>在这个过程中，<strong>父母要注意</strong>：</p>
-
-<ol>
-<li>父母点到为止，不要喧宾夺主，孩子才是阅读的主角。</li>
-<li>延伸讨论不要借机教训孩子，孩子可能因此讨厌阅读。应该创造愉快的气氛，可以试者把故事内容引导到孩子生活中，让孩子主动联想来讨论。</li>
-</ol>
-
-
-<p><a id="markdown-文字期" name="文字期"></a></p>
-
-<h3>文字期</h3>
-
-<p><strong>怎么判断文字期</strong>：在重复阅读一个故事时，父母不按文字乱讲，孩子能发现就说明孩子对文字兴趣出来了。一般来说孩子大概到幼儿园中班、大班的时候会进入文字阅读，有的孩子早些有的晚些家长不必着急，还是要根据孩子反应调整共读策略。</p>
-
-<p>孩子开始对文字有兴趣，会想要去认读这些文字。在这个阶段要做的是：</p>
-
-<ol>
-<li>逐字指读，不能再随意讲了，要读准确，保证每次读的都一样。</li>
-<li>留意文字偏旁部首，文字中有接近90%是形声字，形声字的部首表“意”，偏旁表“音”。通过留意偏旁部首，教孩子去看字的结构，积累一定量的部件后，孩子就可以开始自己去拼读文字。</li>
-</ol>
-
-
-<p>只要具备1500字的识字量，就可以看懂周遭文字九成以上。一般来说孩子要到小学3年级才能跨过独立阅读的门坎。当孩子可以独立阅读时，多给孩子提供主题丰富多元的书。我们陪孩子共读的最终目的是能让他们自己读，现在多用心，以后就可以少操心。</p>
-
-<p><a id="markdown-通过阅读可以发展孩子的各项能力" name="通过阅读可以发展孩子的各项能力"></a></p>
-
-<h2>通过阅读可以发展孩子的各项能力：</h2>
-
-<ol>
-<li>语言能力</li>
-<li>认知能力</li>
-<li>情商</li>
-</ol>
-
-
-<p><a id="markdown-发展语言能力" name="发展语言能力"></a></p>
-
-<h3>发展语言能力</h3>
-
-<p>语言能力主要包括语音、语意、语法和语用。其中语法与语用最难教导。</p>
-
-<ul>
-<li>语法能力可以通过不断听重复的句型，让孩子加深对语法的理解。</li>
-<li>语用换言之就是言外之音，通过阅读让孩子去学会听懂别人的言外之音，去察觉人际互动中微妙的变化。。《语言图鉴》这套书捕捉了非常多同样的一句话，在不同的语言情境中是完全不同的意思。</li>
-</ul>
-
-
-<p><a id="markdown-发展认知能力" name="发展认知能力"></a></p>
-
-<h3>发展认知能力</h3>
-
-<p>通过阅读发展孩子的三个主要认知能力：观察力、观点取替能力以及创造力。</p>
-
-<ul>
-<li>观点取替能力是指从别人的角度观察事情，包括三个方面：视觉观点的取替、认知观点的取替和情感观点的取替。</li>
-<li>创造力，通过阅读培养孩子多维度的思考观察问题，提升创造力。</li>
-</ul>
-
-
-<p><a id="markdown-提高情商" name="提高情商"></a></p>
-
-<h3>提高情商</h3>
-
-<p>父母爱做道德教育，但比较少地关注孩子的情绪感受和表达。这就导致很多孩子并不能很好地认识和管理自己的情绪，以至于上了学就是没办法跟自己、跟他人相处。</p>
-
-<p>读书培养情商主要有两个方面：</p>
-
-<ol>
-<li>促进孩子对各种人际关系的理解。通过阅读让孩子去观察与反思自己平时的行为，对人际关系进行重新思考。</li>
-<li>提高孩子的情绪管理能力。通过阅读让孩子知道自己的感受是什么，学会描述情绪，最后找到解决情绪的办法，在阅读的同时结合孩子的亲身经历的事情与情绪多跟孩子去讨论、对谈。《我的感觉系列》，这套书讲出了情绪发展的三个层面，包括情绪的表达、情绪的理解和情绪的调节。</li>
-</ol>
-
-
-<p><a id="markdown-给家长的一些建议" name="给家长的一些建议"></a></p>
-
-<h2>给家长的一些建议</h2>
-
-<p><a id="markdown-1-打造一个对孩子阅读干扰少的环境" name="1-打造一个对孩子阅读干扰少的环境"></a></p>
-
-<h3>1. 打造一个对孩子阅读干扰少的环境。</h3>
-
-<p>将家里功能固定的玩具和电子产品收起来，因为孩子只会照它原本的功能玩，玩过几次就抱怨无聊。之后只能依赖非常强烈的视觉声光刺激（电子产品、手机、电视）来寻求快感。造成孩子排斥其他事物，对电子产品的依赖会失去对日常生活中变出无穷乐趣的创造力，不愿去动脑筋思考。</p>
-
-<p><a id="markdown-2-万事开头难" name="2-万事开头难"></a></p>
-
-<h3>2. 万事开头难。</h3>
-
-<p>如果孩子注意力不集中怎么办?父母不要过度期待，不要勉强孩子，要循序渐进不能放弃，不能让孩子排斥，别忘了目的是培养独自阅读的兴趣。
-对于孩子不断重复一个故事的要求要满足，只有不断重复他才能熟悉掌握和你讨论互动，才能激发他深入的思考和运用。
-不要过于简化句子意思和高深词汇，意境没了感觉就不一样了。孩子其实是可以根据上下文逐渐去理解其中的意境的。</p>
-
-<p><a id="markdown-3-学以致用增加阅读乐趣" name="3-学以致用增加阅读乐趣"></a></p>
-
-<h3>3. 学以致用，增加阅读乐趣。</h3>
-
-<p>阅读时增加互动交流，对孩子熟悉的故事换着方法讲，甚至故意某些地方乱编，让孩子指正你，让他说。故事完了让孩子对故事做评价和总结。互动是双向的，不是父母读孩子听，也不是孩子读父母听，可以互相提问、互相表演，提高阅读的乐趣。
-孩子在小学前掌握1500字就可以自己写作业，且一本书九成的内容都能看懂，孩子对书产生了兴趣自然会把剩余的那一成文字搞懂。通过不断阅读识字量会越来越大，阅读的收获也从识字转变为吸收书中的知识。</p>
-
-<p><a id="markdown-4-过度关心是种病" name="4-过度关心是种病"></a></p>
-
-<h3>4. 过度关心是种病。</h3>
-
-<p>因为孩子就这么一个，非常的宝贝，所以大家处处为他想、关心他的一举一动，只要他一个眼神、一个动作，父母、祖父母就立刻响应。这反而让孩子不用去管别人的感受、不用学习如何去跟别人相处。结果，他对人的敏感度因此就变迟钝了。</p>
-
-<p><a id="markdown-5-言传身教" name="5-言传身教"></a></p>
-
-<h3>5. 言传身教</h3>
-
-<p>言传身教并不只是为了树榜样，如果父母的学习只是为了做给孩子看，是难以为序且漏洞百出的，要记住父母不是为了教孩子两面派。</p>
-
-<p><a id="markdown-绘本清单" name="绘本清单"></a></p>
-
-<h2>绘本清单</h2>
-
-<ul>
-<li>打瞌睡的房子</li>
-<li>我的感觉系列：情感</li>
-<li>Brown bear，Brown bear, What do you see?(棕色的熊，棕色的熊，你在看什么？）：反复练习，积累句型，培养语法。</li>
-<li>语言图鉴：了解大人说话的“言外之意”。</li>
-<li>最喜欢妈妈：沟通、指出对方问题的方式。</li>
-<li>小金鱼逃走了：观察力</li>
-<li>威利在哪里：观察力</li>
-<li>鸭子？兔子？：观察力</li>
-<li>小猴子坦坦的帽子：想象力</li>
-<li>鳄鱼怕怕牙医怕怕：情感</li>
-<li>Not a box</li>
-</ul>
-
-
-<p><a id="markdown-参考" name="参考"></a></p>
-
-<h2>参考</h2>
-
-<p>简书上的<a href="https://www.jianshu.com/p/20d6725432e5">如何培养提高孩子的阅读能力</a>也分享了一些不同的体会，也值得一读。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[点、线、多边形之间的位置关系]]></title>
-    <link href="http://hongchaozhang.github.io/blog/2019/11/12/position-relation-between-two-polygon-shapes/"/>
-    <updated>2019-11-12T15:20:24+08:00</updated>
-    <id>http://hongchaozhang.github.io/blog/2019/11/12/position-relation-between-two-polygon-shapes</id>
-    <content type="html"><![CDATA[<!-- more -->
-
-
-
-
-<!-- TOC -->
-
-
-<ul>
-<li><a href="#%E7%82%B9%E4%B8%8E%E5%A4%9A%E8%BE%B9%E5%BD%A2%E7%9A%84%E4%BD%8D%E7%BD%AE%E5%85%B3%E7%B3%BB">点与多边形的位置关系：</a>
-
-<ul>
-<li><a href="#%E8%BE%B9%E7%95%8C%E5%85%B7%E6%9C%89%E6%96%B9%E5%90%91%E6%80%A7%E7%9A%84%E5%A4%9A%E8%BE%B9%E5%BD%A2">边界具有方向性的多边形</a></li>
-</ul>
-</li>
-<li><a href="#%E7%BA%BF%E6%AE%B5%E4%B8%8E%E5%A4%9A%E8%BE%B9%E5%BD%A2%E7%9A%84%E4%BD%8D%E7%BD%AE%E5%85%B3%E7%B3%BB">线段与多边形的位置关系：</a></li>
-<li><a href="#%E6%9B%B4%E4%B8%80%E8%88%AC%E5%8C%96%E7%9A%84%E6%96%B9%E6%B3%95">更一般化的方法：</a></li>
-<li><a href="#%E5%A6%82%E6%9E%9C%E4%B8%A4%E4%B8%AA%E5%A4%9A%E8%BE%B9%E5%BD%A2%E9%83%BD%E4%B8%BA%E5%87%B8%E5%A4%9A%E8%BE%B9%E5%BD%A2%E5%88%99%E6%9C%89%E6%9B%B4%E7%AE%80%E5%8D%95%E7%9A%84%E6%96%B9%E6%B3%95">如果两个多边形都为凸多边形，则有更简单的方法：</a></li>
-<li><a href="#%E5%8F%82%E8%80%83">参考</a></li>
-</ul>
-
-
-<!-- /TOC -->
-
-
-<p><a id="markdown-点与多边形的位置关系" name="点与多边形的位置关系"></a></p>
-
-<h2>点与多边形的位置关系：</h2>
-
-<p><strong>光线投射方法</strong>（Ray casting algorithm）；从这个点引出一根“射线”，与多边形的任意若干条边相交，累计相交的边的数目，如果是奇数，那么点就在多边形内，否则点就在多边形外。如下图所示：</p>
-
-<p><img src="http://hongchaozhang.github.io/images/%E8%BE%B9%E7%95%8C%E6%97%A0%E6%96%B9%E5%90%91%E7%9A%84%E5%A4%9A%E8%BE%B9%E5%BD%A2.png" alt="边界无方向的多边形" /></p>
-
-<p><a href="http://alienryderflex.com/polygon/">Point-In-Polygon Algorithm — Determining Whether A Point Is Inside A Complex Polygon</a>这篇文章解释了光线投射方法，并且提出下面两种情况应该如何解决：</p>
-
-<ol>
-<li>射线正好穿过多边形顶点：如果顶点正好通过射线，就认为该点在射线的上方，从而保证该点只被计算一次。</li>
-<li>射线正好跟一条边重合：道理与上面相同。如果一条边正好在射线上，就认为该边在射线的上方，从而保证这个地方也只计算一次。</li>
-</ol>
-
-
-<p>Stack Overflow上面有算法实现：
-<a href="https://stackoverflow.com/questions/217578/how-can-i-determine-whether-a-2d-point-is-within-a-polygon">How can I determine whether a 2D Point is within a Polygon?</a></p>
-
-<p><a id="markdown-边界具有方向性的多边形" name="边界具有方向性的多边形"></a></p>
-
-<h3>边界具有方向性的多边形</h3>
-
-<p>除了光线投射方法（Ray casting algorithm），还有<strong>Winding number algorithm（nonzero-rule algorithm）</strong>。这个方法用于边界有方向的多边形的判断。</p>
-
-<p>从待检测点引出一根“射线”，与多边形的任意若干条边相交，计数初始化为0，若相交处被多边形的边从左到右切过，计数+1，若相交处被多边形的边从右到左切过，计数-1，最后检查计数，如果是0，点在多边形外，如果非0，点在多边形内。</p>
-
-<p><img src="http://hongchaozhang.github.io/images/%E8%BE%B9%E7%95%8C%E6%9C%89%E6%96%B9%E5%90%91%E7%9A%84%E5%A4%9A%E8%BE%B9%E5%BD%A2.png" alt="边界有方向的多边形" /></p>
-
-<p><a id="markdown-线段与多边形的位置关系" name="线段与多边形的位置关系"></a></p>
-
-<h2>线段与多边形的位置关系：</h2>
-
-<p><a href="https://www.cnblogs.com/xiaozhi_5638/p/4165353.html">线段与多边形关系的算法</a></p>
-
-<p>有算法，有代码，而且思路清晰。</p>
-
-<p>思路：解决了下面三个问题：</p>
-
-<ul>
-<li>问题一：点与线段的关系</li>
-<li>问题二：线段与线段的关系</li>
-<li>问题三：点与多边形的关系</li>
-</ul>
-
-
-<p>就自然可以解决线段与多边形的位置关系了。</p>
-
-<p><a id="markdown-更一般化的方法" name="更一般化的方法"></a></p>
-
-<h2>更一般化的方法：</h2>
-
-<p><strong>给你n个多边形,这些多边形包括线段,三角形,矩形,正方形,和其他多边形. 然后要你输出他们之间相交的情况. 且多边形自己的边不会相交,且三角形不会退化成线段.</strong></p>
-
-<p>判断两个图形是否相交,只需要判断他们中的任意两条边是否有交点即可(线段相交判定).</p>
-
-<p><a href="https://blog.csdn.net/u013480600/article/details/39611949">这里有代码</a></p>
-
-<p><a id="markdown-如果两个多边形都为凸多边形则有更简单的方法" name="如果两个多边形都为凸多边形则有更简单的方法"></a></p>
-
-<h2>如果两个多边形都为凸多边形，则有更简单的方法：</h2>
-
-<p>For each edge of both polygons:</p>
-
-<ul>
-<li>Find the axis perpendicular to the current edge.</li>
-<li>Project both polygons on that axis.</li>
-<li>If these projections don&rsquo;t overlap, the polygons don&rsquo;t intersect (exit the loop).</li>
-</ul>
-
-
-<p><img src="http://hongchaozhang.github.io/images/PolygonCollisionSAT.png" alt="PolygonCollisionSAT" /></p>
-
-<p><a id="markdown-参考" name="参考"></a></p>
-
-<h2>参考</h2>
-
-<ol>
-<li><a href="https://en.wikipedia.org/wiki/Point_in_polygon#Ray_casting_algorithm">维基百科</a></li>
-<li><a href="https://www.cnblogs.com/guogangj/p/5127527.html">判断一个点是否在一个多边形里</a></li>
-<li><a href="https://blog.csdn.net/u012138730/article/details/80095375">判断两个凸多边形是否相交—SAT</a></li>
-<li><a href="https://www.codeproject.com/Articles/15573/2D-Polygon-Collision-Detection">2D Polygon Collision Detection</a></li>
-</ol>
-
 ]]></content>
   </entry>
   
