@@ -55,7 +55,9 @@ Mac上的这个词典好过系统自带的Dictionary很多。引用推荐人的�
 ### 图像视频操作
 
 #### LICECap
-[LICECap](http://www.cockos.com/licecap/)用来快速将屏幕操作等转换成gif动画，比先录屏再转换快太多了。
+[LICECap](http://www.cockos.com/licecap/)用来快速将屏幕操作等转换成gif动画，<del>比先录屏再转换快太多了</del>。
+
+1.30版本在Mac2019上不能使用。截取的GIF是黑屏。而且，这个比较难以控制开始和结束。
 
 #### Kap
 [Kap](https://getkap.co/)比LICECap更加好用，而且可以直接指定一个App的界面进行录制。Kap可以导出多种格式，包括MP4，Gif等。
@@ -63,7 +65,27 @@ Mac上的这个词典好过系统自带的Dictionary很多。引用推荐人的�
 使用Mac自带的Preview是不能预览gif图片的，可以通过以下两种方式预览：
 
 * 在Finder中选中gif图片，在右边的预览框中预览。
-* 将gif用浏览器打开预览，比如Safari。
+* 将gif用浏览器打开预览。
 
 #### PicGif Lite
 PicGif用来将视频或者图片转换成gif图片，这种工具很多，还有在线工具，比如[uupoop](http://www.uupoop.com/gif/)。<del>我主要用这个来进行gif图的预览。</del>
+
+PicGIF Lite可以将图片或者视频转换成GIF。抽取视频中的一些帧，按照一定的顺序播放出来。
+
+**优点：**
+
+1. 可以自定义大小尺寸和填充方式
+2. 可以指定抽取的帧数，每秒钟播放的帧数
+3. 可以删除任意一张帧图片
+
+**建议：**
+
+1. 可以结合QuickTime Player的录屏操作获得想要的视频。
+2. 如果想控制每个视频片段播放的速度，可以用iMovie处理一下，然后直接对iMovie进行录屏操作得到想要的视频。
+3. 不要试图从iMovie中直接导出视频，因为这样导出的视频的宽高比是固定的几个数值，而直接对iMovie进行录屏可以得到任意宽高比的视频继而得到任意宽高比的GIF。
+
+#### GIF压缩
+
+https://gifcompressor.com/
+
+picGIF制作的gif，上面网站可以压缩到原来大小的四分之一。但是原gif大小须小于50M才能上传。
