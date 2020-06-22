@@ -46,6 +46,8 @@ categories: [map tech, productivity]
 
 目前为止，发现的编辑工具都只能基于文本进行编辑，还没有发现一款有UI界面的编辑工具。
 
+另外，如果是KML文件，可以将其当作XML文件进行编辑修改。参考[使用python编辑xml文件](/blog/2020/06/22/parse-xml-using-python/)
+
 ## 绘制
 
 ![geojsondraw](/images/geojsondraw.jpg)
