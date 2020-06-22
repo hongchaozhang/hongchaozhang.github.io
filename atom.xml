@@ -4,7 +4,7 @@
   <title><![CDATA[Reading Space]]></title>
   <link href="http://hongchaozhang.github.io/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2020-06-16T19:39:42+08:00</updated>
+  <updated>2020-06-22T18:46:00+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -14,6 +14,81 @@
 
   
   <entry>
+    <title type="html"><![CDATA[使用Python解析XML格式文件]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2020/06/22/parse-xml-using-python/"/>
+    <updated>2020-06-22T18:34:32+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2020/06/22/parse-xml-using-python</id>
+    <content type="html"><![CDATA[<!-- more -->
+
+
+<h2>Python基础教程</h2>
+
+<p><a href="https://www.runoob.com/python/python-tutorial.html">python基础教程</a></p>
+
+<h2>ElementTree</h2>
+
+<p>ELementTree官方文档参考：<a href="https://docs.python.org/2/library/xml.etree.elementtree.html#xml.etree.ElementTree.Element">The ElementTree XML API</a></p>
+
+<p>下面是一个例子：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">xml.etree</span> <span class="kn">import</span> <span class="n">ElementTree</span> <span class="k">as</span> <span class="n">ET</span>
+</span><span class='line'>
+</span><span class='line'><span class="c"># 读取xml文件</span>
+</span><span class='line'><span class="n">tree</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="s">&#39;gadm36_CHN_2.kml&#39;</span><span class="p">)</span>
+</span><span class='line'><span class="c">## 获取root节点</span>
+</span><span class='line'><span class="n">root</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">getroot</span><span class="p">()</span>
+</span><span class='line'>
+</span><span class='line'><span class="c"># 打印root节点的tag名称和所有的attribute</span>
+</span><span class='line'><span class="k">print</span> <span class="n">root</span><span class="o">.</span><span class="n">tag</span><span class="p">,</span> <span class="n">root</span><span class="o">.</span><span class="n">attrib</span>
+</span><span class='line'>
+</span><span class='line'><span class="c"># 正常的xml文件的tag可能只是Placemark，这里是因为读进来的是一个kml文件</span>
+</span><span class='line'><span class="k">for</span> <span class="n">placemark</span> <span class="ow">in</span> <span class="n">root</span><span class="o">.</span><span class="n">iter</span><span class="p">(</span><span class="s">&#39;{http://www.opengis.net/kml/2.2}Placemark&#39;</span><span class="p">):</span>
+</span><span class='line'>    <span class="k">for</span> <span class="n">simpleData</span> <span class="ow">in</span> <span class="n">placemark</span><span class="o">.</span><span class="n">iter</span><span class="p">(</span><span class="s">&#39;{http://www.opengis.net/kml/2.2}SimpleData&#39;</span><span class="p">):</span>
+</span><span class='line'>        <span class="c"># 获取某一个attribute的值也可以可以使用simpleData.get(&#39;attribute name&#39;)</span>
+</span><span class='line'>        <span class="k">print</span> <span class="n">simpleData</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;name&#39;</span><span class="p">]</span>
+</span><span class='line'>        <span class="k">if</span> <span class="n">simpleData</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;name&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;NAME_2&#39;</span><span class="p">:</span>
+</span><span class='line'>            <span class="n">cityName</span> <span class="o">=</span> <span class="n">simpleData</span><span class="o">.</span><span class="n">text</span>
+</span><span class='line'>            <span class="c"># 创建一个tag为name的节点作为placemark的子节点</span>
+</span><span class='line'>            <span class="n">nameEle</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="n">placemark</span><span class="p">,</span> <span class="s">&#39;name&#39;</span><span class="p">)</span>
+</span><span class='line'>            <span class="c"># 给新创建的节点的text属性赋值</span>
+</span><span class='line'>            <span class="n">nameEle</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">cityName</span>
+</span><span class='line'>            <span class="c"># 给placemark节点增加一个名为updated的attribute，其值为&#39;yes&#39;</span>
+</span><span class='line'>            <span class="n">placemark</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s">&#39;updated&#39;</span><span class="p">,</span> <span class="s">&#39;yes&#39;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="c"># 将新修改的xml文件写入新的文件</span>
+</span><span class='line'><span class="n">tree</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;modifyChinaCity.kml&#39;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[我们为什么喜欢看林李大战]]></title>
     <link href="http://hongchaozhang.github.io/blog/2020/06/16/women-weishenme-xihuan-linli-dazhan/"/>
     <updated>2020-06-16T18:39:35+08:00</updated>
@@ -21,9 +96,26 @@
     <content type="html"><![CDATA[<!-- more -->
 
 
-<p>我们为什么喜欢看“林李大战”</p>
 
-<p>更多文字内容：<a href="http://k.sina.com.cn/article_6450201194_18076426a00100828l.html">奥运从此再无林李大战，但林丹和李宗伟的传奇不会被人遗忘</a>。</p>
+
+<!-- TOC -->
+
+
+<ul>
+<li><a href="#%E6%9D%8E%E5%AE%97%E4%BC%9F%E9%80%80%E5%BD%B9">李宗伟退役</a></li>
+<li><a href="#%E7%9B%96%E5%BE%B7%E5%BC%80%E5%90%AF%E6%96%B0%E6%97%B6%E4%BB%A3">盖德开启新时代</a></li>
+<li><a href="#%E5%A4%A9%E6%89%8D%E9%99%B6%E8%8F%B2%E5%85%8B%E5%87%BA%E9%81%93">“天才”陶菲克出道</a></li>
+<li><a href="#%E6%9E%97%E4%B8%B9%E5%B7%85%E5%B3%B0%E6%97%B6%E6%9C%9F">林丹巅峰时期</a></li>
+<li><a href="#%E6%9E%97%E6%9D%8E%E5%A4%A7%E6%88%98">林李大战</a></li>
+<li><a href="#%E6%96%B0%E4%BA%BA%E8%BE%88%E5%87%BA">新人辈出</a></li>
+<li><a href="#%E5%8F%82%E8%80%83">参考</a></li>
+</ul>
+
+
+<!-- /TOC -->
+
+
+<p><a id="markdown-李宗伟退役" name="李宗伟退役"></a></p>
 
 <h2>李宗伟退役</h2>
 
@@ -45,9 +137,13 @@
 
 <p><img src="http://hongchaozhang.github.io/images/%E7%BE%BD%E6%AF%9B%E7%90%83%E9%87%91%E7%89%8C%E6%80%BB%E6%95%B0.gif" alt="羽毛球金牌总数" /></p>
 
+<p><a id="markdown-盖德开启新时代" name="盖德开启新时代"></a></p>
+
 <h2>盖德开启新时代</h2>
 
 <p>盖德出生于1976年，丹麦人，4岁开始打球，右手执拍，2012年退役。盖德的职业生涯中，曾经连续62周占据了世界男单排名第一的位置。盖德是四个人中出道最早的，他在1994年就闯入国际赛场，并在当年夺得世青赛男双冠军。</p>
+
+<p><a id="markdown-天才陶菲克出道" name="天才陶菲克出道"></a></p>
 
 <h2>“天才”陶菲克出道</h2>
 
@@ -59,11 +155,15 @@
 
 <p>2004年，“天才”陶菲克在雅典奥运上摘金，当时世界排名第一的林丹在奥运会上爆冷一轮游，而李宗伟此时还不太出名。</p>
 
+<p><a id="markdown-林丹巅峰时期" name="林丹巅峰时期"></a></p>
+
 <h2>林丹巅峰时期</h2>
 
 <p>时间来到2008年，林丹夺得了北京奥运男单金牌，成为了羽坛无可争议的最强王者。“天才”陶菲克竞技能力逐渐下滑，李宗伟大器晚成后来居上。谌龙在这一年刚刚入选中国国家羽毛球队一队。</p>
 
 <p>2009年以后，“劳模”李宗伟狂拦各种公开赛冠军，冠军总数以火箭般的速度飙升至第2，仅次于林丹。安赛龙则在2010年夺得了世青赛男单冠军。</p>
+
+<p><a id="markdown-林李大战" name="林李大战"></a></p>
 
 <h2>林李大战</h2>
 
@@ -72,6 +172,8 @@
 <p>2013年，陶菲克退役。</p>
 
 <p>时间进入2012年-2016年里约奥运周期，谌龙在2014年、2015年爆发，夺得了两枚世锦赛金牌，并夺得多站公开赛冠军，金牌总数（33枚）直线飙升，仅次于林丹（68枚）、李宗伟（62枚）、盖德（39枚）。羽坛正式进入了“林李谌”时代。而石宇奇在2013年才刚刚出道国际羽坛。</p>
+
+<p><a id="markdown-新人辈出" name="新人辈出"></a></p>
 
 <h2>新人辈出</h2>
 
@@ -85,6 +187,15 @@
 <p><img src="http://hongchaozhang.github.io/images/%E7%BE%BD%E6%AF%9B%E7%90%83%E9%87%91%E7%89%8C%E6%80%BB%E6%95%B02019.jpg" alt="羽毛球金牌总数2019" /></p>
 
 <p>2020年以后，你认为谁能达到林丹、李宗伟的成就？</p>
+
+<p><a id="markdown-参考" name="参考"></a></p>
+
+<h2>参考</h2>
+
+<ul>
+<li><a href="http://k.sina.com.cn/article_6450201194_18076426a00100828l.html">奥运从此再无林李大战，但林丹和李宗伟的传奇不会被人遗忘</a></li>
+</ul>
+
 ]]></content>
   </entry>
   
@@ -972,6 +1083,8 @@
 <p>在VSCode中编辑，同时结合VSCode Map Preview插件进行预览。</p>
 
 <p>目前为止，发现的编辑工具都只能基于文本进行编辑，还没有发现一款有UI界面的编辑工具。</p>
+
+<p>另外，如果是KML文件，可以将其当作XML文件进行编辑修改。参考<a href="http://hongchaozhang.github.io/blog/2020/06/22/parse-xml-using-python/">使用python编辑xml文件</a></p>
 
 <h2>绘制</h2>
 
@@ -3141,120 +3254,6 @@ VI常用在重属和弦的前方，在学习重属和弦时，我们知道其前
 <p><a href="http://www.ttss.com.cn/gaoshuang.html">高爽天文学通识课程学习笔记</a></p>
 
 <p><a href="http://hongchaozhang.github.io/images/%E9%AB%98%E7%88%BD%E5%A4%A9%E6%96%87%E5%AD%A6%E9%80%9A%E8%AF%8630%E8%AE%B2.pdf">课程文字资料pdf文件</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[迁移Octopress到新的机器上]]></title>
-    <link href="http://hongchaozhang.github.io/blog/2020/02/26/deploy-octopress-in-a-new-machine/"/>
-    <updated>2020-02-26T13:36:46+08:00</updated>
-    <id>http://hongchaozhang.github.io/blog/2020/02/26/deploy-octopress-in-a-new-machine</id>
-    <content type="html"><![CDATA[<!-- more -->
-
-
-
-
-<!-- TOC -->
-
-
-<ul>
-<li><a href="#%E9%97%AE%E9%A2%98">问题</a>
-
-<ul>
-<li><a href="#%E9%97%AE%E9%A2%981-rake%E7%89%88%E6%9C%AC%E9%97%AE%E9%A2%98">问题1: rake版本问题</a></li>
-<li><a href="#%E9%97%AE%E9%A2%982-rake-deploy%E9%94%99%E8%AF%AF">问题2: <code>rake deploy</code>错误</a></li>
-</ul>
-</li>
-<li><a href="#%E5%8F%82%E8%80%83">参考</a></li>
-</ul>
-
-
-<!-- /TOC -->
-
-
-<p><a id="markdown-问题" name="问题"></a></p>
-
-<h2>问题</h2>
-
-<p>在新到Mac上面部署Octopress的时候遇到了几个问题。</p>
-
-<p>将github上面的资源clone到本地，并切换到<code>source</code>分支：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>git clone -b source git@github.com:username/username.github.io.git octopress
-</span><span class='line'>cd octopress</span></code></pre></td></tr></table></div></figure>
-
-
-<p>然后，安装rake：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>gem install bundler
-</span><span class='line'>rbenv rehash    # If you use rbenv, rehash to be able to run the bundle command
-</span><span class='line'>bundle install</span></code></pre></td></tr></table></div></figure>
-
-
-<p><a id="markdown-问题1-rake版本问题" name="问题1-rake版本问题"></a></p>
-
-<h3>问题1: rake版本问题</h3>
-
-<p>之后，试图执行rake命令到时候，会报错：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>rake aborted!
-</span><span class='line'>Gem::LoadError: You have already activated rake 12.3.2, but your Gemfile requires rake 10.5.0. Prepending `bundle exec` to your command may solve this.
-</span><span class='line'>/Users/hozhang/Develop/hongchaozhang.github.io/Rakefile:2:in `&lt;top (required)&gt;'
-</span><span class='line'>/Library/Ruby/Gems/2.6.0/gems/rake-12.3.2/exe/rake:27:in `&lt;top (required)&gt;'
-</span><span class='line'>(See full trace by running task with --trace)</span></code></pre></td></tr></table></div></figure>
-
-
-<p>这个时候，可以根据提示，在rake前面加上<code>bundle exec</code>，比如<code>bundle exec rake preview</code>。每次都这样，比较麻烦。这个问题到根源是Gemfile里面定义使用到rake版本和本地安装到rake版本不一致，这样修改：</p>
-
-<p>在octopress目录下找到我们上面第一步从远端clone下来到Gemfile，打开，将</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>gem 'rake', '~&gt; 10.0'</span></code></pre></td></tr></table></div></figure>
-
-
-<p>修改成</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>gem 'rake', '~&gt; 12.0'</span></code></pre></td></tr></table></div></figure>
-
-
-<p>即可。上面的<code>10.0</code>表示老版本，<code>12.0</code>表示新版本，查看本地rake的版本，如果是<code>12.3</code>，就用<code>12.0</code>。</p>
-
-<p><a id="markdown-问题2-rake-deploy错误" name="问题2-rake-deploy错误"></a></p>
-
-<h3>问题2: <code>rake deploy</code>错误</h3>
-
-<p>直接执行<code>rake deploy</code>，报错<code>[rejected] master -&gt; master (non-fast-forward)</code>，这是因为_deploy这个目录下面的内容是本地生成的，和远端没有关系，不能push。执行：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>rm -rf _deploy
-</span><span class='line'>git clone git@github.com:username/username.github.io.git _deploy</span></code></pre></td></tr></table></div></figure>
-
-
-<p>解决。</p>
-
-<p>当你在多台机器上同时工作时，经常会出现这个问题。</p>
-
-<p><a id="markdown-参考" name="参考"></a></p>
-
-<h2>参考</h2>
-
-<ol>
-<li><a href="http://michal.codes/setting-up-existing-octopress-blog-on-a-new-machine/">Setting Up Existing Octopress Blog on a New Machine</a></li>
-<li><a href="http://paulcichonski.com/blog/2013/11/10/setting-up-octopress-on-a-new-machine/">Setting Up Octopress on a New Machine</a></li>
-</ol>
-
 ]]></content>
   </entry>
   

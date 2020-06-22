@@ -4,7 +4,7 @@
   <title><![CDATA[Category: python | Reading Space]]></title>
   <link href="http://hongchaozhang.github.io/blog/categories/python/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2020-06-16T19:39:42+08:00</updated>
+  <updated>2020-06-22T18:46:00+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -12,6 +12,54 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[使用Python解析XML格式文件]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2020/06/22/parse-xml-using-python/"/>
+    <updated>2020-06-22T18:34:32+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2020/06/22/parse-xml-using-python</id>
+    <content type="html"><![CDATA[<!-- more -->
+
+
+<h2>Python基础教程</h2>
+
+<p><a href="https://www.runoob.com/python/python-tutorial.html">python基础教程</a></p>
+
+<h2>ElementTree</h2>
+
+<p>ELementTree官方文档参考：<a href="https://docs.python.org/2/library/xml.etree.elementtree.html#xml.etree.ElementTree.Element">The ElementTree XML API</a></p>
+
+<p>下面是一个例子：</p>
+
+<pre><code class="python">from xml.etree import ElementTree as ET
+
+# 读取xml文件
+tree = ET.parse('gadm36_CHN_2.kml')
+## 获取root节点
+root = tree.getroot()
+
+# 打印root节点的tag名称和所有的attribute
+print root.tag, root.attrib
+
+# 正常的xml文件的tag可能只是Placemark，这里是因为读进来的是一个kml文件
+for placemark in root.iter('{http://www.opengis.net/kml/2.2}Placemark'):
+    for simpleData in placemark.iter('{http://www.opengis.net/kml/2.2}SimpleData'):
+        # 获取某一个attribute的值也可以可以使用simpleData.get('attribute name')
+        print simpleData.attrib['name']
+        if simpleData.attrib['name'] == 'NAME_2':
+            cityName = simpleData.text
+            # 创建一个tag为name的节点作为placemark的子节点
+            nameEle = ET.SubElement(placemark, 'name')
+            # 给新创建的节点的text属性赋值
+            nameEle.text = cityName
+            # 给placemark节点增加一个名为updated的attribute，其值为'yes'
+            placemark.set('updated', 'yes')
+
+# 将新修改的xml文件写入新的文件
+tree.write('modifyChinaCity.kml')
+</code></pre>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[python对中文的支持问题]]></title>

@@ -5,11 +5,11 @@
 
 <head>
 	<meta charset="utf-8">
-	<title>Singleton - Reading Space</title>
+	<title>使用Python解析XML格式文件 - Reading Space</title>
 	<meta name="author" content="Zhang Hongchao">
 
 	
-	<meta name="description" content="Singleton Singleton implementation Objective-C中单例模式的实现 Singleton Design Pattern for Objective-C 1
+	<meta name="description" content="使用Python解析XML格式文件 Python基础教程 python基础教程 ElementTree ELementTree官方文档参考：The ElementTree XML API 下面是一个例子： 1
 2
 3
 4
@@ -18,8 +18,15 @@
 7
 8
 9
-+ (instancetype)sharedInstance
-{ &hellip;">
+10
+11
+12
+13
+14
+15
+16
+17
+18 &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -29,7 +36,7 @@
 
 	<link href="/atom.xml" rel="alternate" title="Reading Space" type="application/atom+xml">
 	
-	<link rel="canonical" href="http://hongchaozhang.github.io/blog/2015/09/07/Singleton/">
+	<link rel="canonical" href="http://hongchaozhang.github.io/blog/2020/06/22/parse-xml-using-python/">
 	<link href="/favicon.png" rel="shortcut icon">
 	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
 	<link href="/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
@@ -116,17 +123,19 @@
 			
 			<div class="mid-col-container">
 				<div id="content" class="inner"><article class="post" itemscope itemtype="http://schema.org/BlogPosting">
-	<h1 class="title" itemprop="name">Singleton</h1>
-	<div class="entry-content" itemprop="articleBody"><h2>Singleton implementation</h2>
-
-<p><a href="http://cocoa.venj.me/blog/singleton-in-objc/">Objective-C中单例模式的实现</a></p>
-
-<p><a href="http://www.makebetterthings.com/iphone/singleton-design-pattern-for-objective-c/">Singleton Design Pattern for Objective-C</a></p>
-
-<!-- more -->
+	<h1 class="title" itemprop="name">使用Python解析XML格式文件</h1>
+	<div class="entry-content" itemprop="articleBody"><!-- more -->
 
 
+<h2>Python基础教程</h2>
 
+<p><a href="https://www.runoob.com/python/python-tutorial.html">python基础教程</a></p>
+
+<h2>ElementTree</h2>
+
+<p>ELementTree官方文档参考：<a href="https://docs.python.org/2/library/xml.etree.elementtree.html#xml.etree.ElementTree.Element">The ElementTree XML API</a></p>
+
+<p>下面是一个例子：</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -137,25 +146,51 @@
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
 <span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="p">+</span> <span class="p">(</span><span class="kt">instancetype</span><span class="p">)</span><span class="nf">sharedInstance</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="k">static</span> <span class="kt">dispatch_once_t</span> <span class="n">once</span><span class="p">;</span>
-</span><span class='line'>    <span class="k">static</span> <span class="kt">id</span> <span class="n">sharedInstance</span><span class="p">;</span>
-</span><span class='line'>    <span class="n">dispatch_once</span><span class="p">(</span><span class="o">&amp;</span><span class="n">once</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
-</span><span class='line'>        <span class="n">sharedInstance</span> <span class="o">=</span> <span class="p">[[</span><span class="nb">self</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
-</span><span class='line'>    <span class="p">});</span>
-</span><span class='line'>    <span class="k">return</span> <span class="n">sharedInstance</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">xml.etree</span> <span class="kn">import</span> <span class="n">ElementTree</span> <span class="k">as</span> <span class="n">ET</span>
+</span><span class='line'>
+</span><span class='line'><span class="c"># 读取xml文件</span>
+</span><span class='line'><span class="n">tree</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="s">&#39;gadm36_CHN_2.kml&#39;</span><span class="p">)</span>
+</span><span class='line'><span class="c">## 获取root节点</span>
+</span><span class='line'><span class="n">root</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">getroot</span><span class="p">()</span>
+</span><span class='line'>
+</span><span class='line'><span class="c"># 打印root节点的tag名称和所有的attribute</span>
+</span><span class='line'><span class="k">print</span> <span class="n">root</span><span class="o">.</span><span class="n">tag</span><span class="p">,</span> <span class="n">root</span><span class="o">.</span><span class="n">attrib</span>
+</span><span class='line'>
+</span><span class='line'><span class="c"># 正常的xml文件的tag可能只是Placemark，这里是因为读进来的是一个kml文件</span>
+</span><span class='line'><span class="k">for</span> <span class="n">placemark</span> <span class="ow">in</span> <span class="n">root</span><span class="o">.</span><span class="n">iter</span><span class="p">(</span><span class="s">&#39;{http://www.opengis.net/kml/2.2}Placemark&#39;</span><span class="p">):</span>
+</span><span class='line'>    <span class="k">for</span> <span class="n">simpleData</span> <span class="ow">in</span> <span class="n">placemark</span><span class="o">.</span><span class="n">iter</span><span class="p">(</span><span class="s">&#39;{http://www.opengis.net/kml/2.2}SimpleData&#39;</span><span class="p">):</span>
+</span><span class='line'>        <span class="c"># 获取某一个attribute的值也可以可以使用simpleData.get(&#39;attribute name&#39;)</span>
+</span><span class='line'>        <span class="k">print</span> <span class="n">simpleData</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;name&#39;</span><span class="p">]</span>
+</span><span class='line'>        <span class="k">if</span> <span class="n">simpleData</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;name&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;NAME_2&#39;</span><span class="p">:</span>
+</span><span class='line'>            <span class="n">cityName</span> <span class="o">=</span> <span class="n">simpleData</span><span class="o">.</span><span class="n">text</span>
+</span><span class='line'>            <span class="c"># 创建一个tag为name的节点作为placemark的子节点</span>
+</span><span class='line'>            <span class="n">nameEle</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">SubElement</span><span class="p">(</span><span class="n">placemark</span><span class="p">,</span> <span class="s">&#39;name&#39;</span><span class="p">)</span>
+</span><span class='line'>            <span class="c"># 给新创建的节点的text属性赋值</span>
+</span><span class='line'>            <span class="n">nameEle</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">cityName</span>
+</span><span class='line'>            <span class="c"># 给placemark节点增加一个名为updated的attribute，其值为&#39;yes&#39;</span>
+</span><span class='line'>            <span class="n">placemark</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s">&#39;updated&#39;</span><span class="p">,</span> <span class="s">&#39;yes&#39;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="c"># 将新修改的xml文件写入新的文件</span>
+</span><span class='line'><span class="n">tree</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;modifyChinaCity.kml&#39;</span><span class="p">)</span>
 </span></code></pre></td></tr></table></div></figure>
 
-
-<h2>Avoid abusing singleton</h2>
-
-<p><a href="http://objccn.io/issue-13-2/">避免滥用单例</a></p>
-
-<p>Singleton introduces globla variable, which may lead to coupling of far-away components.</p>
-
-<p>Note the life circle of an object, to see if it confirm to &ldquo;will always has one instance&rdquo;. If NO, we can not use Singleton here.</p>
 </div>
 
 </article>

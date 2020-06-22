@@ -4,7 +4,7 @@
   <title><![CDATA[Category: productivity | Reading Space]]></title>
   <link href="http://hongchaozhang.github.io/blog/categories/productivity/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2020-06-16T19:39:42+08:00</updated>
+  <updated>2020-06-22T18:46:00+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -12,6 +12,54 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[使用Python解析XML格式文件]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2020/06/22/parse-xml-using-python/"/>
+    <updated>2020-06-22T18:34:32+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2020/06/22/parse-xml-using-python</id>
+    <content type="html"><![CDATA[<!-- more -->
+
+
+<h2>Python基础教程</h2>
+
+<p><a href="https://www.runoob.com/python/python-tutorial.html">python基础教程</a></p>
+
+<h2>ElementTree</h2>
+
+<p>ELementTree官方文档参考：<a href="https://docs.python.org/2/library/xml.etree.elementtree.html#xml.etree.ElementTree.Element">The ElementTree XML API</a></p>
+
+<p>下面是一个例子：</p>
+
+<pre><code class="python">from xml.etree import ElementTree as ET
+
+# 读取xml文件
+tree = ET.parse('gadm36_CHN_2.kml')
+## 获取root节点
+root = tree.getroot()
+
+# 打印root节点的tag名称和所有的attribute
+print root.tag, root.attrib
+
+# 正常的xml文件的tag可能只是Placemark，这里是因为读进来的是一个kml文件
+for placemark in root.iter('{http://www.opengis.net/kml/2.2}Placemark'):
+    for simpleData in placemark.iter('{http://www.opengis.net/kml/2.2}SimpleData'):
+        # 获取某一个attribute的值也可以可以使用simpleData.get('attribute name')
+        print simpleData.attrib['name']
+        if simpleData.attrib['name'] == 'NAME_2':
+            cityName = simpleData.text
+            # 创建一个tag为name的节点作为placemark的子节点
+            nameEle = ET.SubElement(placemark, 'name')
+            # 给新创建的节点的text属性赋值
+            nameEle.text = cityName
+            # 给placemark节点增加一个名为updated的attribute，其值为'yes'
+            placemark.set('updated', 'yes')
+
+# 将新修改的xml文件写入新的文件
+tree.write('modifyChinaCity.kml')
+</code></pre>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[区域位置地理信息的获取、查看、和后期处理]]></title>
@@ -61,6 +109,8 @@
 <p>在VSCode中编辑，同时结合VSCode Map Preview插件进行预览。</p>
 
 <p>目前为止，发现的编辑工具都只能基于文本进行编辑，还没有发现一款有UI界面的编辑工具。</p>
+
+<p>另外，如果是KML文件，可以将其当作XML文件进行编辑修改。参考<a href="/blog/2020/06/22/parse-xml-using-python/">使用python编辑xml文件</a></p>
 
 <h2>绘制</h2>
 
@@ -480,174 +530,6 @@ find "${SRCROOT}" \( -name "*.h" -or -name "*.m" -or -name "*.swift" \) -print0 
   <summary><em>Question: What is the best Language in the World?</em></summary>
    Answer: Swift
 </details></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS代码查重工具]]></title>
-    <link href="http://hongchaozhang.github.io/blog/2017/05/08/tools-for-detecting-duplicated-code/"/>
-    <updated>2017-05-08T17:52:24+08:00</updated>
-    <id>http://hongchaozhang.github.io/blog/2017/05/08/tools-for-detecting-duplicated-code</id>
-    <content type="html"><![CDATA[<!-- more -->
-
-
-<h2>代码查重现状</h2>
-
-<p>很多IDE里面都有自己的代码查重工具，比如WebStorm的代码查重工具做的非常好用。但是Xcode里面至今没有自己的代码查重工具。这里调研了一些常见的代码查重工具，最后选择<del>PMD里面的CPD</del>jscpd，并将其集成到Xcode中，重复代码会以warning的形式出现在Xcode里面，方便查看。</p>
-
-<p>一些IDE调研结果：</p>
-
-<table>
-<thead>
-<tr>
-<th>IDE </th>
-<th> Build-in Tool </th>
-<th> Extension</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Xcode </td>
-<td> No </td>
-<td> No</td>
-</tr>
-<tr>
-<td>AppCode </td>
-<td> No </td>
-<td> No</td>
-</tr>
-<tr>
-<td>Android Studio </td>
-<td> Yes (Find and Replace Code Duplications&hellip;) </td>
-<td> &ndash;</td>
-</tr>
-<tr>
-<td>WebStorm </td>
-<td> Yes </td>
-<td> &ndash;</td>
-</tr>
-<tr>
-<td>VSCode </td>
-<td> No </td>
-<td> Copy/Paste Detector extension, based on jscpd</td>
-</tr>
-<tr>
-<td>Visual Studio </td>
-<td> Yes </td>
-<td> &ndash;</td>
-</tr>
-</tbody>
-</table>
-
-
-<p>一些查重工具调研结果：</p>
-
-<table>
-<thead>
-<tr>
-<th>Tool </th>
-<th> Swift Support </th>
-<th> Objc Support </th>
-<th> configuration file </th>
-<th> Xocde Integration </th>
-<th> Note</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><a href="https://github.com/cyupa/JenkinsCI-iOS">JenkinsCI-iOS</a> </td>
-<td> Yes </td>
-<td> Yes </td>
-<td> &ndash; </td>
-<td> &ndash; </td>
-<td> A Jenkins job setup for your XCode project. The CPD in PMD is the core of JenkinsCI-iOS.</td>
-</tr>
-<tr>
-<td>CPD in <a href="https://pmd.github.io/">PMD</a> </td>
-<td> Yes </td>
-<td> Yes </td>
-<td> No </td>
-<td> Yes </td>
-<td> 对于其他语言，pmd都包含代码静态分析工具，但是对于Swift，只有一个代码查重工具CPD（Copy Paste Detector）。因此，如果想对Swift代码进行静态分析，可以选择SwiftLint。</td>
-</tr>
-<tr>
-<td><a href="https://github.com/kucherenko/jscpd">jscpd</a> </td>
-<td> Yes </td>
-<td> Yes </td>
-<td> Yes (yaml) </td>
-<td> Yes </td>
-<td> 支持swift、objective-c以及其它一些语言。</td>
-</tr>
-</tbody>
-</table>
-
-
-<h2>一些不容易写到表格中的信息</h2>
-
-<h3>PMD</h3>
-
-<p><a href="https://pmd.github.io/">PMD</a></p>
-
-<h4>Supported IDEs</h4>
-
-<ul>
-<li>Maven PMD plugin</li>
-<li>Gradle: The PMD Plugin</li>
-<li>Eclipse plugin</li>
-<li>NetBeans plugin</li>
-<li>JBuilder plugin</li>
-<li>JDeveloper plugin</li>
-<li>IntelliJ IDEA plugin</li>
-</ul>
-
-
-<p>没有Xcode的插件，但是可以通过在Build Phase里面加入Run Script来使用。</p>
-
-<h4>CPD has GUI</h4>
-
-<p>On Mac, display the GUI by running:</p>
-
-<pre><code>./run.sh cpdgui
-</code></pre>
-
-<p>The screen shot is like:</p>
-
-<p><img src="/images/screenshot_cpd.png" alt="screenshot_cpd" /></p>
-
-<h4>将CPD集成到XCode里面</h4>
-
-<p><a href="https://medium.com/@nvashanin/%D0%B8%D0%BD%D1%82%D0%B5%D0%B3%D1%80%D0%B8%D1%80%D1%83%D0%B5%D0%BC-copy-paste-detector-%D0%B4%D0%BB%D1%8F-swift-%D0%B2-xcode-9ae87c20748">Integrating Copy-Paste-Detector for Swift in Xcode</a>: This is a newer post on April 2017 and gives a detailed step by step way for integrating CPD into Xcode:</p>
-
-<ul>
-<li>Add run script into Build Phase.</li>
-<li>Xcode warnings will appear at the place of duplicated code.</li>
-</ul>
-
-
-<p>Refer to <a href="../../../../2018/08/02/integrate-copy-and-paste-detector-into-xcode/">将代码查重工具CPD集成到Xcode</a> for details.</p>
-
-<p><a href="https://habrahabr.ru/post/137875/"><del>Интегрируем Copy-Paste-Detection в Xcode, и не только</del></a>: Integrate CPD into XCode, but this post is a little older on 2012.</p>
-
-<h3>NiCad4 Clone Detector</h3>
-
-<p><a href="http://www.txl.ca/nicaddownload.html">NiCad4 Clone Detector</a></p>
-
-<p>NiCad handles a range of languages, including C, Java, Python, and C#, and provides a range of normalizations, filters and abstractions.</p>
-
-<h3>Visual Studio</h3>
-
-<p>Visual Studio Enterprise有自己的code clone analysis，see <a href="https://msdn.microsoft.com/en-us/library/hh205279.aspx">Finding Duplicate Code by using Code Clone Detection</a>。copy一段code，然后改了某个变量名称，仍然可以被检测出重复。</p>
-
-<p>The following modifications can be made, and the clone will still be recognized. In each case, there is a tolerance of a specific number of such modifications:</p>
-
-<pre><code>* Rename identifiers.
-* Insert and delete statements.
-* Rearrange statements.
-</code></pre>
-
-<h3>Simian - Similarity Analyser</h3>
-
-<p><a href="http://www.harukizaemon.com/simian/">Simian - Similarity Analyser</a></p>
 ]]></content>
   </entry>
   
