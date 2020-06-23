@@ -1,0 +1,305 @@
+
+<!DOCTYPE HTML>
+
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>使用Python解析Excel文件 - Reading Space</title>
+	<meta name="author" content="Zhang Hongchao">
+
+	
+	<meta name="description" content="使用Python解析Excel文件 Python基础教程 python基础教程 xlrd和xlwt 1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36 &hellip;">
+	
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="Reading Space" type="application/atom+xml">
+	
+	<link rel="canonical" href="http://hongchaozhang.github.io/blog/2020/06/23/parse-excel-using-python/">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<link href="/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<link href='http://fonts.googleapis.com/css?family=Nunito:400,300,700' rel='stylesheet' type='text/css'>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	
+  
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-62806905-2']);
+		_gaq.push(['_trackPageview']);
+
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
+
+
+</head>
+
+
+<body>
+	<div class="container">
+		<div class="left-col">
+			<div class="intrude-less">
+			<header id="header" class="inner"><div class="profilepic">
+	
+	<script src="/javascripts/md5.js"></script>
+	<script type="text/javascript">
+		$(function(){
+			$('.profilepic').append("<img src='http://www.gravatar.com/avatar/" + MD5("") + "?s=160' alt='Profile Picture' style='width: 160px;' />");
+		});
+	</script>
+	
+</div>
+
+<nav id="main-nav"><ul class="main">
+    <li><a href="/">Blog</a></li>
+    <li><a href="/blog/archives">Archives</a></li>
+    <li><a href="#">About</a></li>
+</ul>
+</nav>
+<nav id="sub-nav">
+	<div class="social">
+		
+		
+		
+		
+		
+			<a class="github" href="https://github.com/hongchaozhang" title="GitHub">GitHub</a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+    	
+    	
+			<a class="rss" href="/atom.xml" title="RSS">RSS</a>
+		
+	</div>
+</nav>
+
+
+
+<section class="categories">
+          <ul id="category_cloud" class="nav nav-list"><a href='/blog/categories/algorithm' style='font-size: 101.3953488372093%'>algorithm(1)</a> <a href='/blog/categories/android' style='font-size: 106.97674418604652%'>android(5)</a> <a href='/blog/categories/android-studio' style='font-size: 101.3953488372093%'>android studio(1)</a> <a href='/blog/categories/augmented-reality' style='font-size: 105.5813953488372%'>augmented reality(4)</a> <a href='/blog/categories/design-pattern' style='font-size: 104.18604651162791%'>design pattern(3)</a> <a href='/blog/categories/html' style='font-size: 101.3953488372093%'>html(1)</a> <a href='/blog/categories/html-css' style='font-size: 101.3953488372093%'>html css(1)</a> <a href='/blog/categories/ios' style='font-size: 160.0%'>ios(43)</a> <a href='/blog/categories/java' style='font-size: 102.79069767441861%'>java(2)</a> <a href='/blog/categories/javascript' style='font-size: 102.79069767441861%'>javascript(2)</a> <a href='/blog/categories/machine-learning' style='font-size: 112.55813953488372%'>machine learning(9)</a> <a href='/blog/categories/map-tech' style='font-size: 104.18604651162791%'>map tech(3)</a> <a href='/blog/categories/mobile' style='font-size: 101.3953488372093%'>mobile(1)</a> <a href='/blog/categories/music' style='font-size: 108.37209302325581%'>music(6)</a> <a href='/blog/categories/nlp' style='font-size: 102.79069767441861%'>nlp(2)</a> <a href='/blog/categories/nlu' style='font-size: 102.79069767441861%'>nlu(2)</a> <a href='/blog/categories/node' style='font-size: 104.18604651162791%'>node(3)</a> <a href='/blog/categories/objective-c' style='font-size: 129.30232558139534%'>objective-c(21)</a> <a href='/blog/categories/philosophy' style='font-size: 102.79069767441861%'>philosophy(2)</a> <a href='/blog/categories/productivity' style='font-size: 130.69767441860466%'>productivity(22)</a> <a href='/blog/categories/python' style='font-size: 106.97674418604652%'>python(5)</a> <a href='/blog/categories/reading' style='font-size: 134.88372093023256%'>reading(25)</a> <a href='/blog/categories/swift' style='font-size: 108.37209302325581%'>swift(6)</a> <a href='/blog/categories/web' style='font-size: 105.5813953488372%'>web(4)</a> <a href='/blog/categories/wwdc' style='font-size: 102.79069767441861%'>wwdc(2)</a> <a href='/blog/categories/xcode' style='font-size: 111.16279069767442%'>xcode(8)</a> </ul>
+      </section>
+
+
+</header>				
+			</div>
+		</div>	
+		<div class="mid-col">
+			
+				
+			
+			<div class="mid-col-container">
+				<div id="content" class="inner"><article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+	<h1 class="title" itemprop="name">使用Python解析Excel文件</h1>
+	<div class="entry-content" itemprop="articleBody"><!-- more -->
+
+
+<h2>Python基础教程</h2>
+
+<p><a href="https://www.runoob.com/python/python-tutorial.html">python基础教程</a></p>
+
+<h2>xlrd和xlwt</h2>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="c">#!/usr/bin/env python</span>
+</span><span class='line'><span class="c"># -*- coding: utf-8 -*-</span>
+</span><span class='line'>
+</span><span class='line'><span class="kn">import</span> <span class="nn">xlrd</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">xlwt</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">read_excel</span><span class="p">():</span>
+</span><span class='line'>    <span class="n">file_name</span> <span class="o">=</span> <span class="s">&#39;demo.xlsx&#39;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c"># 打开excel文件</span>
+</span><span class='line'>    <span class="n">wb</span> <span class="o">=</span> <span class="n">xlrd</span><span class="o">.</span><span class="n">open_workbook</span><span class="p">(</span><span class="n">file_name</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c"># 获取所有表格名字</span>
+</span><span class='line'>    <span class="k">print</span><span class="p">(</span><span class="n">wb</span><span class="o">.</span><span class="n">sheet_names</span><span class="p">())</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c"># 通过索引获取表格</span>
+</span><span class='line'>    <span class="n">sheet1</span> <span class="o">=</span> <span class="n">wb</span><span class="o">.</span><span class="n">sheet_by_index</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">print</span><span class="p">(</span><span class="n">sheet1</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">sheet1</span><span class="o">.</span><span class="n">nrows</span><span class="p">,</span> <span class="n">sheet1</span><span class="o">.</span><span class="n">ncols</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c"># 获取行内容</span>
+</span><span class='line'>    <span class="n">rows</span> <span class="o">=</span> <span class="n">sheet1</span><span class="o">.</span><span class="n">row_values</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">print</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c"># 获取列内容</span>
+</span><span class='line'>    <span class="n">cols</span> <span class="o">=</span> <span class="n">sheet1</span><span class="o">.</span><span class="n">col_values</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">print</span><span class="p">(</span><span class="n">cols</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c"># 获取表格里的内容，三种方式</span>
+</span><span class='line'>    <span class="k">print</span><span class="p">(</span><span class="n">sheet1</span><span class="o">.</span><span class="n">cell</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">print</span><span class="p">(</span><span class="n">sheet1</span><span class="o">.</span><span class="n">cell_value</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+</span><span class='line'>    <span class="k">print</span><span class="p">(</span><span class="n">sheet1</span><span class="o">.</span><span class="n">row</span><span class="p">(</span><span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">write_excel</span><span class="p">():</span>
+</span><span class='line'>    <span class="n">f</span> <span class="o">=</span> <span class="n">xlwt</span><span class="o">.</span><span class="n">Workbook</span><span class="p">()</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c"># 添加sheet</span>
+</span><span class='line'>    <span class="n">sheet1</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">add_sheet</span><span class="p">(</span><span class="s">&#39;Students&#39;</span><span class="p">,</span> <span class="bp">True</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c"># 创建杭数据和列数据</span>
+</span><span class='line'>    <span class="n">row0</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;qq&quot;</span><span class="p">,</span> <span class="s">&quot;ddd&quot;</span><span class="p">,</span> <span class="s">&quot;fgg&quot;</span><span class="p">,</span> <span class="s">&quot;hjj&quot;</span><span class="p">]</span>
+</span><span class='line'>    <span class="n">column0</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;zsfsd&quot;</span><span class="p">,</span> <span class="s">&quot;ghg&quot;</span><span class="p">,</span> <span class="s">&quot;Python&quot;</span><span class="p">,</span> <span class="s">&quot;fs&quot;</span><span class="p">,</span> <span class="s">&quot;fgsf&quot;</span><span class="p">,</span> <span class="s">&quot;zbg&quot;</span><span class="p">]</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c"># 写第一行</span>
+</span><span class='line'>    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">row0</span><span class="p">)):</span>
+</span><span class='line'>        <span class="n">sheet1</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">row0</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c"># 写第一列</span>
+</span><span class='line'>    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">column0</span><span class="p">)):</span>
+</span><span class='line'>        <span class="n">sheet1</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">column0</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c"># 保存文件为xls格式，xlsx格式不能打开</span>
+</span><span class='line'>    <span class="n">f</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s">&#39;test.xls&#39;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>openpyxl</h2>
+
+<p>xlwt的局限性是不能写入超过65535行、256列的数据（因为它只支持Excel 2003及之前的版本，在这些版本的Excel中行数和列数有此限制）。openpyxl支持07/10/13版本Excel，功能很强大，但是操作起来感觉没有xlwt方便。</p>
+</div>
+
+</article>
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+	
+	
+	
+	<a class="addthis_counter addthis_pill_style"></a>
+	</div>
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
+</div>
+
+
+</div>
+			</div>
+			<footer id="footer" class="inner">Copyright &copy; 2020
+
+    Zhang Hongchao
+
+
+<!--Design credit: <a href="http://shashankmehta.in/archive/2012/greyshade.html">Shashank Mehta</a>--></footer>
+		</div>
+	</div>
+	
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

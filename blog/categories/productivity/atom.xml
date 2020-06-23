@@ -4,7 +4,7 @@
   <title><![CDATA[Category: productivity | Reading Space]]></title>
   <link href="http://hongchaozhang.github.io/blog/categories/productivity/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2020-06-22T18:46:00+08:00</updated>
+  <updated>2020-06-23T19:21:52+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -12,6 +12,82 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[使用Python解析Excel文件]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2020/06/23/parse-excel-using-python/"/>
+    <updated>2020-06-23T19:17:45+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2020/06/23/parse-excel-using-python</id>
+    <content type="html"><![CDATA[<!-- more -->
+
+
+<h2>Python基础教程</h2>
+
+<p><a href="https://www.runoob.com/python/python-tutorial.html">python基础教程</a></p>
+
+<h2>xlrd和xlwt</h2>
+
+<pre><code class="python">#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+import xlrd
+import xlwt
+
+
+def read_excel():
+    file_name = 'demo.xlsx'
+
+    # 打开excel文件
+    wb = xlrd.open_workbook(file_name)
+
+    # 获取所有表格名字
+    print(wb.sheet_names())
+
+    # 通过索引获取表格
+    sheet1 = wb.sheet_by_index(0)
+    print(sheet1.name, sheet1.nrows, sheet1.ncols)
+
+    # 获取行内容
+    rows = sheet1.row_values(2)
+    print(rows)
+
+    # 获取列内容
+    cols = sheet1.col_values(3)
+    print(cols)
+
+    # 获取表格里的内容，三种方式
+    print(sheet1.cell(1, 0).value)
+    print(sheet1.cell_value(1, 0))
+    print(sheet1.row(1)[0].value)
+
+
+def write_excel():
+    f = xlwt.Workbook()
+
+    # 添加sheet
+    sheet1 = f.add_sheet('Students', True)
+
+    # 创建杭数据和列数据
+    row0 = ["qq", "ddd", "fgg", "hjj"]
+    column0 = ["zsfsd", "ghg", "Python", "fs", "fgsf", "zbg"]
+
+    # 写第一行
+    for i in range(0, len(row0)):
+        sheet1.write(0, i, row0[i])
+
+    # 写第一列
+    for i in range(0, len(column0)):
+        sheet1.write(i + 1, 0, column0[i])
+
+    # 保存文件为xls格式，xlsx格式不能打开
+    f.save('test.xls')
+</code></pre>
+
+<h2>openpyxl</h2>
+
+<p>xlwt的局限性是不能写入超过65535行、256列的数据（因为它只支持Excel 2003及之前的版本，在这些版本的Excel中行数和列数有此限制）。openpyxl支持07/10/13版本Excel，功能很强大，但是操作起来感觉没有xlwt方便。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[使用Python解析XML格式文件]]></title>
@@ -451,85 +527,6 @@ find "${SRCROOT}" \( -name "*.h" -or -name "*.m" -or -name "*.swift" \) -print0 
 <li>如何编写jscpd的yaml配置文件，参考<a href="http://www.ruanyifeng.com/blog/2016/07/yaml.html">YAML 语言教程</a>。</li>
 </ul>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[some tips on markdown usage]]></title>
-    <link href="http://hongchaozhang.github.io/blog/2017/11/21/some-tips-on-markdown-usage/"/>
-    <updated>2017-11-21T10:13:28+08:00</updated>
-    <id>http://hongchaozhang.github.io/blog/2017/11/21/some-tips-on-markdown-usage</id>
-    <content type="html"><![CDATA[<p>Collect some markdown usage tips.</p>
-
-<!-- more -->
-
-
-<h2>添加表格</h2>
-
-<table>
-<thead>
-<tr>
-<th style="text-align:left;"> 左对齐 </th>
-<th style="text-align:right;"> 右对齐 </th>
-<th style="text-align:center;"> 居中对齐 </th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;"> 单元格 </td>
-<td style="text-align:right;"> 单元格 </td>
-<td style="text-align:center;"> 单元格 </td>
-</tr>
-<tr>
-<td style="text-align:left;"> 单元格 </td>
-<td style="text-align:right;"> 单元格 </td>
-<td style="text-align:center;"> 单元格 </td>
-</tr>
-</tbody>
-</table>
-
-
-<p>上面表格的markdown写法如下：</p>
-
-<p><img src="/images/markdown-table.png" alt="markdown table" /></p>
-
-<blockquote><p>注意：上面的<strong>|</strong>必须为英文输入法下面的字符，中文输入法下是不同的字符，而且不易看出差别。</p></blockquote>
-
-<h2>insert an image</h2>
-
-<p>To insert the image, just use the path under the base url, for me, it is <em><delete>/GitBlogs</delete>/images/<image_name>.png</em>, for example</p>
-
-<pre><code>![image annotation](/images/001_ios_frameworks.png)
-</code></pre>
-
-<p>To define the size of the image:</p>
-
-<pre><code>![image annotation](/images/001_ios_frameworks.png =200x300)
-</code></pre>
-
-<p>Or you can omit the <code>height</code> of the image:</p>
-
-<pre><code>![image annotation](/images/001_ios_frameworks.png =200x)
-</code></pre>
-
-<p>If the aspect ratio you define is not consistent with the original image, the height will be omitted automatically. That is to say, just define the <code>width</code> you want, and the system will calculate the <code>height</code> for you.</p>
-
-<h2>show content while click</h2>
-
-<p>Using the following block of code for hiding some content and show the content while click.</p>
-
-<pre><code class="html">&lt;details&gt; 
-  &lt;summary&gt;Q1: What is the best Language in the World? &lt;/summary&gt;
-   A1: Swift 
-&lt;/details&gt;
-</code></pre>
-
-<p>You will get:</p>
-
-<p><details>
-  <summary><em>Question: What is the best Language in the World?</em></summary>
-   Answer: Swift
-</details></p>
 ]]></content>
   </entry>
   
