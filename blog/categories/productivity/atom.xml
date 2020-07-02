@@ -4,7 +4,7 @@
   <title><![CDATA[Category: productivity | Reading Space]]></title>
   <link href="http://hongchaozhang.github.io/blog/categories/productivity/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2020-06-23T19:21:52+08:00</updated>
+  <updated>2020-07-02T11:09:47+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -86,6 +86,15 @@ def write_excel():
 <h2>openpyxl</h2>
 
 <p>xlwt的局限性是不能写入超过65535行、256列的数据（因为它只支持Excel 2003及之前的版本，在这些版本的Excel中行数和列数有此限制）。openpyxl支持07/10/13版本Excel，功能很强大，但是操作起来感觉没有xlwt方便。</p>
+
+<h2>总结</h2>
+
+<ol>
+<li>读取Excel时，选择openpyxl和xlrd差别不大，都能满足要求</li>
+<li>写入少量数据且存为xls格式文件时，用xlwt更方便</li>
+<li>写入大量数据（超过xls格式限制）或者必须存为xlsx格式文件时，就要用openpyxl了。</li>
+</ol>
+
 ]]></content>
   </entry>
   
@@ -277,7 +286,7 @@ tree.write('modifyChinaCity.kml')
 
 <h3>使用脚本解析excel</h3>
 
-<p>上面的数据有的是网页数据，有的是excel数据（普查数据），对excel内部数据的结构调整可以参考<a href="http://hongchaozhang.github.io/blog/2016/03/04/parsing-and-write-excel-file-using-node-module/">使用node-xlsx进行excel文件的读写</a>进行。</p>
+<p>上面的数据有的是网页数据，有的是excel数据（普查数据），对excel内部数据的结构调整可以参考<a href="http://hongchaozhang.github.io/blog/2016/03/04/parsing-and-write-excel-file-using-node-module/">使用node-xlsx进行excel文件的读写</a>进行。如果对Python比较熟悉，可以参考<a href="/blog/2020/06/23/parse-excel-using-python/">使用Python解析Excel文件</a>。</p>
 
 <p>最后贴上所有的资源，包括最后写成的文档：<a href="/assets/resources/%E4%B8%AD%E5%9B%BD%E5%90%84%E7%9C%81%E7%94%B7%E5%A5%B3%E6%AF%94%E4%BE%8B%E5%9C%B0%E5%9B%BE%E5%88%86%E6%9E%90.zip">中国各省男女比例地图分析</a>。</p>
 ]]></content>

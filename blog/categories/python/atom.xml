@@ -4,7 +4,7 @@
   <title><![CDATA[Category: python | Reading Space]]></title>
   <link href="http://hongchaozhang.github.io/blog/categories/python/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2020-06-23T19:21:52+08:00</updated>
+  <updated>2020-07-02T11:09:47+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -86,6 +86,15 @@ def write_excel():
 <h2>openpyxl</h2>
 
 <p>xlwt的局限性是不能写入超过65535行、256列的数据（因为它只支持Excel 2003及之前的版本，在这些版本的Excel中行数和列数有此限制）。openpyxl支持07/10/13版本Excel，功能很强大，但是操作起来感觉没有xlwt方便。</p>
+
+<h2>总结</h2>
+
+<ol>
+<li>读取Excel时，选择openpyxl和xlrd差别不大，都能满足要求</li>
+<li>写入少量数据且存为xls格式文件时，用xlwt更方便</li>
+<li>写入大量数据（超过xls格式限制）或者必须存为xlsx格式文件时，就要用openpyxl了。</li>
+</ol>
+
 ]]></content>
   </entry>
   

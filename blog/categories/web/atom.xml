@@ -4,7 +4,7 @@
   <title><![CDATA[Category: web | Reading Space]]></title>
   <link href="http://hongchaozhang.github.io/blog/categories/web/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2020-06-23T19:21:52+08:00</updated>
+  <updated>2020-07-02T11:09:47+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -12,6 +12,136 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[CSS中的white-space，word-break和word-wrap]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2020/07/02/css-white-space-word-break-and-word-wrap/"/>
+    <updated>2020-07-02T10:27:04+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2020/07/02/css-white-space-word-break-and-word-wrap</id>
+    <content type="html"><![CDATA[<!-- more -->
+
+
+<p><code>white-space</code>、<code>word-break</code>、<code>word-wrap</code>（<code>overflow-wrap</code>）估计是css里最基本却又容易让人迷惑的三个属性了。</p>
+
+<h2><code>white-space</code></h2>
+
+<p><a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/white-space"><code>white-space</code></a>：正如它的名字，这个属性是用来<strong>控制空白字符的显示的，同时还能控制是否自动换行</strong>。它有6个值：</p>
+
+<ol>
+<li>normal：默认值。空格被合并，自动换行。</li>
+<li>nowrap：不仅空格被合并，换行符无效，连原本的自动换行都没了！只有\&lt;/br>才能导致换行！所以这个值的表现还是挺简单的，我们可以理解为"永不换行"。</li>
+<li>pre：下面四个用来保留空格，不常用。详情参考<a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/white-space">MDN介绍</a>。</li>
+<li>pre-wrap</li>
+<li>pre-line</li>
+<li>break-space</li>
+</ol>
+
+
+<p>下面的表格记录的很详细：</p>
+
+<table>
+<thead>
+<tr>
+<th style="text-align:center;"> 属性值 </th>
+<th style="text-align:center;"> 换行符 </th>
+<th style="text-align:center;"> 空格和制表符 </th>
+<th style="text-align:center;"> 文字换行 </th>
+<th style="text-align:center;"> 行尾空格 </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center;">normal </td>
+<td style="text-align:center;"> 合并    </td>
+<td style="text-align:center;"> 合并    </td>
+<td style="text-align:center;"> 换行    </td>
+<td style="text-align:center;"> 删除 </td>
+</tr>
+<tr>
+<td style="text-align:center;">nowrap </td>
+<td style="text-align:center;"> 合并    </td>
+<td style="text-align:center;"> 合并    </td>
+<td style="text-align:center;"> 不换行 </td>
+<td style="text-align:center;"> 删除 </td>
+</tr>
+<tr>
+<td style="text-align:center;">pre    </td>
+<td style="text-align:center;"> 保留    </td>
+<td style="text-align:center;"> 保留    </td>
+<td style="text-align:center;"> 不换行 </td>
+<td style="text-align:center;"> 保留 </td>
+</tr>
+<tr>
+<td style="text-align:center;">pre-wrap   </td>
+<td style="text-align:center;"> 保留    </td>
+<td style="text-align:center;"> 保留    </td>
+<td style="text-align:center;"> 换行    </td>
+<td style="text-align:center;"> 挂起 </td>
+</tr>
+<tr>
+<td style="text-align:center;">pre-line   </td>
+<td style="text-align:center;"> 保留    </td>
+<td style="text-align:center;"> 合并    </td>
+<td style="text-align:center;"> 换行    </td>
+<td style="text-align:center;"> 删除 </td>
+</tr>
+<tr>
+<td style="text-align:center;">break-spaces   </td>
+<td style="text-align:center;"> 保留    </td>
+<td style="text-align:center;"> 保留    </td>
+<td style="text-align:center;"> 换行    </td>
+<td style="text-align:center;"> 换行 </td>
+</tr>
+</tbody>
+</table>
+
+
+<h2><code>word-break</code></h2>
+
+<p><a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/word-break"><code>word-break</code></a>指定了怎样在单词内断行。这里说的单词在英文中很明显，但是，对于中文、日文和韩文（合称CJK文本）整段话都是一个单词。</p>
+
+<p><code>word-break</code>共有三个选项：</p>
+
+<ol>
+<li>normal：使用默认的断行规则。</li>
+<li>break-all：对于non-CJK文本，可在任意字符间断行。</li>
+<li>keep-all：CJK文本不断行。 Non-CJK文本表现同normal。</li>
+</ol>
+
+
+<h2><code>word-wrap</code> (<code>overflow-wrap</code>)</h2>
+
+<p><a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/word-wrap"><code>word-wrap</code>(<code>overflow-wrap</code>)</a>控制长度超过一行的单词是否被拆分换行。有两个值：</p>
+
+<ol>
+<li>normal：长度超过一行的单词也不允许拆成两行显示。</li>
+<li>break-word：长度超过一行的单词允许被拆分成两行显示。</li>
+</ol>
+
+
+<h2>总结</h2>
+
+<ul>
+<li><code>white-space</code>，<strong>控制空白字符的显示，同时还能控制是否自动换行</strong>。</li>
+<li><code>word-break</code>，<strong>控制单词如何被拆分换行</strong>。</li>
+<li><code>word-wrap</code>（<code>overflow-wrap</code>）<strong>控制长度超过一行的单词是否被拆分换行</strong>，是<code>word-break</code>的补充。</li>
+</ul>
+
+
+<h2>参考</h2>
+
+<p>实际效果可以参考<a href="https://juejin.im/post/5b8905456fb9a01a105966b4">彻底搞懂word-break、word-wrap、white-space</a>及其其提供的一个<a href="https://codepen.io/YGYOOO/pen/jvyrWK">测试页面</a>。</p>
+
+<p>MDN的官方文档当然是不得不看的：</p>
+
+<ol>
+<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/white-space"><code>white-space</code></a></li>
+<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/word-break"><code>word-break</code></a></li>
+<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/word-wrap"><code>word-wrap</code>(<code>overflow-wrap</code>)</a></li>
+</ol>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iframe之外能否知道iframe里面产生的事件？]]></title>
