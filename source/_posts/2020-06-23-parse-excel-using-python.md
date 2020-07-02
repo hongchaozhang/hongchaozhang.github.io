@@ -75,3 +75,8 @@ def write_excel():
 ## openpyxl
 
 xlwt的局限性是不能写入超过65535行、256列的数据（因为它只支持Excel 2003及之前的版本，在这些版本的Excel中行数和列数有此限制）。openpyxl支持07/10/13版本Excel，功能很强大，但是操作起来感觉没有xlwt方便。
+
+## 总结
+1. 读取Excel时，选择openpyxl和xlrd差别不大，都能满足要求
+2. 写入少量数据且存为xls格式文件时，用xlwt更方便
+3. 写入大量数据（超过xls格式限制）或者必须存为xlsx格式文件时，就要用openpyxl了。

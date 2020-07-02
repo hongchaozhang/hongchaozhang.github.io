@@ -123,6 +123,8 @@ ogr2ogr output.kml input lml 0.0001
 
 ### 使用脚本解析excel
 
-上面的数据有的是网页数据，有的是excel数据（普查数据），对excel内部数据的结构调整可以参考[使用node-xlsx进行excel文件的读写](http://hongchaozhang.github.io/blog/2016/03/04/parsing-and-write-excel-file-using-node-module/)进行。
+上面的数据有的是网页数据，有的是excel数据（普查数据），对excel内部数据的结构调整可以参考[使用node-xlsx进行excel文件的读写](http://hongchaozhang.github.io/blog/2016/03/04/parsing-and-write-excel-file-using-node-module/)进行。如果对Python比较熟悉，可以参考[使用Python解析Excel文件](/blog/2020/06/23/parse-excel-using-python/)。
+
 
 最后贴上所有的资源，包括最后写成的文档：[中国各省男女比例地图分析](/assets/resources/中国各省男女比例地图分析.zip)。
+
