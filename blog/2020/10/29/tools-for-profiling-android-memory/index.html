@@ -1,0 +1,209 @@
+
+<!DOCTYPE HTML>
+
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>Android内存分析工具 - Reading Space</title>
+	<meta name="author" content="Zhang Hongchao">
+
+	
+	<meta name="description" content="Android内存分析工具 使用Android Studio自带的Profile工具 必看的两篇官方文档： View the Java Heap and Memory Allocations with Memory Profiler： https://developer.android.com/ &hellip;">
+	
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="Reading Space" type="application/atom+xml">
+	
+	<link rel="canonical" href="http://hongchaozhang.github.io/blog/2020/10/29/tools-for-profiling-android-memory/">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<link href="/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<link href='http://fonts.googleapis.com/css?family=Nunito:400,300,700' rel='stylesheet' type='text/css'>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	
+  
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-62806905-2']);
+		_gaq.push(['_trackPageview']);
+
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
+
+
+</head>
+
+
+<body>
+	<div class="container">
+		<div class="left-col">
+			<div class="intrude-less">
+			<header id="header" class="inner"><div class="profilepic">
+	
+	<script src="/javascripts/md5.js"></script>
+	<script type="text/javascript">
+		$(function(){
+			$('.profilepic').append("<img src='http://www.gravatar.com/avatar/" + MD5("") + "?s=160' alt='Profile Picture' style='width: 160px;' />");
+		});
+	</script>
+	
+</div>
+
+<nav id="main-nav"><ul class="main">
+    <li><a href="/">Blog</a></li>
+    <li><a href="/blog/archives">Archives</a></li>
+    <li><a href="#">About</a></li>
+</ul>
+</nav>
+<nav id="sub-nav">
+	<div class="social">
+		
+		
+		
+		
+		
+			<a class="github" href="https://github.com/hongchaozhang" title="GitHub">GitHub</a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+    	
+    	
+			<a class="rss" href="/atom.xml" title="RSS">RSS</a>
+		
+	</div>
+</nav>
+
+
+
+<section class="categories">
+          <ul id="category_cloud" class="nav nav-list"><a href='/blog/categories/algorithm' style='font-size: 101.3953488372093%'>algorithm(1)</a> <a href='/blog/categories/android' style='font-size: 108.37209302325581%'>android(6)</a> <a href='/blog/categories/android-studio' style='font-size: 101.3953488372093%'>android studio(1)</a> <a href='/blog/categories/augmented-reality' style='font-size: 105.5813953488372%'>augmented reality(4)</a> <a href='/blog/categories/css' style='font-size: 101.3953488372093%'>css(1)</a> <a href='/blog/categories/design-pattern' style='font-size: 104.18604651162791%'>design pattern(3)</a> <a href='/blog/categories/html' style='font-size: 101.3953488372093%'>html(1)</a> <a href='/blog/categories/html-css' style='font-size: 101.3953488372093%'>html css(1)</a> <a href='/blog/categories/ios' style='font-size: 160.0%'>ios(43)</a> <a href='/blog/categories/java' style='font-size: 102.79069767441861%'>java(2)</a> <a href='/blog/categories/javascript' style='font-size: 102.79069767441861%'>javascript(2)</a> <a href='/blog/categories/machine-learning' style='font-size: 112.55813953488372%'>machine learning(9)</a> <a href='/blog/categories/map-tech' style='font-size: 104.18604651162791%'>map tech(3)</a> <a href='/blog/categories/mobile' style='font-size: 101.3953488372093%'>mobile(1)</a> <a href='/blog/categories/music' style='font-size: 108.37209302325581%'>music(6)</a> <a href='/blog/categories/nlp' style='font-size: 102.79069767441861%'>nlp(2)</a> <a href='/blog/categories/nlu' style='font-size: 102.79069767441861%'>nlu(2)</a> <a href='/blog/categories/node' style='font-size: 104.18604651162791%'>node(3)</a> <a href='/blog/categories/objective-c' style='font-size: 129.30232558139534%'>objective-c(21)</a> <a href='/blog/categories/philosophy' style='font-size: 102.79069767441861%'>philosophy(2)</a> <a href='/blog/categories/productivity' style='font-size: 130.69767441860466%'>productivity(22)</a> <a href='/blog/categories/python' style='font-size: 106.97674418604652%'>python(5)</a> <a href='/blog/categories/reading' style='font-size: 137.67441860465118%'>reading(27)</a> <a href='/blog/categories/swift' style='font-size: 108.37209302325581%'>swift(6)</a> <a href='/blog/categories/web' style='font-size: 106.97674418604652%'>web(5)</a> <a href='/blog/categories/wwdc' style='font-size: 102.79069767441861%'>wwdc(2)</a> <a href='/blog/categories/xcode' style='font-size: 111.16279069767442%'>xcode(8)</a> </ul>
+      </section>
+
+
+</header>				
+			</div>
+		</div>	
+		<div class="mid-col">
+			
+				
+			
+			<div class="mid-col-container">
+				<div id="content" class="inner"><article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+	<h1 class="title" itemprop="name">Android内存分析工具</h1>
+	<div class="entry-content" itemprop="articleBody"><!-- more -->
+
+
+<h2>使用Android Studio自带的Profile工具</h2>
+
+<p>必看的两篇官方文档：</p>
+
+<ul>
+<li>View the Java Heap and Memory Allocations with Memory Profiler： <a href="https://developer.android.com/studio/profile/memory-profiler">https://developer.android.com/studio/profile/memory-profiler</a></li>
+<li>Manage your app&rsquo;s memory： <a href="https://developer.android.com/topic/performance/memory">https://developer.android.com/topic/performance/memory</a></li>
+</ul>
+
+
+<p>选看的一篇官方文档：</p>
+
+<ul>
+<li>Overview of memory management：<a href="https://developer.android.com/topic/performance/memory-overview">https://developer.android.com/topic/performance/memory-overview</a></li>
+</ul>
+
+
+<h2>Use MAT for profiling Android memory</h2>
+
+<p>参考：<a href="https://stackoverflow.com/questions/24547555/how-to-analyze-memory-using-android-studio">How to analyze memory using android studio</a></p>
+
+<ol>
+<li>First, you have install <strong>MAT</strong> ( <a href="https://www.eclipse.org/mat/downloads.php">download</a> )</li>
+<li>In Android Studio open Android Device Monitor or DDMS.</li>
+<li>Select your process &ldquo;com.example.etc..&rdquo;</li>
+<li>Click Update Heap above the process list.</li>
+<li>In the right-side panel, select the Heap tab.</li>
+<li>Click in Cause GC.</li>
+<li>Click Dump HPROF file above the process list.</li>
+<li>When we downloaded the file HPROF, we have to open the Terminal and run this command to generate the file to open it with MAT.</li>
+<li>Open terminal and run this command “./hprof-conv path/file.hprof exitPath/1. heap-converted.hprof”. The command &ldquo;hprof-conv&rdquo; is in the platform-tools 1. folder of the sdk.</li>
+<li>And ready and MAT can open and open the converted file ( heap-converted.hprof ) .</li>
+</ol>
+
+
+<h2>如何在Android Studio 3.0里面打开DDMS？</h2>
+
+<p>自从Android Studio进入3.0，DDMS就被偷偷的隐藏起来了。参考下面的文章看如何打开DDMS。</p>
+
+<p>Android Studio启动DDMS <a href="https://blog.csdn.net/llfjfz/article/details/70213723">https://blog.csdn.net/llfjfz/article/details/70213723</a>
+注意：需要关闭Android Studio。</p>
+
+<h2>在Android Studio中保存hprof文档</h2>
+
+<p>在Android Studio将DDMS偷偷隐藏起来的同时，DDMS的一些工具已经集成到Android Studio里面了。比如这个获取hprof文件的方法。</p>
+
+<p>该方法不需要打开DDMS，直接用Android Studio的Profile工具即可。</p>
+
+<p><a href="https://developer.android.com/studio/profile/memory-profiler#save_the_heap_dump_as_hprof">https://developer.android.com/studio/profile/memory-profiler#save_the_heap_dump_as_hprof</a></p>
+
+<h2>Mat启动报错</h2>
+
+<p>下载的Mat在打开的时候会报错。错误信息如下：</p>
+
+<p>java.lang.IllegalStateException: The platform metadata area could not be written: /private/var/folders/7b/3wj5jwnd1yg98w2yzmn36qwr0000gq/T/AppTranslocation/C98006F4-54ED-44FB-9F3E-AC7C1EB9519B/d/mat.app/Contents/MacOS/workspace/.metadata.  By default the platform writes its content under the current working directory when the platform is launched.  Use the -data parameter to specify a different content area for the platform.</p>
+
+<p>解决方案参考这片文章：<a href="https://www.jianshu.com/p/9bbbe3c4cc8b">Eclipse Memory Analyzer在Mac启动报错</a></p>
+
+<p>注意：右键打开Mat package，可以找到上面说的MemoryAnalyzer.ini文件</p>
+</div>
+
+</article>
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+	
+	
+	
+	<a class="addthis_counter addthis_pill_style"></a>
+	</div>
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
+</div>
+
+
+</div>
+			</div>
+			<footer id="footer" class="inner">Copyright &copy; 2020
+
+    Zhang Hongchao
+
+
+<!--Design credit: <a href="http://shashankmehta.in/archive/2012/greyshade.html">Shashank Mehta</a>--></footer>
+		</div>
+	</div>
+	
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

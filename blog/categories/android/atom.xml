@@ -4,7 +4,7 @@
   <title><![CDATA[Category: android | Reading Space]]></title>
   <link href="http://hongchaozhang.github.io/blog/categories/android/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2020-07-02T11:09:47+08:00</updated>
+  <updated>2020-10-29T17:36:48+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -12,6 +12,76 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Android内存分析工具]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2020/10/29/tools-for-profiling-android-memory/"/>
+    <updated>2020-10-29T17:29:30+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2020/10/29/tools-for-profiling-android-memory</id>
+    <content type="html"><![CDATA[<!-- more -->
+
+
+<h2>使用Android Studio自带的Profile工具</h2>
+
+<p>必看的两篇官方文档：</p>
+
+<ul>
+<li>View the Java Heap and Memory Allocations with Memory Profiler： <a href="https://developer.android.com/studio/profile/memory-profiler">https://developer.android.com/studio/profile/memory-profiler</a></li>
+<li>Manage your app&rsquo;s memory： <a href="https://developer.android.com/topic/performance/memory">https://developer.android.com/topic/performance/memory</a></li>
+</ul>
+
+
+<p>选看的一篇官方文档：</p>
+
+<ul>
+<li>Overview of memory management：<a href="https://developer.android.com/topic/performance/memory-overview">https://developer.android.com/topic/performance/memory-overview</a></li>
+</ul>
+
+
+<h2>Use MAT for profiling Android memory</h2>
+
+<p>参考：<a href="https://stackoverflow.com/questions/24547555/how-to-analyze-memory-using-android-studio">How to analyze memory using android studio</a></p>
+
+<ol>
+<li>First, you have install <strong>MAT</strong> ( <a href="https://www.eclipse.org/mat/downloads.php">download</a> )</li>
+<li>In Android Studio open Android Device Monitor or DDMS.</li>
+<li>Select your process &ldquo;com.example.etc..&rdquo;</li>
+<li>Click Update Heap above the process list.</li>
+<li>In the right-side panel, select the Heap tab.</li>
+<li>Click in Cause GC.</li>
+<li>Click Dump HPROF file above the process list.</li>
+<li>When we downloaded the file HPROF, we have to open the Terminal and run this command to generate the file to open it with MAT.</li>
+<li>Open terminal and run this command “./hprof-conv path/file.hprof exitPath/1. heap-converted.hprof”. The command &ldquo;hprof-conv&rdquo; is in the platform-tools 1. folder of the sdk.</li>
+<li>And ready and MAT can open and open the converted file ( heap-converted.hprof ) .</li>
+</ol>
+
+
+<h2>如何在Android Studio 3.0里面打开DDMS？</h2>
+
+<p>自从Android Studio进入3.0，DDMS就被偷偷的隐藏起来了。参考下面的文章看如何打开DDMS。</p>
+
+<p>Android Studio启动DDMS <a href="https://blog.csdn.net/llfjfz/article/details/70213723">https://blog.csdn.net/llfjfz/article/details/70213723</a>
+注意：需要关闭Android Studio。</p>
+
+<h2>在Android Studio中保存hprof文档</h2>
+
+<p>在Android Studio将DDMS偷偷隐藏起来的同时，DDMS的一些工具已经集成到Android Studio里面了。比如这个获取hprof文件的方法。</p>
+
+<p>该方法不需要打开DDMS，直接用Android Studio的Profile工具即可。</p>
+
+<p><a href="https://developer.android.com/studio/profile/memory-profiler#save_the_heap_dump_as_hprof">https://developer.android.com/studio/profile/memory-profiler#save_the_heap_dump_as_hprof</a></p>
+
+<h2>Mat启动报错</h2>
+
+<p>下载的Mat在打开的时候会报错。错误信息如下：</p>
+
+<p>java.lang.IllegalStateException: The platform metadata area could not be written: /private/var/folders/7b/3wj5jwnd1yg98w2yzmn36qwr0000gq/T/AppTranslocation/C98006F4-54ED-44FB-9F3E-AC7C1EB9519B/d/mat.app/Contents/MacOS/workspace/.metadata.  By default the platform writes its content under the current working directory when the platform is launched.  Use the -data parameter to specify a different content area for the platform.</p>
+
+<p>解决方案参考这片文章：<a href="https://www.jianshu.com/p/9bbbe3c4cc8b">Eclipse Memory Analyzer在Mac启动报错</a></p>
+
+<p>注意：右键打开Mat package，可以找到上面说的MemoryAnalyzer.ini文件</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Android开发中使用的度量单位px、dp、sp、pt、in、mm]]></title>
@@ -514,140 +584,6 @@ assertThat(object, is(NotNullValue()));
 <p>Go to <a href="http://stackoverflow.com/questions/20121883/how-to-install-google-play-services-in-a-genymotion-vm-with-no-drag-and-drop-su">How to install Google Play Services in a Genymotion VM (with no drag and drop support)?</a> for details.</p>
 
 <p>At last, <strong>Remenber</strong> to make sure that your device can connect to google server, especially when you are in China.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Communication between WebView and native android]]></title>
-    <link href="http://hongchaozhang.github.io/blog/2015/07/28/Communication-between-WebView-and-native-android/"/>
-    <updated>2015-07-28T00:00:00+08:00</updated>
-    <id>http://hongchaozhang.github.io/blog/2015/07/28/Communication-between-WebView-and-native-android</id>
-    <content type="html"><![CDATA[<h2>Description</h2>
-
-<p>In Android project, we sometimes want to rend a page in <strong>WebView</strong>, and need communication between webview and native android side.</p>
-
-<p><strong>Note:</strong> Go to <a href="https://github.com/hongchaozhang/android_java_javascript_communication">here</a> for a project as a sample.</p>
-
-<h2>Javascript and Java Bridge</h2>
-
-<!-- more -->
-
-
-<ol>
-<li><p>Code for javascript interface in native android side:</p>
-
-<pre><code> public class JavaScriptInterface {
-     protected MyActivity parentActivity;
-     protected WebView mWebView;
-
-     public JavaScriptInterface(MyActivity _activity, WebView _webView)  {
-         parentActivity = _activity;
-         mWebView = _webView;
-
-     }
-
-     @JavascriptInterface
-     public void setResult(int val){
-         Log.v("mylog","JavaScriptHandler.setResult is called : " + val);
-         this.parentActivity.javascriptCallFinished(val);
-     }
-
-     @JavascriptInterface
-     public void calcSomething(int x, int y){
-         this.parentActivity.changeText("Result is : " + (x * y));
-     }
-
-     @JavascriptInterface
-     public String modifyString(String inputString) {
-         return inputString + " from Java side";
-     }
- }
-</code></pre>
-
-<p> Here, we can introduce the main activity <code>parentActivity</code> and the webview <code>mWebView</code> into the interface for further use.</p></li>
-<li><p>Get webview from layout xml file, or create it from scrach, and config it:</p>
-
-<pre><code> myWebView = (WebView)this.findViewById(R.id.myWebView);
- myWebView.getSettings().setJavaScriptEnabled(true);
- myWebView.loadUrl("file:///android_asset/index.html");
-
- myWebView.addJavascriptInterface(new JavaScriptInterface(this, myWebView), "MyHandler");
- if(Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.KITKAT) {
-     WebView.setWebContentsDebuggingEnabled(true);
- }
-</code></pre>
-
-<p> 1) Pay attention to <code>addJavascriptinterface</code>, which add the javascript interface, and gives the interface a name <code>MyHandler</code>.
-2) To be able to debug web page inside webview, <code>setWebContentsDebuggingEnabled(true)</code> should be called for android version after <code>KITKAT(4.4)</code>.</p></li>
-<li><p>Then we can use the following way to call javascript function and change html page from java side:</p>
-
-<pre><code> myWebView.loadUrl("javascript:document.getElementById('test1').innerHTML = 'changed'");
-</code></pre>
-
-<p> And use the following to call java method from javascript side:</p>
-
-<pre><code> window.MyHandler.setResult(9999)
-</code></pre></li>
-</ol>
-
-
-<h2>Passing parameters and <code>return</code> value</h2>
-
-<h4>parameter of <code>WebView.loadUrl</code></h4>
-
-<p>We can only use <em>String</em> as the parameter of <code>WebView.loadUrl()</code> function (Note <code>val1</code> and <code>val2</code>):</p>
-
-<pre><code>myWebView.loadUrl("javascript:window.MyHandler.setResult( addSomething("+val1+","+val2+") )");
-</code></pre>
-
-<h4>parameter of the interface for javascript</h4>
-
-<p>We can use <em>String</em> or <em>int</em> for these interfaces, like:</p>
-
-<pre><code>window.MyHandler.setResult(10);
-var stringFromJava = window.MyHandler.modifyString("string from javascript");
-</code></pre>
-
-<h4>Java return value to Javascript: <strong>sync</strong></h4>
-
-<p>Java can directly return String back to Javascritp, so we can use the following way to get the string from Java:</p>
-
-<pre><code>var stringFromJava = window.MyHandler.modifyString("string from javascript");
-</code></pre>
-
-<h4><a name="javascript_return_value_to_java"></a>Javascript return value to Java: <strong>async</strong></h4>
-
-<p>As <code>WebView.loadUrl</code> does not return anything, so Java can not get results from Javascript. We need other ways to get the result.</p>
-
-<p>Currently, we have no way to do this. The work around is: when javascript get the result, call a method in java side through the interface <code>MyHandler</code>, and pass the result as a parameter. As java call <code>WebView.loadurl</code> in a differenct thread, so even in this way, we can not get the result right away for use in the next line.</p>
-
-<h2>Multi-thread in Java side and Single-thread in Javascript side</h2>
-
-<h3>Javascript call Java: sync</h3>
-
-<p>When we run the following function, we can get the string returned from java side, and then set it into the html page.</p>
-
-<pre><code>function testSync() {
-    var string = "default string";
-    string = window.MyHandler.testString();
-    document.getElementById('test1').innerHTML = string;
-}
-</code></pre>
-
-<h3>Java call Javascript: async</h3>
-
-<p>Similar to <a href="#javascript_return_value_to_java">Javascript return value to Java</a>.</p>
-
-<h2>Security problems</h2>
-
-<p>Reference to <a href="http://jiajixin.cn/2014/09/16/webview-js-safety/">Java和Javascript安全交互</a>.</p>
-
-<p>An example listed:</p>
-
-<ul>
-<li>成名已久的任意命令执行漏洞，通过addJavascriptInterface方法，Js可以调用Java对象方法，通过反射机制，Js可以直接获取Runtime，从而执行任意命令。Android 4.2以上，可以通过声明@JavascriptInterface保证安全性，4.2以下不能再调用addJavascriptInterface，需要另谋他法。</li>
-</ul>
-
 ]]></content>
   </entry>
   

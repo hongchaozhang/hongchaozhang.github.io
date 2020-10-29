@@ -4,7 +4,7 @@
   <title><![CDATA[Category: xcode | Reading Space]]></title>
   <link href="http://hongchaozhang.github.io/blog/categories/xcode/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2020-07-02T11:09:47+08:00</updated>
+  <updated>2020-10-29T17:36:48+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -205,6 +205,8 @@
 <h3><a href="https://objectivec2swift.com/#/home">Swiftify</a></h3>
 
 <p>swiftify也支持在线转换，而且转换效果明显好于objc2swift。如果愿意花钱，swiftify还可以支持很多功能，包括xcode扩展（注意，这里是“扩展extension”，不是“插件plugin”）、finder扩展、整个工程的转换、离线转换等。</p>
+
+<p><img src="/images/swiftify.webp" alt="swiftify.webp" /></p>
 
 <p>同样用上述objc源代码，转换之后为：</p>
 
