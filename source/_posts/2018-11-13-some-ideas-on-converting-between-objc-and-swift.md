@@ -72,6 +72,8 @@ class MyClass: NSObject {
 
 swiftify也支持在线转换，而且转换效果明显好于objc2swift。如果愿意花钱，swiftify还可以支持很多功能，包括xcode扩展（注意，这里是“扩展extension”，不是“插件plugin”）、finder扩展、整个工程的转换、离线转换等。
 
+![swiftify.webp](/images/swiftify.webp)
+
 同样用上述objc源代码，转换之后为：
 
 ```swift
