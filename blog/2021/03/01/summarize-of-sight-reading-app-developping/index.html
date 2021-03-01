@@ -1,0 +1,669 @@
+
+<!DOCTYPE HTML>
+
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>SightReading(视奏)应用开发知识点总结 - Reading Space</title>
+	<meta name="author" content="Zhang Hongchao">
+
+	
+	<meta name="description" content="SightReading(视奏)应用开发知识点总结 数据持久化 文件的保存和读取
+NSDefault：保存标签信息
+参考 播放节拍器声音 通过AVFoundation播放声音
+节拍器音量调节 navigationController的使用和数据的传递 参考 PhotoKit的使用 参考 &hellip;">
+	
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="Reading Space" type="application/atom+xml">
+	
+	<link rel="canonical" href="http://hongchaozhang.github.io/blog/2021/03/01/summarize-of-sight-reading-app-developping/">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<link href="/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<link href='http://fonts.googleapis.com/css?family=Nunito:400,300,700' rel='stylesheet' type='text/css'>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	
+  
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-62806905-2']);
+		_gaq.push(['_trackPageview']);
+
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
+
+
+</head>
+
+
+<body>
+	<div class="container">
+		<div class="left-col">
+			<div class="intrude-less">
+			<header id="header" class="inner"><div class="profilepic">
+	
+	<script src="/javascripts/md5.js"></script>
+	<script type="text/javascript">
+		$(function(){
+			$('.profilepic').append("<img src='http://www.gravatar.com/avatar/" + MD5("") + "?s=160' alt='Profile Picture' style='width: 160px;' />");
+		});
+	</script>
+	
+</div>
+
+<nav id="main-nav"><ul class="main">
+    <li><a href="/">Blog</a></li>
+    <li><a href="/blog/archives">Archives</a></li>
+    <li><a href="#">About</a></li>
+</ul>
+</nav>
+<nav id="sub-nav">
+	<div class="social">
+		
+		
+		
+		
+		
+			<a class="github" href="https://github.com/hongchaozhang" title="GitHub">GitHub</a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+    	
+    	
+			<a class="rss" href="/atom.xml" title="RSS">RSS</a>
+		
+	</div>
+</nav>
+
+
+
+<section class="categories">
+          <ul id="category_cloud" class="nav nav-list"><a href='/blog/categories/algorithm' style='font-size: 101.33333333333333%'>algorithm(1)</a> <a href='/blog/categories/android' style='font-size: 108.0%'>android(6)</a> <a href='/blog/categories/android-studio' style='font-size: 101.33333333333333%'>android studio(1)</a> <a href='/blog/categories/augmented-reality' style='font-size: 105.33333333333333%'>augmented reality(4)</a> <a href='/blog/categories/css' style='font-size: 101.33333333333333%'>css(1)</a> <a href='/blog/categories/design-pattern' style='font-size: 104.0%'>design pattern(3)</a> <a href='/blog/categories/html' style='font-size: 101.33333333333333%'>html(1)</a> <a href='/blog/categories/html-css' style='font-size: 101.33333333333333%'>html css(1)</a> <a href='/blog/categories/ios' style='font-size: 160.0%'>ios(45)</a> <a href='/blog/categories/java' style='font-size: 102.66666666666667%'>java(2)</a> <a href='/blog/categories/javascript' style='font-size: 102.66666666666667%'>javascript(2)</a> <a href='/blog/categories/machine-learning' style='font-size: 112.0%'>machine learning(9)</a> <a href='/blog/categories/map-tech' style='font-size: 104.0%'>map tech(3)</a> <a href='/blog/categories/mobile' style='font-size: 101.33333333333333%'>mobile(1)</a> <a href='/blog/categories/music' style='font-size: 109.33333333333333%'>music(7)</a> <a href='/blog/categories/nlp' style='font-size: 102.66666666666667%'>nlp(2)</a> <a href='/blog/categories/nlu' style='font-size: 102.66666666666667%'>nlu(2)</a> <a href='/blog/categories/node' style='font-size: 104.0%'>node(3)</a> <a href='/blog/categories/objective-c' style='font-size: 129.33333333333334%'>objective-c(22)</a> <a href='/blog/categories/philosophy' style='font-size: 102.66666666666667%'>philosophy(2)</a> <a href='/blog/categories/productivity' style='font-size: 129.33333333333334%'>productivity(22)</a> <a href='/blog/categories/python' style='font-size: 106.66666666666667%'>python(5)</a> <a href='/blog/categories/reading' style='font-size: 136.0%'>reading(27)</a> <a href='/blog/categories/swift' style='font-size: 109.33333333333333%'>swift(7)</a> <a href='/blog/categories/web' style='font-size: 106.66666666666667%'>web(5)</a> <a href='/blog/categories/wwdc' style='font-size: 102.66666666666667%'>wwdc(2)</a> <a href='/blog/categories/xcode' style='font-size: 110.66666666666667%'>xcode(8)</a> </ul>
+      </section>
+
+
+</header>				
+			</div>
+		</div>	
+		<div class="mid-col">
+			
+				
+			
+			<div class="mid-col-container">
+				<div id="content" class="inner"><article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+	<h1 class="title" itemprop="name">SightReading(视奏)应用开发知识点总结</h1>
+	<div class="entry-content" itemprop="articleBody"><!-- more -->
+
+
+
+
+<!-- TOC -->
+
+
+<ul>
+<li><a href="#%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96">数据持久化</a>
+
+<ul>
+<li><a href="#%E6%96%87%E4%BB%B6%E7%9A%84%E4%BF%9D%E5%AD%98%E5%92%8C%E8%AF%BB%E5%8F%96">文件的保存和读取</a></li>
+<li><a href="#nsdefault%E4%BF%9D%E5%AD%98%E6%A0%87%E7%AD%BE%E4%BF%A1%E6%81%AF">NSDefault：保存标签信息</a></li>
+<li><a href="#%E5%8F%82%E8%80%83">参考</a></li>
+</ul>
+</li>
+<li><a href="#%E6%92%AD%E6%94%BE%E8%8A%82%E6%8B%8D%E5%99%A8%E5%A3%B0%E9%9F%B3">播放节拍器声音</a>
+
+<ul>
+<li><a href="#%E9%80%9A%E8%BF%87avfoundation%E6%92%AD%E6%94%BE%E5%A3%B0%E9%9F%B3">通过AVFoundation播放声音</a></li>
+<li><a href="#%E8%8A%82%E6%8B%8D%E5%99%A8%E9%9F%B3%E9%87%8F%E8%B0%83%E8%8A%82">节拍器音量调节</a></li>
+</ul>
+</li>
+<li><a href="#navigationcontroller%E7%9A%84%E4%BD%BF%E7%94%A8%E5%92%8C%E6%95%B0%E6%8D%AE%E7%9A%84%E4%BC%A0%E9%80%92">navigationController的使用和数据的传递</a>
+
+<ul>
+<li><a href="#%E5%8F%82%E8%80%83">参考</a></li>
+</ul>
+</li>
+<li><a href="#photokit%E7%9A%84%E4%BD%BF%E7%94%A8">PhotoKit的使用</a>
+
+<ul>
+<li><a href="#%E5%8F%82%E8%80%83">参考</a></li>
+</ul>
+</li>
+<li><a href="#alert-view">Alert View</a></li>
+<li><a href="#uiimage">UIImage</a>
+
+<ul>
+<li><a href="#%E5%8F%82%E8%80%83">参考</a></li>
+</ul>
+</li>
+<li><a href="#%E5%8F%AF%E7%BC%96%E8%BE%91%E7%9A%84uitableview">可编辑的UITableView</a></li>
+<li><a href="#calayer--cashapelayer--core-graphics">CALayer &amp; CAShapeLayer &amp; Core Graphics</a></li>
+<li><a href="#%E9%9F%B3%E4%B9%90%E6%9C%AF%E8%AF%AD%E8%8B%B1%E8%AF%AD">音乐术语英语</a></li>
+<li><a href="#swift%E4%B8%AD%E6%9E%84%E9%80%A0%E6%96%B9%E6%B3%95designatedconvenience">swift中构造方法designated，convenience</a>
+
+<ul>
+<li><a href="#%E5%8F%82%E8%80%83">参考</a></li>
+</ul>
+</li>
+<li><a href="#%E7%AC%94%E8%AE%B0%E7%BB%98%E5%88%B6%E5%8A%9F%E8%83%BD">笔记绘制功能</a></li>
+</ul>
+
+
+<!-- /TOC -->
+
+
+<p><a id="markdown-数据持久化" name="数据持久化"></a></p>
+
+<h2>数据持久化</h2>
+
+<p><a id="markdown-文件的保存和读取" name="文件的保存和读取"></a></p>
+
+<h3>文件的保存和读取</h3>
+
+<ul>
+<li>Json文件：每个乐谱页对应一个Json文件。文件保存乐谱每小节的大小和位置信息，以及乐谱的基本信息，包括每小节节拍数和用户设置的速度和Mask偏移量。</li>
+<li>png文件：每个乐谱都有一个乐谱图片，如果用户做了笔记，还有一个笔记图片。</li>
+</ul>
+
+
+<p>保存文件的代码如下：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">func</span> <span class="nf">getRootPath</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">String</span><span class="o">?</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">NSSearchPathForDirectoriesInDomains</span><span class="p">(.</span><span class="n">documentDirectory</span><span class="p">,</span> <span class="p">.</span><span class="n">userDomainMask</span><span class="p">,</span> <span class="nb">true</span><span class="p">).</span><span class="n">first</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">func</span> <span class="n">saveImageFile</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">if</span> <span class="k">let</span> <span class="n">rootPath</span> <span class="o">=</span> <span class="n">Utility</span><span class="p">.</span><span class="n">getRootPath</span><span class="p">(),</span>
+</span><span class='line'>        <span class="k">let</span> <span class="n">imageName</span> <span class="o">=</span> <span class="n">getFileName</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">let</span> <span class="n">imagePath</span> <span class="o">=</span> <span class="s">&quot;\(rootPath)/\(imageName).png&quot;</span>
+</span><span class='line'>        <span class="n">print</span><span class="p">(</span><span class="s">&quot;image path: \(imagePath)&quot;</span><span class="p">)</span>
+</span><span class='line'>        <span class="k">if</span> <span class="k">let</span> <span class="n">image</span> <span class="o">=</span> <span class="n">imageView</span><span class="p">.</span><span class="n">image</span><span class="p">,</span> <span class="k">let</span> <span class="n">imageData</span> <span class="o">=</span> <span class="n">image</span><span class="p">.</span><span class="n">pngData</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>            <span class="n">FileManager</span><span class="p">.</span><span class="k">default</span><span class="p">.</span><span class="n">createFile</span><span class="p">(</span><span class="nl">atPath</span><span class="p">:</span> <span class="n">imagePath</span><span class="p">,</span> <span class="nl">contents</span><span class="p">:</span> <span class="n">imageData</span><span class="p">,</span> <span class="nl">attributes</span><span class="p">:</span> <span class="nb">nil</span><span class="p">)</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">func</span> <span class="nf">saveJsonFile</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">if</span> <span class="k">let</span> <span class="n">rootPath</span> <span class="o">=</span> <span class="n">Utility</span><span class="p">.</span><span class="n">getRootPath</span><span class="p">(),</span>
+</span><span class='line'>        <span class="k">let</span> <span class="n">jsonFileName</span> <span class="o">=</span> <span class="n">getFileName</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">let</span> <span class="n">jsonPath</span> <span class="o">=</span> <span class="s">&quot;\(rootPath)/\(jsonFileName).json&quot;</span>
+</span><span class='line'>        <span class="n">print</span><span class="p">(</span><span class="s">&quot;image path: \(jsonPath)&quot;</span><span class="p">)</span>
+</span><span class='line'>        <span class="k">let</span> <span class="nl">jsonDic</span><span class="p">:</span> <span class="p">[</span><span class="nl">String</span><span class="p">:</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="nl">basicInfoKey</span><span class="p">:</span> <span class="p">[</span><span class="nl">String</span><span class="p">:</span> <span class="n">String</span><span class="p">](),</span> <span class="nl">barFramesKey</span><span class="p">:</span> <span class="n">barFrames</span><span class="p">]</span>
+</span><span class='line'>        <span class="k">if</span> <span class="k">let</span> <span class="n">jsonData</span> <span class="o">=</span> <span class="n">try</span><span class="o">?</span> <span class="bp">NSKeyedArchiver</span><span class="p">.</span><span class="n">archivedData</span><span class="p">(</span><span class="nl">withRootObject</span><span class="p">:</span> <span class="n">jsonDic</span><span class="p">,</span> <span class="nl">requiringSecureCoding</span><span class="p">:</span> <span class="nb">false</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>            <span class="n">FileManager</span><span class="p">.</span><span class="k">default</span><span class="p">.</span><span class="n">createFile</span><span class="p">(</span><span class="nl">atPath</span><span class="p">:</span> <span class="n">jsonPath</span><span class="p">,</span> <span class="nl">contents</span><span class="p">:</span> <span class="n">jsonData</span><span class="p">,</span> <span class="nl">attributes</span><span class="p">:</span> <span class="nb">nil</span><span class="p">)</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>读取文件的代码如下：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">func</span> <span class="nf">loadJsonFile</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">if</span> <span class="k">let</span> <span class="n">rootPath</span> <span class="o">=</span> <span class="n">Utility</span><span class="p">.</span><span class="n">getRootPath</span><span class="p">(),</span>
+</span><span class='line'>        <span class="k">let</span> <span class="n">jsonName</span> <span class="o">=</span> <span class="n">navigationItem</span><span class="p">.</span><span class="n">title</span><span class="p">,</span>
+</span><span class='line'>        <span class="k">let</span> <span class="n">jsonData</span> <span class="o">=</span> <span class="n">FileManager</span><span class="p">.</span><span class="k">default</span><span class="p">.</span><span class="n">contents</span><span class="p">(</span><span class="nl">atPath</span><span class="p">:</span> <span class="s">&quot;\(rootPath)/\(jsonName).json&quot;</span><span class="p">),</span>
+</span><span class='line'>        <span class="k">let</span> <span class="n">jsonObjectAny</span> <span class="o">=</span> <span class="bp">NSKeyedUnarchiver</span><span class="p">.</span><span class="n">unarchiveObject</span><span class="p">(</span><span class="nl">with</span><span class="p">:</span> <span class="n">jsonData</span><span class="p">),</span>
+</span><span class='line'>        <span class="k">let</span> <span class="n">jsonObject</span> <span class="o">=</span> <span class="n">jsonObjectAny</span> <span class="kt">as</span><span class="o">?</span> <span class="p">[</span><span class="nl">String</span><span class="p">:</span> <span class="n">Any</span><span class="p">]</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">if</span> <span class="k">let</span> <span class="n">sheetBasicInfo</span> <span class="o">=</span> <span class="n">jsonObject</span><span class="p">[</span><span class="n">basicInfoKey</span><span class="p">]</span> <span class="kt">as</span><span class="o">?</span> <span class="p">[</span><span class="nl">String</span><span class="p">:</span> <span class="n">String</span><span class="p">]</span> <span class="p">{</span>
+</span><span class='line'>            <span class="nb">self</span><span class="p">.</span><span class="n">sheetBasicInfo</span> <span class="o">=</span> <span class="n">sheetBasicInfo</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="k">if</span> <span class="k">let</span> <span class="n">barFrames</span> <span class="o">=</span> <span class="n">jsonObject</span><span class="p">[</span><span class="n">barFramesKey</span><span class="p">]</span> <span class="kt">as</span><span class="o">?</span> <span class="p">[</span><span class="nl">Int</span><span class="p">:</span> <span class="bp">CGRect</span><span class="p">]</span> <span class="p">{</span>
+</span><span class='line'>            <span class="nb">self</span><span class="p">.</span><span class="n">barFrames</span> <span class="o">=</span>  <span class="n">barFrames</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">func</span> <span class="nf">loadSheetImage</span><span class="p">(</span><span class="n">with</span> <span class="nl">imageName</span><span class="p">:</span> <span class="n">String</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">if</span> <span class="k">let</span> <span class="n">rootPath</span> <span class="o">=</span> <span class="n">Utility</span><span class="p">.</span><span class="n">getRootPath</span><span class="p">(),</span>
+</span><span class='line'>        <span class="k">let</span> <span class="n">sheetImage</span> <span class="o">=</span> <span class="bp">UIImage</span><span class="p">(</span><span class="nl">contentsOfFile</span><span class="p">:</span> <span class="s">&quot;\(rootPath)/\(imageName).png&quot;</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">sheetImageView</span><span class="p">.</span><span class="n">image</span> <span class="o">=</span> <span class="n">sheetImage</span>
+</span><span class='line'>        <span class="n">noteImageView</span><span class="p">.</span><span class="n">image</span> <span class="o">=</span> <span class="bp">UIImage</span><span class="p">(</span><span class="nl">contentsOfFile</span><span class="p">:</span> <span class="s">&quot;\(rootPath)/\(imageName)\(noteImageSubfix).png&quot;</span><span class="p">)</span>
+</span><span class='line'>        <span class="n">layoutImageView</span><span class="p">()</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><a id="markdown-nsdefault保存标签信息" name="nsdefault保存标签信息"></a></p>
+
+<h3>NSDefault：保存标签信息</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="n">UserDefaults</span><span class="p">.</span><span class="n">standard</span><span class="p">.</span><span class="n">setValue</span><span class="p">(</span><span class="n">allTags</span><span class="p">,</span> <span class="nl">forKey</span><span class="p">:</span> <span class="n">allTagsKey</span><span class="p">)</span>
+</span><span class='line'><span class="k">let</span> <span class="n">allTags</span> <span class="o">=</span> <span class="n">UserDefaults</span><span class="p">.</span><span class="n">standard</span><span class="p">.</span><span class="n">value</span><span class="p">(</span><span class="nl">forKey</span><span class="p">:</span> <span class="n">allTagsKey</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><a id="markdown-参考" name="参考"></a></p>
+
+<h3>参考</h3>
+
+<ul>
+<li><a href="https://www.jianshu.com/p/d1c621631f7e">iOS数据本地持久化方法总结</a></li>
+<li><a href="https://cloud.tencent.com/developer/article/1129341">iOS应用数据存储（数据持久化）的常用方式</a></li>
+<li><a href="https://www.jianshu.com/p/fad66bae5484">iOS 将对象序列化成json，写入本地文件</a></li>
+</ul>
+
+
+<p><a id="markdown-播放节拍器声音" name="播放节拍器声音"></a></p>
+
+<h2>播放节拍器声音</h2>
+
+<p><a id="markdown-通过avfoundation播放声音" name="通过avfoundation播放声音"></a></p>
+
+<h3>通过AVFoundation播放声音</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">if</span> <span class="k">let</span> <span class="n">audioUrl</span> <span class="o">=</span> <span class="n">Bundle</span><span class="p">.</span><span class="n">main</span><span class="p">.</span><span class="n">url</span><span class="p">(</span><span class="nl">forResource</span><span class="p">:</span> <span class="s">&quot;FirstMeter&quot;</span><span class="p">,</span> <span class="nl">withExtension</span><span class="p">:</span> <span class="s">&quot;wav&quot;</span><span class="p">,</span> <span class="nl">subdirectory</span><span class="p">:</span> <span class="s">&quot;Resource.bundle&quot;</span><span class="p">)</span>  <span class="p">{</span>
+</span><span class='line'>    <span class="n">AudioServicesCreateSystemSoundID</span><span class="p">(</span><span class="n">audioUrl</span> <span class="kt">as</span> <span class="n">CFURL</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">firstMeterId</span><span class="p">)</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="n">AudioServicesPlaySystemSound</span><span class="p">(</span><span class="nb">self</span><span class="p">.</span><span class="n">firstMeterId</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><a id="markdown-节拍器音量调节" name="节拍器音量调节"></a></p>
+
+<h3>节拍器音量调节</h3>
+
+<p>在设置中，如果“声音->铃声和警报”下面的“跟随按钮”没有打开，那么通过<code>AudioServicesPlaySystemSound()</code>播放的声音就会始终用一个固定的音量播放，其它声音API播放的声音（比如<code>AVAudioPlayer</code>）会跟随系统音量变化音量大小。</p>
+
+<blockquote><p>In Settings app, Sounds->RINGER AND ALERTS, if &lsquo;Change with Buttons&rsquo; is set to Off, then sounds using AudioServicesPlaySystemSound() will always be played at a fixed volume (yet other sound API&rsquo;s such as AVAudioPlayer will respect the volume of the device).</p></blockquote>
+
+<p><a id="markdown-navigationcontroller的使用和数据的传递" name="navigationcontroller的使用和数据的传递"></a></p>
+
+<h2>navigationController的使用和数据的传递</h2>
+
+<p>通过下面两种方法进行ViewController的弹出</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">let</span> <span class="n">playVC</span> <span class="o">=</span> <span class="n">storyBoard</span><span class="p">.</span><span class="n">instantiateViewController</span><span class="p">(</span><span class="nl">identifier</span><span class="p">:</span> <span class="s">&quot;Play&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="n">playVC</span><span class="p">.</span><span class="n">navigationItem</span><span class="p">.</span><span class="n">title</span> <span class="o">=</span> <span class="n">filtedFileNames</span><span class="p">[</span><span class="n">indexPath</span><span class="p">.</span><span class="n">row</span><span class="p">]</span>
+</span><span class='line'><span class="n">navigationController</span><span class="o">?</span><span class="p">.</span><span class="n">pushViewController</span><span class="p">(</span><span class="n">playVC</span><span class="p">,</span> <span class="nl">animated</span><span class="p">:</span> <span class="nb">true</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>或者</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">let</span> <span class="n">colorPickerVC</span> <span class="o">=</span> <span class="n">UIColorPickerViewController</span><span class="p">()</span>
+</span><span class='line'><span class="n">colorPickerVC</span><span class="p">.</span><span class="n">selectedColor</span> <span class="o">=</span> <span class="n">brushColorButton</span><span class="p">.</span><span class="n">selectedColor</span>
+</span><span class='line'><span class="n">colorPickerVC</span><span class="p">.</span><span class="n">delegate</span> <span class="o">=</span> <span class="nb">self</span>
+</span><span class='line'><span class="n">present</span><span class="p">(</span><span class="n">colorPickerVC</span><span class="p">,</span> <span class="nl">animated</span><span class="p">:</span> <span class="nb">true</span><span class="p">,</span> <span class="nl">completion</span><span class="p">:</span> <span class="nb">nil</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>通过delegate进行目标ViewController到源ViewController的方法调用和数据传递，源ViewControler可以直接设置目标ViewController的属性进行数据传递。</p>
+
+<p><a id="markdown-参考" name="参考"></a></p>
+
+<h3>参考</h3>
+
+<ul>
+<li><a href="https://stackoverflow.com/questions/30618172/how-to-send-data-back-by-popviewcontrolleranimated-for-swift">How to send data back by popViewControllerAnimated for Swift?</a></li>
+<li><a href="https://www.jianshu.com/p/319cbc53f0ba">iOS导航控制器——UINavigationController使用详解</a></li>
+<li><a href="https://blog.csdn.net/liuyinghui523/article/details/62036465">一篇较为详细的 Storyboard使用方法 总结</a></li>
+</ul>
+
+
+<p><a id="markdown-photokit的使用" name="photokit的使用"></a></p>
+
+<h2>PhotoKit的使用</h2>
+
+<p>需要在info.plist里面设置<code>NSPhotoLibraryUsageDescription</code>属性，设置在获取权限的时候显示给用户的弹窗中显示的内容。</p>
+
+<p>检查权限状态：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="n">private</span> <span class="k">func</span> <span class="nf">requestPrivilegeAndLoadPhotos</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">let</span> <span class="n">status</span> <span class="o">=</span> <span class="n">PHPhotoLibrary</span><span class="p">.</span><span class="n">authorizationStatus</span><span class="p">()</span>
+</span><span class='line'>    <span class="k">if</span> <span class="n">status</span> <span class="o">==</span> <span class="p">.</span><span class="n">authorized</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">loadPhotos</span><span class="p">()</span>
+</span><span class='line'>    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">PHPhotoLibrary</span><span class="p">.</span><span class="n">requestAuthorization</span> <span class="p">{</span> <span class="p">(</span><span class="n">status</span><span class="p">)</span> <span class="k">in</span>
+</span><span class='line'>            <span class="k">if</span> <span class="n">status</span> <span class="o">==</span> <span class="p">.</span><span class="n">authorized</span> <span class="p">{</span>
+</span><span class='line'>                <span class="nb">self</span><span class="p">.</span><span class="n">loadPhotos</span><span class="p">()</span>
+</span><span class='line'>                <span class="n">DispatchQueue</span><span class="p">.</span><span class="n">main</span><span class="p">.</span><span class="n">async</span> <span class="p">{</span>
+</span><span class='line'>                    <span class="nb">self</span><span class="p">.</span><span class="n">collection</span><span class="p">.</span><span class="n">reloadData</span><span class="p">()</span>
+</span><span class='line'>                <span class="p">}</span>
+</span><span class='line'>            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>                <span class="c1">// use not grant the privilege</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如果用户给了访问相册的权限，通过下面的方法加载所有图片信息：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="n">private</span> <span class="k">func</span> <span class="nf">loadPhotos</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">let</span> <span class="n">allPhotosOptions</span> <span class="o">=</span> <span class="n">PHFetchOptions</span><span class="p">()</span>
+</span><span class='line'>    <span class="n">allPhotosOptions</span><span class="p">.</span><span class="n">sortDescriptors</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSSortDescriptor</span><span class="p">(</span><span class="nl">key</span><span class="p">:</span> <span class="s">&quot;creationDate&quot;</span><span class="p">,</span> <span class="nl">ascending</span><span class="p">:</span> <span class="nb">true</span><span class="p">)]</span>
+</span><span class='line'>    <span class="n">allPhotos</span> <span class="o">=</span> <span class="n">PHAsset</span><span class="p">.</span><span class="n">fetchAssets</span><span class="p">(</span><span class="nl">with</span><span class="p">:</span> <span class="p">.</span><span class="n">image</span><span class="p">,</span> <span class="nl">options</span><span class="p">:</span> <span class="n">allPhotosOptions</span><span class="p">)</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>通过下面方法将所有图片信息显示在collection列表中：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">func</span> <span class="nf">collectionView</span><span class="p">(</span><span class="n">_</span> <span class="nl">collectionView</span><span class="p">:</span> <span class="bp">UICollectionView</span><span class="p">,</span> <span class="n">numberOfItemsInSection</span> <span class="nl">section</span><span class="p">:</span> <span class="n">Int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Int</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">allPhotos</span><span class="p">.</span><span class="n">count</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">func</span> <span class="n">collectionView</span><span class="p">(</span><span class="n">_</span> <span class="nl">collectionView</span><span class="p">:</span> <span class="bp">UICollectionView</span><span class="p">,</span> <span class="n">cellForItemAt</span> <span class="nl">indexPath</span><span class="p">:</span> <span class="n">IndexPath</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">UICollectionViewCell</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">if</span> <span class="k">let</span> <span class="n">cell</span> <span class="o">=</span> <span class="n">collection</span><span class="p">.</span><span class="n">dequeueReusableCell</span><span class="p">(</span><span class="nl">withReuseIdentifier</span><span class="p">:</span> <span class="n">cellIdentifier</span><span class="p">,</span> <span class="k">for</span><span class="o">:</span> <span class="n">indexPath</span><span class="p">)</span> <span class="kt">as</span><span class="o">?</span> <span class="n">PhotoCollectionCell</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">let</span> <span class="n">assert</span> <span class="o">=</span> <span class="n">allPhotos</span><span class="p">.</span><span class="n">object</span><span class="p">(</span><span class="nl">at</span><span class="p">:</span> <span class="n">indexPath</span><span class="p">.</span><span class="n">item</span><span class="p">)</span>
+</span><span class='line'>        <span class="n">PHImageManager</span><span class="p">.</span><span class="k">default</span><span class="p">().</span><span class="n">requestImage</span><span class="p">(</span><span class="k">for</span><span class="o">:</span> <span class="n">assert</span><span class="p">,</span> <span class="nl">targetSize</span><span class="p">:</span> <span class="bp">CGSize</span><span class="p">(</span><span class="nl">width</span><span class="p">:</span> <span class="n">photoCollectionWH</span><span class="p">,</span> <span class="nl">height</span><span class="p">:</span> <span class="n">photoCollectionWH</span><span class="p">),</span> <span class="nl">contentMode</span><span class="p">:</span> <span class="p">.</span><span class="n">aspectFill</span><span class="p">,</span> <span class="nl">options</span><span class="p">:</span> <span class="p">.</span><span class="kr">none</span><span class="p">)</span> <span class="p">{</span> <span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">dic</span><span class="p">)</span> <span class="k">in</span>
+</span><span class='line'>            <span class="k">if</span> <span class="k">let</span> <span class="n">image</span> <span class="o">=</span> <span class="n">image</span> <span class="p">{</span>
+</span><span class='line'>                <span class="n">cell</span><span class="p">.</span><span class="n">imageView</span><span class="p">.</span><span class="n">image</span> <span class="o">=</span> <span class="n">image</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">return</span> <span class="n">cell</span>
+</span><span class='line'>    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">collection</span><span class="p">.</span><span class="n">dequeueReusableCell</span><span class="p">(</span><span class="nl">withReuseIdentifier</span><span class="p">:</span> <span class="n">cellIdentifier</span><span class="p">,</span> <span class="k">for</span><span class="o">:</span> <span class="n">indexPath</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>通过下面方法，将用户选择的图片传给delegate处理（delegate可以是源ViewController）：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">func</span> <span class="nf">collectionView</span><span class="p">(</span><span class="n">_</span> <span class="nl">collectionView</span><span class="p">:</span> <span class="bp">UICollectionView</span><span class="p">,</span> <span class="n">didSelectItemAt</span> <span class="nl">indexPath</span><span class="p">:</span> <span class="n">IndexPath</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">print</span><span class="p">(</span><span class="s">&quot;item: \(indexPath.item)&quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">let</span> <span class="n">assert</span> <span class="o">=</span> <span class="n">allPhotos</span><span class="p">.</span><span class="n">object</span><span class="p">(</span><span class="nl">at</span><span class="p">:</span> <span class="n">indexPath</span><span class="p">.</span><span class="n">item</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">PHImageManager</span><span class="p">.</span><span class="k">default</span><span class="p">().</span><span class="n">requestImage</span><span class="p">(</span><span class="k">for</span><span class="o">:</span> <span class="n">assert</span><span class="p">,</span> <span class="nl">targetSize</span><span class="p">:</span> <span class="bp">CGSize</span><span class="p">(</span><span class="nl">width</span><span class="p">:</span> <span class="n">assert</span><span class="p">.</span><span class="n">pixelWidth</span><span class="p">,</span> <span class="nl">height</span><span class="p">:</span> <span class="n">assert</span><span class="p">.</span><span class="n">pixelHeight</span><span class="p">),</span> <span class="nl">contentMode</span><span class="p">:</span> <span class="p">.</span><span class="n">aspectFill</span><span class="p">,</span> <span class="nl">options</span><span class="p">:</span> <span class="p">.</span><span class="kr">none</span><span class="p">)</span> <span class="p">{</span> <span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">dic</span><span class="p">)</span> <span class="k">in</span>
+</span><span class='line'>        <span class="k">if</span> <span class="k">let</span> <span class="n">image</span> <span class="o">=</span> <span class="n">image</span> <span class="p">{</span>
+</span><span class='line'>            <span class="nb">self</span><span class="p">.</span><span class="n">delegate</span><span class="o">?</span><span class="p">.</span><span class="kr">set</span><span class="p">(</span><span class="nl">image</span><span class="p">:</span> <span class="n">image</span><span class="p">,</span> <span class="nl">and</span><span class="p">:</span> <span class="nb">nil</span><span class="p">)</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><a id="markdown-参考" name="参考"></a></p>
+
+<h3>参考</h3>
+
+<ul>
+<li><a href="https://developer.apple.com/documentation/photokit">官方文档：PhotoKit</a></li>
+<li><a href="https://www.raywenderlich.com/11764166-getting-started-with-photokit">Getting Started with PhotoKit</a></li>
+</ul>
+
+
+<p><a id="markdown-alert-view" name="alert-view"></a></p>
+
+<h2>Alert View</h2>
+
+<p><a href="https://learnappmaking.com/uialertcontroller-alerts-swift-how-to/">Displaying Alerts with UIAlertController in Swift</a></p>
+
+<p><a id="markdown-uiimage" name="uiimage"></a></p>
+
+<h2>UIImage</h2>
+
+<p>下面两个图片加载方法对cache的运用是不一样的：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="p">+</span> <span class="p">(</span><span class="bp">UIImage</span> <span class="o">*</span><span class="p">)</span><span class="nf">imageNamed:</span><span class="p">(</span><span class="bp">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">name</span><span class="o">:</span> <span class="n">use</span> <span class="n">cached</span> <span class="n">images</span>
+</span><span class='line'><span class="o">+</span> <span class="p">(</span><span class="bp">UIImage</span> <span class="o">*</span><span class="p">)</span><span class="nl">imageWithContentsOfFile</span><span class="p">:(</span><span class="bp">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nl">path</span><span class="p">:</span> <span class="n">skip</span> <span class="n">cached</span> <span class="n">images</span> <span class="n">and</span> <span class="n">read</span> <span class="n">data</span> <span class="n">directly</span> <span class="n">from</span> <span class="n">file</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><a id="markdown-参考" name="参考"></a></p>
+
+<h3>参考</h3>
+
+<p><a href="https://medium.com/@maximbilan/ios-uiimage-cache-92563c3ae3c2">iOS UIImage Cache</a></p>
+
+<p><a id="markdown-可编辑的uitableview" name="可编辑的uitableview"></a></p>
+
+<h2>可编辑的UITableView</h2>
+
+<p>通过实现下面方法保证每个cell支持左滑操作：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">func</span> <span class="n">tableView</span><span class="p">(</span><span class="n">_</span> <span class="nl">tableView</span><span class="p">:</span> <span class="bp">UITableView</span><span class="p">,</span> <span class="n">canEditRowAt</span> <span class="nl">indexPath</span><span class="p">:</span> <span class="n">IndexPath</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bool</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="nb">true</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>通过实现下面的方法，左滑之后显示两个按钮: Edit Tags和Delete</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">func</span> <span class="nf">tableView</span><span class="p">(</span><span class="n">_</span> <span class="nl">tableView</span><span class="p">:</span> <span class="bp">UITableView</span><span class="p">,</span> <span class="n">editActionsForRowAt</span> <span class="nl">indexPath</span><span class="p">:</span> <span class="n">IndexPath</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="n">UITableViewRowAction</span><span class="p">]</span><span class="o">?</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">let</span> <span class="n">deleteAction</span> <span class="o">=</span> <span class="n">UITableViewRowAction</span><span class="p">(</span><span class="nl">style</span><span class="p">:</span> <span class="p">.</span><span class="n">destructive</span><span class="p">,</span> <span class="nl">title</span><span class="p">:</span> <span class="s">&quot;Delete&quot;</span><span class="p">)</span> <span class="p">{</span> <span class="p">(</span><span class="n">action</span><span class="p">,</span> <span class="n">indexPath</span><span class="p">)</span> <span class="k">in</span>
+</span><span class='line'>        <span class="nb">self</span><span class="p">.</span><span class="n">deleteItem</span><span class="p">(</span><span class="nl">at</span><span class="p">:</span> <span class="n">indexPath</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="k">let</span> <span class="n">editAction</span> <span class="o">=</span> <span class="n">UITableViewRowAction</span><span class="p">(</span><span class="nl">style</span><span class="p">:</span> <span class="p">.</span><span class="k">default</span><span class="p">,</span> <span class="nl">title</span><span class="p">:</span> <span class="s">&quot;Edit Tags&quot;</span><span class="p">)</span> <span class="p">{</span> <span class="p">(</span><span class="n">action</span><span class="p">,</span> <span class="n">indexPath</span><span class="p">)</span> <span class="k">in</span>
+</span><span class='line'>        <span class="nb">self</span><span class="p">.</span><span class="n">editTags</span><span class="p">(</span><span class="k">for</span><span class="o">:</span> <span class="n">indexPath</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="n">editAction</span><span class="p">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="bp">UIColor</span><span class="p">(</span><span class="nl">displayP3Red</span><span class="p">:</span> <span class="mi">60</span><span class="o">/</span><span class="mi">255</span><span class="p">,</span> <span class="nl">green</span><span class="p">:</span> <span class="mi">148</span><span class="o">/</span><span class="mi">255</span><span class="p">,</span> <span class="nl">blue</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span> <span class="nl">alpha</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">deleteAction</span><span class="p">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="p">.</span><span class="n">red</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">return</span> <span class="p">[</span><span class="n">deleteAction</span><span class="p">,</span> <span class="n">editAction</span><span class="p">]</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><a id="markdown-calayer--cashapelayer--core-graphics" name="calayer--cashapelayer--core-graphics"></a></p>
+
+<h2>CALayer &amp; CAShapeLayer &amp; Core Graphics</h2>
+
+<p>这一块的内容太多，希望有时间可以单独总结一下。</p>
+
+<p><a id="markdown-音乐术语英语" name="音乐术语英语"></a></p>
+
+<h2>音乐术语英语</h2>
+
+<p><a href="https://zhuanlan.zhihu.com/p/35999407">音乐术语英文名称汇总</a></p>
+
+<p><a id="markdown-swift中构造方法designatedconvenience" name="swift中构造方法designatedconvenience"></a></p>
+
+<h2>swift中构造方法designated，convenience</h2>
+
+<p>官方文档中有如下描述：</p>
+
+<ol>
+<li>子类designated构造方法中必须调用父类的designated构造方法。</li>
+<li>convenience构造方法中必须调用当前类的构造方法。</li>
+<li>convenience构造方法归根结底要调用到designated构造方法。</li>
+</ol>
+
+
+<p><img src="/images/swift_init_method.webp" alt="swift init methods" /></p>
+
+<p><a id="markdown-参考" name="参考"></a></p>
+
+<h3>参考</h3>
+
+<ul>
+<li><a href="https://www.jianshu.com/p/e2cce123a5af">Swift之init构造方法</a></li>
+</ul>
+
+
+<p><a id="markdown-笔记绘制功能" name="笔记绘制功能"></a></p>
+
+<h2>笔记绘制功能</h2>
+
+<p>通过第三方库<a href="https://github.com/e7711bbear/ATSketchKit">STSketchKit</a>实现笔记功能支持Undo/Redo操作。官方介绍如下：</p>
+
+<blockquote><p>ATSketchKit is a drawing / sketching framework for iOS written in Swift.</p>
+
+<p>It can be used as the foundation for an artistic app, a simple signature feature or more inteligent graph designing app.</p></blockquote>
+</div>
+
+</article>
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+	
+	
+	
+	<a class="addthis_counter addthis_pill_style"></a>
+	</div>
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
+</div>
+
+
+</div>
+			</div>
+			<footer id="footer" class="inner">Copyright &copy; 2021
+
+    Zhang Hongchao
+
+
+<!--Design credit: <a href="http://shashankmehta.in/archive/2012/greyshade.html">Shashank Mehta</a>--></footer>
+		</div>
+	</div>
+	
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

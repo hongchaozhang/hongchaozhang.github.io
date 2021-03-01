@@ -4,7 +4,7 @@
   <title><![CDATA[Category: objective-c | Reading Space]]></title>
   <link href="http://hongchaozhang.github.io/blog/categories/objective-c/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2021-02-26T18:34:34+08:00</updated>
+  <updated>2021-03-01T17:18:01+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -12,6 +12,472 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[SightReading(视奏)应用开发知识点总结]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2021/03/01/summarize-of-sight-reading-app-developping/"/>
+    <updated>2021-03-01T14:39:00+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2021/03/01/summarize-of-sight-reading-app-developping</id>
+    <content type="html"><![CDATA[<!-- more -->
+
+
+
+
+<!-- TOC -->
+
+
+<ul>
+<li><a href="#%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96">数据持久化</a>
+
+<ul>
+<li><a href="#%E6%96%87%E4%BB%B6%E7%9A%84%E4%BF%9D%E5%AD%98%E5%92%8C%E8%AF%BB%E5%8F%96">文件的保存和读取</a></li>
+<li><a href="#nsdefault%E4%BF%9D%E5%AD%98%E6%A0%87%E7%AD%BE%E4%BF%A1%E6%81%AF">NSDefault：保存标签信息</a></li>
+<li><a href="#%E5%8F%82%E8%80%83">参考</a></li>
+</ul>
+</li>
+<li><a href="#%E6%92%AD%E6%94%BE%E8%8A%82%E6%8B%8D%E5%99%A8%E5%A3%B0%E9%9F%B3">播放节拍器声音</a>
+
+<ul>
+<li><a href="#%E9%80%9A%E8%BF%87avfoundation%E6%92%AD%E6%94%BE%E5%A3%B0%E9%9F%B3">通过AVFoundation播放声音</a></li>
+<li><a href="#%E8%8A%82%E6%8B%8D%E5%99%A8%E9%9F%B3%E9%87%8F%E8%B0%83%E8%8A%82">节拍器音量调节</a></li>
+</ul>
+</li>
+<li><a href="#navigationcontroller%E7%9A%84%E4%BD%BF%E7%94%A8%E5%92%8C%E6%95%B0%E6%8D%AE%E7%9A%84%E4%BC%A0%E9%80%92">navigationController的使用和数据的传递</a>
+
+<ul>
+<li><a href="#%E5%8F%82%E8%80%83">参考</a></li>
+</ul>
+</li>
+<li><a href="#photokit%E7%9A%84%E4%BD%BF%E7%94%A8">PhotoKit的使用</a>
+
+<ul>
+<li><a href="#%E5%8F%82%E8%80%83">参考</a></li>
+</ul>
+</li>
+<li><a href="#alert-view">Alert View</a></li>
+<li><a href="#uiimage">UIImage</a>
+
+<ul>
+<li><a href="#%E5%8F%82%E8%80%83">参考</a></li>
+</ul>
+</li>
+<li><a href="#%E5%8F%AF%E7%BC%96%E8%BE%91%E7%9A%84uitableview">可编辑的UITableView</a></li>
+<li><a href="#calayer--cashapelayer--core-graphics">CALayer &amp; CAShapeLayer &amp; Core Graphics</a></li>
+<li><a href="#%E9%9F%B3%E4%B9%90%E6%9C%AF%E8%AF%AD%E8%8B%B1%E8%AF%AD">音乐术语英语</a></li>
+<li><a href="#swift%E4%B8%AD%E6%9E%84%E9%80%A0%E6%96%B9%E6%B3%95designatedconvenience">swift中构造方法designated，convenience</a>
+
+<ul>
+<li><a href="#%E5%8F%82%E8%80%83">参考</a></li>
+</ul>
+</li>
+<li><a href="#%E7%AC%94%E8%AE%B0%E7%BB%98%E5%88%B6%E5%8A%9F%E8%83%BD">笔记绘制功能</a></li>
+</ul>
+
+
+<!-- /TOC -->
+
+
+<p><a id="markdown-数据持久化" name="数据持久化"></a></p>
+
+<h2>数据持久化</h2>
+
+<p><a id="markdown-文件的保存和读取" name="文件的保存和读取"></a></p>
+
+<h3>文件的保存和读取</h3>
+
+<ul>
+<li>Json文件：每个乐谱页对应一个Json文件。文件保存乐谱每小节的大小和位置信息，以及乐谱的基本信息，包括每小节节拍数和用户设置的速度和Mask偏移量。</li>
+<li>png文件：每个乐谱都有一个乐谱图片，如果用户做了笔记，还有一个笔记图片。</li>
+</ul>
+
+
+<p>保存文件的代码如下：
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">func</span> <span class="nf">getRootPath</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">String</span><span class="o">?</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">NSSearchPathForDirectoriesInDomains</span><span class="p">(.</span><span class="n">documentDirectory</span><span class="p">,</span> <span class="p">.</span><span class="n">userDomainMask</span><span class="p">,</span> <span class="nb">true</span><span class="p">).</span><span class="n">first</span>
+</span><span class='line'><span class="p">}</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">func</span> <span class="n">saveImageFile</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">if</span> <span class="k">let</span> <span class="n">rootPath</span> <span class="o">=</span> <span class="n">Utility</span><span class="p">.</span><span class="n">getRootPath</span><span class="p">(),</span>
+</span><span class='line'>        <span class="k">let</span> <span class="n">imageName</span> <span class="o">=</span> <span class="n">getFileName</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">let</span> <span class="n">imagePath</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;(</span><span class="n">rootPath</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">imageName</span><span class="p">).</span><span class="n">png</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;</span>
+</span><span class='line'>        <span class="n">print</span><span class="p">(</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">image</span> <span class="nl">path</span><span class="p">:</span> <span class="p">(</span><span class="n">imagePath</span><span class="p">)</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;)</span>
+</span><span class='line'>        <span class="k">if</span> <span class="k">let</span> <span class="n">image</span> <span class="o">=</span> <span class="n">imageView</span><span class="p">.</span><span class="n">image</span><span class="p">,</span> <span class="k">let</span> <span class="n">imageData</span> <span class="o">=</span> <span class="n">image</span><span class="p">.</span><span class="n">pngData</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>            <span class="n">FileManager</span><span class="p">.</span><span class="k">default</span><span class="p">.</span><span class="n">createFile</span><span class="p">(</span><span class="nl">atPath</span><span class="p">:</span> <span class="n">imagePath</span><span class="p">,</span> <span class="nl">contents</span><span class="p">:</span> <span class="n">imageData</span><span class="p">,</span> <span class="nl">attributes</span><span class="p">:</span> <span class="nb">nil</span><span class="p">)</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">func</span> <span class="n">saveJsonFile</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">if</span> <span class="k">let</span> <span class="n">rootPath</span> <span class="o">=</span> <span class="n">Utility</span><span class="p">.</span><span class="n">getRootPath</span><span class="p">(),</span>
+</span><span class='line'>        <span class="k">let</span> <span class="n">jsonFileName</span> <span class="o">=</span> <span class="n">getFileName</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">let</span> <span class="n">jsonPath</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;(</span><span class="n">rootPath</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">jsonFileName</span><span class="p">).</span><span class="n">json</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;</span>
+</span><span class='line'>        <span class="n">print</span><span class="p">(</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">image</span> <span class="nl">path</span><span class="p">:</span> <span class="p">(</span><span class="n">jsonPath</span><span class="p">)</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;)</span>
+</span><span class='line'>        <span class="k">let</span> <span class="nl">jsonDic</span><span class="p">:</span> <span class="p">[</span><span class="nl">String</span><span class="p">:</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="nl">basicInfoKey</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">a</span> <span class="n">href</span><span class="o">=</span><span class="s">&quot;&quot;</span><span class="o">&gt;</span><span class="nl">String</span><span class="p">:</span> <span class="n">String</span><span class="o">&lt;/</span><span class="n">a</span><span class="o">&gt;</span><span class="p">,</span> <span class="nl">barFramesKey</span><span class="p">:</span> <span class="n">barFrames</span><span class="p">]</span>
+</span><span class='line'>        <span class="k">if</span> <span class="k">let</span> <span class="n">jsonData</span> <span class="o">=</span> <span class="n">try</span><span class="o">?</span> <span class="bp">NSKeyedArchiver</span><span class="p">.</span><span class="n">archivedData</span><span class="p">(</span><span class="nl">withRootObject</span><span class="p">:</span> <span class="n">jsonDic</span><span class="p">,</span> <span class="nl">requiringSecureCoding</span><span class="p">:</span> <span class="nb">false</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>            <span class="n">FileManager</span><span class="p">.</span><span class="k">default</span><span class="p">.</span><span class="n">createFile</span><span class="p">(</span><span class="nl">atPath</span><span class="p">:</span> <span class="n">jsonPath</span><span class="p">,</span> <span class="nl">contents</span><span class="p">:</span> <span class="n">jsonData</span><span class="p">,</span> <span class="nl">attributes</span><span class="p">:</span> <span class="nb">nil</span><span class="p">)</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></p>
+
+<p>读取文件的代码如下：
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">func</span> <span class="nf">loadJsonFile</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">if</span> <span class="k">let</span> <span class="n">rootPath</span> <span class="o">=</span> <span class="n">Utility</span><span class="p">.</span><span class="n">getRootPath</span><span class="p">(),</span>
+</span><span class='line'>        <span class="k">let</span> <span class="n">jsonName</span> <span class="o">=</span> <span class="n">navigationItem</span><span class="p">.</span><span class="n">title</span><span class="p">,</span>
+</span><span class='line'>        <span class="k">let</span> <span class="n">jsonData</span> <span class="o">=</span> <span class="n">FileManager</span><span class="p">.</span><span class="k">default</span><span class="p">.</span><span class="n">contents</span><span class="p">(</span><span class="nl">atPath</span><span class="p">:</span> <span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;(</span><span class="n">rootPath</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">jsonName</span><span class="p">).</span><span class="n">json</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;),</span>
+</span><span class='line'>        <span class="k">let</span> <span class="n">jsonObjectAny</span> <span class="o">=</span> <span class="bp">NSKeyedUnarchiver</span><span class="p">.</span><span class="n">unarchiveObject</span><span class="p">(</span><span class="nl">with</span><span class="p">:</span> <span class="n">jsonData</span><span class="p">),</span>
+</span><span class='line'>        <span class="k">let</span> <span class="n">jsonObject</span> <span class="o">=</span> <span class="n">jsonObjectAny</span> <span class="kt">as</span><span class="o">?</span> <span class="p">[</span><span class="nl">String</span><span class="p">:</span> <span class="n">Any</span><span class="p">]</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">if</span> <span class="k">let</span> <span class="n">sheetBasicInfo</span> <span class="o">=</span> <span class="n">jsonObject</span><span class="p">[</span><span class="n">basicInfoKey</span><span class="p">]</span> <span class="kt">as</span><span class="o">?</span> <span class="p">[</span><span class="nl">String</span><span class="p">:</span> <span class="n">String</span><span class="p">]</span> <span class="p">{</span>
+</span><span class='line'>            <span class="nb">self</span><span class="p">.</span><span class="n">sheetBasicInfo</span> <span class="o">=</span> <span class="n">sheetBasicInfo</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="k">if</span> <span class="k">let</span> <span class="n">barFrames</span> <span class="o">=</span> <span class="n">jsonObject</span><span class="p">[</span><span class="n">barFramesKey</span><span class="p">]</span> <span class="kt">as</span><span class="o">?</span> <span class="p">[</span><span class="nl">Int</span><span class="p">:</span> <span class="bp">CGRect</span><span class="p">]</span> <span class="p">{</span>
+</span><span class='line'>            <span class="nb">self</span><span class="p">.</span><span class="n">barFrames</span> <span class="o">=</span>  <span class="n">barFrames</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">func</span> <span class="n">loadSheetImage</span><span class="p">(</span><span class="n">with</span> <span class="nl">imageName</span><span class="p">:</span> <span class="n">String</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">if</span> <span class="k">let</span> <span class="n">rootPath</span> <span class="o">=</span> <span class="n">Utility</span><span class="p">.</span><span class="n">getRootPath</span><span class="p">(),</span>
+</span><span class='line'>        <span class="k">let</span> <span class="n">sheetImage</span> <span class="o">=</span> <span class="bp">UIImage</span><span class="p">(</span><span class="nl">contentsOfFile</span><span class="p">:</span> <span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;(</span><span class="n">rootPath</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">imageName</span><span class="p">).</span><span class="n">png</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">sheetImageView</span><span class="p">.</span><span class="n">image</span> <span class="o">=</span> <span class="n">sheetImage</span>
+</span><span class='line'>        <span class="n">noteImageView</span><span class="p">.</span><span class="n">image</span> <span class="o">=</span> <span class="bp">UIImage</span><span class="p">(</span><span class="nl">contentsOfFile</span><span class="p">:</span> <span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;(</span><span class="n">rootPath</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">imageName</span><span class="p">)(</span><span class="n">noteImageSubfix</span><span class="p">).</span><span class="n">png</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;)</span>
+</span><span class='line'>        <span class="n">layoutImageView</span><span class="p">()</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></p>
+
+<p><a id="markdown-nsdefault保存标签信息" name="nsdefault保存标签信息"></a></p>
+
+<h3>NSDefault：保存标签信息</h3>
+
+<pre><code class="swift">UserDefaults.standard.setValue(allTags, forKey: allTagsKey)
+let allTags = UserDefaults.standard.value(forKey: allTagsKey)
+</code></pre>
+
+<p><a id="markdown-参考" name="参考"></a></p>
+
+<h3>参考</h3>
+
+<ul>
+<li><a href="https://www.jianshu.com/p/d1c621631f7e">iOS数据本地持久化方法总结</a></li>
+<li><a href="https://cloud.tencent.com/developer/article/1129341">iOS应用数据存储（数据持久化）的常用方式</a></li>
+<li><a href="https://www.jianshu.com/p/fad66bae5484">iOS 将对象序列化成json，写入本地文件</a></li>
+</ul>
+
+
+<p><a id="markdown-播放节拍器声音" name="播放节拍器声音"></a></p>
+
+<h2>播放节拍器声音</h2>
+
+<p><a id="markdown-通过avfoundation播放声音" name="通过avfoundation播放声音"></a></p>
+
+<h3>通过AVFoundation播放声音</h3>
+
+<pre><code class="swift">if let audioUrl = Bundle.main.url(forResource: "FirstMeter", withExtension: "wav", subdirectory: "Resource.bundle")  {
+    AudioServicesCreateSystemSoundID(audioUrl as CFURL, &amp;firstMeterId)
+}
+AudioServicesPlaySystemSound(self.firstMeterId)
+</code></pre>
+
+<p><a id="markdown-节拍器音量调节" name="节拍器音量调节"></a></p>
+
+<h3>节拍器音量调节</h3>
+
+<p>在设置中，如果“声音->铃声和警报”下面的“跟随按钮”没有打开，那么通过<code>AudioServicesPlaySystemSound()</code>播放的声音就会始终用一个固定的音量播放，其它声音API播放的声音（比如<code>AVAudioPlayer</code>）会跟随系统音量变化音量大小。</p>
+
+<blockquote><p>In Settings app, Sounds->RINGER AND ALERTS, if &lsquo;Change with Buttons&rsquo; is set to Off, then sounds using AudioServicesPlaySystemSound() will always be played at a fixed volume (yet other sound API&rsquo;s such as AVAudioPlayer will respect the volume of the device).</p></blockquote>
+
+<p><a id="markdown-navigationcontroller的使用和数据的传递" name="navigationcontroller的使用和数据的传递"></a></p>
+
+<h2>navigationController的使用和数据的传递</h2>
+
+<p>通过下面两种方法进行ViewController的弹出
+<code>swift
+let playVC = storyBoard.instantiateViewController(identifier: "Play")
+playVC.navigationItem.title = filtedFileNames[indexPath.row]
+navigationController?.pushViewController(playVC, animated: true)
+</code>
+或者
+<code>swift
+let colorPickerVC = UIColorPickerViewController()
+colorPickerVC.selectedColor = brushColorButton.selectedColor
+colorPickerVC.delegate = self
+present(colorPickerVC, animated: true, completion: nil)
+</code>
+通过delegate进行目标ViewController到源ViewController的方法调用和数据传递，源ViewControler可以直接设置目标ViewController的属性进行数据传递。</p>
+
+<p><a id="markdown-参考" name="参考"></a></p>
+
+<h3>参考</h3>
+
+<ul>
+<li><a href="https://stackoverflow.com/questions/30618172/how-to-send-data-back-by-popviewcontrolleranimated-for-swift">How to send data back by popViewControllerAnimated for Swift?</a></li>
+<li><a href="https://www.jianshu.com/p/319cbc53f0ba">iOS导航控制器——UINavigationController使用详解</a></li>
+<li><a href="https://blog.csdn.net/liuyinghui523/article/details/62036465">一篇较为详细的 Storyboard使用方法 总结</a></li>
+</ul>
+
+
+<p><a id="markdown-photokit的使用" name="photokit的使用"></a></p>
+
+<h2>PhotoKit的使用</h2>
+
+<p>需要在info.plist里面设置<code>NSPhotoLibraryUsageDescription</code>属性，设置在获取权限的时候显示给用户的弹窗中显示的内容。</p>
+
+<p>检查权限状态：
+<code>swift
+private func requestPrivilegeAndLoadPhotos() {
+    let status = PHPhotoLibrary.authorizationStatus()
+    if status == .authorized {
+        loadPhotos()
+    } else {
+        PHPhotoLibrary.requestAuthorization { (status) in
+            if status == .authorized {
+                self.loadPhotos()
+                DispatchQueue.main.async {
+                    self.collection.reloadData()
+                }
+            } else {
+                // use not grant the privilege
+            }
+        }
+    }
+}
+</code></p>
+
+<p>如果用户给了访问相册的权限，通过下面的方法加载所有图片信息：
+<code>swift
+private func loadPhotos() {
+    let allPhotosOptions = PHFetchOptions()
+    allPhotosOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: true)]
+    allPhotos = PHAsset.fetchAssets(with: .image, options: allPhotosOptions)
+}
+</code></p>
+
+<p>通过下面方法将所有图片信息显示在collection列表中：
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">func</span> <span class="nf">collectionView</span><span class="p">(</span><span class="n">_</span> <span class="nl">collectionView</span><span class="p">:</span> <span class="bp">UICollectionView</span><span class="p">,</span> <span class="n">numberOfItemsInSection</span> <span class="nl">section</span><span class="p">:</span> <span class="n">Int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Int</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">allPhotos</span><span class="p">.</span><span class="n">count</span>
+</span><span class='line'><span class="p">}</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">func</span> <span class="n">collectionView</span><span class="p">(</span><span class="n">_</span> <span class="nl">collectionView</span><span class="p">:</span> <span class="bp">UICollectionView</span><span class="p">,</span> <span class="n">cellForItemAt</span> <span class="nl">indexPath</span><span class="p">:</span> <span class="n">IndexPath</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">UICollectionViewCell</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">if</span> <span class="k">let</span> <span class="n">cell</span> <span class="o">=</span> <span class="n">collection</span><span class="p">.</span><span class="n">dequeueReusableCell</span><span class="p">(</span><span class="nl">withReuseIdentifier</span><span class="p">:</span> <span class="n">cellIdentifier</span><span class="p">,</span> <span class="k">for</span><span class="o">:</span> <span class="n">indexPath</span><span class="p">)</span> <span class="kt">as</span><span class="o">?</span> <span class="n">PhotoCollectionCell</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">let</span> <span class="n">assert</span> <span class="o">=</span> <span class="n">allPhotos</span><span class="p">.</span><span class="n">object</span><span class="p">(</span><span class="nl">at</span><span class="p">:</span> <span class="n">indexPath</span><span class="p">.</span><span class="n">item</span><span class="p">)</span>
+</span><span class='line'>        <span class="n">PHImageManager</span><span class="p">.</span><span class="k">default</span><span class="p">().</span><span class="n">requestImage</span><span class="p">(</span><span class="k">for</span><span class="o">:</span> <span class="n">assert</span><span class="p">,</span> <span class="nl">targetSize</span><span class="p">:</span> <span class="bp">CGSize</span><span class="p">(</span><span class="nl">width</span><span class="p">:</span> <span class="n">photoCollectionWH</span><span class="p">,</span> <span class="nl">height</span><span class="p">:</span> <span class="n">photoCollectionWH</span><span class="p">),</span> <span class="nl">contentMode</span><span class="p">:</span> <span class="p">.</span><span class="n">aspectFill</span><span class="p">,</span> <span class="nl">options</span><span class="p">:</span> <span class="p">.</span><span class="kr">none</span><span class="p">)</span> <span class="p">{</span> <span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">dic</span><span class="p">)</span> <span class="k">in</span>
+</span><span class='line'>            <span class="k">if</span> <span class="k">let</span> <span class="n">image</span> <span class="o">=</span> <span class="n">image</span> <span class="p">{</span>
+</span><span class='line'>                <span class="n">cell</span><span class="p">.</span><span class="n">imageView</span><span class="p">.</span><span class="n">image</span> <span class="o">=</span> <span class="n">image</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>        <span class="p">}</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span>    <span class="k">return</span> <span class="n">cell</span>
+</span><span class='line'><span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">collection</span><span class="p">.</span><span class="n">dequeueReusableCell</span><span class="p">(</span><span class="nl">withReuseIdentifier</span><span class="p">:</span> <span class="n">cellIdentifier</span><span class="p">,</span> <span class="k">for</span><span class="o">:</span> <span class="n">indexPath</span><span class="p">)</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></p>
+
+<p>通过下面方法，将用户选择的图片传给delegate处理（delegate可以是源ViewController）：
+<code>swift
+func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    print("item: \(indexPath.item)")
+    let assert = allPhotos.object(at: indexPath.item)
+    PHImageManager.default().requestImage(for: assert, targetSize: CGSize(width: assert.pixelWidth, height: assert.pixelHeight), contentMode: .aspectFill, options: .none) { (image, dic) in
+        if let image = image {
+            self.delegate?.set(image: image, and: nil)
+        }
+    }
+}
+</code>
+<a id="markdown-参考" name="参考"></a></p>
+
+<h3>参考</h3>
+
+<ul>
+<li><a href="https://developer.apple.com/documentation/photokit">官方文档：PhotoKit</a></li>
+<li><a href="https://www.raywenderlich.com/11764166-getting-started-with-photokit">Getting Started with PhotoKit</a></li>
+</ul>
+
+
+<p><a id="markdown-alert-view" name="alert-view"></a></p>
+
+<h2>Alert View</h2>
+
+<p><a href="https://learnappmaking.com/uialertcontroller-alerts-swift-how-to/">Displaying Alerts with UIAlertController in Swift</a></p>
+
+<p><a id="markdown-uiimage" name="uiimage"></a></p>
+
+<h2>UIImage</h2>
+
+<p>下面两个图片加载方法对cache的运用是不一样的：
+<code>swift
++ (UIImage *)imageNamed:(NSString *)name: use cached images
++ (UIImage *)imageWithContentsOfFile:(NSString *)path: skip cached images and read data directly from file
+</code></p>
+
+<p><a id="markdown-参考" name="参考"></a></p>
+
+<h3>参考</h3>
+
+<p><a href="https://medium.com/@maximbilan/ios-uiimage-cache-92563c3ae3c2">iOS UIImage Cache</a></p>
+
+<p><a id="markdown-可编辑的uitableview" name="可编辑的uitableview"></a></p>
+
+<h2>可编辑的UITableView</h2>
+
+<p>通过实现下面方法保证每个cell支持左滑操作：
+<code>swift
+func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -&gt; Bool {
+    return true
+}
+</code></p>
+
+<p>通过实现下面的方法，左滑之后显示两个按钮: Edit Tags和Delete
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">func</span> <span class="n">tableView</span><span class="p">(</span><span class="n">_</span> <span class="nl">tableView</span><span class="p">:</span> <span class="bp">UITableView</span><span class="p">,</span> <span class="n">editActionsForRowAt</span> <span class="nl">indexPath</span><span class="p">:</span> <span class="n">IndexPath</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="n">UITableViewRowAction</span><span class="p">]</span><span class="o">?</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">let</span> <span class="n">deleteAction</span> <span class="o">=</span> <span class="n">UITableViewRowAction</span><span class="p">(</span><span class="nl">style</span><span class="p">:</span> <span class="p">.</span><span class="n">destructive</span><span class="p">,</span> <span class="nl">title</span><span class="p">:</span> <span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">Delete</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;)</span> <span class="p">{</span> <span class="p">(</span><span class="n">action</span><span class="p">,</span> <span class="n">indexPath</span><span class="p">)</span> <span class="k">in</span>
+</span><span class='line'>        <span class="nb">self</span><span class="p">.</span><span class="n">deleteItem</span><span class="p">(</span><span class="nl">at</span><span class="p">:</span> <span class="n">indexPath</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="k">let</span> <span class="n">editAction</span> <span class="o">=</span> <span class="n">UITableViewRowAction</span><span class="p">(</span><span class="nl">style</span><span class="p">:</span> <span class="p">.</span><span class="k">default</span><span class="p">,</span> <span class="nl">title</span><span class="p">:</span> <span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">Edit</span> <span class="n">Tags</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;)</span> <span class="p">{</span> <span class="p">(</span><span class="n">action</span><span class="p">,</span> <span class="n">indexPath</span><span class="p">)</span> <span class="k">in</span>
+</span><span class='line'>        <span class="nb">self</span><span class="p">.</span><span class="n">editTags</span><span class="p">(</span><span class="k">for</span><span class="o">:</span> <span class="n">indexPath</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="n">editAction</span><span class="p">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="bp">UIColor</span><span class="p">(</span><span class="nl">displayP3Red</span><span class="p">:</span> <span class="mi">60</span><span class="o">/</span><span class="mi">255</span><span class="p">,</span> <span class="nl">green</span><span class="p">:</span> <span class="mi">148</span><span class="o">/</span><span class="mi">255</span><span class="p">,</span> <span class="nl">blue</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span> <span class="nl">alpha</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">deleteAction</span><span class="p">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="p">.</span><span class="n">red</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="k">return</span> <span class="p">[</span><span class="n">deleteAction</span><span class="p">,</span> <span class="n">editAction</span><span class="p">]</span>
+</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></p>
+
+<p><a id="markdown-calayer--cashapelayer--core-graphics" name="calayer--cashapelayer--core-graphics"></a></p>
+
+<h2>CALayer &amp; CAShapeLayer &amp; Core Graphics</h2>
+
+<p>这一块的内容太多，希望有时间可以单独总结一下。</p>
+
+<p><a id="markdown-音乐术语英语" name="音乐术语英语"></a></p>
+
+<h2>音乐术语英语</h2>
+
+<p><a href="https://zhuanlan.zhihu.com/p/35999407">音乐术语英文名称汇总</a></p>
+
+<p><a id="markdown-swift中构造方法designatedconvenience" name="swift中构造方法designatedconvenience"></a></p>
+
+<h2>swift中构造方法designated，convenience</h2>
+
+<p>官方文档中有如下描述：</p>
+
+<ol>
+<li>子类designated构造方法中必须调用父类的designated构造方法。</li>
+<li>convenience构造方法中必须调用当前类的构造方法。</li>
+<li>convenience构造方法归根结底要调用到designated构造方法。</li>
+</ol>
+
+
+<p><img src="/images/swift_init_method.webp" alt="swift init methods" /></p>
+
+<p><a id="markdown-参考" name="参考"></a></p>
+
+<h3>参考</h3>
+
+<ul>
+<li><a href="https://www.jianshu.com/p/e2cce123a5af">Swift之init构造方法</a></li>
+</ul>
+
+
+<p><a id="markdown-笔记绘制功能" name="笔记绘制功能"></a></p>
+
+<h2>笔记绘制功能</h2>
+
+<p>通过第三方库<a href="https://github.com/e7711bbear/ATSketchKit">STSketchKit</a>实现笔记功能支持Undo/Redo操作。官方介绍如下：</p>
+
+<blockquote><p>ATSketchKit is a drawing / sketching framework for iOS written in Swift.</p>
+
+<p>It can be used as the foundation for an artistic app, a simple signature feature or more inteligent graph designing app.</p></blockquote>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[在swift和Objc之间转换的一些想法]]></title>
@@ -370,170 +836,6 @@
 
 @end
 </code></pre>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[ios内存管理——调试]]></title>
-    <link href="http://hongchaozhang.github.io/blog/2016/02/24/ios-memory-managemement-debugging/"/>
-    <updated>2016-02-24T20:51:01+08:00</updated>
-    <id>http://hongchaozhang.github.io/blog/2016/02/24/ios-memory-managemement-debugging</id>
-    <content type="html"><![CDATA[<p><a href="http://www.cocoachina.com/ios/20160222/15333.html">iOS/OS X 内存管理(二)：借助工具解决内存问题</a>讲了一些调试技巧，包括：</p>
-
-<!-- more -->
-
-
-<ul>
-<li>启用Zombie Object进行悬挂指针的检测。</li>
-<li>应用<em>Product -> Analysis</em>进行内存泄露的初步检测。</li>
-<li>应用Leak Instrument进行内存泄露查找。</li>
-<li>在以上方法不奏效的情况下，通过查看<code>dealloc</code>是否调用查看某个class是否泄露的问题。</li>
-</ul>
-
-
-<p>补充一下：在<em>Leak</em>页面可以打开<em>Cycles &amp; Roots</em>用图的方式查看ratain cycle的问题，截图如下：</p>
-
-<p><img src="/images/xcode_leak_instrument_cycles_and_roots_view.png" alt="xcode_leak_instrument_cycles_and_roots_view" /></p>
-
-<p>上文没有介绍的，也是比较麻烦的，就是leak instrument没法查出的内存泄露。最近在调试一个这样的问题，写点心得。</p>
-
-<h3>行动前的准备</h3>
-
-<h4>认识工具</h4>
-
-<p>参看<a href="https://developer.apple.com/library/ios/documentation/AnalysisTools/Reference/Instruments_User_Reference/LeaksInstrument/LeaksInstrument.html">Leaks Instrument</a>和<a href="https://developer.apple.com/library/ios/documentation/AnalysisTools/Reference/Instruments_User_Reference/AllocationsInstrument/AllocationsInstrument.html#//apple_ref/doc/uid/TP40011355-CH40-SW1">Allocation Instrument</a>的官方文档。</p>
-
-<p>补充：</p>
-
-<ul>
-<li>Leak Instrument有<em>Cycles &amp; Roots</em>界面，见上。</li>
-<li>Persistent Bytes和#Persistent。#Persistent是object的数量，也就是allocation的次数，而Persistent Bytes是具体的内存大小。<strong>#Persistent是我们需要关注的，内存有没有泄露也是看这个值是不是只增不减。</strong></li>
-<li>Allocation Instrument进行profile的时候，为<em>Launch Configuration for Heap Allocations</em>勾选<em>Record reference counts</em>。</li>
-</ul>
-
-
-<h4>编译参数设置</h4>
-
-<p>为了保证看到代码，而不是一堆无意义的内存地址，参考<a href="http://hongchaozhang.github.io/blog/2015/08/17/the-dSYM-file-in-ios-project/">The .dSYM File in Ios Project</a>进行xcode的设置。</p>
-
-<h3>如果<code>dealloc</code>没有被调用</h3>
-
-<p>通过Allocation Instrument，我们可以得到内存使用情况。为了清楚地看出是哪部分最可能是内存泄露，可以使用<em>Call Trees</em>视图，然后在右边：</p>
-
-<ul>
-<li>勾选<em>Hide System Libraries</em>，排除系统影响。</li>
-<li>勾选<em>Invert Call Tree</em>，使占用内存最多的分支在最前面。</li>
-</ul>
-
-
-<p>通过以上方法，可以大概确定是哪部分内存泄露。然后看看该class是不是被<code>dealloc</code>了。</p>
-
-<ul>
-<li>如果<code>dealloc</code>了，那不是本文要解决的问题。</li>
-<li>如果<code>dealloc</code>没有调用到，继续往下看。</li>
-</ul>
-
-
-<h4>Retain Cycle导致<code>dealloc</code>没有被调用</h4>
-
-<p>在ARC下，<code>dealloc</code>不能被调用，一般是因为存在Retain Cycle，而导致Retain Cycle的情况可能是下面几种可能(参考<a href="http://kkoval.blogspot.com/2014/03/ios-retain-cycle-in-arc.html">iOS Retain Cycle in ARC</a>和<a href="http://stackoverflow.com/questions/9219030/dealloc-not-being-called-on-arc-app">Dealloc not being called on ARC app</a>):</p>
-
-<h5>1. Blocks</h5>
-
-<p>并不是所有在block中引用<code>self</code>都会带来retain cycle，比如下面的代码就不会有内存泄露：</p>
-
-<pre><code class="objc">- (void)testSelfInCocoaBlocks
-{
-    NSArray *cats = @[@"Smily", @"Garfild", @"Other cat"];
-    [cats enumerateObjectsUsingBlock:^(NSString *cat, NSUInteger idx, BOOL *stop) {
-        [self doSomethingWithCat:cat];
-    }];
-}
-</code></pre>
-
-<p>因为在上面的代码中，block ratain了self，但是self中没有retain这个block。只有当block中引用了self，并且self又以某种方式（比如用一个具有strong属性的Property指向该block，或者将该block加入了self的一个具有strong属性的array中）强引用了该block，才会引起内存泄露，比如：</p>
-
-<pre><code class="objc">- (void)testSelfInBlock
-{
-    self.block = ^{
-        [self doSomethingWithCat:@"Fat Cat"];
-    };
-}
-</code></pre>
-
-<p>有时候即使没有直接引用self，也可能导致self被retain，这叫做“implicit retain”。一种可能的情况就是在block中引用了self的实例变量，比如：</p>
-
-<pre><code class="objc">- (void)testHiddenSelfInCocoaBlocks
-{
-    NSArray *cats = @[@"Smily", @"Garfild", @"Other cat"];
-    [cats enumerateObjectsUsingBlock:^(NSString *cat, NSUInteger idx, BOOL *stop) {
-        _aCat = cat;
-        *stop = YES;
-    }];
-}
-</code></pre>
-
-<p>这段code在block中引用了self的实例变量<code>_aCat</code>。</p>
-
-<p>为了避免implicit retain，可以在xcode的build setting中打开<em>implicit retain of &lsquo;self&rsquo; within blocks</em>，xcode编译器会给出警告。</p>
-
-<h5>2. NSTimer</h5>
-
-<p>如果在view controller中创建了NSTimer，在消失view controller的时候需要调用<code>invalidate</code>，否则会产生ratain cycle。</p>
-
-<h5>3. Observers/NSNotificationCenter</h5>
-
-<p>当我们在NSNotificationCenter的block中引用self的时候，也会产生retain cycle，比如：</p>
-
-<pre><code class="objc">[[NSNotificationCenter defaultCenter] addObserverForName:@"not"
-                                                      object:nil
-                                                       queue:[NSOperationQueue mainQueue]
-                                                  usingBlock:^(NSNotification *note) {
-        [self doSomethingWithCat:@"Noty cat"];
-    }];
-</code></pre>
-
-<p>在不用的时候需要将self从NSNotificationCenter中移除。</p>
-
-<h5>4. Array contained reference</h5>
-
-<p>比如在view controller中将self放在了一个array中，而这个array在view controller消失的时候不会被释放，view controller的<code>dealloc</code>就不会被调用。</p>
-
-<h5>5. Delegate</h5>
-
-<p>delegate的属性应该为weak。</p>
-
-<h4>dealloc没被调用的调试</h4>
-
-<p>调试dealloc没有被调用的情况，参考<a href="http://stackoverflow.com/questions/14890402/instruments-allocations-track-alloc-and-dealloc-of-objects-of-user-defined-class/14891837#14891837">Instruments Allocations track alloc and dealloc of objects of user defined classes</a>，可以看到对应实例在整个生命周期中发生的所有和内存有关的事件，包括malloc，ratain，release等和每次事件的call stack。注意其中的两项设置：</p>
-
-<ul>
-<li>勾选Record reference counts，记录retain，release和autorelease事件。</li>
-<li>为Allocation Lifespan选择All Objects Created，如果你想看到已经被dealloc的实例，这个可以不选。</li>
-<li>在<em>Allocation List -> All Allocations</em> 中可以搜索自己感兴趣的class。</li>
-<li>在reference count页面，注意使用<em>All</em>、<em>uppair</em>等进行过滤。</li>
-</ul>
-
-
-<h3>关于ARC下的retainCount</h3>
-
-<p>在ARC之前，我们可以使用<code>retainCount</code>得到一个Object被retain的次数。
-引入ARC之后，这个方法不能在code中使用，可以使用下面的方法获得retain的次数：</p>
-
-<pre><code class="objc">NSLog(@"Retain count is %ld", CFGetRetainCount((__bridge CFTypeRef)myObject));
-</code></pre>
-
-<p>或者通过设置断点，在调试窗口输入如下命令：</p>
-
-<pre><code>po object.retainCount
-</code></pre>
-
-<blockquote><p> <strong>我们什么时候使用retainCount？</strong></p>
-
-<p><strong>Never！</strong></p></blockquote>
-
-<p>参考 <a href="http://stackoverflow.com/questions/4636146/when-to-use-retaincount">When to use -retainCount?</a>。
-但是偶尔在调试的时候用一下，对于一些内存管理概念的理解还是有好处的，仅此而已。</p>
 ]]></content>
   </entry>
   

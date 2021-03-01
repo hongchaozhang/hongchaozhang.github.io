@@ -4,7 +4,7 @@
   <title><![CDATA[Reading Space]]></title>
   <link href="http://hongchaozhang.github.io/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2021-02-26T18:34:34+08:00</updated>
+  <updated>2021-03-01T17:18:01+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -12,6 +12,533 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[SightReading(视奏)应用开发知识点总结]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2021/03/01/summarize-of-sight-reading-app-developping/"/>
+    <updated>2021-03-01T14:39:00+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2021/03/01/summarize-of-sight-reading-app-developping</id>
+    <content type="html"><![CDATA[<!-- more -->
+
+
+
+
+<!-- TOC -->
+
+
+<ul>
+<li><a href="#%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96">数据持久化</a>
+
+<ul>
+<li><a href="#%E6%96%87%E4%BB%B6%E7%9A%84%E4%BF%9D%E5%AD%98%E5%92%8C%E8%AF%BB%E5%8F%96">文件的保存和读取</a></li>
+<li><a href="#nsdefault%E4%BF%9D%E5%AD%98%E6%A0%87%E7%AD%BE%E4%BF%A1%E6%81%AF">NSDefault：保存标签信息</a></li>
+<li><a href="#%E5%8F%82%E8%80%83">参考</a></li>
+</ul>
+</li>
+<li><a href="#%E6%92%AD%E6%94%BE%E8%8A%82%E6%8B%8D%E5%99%A8%E5%A3%B0%E9%9F%B3">播放节拍器声音</a>
+
+<ul>
+<li><a href="#%E9%80%9A%E8%BF%87avfoundation%E6%92%AD%E6%94%BE%E5%A3%B0%E9%9F%B3">通过AVFoundation播放声音</a></li>
+<li><a href="#%E8%8A%82%E6%8B%8D%E5%99%A8%E9%9F%B3%E9%87%8F%E8%B0%83%E8%8A%82">节拍器音量调节</a></li>
+</ul>
+</li>
+<li><a href="#navigationcontroller%E7%9A%84%E4%BD%BF%E7%94%A8%E5%92%8C%E6%95%B0%E6%8D%AE%E7%9A%84%E4%BC%A0%E9%80%92">navigationController的使用和数据的传递</a>
+
+<ul>
+<li><a href="#%E5%8F%82%E8%80%83">参考</a></li>
+</ul>
+</li>
+<li><a href="#photokit%E7%9A%84%E4%BD%BF%E7%94%A8">PhotoKit的使用</a>
+
+<ul>
+<li><a href="#%E5%8F%82%E8%80%83">参考</a></li>
+</ul>
+</li>
+<li><a href="#alert-view">Alert View</a></li>
+<li><a href="#uiimage">UIImage</a>
+
+<ul>
+<li><a href="#%E5%8F%82%E8%80%83">参考</a></li>
+</ul>
+</li>
+<li><a href="#%E5%8F%AF%E7%BC%96%E8%BE%91%E7%9A%84uitableview">可编辑的UITableView</a></li>
+<li><a href="#calayer--cashapelayer--core-graphics">CALayer &amp; CAShapeLayer &amp; Core Graphics</a></li>
+<li><a href="#%E9%9F%B3%E4%B9%90%E6%9C%AF%E8%AF%AD%E8%8B%B1%E8%AF%AD">音乐术语英语</a></li>
+<li><a href="#swift%E4%B8%AD%E6%9E%84%E9%80%A0%E6%96%B9%E6%B3%95designatedconvenience">swift中构造方法designated，convenience</a>
+
+<ul>
+<li><a href="#%E5%8F%82%E8%80%83">参考</a></li>
+</ul>
+</li>
+<li><a href="#%E7%AC%94%E8%AE%B0%E7%BB%98%E5%88%B6%E5%8A%9F%E8%83%BD">笔记绘制功能</a></li>
+</ul>
+
+
+<!-- /TOC -->
+
+
+<p><a id="markdown-数据持久化" name="数据持久化"></a></p>
+
+<h2>数据持久化</h2>
+
+<p><a id="markdown-文件的保存和读取" name="文件的保存和读取"></a></p>
+
+<h3>文件的保存和读取</h3>
+
+<ul>
+<li>Json文件：每个乐谱页对应一个Json文件。文件保存乐谱每小节的大小和位置信息，以及乐谱的基本信息，包括每小节节拍数和用户设置的速度和Mask偏移量。</li>
+<li>png文件：每个乐谱都有一个乐谱图片，如果用户做了笔记，还有一个笔记图片。</li>
+</ul>
+
+
+<p>保存文件的代码如下：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">func</span> <span class="nf">getRootPath</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">String</span><span class="o">?</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">NSSearchPathForDirectoriesInDomains</span><span class="p">(.</span><span class="n">documentDirectory</span><span class="p">,</span> <span class="p">.</span><span class="n">userDomainMask</span><span class="p">,</span> <span class="nb">true</span><span class="p">).</span><span class="n">first</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">func</span> <span class="n">saveImageFile</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">if</span> <span class="k">let</span> <span class="n">rootPath</span> <span class="o">=</span> <span class="n">Utility</span><span class="p">.</span><span class="n">getRootPath</span><span class="p">(),</span>
+</span><span class='line'>        <span class="k">let</span> <span class="n">imageName</span> <span class="o">=</span> <span class="n">getFileName</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">let</span> <span class="n">imagePath</span> <span class="o">=</span> <span class="s">&quot;\(rootPath)/\(imageName).png&quot;</span>
+</span><span class='line'>        <span class="n">print</span><span class="p">(</span><span class="s">&quot;image path: \(imagePath)&quot;</span><span class="p">)</span>
+</span><span class='line'>        <span class="k">if</span> <span class="k">let</span> <span class="n">image</span> <span class="o">=</span> <span class="n">imageView</span><span class="p">.</span><span class="n">image</span><span class="p">,</span> <span class="k">let</span> <span class="n">imageData</span> <span class="o">=</span> <span class="n">image</span><span class="p">.</span><span class="n">pngData</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>            <span class="n">FileManager</span><span class="p">.</span><span class="k">default</span><span class="p">.</span><span class="n">createFile</span><span class="p">(</span><span class="nl">atPath</span><span class="p">:</span> <span class="n">imagePath</span><span class="p">,</span> <span class="nl">contents</span><span class="p">:</span> <span class="n">imageData</span><span class="p">,</span> <span class="nl">attributes</span><span class="p">:</span> <span class="nb">nil</span><span class="p">)</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">func</span> <span class="nf">saveJsonFile</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">if</span> <span class="k">let</span> <span class="n">rootPath</span> <span class="o">=</span> <span class="n">Utility</span><span class="p">.</span><span class="n">getRootPath</span><span class="p">(),</span>
+</span><span class='line'>        <span class="k">let</span> <span class="n">jsonFileName</span> <span class="o">=</span> <span class="n">getFileName</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">let</span> <span class="n">jsonPath</span> <span class="o">=</span> <span class="s">&quot;\(rootPath)/\(jsonFileName).json&quot;</span>
+</span><span class='line'>        <span class="n">print</span><span class="p">(</span><span class="s">&quot;image path: \(jsonPath)&quot;</span><span class="p">)</span>
+</span><span class='line'>        <span class="k">let</span> <span class="nl">jsonDic</span><span class="p">:</span> <span class="p">[</span><span class="nl">String</span><span class="p">:</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="nl">basicInfoKey</span><span class="p">:</span> <span class="p">[</span><span class="nl">String</span><span class="p">:</span> <span class="n">String</span><span class="p">](),</span> <span class="nl">barFramesKey</span><span class="p">:</span> <span class="n">barFrames</span><span class="p">]</span>
+</span><span class='line'>        <span class="k">if</span> <span class="k">let</span> <span class="n">jsonData</span> <span class="o">=</span> <span class="n">try</span><span class="o">?</span> <span class="bp">NSKeyedArchiver</span><span class="p">.</span><span class="n">archivedData</span><span class="p">(</span><span class="nl">withRootObject</span><span class="p">:</span> <span class="n">jsonDic</span><span class="p">,</span> <span class="nl">requiringSecureCoding</span><span class="p">:</span> <span class="nb">false</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>            <span class="n">FileManager</span><span class="p">.</span><span class="k">default</span><span class="p">.</span><span class="n">createFile</span><span class="p">(</span><span class="nl">atPath</span><span class="p">:</span> <span class="n">jsonPath</span><span class="p">,</span> <span class="nl">contents</span><span class="p">:</span> <span class="n">jsonData</span><span class="p">,</span> <span class="nl">attributes</span><span class="p">:</span> <span class="nb">nil</span><span class="p">)</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>读取文件的代码如下：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">func</span> <span class="nf">loadJsonFile</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">if</span> <span class="k">let</span> <span class="n">rootPath</span> <span class="o">=</span> <span class="n">Utility</span><span class="p">.</span><span class="n">getRootPath</span><span class="p">(),</span>
+</span><span class='line'>        <span class="k">let</span> <span class="n">jsonName</span> <span class="o">=</span> <span class="n">navigationItem</span><span class="p">.</span><span class="n">title</span><span class="p">,</span>
+</span><span class='line'>        <span class="k">let</span> <span class="n">jsonData</span> <span class="o">=</span> <span class="n">FileManager</span><span class="p">.</span><span class="k">default</span><span class="p">.</span><span class="n">contents</span><span class="p">(</span><span class="nl">atPath</span><span class="p">:</span> <span class="s">&quot;\(rootPath)/\(jsonName).json&quot;</span><span class="p">),</span>
+</span><span class='line'>        <span class="k">let</span> <span class="n">jsonObjectAny</span> <span class="o">=</span> <span class="bp">NSKeyedUnarchiver</span><span class="p">.</span><span class="n">unarchiveObject</span><span class="p">(</span><span class="nl">with</span><span class="p">:</span> <span class="n">jsonData</span><span class="p">),</span>
+</span><span class='line'>        <span class="k">let</span> <span class="n">jsonObject</span> <span class="o">=</span> <span class="n">jsonObjectAny</span> <span class="kt">as</span><span class="o">?</span> <span class="p">[</span><span class="nl">String</span><span class="p">:</span> <span class="n">Any</span><span class="p">]</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">if</span> <span class="k">let</span> <span class="n">sheetBasicInfo</span> <span class="o">=</span> <span class="n">jsonObject</span><span class="p">[</span><span class="n">basicInfoKey</span><span class="p">]</span> <span class="kt">as</span><span class="o">?</span> <span class="p">[</span><span class="nl">String</span><span class="p">:</span> <span class="n">String</span><span class="p">]</span> <span class="p">{</span>
+</span><span class='line'>            <span class="nb">self</span><span class="p">.</span><span class="n">sheetBasicInfo</span> <span class="o">=</span> <span class="n">sheetBasicInfo</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="k">if</span> <span class="k">let</span> <span class="n">barFrames</span> <span class="o">=</span> <span class="n">jsonObject</span><span class="p">[</span><span class="n">barFramesKey</span><span class="p">]</span> <span class="kt">as</span><span class="o">?</span> <span class="p">[</span><span class="nl">Int</span><span class="p">:</span> <span class="bp">CGRect</span><span class="p">]</span> <span class="p">{</span>
+</span><span class='line'>            <span class="nb">self</span><span class="p">.</span><span class="n">barFrames</span> <span class="o">=</span>  <span class="n">barFrames</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">func</span> <span class="nf">loadSheetImage</span><span class="p">(</span><span class="n">with</span> <span class="nl">imageName</span><span class="p">:</span> <span class="n">String</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">if</span> <span class="k">let</span> <span class="n">rootPath</span> <span class="o">=</span> <span class="n">Utility</span><span class="p">.</span><span class="n">getRootPath</span><span class="p">(),</span>
+</span><span class='line'>        <span class="k">let</span> <span class="n">sheetImage</span> <span class="o">=</span> <span class="bp">UIImage</span><span class="p">(</span><span class="nl">contentsOfFile</span><span class="p">:</span> <span class="s">&quot;\(rootPath)/\(imageName).png&quot;</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">sheetImageView</span><span class="p">.</span><span class="n">image</span> <span class="o">=</span> <span class="n">sheetImage</span>
+</span><span class='line'>        <span class="n">noteImageView</span><span class="p">.</span><span class="n">image</span> <span class="o">=</span> <span class="bp">UIImage</span><span class="p">(</span><span class="nl">contentsOfFile</span><span class="p">:</span> <span class="s">&quot;\(rootPath)/\(imageName)\(noteImageSubfix).png&quot;</span><span class="p">)</span>
+</span><span class='line'>        <span class="n">layoutImageView</span><span class="p">()</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><a id="markdown-nsdefault保存标签信息" name="nsdefault保存标签信息"></a></p>
+
+<h3>NSDefault：保存标签信息</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="n">UserDefaults</span><span class="p">.</span><span class="n">standard</span><span class="p">.</span><span class="n">setValue</span><span class="p">(</span><span class="n">allTags</span><span class="p">,</span> <span class="nl">forKey</span><span class="p">:</span> <span class="n">allTagsKey</span><span class="p">)</span>
+</span><span class='line'><span class="k">let</span> <span class="n">allTags</span> <span class="o">=</span> <span class="n">UserDefaults</span><span class="p">.</span><span class="n">standard</span><span class="p">.</span><span class="n">value</span><span class="p">(</span><span class="nl">forKey</span><span class="p">:</span> <span class="n">allTagsKey</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><a id="markdown-参考" name="参考"></a></p>
+
+<h3>参考</h3>
+
+<ul>
+<li><a href="https://www.jianshu.com/p/d1c621631f7e">iOS数据本地持久化方法总结</a></li>
+<li><a href="https://cloud.tencent.com/developer/article/1129341">iOS应用数据存储（数据持久化）的常用方式</a></li>
+<li><a href="https://www.jianshu.com/p/fad66bae5484">iOS 将对象序列化成json，写入本地文件</a></li>
+</ul>
+
+
+<p><a id="markdown-播放节拍器声音" name="播放节拍器声音"></a></p>
+
+<h2>播放节拍器声音</h2>
+
+<p><a id="markdown-通过avfoundation播放声音" name="通过avfoundation播放声音"></a></p>
+
+<h3>通过AVFoundation播放声音</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">if</span> <span class="k">let</span> <span class="n">audioUrl</span> <span class="o">=</span> <span class="n">Bundle</span><span class="p">.</span><span class="n">main</span><span class="p">.</span><span class="n">url</span><span class="p">(</span><span class="nl">forResource</span><span class="p">:</span> <span class="s">&quot;FirstMeter&quot;</span><span class="p">,</span> <span class="nl">withExtension</span><span class="p">:</span> <span class="s">&quot;wav&quot;</span><span class="p">,</span> <span class="nl">subdirectory</span><span class="p">:</span> <span class="s">&quot;Resource.bundle&quot;</span><span class="p">)</span>  <span class="p">{</span>
+</span><span class='line'>    <span class="n">AudioServicesCreateSystemSoundID</span><span class="p">(</span><span class="n">audioUrl</span> <span class="kt">as</span> <span class="n">CFURL</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">firstMeterId</span><span class="p">)</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="n">AudioServicesPlaySystemSound</span><span class="p">(</span><span class="nb">self</span><span class="p">.</span><span class="n">firstMeterId</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><a id="markdown-节拍器音量调节" name="节拍器音量调节"></a></p>
+
+<h3>节拍器音量调节</h3>
+
+<p>在设置中，如果“声音->铃声和警报”下面的“跟随按钮”没有打开，那么通过<code>AudioServicesPlaySystemSound()</code>播放的声音就会始终用一个固定的音量播放，其它声音API播放的声音（比如<code>AVAudioPlayer</code>）会跟随系统音量变化音量大小。</p>
+
+<blockquote><p>In Settings app, Sounds->RINGER AND ALERTS, if &lsquo;Change with Buttons&rsquo; is set to Off, then sounds using AudioServicesPlaySystemSound() will always be played at a fixed volume (yet other sound API&rsquo;s such as AVAudioPlayer will respect the volume of the device).</p></blockquote>
+
+<p><a id="markdown-navigationcontroller的使用和数据的传递" name="navigationcontroller的使用和数据的传递"></a></p>
+
+<h2>navigationController的使用和数据的传递</h2>
+
+<p>通过下面两种方法进行ViewController的弹出</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">let</span> <span class="n">playVC</span> <span class="o">=</span> <span class="n">storyBoard</span><span class="p">.</span><span class="n">instantiateViewController</span><span class="p">(</span><span class="nl">identifier</span><span class="p">:</span> <span class="s">&quot;Play&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="n">playVC</span><span class="p">.</span><span class="n">navigationItem</span><span class="p">.</span><span class="n">title</span> <span class="o">=</span> <span class="n">filtedFileNames</span><span class="p">[</span><span class="n">indexPath</span><span class="p">.</span><span class="n">row</span><span class="p">]</span>
+</span><span class='line'><span class="n">navigationController</span><span class="o">?</span><span class="p">.</span><span class="n">pushViewController</span><span class="p">(</span><span class="n">playVC</span><span class="p">,</span> <span class="nl">animated</span><span class="p">:</span> <span class="nb">true</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>或者</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">let</span> <span class="n">colorPickerVC</span> <span class="o">=</span> <span class="n">UIColorPickerViewController</span><span class="p">()</span>
+</span><span class='line'><span class="n">colorPickerVC</span><span class="p">.</span><span class="n">selectedColor</span> <span class="o">=</span> <span class="n">brushColorButton</span><span class="p">.</span><span class="n">selectedColor</span>
+</span><span class='line'><span class="n">colorPickerVC</span><span class="p">.</span><span class="n">delegate</span> <span class="o">=</span> <span class="nb">self</span>
+</span><span class='line'><span class="n">present</span><span class="p">(</span><span class="n">colorPickerVC</span><span class="p">,</span> <span class="nl">animated</span><span class="p">:</span> <span class="nb">true</span><span class="p">,</span> <span class="nl">completion</span><span class="p">:</span> <span class="nb">nil</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>通过delegate进行目标ViewController到源ViewController的方法调用和数据传递，源ViewControler可以直接设置目标ViewController的属性进行数据传递。</p>
+
+<p><a id="markdown-参考" name="参考"></a></p>
+
+<h3>参考</h3>
+
+<ul>
+<li><a href="https://stackoverflow.com/questions/30618172/how-to-send-data-back-by-popviewcontrolleranimated-for-swift">How to send data back by popViewControllerAnimated for Swift?</a></li>
+<li><a href="https://www.jianshu.com/p/319cbc53f0ba">iOS导航控制器——UINavigationController使用详解</a></li>
+<li><a href="https://blog.csdn.net/liuyinghui523/article/details/62036465">一篇较为详细的 Storyboard使用方法 总结</a></li>
+</ul>
+
+
+<p><a id="markdown-photokit的使用" name="photokit的使用"></a></p>
+
+<h2>PhotoKit的使用</h2>
+
+<p>需要在info.plist里面设置<code>NSPhotoLibraryUsageDescription</code>属性，设置在获取权限的时候显示给用户的弹窗中显示的内容。</p>
+
+<p>检查权限状态：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="n">private</span> <span class="k">func</span> <span class="nf">requestPrivilegeAndLoadPhotos</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">let</span> <span class="n">status</span> <span class="o">=</span> <span class="n">PHPhotoLibrary</span><span class="p">.</span><span class="n">authorizationStatus</span><span class="p">()</span>
+</span><span class='line'>    <span class="k">if</span> <span class="n">status</span> <span class="o">==</span> <span class="p">.</span><span class="n">authorized</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">loadPhotos</span><span class="p">()</span>
+</span><span class='line'>    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">PHPhotoLibrary</span><span class="p">.</span><span class="n">requestAuthorization</span> <span class="p">{</span> <span class="p">(</span><span class="n">status</span><span class="p">)</span> <span class="k">in</span>
+</span><span class='line'>            <span class="k">if</span> <span class="n">status</span> <span class="o">==</span> <span class="p">.</span><span class="n">authorized</span> <span class="p">{</span>
+</span><span class='line'>                <span class="nb">self</span><span class="p">.</span><span class="n">loadPhotos</span><span class="p">()</span>
+</span><span class='line'>                <span class="n">DispatchQueue</span><span class="p">.</span><span class="n">main</span><span class="p">.</span><span class="n">async</span> <span class="p">{</span>
+</span><span class='line'>                    <span class="nb">self</span><span class="p">.</span><span class="n">collection</span><span class="p">.</span><span class="n">reloadData</span><span class="p">()</span>
+</span><span class='line'>                <span class="p">}</span>
+</span><span class='line'>            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>                <span class="c1">// use not grant the privilege</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如果用户给了访问相册的权限，通过下面的方法加载所有图片信息：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="n">private</span> <span class="k">func</span> <span class="nf">loadPhotos</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">let</span> <span class="n">allPhotosOptions</span> <span class="o">=</span> <span class="n">PHFetchOptions</span><span class="p">()</span>
+</span><span class='line'>    <span class="n">allPhotosOptions</span><span class="p">.</span><span class="n">sortDescriptors</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSSortDescriptor</span><span class="p">(</span><span class="nl">key</span><span class="p">:</span> <span class="s">&quot;creationDate&quot;</span><span class="p">,</span> <span class="nl">ascending</span><span class="p">:</span> <span class="nb">true</span><span class="p">)]</span>
+</span><span class='line'>    <span class="n">allPhotos</span> <span class="o">=</span> <span class="n">PHAsset</span><span class="p">.</span><span class="n">fetchAssets</span><span class="p">(</span><span class="nl">with</span><span class="p">:</span> <span class="p">.</span><span class="n">image</span><span class="p">,</span> <span class="nl">options</span><span class="p">:</span> <span class="n">allPhotosOptions</span><span class="p">)</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>通过下面方法将所有图片信息显示在collection列表中：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">func</span> <span class="nf">collectionView</span><span class="p">(</span><span class="n">_</span> <span class="nl">collectionView</span><span class="p">:</span> <span class="bp">UICollectionView</span><span class="p">,</span> <span class="n">numberOfItemsInSection</span> <span class="nl">section</span><span class="p">:</span> <span class="n">Int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Int</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">allPhotos</span><span class="p">.</span><span class="n">count</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">func</span> <span class="n">collectionView</span><span class="p">(</span><span class="n">_</span> <span class="nl">collectionView</span><span class="p">:</span> <span class="bp">UICollectionView</span><span class="p">,</span> <span class="n">cellForItemAt</span> <span class="nl">indexPath</span><span class="p">:</span> <span class="n">IndexPath</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">UICollectionViewCell</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">if</span> <span class="k">let</span> <span class="n">cell</span> <span class="o">=</span> <span class="n">collection</span><span class="p">.</span><span class="n">dequeueReusableCell</span><span class="p">(</span><span class="nl">withReuseIdentifier</span><span class="p">:</span> <span class="n">cellIdentifier</span><span class="p">,</span> <span class="k">for</span><span class="o">:</span> <span class="n">indexPath</span><span class="p">)</span> <span class="kt">as</span><span class="o">?</span> <span class="n">PhotoCollectionCell</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">let</span> <span class="n">assert</span> <span class="o">=</span> <span class="n">allPhotos</span><span class="p">.</span><span class="n">object</span><span class="p">(</span><span class="nl">at</span><span class="p">:</span> <span class="n">indexPath</span><span class="p">.</span><span class="n">item</span><span class="p">)</span>
+</span><span class='line'>        <span class="n">PHImageManager</span><span class="p">.</span><span class="k">default</span><span class="p">().</span><span class="n">requestImage</span><span class="p">(</span><span class="k">for</span><span class="o">:</span> <span class="n">assert</span><span class="p">,</span> <span class="nl">targetSize</span><span class="p">:</span> <span class="bp">CGSize</span><span class="p">(</span><span class="nl">width</span><span class="p">:</span> <span class="n">photoCollectionWH</span><span class="p">,</span> <span class="nl">height</span><span class="p">:</span> <span class="n">photoCollectionWH</span><span class="p">),</span> <span class="nl">contentMode</span><span class="p">:</span> <span class="p">.</span><span class="n">aspectFill</span><span class="p">,</span> <span class="nl">options</span><span class="p">:</span> <span class="p">.</span><span class="kr">none</span><span class="p">)</span> <span class="p">{</span> <span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">dic</span><span class="p">)</span> <span class="k">in</span>
+</span><span class='line'>            <span class="k">if</span> <span class="k">let</span> <span class="n">image</span> <span class="o">=</span> <span class="n">image</span> <span class="p">{</span>
+</span><span class='line'>                <span class="n">cell</span><span class="p">.</span><span class="n">imageView</span><span class="p">.</span><span class="n">image</span> <span class="o">=</span> <span class="n">image</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">return</span> <span class="n">cell</span>
+</span><span class='line'>    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">collection</span><span class="p">.</span><span class="n">dequeueReusableCell</span><span class="p">(</span><span class="nl">withReuseIdentifier</span><span class="p">:</span> <span class="n">cellIdentifier</span><span class="p">,</span> <span class="k">for</span><span class="o">:</span> <span class="n">indexPath</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>通过下面方法，将用户选择的图片传给delegate处理（delegate可以是源ViewController）：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">func</span> <span class="nf">collectionView</span><span class="p">(</span><span class="n">_</span> <span class="nl">collectionView</span><span class="p">:</span> <span class="bp">UICollectionView</span><span class="p">,</span> <span class="n">didSelectItemAt</span> <span class="nl">indexPath</span><span class="p">:</span> <span class="n">IndexPath</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">print</span><span class="p">(</span><span class="s">&quot;item: \(indexPath.item)&quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">let</span> <span class="n">assert</span> <span class="o">=</span> <span class="n">allPhotos</span><span class="p">.</span><span class="n">object</span><span class="p">(</span><span class="nl">at</span><span class="p">:</span> <span class="n">indexPath</span><span class="p">.</span><span class="n">item</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">PHImageManager</span><span class="p">.</span><span class="k">default</span><span class="p">().</span><span class="n">requestImage</span><span class="p">(</span><span class="k">for</span><span class="o">:</span> <span class="n">assert</span><span class="p">,</span> <span class="nl">targetSize</span><span class="p">:</span> <span class="bp">CGSize</span><span class="p">(</span><span class="nl">width</span><span class="p">:</span> <span class="n">assert</span><span class="p">.</span><span class="n">pixelWidth</span><span class="p">,</span> <span class="nl">height</span><span class="p">:</span> <span class="n">assert</span><span class="p">.</span><span class="n">pixelHeight</span><span class="p">),</span> <span class="nl">contentMode</span><span class="p">:</span> <span class="p">.</span><span class="n">aspectFill</span><span class="p">,</span> <span class="nl">options</span><span class="p">:</span> <span class="p">.</span><span class="kr">none</span><span class="p">)</span> <span class="p">{</span> <span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">dic</span><span class="p">)</span> <span class="k">in</span>
+</span><span class='line'>        <span class="k">if</span> <span class="k">let</span> <span class="n">image</span> <span class="o">=</span> <span class="n">image</span> <span class="p">{</span>
+</span><span class='line'>            <span class="nb">self</span><span class="p">.</span><span class="n">delegate</span><span class="o">?</span><span class="p">.</span><span class="kr">set</span><span class="p">(</span><span class="nl">image</span><span class="p">:</span> <span class="n">image</span><span class="p">,</span> <span class="nl">and</span><span class="p">:</span> <span class="nb">nil</span><span class="p">)</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><a id="markdown-参考" name="参考"></a></p>
+
+<h3>参考</h3>
+
+<ul>
+<li><a href="https://developer.apple.com/documentation/photokit">官方文档：PhotoKit</a></li>
+<li><a href="https://www.raywenderlich.com/11764166-getting-started-with-photokit">Getting Started with PhotoKit</a></li>
+</ul>
+
+
+<p><a id="markdown-alert-view" name="alert-view"></a></p>
+
+<h2>Alert View</h2>
+
+<p><a href="https://learnappmaking.com/uialertcontroller-alerts-swift-how-to/">Displaying Alerts with UIAlertController in Swift</a></p>
+
+<p><a id="markdown-uiimage" name="uiimage"></a></p>
+
+<h2>UIImage</h2>
+
+<p>下面两个图片加载方法对cache的运用是不一样的：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="p">+</span> <span class="p">(</span><span class="bp">UIImage</span> <span class="o">*</span><span class="p">)</span><span class="nf">imageNamed:</span><span class="p">(</span><span class="bp">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">name</span><span class="o">:</span> <span class="n">use</span> <span class="n">cached</span> <span class="n">images</span>
+</span><span class='line'><span class="o">+</span> <span class="p">(</span><span class="bp">UIImage</span> <span class="o">*</span><span class="p">)</span><span class="nl">imageWithContentsOfFile</span><span class="p">:(</span><span class="bp">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nl">path</span><span class="p">:</span> <span class="n">skip</span> <span class="n">cached</span> <span class="n">images</span> <span class="n">and</span> <span class="n">read</span> <span class="n">data</span> <span class="n">directly</span> <span class="n">from</span> <span class="n">file</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><a id="markdown-参考" name="参考"></a></p>
+
+<h3>参考</h3>
+
+<p><a href="https://medium.com/@maximbilan/ios-uiimage-cache-92563c3ae3c2">iOS UIImage Cache</a></p>
+
+<p><a id="markdown-可编辑的uitableview" name="可编辑的uitableview"></a></p>
+
+<h2>可编辑的UITableView</h2>
+
+<p>通过实现下面方法保证每个cell支持左滑操作：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">func</span> <span class="n">tableView</span><span class="p">(</span><span class="n">_</span> <span class="nl">tableView</span><span class="p">:</span> <span class="bp">UITableView</span><span class="p">,</span> <span class="n">canEditRowAt</span> <span class="nl">indexPath</span><span class="p">:</span> <span class="n">IndexPath</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bool</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="nb">true</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>通过实现下面的方法，左滑之后显示两个按钮: Edit Tags和Delete</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">func</span> <span class="nf">tableView</span><span class="p">(</span><span class="n">_</span> <span class="nl">tableView</span><span class="p">:</span> <span class="bp">UITableView</span><span class="p">,</span> <span class="n">editActionsForRowAt</span> <span class="nl">indexPath</span><span class="p">:</span> <span class="n">IndexPath</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="n">UITableViewRowAction</span><span class="p">]</span><span class="o">?</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">let</span> <span class="n">deleteAction</span> <span class="o">=</span> <span class="n">UITableViewRowAction</span><span class="p">(</span><span class="nl">style</span><span class="p">:</span> <span class="p">.</span><span class="n">destructive</span><span class="p">,</span> <span class="nl">title</span><span class="p">:</span> <span class="s">&quot;Delete&quot;</span><span class="p">)</span> <span class="p">{</span> <span class="p">(</span><span class="n">action</span><span class="p">,</span> <span class="n">indexPath</span><span class="p">)</span> <span class="k">in</span>
+</span><span class='line'>        <span class="nb">self</span><span class="p">.</span><span class="n">deleteItem</span><span class="p">(</span><span class="nl">at</span><span class="p">:</span> <span class="n">indexPath</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="k">let</span> <span class="n">editAction</span> <span class="o">=</span> <span class="n">UITableViewRowAction</span><span class="p">(</span><span class="nl">style</span><span class="p">:</span> <span class="p">.</span><span class="k">default</span><span class="p">,</span> <span class="nl">title</span><span class="p">:</span> <span class="s">&quot;Edit Tags&quot;</span><span class="p">)</span> <span class="p">{</span> <span class="p">(</span><span class="n">action</span><span class="p">,</span> <span class="n">indexPath</span><span class="p">)</span> <span class="k">in</span>
+</span><span class='line'>        <span class="nb">self</span><span class="p">.</span><span class="n">editTags</span><span class="p">(</span><span class="k">for</span><span class="o">:</span> <span class="n">indexPath</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="n">editAction</span><span class="p">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="bp">UIColor</span><span class="p">(</span><span class="nl">displayP3Red</span><span class="p">:</span> <span class="mi">60</span><span class="o">/</span><span class="mi">255</span><span class="p">,</span> <span class="nl">green</span><span class="p">:</span> <span class="mi">148</span><span class="o">/</span><span class="mi">255</span><span class="p">,</span> <span class="nl">blue</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span> <span class="nl">alpha</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">deleteAction</span><span class="p">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="p">.</span><span class="n">red</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">return</span> <span class="p">[</span><span class="n">deleteAction</span><span class="p">,</span> <span class="n">editAction</span><span class="p">]</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><a id="markdown-calayer--cashapelayer--core-graphics" name="calayer--cashapelayer--core-graphics"></a></p>
+
+<h2>CALayer &amp; CAShapeLayer &amp; Core Graphics</h2>
+
+<p>这一块的内容太多，希望有时间可以单独总结一下。</p>
+
+<p><a id="markdown-音乐术语英语" name="音乐术语英语"></a></p>
+
+<h2>音乐术语英语</h2>
+
+<p><a href="https://zhuanlan.zhihu.com/p/35999407">音乐术语英文名称汇总</a></p>
+
+<p><a id="markdown-swift中构造方法designatedconvenience" name="swift中构造方法designatedconvenience"></a></p>
+
+<h2>swift中构造方法designated，convenience</h2>
+
+<p>官方文档中有如下描述：</p>
+
+<ol>
+<li>子类designated构造方法中必须调用父类的designated构造方法。</li>
+<li>convenience构造方法中必须调用当前类的构造方法。</li>
+<li>convenience构造方法归根结底要调用到designated构造方法。</li>
+</ol>
+
+
+<p><img src="http://hongchaozhang.github.io/images/swift_init_method.webp" alt="swift init methods" /></p>
+
+<p><a id="markdown-参考" name="参考"></a></p>
+
+<h3>参考</h3>
+
+<ul>
+<li><a href="https://www.jianshu.com/p/e2cce123a5af">Swift之init构造方法</a></li>
+</ul>
+
+
+<p><a id="markdown-笔记绘制功能" name="笔记绘制功能"></a></p>
+
+<h2>笔记绘制功能</h2>
+
+<p>通过第三方库<a href="https://github.com/e7711bbear/ATSketchKit">STSketchKit</a>实现笔记功能支持Undo/Redo操作。官方介绍如下：</p>
+
+<blockquote><p>ATSketchKit is a drawing / sketching framework for iOS written in Swift.</p>
+
+<p>It can be used as the foundation for an artistic app, a simple signature feature or more inteligent graph designing app.</p></blockquote>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[帮助练习钢琴视奏的应用SightReading]]></title>
@@ -91,6 +618,17 @@
 <h3>移动Mask时换页的逻辑</h3>
 
 <p>在前一页最后一些节需要显示Mask的时候直接换页到下一页，因为这个时候演奏者已经看完了前一页的最后一小节，并且需要预读下一页的第一小节。</p>
+
+<h2>TODOs</h2>
+
+<ol>
+<li>笔记页面不能改变图片大小，比如转屏、全屏等，因为绘制等path坐标没有做相应的更改，会错位。</li>
+<li>笔记页面的橡皮擦功能还不支持。现在的橡皮擦功能实际上就是不同颜色的画笔功能，需要真正实现橡皮擦功能，需要对所有的<code>ATShapeLayer</code>进行修改，添加一个完全透明的橡皮擦的path。</li>
+<li>标签本身不支持编辑功能，比如修改标签名称、删除标签。</li>
+<li>界面只支持英文，需要翻译成中文。</li>
+<li>对于变节拍的乐曲还不支持。如果某些小节拍数会变化，那么节拍器和Mask显示逻辑需要重新考虑。</li>
+</ol>
+
 ]]></content>
   </entry>
   
@@ -3897,9 +4435,11 @@
 <p>如何认大调呢？分两种情况：调号是#记号和调号是b记号。</p>
 
 <ul>
-<li>调号是#记号找do：上“2”找do，从最后的一个#算起，向上第二个音就是调名（也就是与最后一个#记号对应的音为二度音程的上方音，如果向下数，就要是七度音了）。比如上图中的1 = D，就是最后一个升号的位置（C）的向上第二个音（D），因此就是D大调。</li>
-<li>调号是b记号找do：下“4”找do，从最后一个b算起，向下第四个音就是调名（也就是与最后一个b记号对应的音为四度音程的下方音，如果是向上数，就要是五度音了）。比如上图中的1 = bB，就是最后一个降号的位置（bE）的向下第四个音（bB），因此就是bB大调。
-如果是#记号向下数7（或向上数2 —— 就是升记号的上一个位置）找do（主音），比如一个# 记号在F的位置，向上数2是G，所以就是G大调。</li>
+<li><strong>升记号（#）升的音的顺序是F-C-G-D-A-E-B（fa-do-sol-ray-si-mi-la）。降记号（b）与升级好恰好相反，降的音的顺序依次是B-E-A-D-G-C-F（la-mi-si-ray-sol-do-fa）。</strong></li>
+<li>调号是#记号的，上“2”找do，从最后的一个#算起，向上第二个音就是调名（也就是与最后一个#记号对应的音为二度音程的上方音，如果向下数，就要是七度音了）。比如上图中的1 = D，就是最后一个升号的位置（C）的向上第二个音（D），因此就是D大调。</li>
+<li><del>调号是b记号找do：下“4”找do，从最后一个b算起，向下第四个音就是调名（也就是与最后一个b记号对应的音为四度音程的下方音，如果是向上数，就要是五度音了）。比如上图中的1 = bB，就是最后一个降号的位置（bE）的向下第四个音（bB），因此就是bB大调。
+如果是#记号向下数7（或向上数2 —— 就是升记号的上一个位置）找do（主音），比如一个# 记号在F的位置，向上数2是G，所以就是G大调。</del></li>
+<li>调号是b记号的，看倒数第二个b记号对应的音即为调名。F大调（只有一个bB）例外。</li>
 </ul>
 
 
@@ -4535,202 +5075,6 @@ VI常用在重属和弦的前方，在学习重属和弦时，我们知道其前
 <li>即兴伴奏教学系列61——六四和弦的使用（下）：经过六四和同和弦反复六四</li>
 <li>即兴伴奏教学系列62——平行调的使用</li>
 <li>即兴伴奏教学系列63——最后一课：和弦的地位</li>
-</ol>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[理解CSS中的z-index]]></title>
-    <link href="http://hongchaozhang.github.io/blog/2020/05/18/understand-css-z-index/"/>
-    <updated>2020-05-18T18:20:46+08:00</updated>
-    <id>http://hongchaozhang.github.io/blog/2020/05/18/understand-css-z-index</id>
-    <content type="html"><![CDATA[<p>CSS中的<code>z-index</code>和iOS中的非常不一样：iOS非常简单，所有的<code>z-index</code>设置只在parent视图（view）中起作用。但是，CSS的<code>z-index</code>的作用范围却可以超出parent的限制。</p>
-
-<!-- more -->
-
-
-<h2>Stacking Context</h2>
-
-<p><code>z-index</code>只在其所属的Stacking Context中起作用。但是，什么是Stacking Context？Stacking Context hirarchy和Html Elements Tree hirarchy又有什么区别？</p>
-
-<p>MDN上面的<a href="https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Positioning/Understanding_z_index/The_stacking_context">The stacking context</a>讲的非常清楚，抄下来。</p>
-
-<p>the rendering order of certain elements is influenced by their z-index value. This occurs because these elements have special properties which cause them to form a stacking context.</p>
-
-<p>A stacking context is formed, anywhere in the document, by any element in the following scenarios:</p>
-
-<ol>
-<li>Root element of the document (<html>).</li>
-<li><strong>Element with a <code>position</code> value absolute or relative and <code>z-index</code> value other than auto.</strong></li>
-<li>Element with a <code>position</code> value <code>fixed</code> or <code>sticky</code> (sticky for all mobile browsers, but not older desktop).</li>
-<li>Element that is a child of a flex (<code>flexbox</code>) container, with <code>z-index</code> value other than auto.</li>
-<li>Element that is a child of a grid (<code>grid</code>) container, with <code>z-index</code> value other than auto.</li>
-<li><strong>Element with a <code>opacity</code> value less than 1.</strong></li>
-<li>Element with a <code>mix-blend-mode</code> value other than <code>normal</code>.</li>
-<li>Element with any of the following properties with value other than none:
-
-<ul>
-<li><strong><code>transform</code></strong></li>
-<li><code>filter</code></li>
-<li><code>perspective</code></li>
-<li><code>clip-path</code></li>
-<li><code>mask</code> / <code>mask-image</code> / <code>mask-border</code></li>
-</ul>
-</li>
-<li>Element with a <code>isolation</code> value <code>isolate</code>.</li>
-<li>Element with a <code>-webkit-overflow-scrolling</code> value touch.</li>
-<li>Element with a <code>will-change</code> value specifying any property that would create a stacking context on non-initial value (see this <a href="https://dev.opera.com/articles/css-will-change-property/">post</a>).</li>
-<li>Element with a <code>contain</code> value of <code>layout</code>, or <code>paint</code>, or a composite value that includes either of them (i.e. <code>contain: strict</code>, <code>contain: content</code>).</li>
-</ol>
-
-
-<blockquote><p><strong>Note</strong>:
-1. The hierarchy of stacking contexts is a subset of the hierarchy of HTML elements because only certain elements create stacking contexts.
-2. iOS可以看成Stacking Context hirarchy和view hirarchy相同的一个特例。</p>
-
-<h2>同一Stacking Context中的元素的排序</h2></blockquote>
-
-<p>在同一Stacking Context内部，前后顺序是怎么排列的呢？</p>
-
-<p>简单地说，顺序大致如下：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>            |      |         |    |
-</span><span class='line'>            |           |    |    |   ⇦ ☻
-</span><span class='line'>            |           |         |   user
-</span><span class='line'>z-index:  canvas  -1    0    1    2</span></code></pre></td></tr></table></div></figure>
-
-
-<p>from back to front:</p>
-
-<ol>
-<li>The stacking context’s root element</li>
-<li>Positioned elements (and their children) with negative z-index values (higher values are stacked in front of lower values; elements with the same value are stacked according to appearance in the HTML)</li>
-<li>Non-positioned elements (ordered by appearance in the HTML)</li>
-<li>Positioned elements (and their children) with a z-index value of auto (ordered by appearance in the HTML)</li>
-<li>Positioned elements (and their children) with positive z-index values (higher values are stacked in front of lower values; elements with the same value are stacked according to appearance in the HTML)</li>
-</ol>
-
-
-<p>更全面详细的说明见<a href="https://www.w3.org/TR/CSS2/zindex.html">Appendix E. Elaborate description of Stacking Contexts</a>。</p>
-
-<blockquote><p><strong>Note:</strong>
-这里有一点和iOS很不同：子元素可以跑到父元素的后面 （<code>z-index</code>小于0）。</p></blockquote>
-
-<h2>例子</h2>
-
-<p>我们可以借助下面的例子来理解Stacking Context。</p>
-
-<p>下面三个正方形的前后顺序：</p>
-
-<p><img src="http://hongchaozhang.github.io/images/CSS_zIndex.png" alt="" /></p>
-
-<p>其实现代码的html如下：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;div&gt;</span>
-</span><span class='line'>  <span class="nt">&lt;span</span> <span class="na">class=</span><span class="s">&quot;red&quot;</span><span class="nt">&gt;</span>Red<span class="nt">&lt;/span&gt;</span>
-</span><span class='line'><span class="nt">&lt;/div&gt;</span>
-</span><span class='line'><span class="nt">&lt;div&gt;</span>
-</span><span class='line'>  <span class="nt">&lt;span</span> <span class="na">class=</span><span class="s">&quot;green&quot;</span><span class="nt">&gt;</span>Green<span class="nt">&lt;/span&gt;</span>
-</span><span class='line'><span class="nt">&lt;/div&gt;</span>
-</span><span class='line'><span class="nt">&lt;div&gt;</span>
-</span><span class='line'>  <span class="nt">&lt;span</span> <span class="na">class=</span><span class="s">&quot;blue&quot;</span><span class="nt">&gt;</span>Blue<span class="nt">&lt;/span&gt;</span>
-</span><span class='line'><span class="nt">&lt;/div&gt;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>CSS代码如下：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-</pre></td><td class='code'><pre><code class='css'><span class='line'><span class="nc">.red</span><span class="o">,</span> <span class="nc">.green</span><span class="o">,</span> <span class="nc">.blue</span> <span class="p">{</span>
-</span><span class='line'>  <span class="k">position</span><span class="o">:</span> <span class="k">absolute</span><span class="p">;</span>
-</span><span class='line'>  <span class="k">width</span><span class="o">:</span> <span class="m">100px</span><span class="p">;</span>
-</span><span class='line'>  <span class="k">color</span><span class="o">:</span> <span class="nb">white</span><span class="p">;</span>
-</span><span class='line'>  <span class="k">line-height</span><span class="o">:</span> <span class="m">100px</span><span class="p">;</span>
-</span><span class='line'>  <span class="k">text-align</span><span class="o">:</span> <span class="k">center</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="nc">.red</span> <span class="p">{</span>
-</span><span class='line'>  <span class="k">z-index</span><span class="o">:</span> <span class="m">1</span><span class="p">;</span>
-</span><span class='line'>  <span class="k">top</span><span class="o">:</span> <span class="m">20px</span><span class="p">;</span>
-</span><span class='line'>  <span class="k">left</span><span class="o">:</span> <span class="m">20px</span><span class="p">;</span>
-</span><span class='line'>  <span class="k">background</span><span class="o">:</span> <span class="nb">red</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="nc">.green</span> <span class="p">{</span>
-</span><span class='line'>  <span class="k">top</span><span class="o">:</span> <span class="m">60px</span><span class="p">;</span>
-</span><span class='line'>  <span class="k">left</span><span class="o">:</span> <span class="m">60px</span><span class="p">;</span>
-</span><span class='line'>  <span class="k">background</span><span class="o">:</span> <span class="nb">green</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="nc">.blue</span> <span class="p">{</span>
-</span><span class='line'>  <span class="k">top</span><span class="o">:</span> <span class="m">100px</span><span class="p">;</span>
-</span><span class='line'>  <span class="k">left</span><span class="o">:</span> <span class="m">100px</span><span class="p">;</span>
-</span><span class='line'>  <span class="k">background</span><span class="o">:</span> <span class="nb">blue</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>怎样才能让红色的正方形回到最底层呢？</p>
-
-<p>只需要在CSS中加入下面一段即可：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='css'><span class='line'><span class="nt">div</span><span class="nd">:first-child</span> <span class="p">{</span>
-</span><span class='line'>  <span class="k">opacity</span><span class="o">:</span> <span class="o">.</span><span class="m">99</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>将红色正方形的父元素变成Stacking Context，那么红色元素对应的span的<code>z-index</code>就只能在其父元素中起作用，而不能超出父元素了。</p>
-
-<p>这个例子没有什么实际意义，但是对于我们理解<code>z-index</code>起作用的范围却十分清楚。</p>
-
-<h2>参考</h2>
-
-<ol>
-<li><a href="https://www.w3.org/TR/CSS2/zindex.html">Appendix E. Elaborate description of Stacking Contexts</a></li>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Positioning/Understanding_z_index/The_stacking_context">The stacking context</a></li>
 </ol>
 
 ]]></content>
