@@ -8,7 +8,7 @@ categories: [ios, music]
 
 <!-- more -->
 
-参[SightReading](https://github.com/hongchaozhang/SightReading)获取应用代码和使用方法。
+参考[SightReading](https://github.com/hongchaozhang/SightReading)获取应用代码和详细使用方法。
 
 ## 类图和数据结构
 
@@ -41,7 +41,7 @@ categories: [ios, music]
         "maskOffset" : "1" // Mask偏移
     },
     "bar frames" : {
-        1 : CGRect(0.01, 0.02, 0.11, 0.12), // 小节序号和小节位置大小的相对于整个乐谱图片的大小，最终显示的时候需要根据实际显示的乐谱的大小算出每个小节的位置和大小
+        1 : CGRect(0.01, 0.02, 0.11, 0.12), // 小节序号和小节位置大小（是一个比例值，相对于整个乐谱图片的大小），最终显示的时候需要根据实际显示的乐谱的大小算出每个小节的位置和大小
         2 : CGRect(0.13, 0.03, 0.12, 0.11),
         .
         .
