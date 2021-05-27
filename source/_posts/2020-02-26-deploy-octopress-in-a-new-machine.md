@@ -14,6 +14,7 @@ categories: [productivity]
 - [问题](#问题)
     - [问题1: rake版本问题](#问题1-rake版本问题)
     - [问题2: `rake deploy`错误](#问题2-rake-deploy错误)
+    - [问题3: `bundle install`错误](#问题3-bundle-install错误)
 - [参考](#参考)
 
 <!-- /TOC -->
@@ -83,6 +84,15 @@ git clone git@github.com:username/username.github.io.git _deploy
 解决。
 
 当你在多台机器上同时工作时，经常会出现这个问题。
+
+<a id="markdown-问题3-bundle-install错误" name="问题3-bundle-install错误"></a>
+
+### 问题3: `bundle install`错误
+运行`bundle install`的时候出现错误：
+```
+Could not find ffi-1.9.18 in any of the sources...
+```
+需要运行一下`bundle update`,再运行`bundle install`。
 
 <a id="markdown-参考" name="参考"></a>
 
