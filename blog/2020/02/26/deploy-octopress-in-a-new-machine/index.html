@@ -10,9 +10,8 @@
 
 	
 	<meta name="description" content="迁移Octopress到新的机器上 问题 问题1: rake版本问题
-问题2: rake deploy错误 参考 问题 在新到Mac上面部署Octopress的时候遇到了几个问题。 将github上面的资源clone到本地，并切换到source分支： 1
-2
-git clone -b &hellip;">
+问题2: rake deploy错误
+问题3: bundle install错误 参考 问题 在新到Mac上面部署Octopress的时候遇到了几个问题。 将github上面的资源clone到本地，并切换到source分支： &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -96,7 +95,7 @@ git clone -b &hellip;">
 
 
 <section class="categories">
-          <ul id="category_cloud" class="nav nav-list"><a href='/blog/categories/algorithm' style='font-size: 101.33333333333333%'>algorithm(1)</a> <a href='/blog/categories/android' style='font-size: 108.0%'>android(6)</a> <a href='/blog/categories/android-studio' style='font-size: 101.33333333333333%'>android studio(1)</a> <a href='/blog/categories/augmented-reality' style='font-size: 105.33333333333333%'>augmented reality(4)</a> <a href='/blog/categories/css' style='font-size: 101.33333333333333%'>css(1)</a> <a href='/blog/categories/design-pattern' style='font-size: 104.0%'>design pattern(3)</a> <a href='/blog/categories/html' style='font-size: 101.33333333333333%'>html(1)</a> <a href='/blog/categories/html-css' style='font-size: 101.33333333333333%'>html css(1)</a> <a href='/blog/categories/ios' style='font-size: 160.0%'>ios(45)</a> <a href='/blog/categories/java' style='font-size: 102.66666666666667%'>java(2)</a> <a href='/blog/categories/javascript' style='font-size: 102.66666666666667%'>javascript(2)</a> <a href='/blog/categories/machine-learning' style='font-size: 112.0%'>machine learning(9)</a> <a href='/blog/categories/map-tech' style='font-size: 104.0%'>map tech(3)</a> <a href='/blog/categories/mobile' style='font-size: 101.33333333333333%'>mobile(1)</a> <a href='/blog/categories/music' style='font-size: 109.33333333333333%'>music(7)</a> <a href='/blog/categories/nlp' style='font-size: 102.66666666666667%'>nlp(2)</a> <a href='/blog/categories/nlu' style='font-size: 102.66666666666667%'>nlu(2)</a> <a href='/blog/categories/node' style='font-size: 104.0%'>node(3)</a> <a href='/blog/categories/objective-c' style='font-size: 129.33333333333334%'>objective-c(22)</a> <a href='/blog/categories/philosophy' style='font-size: 102.66666666666667%'>philosophy(2)</a> <a href='/blog/categories/productivity' style='font-size: 129.33333333333334%'>productivity(22)</a> <a href='/blog/categories/python' style='font-size: 106.66666666666667%'>python(5)</a> <a href='/blog/categories/reading' style='font-size: 137.33333333333334%'>reading(28)</a> <a href='/blog/categories/swift' style='font-size: 109.33333333333333%'>swift(7)</a> <a href='/blog/categories/web' style='font-size: 106.66666666666667%'>web(5)</a> <a href='/blog/categories/wwdc' style='font-size: 102.66666666666667%'>wwdc(2)</a> <a href='/blog/categories/xcode' style='font-size: 110.66666666666667%'>xcode(8)</a> </ul>
+          <ul id="category_cloud" class="nav nav-list"><a href='/blog/categories/algorithm' style='font-size: 101.33333333333333%'>algorithm(1)</a> <a href='/blog/categories/android' style='font-size: 108.0%'>android(6)</a> <a href='/blog/categories/android-studio' style='font-size: 101.33333333333333%'>android studio(1)</a> <a href='/blog/categories/augmented-reality' style='font-size: 105.33333333333333%'>augmented reality(4)</a> <a href='/blog/categories/css' style='font-size: 101.33333333333333%'>css(1)</a> <a href='/blog/categories/design-pattern' style='font-size: 104.0%'>design pattern(3)</a> <a href='/blog/categories/html' style='font-size: 101.33333333333333%'>html(1)</a> <a href='/blog/categories/html-css' style='font-size: 101.33333333333333%'>html css(1)</a> <a href='/blog/categories/http' style='font-size: 101.33333333333333%'>http(1)</a> <a href='/blog/categories/ios' style='font-size: 160.0%'>ios(45)</a> <a href='/blog/categories/java' style='font-size: 102.66666666666667%'>java(2)</a> <a href='/blog/categories/javascript' style='font-size: 102.66666666666667%'>javascript(2)</a> <a href='/blog/categories/machine-learning' style='font-size: 112.0%'>machine learning(9)</a> <a href='/blog/categories/map-tech' style='font-size: 104.0%'>map tech(3)</a> <a href='/blog/categories/mobile' style='font-size: 101.33333333333333%'>mobile(1)</a> <a href='/blog/categories/music' style='font-size: 109.33333333333333%'>music(7)</a> <a href='/blog/categories/nlp' style='font-size: 102.66666666666667%'>nlp(2)</a> <a href='/blog/categories/nlu' style='font-size: 102.66666666666667%'>nlu(2)</a> <a href='/blog/categories/node' style='font-size: 104.0%'>node(3)</a> <a href='/blog/categories/objective-c' style='font-size: 129.33333333333334%'>objective-c(22)</a> <a href='/blog/categories/philosophy' style='font-size: 102.66666666666667%'>philosophy(2)</a> <a href='/blog/categories/productivity' style='font-size: 129.33333333333334%'>productivity(22)</a> <a href='/blog/categories/python' style='font-size: 106.66666666666667%'>python(5)</a> <a href='/blog/categories/reading' style='font-size: 137.33333333333334%'>reading(28)</a> <a href='/blog/categories/swift' style='font-size: 109.33333333333333%'>swift(7)</a> <a href='/blog/categories/web' style='font-size: 108.0%'>web(6)</a> <a href='/blog/categories/wwdc' style='font-size: 102.66666666666667%'>wwdc(2)</a> <a href='/blog/categories/xcode' style='font-size: 110.66666666666667%'>xcode(8)</a> </ul>
       </section>
 
 
@@ -124,6 +123,7 @@ git clone -b &hellip;">
 <ul>
 <li><a href="#%E9%97%AE%E9%A2%981-rake%E7%89%88%E6%9C%AC%E9%97%AE%E9%A2%98">问题1: rake版本问题</a></li>
 <li><a href="#%E9%97%AE%E9%A2%982-rake-deploy%E9%94%99%E8%AF%AF">问题2: <code>rake deploy</code>错误</a></li>
+<li><a href="#%E9%97%AE%E9%A2%983-bundle-install%E9%94%99%E8%AF%AF">问题3: <code>bundle install</code>错误</a></li>
 </ul>
 </li>
 <li><a href="#%E5%8F%82%E8%80%83">参考</a></li>
@@ -206,6 +206,18 @@ git clone -b &hellip;">
 <p>解决。</p>
 
 <p>当你在多台机器上同时工作时，经常会出现这个问题。</p>
+
+<p><a id="markdown-问题3-bundle-install错误" name="问题3-bundle-install错误"></a></p>
+
+<h3>问题3: <code>bundle install</code>错误</h3>
+
+<p>运行<code>bundle install</code>的时候出现错误：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Could not find ffi-1.9.18 in any of the sources...</span></code></pre></td></tr></table></div></figure>
+
+
+<p>需要运行一下<code>bundle update</code>,再运行<code>bundle install</code>。</p>
 
 <p><a id="markdown-参考" name="参考"></a></p>
 

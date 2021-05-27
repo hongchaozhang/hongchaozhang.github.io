@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ios | Reading Space]]></title>
   <link href="http://hongchaozhang.github.io/blog/categories/ios/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2021-03-01T18:38:05+08:00</updated>
+  <updated>2021-05-27T16:15:28+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -487,7 +487,7 @@ func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -&gt
     <content type="html"><![CDATA[<!-- more -->
 
 
-<p>参<a href="https://github.com/hongchaozhang/SightReading">SightReading</a>获取应用代码和使用方法。</p>
+<p>参考<a href="https://github.com/hongchaozhang/SightReading">SightReading</a>获取应用代码和详细使用方法。</p>
 
 <h2>类图和数据结构</h2>
 
@@ -521,7 +521,7 @@ func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -&gt
         "maskOffset" : "1" // Mask偏移
     },
     "bar frames" : {
-        1 : CGRect(0.01, 0.02, 0.11, 0.12), // 小节序号和小节位置大小的相对于整个乐谱图片的大小，最终显示的时候需要根据实际显示的乐谱的大小算出每个小节的位置和大小
+        1 : CGRect(0.01, 0.02, 0.11, 0.12), // 小节序号和小节位置大小（是一个比例值，相对于整个乐谱图片的大小），最终显示的时候需要根据实际显示的乐谱的大小算出每个小节的位置和大小
         2 : CGRect(0.13, 0.03, 0.12, 0.11),
         .
         .

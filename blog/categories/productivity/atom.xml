@@ -4,7 +4,7 @@
   <title><![CDATA[Category: productivity | Reading Space]]></title>
   <link href="http://hongchaozhang.github.io/blog/categories/productivity/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2021-03-01T18:38:05+08:00</updated>
+  <updated>2021-05-27T16:15:28+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -311,6 +311,7 @@ tree.write('modifyChinaCity.kml')
 <ul>
 <li><a href="#%E9%97%AE%E9%A2%981-rake%E7%89%88%E6%9C%AC%E9%97%AE%E9%A2%98">问题1: rake版本问题</a></li>
 <li><a href="#%E9%97%AE%E9%A2%982-rake-deploy%E9%94%99%E8%AF%AF">问题2: <code>rake deploy</code>错误</a></li>
+<li><a href="#%E9%97%AE%E9%A2%983-bundle-install%E9%94%99%E8%AF%AF">问题3: <code>bundle install</code>错误</a></li>
 </ul>
 </li>
 <li><a href="#%E5%8F%82%E8%80%83">参考</a></li>
@@ -379,6 +380,16 @@ git clone git@github.com:username/username.github.io.git _deploy
 <p>解决。</p>
 
 <p>当你在多台机器上同时工作时，经常会出现这个问题。</p>
+
+<p><a id="markdown-问题3-bundle-install错误" name="问题3-bundle-install错误"></a></p>
+
+<h3>问题3: <code>bundle install</code>错误</h3>
+
+<p>运行<code>bundle install</code>的时候出现错误：
+<code>
+Could not find ffi-1.9.18 in any of the sources...
+</code>
+需要运行一下<code>bundle update</code>,再运行<code>bundle install</code>。</p>
 
 <p><a id="markdown-参考" name="参考"></a></p>
 
