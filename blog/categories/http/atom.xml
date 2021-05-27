@@ -4,7 +4,7 @@
   <title><![CDATA[Category: http | Reading Space]]></title>
   <link href="http://hongchaozhang.github.io/blog/categories/http/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2021-05-27T16:15:28+08:00</updated>
+  <updated>2021-05-27T17:31:37+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -20,6 +20,33 @@
     <id>http://hongchaozhang.github.io/blog/2021/05/26/toushi-http-xieyi</id>
     <content type="html"><![CDATA[<!-- more -->
 
+
+
+
+<!-- TOC -->
+
+
+<ul>
+<li><a href="#%E5%8D%8F%E8%AE%AE%E5%88%86%E5%B1%82">协议分层</a></li>
+<li><a href="#dns">DNS</a>
+
+<ul>
+<li><a href="#dns%E8%AE%BF%E9%97%AE%E8%BF%87%E7%A8%8B">DNS访问过程</a></li>
+<li><a href="#dns%E7%9A%84%E7%BC%93%E5%AD%98">DNS的缓存</a></li>
+<li><a href="#dns%E6%96%B0%E7%8E%A9%E6%B3%95">DNS新玩法</a></li>
+</ul>
+</li>
+<li><a href="#%E9%94%AE%E5%85%A5%E7%BD%91%E5%9D%80%E5%86%8D%E6%8C%89%E4%B8%8B%E5%9B%9E%E8%BD%A6%E5%90%8E%E9%9D%A2%E7%A9%B6%E7%AB%9F%E5%8F%91%E7%94%9F%E4%BA%86%E4%BB%80%E4%B9%88">键入网址再按下回车，后面究竟发生了什么？</a></li>
+<li><a href="#tls%E6%8F%A1%E6%89%8B%E8%BF%87%E7%A8%8B">TLS握手过程</a></li>
+<li><a href="#http%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96">http性能优化</a></li>
+<li><a href="#%E8%AF%95%E9%AA%8C%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BAmac">试验环境搭建（Mac）</a></li>
+</ul>
+
+
+<!-- /TOC -->
+
+
+<p><a id="markdown-协议分层" name="协议分层"></a></p>
 
 <h2>协议分层</h2>
 
@@ -53,7 +80,11 @@
 
 <p>发送过程就是一层一层包裹的过程，接收的过程就是一层一层拨开的过程。</p>
 
+<p><a id="markdown-dns" name="dns"></a></p>
+
 <h2>DNS</h2>
+
+<p><a id="markdown-dns访问过程" name="dns访问过程"></a></p>
 
 <h3>DNS访问过程</h3>
 
@@ -83,6 +114,8 @@
 </ol>
 
 
+<p><a id="markdown-dns的缓存" name="dns的缓存"></a></p>
+
 <h3>DNS的缓存</h3>
 
 <p>虽然核心的 DNS 系统遍布全球，服务能力很强也很稳定，但如果全世界的网民都往这个系统里挤，即使不挤瘫痪了，访问速度也会很慢。</p>
@@ -97,6 +130,8 @@
 
 <p><strong>另外</strong>，操作系统里还有一个特殊的“主机映射”文件，通常是一个可编辑的文本，在 Linux 里是“/etc/hosts”，在 Windows 里是“C:\WINDOWS\system32\drivers\etc\hosts”，如果操作系统在缓存里找不到 DNS 记录，就会找这个文件。</p>
 
+<p><a id="markdown-dns新玩法" name="dns新玩法"></a></p>
+
 <h3>DNS新玩法</h3>
 
 <p>除了解析得到IP地址，DNS还可以用来做一些其他事情。</p>
@@ -108,6 +143,8 @@
 </ol>
 
 
+<p><a id="markdown-键入网址再按下回车后面究竟发生了什么" name="键入网址再按下回车后面究竟发生了什么"></a></p>
+
 <h2>键入网址再按下回车，后面究竟发生了什么？</h2>
 
 <p>当用户在浏览器地址栏输入<a href="">http://127.0.0.1/</a>，并按下回车之后，浏览器和服务器之间的行为如下：</p>
@@ -115,7 +152,7 @@
 <p><img src="/images/20200526http%E8%AF%B7%E6%B1%82%E5%85%A8%E8%BF%87%E7%A8%8B.png" width="400" alt="20200526http请求全过程.png" /></p>
 
 <ol>
-<li>首先是TCP链接的建立：经过 SYN、SYN/ACK、ACK 的三个包之后，浏览器与服务器的 TCP 连接就建立起来了。</li>
+<li>首先是TCP连接的建立：经过 SYN、SYN/ACK、ACK 的三个包之后，浏览器与服务器的 TCP 连接就建立起来了。</li>
 <li>有了可靠的 TCP 连接通道后，HTTP 协议就可以开始工作了。于是，浏览器按照 HTTP 协议规定的格式，通过 TCP 发送了一个“GET / HTTP/1.1”请求报文，也就是 Wireshark 里的第四个包。</li>
 <li>随后，Web 服务器回复了第五个包，在 TCP 协议层面确认：“刚才的报文我已经收到了”，不过这个 TCP 包 HTTP 协议是看不见的。</li>
 <li>Web 服务器收到报文后在内部就要处理这个请求。同样也是依据 HTTP 协议的规定，解析报文，看看浏览器发送这个请求想要干什么。它一看，原来是要求获取根目录下的默认文件，好吧，那我就从磁盘上把那个文件全读出来，再拼成符合 HTTP 格式的报文，发回去吧。这就是第六个包“HTTP/1.1 200 OK”，底层走的还是 TCP 协议。</li>
@@ -132,7 +169,7 @@
 
 <ol>
 <li>上面是直接输入了IP地址，如果输入的是域名，那么在上面所有步骤之前还有DNS解析过程。</li>
-<li>如果用的是https通信协议，在TCP链接建立之后还要有TLS链接的建立。</li>
+<li>如果用的是https通信协议，在TCP连接建立之后还要有TLS连接的建立。</li>
 <li>别忘了互联网上还有另外一个重要的角色 CDN，它也会在 DNS 的解析过程中“插上一脚”。DNS 解析可能会给出 CDN 服务器的 IP 地址，这样你拿到的就会是 CDN 服务器而不是目标网站的实际地址。</li>
 <li>如果你的请求跳过CDN，到达目标服务器，这时发生的事情如下：目标网站的服务器对外表现的是一个 IP 地址，但为了能够扛住高并发，在内部也是一套复杂的架构。通常在入口是负载均衡设备，例如四层的 LVS 或者七层的 Nginx，在后面是许多的服务器，构成一个更强更稳定的集群。</li>
 <li>负载均衡设备会先访问系统里的缓存服务器，通常有 memory 级缓存 Redis 和 disk 级缓存 Varnish，它们的作用与 CDN 类似，不过是工作在内部网络里，把最频繁访问的数据缓存几秒钟或几分钟，减轻后端应用服务器的压力。</li>
@@ -142,7 +179,15 @@
 </ol>
 
 
+<p>综合考虑上面的因素，整体的workflow可以表示如下：</p>
+
+<p><img src="/images/NetworkRequestWorkflow.svg" alt="NetworkRequestWorkflow.svg" /></p>
+
+<p><a id="markdown-tls握手过程" name="tls握手过程"></a></p>
+
 <h2>TLS握手过程</h2>
+
+<p>关于“TLS如何保证安全”这个话题，参考<a href="https://www.zhihu.com/question/52493697">知乎回答</a>。上面这篇文中的“编程指北”的回答最清晰。身份认证可以直接看3.5和3.6小节。真正申请一个SSL证书需要知道的常识：<a href="https://www.cnblogs.com/mafly/p/ssl.html">一篇文章让你搞懂 SSL 证书</a>。</p>
 
 <p>简要过程图：</p>
 
@@ -153,6 +198,8 @@
 <p><img src="/images/20200526TLS%E9%93%BE%E6%8E%A5%E8%AF%A6%E7%BB%86%E8%BF%87%E7%A8%8B.png" width="400" alt="20200526TLS链接详细过程.png" /></p>
 
 <p>详细的分析解说参考原文：<a href="/assets/resources/26%E4%B8%A8%E4%BF%A1%E4%BB%BB%E5%A7%8B%E4%BA%8E%E6%8F%A1%E6%89%8B%EF%BC%9ATLS1.2%E8%BF%9E%E6%8E%A5%E8%BF%87%E7%A8%8B%E8%A7%A3%E6%9E%90.html">26丨信任始于握手：TLS1.2连接过程解析.html</a></p>
+
+<p><a id="markdown-http性能优化" name="http性能优化"></a></p>
 
 <h2>http性能优化</h2>
 
@@ -178,6 +225,8 @@
 <li>升级到 HTTP/2 能够直接获得许多方面的性能提升，但要留意一些 HTTP/1 的“反模式”。</li>
 </ol>
 
+
+<p><a id="markdown-试验环境搭建mac" name="试验环境搭建mac"></a></p>
 
 <h2>试验环境搭建（Mac）</h2>
 
