@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
+<loc>http://hongchaozhang.github.io/blog/2021/06/05/santi-gaishu/</loc>
+<lastmod>2021-06-05T00:42:21+08:00</lastmod>
+</url>
+<url>
 <loc>http://hongchaozhang.github.io/blog/2021/05/26/toushi-http-xieyi/</loc>
 <lastmod>2021-05-26T18:32:49+08:00</lastmod>
 </url>
@@ -618,22 +622,7 @@
 <loc>http://hongchaozhang.github.io/blog/categories/http/</loc>
 </url>
 <url>
-<loc>http://hongchaozhang.github.io/posts/2/</loc>
-</url>
-<url>
-<loc>http://hongchaozhang.github.io/posts/3/</loc>
-</url>
-<url>
-<loc>http://hongchaozhang.github.io/posts/4/</loc>
-</url>
-<url>
-<loc>http://hongchaozhang.github.io/posts/5/</loc>
-</url>
-<url>
-<loc>http://hongchaozhang.github.io/posts/6/</loc>
-</url>
-<url>
-<loc>http://hongchaozhang.github.io/posts/7/</loc>
+<loc>http://hongchaozhang.github.io/blog/categories/readng/</loc>
 </url>
 <url>
 <loc>http://hongchaozhang.github.io/images/%E9%AB%98%E7%88%BD%E5%A4%A9%E6%96%87%E5%AD%A6%E9%80%9A%E8%AF%8630%E8%AE%B2.pdf</loc>
