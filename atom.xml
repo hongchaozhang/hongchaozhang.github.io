@@ -4,7 +4,7 @@
   <title><![CDATA[Reading Space]]></title>
   <link href="http://hongchaozhang.github.io/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2021-10-08T13:27:00+08:00</updated>
+  <updated>2021-11-29T16:28:00+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -12,6 +12,77 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[使用Nodejs-Express-MongoDB搭建服务器]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2021/10/27/mean-with-nodejs-express-mongodb/"/>
+    <updated>2021-10-27T15:47:25+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2021/10/27/mean-with-nodejs-express-mongodb</id>
+    <content type="html"><![CDATA[<!-- more -->
+
+
+<p>Demo source code on the github: <a href="https://github.com/hongchaozhang/nodejs-express-mongodb">Github demo source code</a>.</p>
+
+<h2>Steps to start the server:</h2>
+
+<ol>
+<li>Clone the <a href="https://github.com/hongchaozhang/nodejs-express-mongodb">Github demo source code</a>.</li>
+<li>install MongoDB with the steps from <a href="https://cloud.tencent.com/developer/article/1770288">Mac OSX 平台 MongoDB 的安装及管理</a>.</li>
+<li>Config MongoDB and start it with <code>mongod --dbpath /usr/local/var/mongodb --logpath /usr/local/var/log/mongodb/mongo.log --fork</code>.</li>
+<li>Start the server by running <code>node server.js</code>.</li>
+<li>Test the APIs by curl or Postman (recommended).</li>
+</ol>
+
+
+<h3>Note</h3>
+
+<h4>nodejs version</h4>
+
+<p>If you meet the following error while running <code>node server.js</code>, check your nodejs version to make sure you are using 12 and above. <code>14.17.6</code> is tested. The error is:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>/Users/hozhang/Develop/PracticeProjects/nodejs-express-mongodb/node_modules/whatwg-url/lib/encoding.js:2
+</span><span class='line'>const utf8Encoder = new TextEncoder();
+</span><span class='line'>ReferenceError: TextEncoder is not defined</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>How to start/shutdown MongoDB</h4>
+
+<ol>
+<li>After correctly configuring your MongoDB, use the following command to start it:
+ <code>mongod --dbpath /usr/local/var/mongodb --logpath /usr/local/var/log/mongodb/mongo.log --fork</code></li>
+<li>After enter the mongo environment by running <code>mongo</code>, use the following command to shutdown the MongoDB:
+ ```
+
+<blockquote><p>use admin;
+db.shutdownServer();
+ ```</p></blockquote></li>
+</ol>
+
+
+<h4>MongoDB Compass</h4>
+
+<p>Use the official UI tool to manage your MongoDB data: MongoDB Compass.</p>
+
+<h4>Postman</h4>
+
+<p>Use the Postman to act as a client. It is convenient to config/manage the request.</p>
+
+<h2>code explanation</h2>
+
+<p>Refer to <a href="https://www.bezkoder.com/node-express-mongodb-crud-rest-api/">Node.js, Express &amp; MongoDb: Build a CRUD Rest Api example</a> for detailed code explanation.</p>
+
+<h2>References</h2>
+
+<ul>
+<li><a href="https://cloud.tencent.com/developer/article/1770288">Mac OSX 平台 MongoDB 的安装及管理</a></li>
+<li><a href="https://www.bezkoder.com/node-express-mongodb-crud-rest-api/">Node.js, Express &amp; MongoDb: Build a CRUD Rest Api example</a></li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[刘慈欣《三体》总结]]></title>
@@ -4989,118 +5060,6 @@
 <li>躺在椅子上，完全放松自己，并将腿翘很高，甚至放在桌子上。</li>
 </ol>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[即兴伴奏点滴（四）：其它知识]]></title>
-    <link href="http://hongchaozhang.github.io/blog/2020/05/22/jixing-banzou-4/"/>
-    <updated>2020-05-22T13:29:50+08:00</updated>
-    <id>http://hongchaozhang.github.io/blog/2020/05/22/jixing-banzou-4</id>
-    <content type="html"><![CDATA[<!-- more -->
-
-
-<h2>如何认大调</h2>
-
-<p>十二个大调的调号如下：</p>
-
-<p><img src="http://hongchaozhang.github.io/images/%E5%8D%81%E4%BA%8C%E4%B8%AA%E5%A4%A7%E8%B0%83%E8%B0%83%E5%8F%B7.webp" alt="十二个大调调号" /></p>
-
-<p>如何认大调呢？分两种情况：调号是#记号和调号是b记号。</p>
-
-<ul>
-<li><strong>升记号（#）升的音的顺序是F-C-G-D-A-E-B（fa-do-sol-ray-si-mi-la）。降记号（b）与升级好恰好相反，降的音的顺序依次是B-E-A-D-G-C-F（la-mi-si-ray-sol-do-fa）。</strong></li>
-<li>调号是#记号的，上“2”找do，从最后的一个#算起，向上第二个音就是调名（也就是与最后一个#记号对应的音为二度音程的上方音，如果向下数，就要是七度音了）。比如上图中的1 = D，就是最后一个升号的位置（C）的向上第二个音（D），因此就是D大调。</li>
-<li><del>调号是b记号找do：下“4”找do，从最后一个b算起，向下第四个音就是调名（也就是与最后一个b记号对应的音为四度音程的下方音，如果是向上数，就要是五度音了）。比如上图中的1 = bB，就是最后一个降号的位置（bE）的向下第四个音（bB），因此就是bB大调。
-如果是#记号向下数7（或向上数2 —— 就是升记号的上一个位置）找do（主音），比如一个# 记号在F的位置，向上数2是G，所以就是G大调。</del></li>
-<li>调号是b记号的，看倒数第二个b记号对应的音即为调名。F大调（只有一个bB）例外。</li>
-</ul>
-
-
-<h2>小调的即兴伴奏</h2>
-
-<p>仿照大调的学习过程，以A小调为中心，先练习主和弦伴奏。</p>
-
-<p>A小调自然小音阶和弦：</p>
-
-<p><img src="http://hongchaozhang.github.io/images/A%E5%B0%8F%E8%B0%83%E8%87%AA%E7%84%B6%E5%B0%8F%E9%9F%B3%E9%98%B6%E5%92%8C%E5%BC%A6.webp" alt="A小调自然小音阶和弦" /></p>
-
-<p>更多小调和弦：<a href="https://www.douban.com/note/717496014/">即兴伴奏教学系列40——小调的和弦及其名称</a>。</p>
-
-<h3>关系调</h3>
-
-<p>有音乐家做过比喻，说关系调就像夫妻，大调阳刚如丈夫，小调阴柔如妻子，妻子如何倾慕丈夫，小调就如何倾向大调。</p>
-
-<p>小调转入关系大调时，不可少的和弦一定是属（7）和弦与主和弦，特别是以属（7）和弦连接主和弦，有了这两个和弦调性就确立了。以前也强调过，在三个正三和弦中，主和弦与属（7）和弦比下属和弦更为重要。</p>
-
-<p>属音倾向主音，属和弦的3音——导音（si）更是导向主音，特别是属7和弦，它包含了一个减5度，一个调中只有一个减五度，因此它指明了调性。</p>
-
-<p>所以，小调转入关系大调时，必须用其属（7）和弦接主和弦。</p>
-
-<p>由小调转入关系大调，音响豁然明亮，因此，由小调转关系大调常用在乐曲的高潮。上节课中的旋律大都是转入关系大调时进入高潮。</p>
-
-<h4>大调转入小调</h4>
-
-<p><a href="https://www.jianshu.com/p/[slug]?slug=d4c1fb4b47b3">即兴伴奏教学系列43——从大调进入关系小调</a>详细阐述了大调为什么可以平滑地转到小调。大意是：</p>
-
-<p>小调的主和弦是其关系大调的VI
-VI常用在重属和弦的前方，在学习重属和弦时，我们知道其前方使用共同和弦，共同和弦最好使用本调的VI，相当于 新（属）调的II，因VI是个副三和弦，有松弛调性的作用。</p>
-
-<p>最重要的还是一个字：练。
-如果要在键盘上迅速反应，需要熟练地记住调名、音阶、关系调、重属、终止式等知识，还要在键盘上大量练习，从知其然到行其然，不是看懂了理论就可以做到的，所以，大家要多花时间耐心练习。</p>
-
-<p>类似地，还有这一篇：<a href="https://www.douban.com/note/721683927/">即兴伴奏教学系列42——从小调进入关系大调</a>。</p>
-
-<h2>近系调</h2>
-
-<p>近系调，远系调，平行调
-属调，辖属调，转属调</p>
-
-<h2>作曲</h2>
-
-<p>其实，作曲并不难，甚至任何人都可以作曲，你能哼出来的与众不同的旋律，都是你的原创！</p>
-
-<p>但是，旋律出来了，精不精彩很大程度上取决于和弦，和弦编配，就不是任何人都可以做到的了。</p>
-
-<h2>首调唱法vs固定调唱法</h2>
-
-<p>看起来似乎是固定唱名看谱快速，但要将调号音的#，b唱准却较为困难，而首调唱名因其唱名是移动的，似乎找音不易，但首调唱名所用的多是音阶的自然音，容易唱准。</p>
-
-<p>音乐专业的人，管弦乐器的演奏者多用固定唱名，而一般的从事音乐工作者和爱好者多用首调唱名。</p>
-
-<p>学乐器一般使用固定唱名，而视唱练耳训练、唱一些简单的歌曲等常用首调唱名，因为这种唱法对于感受曲子旋律的调式特点很直接。</p>
-
-<h2>范音原理</h2>
-
-<p>简单的说下什么是泛音定律：
-我们可以作个实验：在钢琴上，先把中央C上方的G（sol）按下（不用弹出声音来），然后弹其下方两个低8度的C（do），我们就会发现那个按下未弹的G（sol）音就会跟着响。do既然生sol，sol也就生re，re生la，la生mi，mi生si；这个5度相生就产生了以do为主音的大音阶中的各音了。
-之所以说它神奇，是因为这个规律不是人造的，而是大自然中本来就有的一种规律，就像是万有引力一样。这也是为什么古代中国和西方并无音乐交流的情况下，都发展出了以do为主的音阶。</p>
-
-<p>泛音原理是古希腊人所发现的。我们可以在钢琴上作个实验：将中央C上方的sol按下（使制音器离开琴弦，使弦得以自由振动），然后弹其下方12度的低音C，弹后放开这个低C，就会发现那个G音有感应似的在响（假如你的钢琴没有走音）。这个响的G音就是由于泛音的原理使然。现在请按下中央C上方10度的高mi，仍然是按下，不必弹出声音来，再弹那个先前弹的低音C，弹后，则会发现这个高mi也会跟随着低C响了。</p>
-
-<h2>变奏</h2>
-
-<p>旋律的变奏，说简单也简单，就是依着和弦的进行加上和声外音而产生的，说难也难，好的变奏，流畅上口，是更上一层楼的能力，也许还需要一些天赋。总之，要多听、多弹、多唱、多揣摩，对旋律产生更多的想象力，才能获得。</p>
-
-<h2>挂留音</h2>
-
-<p>挂留音不协和，不可占用过长的拍子，但事实则其反，为了彰显挂留音的性质，挂留音的长度一般要长于后面的解决音，如果是四拍子，解决音与挂留音各占一半，如果是3拍子，则挂留音占两拍，解决音占1拍，正所谓：憋得越狠，爽得越猛，“久别胜新婚”就是这个道理。</p>
-
-<h2>前奏</h2>
-
-<p>一般情况下，我们可以从乐曲中选择一段旋律作为前奏。选择时有两个原则：</p>
-
-<ol>
-<li>用乐曲首句作为前半部分；</li>
-<li>用完全终止式后乐句或乐段的结尾作为后半部分。</li>
-</ol>
-
-
-<h2>变化和弦</h2>
-
-<h2>点滴</h2>
-
-<p>D是G的属，因此，D大调的调号是两个“#”记号。</p>
 ]]></content>
   </entry>
   

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: nodejs | Reading Space]]></title>
+  <link href="http://hongchaozhang.github.io/blog/categories/nodejs/atom.xml" rel="self"/>
+  <link href="http://hongchaozhang.github.io/"/>
+  <updated>2021-11-29T16:28:00+08:00</updated>
+  <id>http://hongchaozhang.github.io/</id>
+  <author>
+    <name><![CDATA[Zhang Hongchao]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[使用Nodejs-Express-MongoDB搭建服务器]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2021/10/27/mean-with-nodejs-express-mongodb/"/>
+    <updated>2021-10-27T15:47:25+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2021/10/27/mean-with-nodejs-express-mongodb</id>
+    <content type="html"><![CDATA[<!-- more -->
+
+
+<p>Demo source code on the github: <a href="https://github.com/hongchaozhang/nodejs-express-mongodb">Github demo source code</a>.</p>
+
+<h2>Steps to start the server:</h2>
+
+<ol>
+<li>Clone the <a href="https://github.com/hongchaozhang/nodejs-express-mongodb">Github demo source code</a>.</li>
+<li>install MongoDB with the steps from <a href="https://cloud.tencent.com/developer/article/1770288">Mac OSX 平台 MongoDB 的安装及管理</a>.</li>
+<li>Config MongoDB and start it with <code>mongod --dbpath /usr/local/var/mongodb --logpath /usr/local/var/log/mongodb/mongo.log --fork</code>.</li>
+<li>Start the server by running <code>node server.js</code>.</li>
+<li>Test the APIs by curl or Postman (recommended).</li>
+</ol>
+
+
+<h3>Note</h3>
+
+<h4>nodejs version</h4>
+
+<p>If you meet the following error while running <code>node server.js</code>, check your nodejs version to make sure you are using 12 and above. <code>14.17.6</code> is tested. The error is:
+<code>
+/Users/hozhang/Develop/PracticeProjects/nodejs-express-mongodb/node_modules/whatwg-url/lib/encoding.js:2
+const utf8Encoder = new TextEncoder();
+ReferenceError: TextEncoder is not defined
+</code></p>
+
+<h4>How to start/shutdown MongoDB</h4>
+
+<ol>
+<li>After correctly configuring your MongoDB, use the following command to start it:
+ <code>mongod --dbpath /usr/local/var/mongodb --logpath /usr/local/var/log/mongodb/mongo.log --fork</code></li>
+<li>After enter the mongo environment by running <code>mongo</code>, use the following command to shutdown the MongoDB:
+ ```
+
+<blockquote><p>use admin;
+db.shutdownServer();
+ ```</p></blockquote></li>
+</ol>
+
+
+<h4>MongoDB Compass</h4>
+
+<p>Use the official UI tool to manage your MongoDB data: MongoDB Compass.</p>
+
+<h4>Postman</h4>
+
+<p>Use the Postman to act as a client. It is convenient to config/manage the request.</p>
+
+<h2>code explanation</h2>
+
+<p>Refer to <a href="https://www.bezkoder.com/node-express-mongodb-crud-rest-api/">Node.js, Express &amp; MongoDb: Build a CRUD Rest Api example</a> for detailed code explanation.</p>
+
+<h2>References</h2>
+
+<ul>
+<li><a href="https://cloud.tencent.com/developer/article/1770288">Mac OSX 平台 MongoDB 的安装及管理</a></li>
+<li><a href="https://www.bezkoder.com/node-express-mongodb-crud-rest-api/">Node.js, Express &amp; MongoDb: Build a CRUD Rest Api example</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+</feed>

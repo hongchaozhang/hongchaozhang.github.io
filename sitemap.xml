@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
+<loc>http://hongchaozhang.github.io/blog/2021/10/27/mean-with-nodejs-express-mongodb/</loc>
+<lastmod>2021-10-27T15:47:25+08:00</lastmod>
+</url>
+<url>
 <loc>http://hongchaozhang.github.io/blog/2021/10/07/summarise-of-santi/</loc>
 <lastmod>2021-10-07T22:34:15+08:00</lastmod>
 </url>
@@ -620,6 +624,12 @@
 </url>
 <url>
 <loc>http://hongchaozhang.github.io/blog/categories/http/</loc>
+</url>
+<url>
+<loc>http://hongchaozhang.github.io/blog/categories/nodejs/</loc>
+</url>
+<url>
+<loc>http://hongchaozhang.github.io/blog/categories/mongodb/</loc>
 </url>
 <url>
 <loc>http://hongchaozhang.github.io/posts/2/</loc>
