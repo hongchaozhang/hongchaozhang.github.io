@@ -4,7 +4,7 @@
   <title><![CDATA[Category: web | Reading Space]]></title>
   <link href="http://hongchaozhang.github.io/blog/categories/web/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2021-11-29T16:28:00+08:00</updated>
+  <updated>2021-12-06T15:03:58+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -12,6 +12,266 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[极客时间-深入浅出云计算]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2021/12/06/shenru-qianchu-yunjisuan/"/>
+    <updated>2021-12-06T10:21:06+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2021/12/06/shenru-qianchu-yunjisuan</id>
+    <content type="html"><![CDATA[<!-- more -->
+
+
+
+
+<!-- TOC -->
+
+
+<ul>
+<li><a href="#01--%E5%8C%BA%E5%9F%9F%E5%92%8C%E5%8F%AF%E7%94%A8%E5%8C%BA%E6%AC%A2%E8%BF%8E%E6%9D%A5%E5%88%B0%E4%BA%91%E7%AB%AF%E6%95%B0%E6%8D%AE%E4%B8%AD%E5%BF%83">01 | 区域和可用区：欢迎来到云端数据中心</a></li>
+<li><a href="#02--%E4%BA%91%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%80%E4%BA%91%E7%AB%AF%E6%94%92%E6%9C%BA%E6%9C%89%E5%93%AA%E4%BA%9B%E5%AE%B9%E6%98%93%E5%BF%BD%E8%A7%86%E7%9A%84%E8%A6%81%E7%82%B9">02 | 云虚拟机（一）：云端“攒机”，有哪些容易忽视的要点?</a></li>
+<li><a href="#03-%E4%B8%A8%E4%BA%91%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%BA%8C%E7%9C%BC%E8%8A%B1%E7%BC%AD%E4%B9%B1%E7%9A%84%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%9E%8B%E5%8F%B7%E6%88%91%E8%AF%A5%E5%A6%82%E4%BD%95%E9%80%89%E6%8B%A9">03 丨云虚拟机（二）：眼花缭乱的虚拟机型号，我该如何选择？</a></li>
+<li><a href="#04-%E4%B8%A8%E4%BA%91%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%89%E8%80%81%E6%9D%BF%E8%A6%81%E6%B1%82%E7%9C%81%E7%9C%81%E7%9C%81%E6%9C%89%E5%93%AA%E4%BA%9B%E5%A6%99%E6%8B%9B">04 丨云虚拟机（三）：老板要求省省省，有哪些妙招？</a></li>
+<li><a href="#05--%E4%BA%91%E7%A1%AC%E7%9B%98%E4%BA%91%E4%B8%8Aio%E5%88%B0%E5%BA%95%E7%BB%99%E4%B8%8D%E7%BB%99%E5%8A%9B">05 | 云硬盘：云上IO到底给不给力？</a></li>
+<li><a href="#06--%E4%BA%91%E4%B8%8A%E8%99%9A%E6%8B%9F%E7%BD%91%E7%BB%9C%E5%BC%80%E5%90%88%E6%9C%89%E5%BA%A6%E7%BC%96%E7%BB%87%E6%97%A0%E5%BD%A2%E4%B9%8B%E7%BD%91">06 | 云上虚拟网络：开合有度，编织无形之网</a>
+
+<ul>
+<li><a href="#%E5%BC%B9%E6%80%A7%E7%BD%91%E5%8D%A1">弹性网卡</a></li>
+<li><a href="#%E5%85%AC%E7%BD%91ip%E5%92%8C%E5%BC%B9%E6%80%A7ip">公网IP和弹性IP</a></li>
+</ul>
+</li>
+<li><a href="#07--%E4%BA%91%E7%AB%AF%E6%9E%B6%E6%9E%84%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5%E4%B8%8E%E6%95%85%E9%9A%9C%E5%90%8C%E8%88%9E%E4%B8%8E%E4%BC%B8%E7%BC%A9%E5%85%B1%E7%94%9F">07 | 云端架构最佳实践：与故障同舞，与伸缩共生</a></li>
+<li><a href="#08-%E4%B8%A8%E4%BA%91%E4%B8%8A%E8%BF%90%E7%BB%B4%E4%BA%91%E7%AB%AF%E7%A9%B6%E7%AB%9F%E9%9C%80%E4%B8%8D%E9%9C%80%E8%A6%81%E8%BF%90%E7%BB%B4%E9%9C%80%E8%A6%81%E6%80%8E%E6%A0%B7%E7%9A%84%E8%BF%90%E7%BB%B4">08 丨云上运维：云端究竟需不需要运维？需要怎样的运维？</a></li>
+<li><a href="#09--%E4%BB%80%E4%B9%88%E6%98%AFpaas%E6%80%8E%E6%A0%B7%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E5%92%8C%E8%AF%84%E4%BC%B0paas">09 | 什么是PaaS？怎样深入理解和评估PaaS？</a></li>
+<li><a href="#10--%E5%AF%B9%E8%B1%A1%E5%AD%98%E5%82%A8%E7%9C%8B%E4%BC%BC%E7%AE%80%E5%8D%95%E7%9A%84%E5%AD%98%E5%82%A8%E6%9C%8D%E5%8A%A1%E9%83%BD%E6%9C%89%E5%93%AA%E4%BA%9B%E7%8E%84%E6%9C%BA">10 | 对象存储：看似简单的存储服务都有哪些玄机？</a>
+
+<ul>
+<li><a href="#%E5%AF%B9%E8%B1%A1%E5%AD%98%E5%82%A8%E7%9A%84%E9%AB%98%E7%BA%A7%E7%89%B9%E6%80%A7">对象存储的高级特性</a></li>
+</ul>
+</li>
+<li><a href="#11--%E5%BA%94%E7%94%A8%E6%89%98%E7%AE%A1%E6%9C%8D%E5%8A%A1web%E5%BA%94%E7%94%A8%E6%80%8E%E6%A0%B7%E5%9C%A8%E4%BA%91%E4%B8%8A%E5%AE%89%E5%AE%B6">11 | 应用托管服务：Web应用怎样在云上安家？</a></li>
+<li><a href="#12--%E4%BA%91%E6%95%B0%E6%8D%AE%E5%BA%93%E9%AB%98%E6%AD%8C%E7%8C%9B%E8%BF%9B%E7%9A%84%E6%95%B0%E6%8D%AE%E5%BA%93%E6%96%B0%E8%B4%B5">12 | 云数据库：高歌猛进的数据库“新贵”</a>
+
+<ul>
+<li><a href="#%E4%BA%91%E5%8E%9F%E7%94%9F%E6%95%B0%E6%8D%AE%E5%BA%93">云原生数据库</a></li>
+</ul>
+</li>
+<li><a href="#13--%E4%BA%91%E4%B8%8A%E5%A4%A7%E6%95%B0%E6%8D%AE%E4%BA%91%E8%AE%A1%E7%AE%97%E9%81%87%E4%B8%8A%E5%A4%A7%E6%95%B0%E6%8D%AE%E4%B8%BA%E4%BB%80%E4%B9%88%E5%A0%AA%E7%A7%B0%E5%A4%A9%E4%BD%9C%E4%B9%8B%E5%90%88">13 | 云上大数据：云计算遇上大数据，为什么堪称天作之合？</a></li>
+<li><a href="#14--%E4%BA%91%E4%B8%8A%E5%AE%B9%E5%99%A8%E6%9C%8D%E5%8A%A1%E4%BB%8Edocker%E5%88%B0kubernetes%E8%BF%8E%E6%8E%A5%E4%BA%91%E5%8E%9F%E7%94%9F%E6%B5%AA%E6%BD%AE">14 | 云上容器服务：从Docker到Kubernetes，迎接云原生浪潮</a></li>
+<li><a href="#15--%E6%97%A0%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AE%A1%E7%AE%97%E8%BF%BD%E6%B1%82%E6%9E%81%E8%87%B4%E6%95%88%E7%8E%87%E7%9A%84%E5%A4%9A%E9%9D%A2%E6%89%8B">15 | 无服务器计算：追求极致效率的多面手</a></li>
+<li><a href="#16--%E4%BA%91%E4%B8%8Aai%E6%9C%8D%E5%8A%A1%E4%BA%91ai%E8%83%BD%E4%BB%8E%E5%93%AA%E4%BA%9B%E6%96%B9%E9%9D%A2%E5%B8%AE%E5%8A%A9%E6%9E%84%E5%BB%BA%E6%99%BA%E8%83%BD%E5%BA%94%E7%94%A8">16 | 云上AI服务：云AI能从哪些方面帮助构建智能应用？</a></li>
+</ul>
+
+
+<!-- /TOC -->
+
+
+<p><a id="markdown-01--区域和可用区欢迎来到云端数据中心" name="01--区域和可用区欢迎来到云端数据中心"></a></p>
+
+<h2>01 | 区域和可用区：欢迎来到云端数据中心</h2>
+
+<p><a id="markdown-02--云虚拟机一云端攒机有哪些容易忽视的要点" name="02--云虚拟机一云端攒机有哪些容易忽视的要点"></a></p>
+
+<h2>02 | 云虚拟机（一）：云端“攒机”，有哪些容易忽视的要点?</h2>
+
+<p>传统的虚拟化（虚拟机），往往是对单一物理机器资源的纵向切割，计算、存储、网络等各方面的能力都是一台物理机的子集。因此，从可伸缩性的角度来说，传统虚拟机存在较大的局限，当物理机的局部出现故障时，也很容易影响到里面的虚拟机。</p>
+
+<p>得益于云端大规模的专属硬件以及高速的内部网络，云虚拟机的组成则有所不同。除了核心的 CPU 与内存部分仍属于一台宿主机外，它的网络、硬盘等其他部分，则可以超脱于宿主机之外，享受云端其他基础设施的能力。大致架构如下图所示：</p>
+
+<p><img src="/images/%E4%BA%91%E8%99%9A%E6%8B%9F%E6%9C%BA%E8%B5%84%E6%BA%90%E6%9E%84%E6%88%90.jpeg" alt="云虚拟机资源构成" /></p>
+
+<p>所以，云虚拟机，与其说是由一台宿主机虚拟而成的，不如说是云数据中心中的不同部分一起协作，“拼凑”而成的一台机器。这样虚拟出来的机器，我们在使用感受上其实与传统服务器并无不同，但在可扩展性和故障隔离方面，它就具有很大的优势了。</p>
+
+<p><a id="markdown-03-丨云虚拟机二眼花缭乱的虚拟机型号我该如何选择" name="03-丨云虚拟机二眼花缭乱的虚拟机型号我该如何选择"></a></p>
+
+<h2>03丨云虚拟机（二）：眼花缭乱的虚拟机型号，我该如何选择？</h2>
+
+<p><a id="markdown-04-丨云虚拟机三老板要求省省省有哪些妙招" name="04-丨云虚拟机三老板要求省省省有哪些妙招"></a></p>
+
+<h2>04丨云虚拟机（三）：老板要求省省省，有哪些妙招？</h2>
+
+<p><a id="markdown-05--云硬盘云上io到底给不给力" name="05--云硬盘云上io到底给不给力"></a></p>
+
+<h2>05 | 云硬盘：云上IO到底给不给力？</h2>
+
+<p>云厂商对于云盘，一般会帮你在存储端同步和保留至少三份副本的数据。所以说，云硬盘的冗余度和可用性是非常之高的，一般极少发生云硬盘数据丢失的情况，你大可放心地使用。</p>
+
+<p>云盘性能指标：</p>
+
+<ul>
+<li>IOPS</li>
+<li>吞吐量</li>
+<li>访问延时</li>
+</ul>
+
+
+<p>云硬盘与传统磁盘的真正差异在于，绝大多数的云硬盘都是<strong>远程</strong>的。</p>
+
+<p>我们都知道，在经典计算机的体系结构中，硬盘是通过本地机器内部主板的高速总线，与 CPU、内存等部件相连接；而在云端，你的硬盘则很可能并不在宿主机上，而是在专用的磁盘服务器阵列中，两者是通过数据中心内部的特有IO线路进行连接的。</p>
+
+<p>理解了这样的一个结构，你就能明白，有些云上的“IO优化实例”（AWS 上称为 EBS-Optimized）是指什么了。它就是指云虚拟机与云硬盘之间的网络传输，进行了软硬件层面的优化，这样可以充分地发挥所挂载磁盘的性能。现在较新型号、较强性能的云虚拟机，一般都自动启用了这个优化。</p>
+
+<p>云存储的性能级别：</p>
+
+<p><img src="/images/%E4%BA%91%E5%AD%98%E5%82%A8%E7%9A%84%E7%BA%A7%E5%88%AB.jpeg" alt="云存储的级别" /></p>
+
+<p>除了云盘性能等级，还有一个指标也是影响云盘性能的重要指标：云盘容量。不论是哪种磁盘类型，它的容量大小几乎都与性能正向相关。同等的性能等级下，云硬盘的容量越大，一般来说它的性能就越高，直到达到这个等级的上限。这是由云上磁盘能力共享的底层设计所决定的。</p>
+
+<p>所以在某些时候，你可能需要刻意地增大所申请的云硬盘的容量，以获取更高的性能，即便这些额外的空间不一定能被用上。</p>
+
+<p><a id="markdown-06--云上虚拟网络开合有度编织无形之网" name="06--云上虚拟网络开合有度编织无形之网"></a></p>
+
+<h2>06 | 云上虚拟网络：开合有度，编织无形之网</h2>
+
+<p>虚拟私有网络（Virtual Private Cloud，简称 VPC），是云计算网络端最重要的概念之一，它是指构建在云上的、相互隔离的、用户可以自主控制的私有网络环境。虚拟私有网络有时也称为专有网络（阿里云）或虚拟网络（Virtual Network 或 VNet，Azure 的叫法）。</p>
+
+<p>上面的概念解释也许不太好理解，其实用通俗的话来讲，私有网络就是一张属于你自己的内网。内网之内的服务器和设备，可以比较自由地互相通信，与外界默认是隔离的。如果外部互联网，或者其他虚拟网络需要连接，则需要额外的配置。</p>
+
+<p>所以说，虚拟私有网络，就是你在云上的保护网，能够有效地保护网内的各种设施。有的时候，你可能还要同时创建多个虚拟网络，让它们各司其职，实现更精细的隔离。</p>
+
+<p><a id="markdown-弹性网卡" name="弹性网卡"></a></p>
+
+<h3>弹性网卡</h3>
+
+<p>云上的网卡，之所以被称为“弹性”网卡，是因为它具备以下特征：</p>
+
+<ol>
+<li>一个虚拟机可以绑定多块网卡，有主网卡和辅助网卡之分；</li>
+<li>一块网卡隶属于一个子网，可以配置同一子网内的多个私有 IP；</li>
+<li>辅助网卡可以动态解绑，还能够绑定到另一台虚拟机上。</li>
+</ol>
+
+
+<p><a id="markdown-公网ip和弹性ip" name="公网ip和弹性ip"></a></p>
+
+<h3>公网IP和弹性IP</h3>
+
+<p>在绝大多数的云上，创建虚拟机时都会有一个选项，问你“是否同时为虚拟机分配一个公网 IP 地址”。如果你选择“是”，这样机器启动后，就会拥有一个自动分配的公网地址，便于你从自己的电脑连接到这个实例。这在很多时候都是最方便的选择。</p>
+
+<p>但对于生产环境，我的推荐是，尽量不要使用和依赖这个自动生成的公有 IP。因为它本质上是一个从公有云的 IP 池中临时租用给你的 IP。如果你的机器关闭或重启，下次获得的 IP 可能就完全不同了。</p>
+
+<p>这时，我们真正应该用到的是弹性 IP（Elastic IP），有些云称为 eIP。弹性 IP 一旦生成，它所对应的 IP 是固定、不会变化的，而且完全属于你所有。这非常适合需要稳定 IP 的生产环境。</p>
+
+<p>请不要被它的名字迷惑，它所谓的弹性，其实是指可以非常自由地解绑和再次绑定到任意目标。你本质上是买下了这个 IP 的所有权，将这个 IP 赋予谁，是你的权利，而且你还可以动态按需切换。</p>
+
+<p><a id="markdown-07--云端架构最佳实践与故障同舞与伸缩共生" name="07--云端架构最佳实践与故障同舞与伸缩共生"></a></p>
+
+<h2>07 | 云端架构最佳实践：与故障同舞，与伸缩共生</h2>
+
+<p>云上架构最需要注意什么呢？就像我在标题所描述的那样，云端架构一方面需要处理和应对可能出现的<strong>故障</strong>，保证架构和服务的可用性；另一方面则是需要充分利用好云端的<strong>弹性</strong>，要能够根据负载进行灵活的伸缩。</p>
+
+<p>那么，云上可能出现哪些不同层面的故障？相应的故障范围和应对措施又会是怎样的呢？</p>
+
+<p><strong>第一种故障是在宿主机的级别，这也是从概率上来说最常见的一种故障。</strong>当宿主机出现硬件故障等问题后，毫无疑问将影响位于同一宿主机上的多个虚拟机。为了避免产生这样的影响，当我们承载重要业务时，就需要创建多台虚拟机组成的集群，共同来进行支撑。这样，当一台虚拟机出现故障时，还有其他几台机器能够保证在线。</p>
+
+<p>这里需要注意的是，<strong>我们需要保证多个虚拟机不在同一台宿主机上，甚至不处于同一个机架上，以免这些虚拟机一起受到局部事故的影响。</strong></p>
+
+<p><strong>第二种规模更大的故障，是在数据中心，也就是可用区的层面。</strong>要应对这类故障，我们就需要<strong>多可用区的实例部署</strong>。</p>
+
+<p><strong>第三种更严重的故障，就是整个区域级别的事故了。</strong>当然这种一般非常少见，只有地震等不可抗力因素，或者人为过失引发出的一系列连锁反应，才有可能造成这么大的影响。区域级别的事故一般都难免会对业务造成影响了。这时能够进行补救的，主要看<strong>多区域架构层面是否有相关的预案</strong>。</p>
+
+<p>再更进一步的万全之策，就需要考虑<strong>多云</strong>了。也就是同时选用多家云厂商的公有云，一起来服务业务。虽然集成多个异构的云会带来额外的成本，但这能够最大限度地降低服务风险，因为两家云厂商同时出问题的概率实在是太低了。更何况，多云还能带来避免厂商锁定的好处，现在其实也越来越多见了。</p>
+
+<p>当然，盲目地追求可用性也不可取。<strong>根据业务需求，在成本投入与可用性之间获得一个最佳的平衡，才是你应该追求的目标。</strong></p>
+
+<p><a id="markdown-08-丨云上运维云端究竟需不需要运维需要怎样的运维" name="08-丨云上运维云端究竟需不需要运维需要怎样的运维"></a></p>
+
+<h2>08丨云上运维：云端究竟需不需要运维？需要怎样的运维？</h2>
+
+<p><a id="markdown-09--什么是paas怎样深入理解和评估paas" name="09--什么是paas怎样深入理解和评估paas"></a></p>
+
+<h2>09 | 什么是PaaS？怎样深入理解和评估PaaS？</h2>
+
+<p>PaaS 是在 IaaS 的基础上又做了许多工作，构建了很多关键抽象和可复用的单元，让我们用户能够在更上层进行应用的构建，把更多精力放在业务逻辑上。</p>
+
+<p>所以 PaaS 服务的优势，就在于生产力，在于效率，尤其是在搭建和运维层面。</p>
+
+<p><a id="markdown-10--对象存储看似简单的存储服务都有哪些玄机" name="10--对象存储看似简单的存储服务都有哪些玄机"></a></p>
+
+<h2>10 | 对象存储：看似简单的存储服务都有哪些玄机？</h2>
+
+<p>同样是存储服务，对象存储和前面我们 IaaS 部分讲过的云硬盘存储有什么区别呢？</p>
+
+<p>第一个主要区别，在于<strong>访问的接口与形式</strong>。</p>
+
+<p>云硬盘其实是挂载到虚拟机的虚拟硬盘，它是通过实现操作系统级别的底层接口，作为虚拟机的块存储设备而存在。我们也必须连接到相关的虚拟机，才能访问它里面的数据。</p>
+
+<p>而对象存储，本质是一个网络化的服务，调用方主要通过高层的 API 和 SDK 来和它进行交互。不管是面向外部公开互联网服务，还是和内部应用程序对接，对象存储都是通过提供像 HTTP 这样的网络接口来实现的。所以它的独立性很强，不需要依赖其他组件就可以运作。</p>
+
+<p>第二个主要区别，也是对象存储的一大特征，就是对象存储内本身不存在一个真正的文件系统，而是更接近一个<strong>键值</strong>（Key-Value）形式的存储服务。</p>
+
+<p>键值系统和云硬盘上经典文件系统的<strong>核心差异</strong>，就在于文件系统保存了更多的元数据，尤其是实现了目录结构和目录操作。而键值系统中，所谓的目录其实是多个对象共享的路径前缀，可以说是用前缀模拟出了目录。</p>
+
+<p>第三个主要区别，在于对象存储的<strong>据大容量</strong>。</p>
+
+<p><a id="markdown-对象存储的高级特性" name="对象存储的高级特性"></a></p>
+
+<h3>对象存储的高级特性</h3>
+
+<p>第一个重要特性，是<strong>存储分层</strong>。</p>
+
+<p><img src="/images/%E5%AF%B9%E8%B1%A1%E5%AD%98%E5%82%A8%E5%88%86%E5%B1%82.jpeg" alt="对象存储分层" /></p>
+
+<p>存储分层的存在，让原本价格低廉的云上存储更加具有成本竞争力。给你举个例子，现在归档层的存储费用，在典型情况下大约是每 GB 每月 1 分钱左右，是不是低得惊人？所以，很多用户上云的一个应用场景就是，把原本占用大量传统磁盘的备份文件，利用对象存储的归档能力长期保存。</p>
+
+<p>第二个值得称道的特性，是<strong>生命周期管理</strong>。可以对存储对象设置过期规则。</p>
+
+<p>第三个特性，则是对象的<strong>版本管理</strong>。</p>
+
+<p><a id="markdown-11--应用托管服务web应用怎样在云上安家" name="11--应用托管服务web应用怎样在云上安家"></a></p>
+
+<h2>11 | 应用托管服务：Web应用怎样在云上安家？</h2>
+
+<p>你可以使用虚拟机和其他 IaaS 组件来搭建你的网站。但用 IaaS，你需要操心的事情比较多，包括虚拟机的创建、运行环境的搭建和依赖安装、高可用性和水平扩展的架构等等。而且一旦应用的规模大了，每次应用的更新升级也会是件麻烦事，另外你还要操心 Web 漏洞的弥补修复。</p>
+
+<p>那么，能不能有一个平台服务，来帮助我们解决所有这些基础架构问题，让我们只需要专注于应用构建本身就好了呢？当然是有的，这就是云上应用托管 PaaS 服务的由来。</p>
+
+<p><a id="markdown-12--云数据库高歌猛进的数据库新贵" name="12--云数据库高歌猛进的数据库新贵"></a></p>
+
+<h2>12 | 云数据库：高歌猛进的数据库“新贵”</h2>
+
+<p>而近年来随着云计算的兴起，云数据库作为一支新生力量，一路高歌猛进，打破了数据库市场的原有格局，也进入了越来越多开发者的视野当中。这类 PaaS 服务的朴素思想就是，将数据库服务搬到云上，让用户更方便轻松地使用、管理和维护数据库。</p>
+
+<p><a id="markdown-云原生数据库" name="云原生数据库"></a></p>
+
+<h3>云原生数据库</h3>
+
+<p>云原生数据库：完全为云设计、能够充分发挥云的特点和优势的数据库。</p>
+
+<p>出于生态发展和降低学习难度的需要，绝大多数的云原生数据库仍然保留了 SQL 等常见接口（有的还支持不同 SQL 方言的选择），但除此以外，云原生数据库大都进行了全面革新和重新设计，有的云会大刀阔斧地改造开源代码，有的甚至脱离了现有包袱，完全重新构建。</p>
+
+<p>这样的尝试取得了巨大的成功，业界也逐渐形成了一系列不同领域的云原生数据库矩阵，大大拓展了云上数据库的范畴和影响力。</p>
+
+<p>我这里也为你整理了一张表格，按照厂商和云数据库的类型进行了梳理和比较。其中，标红的部分是相当值得你关注的自研云原生数据库。</p>
+
+<p><img src="/images/%E4%BA%91%E5%8E%9F%E7%94%9F%E6%95%B0%E6%8D%AE%E5%BA%93.jpeg" alt="云原生数据库" /></p>
+
+<p><a id="markdown-13--云上大数据云计算遇上大数据为什么堪称天作之合" name="13--云上大数据云计算遇上大数据为什么堪称天作之合"></a></p>
+
+<h2>13 | 云上大数据：云计算遇上大数据，为什么堪称天作之合？</h2>
+
+<p><a id="markdown-14--云上容器服务从docker到kubernetes迎接云原生浪潮" name="14--云上容器服务从docker到kubernetes迎接云原生浪潮"></a></p>
+
+<h2>14 | 云上容器服务：从Docker到Kubernetes，迎接云原生浪潮</h2>
+
+<p><a id="markdown-15--无服务器计算追求极致效率的多面手" name="15--无服务器计算追求极致效率的多面手"></a></p>
+
+<h2>15 | 无服务器计算：追求极致效率的多面手</h2>
+
+<p>无服务器（Serverless）完全屏蔽了计算资源，它是在真正地引导你不再去关心底层环境，你只要遵循标准方式来直接编写业务代码就可以了。其中一个具体应用就是函数即服务（FaaS，Function as a service)。</p>
+
+<p>各大云厂商现在都已经推出了各自的无服务器计算服务，比如 AWS 的 <strong>Lambda</strong>，阿里云的<strong>函数计算</strong>，微软Azure的<strong>Azure Function</strong>，微信的<strong>云函数</strong>。</p>
+
+<p>为了让这个云函数能够对外服务，我们接下来就需要为它添加一个 <strong>API网关触发器</strong>，这样当 API 被外界访问时，这个云函数就会被触发执行并返回结果给网关。</p>
+
+<p>API 网关是一个独立的 PaaS 服务，它可以和云函数联动使用。它的作用是为外界访问提供一个端点，并引流到我们的后台计算服务。</p>
+
+<p>无服务器计算灵活轻量，便于迭代。但是，我们还是要记得恪守冷静客观的原则。一定不要忽略了 Serverless 服务的限制，毕竟它的本质是受限的环境。<strong>冷启动的延时、内存的限制、云函数的运行时长、并发数上限</strong>等等，这些都是你大规模深入应用之前需要评估考虑的问题。虽然云厂商一直在改进，这些客观限制在当下对于你的场景是否造成了实质性障碍，也是你目前是否选择 Serverless 计算的一个重要依据。</p>
+
+<p><a id="markdown-16--云上ai服务云ai能从哪些方面帮助构建智能应用" name="16--云上ai服务云ai能从哪些方面帮助构建智能应用"></a></p>
+
+<h2>16 | 云上AI服务：云AI能从哪些方面帮助构建智能应用？</h2>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[使用Nodejs-Express-MongoDB搭建服务器]]></title>
@@ -561,313 +821,6 @@ bubbleIframeMouseMove(myIframe);
 </code></pre>
 
 <p>You can now listen for mousemove on the iframe element or any of its parent elements. As the event will bubble up as you would expect.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[浏览器的同源策略和跨域解决方法]]></title>
-    <link href="http://hongchaozhang.github.io/blog/2020/06/04/same-origin-and-cross-domain/"/>
-    <updated>2020-06-04T11:21:46+08:00</updated>
-    <id>http://hongchaozhang.github.io/blog/2020/06/04/same-origin-and-cross-domain</id>
-    <content type="html"><![CDATA[<!-- more -->
-
-
-
-
-<!-- TOC -->
-
-
-<ul>
-<li><a href="#%E5%90%8C%E6%BA%90%E7%9A%84%E5%AE%9A%E4%B9%89">同源的定义</a></li>
-<li><a href="#%E6%B2%A1%E6%9C%89%E5%90%8C%E6%BA%90%E7%AD%96%E7%95%A5%E7%9A%84%E5%8D%B1%E9%99%A9%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9C%80%E8%A6%81%E5%90%8C%E6%BA%90%E7%AD%96%E7%95%A5">没有同源策略的危险（为什么需要同源策略）</a></li>
-<li><a href="#%E5%90%8C%E6%BA%90%E7%AD%96%E7%95%A5%E7%9A%84%E9%99%90%E5%88%B6">同源策略的限制</a></li>
-<li><a href="#%E5%B8%B8%E7%94%A8%E8%B7%A8%E5%9F%9F%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95--%E6%9C%AC%E5%9C%B0%E9%80%9A%E4%BF%A1">常用跨域的解决方法&ndash;本地通信</a>
-
-<ul>
-<li><a href="#%E4%BF%AE%E6%94%B9documentdomain%E5%B1%9E%E6%80%A7">修改<code>document.domain</code>属性</a></li>
-<li><a href="#%E5%80%9F%E5%8A%A9windownamelocationhash">借助<code>window.name</code>、<code>location.hash</code></a></li>
-<li><a href="#%E4%BD%BF%E7%94%A8windowpostmessage">使用<code>window.postMessage</code></a></li>
-</ul>
-</li>
-<li><a href="#%E5%B8%B8%E7%94%A8%E8%B7%A8%E5%9F%9F%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95--ajax%E8%AF%B7%E6%B1%82%E9%99%90%E5%88%B6">常用跨域的解决方法&ndash;AJAX请求限制</a>
-
-<ul>
-<li><a href="#%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%BB%A3%E7%90%86">服务器代理</a></li>
-<li><a href="#jsonp">JSONP</a></li>
-<li><a href="#websocket">WebSocket</a></li>
-<li><a href="#cors">CORS</a></li>
-</ul>
-</li>
-<li><a href="#%E5%8F%82%E8%80%83">参考</a></li>
-</ul>
-
-
-<!-- /TOC -->
-
-
-<p><a id="markdown-同源的定义" name="同源的定义"></a></p>
-
-<h2>同源的定义</h2>
-
-<p>根据<a href="https://developer.mozilla.org/zh-CN/docs/Web/Security/Same-origin_policy">MDN同源的定义</a>：如果两个URL的protocol、port(如果有指定的话)和host都相同的话，则这两个URL是同源。</p>
-
-<p>下表给出了与 URL <a href="http://store.company.com/dir/page.html">http://store.company.com/dir/page.html</a> 的源进行对比的示例:</p>
-
-<table>
-<thead>
-<tr>
-<th> URL </th>
-<th> 结果 </th>
-<th> 原因 </th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td> <a href="http://store.company.com/dir2/other.html">http://store.company.com/dir2/other.html</a> </td>
-<td> 同源 </td>
-<td> 只有路径不同 </td>
-</tr>
-<tr>
-<td> <a href="http://store.company.com/dir/inner/another.html">http://store.company.com/dir/inner/another.html</a> </td>
-<td> 同源 </td>
-<td> 只有路径不同 </td>
-</tr>
-<tr>
-<td> <a href="https://store.company.com/secure.html">https://store.company.com/secure.html</a> </td>
-<td> 失败 </td>
-<td> 协议（protocol）不同 </td>
-</tr>
-<tr>
-<td> <a href="http://store.company.com:81/dir/etc.html">http://store.company.com:81/dir/etc.html</a> </td>
-<td> 失败 </td>
-<td> 端口（port）不同 ( <a href="http://">http://</a> 默认端口是80) </td>
-</tr>
-<tr>
-<td> <a href="http://news.company.com/dir/other.html">http://news.company.com/dir/other.html</a> </td>
-<td> 失败 </td>
-<td> 主机（host）不同 </td>
-</tr>
-</tbody>
-</table>
-
-
-<p><a id="markdown-没有同源策略的危险为什么需要同源策略" name="没有同源策略的危险为什么需要同源策略"></a></p>
-
-<h2>没有同源策略的危险（为什么需要同源策略）</h2>
-
-<p>同源策略的目的，是为了保证用户信息的安全，防止恶意的网站窃取数据。</p>
-
-<p>下面从DOM同源策略和XMLHttpRequest同源策略来举例说明：</p>
-
-<p><strong>如果没有DOM同源策略</strong>，也就是说不同域的iframe之间可以相互访问Dom结构，那么黑客可以这样进行攻击：</p>
-
-<ol>
-<li>做一个假网站，里面用iframe嵌套一个银行网站<a href="">http://mybank.com</a>。</li>
-<li>把iframe宽高啥的调整到页面全部，这样用户进来除了域名，别的部分和银行的网站没有任何差别。</li>
-<li>这时如果用户输入账号密码，我们的主网站可以跨域访问到<a href="">http://mybank.com</a>的dom节点，就可以拿到用户的账户密码了。</li>
-</ol>
-
-
-<p><strong>如果没有XMLHttpRequest同源策略</strong>，那么黑客可以进行CSRF（跨站请求伪造）攻击：</p>
-
-<ol>
-<li>用户登录了自己的银行页面<a href="">http://mybank.com</a>，<a href="">http://mybank.com</a>向用户的cookie中添加用户标识。</li>
-<li>用户浏览了恶意页面<a href="">http://evil.com</a>，执行了页面中的恶意AJAX请求代码。</li>
-<li><a href="">http://evil.com</a>向<a href="">http://mybank.com</a>发起AJAX请求，请求会默认把<a href="">http://mybank.com</a>对应cookie也同时发送过去。</li>
-<li>银行页面从发送的cookie中提取用户标识，验证用户无误，response中返回请求数据。此时数据就泄露了。</li>
-<li>而且由于Ajax在后台执行，用户无法感知这一过程。</li>
-</ol>
-
-
-<p>其它例子可以参考：</p>
-
-<ol>
-<li>知乎<a href="https://zhuanlan.zhihu.com/p/28562290">跨域的那些事儿</a></li>
-<li><a href="https://segmentfault.com/a/1190000015597029">不要再问我跨域的问题了</a></li>
-</ol>
-
-
-<p><a id="markdown-同源策略的限制" name="同源策略的限制"></a></p>
-
-<h2>同源策略的限制</h2>
-
-<p>如果非同源，共有三种行为受到限制。</p>
-
-<ol>
-<li>Cookie、LocalStorage 和 IndexDB 无法读取。</li>
-<li>DOM 无法获得。</li>
-<li>AJAX 请求不能发送。</li>
-</ol>
-
-
-<p>比如试图从不同源的iframe里面获取dom结构就会报错：</p>
-
-<pre><code class="javascript">document.getElementById("myIFrame").contentWindow.document
-// Uncaught DOMException: Blocked a frame from accessing a cross-origin frame.
-</code></pre>
-
-<p>虽然这些限制是必要的，但是有时很不方便，合理的用途也受到影响：明明两个网页都是自己写的，但是属于不同的源，也就没有办法互相访问。</p>
-
-<p>下面列举一些方法，介绍如何规避上面三种限制。前提是两个URL都是自己写的网页，否则无法使用。这也正是同源策略的作用所在：对于第三方的一个网页，你是无法超越上面三种限制的，这也就保证了安全。</p>
-
-<p><a id="markdown-常用跨域的解决方法--本地通信" name="常用跨域的解决方法--本地通信"></a></p>
-
-<h2>常用跨域的解决方法&ndash;本地通信</h2>
-
-<p><a id="markdown-修改documentdomain属性" name="修改documentdomain属性"></a></p>
-
-<h3>修改<code>document.domain</code>属性</h3>
-
-<p>Cookie是服务器写入浏览器的一小段信息，只有同源的网页才能共享。浏览器允许通过设置<code>document.domain</code>共享Cookie。</p>
-
-<p>但是，<code>document.domain</code>只适用于“主域名相同，而子域名不同”的情况。这种方式非常适用于iframe跨域的情况。</p>
-
-<p>举例来说，A网页是<a href="">http://w1.example.com/a.html</a>，B网页是<a href="">http://w2.example.com/b.html</a>，那么只要这两个网页同时设置相同的<code>document.domain</code>，两个网页就可以共享Cookie。</p>
-
-<p>注意，这种方法只适用于Cookie和iframe窗口，LocalStorage和IndexDB无法通过这种方法，规避同源政策，而要使用下文介绍的PostMessage API。</p>
-
-<p>另外，服务器也可以在设置Cookie的时候，指定Cookie的所属域名为一级域名，比如.example.com。这样的话，二级域名和三级域名不用做任何设置，都可以读取这个Cookie。</p>
-
-<p><a id="markdown-借助windownamelocationhash" name="借助windownamelocationhash"></a></p>
-
-<h3>借助<code>window.name</code>、<code>location.hash</code></h3>
-
-<p>这两种方法可以说是一种“破解”。</p>
-
-<p>以<code>window.name</code>为例。浏览器窗口有<code>window.name</code>属性。这个属性的最大特点是，无论是否同源，只要在同一个窗口里，前一个网页设置了这个属性，后一个网页可以读取它。</p>
-
-<p><a id="markdown-使用windowpostmessage" name="使用windowpostmessage"></a></p>
-
-<h3>使用<code>window.postMessage</code></h3>
-
-<p><code>window.name</code>和<code>location.hash</code>是“破解”方法，<code>window.postMessage</code>则具有官方背景。HTML5为了解决跨文档通信（Cross-document messaging）问题，引入了这个全新的API <code>window.postMessage</code>。</p>
-
-<p>这个API为<code>window</code>对象新增了一个<code>window.postMessage</code>方法，允许跨窗口通信，不论这两个窗口是否同源。</p>
-
-<p>举例来说，父窗口<a href="">http://aaa.com</a>向子窗口<a href="">http://bbb.com</a>发消息，调用<code>postMessage</code>方法就可以了。</p>
-
-<pre><code class="javascript">var popup = window.open('http://bbb.com', 'title');
-popup.postMessage('Hello World!', 'http://bbb.com');
-</code></pre>
-
-<p><code>postMessage</code>方法的第一个参数是具体的信息内容，第二个参数是接收消息的窗口的源（origin），即"协议 + 域名 + 端口"。也可以设为*，表示不限制域名，向所有窗口发送。</p>
-
-<p>子窗口向父窗口发送消息的写法类似。</p>
-
-<pre><code class="javascript">window.opener.postMessage('Nice to see you', 'http://aaa.com');
-</code></pre>
-
-<p>父窗口和子窗口都可以通过message事件，监听对方的消息。</p>
-
-<pre><code class="javascript">window.addEventListener('message', function(e) {
-  console.log(e.data);
-},false);
-</code></pre>
-
-<p>message事件的事件对象event，提供以下三个属性。</p>
-
-<ol>
-<li><code>event.source</code>：发送消息的窗口</li>
-<li><code>event.origin</code>: 消息发向的网址</li>
-<li><code>event.data</code>: 消息内容</li>
-</ol>
-
-
-<blockquote><p>注：通过window.postMessage，读写其他窗口的 LocalStorage 也成为了可能。</p></blockquote>
-
-<p><a id="markdown-常用跨域的解决方法--ajax请求限制" name="常用跨域的解决方法--ajax请求限制"></a></p>
-
-<h2>常用跨域的解决方法&ndash;AJAX请求限制</h2>
-
-<p>后面几种方法都是为了解决不同源网页之间的AJAX请求问题。</p>
-
-<p><a id="markdown-服务器代理" name="服务器代理"></a></p>
-
-<h3>服务器代理</h3>
-
-<p>浏览器有跨域限制，但是服务器不存在跨域问题，所以可以由服务器请求所要域的资源再返回给客户端。</p>
-
-<p><a id="markdown-jsonp" name="jsonp"></a></p>
-
-<h3>JSONP</h3>
-
-<p>JSONP是服务器与客户端跨源通信的常用方法。最大特点就是简单适用，老式浏览器全部支持，服务器改造非常小。</p>
-
-<p>它的基本思想是，网页通过添加一个\&lt;script>元素，向服务器请求JSON数据，这种做法不受同源政策限制；服务器收到请求后，将数据放在一个指定名字的回调函数里传回来。</p>
-
-<p>首先，网页动态插入\&lt;script>元素，由它向跨源网址发出请求。</p>
-
-<pre><code class="javascript">function addScriptTag(src) {
-  var script = document.createElement('script');
-  script.setAttribute("type","text/javascript");
-  script.src = src;
-  document.body.appendChild(script);
-}
-
-window.onload = function () {
-  addScriptTag('http://example.com/ip?callback=foo');
-}
-
-function foo(data) {
-  console.log('Your public IP address is: ' + data.ip);
-};
-</code></pre>
-
-<p>上面代码通过动态添加\&lt;script>元素，向服务器<a href="">example.com</a>发出请求。注意，该请求的查询字符串有一个callback参数，用来指定回调函数的名字，这对于JSONP是必需的。</p>
-
-<p>服务器收到这个请求以后，会将数据放在回调函数的参数位置返回。</p>
-
-<pre><code class="javascript">foo({
-  "ip": "8.8.8.8"
-});
-</code></pre>
-
-<p>由于\&lt;script>元素请求的脚本，直接作为代码运行。这时，只要浏览器定义了foo函数，该函数就会立即调用。</p>
-
-<p><a id="markdown-websocket" name="websocket"></a></p>
-
-<h3>WebSocket</h3>
-
-<p>WebSocket是一种通信协议。该协议不实行同源政策，只要服务器支持，就可以通过它进行跨源通信。</p>
-
-<p>下面是一个例子，浏览器发出的WebSocket请求的头信息（摘自维基百科）。</p>
-
-<pre><code class="json">GET /chat HTTP/1.1
-Host: server.example.com
-Upgrade: websocket
-Connection: Upgrade
-Sec-WebSocket-Key: x3JJHMbDL1EzLkh9GBhXDw==
-Sec-WebSocket-Protocol: chat, superchat
-Sec-WebSocket-Version: 13
-Origin: http://example.com
-</code></pre>
-
-<p>上面代码中，有一个字段是<code>Origin</code>，表示该请求的请求源（<code>origin</code>），即发自哪个域名。</p>
-
-<p>正是因为有了<code>Origin</code>这个字段，所以WebSocket才没有实行同源政策。因为服务器可以根据这个字段，判断是否许可本次通信。如果该域名在白名单内，服务器就会做出如下回应。</p>
-
-<pre><code class="json">HTTP/1.1 101 Switching Protocols
-Upgrade: websocket
-Connection: Upgrade
-Sec-WebSocket-Accept: HSmrc0sMlYUkAGmm5OPpG2HaGWk=
-Sec-WebSocket-Protocol: chat
-</code></pre>
-
-<p><a id="markdown-cors" name="cors"></a></p>
-
-<h3>CORS</h3>
-
-<p>CORS是跨源资源分享（Cross-Origin Resource Sharing）的缩写。它是W3C标准，是跨源AJAX请求的根本解决方法。相比JSONP只能发GET请求，CORS允许任何类型的请求。</p>
-
-<p><a id="markdown-参考" name="参考"></a></p>
-
-<h2>参考</h2>
-
-<ul>
-<li>阮一峰的<a href="https://www.ruanyifeng.com/blog/2016/04/same-origin-policy.html">浏览器同源政策及其规避方法</a></li>
-<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/Security/Same-origin_policy">MDN同源的定义</a></li>
-</ul>
-
 ]]></content>
   </entry>
   
