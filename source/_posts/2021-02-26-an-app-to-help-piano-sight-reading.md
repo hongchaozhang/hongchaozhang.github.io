@@ -49,9 +49,15 @@ categories: [ios, music]
     }
 }
 ```
+### 数据备份
+
+1. 百度云盘下载（*/MyDocument/歌谱简谱五线谱/SightReading应用数据备份20211207/mstr.SightReading.2021-12-07.xcappdata.zip*）
+2. 解压得到*.xcappdata*文件，Mac右键“Show Package Content”。
+3. */App/Data/Documents/*目录下保存着上面说的图片和json文件，*/App/Library/Preferences/*目录下保存着UserDefault对应的plist文件。
+4. xcode连接ipad，点击*window->Devices and  Simulators*，选中iPad和SightReading应用。
+5. 点击下面的齿轮按钮，选择*Replace container...*，将解压出来的*.xcappdata*文件替换一下就可以了。
 
 ## 一些其它问题
-
 ### 移动Mask时换页的逻辑
 在前一页最后一些节需要显示Mask的时候直接换页到下一页，因为这个时候演奏者已经看完了前一页的最后一小节，并且需要预读下一页的第一小节。
 
