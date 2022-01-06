@@ -8,24 +8,58 @@ categories: [web, html, javascript, css]
 
 <!-- more -->
 
+<!-- TOC -->
+
+- [资源压缩与合并](#资源压缩与合并)
+    - [图片优化](#图片优化)
+- [图片的懒加载预加载](#图片的懒加载预加载)
+    - [懒加载：](#懒加载)
+    - [预加载：](#预加载)
+- [HTML渲染过程](#html渲染过程)
+- [重绘（外观）与回流（布局）redraw/reflow](#重绘外观与回流布局redrawreflow)
+    - [top and translate](#top-and-translate)
+    - [`opacity`替换`visibility`](#opacity替换visibility)
+    - [css的class替代style](#css的class替代style)
+    - [`display:none`](#displaynone)
+    - [慎用`clientWidth`](#慎用clientwidth)
+    - [少用table布局。](#少用table布局)
+    - [动画的刷新率和页面性能平衡](#动画的刷新率和页面性能平衡)
+    - [将gif图单独成一个图层](#将gif图单独成一个图层)
+    - [启用GPU硬件加速](#启用gpu硬件加速)
+- [浏览器存储](#浏览器存储)
+- [缓存](#缓存)
+- [服务器端渲染](#服务器端渲染)
+
+<!-- /TOC -->
+
+<a id="markdown-资源压缩与合并" name="资源压缩与合并"></a>
+
 ## 资源压缩与合并
 资源合并会减少请求次数，总体上降低请求时间。但是，也不能不加考虑地都合并到一起，这样会影响首页渲染速度。
+
+<a id="markdown-图片优化" name="图片优化"></a>
 
 ### 图片优化
 
 1. 图片**雪碧图**，不能太大，太大影响首屏渲染性能。一个页面的小图放在一起，生成一张雪碧图即可。
 2. **inline image**，inline image内嵌在html里面，作为html的一部分和html一起加载。当图片大小小于8KB时，考虑使用inline image。
-3, **使用webp格式图片**，webp格式图片由google推出，android平台支持好，apple safari浏览器有兼容性问题（2020年Mac OS Big Sur中的Safari 14已经支持WebP格式。）
+3. **使用webp格式图片**，webp格式图片由google推出，android平台支持好，apple safari浏览器有兼容性问题（2020年Mac OS Big Sur中的Safari 14已经支持WebP格式。）
 4. **jpg**、**png**、**svg**等图片格式各有其特点和应用场合。
 
-另附上两个公交软件：
+另附上两个工具软件：
 
 1. [图片压缩网站](https://tinypng.com)
 2. [雪碧图生成网站](www.spritecow.com)
 
+<a id="markdown-图片的懒加载预加载" name="图片的懒加载预加载"></a>
+
 ## 图片的懒加载预加载
+<a id="markdown-懒加载" name="懒加载"></a>
+
 ### 懒加载：
 通过图片进入可视区域的时候再设置img的src属性，进行请求。或者通过库实现。
+
+<a id="markdown-预加载" name="预加载"></a>
 
 ### 预加载：
 
@@ -33,6 +67,8 @@ categories: [web, html, javascript, css]
 2. 在js中`new image`，并且设置`image`的`src`，进行图片下载，保存在js的变量中，但是不显示，需要的时候直接拿过来显示即可。
 3. 使用`XMLHttpRequest`，可以清楚知道请求的过程，但是存在跨域的问题。
 4. 或者通过库实现：preloader.js
+
+<a id="markdown-html渲染过程" name="html渲染过程"></a>
 
 ## HTML渲染过程
 
@@ -43,13 +79,16 @@ categories: [web, html, javascript, css]
 3. `script`和`import`引入方式：`script`引入js是同步的，阻塞页面渲染。结合`differ`和`sync`标签影响js引入过程。不阻塞资源的加载（得益于webkit的预扫描功能）。
 4. SPA：单页应用，动态加载，路由到相关页面再加载相关的资源。
 
+<a id="markdown-重绘外观与回流布局redrawreflow" name="重绘外观与回流布局redrawreflow"></a>
+
 ## 重绘（外观）与回流（布局）redraw/reflow
-css性能让js变慢
-css影响layout，进而产生重绘与回流。多次的重绘与回流使得UI线程多次工作，而UI线程的启动会阻塞js线程的执行。
+css性能让js变慢：css影响layout，进而产生重绘与回流。多次的重绘与回流使得UI线程多次工作，而UI线程的启动会阻塞js线程的执行。
 
 下面是一些有关**回流与重绘**实战演练。通过观察Chrome的Performance调试工具分析渲染过程和性能瓶颈。截图如下：
 
 ![chrome_performance_demo.jpg](/images/chrome_performance_demo.jpg)
+
+<a id="markdown-top-and-translate" name="top-and-translate"></a>
 
 ### top and translate
 相比于`top`，`translate`没有回流的过程，对于dom结构复杂的页面，性能提升比较明显。
@@ -109,21 +148,39 @@ css影响layout，进而产生重绘与回流。多次的重绘与回流使得UI
 
 </details>
 
+<a id="markdown-opacity替换visibility" name="opacity替换visibility"></a>
+
 ### `opacity`替换`visibility`
 `opaciy`：如果被修改的dom元素自己是一个图层，不触发回流和重绘（试验结果：没有回流，但是有重绘）；否则，触发回流和重绘。
 `visibility`：不触发回流，只触发重绘。
 
-### 多个dom样式通过class一次改动多条style属性，减少回流和重绘的次数
+<a id="markdown-css的class替代style" name="css的class替代style"></a>
 
-### 先设置`display`为`none`，再修改各种属性，再将`display`设回来。
+### css的class替代style
+多个dom样式通过class一次改动多条style属性，减少回流和重绘的次数
 
-### 不要在循环中获取dom的`clientWidth`，否则会flash掉浏览器的缓冲区，使浏览器性能下降。
+<a id="markdown-displaynone" name="displaynone"></a>
+
+### `display:none`
+先设置`display`为`none`，再修改各种属性，再将`display`设回来。
+
+<a id="markdown-慎用clientwidth" name="慎用clientwidth"></a>
+
+### 慎用`clientWidth`
+不要在循环中获取dom的`clientWidth`，否则会flash掉浏览器的缓冲区，使浏览器性能下降。
+
 缓冲区是浏览器的优化机制，将多个改动合并成一次改动，以便提高效率。
+
+<a id="markdown-少用table布局" name="少用table布局"></a>
 
 ### 少用table布局。
 修改某一`td`的宽度，会使得所有`td`进行回流。
 
+<a id="markdown-动画的刷新率和页面性能平衡" name="动画的刷新率和页面性能平衡"></a>
+
 ### 动画的刷新率和页面性能平衡
+
+<a id="markdown-将gif图单独成一个图层" name="将gif图单独成一个图层"></a>
 
 ### 将gif图单独成一个图层
 通过设置某些css属性，将某个dom做成一个图层：
@@ -132,12 +189,16 @@ css影响layout，进而产生重绘与回流。多次的重绘与回流使得UI
 2. `transform: translateZ(0)`
 3. `translate3d(0,0,0)`
 
+<a id="markdown-启用gpu硬件加速" name="启用gpu硬件加速"></a>
+
 ### 启用GPU硬件加速
 
 启用GPU加速，会减少重绘的时间，但是图层增多，图层合并的时间会增加，这里也有个平衡需要把握。
 
 细节参考[Web 性能优化-CSS3 硬件加速(GPU 加速)](https://lz5z.com/Web%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96-CSS3%E7%A1%AC%E4%BB%B6%E5%8A%A0%E9%80%9F/)
 
+
+<a id="markdown-浏览器存储" name="浏览器存储"></a>
 
 ## 浏览器存储
 
@@ -147,14 +208,16 @@ css影响layout，进而产生重绘与回流。多次的重绘与回流使得UI
 4. 增加图层是减少的重绘与回流的时间与增加的图层合并时间的增加之间的平衡。比如通过设置translate3d开启GPU加速。
 5. 获取offsetHeight为什么会降低效率？使缓冲区域失效，因为要得到一个真实的尺寸。缓冲区域是浏览器的一个优化机制，通过将多次更改dom综合起来一次更新，提高效率。
 
+<a id="markdown-缓存" name="缓存"></a>
+
 ## 缓存
-#### 强缓存
+**强缓存**
 如果命中，不需要发请求到服务器。
 
 1. cache-control: max-age, s-max-age
 2. expires:
 
-#### 协商缓存（弱缓存）
+**协商缓存（弱缓存）**
 需要发请求到服务器询问本地缓存是否可用。如果可用，服务器返回304，不携带具体内容，具体内容从本地缓存中读取。如果不可用，服务器直接返回内容。
 
 1. last-modified:
@@ -170,6 +233,8 @@ css影响layout，进而产生重绘与回流。多次的重绘与回流使得UI
 
 1. [Web 缓存介绍](https://www.jiqizhixin.com/articles/2020-07-24-12)
 2. [HTTP 缓存之浏览器刷新行为](https://segmentfault.com/a/1190000010787023): disable cache setting in the developper tool
+
+<a id="markdown-服务器端渲染" name="服务器端渲染"></a>
 
 ## 服务器端渲染
 1. vue-ssr (server-side-rendering)
