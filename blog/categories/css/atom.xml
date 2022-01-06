@@ -4,7 +4,7 @@
   <title><![CDATA[Category: css | Reading Space]]></title>
   <link href="http://hongchaozhang.github.io/blog/categories/css/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2022-01-04T18:58:36+08:00</updated>
+  <updated>2022-01-06T10:25:12+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -21,21 +21,68 @@
     <content type="html"><![CDATA[<!-- more -->
 
 
+
+
+<!-- TOC -->
+
+
+<ul>
+<li><a href="#%E8%B5%84%E6%BA%90%E5%8E%8B%E7%BC%A9%E4%B8%8E%E5%90%88%E5%B9%B6">资源压缩与合并</a>
+
+<ul>
+<li><a href="#%E5%9B%BE%E7%89%87%E4%BC%98%E5%8C%96">图片优化</a></li>
+</ul>
+</li>
+<li><a href="#%E5%9B%BE%E7%89%87%E7%9A%84%E6%87%92%E5%8A%A0%E8%BD%BD%E9%A2%84%E5%8A%A0%E8%BD%BD">图片的懒加载预加载</a>
+
+<ul>
+<li><a href="#%E6%87%92%E5%8A%A0%E8%BD%BD">懒加载：</a></li>
+<li><a href="#%E9%A2%84%E5%8A%A0%E8%BD%BD">预加载：</a></li>
+</ul>
+</li>
+<li><a href="#html%E6%B8%B2%E6%9F%93%E8%BF%87%E7%A8%8B">HTML渲染过程</a></li>
+<li><a href="#%E9%87%8D%E7%BB%98%E5%A4%96%E8%A7%82%E4%B8%8E%E5%9B%9E%E6%B5%81%E5%B8%83%E5%B1%80redrawreflow">重绘（外观）与回流（布局）redraw/reflow</a>
+
+<ul>
+<li><a href="#top-and-translate">top and translate</a></li>
+<li><a href="#opacity%E6%9B%BF%E6%8D%A2visibility"><code>opacity</code>替换<code>visibility</code></a></li>
+<li><a href="#css%E7%9A%84class%E6%9B%BF%E4%BB%A3style">css的class替代style</a></li>
+<li><a href="#displaynone"><code>display:none</code></a></li>
+<li><a href="#%E6%85%8E%E7%94%A8clientwidth">慎用<code>clientWidth</code></a></li>
+<li><a href="#%E5%B0%91%E7%94%A8table%E5%B8%83%E5%B1%80">少用table布局。</a></li>
+<li><a href="#%E5%8A%A8%E7%94%BB%E7%9A%84%E5%88%B7%E6%96%B0%E7%8E%87%E5%92%8C%E9%A1%B5%E9%9D%A2%E6%80%A7%E8%83%BD%E5%B9%B3%E8%A1%A1">动画的刷新率和页面性能平衡</a></li>
+<li><a href="#%E5%B0%86gif%E5%9B%BE%E5%8D%95%E7%8B%AC%E6%88%90%E4%B8%80%E4%B8%AA%E5%9B%BE%E5%B1%82">将gif图单独成一个图层</a></li>
+<li><a href="#%E5%90%AF%E7%94%A8gpu%E7%A1%AC%E4%BB%B6%E5%8A%A0%E9%80%9F">启用GPU硬件加速</a></li>
+</ul>
+</li>
+<li><a href="#%E6%B5%8F%E8%A7%88%E5%99%A8%E5%AD%98%E5%82%A8">浏览器存储</a></li>
+<li><a href="#%E7%BC%93%E5%AD%98">缓存</a></li>
+<li><a href="#%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF%E6%B8%B2%E6%9F%93">服务器端渲染</a></li>
+</ul>
+
+
+<!-- /TOC -->
+
+
+<p><a id="markdown-资源压缩与合并" name="资源压缩与合并"></a></p>
+
 <h2>资源压缩与合并</h2>
 
 <p>资源合并会减少请求次数，总体上降低请求时间。但是，也不能不加考虑地都合并到一起，这样会影响首页渲染速度。</p>
+
+<p><a id="markdown-图片优化" name="图片优化"></a></p>
 
 <h3>图片优化</h3>
 
 <ol>
 <li>图片<strong>雪碧图</strong>，不能太大，太大影响首屏渲染性能。一个页面的小图放在一起，生成一张雪碧图即可。</li>
-<li><strong>inline image</strong>，inline image内嵌在html里面，作为html的一部分和html一起加载。当图片大小小于8KB时，考虑使用inline image。
-3, <strong>使用webp格式图片</strong>，webp格式图片由google推出，android平台支持好，apple safari浏览器有兼容性问题（2020年Mac OS Big Sur中的Safari 14已经支持WebP格式。）</li>
+<li><strong>inline image</strong>，inline image内嵌在html里面，作为html的一部分和html一起加载。当图片大小小于8KB时，考虑使用inline image。</li>
+<li><strong>使用webp格式图片</strong>，webp格式图片由google推出，android平台支持好，apple safari浏览器有兼容性问题（2020年Mac OS Big Sur中的Safari 14已经支持WebP格式。）</li>
 <li><strong>jpg</strong>、<strong>png</strong>、<strong>svg</strong>等图片格式各有其特点和应用场合。</li>
 </ol>
 
 
-<p>另附上两个公交软件：</p>
+<p>另附上两个工具软件：</p>
 
 <ol>
 <li><a href="https://tinypng.com">图片压缩网站</a></li>
@@ -43,11 +90,17 @@
 </ol>
 
 
+<p><a id="markdown-图片的懒加载预加载" name="图片的懒加载预加载"></a></p>
+
 <h2>图片的懒加载预加载</h2>
+
+<p><a id="markdown-懒加载" name="懒加载"></a></p>
 
 <h3>懒加载：</h3>
 
 <p>通过图片进入可视区域的时候再设置img的src属性，进行请求。或者通过库实现。</p>
+
+<p><a id="markdown-预加载" name="预加载"></a></p>
 
 <h3>预加载：</h3>
 
@@ -58,6 +111,8 @@
 <li>或者通过库实现：preloader.js</li>
 </ol>
 
+
+<p><a id="markdown-html渲染过程" name="html渲染过程"></a></p>
 
 <h2>HTML渲染过程</h2>
 
@@ -75,14 +130,17 @@
 </ol>
 
 
+<p><a id="markdown-重绘外观与回流布局redrawreflow" name="重绘外观与回流布局redrawreflow"></a></p>
+
 <h2>重绘（外观）与回流（布局）redraw/reflow</h2>
 
-<p>css性能让js变慢
-css影响layout，进而产生重绘与回流。多次的重绘与回流使得UI线程多次工作，而UI线程的启动会阻塞js线程的执行。</p>
+<p>css性能让js变慢：css影响layout，进而产生重绘与回流。多次的重绘与回流使得UI线程多次工作，而UI线程的启动会阻塞js线程的执行。</p>
 
 <p>下面是一些有关<strong>回流与重绘</strong>实战演练。通过观察Chrome的Performance调试工具分析渲染过程和性能瓶颈。截图如下：</p>
 
 <p><img src="/images/chrome_performance_demo.jpg" alt="chrome_performance_demo.jpg" /></p>
+
+<p><a id="markdown-top-and-translate" name="top-and-translate"></a></p>
 
 <h3>top and translate</h3>
 
@@ -145,24 +203,44 @@ css影响layout，进而产生重绘与回流。多次的重绘与回流使得UI
 
 <p></details></p>
 
+<p><a id="markdown-opacity替换visibility" name="opacity替换visibility"></a></p>
+
 <h3><code>opacity</code>替换<code>visibility</code></h3>
 
 <p><code>opaciy</code>：如果被修改的dom元素自己是一个图层，不触发回流和重绘（试验结果：没有回流，但是有重绘）；否则，触发回流和重绘。
 <code>visibility</code>：不触发回流，只触发重绘。</p>
 
-<h3>多个dom样式通过class一次改动多条style属性，减少回流和重绘的次数</h3>
+<p><a id="markdown-css的class替代style" name="css的class替代style"></a></p>
 
-<h3>先设置<code>display</code>为<code>none</code>，再修改各种属性，再将<code>display</code>设回来。</h3>
+<h3>css的class替代style</h3>
 
-<h3>不要在循环中获取dom的<code>clientWidth</code>，否则会flash掉浏览器的缓冲区，使浏览器性能下降。</h3>
+<p>多个dom样式通过class一次改动多条style属性，减少回流和重绘的次数</p>
+
+<p><a id="markdown-displaynone" name="displaynone"></a></p>
+
+<h3><code>display:none</code></h3>
+
+<p>先设置<code>display</code>为<code>none</code>，再修改各种属性，再将<code>display</code>设回来。</p>
+
+<p><a id="markdown-慎用clientwidth" name="慎用clientwidth"></a></p>
+
+<h3>慎用<code>clientWidth</code></h3>
+
+<p>不要在循环中获取dom的<code>clientWidth</code>，否则会flash掉浏览器的缓冲区，使浏览器性能下降。</p>
 
 <p>缓冲区是浏览器的优化机制，将多个改动合并成一次改动，以便提高效率。</p>
+
+<p><a id="markdown-少用table布局" name="少用table布局"></a></p>
 
 <h3>少用table布局。</h3>
 
 <p>修改某一<code>td</code>的宽度，会使得所有<code>td</code>进行回流。</p>
 
+<p><a id="markdown-动画的刷新率和页面性能平衡" name="动画的刷新率和页面性能平衡"></a></p>
+
 <h3>动画的刷新率和页面性能平衡</h3>
+
+<p><a id="markdown-将gif图单独成一个图层" name="将gif图单独成一个图层"></a></p>
 
 <h3>将gif图单独成一个图层</h3>
 
@@ -175,11 +253,15 @@ css影响layout，进而产生重绘与回流。多次的重绘与回流使得UI
 </ol>
 
 
+<p><a id="markdown-启用gpu硬件加速" name="启用gpu硬件加速"></a></p>
+
 <h3>启用GPU硬件加速</h3>
 
 <p>启用GPU加速，会减少重绘的时间，但是图层增多，图层合并的时间会增加，这里也有个平衡需要把握。</p>
 
 <p>细节参考<a href="https://lz5z.com/Web%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96-CSS3%E7%A1%AC%E4%BB%B6%E5%8A%A0%E9%80%9F/">Web 性能优化-CSS3 硬件加速(GPU 加速)</a></p>
+
+<p><a id="markdown-浏览器存储" name="浏览器存储"></a></p>
 
 <h2>浏览器存储</h2>
 
@@ -192,11 +274,12 @@ css影响layout，进而产生重绘与回流。多次的重绘与回流使得UI
 </ol>
 
 
+<p><a id="markdown-缓存" name="缓存"></a></p>
+
 <h2>缓存</h2>
 
-<h4>强缓存</h4>
-
-<p>如果命中，不需要发请求到服务器。</p>
+<p><strong>强缓存</strong>
+如果命中，不需要发请求到服务器。</p>
 
 <ol>
 <li>cache-control: max-age, s-max-age</li>
@@ -204,9 +287,8 @@ css影响layout，进而产生重绘与回流。多次的重绘与回流使得UI
 </ol>
 
 
-<h4>协商缓存（弱缓存）</h4>
-
-<p>需要发请求到服务器询问本地缓存是否可用。如果可用，服务器返回304，不携带具体内容，具体内容从本地缓存中读取。如果不可用，服务器直接返回内容。</p>
+<p><strong>协商缓存（弱缓存）</strong>
+需要发请求到服务器询问本地缓存是否可用。如果可用，服务器返回304，不携带具体内容，具体内容从本地缓存中读取。如果不可用，服务器直接返回内容。</p>
 
 <ol>
 <li>last-modified:</li>
@@ -227,6 +309,8 @@ css影响layout，进而产生重绘与回流。多次的重绘与回流使得UI
 <li><a href="https://segmentfault.com/a/1190000010787023">HTTP 缓存之浏览器刷新行为</a>: disable cache setting in the developper tool</li>
 </ol>
 
+
+<p><a id="markdown-服务器端渲染" name="服务器端渲染"></a></p>
 
 <h2>服务器端渲染</h2>
 
