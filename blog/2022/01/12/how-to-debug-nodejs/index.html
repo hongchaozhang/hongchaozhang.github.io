@@ -1,0 +1,176 @@
+
+<!DOCTYPE HTML>
+
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>如何调试NodeJs源码 - Reading Space</title>
+	<meta name="author" content="Zhang Hongchao">
+
+	
+	<meta name="description" content="如何调试NodeJs源码 调试javascript代码 通过添加--inspect参数启动nodejs服务，看到下面的消息，表明成功启动调试模式： 1
+2
+3
+HANM10610:nodePlayground hozhang$ node --inspect sightReading.js &hellip;">
+	
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="Reading Space" type="application/atom+xml">
+	
+	<link rel="canonical" href="http://hongchaozhang.github.io/blog/2022/01/12/how-to-debug-nodejs/">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<link href="/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<link href='http://fonts.googleapis.com/css?family=Nunito:400,300,700' rel='stylesheet' type='text/css'>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	
+  
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-62806905-2']);
+		_gaq.push(['_trackPageview']);
+
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
+
+
+</head>
+
+
+<body>
+	<div class="container">
+		<div class="left-col">
+			<div class="intrude-less">
+			<header id="header" class="inner"><div class="profilepic">
+	
+	<script src="/javascripts/md5.js"></script>
+	<script type="text/javascript">
+		$(function(){
+			$('.profilepic').append("<img src='http://www.gravatar.com/avatar/" + MD5("") + "?s=160' alt='Profile Picture' style='width: 160px;' />");
+		});
+	</script>
+	
+</div>
+
+<nav id="main-nav"><ul class="main">
+    <li><a href="/">Blog</a></li>
+    <li><a href="/blog/archives">Archives</a></li>
+    <li><a href="#">About</a></li>
+</ul>
+</nav>
+<nav id="sub-nav">
+	<div class="social">
+		
+		
+		
+		
+		
+			<a class="github" href="https://github.com/hongchaozhang" title="GitHub">GitHub</a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+    	
+    	
+			<a class="rss" href="/atom.xml" title="RSS">RSS</a>
+		
+	</div>
+</nav>
+
+
+
+<section class="categories">
+          <ul id="category_cloud" class="nav nav-list"><a href='/blog/categories/algorithm' style='font-size: 101.33333333333333%'>algorithm(1)</a> <a href='/blog/categories/android' style='font-size: 108.0%'>android(6)</a> <a href='/blog/categories/android-studio' style='font-size: 101.33333333333333%'>android studio(1)</a> <a href='/blog/categories/augmented-reality' style='font-size: 105.33333333333333%'>augmented reality(4)</a> <a href='/blog/categories/css' style='font-size: 102.66666666666667%'>css(2)</a> <a href='/blog/categories/design-pattern' style='font-size: 104.0%'>design pattern(3)</a> <a href='/blog/categories/html' style='font-size: 102.66666666666667%'>html(2)</a> <a href='/blog/categories/html-css' style='font-size: 101.33333333333333%'>html css(1)</a> <a href='/blog/categories/http' style='font-size: 102.66666666666667%'>http(2)</a> <a href='/blog/categories/ios' style='font-size: 160.0%'>ios(45)</a> <a href='/blog/categories/java' style='font-size: 102.66666666666667%'>java(2)</a> <a href='/blog/categories/javascript' style='font-size: 105.33333333333333%'>javascript(4)</a> <a href='/blog/categories/machine-learning' style='font-size: 112.0%'>machine learning(9)</a> <a href='/blog/categories/map-tech' style='font-size: 104.0%'>map tech(3)</a> <a href='/blog/categories/mobile' style='font-size: 101.33333333333333%'>mobile(1)</a> <a href='/blog/categories/mongodb' style='font-size: 101.33333333333333%'>mongodb(1)</a> <a href='/blog/categories/music' style='font-size: 109.33333333333333%'>music(7)</a> <a href='/blog/categories/nlp' style='font-size: 102.66666666666667%'>nlp(2)</a> <a href='/blog/categories/nlu' style='font-size: 102.66666666666667%'>nlu(2)</a> <a href='/blog/categories/node' style='font-size: 104.0%'>node(3)</a> <a href='/blog/categories/nodejs' style='font-size: 104.0%'>nodejs(3)</a> <a href='/blog/categories/objective-c' style='font-size: 129.33333333333334%'>objective-c(22)</a> <a href='/blog/categories/philosophy' style='font-size: 102.66666666666667%'>philosophy(2)</a> <a href='/blog/categories/productivity' style='font-size: 130.66666666666666%'>productivity(23)</a> <a href='/blog/categories/python' style='font-size: 106.66666666666667%'>python(5)</a> <a href='/blog/categories/reading' style='font-size: 138.66666666666666%'>reading(29)</a> <a href='/blog/categories/server' style='font-size: 101.33333333333333%'>server(1)</a> <a href='/blog/categories/swift' style='font-size: 109.33333333333333%'>swift(7)</a> <a href='/blog/categories/web' style='font-size: 113.33333333333333%'>web(10)</a> <a href='/blog/categories/wwdc' style='font-size: 102.66666666666667%'>wwdc(2)</a> <a href='/blog/categories/xcode' style='font-size: 110.66666666666667%'>xcode(8)</a> </ul>
+      </section>
+
+
+</header>				
+			</div>
+		</div>	
+		<div class="mid-col">
+			
+				
+			
+			<div class="mid-col-container">
+				<div id="content" class="inner"><article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+	<h1 class="title" itemprop="name">如何调试NodeJs源码</h1>
+	<div class="entry-content" itemprop="articleBody"><!-- more -->
+
+
+<h2>调试javascript代码</h2>
+
+<p>通过添加<code>--inspect</code>参数启动nodejs服务，看到下面的消息，表明成功启动调试模式：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>HANM10610:nodePlayground hozhang$ node --inspect sightReading.js
+</span><span class='line'>Debugger listening on ws://127.0.0.1:9229/c8620553-2cf2-4fac-bab8-d18e98c3d777
+</span><span class='line'>For help, see: https://nodejs.org/en/docs/inspector</span></code></pre></td></tr></table></div></figure>
+
+
+<p>可以通过很多种方式连接到调试环境，比如Chrome Developer Tools, VS Code等，详细信息参考官方文档<a href="https://nodejs.org/en/docs/guides/debugging-getting-started/">Debugging Guide</a>。下面以Chrome Developer Tools说明。</p>
+
+<p>在chrome://inspect/#devices找到启动的target，打开，搜索打开你的文件或者相关的库文件，就可以打断点开始调试了。</p>
+
+<p><img src="/images/debug%E6%9F%A5%E7%9C%8B%E5%8F%82%E6%95%B0%E7%B1%BB%E5%9E%8B.jpg" alt="debug查看参数类型.jpg" /></p>
+
+<p><img src="/images/%E8%B0%83%E8%AF%95readFileSync.jpg" alt="调试readFileSync.jpg" /></p>
+
+<h2>调试C/C++代码</h2>
+
+<p>参考<a href="https://www.tripfe.cn/node-js-four-postures-of-source-code-debugging/">Node.js源代码调试的4种姿势</a></p>
+</div>
+
+</article>
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+	
+	
+	
+	<a class="addthis_counter addthis_pill_style"></a>
+	</div>
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
+</div>
+
+
+</div>
+			</div>
+			<footer id="footer" class="inner">Copyright &copy; 2022
+
+    Zhang Hongchao
+
+
+<!--Design credit: <a href="http://shashankmehta.in/archive/2012/greyshade.html">Shashank Mehta</a>--></footer>
+		</div>
+	</div>
+	
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: javascript | Reading Space]]></title>
   <link href="http://hongchaozhang.github.io/blog/categories/javascript/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2022-01-06T10:25:12+08:00</updated>
+  <updated>2022-03-08T17:40:10+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -12,6 +12,37 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[如何调试NodeJs源码]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2022/01/12/how-to-debug-nodejs/"/>
+    <updated>2022-01-12T15:57:01+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2022/01/12/how-to-debug-nodejs</id>
+    <content type="html"><![CDATA[<!-- more -->
+
+
+<h2>调试javascript代码</h2>
+
+<p>通过添加<code>--inspect</code>参数启动nodejs服务，看到下面的消息，表明成功启动调试模式：
+<code>
+HANM10610:nodePlayground hozhang$ node --inspect sightReading.js
+Debugger listening on ws://127.0.0.1:9229/c8620553-2cf2-4fac-bab8-d18e98c3d777
+For help, see: https://nodejs.org/en/docs/inspector
+</code></p>
+
+<p>可以通过很多种方式连接到调试环境，比如Chrome Developer Tools, VS Code等，详细信息参考官方文档<a href="https://nodejs.org/en/docs/guides/debugging-getting-started/">Debugging Guide</a>。下面以Chrome Developer Tools说明。</p>
+
+<p>在chrome://inspect/#devices找到启动的target，打开，搜索打开你的文件或者相关的库文件，就可以打断点开始调试了。</p>
+
+<p><img src="/images/debug%E6%9F%A5%E7%9C%8B%E5%8F%82%E6%95%B0%E7%B1%BB%E5%9E%8B.jpg" alt="debug查看参数类型.jpg" /></p>
+
+<p><img src="/images/%E8%B0%83%E8%AF%95readFileSync.jpg" alt="调试readFileSync.jpg" /></p>
+
+<h2>调试C/C++代码</h2>
+
+<p>参考<a href="https://www.tripfe.cn/node-js-four-postures-of-source-code-debugging/">Node.js源代码调试的4种姿势</a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[极客时间-Web前端性能优化]]></title>

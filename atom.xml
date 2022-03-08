@@ -4,7 +4,7 @@
   <title><![CDATA[Reading Space]]></title>
   <link href="http://hongchaozhang.github.io/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2022-01-06T10:25:12+08:00</updated>
+  <updated>2022-03-08T17:40:10+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -12,6 +12,298 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[从Terminal切换到iTerm2，从Bash切换到Zsh]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2022/03/08/change-from-bash-to-zsh/"/>
+    <updated>2022-03-08T16:45:12+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2022/03/08/change-from-bash-to-zsh</id>
+    <content type="html"><![CDATA[<!-- more -->
+
+
+<h2>安装iTerm2 + Oh My Zsh</h2>
+
+<p><a href="https://segmentfault.com/a/1190000014992947">iTerm2 + Oh My Zsh 打造舒适终端体验</a></p>
+
+<p>OhMyZsh的主题：
+ZSH_THEME=&ldquo;af-magic&rdquo;</p>
+
+<p>OhMyZsh的插件：
+plugins=(git zsh-syntax-highlighting zsh-autosuggestions)</p>
+
+<h2>Zsh配置文件加载顺序</h2>
+
+<p>.zshenv
+.zshrc</p>
+
+<p>更多配置文件，参考<a href="https://unix.stackexchange.com/questions/71253/what-should-shouldnt-go-in-zshenv-zshrc-zlogin-zprofile-zlogout">What should/shouldn&rsquo;t go in .zshenv, .zshrc, .zlogin, .zprofile, .zlogout?</a></p>
+
+<h2>Zsh问题</h2>
+
+<h3>Octopress在zsh下无法新建博客的问题</h3>
+
+<p>执行：
+ ```
+$ rake new_post[&ldquo;new post name&rdquo;]</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>
+</span><span class='line'>报错：</span></code></pre></td></tr></table></div></figure>
+
+
+<p>zsh: no matches found: new_post[new post name]</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>原因：
+</span><span class='line'>zsh中若出现‘*’, ‘(’, ‘|’, ‘&lt;’, ‘[’, 或者 ‘?’符号，则将其识别为查找文件名的通配符。
+</span><span class='line'>
+</span><span class='line'>解决方法一：
+</span><span class='line'>
+</span><span class='line'>遇到上面的特殊字符，使用转义字符代替。比如：
+</span><span class='line'> ```
+</span><span class='line'>$ rake new_post["new post name"]</span></code></pre></td></tr></table></div></figure>
+
+
+<p>解决方法二：</p>
+
+<p>取消zsh的通配(GLOB), 在.zshrc中加入</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>alias rake="noglob rake"</span></code></pre></td></tr></table></div></figure>
+
+
+<p>并且执行：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>source ./zshrc</span></code></pre></td></tr></table></div></figure>
+
+
+<p>PS git操作也有类似的问题。</p>
+
+<p>在 git 回滚操作</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git reset --soft HEAD^</span></code></pre></td></tr></table></div></figure>
+
+
+<p>出现报错：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>zsh: no matches found HEAD^</span></code></pre></td></tr></table></div></figure>
+
+
+<p>也为同样原因，因为^也为正则中的符号， 需要转义为</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git reset --soft HEAD\^</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[web性能优化综述]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2022/03/08/http-xingneng-youhua/"/>
+    <updated>2022-03-08T16:44:40+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2022/03/08/http-xingneng-youhua</id>
+    <content type="html"><![CDATA[<!-- more -->
+
+
+
+
+<!-- TOC -->
+
+
+<ul>
+<li><a href="#https%E8%AF%B7%E6%B1%82%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96">HTTP(s)请求性能优化</a>
+
+<ul>
+<li><a href="#%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95%E5%B7%A5%E5%85%B7">性能测试工具</a></li>
+<li><a href="#http%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96">HTTP性能优化</a>
+
+<ul>
+<li><a href="#%E5%BC%80%E6%BA%90">开源</a></li>
+<li><a href="#%E8%8A%82%E6%B5%81">节流</a></li>
+<li><a href="#%E7%BC%93%E5%AD%98">缓存</a></li>
+<li><a href="#%E5%8D%87%E7%BA%A7%E5%88%B0http2">升级到HTTP/2</a></li>
+<li><a href="#%E5%85%B3%E4%BA%8E%E8%B5%84%E6%BA%90%E5%90%88%E5%B9%B6">关于资源合并</a></li>
+</ul>
+</li>
+<li><a href="#https%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96">HTTPs性能优化</a>
+
+<ul>
+<li><a href="#1-%E7%A1%AC%E4%BB%B6%E4%BC%98%E5%8C%96cpussl%E5%8A%A0%E9%80%9F%E5%8D%A1ssl%E5%8A%A0%E9%80%9F%E6%9C%8D%E5%8A%A1%E5%99%A8">1. 硬件优化：CPU，SSL加速卡，SSL加速服务器</a></li>
+<li><a href="#2-%E8%BD%AF%E4%BB%B6%E4%BC%98%E5%8C%96">2. 软件优化：</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#%E6%B5%8F%E8%A7%88%E5%99%A8%E5%86%85%E6%B8%B2%E6%9F%93%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96">浏览器内渲染性能优化</a></li>
+</ul>
+
+
+<!-- /TOC -->
+
+
+<p>从web渲染全过程分析，从下面几个方面进行性能优化考虑：</p>
+
+<ol>
+<li>HTTP请求性能优化</li>
+<li>浏览器内渲染性能优化</li>
+</ol>
+
+
+<p><a id="markdown-https请求性能优化" name="https请求性能优化"></a></p>
+
+<h2>HTTP(s)请求性能优化</h2>
+
+<p><a id="markdown-性能测试工具" name="性能测试工具"></a></p>
+
+<h3>性能测试工具</h3>
+
+<ol>
+<li>在 Linux 上，最常用的性能测试工具可能就是 ab（Apache Bench）了，比如，下面的命令指定了并发数 100，总共发送 10000 个请求：
+ <code>
+ ab -c 100 -n 10000 'http://www.xxx.com'
+</code></li>
+<li>系统资源监控方面，Linux 自带的工具也非常多，常用的有 uptime、top、vmstat、netstat、sar 等等，可能你比我还要熟悉，我就列几个简单的例子吧：
+ <code>
+ top             # 查看 CPU 和内存占用情况
+ vmstat  2       # 每 2 秒检查一次系统状态
+ sar -n DEV 2    # 看所有网卡的流量，定时 2 秒检查
+</code></li>
+<li>之前讲 HTTPS 时介绍过一个专门的网站<a href="https://www.ssllabs.com/">SSLLabs</a>，而对于 HTTP 性能优化，也有一个专门的测试网站<a href="https://www.webpagetest.org/">WebPageTest</a>。它的特点是在世界各地建立了很多的测试点，可以任意选择地理位置、机型、操作系统和浏览器发起测试，非常方便，用法也很简单。网站测试的最终结果是一个直观的“瀑布图”（Waterfall Chart），清晰地列出了页面中所有资源加载的先后顺序和时间消耗。</li>
+<li>Chrome 等浏览器自带的开发者工具也可以很好地观察客户端延迟指标，面板左边有每个 URI 具体消耗的时间，面板的右边也有瀑布图。</li>
+</ol>
+
+
+<p><a id="markdown-http性能优化" name="http性能优化"></a></p>
+
+<h3>HTTP性能优化</h3>
+
+<p><a id="markdown-开源" name="开源"></a></p>
+
+<h4>开源</h4>
+
+<pre><code>* Nginx及相关配置
+* HTTP启用长连接
+</code></pre>
+
+<p><a id="markdown-节流" name="节流"></a></p>
+
+<h4>节流</h4>
+
+<pre><code>* 数据压缩：图片，json等
+* html/css/js的minify
+* 去除不必要的Header属性
+* 减少域名数量和重定向次数
+</code></pre>
+
+<p><a id="markdown-缓存" name="缓存"></a></p>
+
+<h4>缓存</h4>
+
+<pre><code>* 服务器缓存：Redis
+* CDN缓存
+</code></pre>
+
+<p><a id="markdown-升级到http2" name="升级到http2"></a></p>
+
+<h4>升级到HTTP/2</h4>
+
+<pre><code>* 消除了应用层的队头阻塞，拥有头部压缩、二进制帧、多路复用、流量控制、服务器推送等许多新特性，大幅度提升了 HTTP 的传输效率。
+</code></pre>
+
+<p><a id="markdown-关于资源合并" name="关于资源合并"></a></p>
+
+<h4>关于资源合并</h4>
+
+<pre><code>* “资源合并”在 HTTP/1 里减少了多次请求的成本，但在 HTTP/2 里因为有头部压缩和多路复用，传输小文件的成本很低，所以合并就失去了意义。而且“资源合并”还有一个缺点，就是降低了缓存的可用性，只要一个小文件更新，整个缓存就完全失效，必须重新下载。
+* 所以在现在的大带宽和 CDN 应用场景下，应当尽量少用资源合并（JS、CSS 图片合并，数据内嵌），让资源的粒度尽可能地小，才能更好地发挥缓存的作用。
+</code></pre>
+
+<p><a id="markdown-https性能优化" name="https性能优化"></a></p>
+
+<h3>HTTPs性能优化</h3>
+
+<p><a id="markdown-1-硬件优化cpussl加速卡ssl加速服务器" name="1-硬件优化cpussl加速卡ssl加速服务器"></a></p>
+
+<h4>1. 硬件优化：CPU，SSL加速卡，SSL加速服务器</h4>
+
+<p><a id="markdown-2-软件优化" name="2-软件优化"></a></p>
+
+<h4>2. 软件优化：</h4>
+
+<pre><code>1. 软件升级：Linux内核，Nginx，OpenSSL
+2. 协议优化：
+    * TLS1.3
+    * *密钥交换协议尽量选用椭圆曲线ECDHE算法，能够把握手的消息往返由 2-RTT 减少到 1-RTT，达到与 TLS1.3 类似的效果。
+    * Nginx配置密码套件和椭圆曲线，将优先使用的放在前面。
+3. 证书优化：
+    * CRL（Certificate revocation list，证书吊销列表）由 CA 定期发布，里面是所有被撤销信任的证书序号，查询这个列表就可以知道证书是否有效。
+    * 现在 CRL 基本上不用了，取而代之的是 OCSP（在线证书状态协议，Online Certificate Status Protocol），向 CA 发送查询请求，让 CA 返回证书的有效状态。
+    * “OCSP Stapling”（OCSP 装订），它可以让服务器预先访问 CA 获取 OCSP 响应，然后在握手时随着证书一起发给客户端，免去了客户端连接 CA 服务器查询的时间。
+4. 会话复用：
+    * 我们再回想一下 HTTPS 建立连接的过程：先是 TCP 三次握手，然后是 TLS 一次握手。这后一次握手的重点是算出主密钥“Master Secret”，而主密钥每次连接都要重新计算，未免有点太浪费了，如果能够把“辛辛苦苦”算出来的主密钥缓存一下“重用”，不就可以免去了握手和计算的成本了吗？
+    * 这种做法就叫“会话复用”（TLS session resumption），和 HTTP Cache 一样，也是提高 HTTPS 性能的“大杀器”，被浏览器和服务器广泛应用。
+    * 会话复用分两种
+        * 第一种叫“Session ID”：“Session ID”是最早出现的会话复用技术，也是应用最广的，但它也有缺点，服务器必须保存每一个客户端的会话数据，对于拥有百万、千万级别用户的网站来说存储量就成了大问题，加重了服务器的负担。
+        * 第二种叫“Session Ticket”：它有点类似 HTTP 的 Cookie，存储的责任由服务器转移到了客户端
+    * 预共享密钥：
+        * 在发送 Ticket 的同时会带上应用数据（Early Data），免去了 1.2 里的服务器确认步骤，这种方式叫“Pre-shared Key”，简称为“PSK”。
+</code></pre>
+
+<p>上面的内容来自极客时间的《透视HTTP协议》课程的39和40两节课。
+另外，<a href="http://hongchaozhang.github.io/blog/2021/05/26/toushi-http-xieyi/">极客时间-罗剑锋-《透视HTTP协议》总结</a>中的章节<a href="http://hongchaozhang.github.io/blog/2021/05/26/toushi-http-xieyi/#http%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96">http性能优化</a>，有一个概括性的描述。</p>
+
+<p><a id="markdown-浏览器内渲染性能优化" name="浏览器内渲染性能优化"></a></p>
+
+<h2>浏览器内渲染性能优化</h2>
+
+<p>参考<a href="http://hongchaozhang.github.io/blog/2022/01/04/web-qianduan-xingneng-youhua/">极客时间-Web前端性能优化</a>。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[如何调试NodeJs源码]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2022/01/12/how-to-debug-nodejs/"/>
+    <updated>2022-01-12T15:57:01+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2022/01/12/how-to-debug-nodejs</id>
+    <content type="html"><![CDATA[<!-- more -->
+
+
+<h2>调试javascript代码</h2>
+
+<p>通过添加<code>--inspect</code>参数启动nodejs服务，看到下面的消息，表明成功启动调试模式：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>HANM10610:nodePlayground hozhang$ node --inspect sightReading.js
+</span><span class='line'>Debugger listening on ws://127.0.0.1:9229/c8620553-2cf2-4fac-bab8-d18e98c3d777
+</span><span class='line'>For help, see: https://nodejs.org/en/docs/inspector</span></code></pre></td></tr></table></div></figure>
+
+
+<p>可以通过很多种方式连接到调试环境，比如Chrome Developer Tools, VS Code等，详细信息参考官方文档<a href="https://nodejs.org/en/docs/guides/debugging-getting-started/">Debugging Guide</a>。下面以Chrome Developer Tools说明。</p>
+
+<p>在chrome://inspect/#devices找到启动的target，打开，搜索打开你的文件或者相关的库文件，就可以打断点开始调试了。</p>
+
+<p><img src="http://hongchaozhang.github.io/images/debug%E6%9F%A5%E7%9C%8B%E5%8F%82%E6%95%B0%E7%B1%BB%E5%9E%8B.jpg" alt="debug查看参数类型.jpg" /></p>
+
+<p><img src="http://hongchaozhang.github.io/images/%E8%B0%83%E8%AF%95readFileSync.jpg" alt="调试readFileSync.jpg" /></p>
+
+<h2>调试C/C++代码</h2>
+
+<p>参考<a href="https://www.tripfe.cn/node-js-four-postures-of-source-code-debugging/">Node.js源代码调试的4种姿势</a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[极客时间-Web前端性能优化]]></title>
@@ -1082,7 +1374,9 @@ db.shutdownServer();
 
 <h2>http性能优化</h2>
 
-<p>HTTP性能优化面面观（上）</p>
+<p>关于http性能优化更详细的介绍，参见<a href="http://hongchaozhang.github.io/blog/2022/03/08/http-xingneng-youhua/">Web性能优化综述</a>的章节<a href="http://hongchaozhang.github.io/blog/2022/03/08/http-xingneng-youhua/#https%E8%AF%B7%E6%B1%82%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96">https请求性能优化</a>。</p>
+
+<p><strong>HTTP性能优化面面观（上）</strong></p>
 
 <ol>
 <li>性能优化是一个复杂的概念，在 HTTP 里可以分解为服务器性能优化、客户端性能优化和传输链路优化；</li>
@@ -1093,7 +1387,7 @@ db.shutdownServer();
 </ol>
 
 
-<p>HTTP性能优化面面观（下）</p>
+<p><strong>HTTP性能优化面面观（下）</strong></p>
 
 <ol>
 <li>花钱购买硬件、软件或者服务可以直接提升网站的服务能力，其中最有价值的是 CDN；</li>
@@ -4951,577 +5245,6 @@ db.shutdownServer();
 
 
 <p>You can now listen for mousemove on the iframe element or any of its parent elements. As the event will bubble up as you would expect.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[浏览器的同源策略和跨域解决方法]]></title>
-    <link href="http://hongchaozhang.github.io/blog/2020/06/04/same-origin-and-cross-domain/"/>
-    <updated>2020-06-04T11:21:46+08:00</updated>
-    <id>http://hongchaozhang.github.io/blog/2020/06/04/same-origin-and-cross-domain</id>
-    <content type="html"><![CDATA[<!-- more -->
-
-
-
-
-<!-- TOC -->
-
-
-<ul>
-<li><a href="#%E5%90%8C%E6%BA%90%E7%9A%84%E5%AE%9A%E4%B9%89">同源的定义</a></li>
-<li><a href="#%E6%B2%A1%E6%9C%89%E5%90%8C%E6%BA%90%E7%AD%96%E7%95%A5%E7%9A%84%E5%8D%B1%E9%99%A9%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9C%80%E8%A6%81%E5%90%8C%E6%BA%90%E7%AD%96%E7%95%A5">没有同源策略的危险（为什么需要同源策略）</a></li>
-<li><a href="#%E5%90%8C%E6%BA%90%E7%AD%96%E7%95%A5%E7%9A%84%E9%99%90%E5%88%B6">同源策略的限制</a></li>
-<li><a href="#%E5%B8%B8%E7%94%A8%E8%B7%A8%E5%9F%9F%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95--%E6%9C%AC%E5%9C%B0%E9%80%9A%E4%BF%A1">常用跨域的解决方法&ndash;本地通信</a>
-
-<ul>
-<li><a href="#%E4%BF%AE%E6%94%B9documentdomain%E5%B1%9E%E6%80%A7">修改<code>document.domain</code>属性</a></li>
-<li><a href="#%E5%80%9F%E5%8A%A9windownamelocationhash">借助<code>window.name</code>、<code>location.hash</code></a></li>
-<li><a href="#%E4%BD%BF%E7%94%A8windowpostmessage">使用<code>window.postMessage</code></a></li>
-</ul>
-</li>
-<li><a href="#%E5%B8%B8%E7%94%A8%E8%B7%A8%E5%9F%9F%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95--ajax%E8%AF%B7%E6%B1%82%E9%99%90%E5%88%B6">常用跨域的解决方法&ndash;AJAX请求限制</a>
-
-<ul>
-<li><a href="#%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%BB%A3%E7%90%86">服务器代理</a></li>
-<li><a href="#jsonp">JSONP</a></li>
-<li><a href="#websocket">WebSocket</a></li>
-<li><a href="#cors">CORS</a></li>
-</ul>
-</li>
-<li><a href="#%E5%8F%82%E8%80%83">参考</a></li>
-</ul>
-
-
-<!-- /TOC -->
-
-
-<p><a id="markdown-同源的定义" name="同源的定义"></a></p>
-
-<h2>同源的定义</h2>
-
-<p>根据<a href="https://developer.mozilla.org/zh-CN/docs/Web/Security/Same-origin_policy">MDN同源的定义</a>：如果两个URL的protocol、port(如果有指定的话)和host都相同的话，则这两个URL是同源。</p>
-
-<p>下表给出了与 URL <a href="http://store.company.com/dir/page.html">http://store.company.com/dir/page.html</a> 的源进行对比的示例:</p>
-
-<table>
-<thead>
-<tr>
-<th> URL </th>
-<th> 结果 </th>
-<th> 原因 </th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td> <a href="http://store.company.com/dir2/other.html">http://store.company.com/dir2/other.html</a> </td>
-<td> 同源 </td>
-<td> 只有路径不同 </td>
-</tr>
-<tr>
-<td> <a href="http://store.company.com/dir/inner/another.html">http://store.company.com/dir/inner/another.html</a> </td>
-<td> 同源 </td>
-<td> 只有路径不同 </td>
-</tr>
-<tr>
-<td> <a href="https://store.company.com/secure.html">https://store.company.com/secure.html</a> </td>
-<td> 失败 </td>
-<td> 协议（protocol）不同 </td>
-</tr>
-<tr>
-<td> <a href="http://store.company.com:81/dir/etc.html">http://store.company.com:81/dir/etc.html</a> </td>
-<td> 失败 </td>
-<td> 端口（port）不同 ( <a href="http://">http://</a> 默认端口是80) </td>
-</tr>
-<tr>
-<td> <a href="http://news.company.com/dir/other.html">http://news.company.com/dir/other.html</a> </td>
-<td> 失败 </td>
-<td> 主机（host）不同 </td>
-</tr>
-</tbody>
-</table>
-
-
-<p><a id="markdown-没有同源策略的危险为什么需要同源策略" name="没有同源策略的危险为什么需要同源策略"></a></p>
-
-<h2>没有同源策略的危险（为什么需要同源策略）</h2>
-
-<p>同源策略的目的，是为了保证用户信息的安全，防止恶意的网站窃取数据。</p>
-
-<p>下面从DOM同源策略和XMLHttpRequest同源策略来举例说明：</p>
-
-<p><strong>如果没有DOM同源策略</strong>，也就是说不同域的iframe之间可以相互访问Dom结构，那么黑客可以这样进行攻击：</p>
-
-<ol>
-<li>做一个假网站，里面用iframe嵌套一个银行网站<a href="">http://mybank.com</a>。</li>
-<li>把iframe宽高啥的调整到页面全部，这样用户进来除了域名，别的部分和银行的网站没有任何差别。</li>
-<li>这时如果用户输入账号密码，我们的主网站可以跨域访问到<a href="">http://mybank.com</a>的dom节点，就可以拿到用户的账户密码了。</li>
-</ol>
-
-
-<p><strong>如果没有XMLHttpRequest同源策略</strong>，那么黑客可以进行CSRF（跨站请求伪造）攻击：</p>
-
-<ol>
-<li>用户登录了自己的银行页面<a href="">http://mybank.com</a>，<a href="">http://mybank.com</a>向用户的cookie中添加用户标识。</li>
-<li>用户浏览了恶意页面<a href="">http://evil.com</a>，执行了页面中的恶意AJAX请求代码。</li>
-<li><a href="">http://evil.com</a>向<a href="">http://mybank.com</a>发起AJAX请求，请求会默认把<a href="">http://mybank.com</a>对应cookie也同时发送过去。</li>
-<li>银行页面从发送的cookie中提取用户标识，验证用户无误，response中返回请求数据。此时数据就泄露了。</li>
-<li>而且由于Ajax在后台执行，用户无法感知这一过程。</li>
-</ol>
-
-
-<p>其它例子可以参考：</p>
-
-<ol>
-<li>知乎<a href="https://zhuanlan.zhihu.com/p/28562290">跨域的那些事儿</a></li>
-<li><a href="https://segmentfault.com/a/1190000015597029">不要再问我跨域的问题了</a></li>
-</ol>
-
-
-<p><a id="markdown-同源策略的限制" name="同源策略的限制"></a></p>
-
-<h2>同源策略的限制</h2>
-
-<p>如果非同源，共有三种行为受到限制。</p>
-
-<ol>
-<li>Cookie、LocalStorage 和 IndexDB 无法读取。</li>
-<li>DOM 无法获得。</li>
-<li>AJAX 请求不能发送。</li>
-</ol>
-
-
-<p>比如试图从不同源的iframe里面获取dom结构就会报错：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s2">&quot;myIFrame&quot;</span><span class="p">).</span><span class="nx">contentWindow</span><span class="p">.</span><span class="nb">document</span>
-</span><span class='line'><span class="c1">// Uncaught DOMException: Blocked a frame from accessing a cross-origin frame.</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>虽然这些限制是必要的，但是有时很不方便，合理的用途也受到影响：明明两个网页都是自己写的，但是属于不同的源，也就没有办法互相访问。</p>
-
-<p>下面列举一些方法，介绍如何规避上面三种限制。前提是两个URL都是自己写的网页，否则无法使用。这也正是同源策略的作用所在：对于第三方的一个网页，你是无法超越上面三种限制的，这也就保证了安全。</p>
-
-<p><a id="markdown-常用跨域的解决方法--本地通信" name="常用跨域的解决方法--本地通信"></a></p>
-
-<h2>常用跨域的解决方法&ndash;本地通信</h2>
-
-<p><a id="markdown-修改documentdomain属性" name="修改documentdomain属性"></a></p>
-
-<h3>修改<code>document.domain</code>属性</h3>
-
-<p>Cookie是服务器写入浏览器的一小段信息，只有同源的网页才能共享。浏览器允许通过设置<code>document.domain</code>共享Cookie。</p>
-
-<p>但是，<code>document.domain</code>只适用于“主域名相同，而子域名不同”的情况。这种方式非常适用于iframe跨域的情况。</p>
-
-<p>举例来说，A网页是<a href="">http://w1.example.com/a.html</a>，B网页是<a href="">http://w2.example.com/b.html</a>，那么只要这两个网页同时设置相同的<code>document.domain</code>，两个网页就可以共享Cookie。</p>
-
-<p>注意，这种方法只适用于Cookie和iframe窗口，LocalStorage和IndexDB无法通过这种方法，规避同源政策，而要使用下文介绍的PostMessage API。</p>
-
-<p>另外，服务器也可以在设置Cookie的时候，指定Cookie的所属域名为一级域名，比如.example.com。这样的话，二级域名和三级域名不用做任何设置，都可以读取这个Cookie。</p>
-
-<p><a id="markdown-借助windownamelocationhash" name="借助windownamelocationhash"></a></p>
-
-<h3>借助<code>window.name</code>、<code>location.hash</code></h3>
-
-<p>这两种方法可以说是一种“破解”。</p>
-
-<p>以<code>window.name</code>为例。浏览器窗口有<code>window.name</code>属性。这个属性的最大特点是，无论是否同源，只要在同一个窗口里，前一个网页设置了这个属性，后一个网页可以读取它。</p>
-
-<p><a id="markdown-使用windowpostmessage" name="使用windowpostmessage"></a></p>
-
-<h3>使用<code>window.postMessage</code></h3>
-
-<p><code>window.name</code>和<code>location.hash</code>是“破解”方法，<code>window.postMessage</code>则具有官方背景。HTML5为了解决跨文档通信（Cross-document messaging）问题，引入了这个全新的API <code>window.postMessage</code>。</p>
-
-<p>这个API为<code>window</code>对象新增了一个<code>window.postMessage</code>方法，允许跨窗口通信，不论这两个窗口是否同源。</p>
-
-<p>举例来说，父窗口<a href="">http://aaa.com</a>向子窗口<a href="">http://bbb.com</a>发消息，调用<code>postMessage</code>方法就可以了。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">popup</span> <span class="o">=</span> <span class="nb">window</span><span class="p">.</span><span class="nx">open</span><span class="p">(</span><span class="s1">&#39;http://bbb.com&#39;</span><span class="p">,</span> <span class="s1">&#39;title&#39;</span><span class="p">);</span>
-</span><span class='line'><span class="nx">popup</span><span class="p">.</span><span class="nx">postMessage</span><span class="p">(</span><span class="s1">&#39;Hello World!&#39;</span><span class="p">,</span> <span class="s1">&#39;http://bbb.com&#39;</span><span class="p">);</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p><code>postMessage</code>方法的第一个参数是具体的信息内容，第二个参数是接收消息的窗口的源（origin），即"协议 + 域名 + 端口"。也可以设为*，表示不限制域名，向所有窗口发送。</p>
-
-<p>子窗口向父窗口发送消息的写法类似。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nb">window</span><span class="p">.</span><span class="nx">opener</span><span class="p">.</span><span class="nx">postMessage</span><span class="p">(</span><span class="s1">&#39;Nice to see you&#39;</span><span class="p">,</span> <span class="s1">&#39;http://aaa.com&#39;</span><span class="p">);</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>父窗口和子窗口都可以通过message事件，监听对方的消息。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nb">window</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;message&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">e</span><span class="p">.</span><span class="nx">data</span><span class="p">);</span>
-</span><span class='line'><span class="p">},</span><span class="kc">false</span><span class="p">);</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>message事件的事件对象event，提供以下三个属性。</p>
-
-<ol>
-<li><code>event.source</code>：发送消息的窗口</li>
-<li><code>event.origin</code>: 消息发向的网址</li>
-<li><code>event.data</code>: 消息内容</li>
-</ol>
-
-
-<blockquote><p>注：通过window.postMessage，读写其他窗口的 LocalStorage 也成为了可能。</p></blockquote>
-
-<p><a id="markdown-常用跨域的解决方法--ajax请求限制" name="常用跨域的解决方法--ajax请求限制"></a></p>
-
-<h2>常用跨域的解决方法&ndash;AJAX请求限制</h2>
-
-<p>后面几种方法都是为了解决不同源网页之间的AJAX请求问题。</p>
-
-<p><a id="markdown-服务器代理" name="服务器代理"></a></p>
-
-<h3>服务器代理</h3>
-
-<p>浏览器有跨域限制，但是服务器不存在跨域问题，所以可以由服务器请求所要域的资源再返回给客户端。</p>
-
-<p><a id="markdown-jsonp" name="jsonp"></a></p>
-
-<h3>JSONP</h3>
-
-<p>JSONP是服务器与客户端跨源通信的常用方法。最大特点就是简单适用，老式浏览器全部支持，服务器改造非常小。</p>
-
-<p>它的基本思想是，网页通过添加一个\&lt;script>元素，向服务器请求JSON数据，这种做法不受同源政策限制；服务器收到请求后，将数据放在一个指定名字的回调函数里传回来。</p>
-
-<p>首先，网页动态插入\&lt;script>元素，由它向跨源网址发出请求。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">function</span> <span class="nx">addScriptTag</span><span class="p">(</span><span class="nx">src</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>  <span class="kd">var</span> <span class="nx">script</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s1">&#39;script&#39;</span><span class="p">);</span>
-</span><span class='line'>  <span class="nx">script</span><span class="p">.</span><span class="nx">setAttribute</span><span class="p">(</span><span class="s2">&quot;type&quot;</span><span class="p">,</span><span class="s2">&quot;text/javascript&quot;</span><span class="p">);</span>
-</span><span class='line'>  <span class="nx">script</span><span class="p">.</span><span class="nx">src</span> <span class="o">=</span> <span class="nx">src</span><span class="p">;</span>
-</span><span class='line'>  <span class="nb">document</span><span class="p">.</span><span class="nx">body</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span><span class="nx">script</span><span class="p">);</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="nb">window</span><span class="p">.</span><span class="nx">onload</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
-</span><span class='line'>  <span class="nx">addScriptTag</span><span class="p">(</span><span class="s1">&#39;http://example.com/ip?callback=foo&#39;</span><span class="p">);</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="kd">function</span> <span class="nx">foo</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Your public IP address is: &#39;</span> <span class="o">+</span> <span class="nx">data</span><span class="p">.</span><span class="nx">ip</span><span class="p">);</span>
-</span><span class='line'><span class="p">};</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>上面代码通过动态添加\&lt;script>元素，向服务器<a href="">example.com</a>发出请求。注意，该请求的查询字符串有一个callback参数，用来指定回调函数的名字，这对于JSONP是必需的。</p>
-
-<p>服务器收到这个请求以后，会将数据放在回调函数的参数位置返回。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">foo</span><span class="p">({</span>
-</span><span class='line'>  <span class="s2">&quot;ip&quot;</span><span class="o">:</span> <span class="s2">&quot;8.8.8.8&quot;</span>
-</span><span class='line'><span class="p">});</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>由于\&lt;script>元素请求的脚本，直接作为代码运行。这时，只要浏览器定义了foo函数，该函数就会立即调用。</p>
-
-<p><a id="markdown-websocket" name="websocket"></a></p>
-
-<h3>WebSocket</h3>
-
-<p>WebSocket是一种通信协议。该协议不实行同源政策，只要服务器支持，就可以通过它进行跨源通信。</p>
-
-<p>下面是一个例子，浏览器发出的WebSocket请求的头信息（摘自维基百科）。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='json'><span class='line'><span class="err">GET</span> <span class="err">/chat</span> <span class="err">HTTP/</span><span class="mf">1.1</span>
-</span><span class='line'><span class="err">Host:</span> <span class="err">server.example.com</span>
-</span><span class='line'><span class="err">Upgrade:</span> <span class="err">websocket</span>
-</span><span class='line'><span class="err">Connection:</span> <span class="err">Upgrade</span>
-</span><span class='line'><span class="err">Sec-WebSocket-Key:</span> <span class="err">x</span><span class="mi">3</span><span class="err">JJHMbDL</span><span class="mi">1</span><span class="err">EzLkh</span><span class="mi">9</span><span class="err">GBhXDw==</span>
-</span><span class='line'><span class="err">Sec-WebSocket-Protocol:</span> <span class="err">chat,</span> <span class="err">superchat</span>
-</span><span class='line'><span class="err">Sec-WebSocket-Version:</span> <span class="mi">13</span>
-</span><span class='line'><span class="err">Origin:</span> <span class="err">http://example.com</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>上面代码中，有一个字段是<code>Origin</code>，表示该请求的请求源（<code>origin</code>），即发自哪个域名。</p>
-
-<p>正是因为有了<code>Origin</code>这个字段，所以WebSocket才没有实行同源政策。因为服务器可以根据这个字段，判断是否许可本次通信。如果该域名在白名单内，服务器就会做出如下回应。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='json'><span class='line'><span class="err">HTTP/</span><span class="mf">1.1</span> <span class="mi">101</span> <span class="err">Switching</span> <span class="err">Protocols</span>
-</span><span class='line'><span class="err">Upgrade:</span> <span class="err">websocket</span>
-</span><span class='line'><span class="err">Connection:</span> <span class="err">Upgrade</span>
-</span><span class='line'><span class="err">Sec-WebSocket-Accept:</span> <span class="err">HSmrc</span><span class="mi">0</span><span class="err">sMlYUkAGmm</span><span class="mi">5</span><span class="err">OPpG</span><span class="mi">2</span><span class="err">HaGWk=</span>
-</span><span class='line'><span class="err">Sec-WebSocket-Protocol:</span> <span class="err">chat</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p><a id="markdown-cors" name="cors"></a></p>
-
-<h3>CORS</h3>
-
-<p>CORS是跨源资源分享（Cross-Origin Resource Sharing）的缩写。它是W3C标准，是跨源AJAX请求的根本解决方法。相比JSONP只能发GET请求，CORS允许任何类型的请求。</p>
-
-<p><a id="markdown-参考" name="参考"></a></p>
-
-<h2>参考</h2>
-
-<ul>
-<li>阮一峰的<a href="https://www.ruanyifeng.com/blog/2016/04/same-origin-policy.html">浏览器同源政策及其规避方法</a></li>
-<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/Security/Same-origin_policy">MDN同源的定义</a></li>
-</ul>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[区域位置地理信息的获取、查看、和后期处理]]></title>
-    <link href="http://hongchaozhang.github.io/blog/2020/05/29/quyu-bianjie-dili-weizhi-xinxi/"/>
-    <updated>2020-05-29T16:53:59+08:00</updated>
-    <id>http://hongchaozhang.github.io/blog/2020/05/29/quyu-bianjie-dili-weizhi-xinxi</id>
-    <content type="html"><![CDATA[<!-- more -->
-
-
-<p>如果想展示一些基于地理位置信息的数据，可以考虑使用地图。比如：</p>
-
-<p><img src="http://hongchaozhang.github.io/images/%E5%8C%BA%E5%9F%9F%E7%94%B7%E5%A5%B3%E6%AF%94%E4%BE%8B.gif" alt="区域男女比例" /></p>
-
-<blockquote><p>注：上图是MicroStrategy产品效果。</p></blockquote>
-
-<p>这需要在地图上显示指定区域的边界信息，比如中国国家边界信息，或者各省市的边界信息。</p>
-
-<p>为此，首先要获得边界信息数据。下面就介绍一下我在获取中国各省边界信息的过程中用到的一些资源和工具。</p>
-
-<h2>下载</h2>
-
-<p><img src="http://hongchaozhang.github.io/images/GADMDownload.jpg" alt="GADMDownload" /></p>
-
-<p><a href="https://gadm.org/download_country_v3.html">GADM</a>可以下载的格式包括KMZ格式和SHP格式。</p>
-
-<ol>
-<li>KMZ格式是KML格式的压缩格式，需要用解压工具解压。</li>
-<li>下载文件中中国各地区的名称都是英文名称，需要写脚本换成中文信息。</li>
-<li>下载的中国各省没有包括台湾，需要手动下载台湾，整合起来。</li>
-</ol>
-
-
-<p>贴个我整合好的连结：<a href="http://hongchaozhang.github.io/assets/resources/%E4%B8%AD%E5%9B%BD%E5%90%84%E7%9C%81%E7%94%B7%E5%A5%B3%E6%AF%94%E4%BE%8B%E5%9C%B0%E5%9B%BE%E5%88%86%E6%9E%90.zip">中国各省男女比例地图分析</a>。</p>
-
-<h2>查看</h2>
-
-<p><img src="http://hongchaozhang.github.io/images/vscodemappreview.jpg" alt="vscodemappreview" /></p>
-
-<p>在VSCode中使用插件VSCode Map Preview进行预览。但是该插件不支持SHP格式文件预览。</p>
-
-<p><img src="http://hongchaozhang.github.io/images/mapshaper.jpg" alt="mapshaper" /></p>
-
-<p><a href="https://mapshaper.org/">mapshaper</a>这个地址支持SHP文件的预览，但是不支持KML格式的预览。</p>
-
-<h2>编辑</h2>
-
-<p>在VSCode中编辑，同时结合VSCode Map Preview插件进行预览。</p>
-
-<p>目前为止，发现的编辑工具都只能基于文本进行编辑，还没有发现一款有UI界面的编辑工具。</p>
-
-<p>另外，如果是KML文件，可以将其当作XML文件进行编辑修改。参考<a href="http://hongchaozhang.github.io/blog/2020/06/22/parse-xml-using-python/">使用python编辑xml文件</a></p>
-
-<h2>绘制</h2>
-
-<p><img src="http://hongchaozhang.github.io/images/geojsondraw.jpg" alt="geojsondraw" /></p>
-
-<p><a href="http://geojson.io/">geojson.io</a>手动绘制多边形，并且导出geojson格式的文件。</p>
-
-<h2>格式转换</h2>
-
-<p>GDAL ogr2ogr</p>
-
-<ol>
-<li>安装GDAL
-
-<ol>
-<li>pkg安装</li>
-<li>homebrew 安装</li>
-</ol>
-</li>
-<li>添加环境变量<code>export PATH=/Library/Frameworks/GDAL.framework/Programs/:$PATH</code>到<code>～/.bash_profile</code>文件。</li>
-<li>运行<code>source ~/.bash_profile</code>或者重启Terminal。</li>
-</ol>
-
-
-<p>现在就可以运行ogr2ogr命令进行格式转化了：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>ogr2ogr -f “KML” output.kml input.shp</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>压缩</h2>
-
-<h3>GDAL ogr2ogr压缩点的数量</h3>
-
-<p>除了格式转换，GDAL ogr2ogr还可以进行压缩（ogr2ogr官方网站 <a href="https://gdal.org/programs/ogr2ogr.html%EF%BC%89%EF%BC%9A">https://gdal.org/programs/ogr2ogr.html%EF%BC%89%EF%BC%9A</a></p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>ogr2ogr output.kml input lml 0.0001</span></code></pre></td></tr></table></div></figure>
-
-
-<p>上面命令中最后一个参数对应的是压缩系数，用来控制点的数量，不代表经纬度的小数点位数。</p>
-
-<h3>google官方工具压缩经纬度的经度</h3>
-
-<p>如果要压缩经纬度的精度，即小数点的位数，可以使用<a href="https://www.gearthblog.com/blog/archives/2016/03/making-kml-files-smaller-reducing-precision.html">google官方工具</a>。</p>
-
-<h3>mapshaper压缩点的数量，并实时查看效果。</h3>
-
-<p><img src="http://hongchaozhang.github.io/images/mapshapercompressor.gif" alt="mapshapercompressor" /></p>
-
-<p><a href="https://mapshaper.org/">mapshaper</a>进行压缩很是方便。</p>
-
-<p><strong>优点：</strong></p>
-
-<ol>
-<li>滑块调整压缩系数，同时查看压缩效果。</li>
-<li>可以导出shp格式文件，还有console可以查看shp文件结构。</li>
-</ol>
-
-
-<h2>多边形合并融合</h2>
-
-<p>关键字：merge dissolve</p>
-
-<p>试图寻找中国七大区域（华北、华南、东北等）边界信息，没有找到。理论上可以通过多边形合并得到，但是没有合适的工具。</p>
-
-<p>目前只发现了ArcGIS的desktop可以做这个事情，但是需要收费账号。</p>
-
-<h2>中国各省份的坐标</h2>
-
-<p><a href="https://github.com/baixuexiyang/geocoord">省市坐标</a>上面贴出了中国各省的地理坐标，可能需要用到。</p>
-
-<h2>数据源</h2>
-
-<p>有了各地区的边界信息，我们还需要各地区的一些有意义的数据，比如人口，GDP等，才能在地图上进行查看。这些数据怎么得到呢？</p>
-
-<h3>国家数据网站</h3>
-
-<p><a href="http://data.stats.gov.cn/">国家数据网站</a>提供全国各省很多类型的数据，值得好好挖掘。</p>
-
-<p>其中：</p>
-
-<ol>
-<li><a href="http://data.stats.gov.cn/easyquery.htm?cn=C01">年度数据</a>适合查看变化趋势；</li>
-<li><a href="http://data.stats.gov.cn/easyquery.htm?cn=E0103">分省年度数据</a>适合观察基于地图的地区分布趋势；</li>
-<li><a href="http://www.stats.gov.cn/tjsj/pcsj/">普查数据</a>中的人口普查数据有详细的人口方面的数据。</li>
-<li>&hellip;</li>
-</ol>
-
-
-<h3>使用脚本解析excel</h3>
-
-<p>上面的数据有的是网页数据，有的是excel数据（普查数据），对excel内部数据的结构调整可以参考<a href="http://hongchaozhang.github.io/blog/2016/03/04/parsing-and-write-excel-file-using-node-module/">使用node-xlsx进行excel文件的读写</a>进行。如果对Python比较熟悉，可以参考<a href="http://hongchaozhang.github.io/blog/2020/06/23/parse-excel-using-python/">使用Python解析Excel文件</a>。</p>
-
-<p>最后贴上所有的资源，包括最后写成的文档：<a href="http://hongchaozhang.github.io/assets/resources/%E4%B8%AD%E5%9B%BD%E5%90%84%E7%9C%81%E7%94%B7%E5%A5%B3%E6%AF%94%E4%BE%8B%E5%9C%B0%E5%9B%BE%E5%88%86%E6%9E%90.zip">中国各省男女比例地图分析</a>。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[即兴伴奏点滴（六）：无旋律伴奏]]></title>
-    <link href="http://hongchaozhang.github.io/blog/2020/05/23/jixing-banzou-6/"/>
-    <updated>2020-05-23T23:37:32+08:00</updated>
-    <id>http://hongchaozhang.github.io/blog/2020/05/23/jixing-banzou-6</id>
-    <content type="html"><![CDATA[<!-- more -->
-
-
-
-
-<!-- TOC -->
-
-
-<ul>
-<li><a href="#%E6%9F%B1%E7%8A%B6%E5%92%8C%E5%BC%A6%E4%BC%B4%E5%A5%8F">柱状和弦伴奏</a>
-
-<ul>
-<li><a href="#%E6%97%A0%E6%97%8B%E5%BE%8B%E4%BC%B4%E5%A5%8F%E5%9F%BA%E6%9C%AC%E9%9F%B3%E5%BD%A2">无旋律伴奏基本音形</a></li>
-<li><a href="#%E5%8F%A6%E4%B8%80%E7%A7%8D%E5%BC%B9%E5%A5%8F%E4%BD%93%E7%B3%BB%E5%92%8C%E6%9B%B4%E5%A4%9A%E7%9A%84%E9%9F%B3%E5%9E%8B">另一种弹奏体系和更多的音型</a></li>
-</ul>
-</li>
-<li><a href="#%E5%88%86%E8%A7%A3%E5%92%8C%E5%BC%A6%E4%BC%B4%E5%A5%8F">分解和弦伴奏</a></li>
-</ul>
-
-
-<!-- /TOC -->
-
-
-<p>自弹自唱时旋律不再由钢琴产生，左右手可以同时弹伴奏。将左手弱拍的和弦交给右手弹。</p>
-
-<p><img src="http://hongchaozhang.github.io/images/%E6%97%A0%E6%97%8B%E5%BE%8B%E4%BC%B4%E5%A5%8F%E5%8F%8C%E6%89%8B%E4%BC%B4%E5%A5%8F.png" alt="无旋律伴奏双手伴奏" /></p>
-
-<p><a id="markdown-柱状和弦伴奏" name="柱状和弦伴奏"></a></p>
-
-<h2>柱状和弦伴奏</h2>
-
-<p>无旋律伴奏的音形主要思想是：将左手弱拍的和弦交给右手弹。</p>
-
-<p><a id="markdown-无旋律伴奏基本音形" name="无旋律伴奏基本音形"></a></p>
-
-<h3>无旋律伴奏基本音形</h3>
-
-<p>C大调五种不同节奏对应的音形和练习参考：<a href="https://zhuanlan.zhihu.com/p/37402081">即兴伴奏教学系列14——初识无旋律伴奏</a>.</p>
-
-<p>G/F大调五种不同节奏对应的音形和练习参考：<a href="https://zhuanlan.zhihu.com/p/37715690?from=singlemessage">即兴伴奏教学系列18——无旋律伴奏之G大调和F大调的五种音型</a>.</p>
-
-<p><a id="markdown-另一种弹奏体系和更多的音型" name="另一种弹奏体系和更多的音型"></a></p>
-
-<h3>另一种弹奏体系和更多的音型</h3>
-
-<p>“音乐是发自心中，响在耳中，反应在手中，而非所谓的传统古典钢琴靠看谱、靠在琴上找位置。”</p>
-
-<p>怎么做到心、耳、手的三位一体——多练！</p>
-
-<p>这种音形更难一点，但是音响效果更好一些。具体音形参考：<a href="https://zhuanlan.zhihu.com/p/38203549">即兴伴奏教学系列19——另一种弹奏体系和更多的音型</a>。</p>
-
-<p><a id="markdown-分解和弦伴奏" name="分解和弦伴奏"></a></p>
-
-<h2>分解和弦伴奏</h2>
-
-<p>掌握不同节奏情况下的五种基本音形。练习的时候，可以为同一个旋律分别使用这五种音形伴奏。</p>
-
-<p>练习时，一定要学着跟随旋律的进行。“听”与“跟随”是无旋律伴奏要紧的能力。随着旋律的速度、强弱、起伏、精神，使伴奏与旋律成为一致。</p>
-
-<p>基本型的平和、稳定，音型1、2的优美，音型3、4则带有生动与活泼。在了解了伴奏的性质后，就要因旋律而选择合适的伴奏。</p>
-
-<p>至此为止，C大调的即兴伴奏知识就学习完了。</p>
 ]]></content>
   </entry>
   

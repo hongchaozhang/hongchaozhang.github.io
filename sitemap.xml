@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
+<loc>http://hongchaozhang.github.io/blog/2022/03/08/change-from-bash-to-zsh/</loc>
+<lastmod>2022-03-08T16:45:12+08:00</lastmod>
+</url>
+<url>
+<loc>http://hongchaozhang.github.io/blog/2022/03/08/http-xingneng-youhua/</loc>
+<lastmod>2022-03-08T16:44:40+08:00</lastmod>
+</url>
+<url>
+<loc>http://hongchaozhang.github.io/blog/2022/01/12/how-to-debug-nodejs/</loc>
+<lastmod>2022-01-12T15:57:01+08:00</lastmod>
+</url>
+<url>
 <loc>http://hongchaozhang.github.io/blog/2022/01/04/web-qianduan-xingneng-youhua/</loc>
 <lastmod>2022-01-04T18:06:29+08:00</lastmod>
 </url>
