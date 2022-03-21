@@ -32,6 +32,8 @@ categories: [web, html, javascript, css]
 
 <!-- /TOC -->
 
+总结极客时间课程《让你页面速度飞起来 Web前端性能优化》
+
 <a id="markdown-资源压缩与合并" name="资源压缩与合并"></a>
 
 ## 资源压缩与合并

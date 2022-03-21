@@ -18,10 +18,12 @@ OhMyZsh的主题：ZSH_THEME="af-magic"
 OhMyZsh的插件：plugins=(git zsh-syntax-highlighting zsh-autosuggestions)
 
 ## Zsh配置文件加载顺序
-.zshenv
-.zshrc
+最重要的是下面两个文件：
 
-更多配置文件，参考[What should/shouldn't go in .zshenv, .zshrc, .zlogin, .zprofile, .zlogout?](https://unix.stackexchange.com/questions/71253/what-should-shouldnt-go-in-zshenv-zshrc-zlogin-zprofile-zlogout)
+* .zshenv：.zshenv总是被读取,所以通常把$PATH, $EDITOR等变量写在这里,这样无论是在shell交互,或者运行程序都会读取此文件
+* .zshrc：.zshrc主要用在交互shell,所以主要是为shell服务的,比如对shell做的一些个性化设置都可以在这里写入
+
+更多配置文件，参考[What should/shouldn't go in .zshenv, .zshrc, .zlogin, .zprofile, .zlogout?](https://unix.stackexchange.com/questions/71253/what-should-shouldnt-go-in-zshenv-zshrc-zlogin-zprofile-zlogout)，或者这一篇中文[zsh的环境变量的加载.zprofile .zlogin .zshrc .zshenv](http://blog.xsudo.com/2019/04/12/1445/)
 
 ## Zsh问题
 

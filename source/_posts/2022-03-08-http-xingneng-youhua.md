@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "web性能优化综述"
+title: "HTTP(s)请求性能优化"
 date: 2022-03-08 16:44:40 +0800
 comments: true
 categories: [web, http]
@@ -10,33 +10,22 @@ categories: [web, http]
 
 <!-- TOC -->
 
-- [HTTP(s)请求性能优化](#https请求性能优化)
-    - [性能测试工具](#性能测试工具)
-    - [HTTP性能优化](#http性能优化)
-        - [开源](#开源)
-        - [节流](#节流)
-        - [缓存](#缓存)
-        - [升级到HTTP/2](#升级到http2)
-        - [关于资源合并](#关于资源合并)
-    - [HTTPs性能优化](#https性能优化)
-        - [1. 硬件优化：CPU，SSL加速卡，SSL加速服务器](#1-硬件优化cpussl加速卡ssl加速服务器)
-        - [2. 软件优化：](#2-软件优化)
-- [浏览器内渲染性能优化](#浏览器内渲染性能优化)
+- [性能测试工具](#性能测试工具)
+- [HTTP性能优化](#http性能优化)
+    - [开源](#开源)
+    - [节流](#节流)
+    - [缓存](#缓存)
+    - [升级到HTTP/2](#升级到http2)
+    - [关于资源合并](#关于资源合并)
+- [HTTPs性能优化](#https性能优化)
+    - [1. 硬件优化：CPU，SSL加速卡，SSL加速服务器](#1-硬件优化cpussl加速卡ssl加速服务器)
+    - [2. 软件优化：](#2-软件优化)
 
 <!-- /TOC -->
 
-从web渲染全过程分析，从下面几个方面进行性能优化考虑：
-
-1. HTTP请求性能优化
-2. 浏览器内渲染性能优化
-
-<a id="markdown-https请求性能优化" name="https请求性能优化"></a>
-
-## HTTP(s)请求性能优化
-
 <a id="markdown-性能测试工具" name="性能测试工具"></a>
 
-### 性能测试工具
+## 性能测试工具
 1. 在 Linux 上，最常用的性能测试工具可能就是 ab（Apache Bench）了，比如，下面的命令指定了并发数 100，总共发送 10000 个请求：
     
     ```
@@ -54,43 +43,43 @@ categories: [web, http]
 
 <a id="markdown-http性能优化" name="http性能优化"></a>
 
-### HTTP性能优化
+## HTTP性能优化
 <a id="markdown-开源" name="开源"></a>
 
-#### 开源
+### 开源
 * Nginx及相关配置
 * HTTP启用长连接
 <a id="markdown-节流" name="节流"></a>
 
-#### 节流
+### 节流
 * 数据压缩：图片，json等
 * html/css/js的minify
 * 去除不必要的Header属性
 * 减少域名数量和重定向次数
 <a id="markdown-缓存" name="缓存"></a>
 
-#### 缓存
+### 缓存
 * 服务器缓存：Redis
 * CDN缓存
 <a id="markdown-升级到http2" name="升级到http2"></a>
 
-#### 升级到HTTP/2
+### 升级到HTTP/2
 * 消除了应用层的队头阻塞，拥有头部压缩、二进制帧、多路复用、流量控制、服务器推送等许多新特性，大幅度提升了 HTTP 的传输效率。
 <a id="markdown-关于资源合并" name="关于资源合并"></a>
 
-#### 关于资源合并
+### 关于资源合并
 * “资源合并”在 HTTP/1 里减少了多次请求的成本，但在 HTTP/2 里因为有头部压缩和多路复用，传输小文件的成本很低，所以合并就失去了意义。而且“资源合并”还有一个缺点，就是降低了缓存的可用性，只要一个小文件更新，整个缓存就完全失效，必须重新下载。
 * 所以在现在的大带宽和 CDN 应用场景下，应当尽量少用资源合并（JS、CSS 图片合并，数据内嵌），让资源的粒度尽可能地小，才能更好地发挥缓存的作用。
 
 <a id="markdown-https性能优化" name="https性能优化"></a>
 
-### HTTPs性能优化
+## HTTPs性能优化
 <a id="markdown-1-硬件优化cpussl加速卡ssl加速服务器" name="1-硬件优化cpussl加速卡ssl加速服务器"></a>
 
-#### 1. 硬件优化：CPU，SSL加速卡，SSL加速服务器
+### 1. 硬件优化：CPU，SSL加速卡，SSL加速服务器
 <a id="markdown-2-软件优化" name="2-软件优化"></a>
 
-#### 2. 软件优化：
+### 2. 软件优化：
 
 1. 软件升级：Linux内核，Nginx，OpenSSL
 2. 协议优化：
@@ -112,9 +101,3 @@ categories: [web, http]
 
 上面的内容来自极客时间的《透视HTTP协议》课程的39和40两节课。
 另外，[极客时间-罗剑锋-《透视HTTP协议》总结](/blog/2021/05/26/toushi-http-xieyi/)中的章节[http性能优化](/blog/2021/05/26/toushi-http-xieyi/#http性能优化)，有一个概括性的描述。
-
-<a id="markdown-浏览器内渲染性能优化" name="浏览器内渲染性能优化"></a>
-
-## 浏览器内渲染性能优化
-
-参考[极客时间-Web前端性能优化](/blog/2022/01/04/web-qianduan-xingneng-youhua/)。
