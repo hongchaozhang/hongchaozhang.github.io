@@ -4,7 +4,7 @@
   <title><![CDATA[Reading Space]]></title>
   <link href="http://hongchaozhang.github.io/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2022-03-08T18:22:04+08:00</updated>
+  <updated>2022-03-21T23:41:37+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -12,6 +12,41 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[web性能优化]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2022/03/21/web-xingneng-youhua/"/>
+    <updated>2022-03-21T23:30:53+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2022/03/21/web-xingneng-youhua</id>
+    <content type="html"><![CDATA[<!-- more -->
+
+
+<p>从web渲染全过程分析，从下面几个方面进行性能优化考虑：</p>
+
+<ol>
+<li>HTTP请求性能优化</li>
+<li>浏览器内渲染性能优化</li>
+</ol>
+
+
+<h2>HTTP(s)请求性能优化</h2>
+
+<ul>
+<li>参考极客时间课程《透视HTTP协议》的39和40两节课。</li>
+<li>另外，<a href="http://hongchaozhang.github.io/blog/2021/05/26/toushi-http-xieyi/">极客时间-罗剑锋-《透视HTTP协议》总结</a>中的章节<a href="http://hongchaozhang.github.io/blog/2021/05/26/toushi-http-xieyi/#http%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96">http性能优化</a>，有一个概括性的描述。</li>
+<li>相关内容个人总结参考<a href="http://hongchaozhang.github.io/blog/2022/03/08/http-xingneng-youhua/">HTTP(s)请求性能优化</a>。</li>
+</ul>
+
+
+<h2>浏览器内渲染性能优化</h2>
+
+<ul>
+<li>参考极客时间课程《让你页面速度飞起来 Web前端性能优化》</li>
+<li>相关内容个人总结参考<a href="http://hongchaozhang.github.io/blog/2022/01/04/web-qianduan-xingneng-youhua/">极客时间-Web前端性能优化</a>。</li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[从Terminal切换到iTerm2，从Bash切换到Zsh]]></title>
@@ -33,10 +68,15 @@
 
 <h2>Zsh配置文件加载顺序</h2>
 
-<p>.zshenv
-.zshrc</p>
+<p>最重要的是下面两个文件：</p>
 
-<p>更多配置文件，参考<a href="https://unix.stackexchange.com/questions/71253/what-should-shouldnt-go-in-zshenv-zshrc-zlogin-zprofile-zlogout">What should/shouldn&rsquo;t go in .zshenv, .zshrc, .zlogin, .zprofile, .zlogout?</a></p>
+<ul>
+<li>.zshenv：.zshenv总是被读取,所以通常把$PATH, $EDITOR等变量写在这里,这样无论是在shell交互,或者运行程序都会读取此文件</li>
+<li>.zshrc：.zshrc主要用在交互shell,所以主要是为shell服务的,比如对shell做的一些个性化设置都可以在这里写入</li>
+</ul>
+
+
+<p>更多配置文件，参考<a href="https://unix.stackexchange.com/questions/71253/what-should-shouldnt-go-in-zshenv-zshrc-zlogin-zprofile-zlogout">What should/shouldn&rsquo;t go in .zshenv, .zshrc, .zlogin, .zprofile, .zlogout?</a>，或者这一篇中文<a href="http://blog.xsudo.com/2019/04/12/1445/">zsh的环境变量的加载.zprofile .zlogin .zshrc .zshenv</a></p>
 
 <h2>Zsh问题</h2>
 
@@ -94,7 +134,7 @@ zsh中若出现‘*’, ‘(’, ‘|’, ‘&lt;’, ‘[’, 或者 ‘?’符
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[web性能优化综述]]></title>
+    <title type="html"><![CDATA[HTTP(s)请求性能优化]]></title>
     <link href="http://hongchaozhang.github.io/blog/2022/03/08/http-xingneng-youhua/"/>
     <updated>2022-03-08T16:44:40+08:00</updated>
     <id>http://hongchaozhang.github.io/blog/2022/03/08/http-xingneng-youhua</id>
@@ -105,9 +145,6 @@ zsh中若出现‘*’, ‘(’, ‘|’, ‘&lt;’, ‘[’, 或者 ‘?’符
 
 <!-- TOC -->
 
-
-<ul>
-<li><a href="#https%E8%AF%B7%E6%B1%82%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96">HTTP(s)请求性能优化</a>
 
 <ul>
 <li><a href="#%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95%E5%B7%A5%E5%85%B7">性能测试工具</a></li>
@@ -129,29 +166,14 @@ zsh中若出现‘*’, ‘(’, ‘|’, ‘&lt;’, ‘[’, 或者 ‘?’符
 </ul>
 </li>
 </ul>
-</li>
-<li><a href="#%E6%B5%8F%E8%A7%88%E5%99%A8%E5%86%85%E6%B8%B2%E6%9F%93%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96">浏览器内渲染性能优化</a></li>
-</ul>
 
 
 <!-- /TOC -->
 
 
-<p>从web渲染全过程分析，从下面几个方面进行性能优化考虑：</p>
-
-<ol>
-<li>HTTP请求性能优化</li>
-<li>浏览器内渲染性能优化</li>
-</ol>
-
-
-<p><a id="markdown-https请求性能优化" name="https请求性能优化"></a></p>
-
-<h2>HTTP(s)请求性能优化</h2>
-
 <p><a id="markdown-性能测试工具" name="性能测试工具"></a></p>
 
-<h3>性能测试工具</h3>
+<h2>性能测试工具</h2>
 
 <ol>
 <li><p>在 Linux 上，最常用的性能测试工具可能就是 ab（Apache Bench）了，比如，下面的命令指定了并发数 100，总共发送 10000 个请求：</p>
@@ -171,11 +193,11 @@ zsh中若出现‘*’, ‘(’, ‘|’, ‘&lt;’, ‘[’, 或者 ‘?’符
 
 <p><a id="markdown-http性能优化" name="http性能优化"></a></p>
 
-<h3>HTTP性能优化</h3>
+<h2>HTTP性能优化</h2>
 
 <p><a id="markdown-开源" name="开源"></a></p>
 
-<h4>开源</h4>
+<h3>开源</h3>
 
 <ul>
 <li>Nginx及相关配置</li>
@@ -184,7 +206,7 @@ zsh中若出现‘*’, ‘(’, ‘|’, ‘&lt;’, ‘[’, 或者 ‘?’符
 </ul>
 
 
-<h4>节流</h4>
+<h3>节流</h3>
 
 <ul>
 <li>数据压缩：图片，json等</li>
@@ -195,7 +217,7 @@ zsh中若出现‘*’, ‘(’, ‘|’, ‘&lt;’, ‘[’, 或者 ‘?’符
 </ul>
 
 
-<h4>缓存</h4>
+<h3>缓存</h3>
 
 <ul>
 <li>服务器缓存：Redis</li>
@@ -204,7 +226,7 @@ zsh中若出现‘*’, ‘(’, ‘|’, ‘&lt;’, ‘[’, 或者 ‘?’符
 </ul>
 
 
-<h4>升级到HTTP/2</h4>
+<h3>升级到HTTP/2</h3>
 
 <ul>
 <li>消除了应用层的队头阻塞，拥有头部压缩、二进制帧、多路复用、流量控制、服务器推送等许多新特性，大幅度提升了 HTTP 的传输效率。
@@ -212,7 +234,7 @@ zsh中若出现‘*’, ‘(’, ‘|’, ‘&lt;’, ‘[’, 或者 ‘?’符
 </ul>
 
 
-<h4>关于资源合并</h4>
+<h3>关于资源合并</h3>
 
 <ul>
 <li>“资源合并”在 HTTP/1 里减少了多次请求的成本，但在 HTTP/2 里因为有头部压缩和多路复用，传输小文件的成本很低，所以合并就失去了意义。而且“资源合并”还有一个缺点，就是降低了缓存的可用性，只要一个小文件更新，整个缓存就完全失效，必须重新下载。</li>
@@ -222,15 +244,15 @@ zsh中若出现‘*’, ‘(’, ‘|’, ‘&lt;’, ‘[’, 或者 ‘?’符
 
 <p><a id="markdown-https性能优化" name="https性能优化"></a></p>
 
-<h3>HTTPs性能优化</h3>
+<h2>HTTPs性能优化</h2>
 
 <p><a id="markdown-1-硬件优化cpussl加速卡ssl加速服务器" name="1-硬件优化cpussl加速卡ssl加速服务器"></a></p>
 
-<h4>1. 硬件优化：CPU，SSL加速卡，SSL加速服务器</h4>
+<h3>1. 硬件优化：CPU，SSL加速卡，SSL加速服务器</h3>
 
 <p><a id="markdown-2-软件优化" name="2-软件优化"></a></p>
 
-<h4>2. 软件优化：</h4>
+<h3>2. 软件优化：</h3>
 
 <ol>
 <li>软件升级：Linux内核，Nginx，OpenSSL</li>
@@ -275,12 +297,6 @@ zsh中若出现‘*’, ‘(’, ‘|’, ‘&lt;’, ‘[’, 或者 ‘?’符
 
 <p>上面的内容来自极客时间的《透视HTTP协议》课程的39和40两节课。
 另外，<a href="http://hongchaozhang.github.io/blog/2021/05/26/toushi-http-xieyi/">极客时间-罗剑锋-《透视HTTP协议》总结</a>中的章节<a href="http://hongchaozhang.github.io/blog/2021/05/26/toushi-http-xieyi/#http%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96">http性能优化</a>，有一个概括性的描述。</p>
-
-<p><a id="markdown-浏览器内渲染性能优化" name="浏览器内渲染性能优化"></a></p>
-
-<h2>浏览器内渲染性能优化</h2>
-
-<p>参考<a href="http://hongchaozhang.github.io/blog/2022/01/04/web-qianduan-xingneng-youhua/">极客时间-Web前端性能优化</a>。</p>
 ]]></content>
   </entry>
   
@@ -368,6 +384,8 @@ zsh中若出现‘*’, ‘(’, ‘|’, ‘&lt;’, ‘[’, 或者 ‘?’符
 
 <!-- /TOC -->
 
+
+<p>总结极客时间课程《让你页面速度飞起来 Web前端性能优化》</p>
 
 <p><a id="markdown-资源压缩与合并" name="资源压缩与合并"></a></p>
 
@@ -885,6 +903,204 @@ zsh中若出现‘*’, ‘(’, ‘|’, ‘&lt;’, ‘[’, 或者 ‘?’符
 <p><a id="markdown-16--云上ai服务云ai能从哪些方面帮助构建智能应用" name="16--云上ai服务云ai能从哪些方面帮助构建智能应用"></a></p>
 
 <h2>16 | 云上AI服务：云AI能从哪些方面帮助构建智能应用？</h2>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[极客时间-徐文浩-《深入浅出计算机组成原理》]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2021/11/11/jisuanji-zucheng-yuanli/"/>
+    <updated>2021-11-11T12:43:31+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2021/11/11/jisuanji-zucheng-yuanli</id>
+    <content type="html"><![CDATA[<!-- more -->
+
+
+<p><a href="https://time.geekbang.org/column/intro/100026001">深入浅出计算机组成原理》</a></p>
+
+<p>零散笔记，不成体系。</p>
+
+<h2>浮点数和定点数</h2>
+
+<h2>GPU/TPU/FPGA</h2>
+
+<h2>CPU</h2>
+
+<p>CPU、缓存和内存的关系：
+<img src="http://hongchaozhang.github.io/images/cpu%E5%92%8C%E5%86%85%E5%AD%98%E7%9A%84%E5%85%B3%E7%B3%BB%E7%B1%BB%E6%AF%94.png" alt="cpu和内存的关系类比.png" /></p>
+
+<ul>
+<li>cache line （64KB）</li>
+<li>cache和内存地址映射</li>
+<li>缓存读取</li>
+<li>缓存写入</li>
+<li>缓存一致性：比分布式系统的数据一致性简单，因为不用考虑网络传输延迟和异常。
+
+<ul>
+<li>写传播</li>
+<li>事务串行化
+
+<ul>
+<li>总线嗅探</li>
+<li>MESI协议</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+
+<p>参考
+* <a href="https://coolshell.cn/articles/20793.html">与程序员相关的CPU缓存知识</a>。
+* Github上的一个代码库 <a href="https://github.com/Kobzol/hardware-effects">hardware-effects</a> 里面有受CPU影响的程序的演示。
+    > This repository demonstrates various hardware effects that can degrade application performance in surprising ways and that may be very hard to explain without knowledge of the low-level CPU and OS architecture.</p>
+
+<h2>内存</h2>
+
+<ul>
+<li>虚拟内存地址</li>
+<li>物理内存地址</li>
+<li>页表
+
+<ul>
+<li>简单页表</li>
+<li>多级页表：时间换空间，树形结构</li>
+</ul>
+</li>
+<li>加速地址转换（TLB）：通过在CPU中放置cache可以快速进行虚拟内存地址到物理内存地址的转换。</li>
+<li>内存保护
+
+<ul>
+<li>可执行空间保护</li>
+<li>地址空间布局随机化
+
+<h2>CPU架构</h2>
+
+<h3>CISC和RISC</h3></li>
+</ul>
+</li>
+<li>复杂指令集（Complex Instruction Set Computing，简称 CISC）</li>
+<li>精简指令集（Reduced Instruction Set Computing，简称 RISC）</li>
+</ul>
+
+
+<p>当时，UC Berkeley的大卫·帕特森（David Patterson）教授发现，实际在CPU运行的程序里，80%的时间都是在使用20%的简单指令。于是，他就提出了RISC的理念。自此之后，RISC类型的CPU开始快速蓬勃发展。</p>
+
+<p>在RISC架构里面，CPU选择把指令“精简”到20%的简单指令。而原先的复杂指令，则通过用简单指令组合起来来实现，让软件来实现硬件的功能。这样，CPU的整个硬件设计就会变得更简单了，在硬件层面提升性能也会变得更容易了。</p>
+
+<p>RISC的CPU里完成指令的电路变得简单了，于是也就腾出了更多的空间。这个空间，常常被拿来放通用寄存器。因为RISC完成同样的功能，执行的指令数量要比CISC多，所以，如果需要反复从内存里面读取指令或者数据到寄存器里来，那么很多时间就会花在访问内存上。于是，RISC架构的CPU往往就有更多的通用寄存器。</p>
+
+<h3>ARM和RISC-V：CPU的现在与未来</h3>
+
+<p>2017年，ARM公司的CEO Simon Segards宣布，ARM累积销售的芯片数量超过了1000亿。作为一个从12个人起步，在80年代想要获取Intel的80286架构授权来制造CPU的公司，ARM是如何在移动端把自己的芯片塑造成了最终的霸主呢？</p>
+
+<p>ARM这个名字现在的含义，是“Advanced RISC Machines”。你从名字就能够看出来，ARM的芯片是基于RISC架构的。不过，ARM能够在移动端战胜Intel，并不是因为RISC架构。</p>
+
+<p>到了21世纪的今天，CISC和RISC架构的分界已经没有那么明显了。Intel和AMD的CPU也都是采用译码成RISC风格的微指令来运行。而ARM的芯片，一条指令同样需要多个时钟周期，有乱序执行和多发射。我甚至看到过这样的评价，“ARM和RISC的关系，只有在名字上”。</p>
+
+<p>ARM真正能够战胜Intel，我觉得主要是因为下面这两点原因。</p>
+
+<ul>
+<li><p>第一点是功耗优先的设计。一个4核的Intel i7的CPU，设计的时候功率就是130W。而一块ARM A8的单个核心的CPU，设计功率只有2W。两者之间差出了100倍。在移动设备上，功耗是一个远比性能更重要的指标，毕竟我们不能随时在身上带个发电机。ARM的CPU，主频更低，晶体管更少，高速缓存更小，乱序执行的能力更弱。所有这些，都是为了功耗所做的妥协。</p></li>
+<li><p>第二点则是低价。ARM并没有自己垄断CPU的生产和制造，只是进行CPU设计，然后把对应的知识产权授权出去，让其他的厂商来生产ARM架构的CPU。它甚至还允许这些厂商可以基于ARM的架构和指令集，设计属于自己的CPU。像苹果、三星、华为，它们都是拿到了基于ARM体系架构设计和制造CPU的授权。ARM自己只是收取对应的专利授权费用。多个厂商之间的竞争，使得ARM的芯片在市场上价格很便宜。所以，尽管ARM的芯片的出货量远大于Intel，但是收入和利润却比不上Intel。</p></li>
+</ul>
+
+
+<p>不过，ARM并不是开源的。所以，在ARM架构逐渐垄断移动端芯片市场的时候，“开源硬件”也慢慢发展起来了。一方面，MIPS在2019年宣布开源；另一方面，从UC Berkeley发起的RISC-V项目也越来越受到大家的关注。而RISC概念的发明人，图灵奖的得主大卫·帕特森教授从伯克利退休之后，成了RISC-V国际开源实验室的负责人，开始推动RISC-V这个“CPU届的Linux”的开发。可以想见，未来的开源CPU，也多半会像Linux一样，逐渐成为一个业界的主流选择。如果想要“打造一个属于自己CPU”，不可不关注这个项目。</p>
+
+<h2>FPGA和ASIC</h2>
+
+<p>FPGA，也就是现场可编程门阵列（Field-Programmable Gate Array）。看到这个名字，你可能要说了，这里面每个单词单独我都认识，放到一起就不知道是什么意思了。</p>
+
+<p>没关系，我们就从FPGA里面的每一个字符，一个一个来看看它到底是什么意思。</p>
+
+<ul>
+<li>P代表Programmable，这个很容易理解。也就是说这是一个可以通过编程来控制的硬件。</li>
+<li>G代表Gate也很容易理解，它就代表芯片里面的门电路。我们能够去进行编程组合的就是这样一个一个门电路。</li>
+<li>A代表的Array，叫作阵列，说的是在一块FPGA上，密密麻麻列了大量Gate这样的门电路。</li>
+<li>最后一个F，不太容易理解。它其实是说，一块FPGA这样的板子，可以进行在“现场”多次地进行编程。它不像PAL（Programmable Array Logic，可编程阵列逻辑）这样更古老的硬件设备，只能“编程”一次，把预先写好的程序一次性烧录到硬件里面，之后就不能再修改了。</li>
+</ul>
+
+
+<p>ASIC（Application-Specific Integrated Circuit），也就是专用集成电路。比如，现在手机里就有专门用在摄像头里的芯片；录音笔里会有专门处理音频的芯片，都是ASIC。</p>
+
+<p>那么，我们能不能用刚才说的FPGA来做ASIC的事情呢？当然是可以的。我们对FPGA进行“编程”，其实就是把FPGA的电路变成了一个ASIC。这样的芯片，往往在成本和功耗上优于需要做通用计算的CPU和GPU。但是，FPGA一样有缺点，那就是它的硬件上有点儿“浪费”。为了实现通用性，FPGA有很多荣誉的硬件。</p>
+
+<h2>HDD和SSD</h2>
+
+<p>硬盘接口：</p>
+
+<ul>
+<li>SATA3.0：带宽6Gb/s，理论传输上线768MB/s。</li>
+<li>PCI Express接口</li>
+</ul>
+
+
+<p>PCI Express接口上的SSD硬盘性能测试：</p>
+
+<p><img src="http://hongchaozhang.github.io/images/SSD%E6%80%A7%E8%83%BD.png" alt="SSD性能.png" /></p>
+
+<ul>
+<li>Seq：顺序读写数据可以达到1GB-2GB/s。</li>
+<li>4K：4K大小的随机读写速度只有每秒几十MB，可以算出该硬盘每秒随机读取次数可以达到1万次左右（40M/4K），随机写入可以达到每秒2万次左右。这个每秒读写的次数，我们称之为IOPS。相比较而言，HDD硬盘的IOPS通常也就在100左右（可以通过机械硬盘的转速计算出来。）。</li>
+<li>Acc.time</li>
+</ul>
+
+
+<p>无论是顺序读写还是随机读写，SSD都远胜于HDD。但是在使用寿命上，SSD却非常差，这是受它的擦除次数限制。</p>
+
+<p>对于SSD硬盘来说，数据的写入叫作Program。写入不能像机械硬盘一样，通过覆写（Overwrite）来进行的，而是要先去擦除（Erase），然后再写入。</p>
+
+<p>SSD的读取和写入的基本单位，不是一个比特（bit）或者一个字节（byte），而是一个页（Page）。SSD 的擦除单位就更夸张了，我们不仅不能按照比特或者字节来擦除，连按照页来擦除都不行，我们必须按照块来擦除。对SSD来说，最好的存储介质也只有十万次的擦出次数，差一些的只有几千次。</p>
+
+<h3>FTL闪存转换层</h3>
+
+<p>为了提高SSD的使用寿命，我们要的就是想一个办法，让SSD硬盘各个块的擦除次数，均匀分摊到各个块上。这个策略呢，就叫作<strong>磨损均衡</strong>（Wear-Leveling）。实现这个技术的核心办法，和我们前面讲过的虚拟内存一样，就是添加一个间接层，就是FTL这个<strong>闪存转换层</strong>。</p>
+
+<p><img src="http://hongchaozhang.github.io/images/%E9%97%AA%E5%AD%98%E8%BD%AC%E6%8D%A2%E5%B1%82.jpeg" alt="闪存转换层.jpeg" /></p>
+
+<p>当SSD硬盘的存储空间被占用得越来越多，每一次写入新数据，我们都可能没有足够的空白。我们可能不得不去进行垃圾回收，合并一些块里面的页，然后再擦除掉一些页，才能匀出一些空间来。</p>
+
+<p>这个时候，从应用层或者操作系统层面来看，我们可能只是写入了一个4KB或者4MB的数据。但是，实际通过FTL之后，我们可能要去搬运8MB、16MB甚至更多的数据。</p>
+
+<p>我们通过“实际的闪存写入的数据量/系统通过FTL写入的数据量”定义写入放大。可以得到，写入放大的倍数越多，意味着实际的SSD性能也就越差，会远远比不上实际SSD硬盘标称的指标。而解决写入放大的方法：</p>
+
+<ul>
+<li>需要我们在后台定时进行垃圾回收，在硬盘比较空闲的时候，就把搬运数据、擦除数据、留出空白的块的工作做完，而不是等实际数据写入的时候，再进行这样的操作。AeroSpike在某个“块”有超过50%的数据碎片时就进行垃圾回收。</li>
+<li>不要存储的太满。AeroSpike数据库建议预留50%的空间。</li>
+</ul>
+
+
+<h2>直接内存访问（DMA）</h2>
+
+<p>无论I/O速度如何提升，比起CPU，总还是太慢。SSD硬盘的IOPS可以到2万、4万，但是我们CPU的主频有2GHz以上，也就意味着每秒会有20亿次的操作。</p>
+
+<p>如果我们对于I/O的操作，都是由CPU发出对应的指令，然后等待I/O设备完成操作之后返回，那CPU有大量的时间其实都是在等待I/O设备完成操作。</p>
+
+<p>因此，计算机工程师们，就发明了DMA技术，也就是直接内存访问（Direct Memory Access）技术，来减少CPU等待的时间。</p>
+
+<p>本质上，DMA技术就是我们在主板上放一块独立的芯片。在进行内存和I/O设备的数据传输的时候，我们不再通过CPU来控制数据传输，而直接通过DMA控制器（DMA Controller，简称DMAC）。这块芯片，我们可以认为它其实就是一个协处理器（Co-Processor）。</p>
+
+<p>比如说，我们用千兆网卡或者硬盘传输大量数据的时候，如果都用CPU来搬运的话，肯定忙不过来，所以可以选择DMAC。而当数据传输很慢的时候，DMAC可以等数据到齐了，再发送信号，给到CPU去处理，而不是让CPU在那里忙等待。</p>
+
+<p>今天，各种I/O设备越来越多，数据传输的需求越来越复杂，使用的场景各不相同。加之显示器、网卡、硬盘对于数据传输的需求都不一样，所以各个设备里面都有自己的DMAC芯片了。</p>
+
+<h3>为什么那么快？一起来看Kafka的实现原理</h3>
+
+<p>Kafka是一个用来处理实时数据的管道，我们常常用它来做一个消息队列，或者用来收集和落地海量的日志。作为一个处理实时数据和日志的管道，瓶颈自然也在I/O层面。</p>
+
+<p>Kafka里面会有两种常见的海量数据传输的情况。一种是从网络中接收上游的数据，然后需要落地到本地的磁盘上，确保数据不丢失。另一种情况呢，则是从本地磁盘上读取出来，通过网络发送出去。</p>
+
+<p>Kafka做的事情就是，把这个数据搬运的次数，从上面的四次，变成了两次，并且只有DMA来进行数据搬运，而不需要CPU。</p>
+
+<h2>校验</h2>
+
+<ul>
+<li>奇偶校验和校验位</li>
+<li>纠错码</li>
+<li>纠删码</li>
+</ul>
+
+
+<p>7-4海明码是海明吗的一种：这里的“7”指的是实际有效的数据，一共是7位（Bit）。而这里的“4”，指的是我们额外存储了4位数据，用来纠错。</p>
 ]]></content>
   </entry>
   
@@ -4775,489 +4991,6 @@ db.shutdownServer();
 <li><a href="http://k.sina.com.cn/article_6450201194_18076426a00100828l.html">奥运从此再无林李大战，但林丹和李宗伟的传奇不会被人遗忘</a></li>
 </ul>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[《如何开发孩子的数学潜力》总结]]></title>
-    <link href="http://hongchaozhang.github.io/blog/2020/06/16/ruhe-kaifa-haizi-de-shuxue-qianli/"/>
-    <updated>2020-06-16T18:39:09+08:00</updated>
-    <id>http://hongchaozhang.github.io/blog/2020/06/16/ruhe-kaifa-haizi-de-shuxue-qianli</id>
-    <content type="html"><![CDATA[<!-- more -->
-
-
-
-
-<!-- TOC -->
-
-
-<ul>
-<li><a href="#%E6%95%B0%E7%9A%84%E6%A6%82%E5%BF%B5">数的概念</a>
-
-<ul>
-<li><a href="#%E8%AE%AD%E7%BB%83%E6%B8%B8%E6%88%8F">训练游戏</a></li>
-<li><a href="#%E6%B3%A8%E6%84%8F">注意</a></li>
-</ul>
-</li>
-<li><a href="#%E6%95%B0%E7%9A%84%E8%AE%A1%E7%AE%97">数的计算</a>
-
-<ul>
-<li><a href="#%E8%AE%AD%E7%BB%83%E6%B8%B8%E6%88%8F">训练游戏</a></li>
-<li><a href="#%E6%8E%A8%E8%8D%90%E7%BB%98%E6%9C%AC">推荐绘本：</a></li>
-</ul>
-</li>
-<li><a href="#%E9%87%8F%E7%9A%84%E6%A6%82%E5%BF%B5">量的概念</a>
-
-<ul>
-<li><a href="#%E8%AE%AD%E7%BB%83%E6%B8%B8%E6%88%8F">训练游戏</a></li>
-<li><a href="#%E6%8E%A8%E8%8D%90%E7%BB%98%E6%9C%AC">推荐绘本</a></li>
-</ul>
-</li>
-<li><a href="#%E9%87%8F%E7%9A%84%E6%B5%8B%E9%87%8F">量的测量</a>
-
-<ul>
-<li><a href="#%E8%AE%AD%E7%BB%83%E6%B8%B8%E6%88%8F">训练游戏</a></li>
-<li><a href="#%E6%8E%A8%E8%8D%90%E7%BB%98%E6%9C%AC">推荐绘本</a></li>
-</ul>
-</li>
-<li><a href="#%E6%97%B6%E9%97%B4">时间</a>
-
-<ul>
-<li><a href="#%E8%AE%AD%E7%BB%83%E6%B8%B8%E6%88%8F">训练游戏</a></li>
-<li><a href="#%E6%8E%A8%E8%8D%90%E7%BB%98%E6%9C%AC">推荐绘本</a></li>
-</ul>
-</li>
-<li><a href="#%E7%A9%BA%E9%97%B4%E5%9B%BE%E5%BD%A2">空间图形</a>
-
-<ul>
-<li><a href="#%E8%AE%AD%E7%BB%83%E6%B8%B8%E6%88%8F">训练游戏</a></li>
-<li><a href="#%E6%8E%A8%E8%8D%90%E7%BB%98%E6%9C%AC">推荐绘本</a></li>
-</ul>
-</li>
-<li><a href="#%E7%A9%BA%E9%97%B4%E6%96%B9%E4%BD%8D%E5%85%B3%E7%B3%BB">空间方位关系</a>
-
-<ul>
-<li><a href="#%E8%AE%AD%E7%BB%83%E6%B8%B8%E6%88%8F">训练游戏</a></li>
-<li><a href="#%E6%8E%A8%E8%8D%90%E7%BB%98%E6%9C%AC">推荐绘本</a></li>
-</ul>
-</li>
-<li><a href="#%E9%80%BB%E8%BE%91%E6%80%9D%E7%BB%B4">逻辑思维</a>
-
-<ul>
-<li><a href="#%E6%8E%A8%E8%8D%90%E7%BB%98%E6%9C%AC">推荐绘本</a></li>
-</ul>
-</li>
-<li><a href="#%E5%88%9B%E5%BB%BA%E6%95%B0%E5%AD%A6%E5%AE%B6%E5%BA%AD">创建数学家庭</a></li>
-<li><a href="#%E5%85%B6%E5%AE%83">其它</a></li>
-</ul>
-
-
-<!-- /TOC -->
-
-
-<p><a id="markdown-数的概念" name="数的概念"></a></p>
-
-<h2>数的概念</h2>
-
-<p>数的意义，不是简单的数数。数概念的核心是<strong>数和事物的对应关系</strong>。</p>
-
-<p><a id="markdown-训练游戏" name="训练游戏"></a></p>
-
-<h3>训练游戏</h3>
-
-<ul>
-<li>指物说数：“这是几个橘子”。</li>
-<li>按数取物：“给我拿3个苹果”。</li>
-</ul>
-
-
-<p><a id="markdown-注意" name="注意"></a></p>
-
-<h3>注意</h3>
-
-<p>在培养数的概念的过程中，注意：</p>
-
-<ul>
-<li>不要着急写阿拉伯数字：数概念的核心是数和事物的对应关系，这里的数不是阿拉伯数字。阿拉伯数字的书写要放在孩子有了数的概念之后再进行。</li>
-<li>重点放在1-10上，10以上由于重复性很容易学习。</li>
-</ul>
-
-
-<p><a id="markdown-数的计算" name="数的计算"></a></p>
-
-<h2>数的计算</h2>
-
-<p>训练加减法，要借助实物，使之形象化。比如用手指。不要着急用符号，免得给孩子留下“数学难学没意思”的想法。</p>
-
-<p><a id="markdown-训练游戏" name="训练游戏"></a></p>
-
-<h3>训练游戏</h3>
-
-<p>帮妈妈分豆子。</p>
-
-<p><a id="markdown-推荐绘本" name="推荐绘本"></a></p>
-
-<h3>推荐绘本：</h3>
-
-<ul>
-<li>《9只小猫呼呼呼》</li>
-</ul>
-
-
-<p><a id="markdown-量的概念" name="量的概念"></a></p>
-
-<h2>量的概念</h2>
-
-<p>“量”指的是事物的大小，多少，长短，轻重，黑白&hellip;</p>
-
-<p><a id="markdown-训练游戏" name="训练游戏"></a></p>
-
-<h3>训练游戏</h3>
-
-<p>串珠游戏
-毛毛虫绘本，训练“量”的概念</p>
-
-<p><a id="markdown-推荐绘本" name="推荐绘本"></a></p>
-
-<h3>推荐绘本</h3>
-
-<ul>
-<li>《我爸爸》</li>
-<li>《猜猜我有多爱你》</li>
-<li>《100层的巴士》</li>
-</ul>
-
-
-<p><a id="markdown-量的测量" name="量的测量"></a></p>
-
-<h2>量的测量</h2>
-
-<p>关于测量，有几点需要注意：
-1. 目测：也是测量的一种。
-2. 排序：按照量的特征进行排序，3-4岁的孩子可以给4个物体进行排序，4-5岁增加到7个，5-6岁增加到10个。
-3. 自然测量：借助手脚手指脚步的长度进行测量
-4. 真正意义的测量：这个阶段要到5-6岁。</p>
-
-<p><a id="markdown-训练游戏" name="训练游戏"></a></p>
-
-<h3>训练游戏</h3>
-
-<ul>
-<li>自然测量游戏：用手、脚、步长等进行长度测量。</li>
-<li>桌子上可以排几辆小汽车，凳子上可以排几辆小汽车？</li>
-<li>瓶子里可以装进去几杯水？</li>
-</ul>
-
-
-<p><a id="markdown-推荐绘本" name="推荐绘本"></a></p>
-
-<h3>推荐绘本</h3>
-
-<ul>
-<li>《一寸虫》</li>
-</ul>
-
-
-<p><a id="markdown-时间" name="时间"></a></p>
-
-<h2>时间</h2>
-
-<p>时间认知的几个发展阶段：
-1. 2岁：只有当前
-2. 3-4岁：早上、晚上、白天、黑夜、马上、刚刚，但是比较模糊
-3. 4-5岁：清晰理解早上、晚上、白天、黑夜，知道昨天、明天
-4. 5-6岁：认识钟表上面的整点和半点</p>
-
-<p><a id="markdown-训练游戏" name="训练游戏"></a></p>
-
-<h3>训练游戏</h3>
-
-<ol>
-<li>引导孩子理解时间要形象化，比如太阳升起的时候是早晨，太阳落山的时候是傍晚等。</li>
-<li>计时游戏：数到十，看看这段时间之内可以做成什么。</li>
-<li>在生活中，多说一些带有时间的词语，比如上学迟到，视频多长，游戏多长，什么节目什么时间开始，什么时间结束等。</li>
-</ol>
-
-
-<p><a id="markdown-推荐绘本" name="推荐绘本"></a></p>
-
-<h3>推荐绘本</h3>
-
-<ul>
-<li>《怪物王国的难题》</li>
-<li>《甜蜜小仓鼠》</li>
-</ul>
-
-
-<p><a id="markdown-空间图形" name="空间图形"></a></p>
-
-<h2>空间图形</h2>
-
-<p>理解图形，不要记图形。</p>
-
-<p><a id="markdown-训练游戏" name="训练游戏"></a></p>
-
-<h3>训练游戏</h3>
-
-<p>怎样引导孩子认识空间中的图形：
-1. 鼓励孩子多看多摸多用手去摆弄物体
-2. 游戏1：剪折纸游戏
-3. 游戏2: 画形状填颜色，形状要有多样性，可以大人画小孩填色大人画一些新的形状，也可以反过来让孩子练习已经熟悉的形状。
-4. 游戏3: 积木，七巧板</p>
-
-<p><a id="markdown-推荐绘本" name="推荐绘本"></a></p>
-
-<h3>推荐绘本</h3>
-
-<ul>
-<li>《建筑工地》</li>
-<li>《我的百变浴缸》</li>
-</ul>
-
-
-<p><a id="markdown-空间方位关系" name="空间方位关系"></a></p>
-
-<h2>空间方位关系</h2>
-
-<p>认识空间关系的几个阶段：</p>
-
-<ol>
-<li>3岁：上下</li>
-<li>4岁：前后</li>
-<li>5岁：以自身为中心辨认左右</li>
-<li>6岁：以客体为中心辨认左右</li>
-</ol>
-
-
-<p><a id="markdown-训练游戏" name="训练游戏"></a></p>
-
-<h3>训练游戏</h3>
-
-<p>怎样教孩子理解空间位置关系：
-1. 在日常聊天中多用方位词语，”好酷的汽车，快把它拿到盒子外面来。“
-2. 飞机上，火车上，汽车上，很多位置关系变来变去。
-3. 游戏1：贴鼻子。画好一个人，然后闭眼贴鼻子，大人可以给方向指令。刚开始时可以简化成摸鼻子：闭眼摸大人的鼻子。也可以让孩子在自己后背挠痒痒，同时给以方位指令。
-4. 游戏2: 乐高拼图。</p>
-
-<p><a id="markdown-推荐绘本" name="推荐绘本"></a></p>
-
-<h3>推荐绘本</h3>
-
-<ul>
-<li>《谁藏起来来》</li>
-<li>《我的后面是谁呢》</li>
-</ul>
-
-
-<p><a id="markdown-逻辑思维" name="逻辑思维"></a></p>
-
-<h2>逻辑思维</h2>
-
-<p>有了对事物的理解做基础，就可以进一步发展逻辑推理能力了。</p>
-
-<p><a id="markdown-推荐绘本" name="推荐绘本"></a></p>
-
-<h3>推荐绘本</h3>
-
-<ul>
-<li>《好饿的小蛇》</li>
-<li>《逃家小兔》</li>
-<li>《猜猜我是谁》</li>
-<li>《和甘伯伯去游河》</li>
-</ul>
-
-
-<p><a id="markdown-创建数学家庭" name="创建数学家庭"></a></p>
-
-<h2>创建数学家庭</h2>
-
-<ul>
-<li>游戏是最适合孩子的学习方式。</li>
-<li>不要打断孩子的学习和思考。</li>
-<li>提供丰富的数学启蒙材料，手工、游戏、绘本等。</li>
-<li>合理安排数学游戏时长，6岁之前5-15分钟为宜。</li>
-<li>利用孩子已知的情景，稍加改造，进行数学训练。好处就是不用你再重新营造情景。</li>
-</ul>
-
-
-<p><a id="markdown-其它" name="其它"></a></p>
-
-<h2>其它</h2>
-
-<ul>
-<li>作者图书推荐：《今晚七点半，我家的游戏是数学》</li>
-<li>在和孩子游戏的过程中，千万不要太”聪明“。要让孩子从“最笨”的方法中寻找答案，享受独立解决问题的能力，不要着急告诉她更简便的方法。点到为止。</li>
-<li>不要欺骗孩子：明明孩子才完了5分钟，你却说半小时到了。嘴上说“我马上来陪你玩”，却迟迟不来。</li>
-<li>你口中的是非标准，都会成为孩子进一步推理的基础。在孩子面前说话可要“当心”喽。</li>
-<li>你在跟孩子开反义词的玩笑的时候，一定要让她知道是在开玩笑，不然，会影响她的认知。</li>
-</ul>
-
-
-<p>最后贴出总目录：</p>
-
-<p><img src="http://hongchaozhang.github.io/images/%E5%A6%82%E4%BD%95%E5%BC%80%E5%8F%91%E5%AD%A9%E5%AD%90%E7%9A%84%E6%95%B0%E5%AD%A6%E6%BD%9C%E5%8A%9B.jpeg" alt="如何开发孩子的数学潜力" /></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iframe之外能否知道iframe里面产生的事件？]]></title>
-    <link href="http://hongchaozhang.github.io/blog/2020/06/04/can-events-inside-iframe-bubble-out-of-iframe/"/>
-    <updated>2020-06-04T11:55:31+08:00</updated>
-    <id>http://hongchaozhang.github.io/blog/2020/06/04/can-events-inside-iframe-bubble-out-of-iframe</id>
-    <content type="html"><![CDATA[<!-- more -->
-
-
-
-
-<!-- TOC -->
-
-
-<ul>
-<li><a href="#%E9%97%AE%E9%A2%98">问题</a>
-
-<ul>
-<li><a href="#%E8%B5%84%E6%96%99%E4%B8%80">资料一</a></li>
-<li><a href="#%E8%B5%84%E6%96%99%E4%BA%8C">资料二</a></li>
-<li><a href="#%E8%B5%84%E6%96%99%E4%B8%89">资料三</a></li>
-</ul>
-</li>
-</ul>
-
-
-<!-- /TOC -->
-
-
-<p><a id="markdown-问题" name="问题"></a></p>
-
-<h2>问题</h2>
-
-<p>iframe里面产生的click事件，外面有没有办法知道？</p>
-
-<p><a id="markdown-资料一" name="资料一"></a></p>
-
-<h3>资料一</h3>
-
-<p>根据<a href="https://stackoverflow.com/questions/2381336/detect-click-into-iframe-using-javascript/32138108">Detect Click into Iframe using JavaScript</a>，</p>
-
-<ol>
-<li>我们只能监测到发生在iframe上的'mouseover'、'mouseout'等事件，至于鼠标进入iframe之后发生的事情，我们是没有办法获取的。</li>
-<li>对于试图在iframe上面盖一层透明的dom来截获鼠标事件的想法也是不可取的，因为一旦事件被截获，便没有办法再次dispatch到iframe内部去。</li>
-<li>以上结论基于不同源的两个网页。</li>
-</ol>
-
-
-<p><a id="markdown-资料二" name="资料二"></a></p>
-
-<h3>资料二</h3>
-
-<p><a href="https://stackoverflow.com/questions/40109631/event-bubbling-not-happen-in-iframe">Event bubbling not happen in IFrame</a>解释来为什么iframe里面的事件不能bubble出iframe。</p>
-
-<blockquote><p>Bubbling is specced to happen only through a single <strong>document tree</strong>. The iframe is a separate document tree, and so events that bubble through its tree terminate at the root of the iframe&rsquo;s document and do not travel across the boundary into the host document.</p></blockquote>
-
-<p><a id="markdown-资料三" name="资料三"></a></p>
-
-<h3>资料三</h3>
-
-<p>如果满足同源策略，那么可以通过下面的方法将iframe内部的事件传到外部(参考<a href="https://stackoverflow.com/questions/5645485/detect-mousemove-when-over-an-iframe/11865037#11865037">Detect mousemove when over an iframe?</a>)：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="c1">// This example assumes execution from the parent of the the iframe</span>
-</span><span class='line'>
-</span><span class='line'><span class="kd">function</span> <span class="nx">bubbleIframeMouseMove</span><span class="p">(</span><span class="nx">iframe</span><span class="p">){</span>
-</span><span class='line'>    <span class="c1">// Save any previous onmousemove handler</span>
-</span><span class='line'>    <span class="kd">var</span> <span class="nx">existingOnMouseMove</span> <span class="o">=</span> <span class="nx">iframe</span><span class="p">.</span><span class="nx">contentWindow</span><span class="p">.</span><span class="nx">onmousemove</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="c1">// Attach a new onmousemove listener</span>
-</span><span class='line'>    <span class="nx">iframe</span><span class="p">.</span><span class="nx">contentWindow</span><span class="p">.</span><span class="nx">onmousemove</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">e</span><span class="p">){</span>
-</span><span class='line'>        <span class="c1">// Fire any existing onmousemove listener </span>
-</span><span class='line'>        <span class="k">if</span><span class="p">(</span><span class="nx">existingOnMouseMove</span><span class="p">)</span> <span class="nx">existingOnMouseMove</span><span class="p">(</span><span class="nx">e</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'>        <span class="c1">// Create a new event for the this window</span>
-</span><span class='line'>        <span class="kd">var</span> <span class="nx">evt</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createEvent</span><span class="p">(</span><span class="s2">&quot;MouseEvents&quot;</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'>        <span class="c1">// We&#39;ll need this to offset the mouse move appropriately</span>
-</span><span class='line'>        <span class="kd">var</span> <span class="nx">boundingClientRect</span> <span class="o">=</span> <span class="nx">iframe</span><span class="p">.</span><span class="nx">getBoundingClientRect</span><span class="p">();</span>
-</span><span class='line'>
-</span><span class='line'>        <span class="c1">// Initialize the event, copying exiting event values</span>
-</span><span class='line'>        <span class="c1">// for the most part</span>
-</span><span class='line'>        <span class="nx">evt</span><span class="p">.</span><span class="nx">initMouseEvent</span><span class="p">(</span>
-</span><span class='line'>            <span class="s2">&quot;mousemove&quot;</span><span class="p">,</span>
-</span><span class='line'>            <span class="kc">true</span><span class="p">,</span> <span class="c1">// bubbles</span>
-</span><span class='line'>            <span class="kc">false</span><span class="p">,</span> <span class="c1">// not cancelable </span>
-</span><span class='line'>            <span class="nb">window</span><span class="p">,</span>
-</span><span class='line'>            <span class="nx">e</span><span class="p">.</span><span class="nx">detail</span><span class="p">,</span>
-</span><span class='line'>            <span class="nx">e</span><span class="p">.</span><span class="nx">screenX</span><span class="p">,</span>
-</span><span class='line'>            <span class="nx">e</span><span class="p">.</span><span class="nx">screenY</span><span class="p">,</span>
-</span><span class='line'>            <span class="nx">e</span><span class="p">.</span><span class="nx">clientX</span> <span class="o">+</span> <span class="nx">boundingClientRect</span><span class="p">.</span><span class="nx">left</span><span class="p">,</span>
-</span><span class='line'>            <span class="nx">e</span><span class="p">.</span><span class="nx">clientY</span> <span class="o">+</span> <span class="nx">boundingClientRect</span><span class="p">.</span><span class="nx">top</span><span class="p">,</span>
-</span><span class='line'>            <span class="nx">e</span><span class="p">.</span><span class="nx">ctrlKey</span><span class="p">,</span>
-</span><span class='line'>            <span class="nx">e</span><span class="p">.</span><span class="nx">altKey</span><span class="p">,</span>
-</span><span class='line'>            <span class="nx">e</span><span class="p">.</span><span class="nx">shiftKey</span><span class="p">,</span>
-</span><span class='line'>            <span class="nx">e</span><span class="p">.</span><span class="nx">metaKey</span><span class="p">,</span>
-</span><span class='line'>            <span class="nx">e</span><span class="p">.</span><span class="nx">button</span><span class="p">,</span>
-</span><span class='line'>            <span class="kc">null</span> <span class="c1">// no related element</span>
-</span><span class='line'>        <span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'>        <span class="c1">// Dispatch the mousemove event on the iframe element</span>
-</span><span class='line'>        <span class="nx">iframe</span><span class="p">.</span><span class="nx">dispatchEvent</span><span class="p">(</span><span class="nx">evt</span><span class="p">);</span>
-</span><span class='line'>    <span class="p">};</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">// Get the iframe element we want to track mouse movements on</span>
-</span><span class='line'><span class="kd">var</span> <span class="nx">myIframe</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s2">&quot;myIframe&quot;</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">// Run it through the function to setup bubbling</span>
-</span><span class='line'><span class="nx">bubbleIframeMouseMove</span><span class="p">(</span><span class="nx">myIframe</span><span class="p">);</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>You can now listen for mousemove on the iframe element or any of its parent elements. As the event will bubble up as you would expect.</p>
 ]]></content>
   </entry>
   

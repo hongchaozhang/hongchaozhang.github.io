@@ -9,7 +9,7 @@
 	<meta name="author" content="Zhang Hongchao">
 
 	
-	<meta name="description" content="Nov 13th, 2018 objective-c, swift, xcode 在swift和Objc之间转换的一些想法 Read on &rarr; Nov 5th, 2018 reading 读朱光潜《谈修养》 《谈修养》的一点读书杂想和摘抄。 Read on &rarr; Aug &hellip;">
+	<meta name="description" content="Feb 12th, 2019 design pattern 架构整洁之道总结（the Clean Architecture） Read on &rarr; Dec 4th, 2018 design pattern 编程中的SOLID原则 Robert C. Martin (Bob大叔)在《 &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -93,7 +93,7 @@
 
 
 <section class="categories">
-          <ul id="category_cloud" class="nav nav-list"><a href='/blog/categories/algorithm' style='font-size: 101.33333333333333%'>algorithm(1)</a> <a href='/blog/categories/android' style='font-size: 108.0%'>android(6)</a> <a href='/blog/categories/android-studio' style='font-size: 101.33333333333333%'>android studio(1)</a> <a href='/blog/categories/augmented-reality' style='font-size: 105.33333333333333%'>augmented reality(4)</a> <a href='/blog/categories/css' style='font-size: 102.66666666666667%'>css(2)</a> <a href='/blog/categories/design-pattern' style='font-size: 104.0%'>design pattern(3)</a> <a href='/blog/categories/html' style='font-size: 102.66666666666667%'>html(2)</a> <a href='/blog/categories/html-css' style='font-size: 101.33333333333333%'>html css(1)</a> <a href='/blog/categories/http' style='font-size: 102.66666666666667%'>http(2)</a> <a href='/blog/categories/ios' style='font-size: 160.0%'>ios(45)</a> <a href='/blog/categories/java' style='font-size: 102.66666666666667%'>java(2)</a> <a href='/blog/categories/javascript' style='font-size: 105.33333333333333%'>javascript(4)</a> <a href='/blog/categories/machine-learning' style='font-size: 112.0%'>machine learning(9)</a> <a href='/blog/categories/map-tech' style='font-size: 104.0%'>map tech(3)</a> <a href='/blog/categories/mobile' style='font-size: 101.33333333333333%'>mobile(1)</a> <a href='/blog/categories/mongodb' style='font-size: 101.33333333333333%'>mongodb(1)</a> <a href='/blog/categories/music' style='font-size: 109.33333333333333%'>music(7)</a> <a href='/blog/categories/nlp' style='font-size: 102.66666666666667%'>nlp(2)</a> <a href='/blog/categories/nlu' style='font-size: 102.66666666666667%'>nlu(2)</a> <a href='/blog/categories/node' style='font-size: 104.0%'>node(3)</a> <a href='/blog/categories/nodejs' style='font-size: 104.0%'>nodejs(3)</a> <a href='/blog/categories/objective-c' style='font-size: 129.33333333333334%'>objective-c(22)</a> <a href='/blog/categories/philosophy' style='font-size: 102.66666666666667%'>philosophy(2)</a> <a href='/blog/categories/productivity' style='font-size: 130.66666666666666%'>productivity(23)</a> <a href='/blog/categories/python' style='font-size: 106.66666666666667%'>python(5)</a> <a href='/blog/categories/reading' style='font-size: 138.66666666666666%'>reading(29)</a> <a href='/blog/categories/server' style='font-size: 101.33333333333333%'>server(1)</a> <a href='/blog/categories/swift' style='font-size: 109.33333333333333%'>swift(7)</a> <a href='/blog/categories/web' style='font-size: 113.33333333333333%'>web(10)</a> <a href='/blog/categories/wwdc' style='font-size: 102.66666666666667%'>wwdc(2)</a> <a href='/blog/categories/xcode' style='font-size: 110.66666666666667%'>xcode(8)</a> </ul>
+          <ul id="category_cloud" class="nav nav-list"><a href='/blog/categories/algorithm' style='font-size: 101.33333333333333%'>algorithm(1)</a> <a href='/blog/categories/android' style='font-size: 108.0%'>android(6)</a> <a href='/blog/categories/android-studio' style='font-size: 101.33333333333333%'>android studio(1)</a> <a href='/blog/categories/augmented-reality' style='font-size: 105.33333333333333%'>augmented reality(4)</a> <a href='/blog/categories/cs' style='font-size: 101.33333333333333%'>cs(1)</a> <a href='/blog/categories/css' style='font-size: 102.66666666666667%'>css(2)</a> <a href='/blog/categories/design-pattern' style='font-size: 104.0%'>design pattern(3)</a> <a href='/blog/categories/html' style='font-size: 102.66666666666667%'>html(2)</a> <a href='/blog/categories/html-css' style='font-size: 101.33333333333333%'>html css(1)</a> <a href='/blog/categories/http' style='font-size: 104.0%'>http(3)</a> <a href='/blog/categories/ios' style='font-size: 160.0%'>ios(45)</a> <a href='/blog/categories/java' style='font-size: 102.66666666666667%'>java(2)</a> <a href='/blog/categories/javascript' style='font-size: 105.33333333333333%'>javascript(4)</a> <a href='/blog/categories/machine-learning' style='font-size: 112.0%'>machine learning(9)</a> <a href='/blog/categories/map-tech' style='font-size: 104.0%'>map tech(3)</a> <a href='/blog/categories/mobile' style='font-size: 101.33333333333333%'>mobile(1)</a> <a href='/blog/categories/mongodb' style='font-size: 101.33333333333333%'>mongodb(1)</a> <a href='/blog/categories/music' style='font-size: 109.33333333333333%'>music(7)</a> <a href='/blog/categories/nlp' style='font-size: 102.66666666666667%'>nlp(2)</a> <a href='/blog/categories/nlu' style='font-size: 102.66666666666667%'>nlu(2)</a> <a href='/blog/categories/node' style='font-size: 104.0%'>node(3)</a> <a href='/blog/categories/nodejs' style='font-size: 104.0%'>nodejs(3)</a> <a href='/blog/categories/objective-c' style='font-size: 129.33333333333334%'>objective-c(22)</a> <a href='/blog/categories/philosophy' style='font-size: 102.66666666666667%'>philosophy(2)</a> <a href='/blog/categories/productivity' style='font-size: 130.66666666666666%'>productivity(23)</a> <a href='/blog/categories/python' style='font-size: 106.66666666666667%'>python(5)</a> <a href='/blog/categories/reading' style='font-size: 138.66666666666666%'>reading(29)</a> <a href='/blog/categories/server' style='font-size: 101.33333333333333%'>server(1)</a> <a href='/blog/categories/swift' style='font-size: 109.33333333333333%'>swift(7)</a> <a href='/blog/categories/web' style='font-size: 114.66666666666667%'>web(11)</a> <a href='/blog/categories/wwdc' style='font-size: 102.66666666666667%'>wwdc(2)</a> <a href='/blog/categories/xcode' style='font-size: 110.66666666666667%'>xcode(8)</a> </ul>
       </section>
 
 
@@ -107,6 +107,78 @@
 			<div class="mid-col-container">
 				<div id="content" class="inner">
 <div itemscope itemtype="http://schema.org/Blog">
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2019-02-12T17:55:48+08:00" pubdate data-updated="true">Feb 12th, 2019</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/design-pattern/'>design pattern</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2019/02/12/reading-the-clean-architecture/" itemprop="url">架构整洁之道总结（the Clean Architecture）</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		
+		
+		<a href="/blog/2019/02/12/reading-the-clean-architecture/" class="more-link">Read on &rarr;</a>
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2018-12-04T11:31:35+08:00" pubdate data-updated="true">Dec 4th, 2018</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/design-pattern/'>design pattern</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2018/12/04/solid-principles-while-programming/" itemprop="url">编程中的SOLID原则</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>Robert C. Martin (Bob大叔)在《敏捷软件开发》中提出了编程过程中的五个原则，以适应敏捷开发（Agile）的特点：以微小增量的方式构建软件。</p>
+
+
+		
+		<a href="/blog/2018/12/04/solid-principles-while-programming/" class="more-link">Read on &rarr;</a>
+	</div>
+
+</article>
 
 
     <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
@@ -767,85 +839,6 @@
 
 		
 		<a href="/blog/2017/02/21/indoor-position/" class="more-link">Read on &rarr;</a>
-	</div>
-
-</article>
-
-
-    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-
-<time datetime="2017-02-08T22:53:14+08:00" pubdate data-updated="true">Feb 8th, 2017</time></div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/ios/'>ios</a>
-
-
-</div>
-		
-	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2017/02/08/voice-command-implementation-for-ios/" itemprop="url">iOS语音控制系统</a></h1>
-	<div class="entry-content" itemprop="articleBody">
-		<p>介绍了iOS10开放的语音识别库Speech的特点和使用。</p>
-
-
-		
-		<a href="/blog/2017/02/08/voice-command-implementation-for-ios/" class="more-link">Read on &rarr;</a>
-	</div>
-
-</article>
-
-
-    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-
-<time datetime="2017-01-12T14:18:20+08:00" pubdate data-updated="true">Jan 12th, 2017</time></div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/mobile/'>mobile</a>
-
-
-</div>
-		
-	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2017/01/12/wechat-micro-program/" itemprop="url">微信小程序</a></h1>
-	<div class="entry-content" itemprop="articleBody">
-		<ol>
-<li>微信小程序的特点。</li>
-<li>微信小程序与公众号的区别。</li>
-<li>微信推出微信小程序的动机。</li>
-</ol>
-
-
-
-		
-		<a href="/blog/2017/01/12/wechat-micro-program/" class="more-link">Read on &rarr;</a>
 	</div>
 
 </article>

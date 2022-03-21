@@ -4,7 +4,7 @@
   <title><![CDATA[Category: http | Reading Space]]></title>
   <link href="http://hongchaozhang.github.io/blog/categories/http/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2022-03-08T18:22:04+08:00</updated>
+  <updated>2022-03-21T23:41:37+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -14,7 +14,42 @@
 
   
   <entry>
-    <title type="html"><![CDATA[web性能优化综述]]></title>
+    <title type="html"><![CDATA[web性能优化]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2022/03/21/web-xingneng-youhua/"/>
+    <updated>2022-03-21T23:30:53+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2022/03/21/web-xingneng-youhua</id>
+    <content type="html"><![CDATA[<!-- more -->
+
+
+<p>从web渲染全过程分析，从下面几个方面进行性能优化考虑：</p>
+
+<ol>
+<li>HTTP请求性能优化</li>
+<li>浏览器内渲染性能优化</li>
+</ol>
+
+
+<h2>HTTP(s)请求性能优化</h2>
+
+<ul>
+<li>参考极客时间课程《透视HTTP协议》的39和40两节课。</li>
+<li>另外，<a href="/blog/2021/05/26/toushi-http-xieyi/">极客时间-罗剑锋-《透视HTTP协议》总结</a>中的章节<a href="/blog/2021/05/26/toushi-http-xieyi/#http%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96">http性能优化</a>，有一个概括性的描述。</li>
+<li>相关内容个人总结参考<a href="/blog/2022/03/08/http-xingneng-youhua/">HTTP(s)请求性能优化</a>。</li>
+</ul>
+
+
+<h2>浏览器内渲染性能优化</h2>
+
+<ul>
+<li>参考极客时间课程《让你页面速度飞起来 Web前端性能优化》</li>
+<li>相关内容个人总结参考<a href="/blog/2022/01/04/web-qianduan-xingneng-youhua/">极客时间-Web前端性能优化</a>。</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[HTTP(s)请求性能优化]]></title>
     <link href="http://hongchaozhang.github.io/blog/2022/03/08/http-xingneng-youhua/"/>
     <updated>2022-03-08T16:44:40+08:00</updated>
     <id>http://hongchaozhang.github.io/blog/2022/03/08/http-xingneng-youhua</id>
@@ -25,9 +60,6 @@
 
 <!-- TOC -->
 
-
-<ul>
-<li><a href="#https%E8%AF%B7%E6%B1%82%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96">HTTP(s)请求性能优化</a>
 
 <ul>
 <li><a href="#%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95%E5%B7%A5%E5%85%B7">性能测试工具</a></li>
@@ -49,29 +81,14 @@
 </ul>
 </li>
 </ul>
-</li>
-<li><a href="#%E6%B5%8F%E8%A7%88%E5%99%A8%E5%86%85%E6%B8%B2%E6%9F%93%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96">浏览器内渲染性能优化</a></li>
-</ul>
 
 
 <!-- /TOC -->
 
 
-<p>从web渲染全过程分析，从下面几个方面进行性能优化考虑：</p>
-
-<ol>
-<li>HTTP请求性能优化</li>
-<li>浏览器内渲染性能优化</li>
-</ol>
-
-
-<p><a id="markdown-https请求性能优化" name="https请求性能优化"></a></p>
-
-<h2>HTTP(s)请求性能优化</h2>
-
 <p><a id="markdown-性能测试工具" name="性能测试工具"></a></p>
 
-<h3>性能测试工具</h3>
+<h2>性能测试工具</h2>
 
 <ol>
 <li><p>在 Linux 上，最常用的性能测试工具可能就是 ab（Apache Bench）了，比如，下面的命令指定了并发数 100，总共发送 10000 个请求：</p>
@@ -91,11 +108,11 @@
 
 <p><a id="markdown-http性能优化" name="http性能优化"></a></p>
 
-<h3>HTTP性能优化</h3>
+<h2>HTTP性能优化</h2>
 
 <p><a id="markdown-开源" name="开源"></a></p>
 
-<h4>开源</h4>
+<h3>开源</h3>
 
 <ul>
 <li>Nginx及相关配置</li>
@@ -104,7 +121,7 @@
 </ul>
 
 
-<h4>节流</h4>
+<h3>节流</h3>
 
 <ul>
 <li>数据压缩：图片，json等</li>
@@ -115,7 +132,7 @@
 </ul>
 
 
-<h4>缓存</h4>
+<h3>缓存</h3>
 
 <ul>
 <li>服务器缓存：Redis</li>
@@ -124,7 +141,7 @@
 </ul>
 
 
-<h4>升级到HTTP/2</h4>
+<h3>升级到HTTP/2</h3>
 
 <ul>
 <li>消除了应用层的队头阻塞，拥有头部压缩、二进制帧、多路复用、流量控制、服务器推送等许多新特性，大幅度提升了 HTTP 的传输效率。
@@ -132,7 +149,7 @@
 </ul>
 
 
-<h4>关于资源合并</h4>
+<h3>关于资源合并</h3>
 
 <ul>
 <li>“资源合并”在 HTTP/1 里减少了多次请求的成本，但在 HTTP/2 里因为有头部压缩和多路复用，传输小文件的成本很低，所以合并就失去了意义。而且“资源合并”还有一个缺点，就是降低了缓存的可用性，只要一个小文件更新，整个缓存就完全失效，必须重新下载。</li>
@@ -142,15 +159,15 @@
 
 <p><a id="markdown-https性能优化" name="https性能优化"></a></p>
 
-<h3>HTTPs性能优化</h3>
+<h2>HTTPs性能优化</h2>
 
 <p><a id="markdown-1-硬件优化cpussl加速卡ssl加速服务器" name="1-硬件优化cpussl加速卡ssl加速服务器"></a></p>
 
-<h4>1. 硬件优化：CPU，SSL加速卡，SSL加速服务器</h4>
+<h3>1. 硬件优化：CPU，SSL加速卡，SSL加速服务器</h3>
 
 <p><a id="markdown-2-软件优化" name="2-软件优化"></a></p>
 
-<h4>2. 软件优化：</h4>
+<h3>2. 软件优化：</h3>
 
 <ol>
 <li>软件升级：Linux内核，Nginx，OpenSSL</li>
@@ -195,12 +212,6 @@
 
 <p>上面的内容来自极客时间的《透视HTTP协议》课程的39和40两节课。
 另外，<a href="/blog/2021/05/26/toushi-http-xieyi/">极客时间-罗剑锋-《透视HTTP协议》总结</a>中的章节<a href="/blog/2021/05/26/toushi-http-xieyi/#http%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96">http性能优化</a>，有一个概括性的描述。</p>
-
-<p><a id="markdown-浏览器内渲染性能优化" name="浏览器内渲染性能优化"></a></p>
-
-<h2>浏览器内渲染性能优化</h2>
-
-<p>参考<a href="/blog/2022/01/04/web-qianduan-xingneng-youhua/">极客时间-Web前端性能优化</a>。</p>
 ]]></content>
   </entry>
   

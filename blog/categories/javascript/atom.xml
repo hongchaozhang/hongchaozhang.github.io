@@ -4,7 +4,7 @@
   <title><![CDATA[Category: javascript | Reading Space]]></title>
   <link href="http://hongchaozhang.github.io/blog/categories/javascript/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2022-03-08T18:22:04+08:00</updated>
+  <updated>2022-03-21T23:41:37+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -94,6 +94,8 @@ For help, see: https://nodejs.org/en/docs/inspector
 
 <!-- /TOC -->
 
+
+<p>总结极客时间课程《让你页面速度飞起来 Web前端性能优化》</p>
 
 <p><a id="markdown-资源压缩与合并" name="资源压缩与合并"></a></p>
 

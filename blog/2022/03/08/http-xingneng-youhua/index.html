@@ -5,17 +5,17 @@
 
 <head>
 	<meta charset="utf-8">
-	<title>web性能优化综述 - Reading Space</title>
+	<title>HTTP(s)请求性能优化 - Reading Space</title>
 	<meta name="author" content="Zhang Hongchao">
 
 	
-	<meta name="description" content="Web性能优化综述 HTTP(s)请求性能优化 性能测试工具
+	<meta name="description" content="HTTP(s)请求性能优化 性能测试工具
 HTTP性能优化 开源
 节流
 缓存
 升级到HTTP/2
 关于资源合并 HTTPs性能优化 1. 硬件优化：CPU，SSL加速卡，SSL加速服务器
-2. 软件优化： 浏览器内渲染性能优化 从web渲染全过程分析， &hellip;">
+2. 软件优化： 性能测试工具 在 Linux 上，最常用的性能测试工具可能就是 ab（Apache &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -99,7 +99,7 @@ HTTP性能优化 开源
 
 
 <section class="categories">
-          <ul id="category_cloud" class="nav nav-list"><a href='/blog/categories/algorithm' style='font-size: 101.33333333333333%'>algorithm(1)</a> <a href='/blog/categories/android' style='font-size: 108.0%'>android(6)</a> <a href='/blog/categories/android-studio' style='font-size: 101.33333333333333%'>android studio(1)</a> <a href='/blog/categories/augmented-reality' style='font-size: 105.33333333333333%'>augmented reality(4)</a> <a href='/blog/categories/css' style='font-size: 102.66666666666667%'>css(2)</a> <a href='/blog/categories/design-pattern' style='font-size: 104.0%'>design pattern(3)</a> <a href='/blog/categories/html' style='font-size: 102.66666666666667%'>html(2)</a> <a href='/blog/categories/html-css' style='font-size: 101.33333333333333%'>html css(1)</a> <a href='/blog/categories/http' style='font-size: 102.66666666666667%'>http(2)</a> <a href='/blog/categories/ios' style='font-size: 160.0%'>ios(45)</a> <a href='/blog/categories/java' style='font-size: 102.66666666666667%'>java(2)</a> <a href='/blog/categories/javascript' style='font-size: 105.33333333333333%'>javascript(4)</a> <a href='/blog/categories/machine-learning' style='font-size: 112.0%'>machine learning(9)</a> <a href='/blog/categories/map-tech' style='font-size: 104.0%'>map tech(3)</a> <a href='/blog/categories/mobile' style='font-size: 101.33333333333333%'>mobile(1)</a> <a href='/blog/categories/mongodb' style='font-size: 101.33333333333333%'>mongodb(1)</a> <a href='/blog/categories/music' style='font-size: 109.33333333333333%'>music(7)</a> <a href='/blog/categories/nlp' style='font-size: 102.66666666666667%'>nlp(2)</a> <a href='/blog/categories/nlu' style='font-size: 102.66666666666667%'>nlu(2)</a> <a href='/blog/categories/node' style='font-size: 104.0%'>node(3)</a> <a href='/blog/categories/nodejs' style='font-size: 104.0%'>nodejs(3)</a> <a href='/blog/categories/objective-c' style='font-size: 129.33333333333334%'>objective-c(22)</a> <a href='/blog/categories/philosophy' style='font-size: 102.66666666666667%'>philosophy(2)</a> <a href='/blog/categories/productivity' style='font-size: 130.66666666666666%'>productivity(23)</a> <a href='/blog/categories/python' style='font-size: 106.66666666666667%'>python(5)</a> <a href='/blog/categories/reading' style='font-size: 138.66666666666666%'>reading(29)</a> <a href='/blog/categories/server' style='font-size: 101.33333333333333%'>server(1)</a> <a href='/blog/categories/swift' style='font-size: 109.33333333333333%'>swift(7)</a> <a href='/blog/categories/web' style='font-size: 113.33333333333333%'>web(10)</a> <a href='/blog/categories/wwdc' style='font-size: 102.66666666666667%'>wwdc(2)</a> <a href='/blog/categories/xcode' style='font-size: 110.66666666666667%'>xcode(8)</a> </ul>
+          <ul id="category_cloud" class="nav nav-list"><a href='/blog/categories/algorithm' style='font-size: 101.33333333333333%'>algorithm(1)</a> <a href='/blog/categories/android' style='font-size: 108.0%'>android(6)</a> <a href='/blog/categories/android-studio' style='font-size: 101.33333333333333%'>android studio(1)</a> <a href='/blog/categories/augmented-reality' style='font-size: 105.33333333333333%'>augmented reality(4)</a> <a href='/blog/categories/cs' style='font-size: 101.33333333333333%'>cs(1)</a> <a href='/blog/categories/css' style='font-size: 102.66666666666667%'>css(2)</a> <a href='/blog/categories/design-pattern' style='font-size: 104.0%'>design pattern(3)</a> <a href='/blog/categories/html' style='font-size: 102.66666666666667%'>html(2)</a> <a href='/blog/categories/html-css' style='font-size: 101.33333333333333%'>html css(1)</a> <a href='/blog/categories/http' style='font-size: 104.0%'>http(3)</a> <a href='/blog/categories/ios' style='font-size: 160.0%'>ios(45)</a> <a href='/blog/categories/java' style='font-size: 102.66666666666667%'>java(2)</a> <a href='/blog/categories/javascript' style='font-size: 105.33333333333333%'>javascript(4)</a> <a href='/blog/categories/machine-learning' style='font-size: 112.0%'>machine learning(9)</a> <a href='/blog/categories/map-tech' style='font-size: 104.0%'>map tech(3)</a> <a href='/blog/categories/mobile' style='font-size: 101.33333333333333%'>mobile(1)</a> <a href='/blog/categories/mongodb' style='font-size: 101.33333333333333%'>mongodb(1)</a> <a href='/blog/categories/music' style='font-size: 109.33333333333333%'>music(7)</a> <a href='/blog/categories/nlp' style='font-size: 102.66666666666667%'>nlp(2)</a> <a href='/blog/categories/nlu' style='font-size: 102.66666666666667%'>nlu(2)</a> <a href='/blog/categories/node' style='font-size: 104.0%'>node(3)</a> <a href='/blog/categories/nodejs' style='font-size: 104.0%'>nodejs(3)</a> <a href='/blog/categories/objective-c' style='font-size: 129.33333333333334%'>objective-c(22)</a> <a href='/blog/categories/philosophy' style='font-size: 102.66666666666667%'>philosophy(2)</a> <a href='/blog/categories/productivity' style='font-size: 130.66666666666666%'>productivity(23)</a> <a href='/blog/categories/python' style='font-size: 106.66666666666667%'>python(5)</a> <a href='/blog/categories/reading' style='font-size: 138.66666666666666%'>reading(29)</a> <a href='/blog/categories/server' style='font-size: 101.33333333333333%'>server(1)</a> <a href='/blog/categories/swift' style='font-size: 109.33333333333333%'>swift(7)</a> <a href='/blog/categories/web' style='font-size: 114.66666666666667%'>web(11)</a> <a href='/blog/categories/wwdc' style='font-size: 102.66666666666667%'>wwdc(2)</a> <a href='/blog/categories/xcode' style='font-size: 110.66666666666667%'>xcode(8)</a> </ul>
       </section>
 
 
@@ -112,7 +112,7 @@ HTTP性能优化 开源
 			
 			<div class="mid-col-container">
 				<div id="content" class="inner"><article class="post" itemscope itemtype="http://schema.org/BlogPosting">
-	<h1 class="title" itemprop="name">Web性能优化综述</h1>
+	<h1 class="title" itemprop="name">HTTP(s)请求性能优化</h1>
 	<div class="entry-content" itemprop="articleBody"><!-- more -->
 
 
@@ -120,9 +120,6 @@ HTTP性能优化 开源
 
 <!-- TOC -->
 
-
-<ul>
-<li><a href="#https%E8%AF%B7%E6%B1%82%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96">HTTP(s)请求性能优化</a>
 
 <ul>
 <li><a href="#%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95%E5%B7%A5%E5%85%B7">性能测试工具</a></li>
@@ -144,29 +141,14 @@ HTTP性能优化 开源
 </ul>
 </li>
 </ul>
-</li>
-<li><a href="#%E6%B5%8F%E8%A7%88%E5%99%A8%E5%86%85%E6%B8%B2%E6%9F%93%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96">浏览器内渲染性能优化</a></li>
-</ul>
 
 
 <!-- /TOC -->
 
 
-<p>从web渲染全过程分析，从下面几个方面进行性能优化考虑：</p>
-
-<ol>
-<li>HTTP请求性能优化</li>
-<li>浏览器内渲染性能优化</li>
-</ol>
-
-
-<p><a id="markdown-https请求性能优化" name="https请求性能优化"></a></p>
-
-<h2>HTTP(s)请求性能优化</h2>
-
 <p><a id="markdown-性能测试工具" name="性能测试工具"></a></p>
 
-<h3>性能测试工具</h3>
+<h2>性能测试工具</h2>
 
 <ol>
 <li><p>在 Linux 上，最常用的性能测试工具可能就是 ab（Apache Bench）了，比如，下面的命令指定了并发数 100，总共发送 10000 个请求：</p>
@@ -186,11 +168,11 @@ HTTP性能优化 开源
 
 <p><a id="markdown-http性能优化" name="http性能优化"></a></p>
 
-<h3>HTTP性能优化</h3>
+<h2>HTTP性能优化</h2>
 
 <p><a id="markdown-开源" name="开源"></a></p>
 
-<h4>开源</h4>
+<h3>开源</h3>
 
 <ul>
 <li>Nginx及相关配置</li>
@@ -199,7 +181,7 @@ HTTP性能优化 开源
 </ul>
 
 
-<h4>节流</h4>
+<h3>节流</h3>
 
 <ul>
 <li>数据压缩：图片，json等</li>
@@ -210,7 +192,7 @@ HTTP性能优化 开源
 </ul>
 
 
-<h4>缓存</h4>
+<h3>缓存</h3>
 
 <ul>
 <li>服务器缓存：Redis</li>
@@ -219,7 +201,7 @@ HTTP性能优化 开源
 </ul>
 
 
-<h4>升级到HTTP/2</h4>
+<h3>升级到HTTP/2</h3>
 
 <ul>
 <li>消除了应用层的队头阻塞，拥有头部压缩、二进制帧、多路复用、流量控制、服务器推送等许多新特性，大幅度提升了 HTTP 的传输效率。
@@ -227,7 +209,7 @@ HTTP性能优化 开源
 </ul>
 
 
-<h4>关于资源合并</h4>
+<h3>关于资源合并</h3>
 
 <ul>
 <li>“资源合并”在 HTTP/1 里减少了多次请求的成本，但在 HTTP/2 里因为有头部压缩和多路复用，传输小文件的成本很低，所以合并就失去了意义。而且“资源合并”还有一个缺点，就是降低了缓存的可用性，只要一个小文件更新，整个缓存就完全失效，必须重新下载。</li>
@@ -237,15 +219,15 @@ HTTP性能优化 开源
 
 <p><a id="markdown-https性能优化" name="https性能优化"></a></p>
 
-<h3>HTTPs性能优化</h3>
+<h2>HTTPs性能优化</h2>
 
 <p><a id="markdown-1-硬件优化cpussl加速卡ssl加速服务器" name="1-硬件优化cpussl加速卡ssl加速服务器"></a></p>
 
-<h4>1. 硬件优化：CPU，SSL加速卡，SSL加速服务器</h4>
+<h3>1. 硬件优化：CPU，SSL加速卡，SSL加速服务器</h3>
 
 <p><a id="markdown-2-软件优化" name="2-软件优化"></a></p>
 
-<h4>2. 软件优化：</h4>
+<h3>2. 软件优化：</h3>
 
 <ol>
 <li>软件升级：Linux内核，Nginx，OpenSSL</li>
@@ -290,12 +272,6 @@ HTTP性能优化 开源
 
 <p>上面的内容来自极客时间的《透视HTTP协议》课程的39和40两节课。
 另外，<a href="/blog/2021/05/26/toushi-http-xieyi/">极客时间-罗剑锋-《透视HTTP协议》总结</a>中的章节<a href="/blog/2021/05/26/toushi-http-xieyi/#http%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96">http性能优化</a>，有一个概括性的描述。</p>
-
-<p><a id="markdown-浏览器内渲染性能优化" name="浏览器内渲染性能优化"></a></p>
-
-<h2>浏览器内渲染性能优化</h2>
-
-<p>参考<a href="/blog/2022/01/04/web-qianduan-xingneng-youhua/">极客时间-Web前端性能优化</a>。</p>
 </div>
 
 </article>

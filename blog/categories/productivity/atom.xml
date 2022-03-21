@@ -4,7 +4,7 @@
   <title><![CDATA[Category: productivity | Reading Space]]></title>
   <link href="http://hongchaozhang.github.io/blog/categories/productivity/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2022-03-08T18:22:04+08:00</updated>
+  <updated>2022-03-21T23:41:37+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -33,10 +33,15 @@
 
 <h2>Zsh配置文件加载顺序</h2>
 
-<p>.zshenv
-.zshrc</p>
+<p>最重要的是下面两个文件：</p>
 
-<p>更多配置文件，参考<a href="https://unix.stackexchange.com/questions/71253/what-should-shouldnt-go-in-zshenv-zshrc-zlogin-zprofile-zlogout">What should/shouldn&rsquo;t go in .zshenv, .zshrc, .zlogin, .zprofile, .zlogout?</a></p>
+<ul>
+<li>.zshenv：.zshenv总是被读取,所以通常把$PATH, $EDITOR等变量写在这里,这样无论是在shell交互,或者运行程序都会读取此文件</li>
+<li>.zshrc：.zshrc主要用在交互shell,所以主要是为shell服务的,比如对shell做的一些个性化设置都可以在这里写入</li>
+</ul>
+
+
+<p>更多配置文件，参考<a href="https://unix.stackexchange.com/questions/71253/what-should-shouldnt-go-in-zshenv-zshrc-zlogin-zprofile-zlogout">What should/shouldn&rsquo;t go in .zshenv, .zshrc, .zlogin, .zprofile, .zlogout?</a>，或者这一篇中文<a href="http://blog.xsudo.com/2019/04/12/1445/">zsh的环境变量的加载.zprofile .zlogin .zshrc .zshenv</a></p>
 
 <h2>Zsh问题</h2>
 

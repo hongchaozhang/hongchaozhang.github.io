@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
+<loc>http://hongchaozhang.github.io/blog/2022/03/21/web-xingneng-youhua/</loc>
+<lastmod>2022-03-21T23:30:53+08:00</lastmod>
+</url>
+<url>
 <loc>http://hongchaozhang.github.io/blog/2022/03/08/change-from-bash-to-zsh/</loc>
 <lastmod>2022-03-08T16:45:12+08:00</lastmod>
 </url>
@@ -19,6 +23,10 @@
 <url>
 <loc>http://hongchaozhang.github.io/blog/2021/12/06/shenru-qianchu-yunjisuan/</loc>
 <lastmod>2021-12-06T10:21:06+08:00</lastmod>
+</url>
+<url>
+<loc>http://hongchaozhang.github.io/blog/2021/11/11/jisuanji-zucheng-yuanli/</loc>
+<lastmod>2021-11-11T12:43:31+08:00</lastmod>
 </url>
 <url>
 <loc>http://hongchaozhang.github.io/blog/2021/10/27/mean-with-nodejs-express-mongodb/</loc>
@@ -652,7 +660,14 @@
 <loc>http://hongchaozhang.github.io/blog/categories/mongodb/</loc>
 </url>
 <url>
+<loc>http://hongchaozhang.github.io/blog/categories/cs/</loc>
+</url>
+<url>
 <loc>http://hongchaozhang.github.io/blog/categories/server/</loc>
+</url>
+<url>
+<loc>http://hongchaozhang.github.io/images/L4151_L4153_L4156_L4158_User'sGuide.pdf</loc>
+<lastmod>2019-06-05T10:05:26+08:00</lastmod>
 </url>
 <url>
 <loc>http://hongchaozhang.github.io/images/%E9%AB%98%E7%88%BD%E5%A4%A9%E6%96%87%E5%AD%A6%E9%80%9A%E8%AF%8630%E8%AE%B2.pdf</loc>
