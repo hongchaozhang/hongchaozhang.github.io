@@ -4,7 +4,7 @@
   <title><![CDATA[Category: machine learning | Reading Space]]></title>
   <link href="http://hongchaozhang.github.io/blog/categories/machine-learning/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2022-03-21T23:41:37+08:00</updated>
+  <updated>2022-06-13T09:44:43+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -12,6 +12,637 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[程序员的数学基础课（黄申）]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2022/05/31/chengxuyuan-shuxue-jichuke/"/>
+    <updated>2022-05-31T15:48:14+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2022/05/31/chengxuyuan-shuxue-jichuke</id>
+    <content type="html"><![CDATA[<!-- more -->
+
+
+<h2>01-开篇词 (1讲)</h2>
+
+<h3>00丨开篇词丨作为程序员，为什么你应该学好数学？</h3>
+
+<h2>02-导读 (1讲)</h2>
+
+<h3>00丨导读：程序员应该怎么学数学？</h3>
+
+<h2>03-基础思想篇 (18讲)</h2>
+
+<h3>01丨二进制：不了解计算机的源头，你学什么编程</h3>
+
+<h3>02丨余数：原来取余操作本身就是个哈希函数</h3>
+
+<h3>03丨迭代法：不用编程语言的自带函数，你会如何计算平方根？</h3>
+
+<h3>04丨数学归纳法：如何用数学归纳提升代码的运行效率？</h3>
+
+<h3>05丨递归（上）：泛化数学归纳，如何将复杂问题简单化？</h3>
+
+<h3>06丨递归（下）：分而治之，从归并排序到MapReduce</h3>
+
+<h3>07丨排列：如何让计算机学会“田忌赛马”？</h3>
+
+<h3>08丨组合：如何让计算机安排世界杯的赛程？</h3>
+
+<h3>09丨动态规划（上）：如何实现基于编辑距离的查询推荐？</h3>
+
+<h3>10丨动态规划（下）：如何求得状态转移方程并进行编程实现？</h3>
+
+<h3>11丨树的深度优先搜索（上）：如何才能高效率地查字典？</h3>
+
+<h3>12丨树的深度优先搜索（下）：如何才能高效率地查字典？</h3>
+
+<h3>13丨树的广度优先搜索（上）：人际关系的六度理论是真的吗？</h3>
+
+<h3>14丨树的广度优先搜索（下）：为什么双向广度优先搜索的效率更高？</h3>
+
+<h3>15丨从树到图：如何让计算机学会看地图？</h3>
+
+<h3>16丨时间和空间复杂度（上）：优化性能是否只是“纸上谈兵”？</h3>
+
+<h3>17丨时间和空间复杂度（下）：如何使用六个法则进行复杂度分析？</h3>
+
+<h3>18丨总结课：数据结构、编程语句和基础算法体现了哪些数学思想？</h3>
+
+<h2>04-概率统计篇 (14讲)</h2>
+
+<h3>19丨概率和统计：编程为什么需要概率和统计？</h3>
+
+<h3>20丨概率基础（上）：一篇文章帮你理解随机变量、概率分布和期望值</h3>
+
+<h4>随机变量</h4>
+
+<h4>概率分布</h4>
+
+<ol>
+<li>离散概率分布：伯努利分布、分类分布、二项分布、泊松分布
+
+<ol>
+<li>伯努利分布：二分类分布</li>
+<li>分类分布：随机变量的取值空间为<code>n</code>个离散的值，<code>n=2</code>时就是伯努利分布。</li>
+</ol>
+</li>
+<li>连续概率分布：正态分布、均匀分布、指数分布、拉普拉斯分布
+
+<ol>
+<li>正态分布：也叫高斯分布，有两个关键参数：均值和方差。</li>
+</ol>
+</li>
+</ol>
+
+
+<h4>期望值</h4>
+
+<p>均值是期望值的特例，即各个取值的概率相同。</p>
+
+<h3>21丨概率基础（下）：联合概率、条件概率和贝叶斯法则，这些概率公式究竟能做什么？</h3>
+
+<h4>联合概率</h4>
+
+<p>由多个随机变量决定的概率我们就叫联合概率，使用<code>P(x, y)</code>表示。</p>
+
+<h4>边缘概率</h4>
+
+<p>联合概率和单个随机变量的概率之间有什么关联呢？对于离散型随机变量，我们可以通过通过联合概率<code>P(x, y)</code>在<code>y</code>上求和，就可以得到<code>P(x)</code>。对于连续型随机变量，我们可以通过联合概率<code>P(x, y)</code>在<code>y</code>上的积分，推导出概率<code>P(x)</code>。这个时候，我们称<code>P(x)</code>为<strong>边缘概率</strong>。</p>
+
+<h4>条件概率</h4>
+
+<p>条件概率也是由多个随机变量决定，但是和联合概率不同的是，它计算了给定某个（或多个）随机变量的情况下，另一个（或多个）随机变量出现的概率，其概率分布叫做条件概率分布。给定随机变量<code>x</code>，随机变量<code>y</code>的条件概率使用<code>P(y|x)</code>表示。</p>
+
+<h4>贝叶斯法则</h4>
+
+<p>条件概率、联合概率之间的关系如下：
+<code>P(x,y) = P(x|y) * P(y)</code></p>
+
+<p>根据上面的关系，可以得到贝叶斯定理如下：</p>
+
+<p><img src="/images/20220531%E8%B4%9D%E5%8F%B6%E6%96%AF%E5%AE%9A%E7%90%86.png" alt="20220531贝叶斯定理.png" /></p>
+
+<ol>
+<li>先验概率： 我们把<code>P(x)</code>称为先验概率。之所以称为“先验”，是因为它是从数据资料统计得到的，不需要经过贝叶斯定理的推算。</li>
+<li>条件概率（似然函数）：<code>P(y|x)</code>是给定<code>x</code>之后<code>y</code>出现的条件概率。在统计学中，我们也把<code>P(y|x)</code>写作似然函数<code>L(x|y)</code>。在数学里，似然函数和概率是有区别的。概率是指已经知道模型的参数来预测结果，而似然函数是根据观测到的结果数据，来预估模型的参数。不过，当<code>y</code>值给定的时候，两者在数值上是相等的，在应用中我们可以不用细究。</li>
+<li>边缘概率：我们没有必要事先知道<code>P(y)</code>。<code>P(y)</code>可以通过联合概率<code>P(x,y)</code>计算边缘概率得来，而联合概率<code>P(x,y)</code>可以由<code>P(y|x)</code>*<code>P(x)</code>推出。</li>
+<li>后验概率：<code>P(x|y)</code>是根据贝叶斯定理，通过先验概率<code>P(x)</code>、似然函数<code>P(y|x)</code>和边缘概率<code>P(y)</code>推算而来，因此我们把它称作后验概率。</li>
+</ol>
+
+
+<p>如果有一定数量的标注数据，那么通过统计的方法，我们可以很方便地得到先验概率和似然函数，然后推算出后验概率，最后依据后验概率来做预测。这整个过程符合监督式机器学习的模型训练和新数据预测这两个阶段，因此朴素贝叶斯算法被广泛运用在机器学习的分类问题中。</p>
+
+<h4>随机变量之间的独立性</h4>
+
+<p>如果随机变量<code>x</code>和<code>y</code>之间不相互影响，那么我们就说<code>x</code>和<code>y</code>相互独立。此时，有<code>P(x|y)=P(x)</code>，所以<code>P(x,y)=P(x)*P(y)</code>。</p>
+
+<p>变量之间的独立性，可以帮我们简化计算。</p>
+
+<p>举个例子，假设有6个随机变量，而每个变量有10种可能的取值，那么计算它们的联合概率<code>p(x1,x2,x3,x4,x5,x6)</code>，在实际中是非常困难的一件事情。</p>
+
+<p>根据排列，可能的联合取值，会达到10的6次方，也就是100万这么多。那么使用实际的数据进行统计时，我们也至少需要这个数量级的样本，否则的话很多联合概率分布的值就是0，产生了数据稀疏的问题。但是，如果假设这些随机变量都是相互独立的，那么我们就可以将联合概率<code>p(x1,x2,x3,x4,x5,x6)</code>转换为<code>p(x1)*p(x2)*p(x3)*p(x4)*p(x5)*p(x6)</code>。如此一来，我们只需要计算<code>p(x1)</code>到<code>p(x6)</code>就行了。</p>
+
+<h3>22丨朴素贝叶斯：如何让计算机学会自动分类？</h3>
+
+<h4>训练样本</h4>
+
+<p>贝叶斯分类需要的训练样本如下：
+<img src="/images/20220531%E8%AE%AD%E7%BB%83%E6%A0%B7%E6%9C%AC.png" alt="20220531训练样本" /></p>
+
+<h4>训练</h4>
+
+<p>贝叶斯定理的核心思想：<strong>用先验概率和条件概率估计后验概率</strong>。</p>
+
+<p>具体到这里的分类问题，贝叶斯公式可以写成这样：</p>
+
+<p><img src="/images/20220531%E8%B4%9D%E5%8F%B6%E6%96%AF%E5%88%86%E7%B1%BB%E5%85%AC%E5%BC%8F.png" alt="20220531贝叶斯分类公式.png" /></p>
+
+<p>其中<code>c</code>表示一个分类（class）, <code>f</code>表示属性对应的数据字段（field）。如此一来，等号左边的<code>P(c|f)</code>就是待分类样本中，出现属性值<code>f</code>时，样本属于类别<code>c</code>的概率。而等号右边的<code>P(f|c)</code>是根据训练数据统计，得到分类<code>c</code>中出现属性<code>f</code>的概率。<code>P(c)</code>是分类<code>c</code>在训练数据中出现的概率，<code>P(f)</code>是属性<code>f</code>在训练样本中出现的概率。</p>
+
+<p>这里的贝叶斯公式只描述了单个属性值属于某个分类的概率，可是我们要分析的水果每个都有很多属性，<strong>朴素贝叶斯</strong>在这里就要发挥作用了。这是基于一个简单假设建立的一种贝叶斯方法，并<strong>假定数据对象的不同属性对其归类影响时是相互独立的</strong>。此时若数据对象<code>o</code>中同时出现属性<code>fi</code>与<code>fj</code>，则对象<code>o</code>属于类别<code>c</code>的概率就是这样：</p>
+
+<p><img src="/images/20220531%E6%9C%B4%E7%B4%A0%E8%B4%9D%E5%8F%B6%E6%96%AF%E5%88%86%E7%B1%BB%E5%85%AC%E5%BC%8F.png" alt="20220531朴素贝叶斯分类公式.png" /></p>
+
+<p>现在，我们应该已经可以用10个水果的数据，来建立朴素贝叶斯模型了。</p>
+
+<p>比如，苹果的分类中共包含3个数据实例，对于形状而言，出现2次不规则圆、1次圆形和0次椭圆形，因此各自的统计概率为0.67、0.33和0.00。我们将这些值称为，给定一个水果分类时，出现某个属性值的<strong>条件概率</strong>。以此类推，所有的统计结果就是下面这个表格中这样：</p>
+
+<p><img src="/images/20220531%E8%B4%9D%E5%8F%B6%E6%96%AF%E8%AE%AD%E7%BB%83%E6%A0%B7%E6%9C%AC%E6%9D%A1%E4%BB%B6%E6%A6%82%E7%8E%87.png" alt="20220531贝叶斯训练样本条件概率.png" /></p>
+
+<blockquote><p>对于上表中出现的0.00概率，在做贝叶斯公式中的乘积计算时，会出现结果为0的情况，因此我们通常取一个比这个数据集里最小统计概率还要小的极小值，来代替“零概率”。比如，我们这里取0.01。在填充训练数据中从来没有出现过的属性值的时候，我们就会使用这种技巧，我们给这种技巧起个名字就叫作<strong>平滑</strong>（Smoothing）。</p></blockquote>
+
+<h4>预测</h4>
+
+<p>有了这些条件概率，以及各类水果和各个属性出现的先验概率，我们已经建立起了朴素贝叶斯模型。现在，我们就可以用它进行朴素贝叶斯分类了。</p>
+
+<p>假设我们有一个新的水果，它的形状是圆形，口感是甜的，那么根据朴素贝叶斯，它属于苹果、甜橙和西瓜的概率分别是多少呢？</p>
+
+<p>我们先来计算一下，它属于苹果的概率有多大:</p>
+
+<p><img src="/images/20220531%E8%B4%9D%E5%8F%B6%E6%96%AF%E5%88%86%E7%B1%BB%E9%A2%84%E6%B5%8B%E8%8B%B9%E6%9E%9C%E6%A6%82%E7%8E%87.png" alt="20220531贝叶斯分类预测苹果概率.png" /></p>
+
+<p>其中，<code>apple</code>表示分类为苹果，<code>shape-2</code>表示形状属性的值为<code>2</code>（也就是圆形），<code>taste-2</code>表示口感属性的值为<code>2</code>。以此类推，我们还可计算该水果属于甜橙和西瓜的概率:</p>
+
+<p><img src="/images/20220531%E8%B4%9D%E5%8F%B6%E6%96%AF%E5%88%86%E7%B1%BB%E9%A2%84%E6%B5%8B%E6%A9%99%E5%AD%90%E8%A5%BF%E7%93%9C%E6%A6%82%E7%8E%87.png" alt="20220531贝叶斯分类预测橙子西瓜概率.png" /></p>
+
+<p>比较这三个数值，<code>0.00198&lt;0.00798&lt;0.26934</code>，所以计算机可以得出的结论，该水果属于甜橙的可能性是最大的，或者说，这个水果最有可能是甜橙。</p>
+
+<blockquote><p>这几个公式里的概率乘积通常都非常小，在物品的属性非常多的时候，这个乘积可能就小到计算机无法处理的地步。因此，在实际运用中，我们还会采用一些数学手法进行转换（比如取<code>log</code>将小数转换为绝对值大于<code>1</code>的负数），原理都是一样的。</p></blockquote>
+
+<h4>总结</h4>
+
+<p>总结一次朴素贝叶斯分类的主要步骤：</p>
+
+<ol>
+<li>准备数据：针对水果分类这个案例，我们收集了若干水果的实例，并从水果的常见属性入手，将其转化为计算机所能理解的数据。这种数据也被称为<strong>训练样本</strong>。</li>
+<li>建立模型：通过手头上水果的实例，我们让计算机统计每种水果、属性出现的先验概率，以及在某个水果分类下某种属性出现的条件概率。这个过程也被称为基于样本的<strong>训练</strong>。</li>
+<li>分类新数据：对于一颗新水果的属性数据，计算机根据已经建立的模型进行推导计算，得到该水果属于每个分类的概率，实现了分类的目的。这个过程也被称为<strong>预测</strong>。</li>
+</ol>
+
+
+<h3>23丨文本分类：如何区分特定类型的新闻？</h3>
+
+<p>运用朴素贝叶斯原理，根据词频特征，对文章进行分类。清晰明了，值得一看。</p>
+
+<h3>24丨语言模型：如何使用链式法则和马尔科夫假设简化概率模型？</h3>
+
+<h4>语言模型</h4>
+
+<p>这里说的语言模型指的是基于概率和统计的语言模型。</p>
+
+<h5>链式法则</h5>
+
+<p><img src="/images/20220531%E9%93%BE%E5%BC%8F%E6%B3%95%E5%88%99.png" alt="20220531链式法则.png" /></p>
+
+<h5>马尔可夫假设</h5>
+
+<p>理解了链式法则，我们再来看看马尔可夫假设。这个假设的内容是：任何一个词<code>wi</code>出现的概率只和它前面的1个或若干个词有关。基于这个假设，我们可以提出多元文法（Ngram）模型。Ngram中的<code>N</code>很重要，它表示任何一个词出现的概率，只和它前面的<code>N-1</code>个词有关。</p>
+
+<p>以二元文法模型为例，按照刚才的说法，二元文法表示，某个单词出现的概率只和它前面的1个单词有关。也就是说，即使某个单词出现在一个很长的句子中，我们也只需要看前面那1个单词。用公式来表示出来就是这样：</p>
+
+<p><img src="/images/20220531%E4%BA%8C%E5%85%83%E6%96%87%E6%B3%95%E6%A8%A1%E5%9E%8B.png" alt="20220531二元文法模型.png" /></p>
+
+<p>假设我们有一个统计样本文本<code>d</code>，<code>s</code>表示某个有意义的句子，由一连串按照特定顺序排列的词<code>w1，w2,…,wn</code>组成，这里<code>n</code>是句子里单词的数量。现在，我们想知道根据文档<code>d</code>的统计数据，<code>s</code>在文本中出现的可能性，即<code>P(s|d)</code>，那么我们可以把它表示为<code>P(s|d)=P(w1,w2,…,wn|d)</code>。假设我们这里考虑的都是在集合<code>d</code>的情况下发生的概率，所以可以忽略<code>d</code>，写为<code>P(s)=P(w1,w2,…,wn)</code>。</p>
+
+<p><code>P(w1,w2,…,wn)</code>可以通过上面说的链式法则计算，通过文档集合<code>C</code>，你可以知道<code>P(w1)</code>，<code>P(w2|w1)</code>这种概率。但是，这会带来两个问题：</p>
+
+<ol>
+<li>概率为0的问题
+ <code>P(w1)</code>大小还好，<code>P(w2|w1)</code>会小一些，再往后看，<code>P(w3|w1,w2)</code>出现概率更低，<code>P(w4|w1,w2,w3)</code>出现的概率就更低了。一直到<code>P(wn|w1,w2,…,wn−1)</code>，基本上又为0了。我们可以使用上一节提到的平滑技巧，减少0概率的出现。不过，如果太多的概率都是通过平滑的方式而得到的，那么模型和真实的数据分布之间的差距就会加大，最终预测的效果也会很差，所以平滑也不是解决0概率的最终办法。</li>
+<li>存储空间的问题
+ 为了统计现有文档集合中<code>P(w1,w2,…,wn)</code>这类值，我们就需要生成很多的计数器。我们假设文档集合中有<code>m</code>个不同的单词，那么从中挑出<code>n</code>个单词的可重复排列，数量就是<code>m^n</code>。此外，还有<code>m^(n−1)</code>,<code>m^(n−2)</code>等等。这也意味着，如果要统计并存储的所有<code>P(w1,w2,…,wn)</code>或<code>P(wn|w1,w2,…,wn−1)</code>这类概率，就需要大量的内存和磁盘空间。当然，你可以做一些简化，不考虑单词出现的顺序，那么问题就变成了可重复组合，但是数量仍然非常巨大。</li>
+</ol>
+
+
+<p>在这两个问题上，马尔科夫假设和多元文法模型就能帮上大忙了。如果我们使用三元文法模型，上述公式可以改写为：</p>
+
+<p><img src="/images/20220531%E4%B8%89%E5%85%83%E6%96%87%E6%B3%95%E6%A8%A1%E5%9E%8B.png" alt="20220531三元文法模型.png" /></p>
+
+<p>这样，系统的复杂度大致在<code>(C(m,1)+C(m,2)+C(m,3))</code>这个数量级，而且<code>P(wn|wn−2,wn−1)</code>为0的概率也会大大低于<code>P(wn|w1,w2,…,wn−1)</code>为0的概率。</p>
+
+<h4>语言模型的应用</h4>
+
+<p>基于概率的语言模型，本身不是新兴的技术。它已经在机器翻译、语音识别和中文分词中得到了成功应用。近几年来，人们也开始在信息检索领域中尝试语言模型。下面我就来讲讲语言模型在信息检索和中文分词这两个方面里是如何发挥作用的。</p>
+
+<h5>信息检索</h5>
+
+<p>信息检索很关心的一个问题就是相关性，也就是说，给定一个查询，哪篇文档是更相关的呢？一种常见的做法是计算<code>P(d|q)</code>，其中<code>q</code>表示一个查询，<code>d</code>表示一篇文档。<code>P(d|q)</code>表示用户输入查询<code>q</code>的情况下，文档<code>d</code>出现的概率是多少？如果这个概率越高，我们就认为<code>q</code>和<code>d</code>之间的相关性越高。</p>
+
+<p>通过我们手头的文档集合，并不能直接获得<code>P(d|q)</code>。好在我们已经学习过了贝叶斯定理，通过这个定理，我们可以将<code>P(d|q)</code>重写如下：</p>
+
+<p><img src="/images/20220531%E4%BF%A1%E6%81%AF%E6%A3%80%E7%B4%A2%E8%B4%9D%E5%8F%B6%E6%96%AF%E5%85%AC%E5%BC%8F.png" alt="20220531信息检索贝叶斯公式.png" /></p>
+
+<p>让<code>k1,k2,…,kn</code>表示查询<code>q</code>里包含的<code>n</code>个关键词，就可以根据链式法则求解出<code>P(q|d)</code>，我们也使用马尔科夫假设和多元文法来提高算法效率。</p>
+
+<p>最终，当用户输入一个查询<code>q</code>之后，对于每一篇文档<code>d</code>，我们都能获得<code>P(d|q)</code>的值。根据每篇文档所获得的<code>P(d|q)</code>这个值，由高到低对所有的文档进行排序。这就是语言模型在信息检索中的常见用法。</p>
+
+<h5>中文分词</h5>
+
+<p>和拉丁语系不同，中文存在分词的问题。比如原句是“兵乓球拍卖完了”，分词结果可能是：</p>
+
+<pre><code>1. 兵乓球|拍卖|完了
+2. 兵乓|球拍|卖完|了
+3. ...
+</code></pre>
+
+<p>上面分词的例子，从字面来看都是合理的，所以这种歧义无法通过这句话本身来解决。那么这种情况下，语言模型能为我们做什么呢？我们知道，语言模型是基于大量的语料来统计的，所以我们可以使用这个模型来估算，哪种情况更合理。</p>
+
+<p>假设整个文档集合是<code>D</code>，要分词的句子是<code>s</code>，分词结果为<code>w1,…wn</code>，如果使用三元文法模型，</p>
+
+<p><img src="/images/20220531%E4%B8%AD%E6%96%87%E5%88%86%E8%AF%8D%E4%B8%89%E5%85%83%E6%96%87%E6%B3%95%E6%A8%A1%E5%9E%8B.png" alt="20220531中文分词三元文法模型.png" /></p>
+
+<blockquote><p>请注意，在信息检索中，我们关心的是每篇文章产生一个句子（也就是查询）的概率，而这里可以是整个文档集合<code>D</code>产生一个句子的概率。</p></blockquote>
+
+<p>语言模型可以帮我们估计某种分词结果，在文档集合中出现的概率。由于不同的分词方法，会导致<code>w1</code>到<code>wn</code>的不同，因此就会产生不同的<code>P(s)</code>。接下来，我们只要取最大的<code>P(s)</code>，并假设这种分词方式是最合理的，就可以在一定程度上解决歧义。</p>
+
+<p>回到“兵乓球拍卖完了”这句话，如果文档集合都是讲述的有关体育用品的销售，而不是拍卖行，那么“兵乓|球拍|卖完|了”这种分词的可能性应该更高。</p>
+
+<h3>25丨马尔科夫模型：从PageRank到语音识别，背后是什么模型在支撑？</h3>
+
+<h4>马尔可夫模型</h4>
+
+<p>在介绍语言模型的时候，我们提到了马尔科夫假设，这个假设是说，每个词出现的概率和之前的一个或若干个词有关。我们换个角度思考就是，<strong>每个词按照一定的概率转移到下一个词</strong>。</p>
+
+<p>如果把词抽象为一个状态，那么我们就可以认为，状态到状态之间是有关联的。前一个状态有一定的概率可以转移到到下一个状态。如果多个状态之间的随机转移满足马尔科夫假设，那么这类随机过程就是一个马尔科夫随机过程。而刻画这类随机过程的统计模型，就是<strong>马尔科夫模型</strong>（Markov Model）。</p>
+
+<p>前面讲多元文法的时候，我提到了二元文法、三元文法。对于二元文法来说，某个词出现的概率只和前一个词有关。对应的，在马尔科夫模型中，如果一个状态出现的概率只和前一个状态有关，那么我们称它为<strong>一阶马尔科夫模型</strong>或者<strong>马尔科夫链</strong>。对应于三元、四元甚至更多元的文法，我们也有二阶、三阶等马尔科夫模型。</p>
+
+<h5>PageRank和马尔可夫链</h5>
+
+<p>Google公司最引以为傲的PageRank链接分析算法，它的核心思想就是基于马尔科夫链。这个算法假设了一个“随机冲浪者”模型，冲浪者从某张网页出发，根据Web图中的链接关系随机访问。在每个步骤中，冲浪者都会从当前网页的链出网页中随机选取一张作为下一步访问的目标。在整个Web图中，绝大部分网页节点都会有链入和链出。那么冲浪者就可以永不停歇地冲浪，持续在图中走下去。我们可以假设每张网页就是一个状态，而网页之间的链接表明了状态转移的方向。这样，我们很自然地就可以使用马尔科夫链来刻画“随机冲浪者”。</p>
+
+<blockquote><ol>
+<li>PageRank值：在随机访问的过程中，越是被频繁访问的链接，越是重要。可以看出，每个节点的PageRank值取决于Web图的链接结构。<strong>假如一个页面节点有很多的链入链接，或者是链入的网页有较高的被访问率，那么它也将会有更高的被访问概率</strong>。</li>
+<li>PageRank在标准的马尔科夫链上，引入了随机的跳转操作，也就是假设冲浪者不按照Web图的拓扑结构走下去，只是随机挑选了一张网页进行跳转。这样的处理是类比人们打开一张新网页的行为，也是符合实际情况的，避免了信息孤岛的形成。
+
+<h4>隐马尔可夫模型</h4>
+
+<p>马尔可夫模型都是假设每个状态对我们都是已知的，比如在概率语言模型中，一个状态对应了单词“上学”，另一个状态对应了单词“书包”。可是，有没有可能某些状态我们是未知的呢？</p></li>
+</ol>
+</blockquote>
+
+<p>在某些现实的应用场景中，我们是无法确定马尔科夫过程中某个状态的取值的。这种情况下，最经典的案例就是<strong>语音识别</strong>。使用概率对语音进行识别的过程，和语言模型类似，因此我们可以把每个等待识别的词对应为马尔科夫过程中的一个状态。</p>
+
+<p>计算机只知道某个词的发音，而不知道它具体怎么写，对于这种情况，我们就认为计算机只能观测到每个状态的部分信息，而另外一些信息被“隐藏”了起来。这个时候，我们就需要用隐马尔科夫模型来解决这种问题。隐马尔科夫模型有两层，一层是我们可以观测到的数据，称为“输出层”，另一层则是我们无法直接观测到的状态，称为“隐藏状态层”。如下图：</p>
+
+<p><img src="/images/20220531%E9%9A%90%E9%A9%AC%E5%B0%94%E5%8F%AF%E5%A4%AB%E6%A8%A1%E5%9E%8B%E5%9B%BE.jpeg" alt="20220531隐马尔可夫模型图.jpeg" /></p>
+
+<p>那么在这个两层模型示例中，“隐藏状态层”(x1，x2，x3)产生“输出层”(y1，y2，y3)的概率是:</p>
+
+<p><img src="/images/20220531%E9%9A%90%E9%A9%AC%E5%B0%94%E5%8F%AF%E5%A4%AB%E6%A8%A1%E5%9E%8B%E8%BE%93%E5%87%BA%E5%B1%82%E6%A6%82%E7%8E%87.png" alt="20220531隐马尔可夫模型输出层概率.png" /></p>
+
+<p>语音识别要做的，就是遍历所有可能的状态层，找出最可能产生已知“输出层”的状态层，即为语音识别结果。</p>
+
+<h3>26丨信息熵：如何通过几个问题，测出你对应的武侠人物？</h3>
+
+<p>现在有个小游戏，“测测你是哪个武侠人物”：通过连续的几个问题，确定答题者是武侠人物中的哪一位？</p>
+
+<p>那么，问卷设计者应该如何选择合适的题目，才能在读者回答尽量少的问题的同时，相对准确地测出自己对应于武侠中的哪个人物呢？为了实现这一目的，系统背后需要有这样的一张表格：</p>
+
+<p><img src="/images/20220531%E4%BF%A1%E6%81%AF%E7%86%B5%E6%B8%B8%E6%88%8F%E8%A1%A8%E6%A0%BC.png" alt="20220531信息熵游戏表格.png" /></p>
+
+<p>在题目的设计上，我们可能要考虑下面两个问题：
+1. 每个问题在人物划分上，是否有着不同的区分能力？
+2. 题目的先后顺序会不会直接影响要回答问题的数量？</p>
+
+<h4>问题的区分能力</h4>
+
+<p>每一个问题都会将被测试者划分为不同的人物分组。如果某个问题将属于不同人物分组的被测者，尽可能地划分到了相应的分组，那么我们认为这个问题的区分能力较强。相反，如果某个问题无法将属于不同人物分组的被测者划分开来，那么我们认为这个问题的区分能力较弱。</p>
+
+<p>举个例子，我们先来比较一下“性别”和“智商”这两个属性。</p>
+
+<p>首先，性别属性将武侠人物平均地划分为一半一半，也就是说“男”和“女”出现的先验概率是各 50%。如果我们假设被测试的人群，其男女性别的概率分布也是50%和50%，那么关于性别的测试题，就能将被测者的群体大致等分。</p>
+
+<p>我们再来看智商属性。我们也将武侠人物划分为2个小集合，不过“智商高”的先验概率是 80%，而“智商中等”的先验概率只有 20%。同样，我们假设被测试的人群，其智商的概率分布也是类似地，那么经过关于智商的测试题之后，仍然有 80% 左右的不同人物还是属于同一个集合，并没有被区分开来。因此，我们可以认为关于“智商”的测试题，在对人物进行分组这个问题上，其能力要弱于“性别”的测试题。</p>
+
+<p>这只是对区分能力的一个感性认识，如何对其进行量化呢？这就需要引入<strong>信息量，信息熵，信息增益</strong>等概念。</p>
+
+<h4>信息量</h4>
+
+<p>任何能够减少不确定性的消息，都叫做信息。定性地看，事件的概率越小，不确定性越大，一旦发生带来的信息量也就越大。信息量公式如下：</p>
+
+<p><img src="/images/20220531%E4%BF%A1%E6%81%AF%E9%87%8F%E5%85%AC%E5%BC%8F.svg" alt="20220531信息量公式.svg" /></p>
+
+<h4>信息熵</h4>
+
+<p>一个系统的信息熵是其各种状态的信息量的期望：</p>
+
+<p><img src="/images/20220531%E4%BF%A1%E6%81%AF%E7%86%B5%E5%85%AC%E7%A4%BA.svg" alt="20220531信息熵公示.svg" /></p>
+
+<p>这个公式和热力学的熵的本质一样，故也称为熵。从公式可知，当各个符号出现的几率相等，即“不确定性”最高时，信息熵最大。故信息可以视为“不确定性”、“不纯净度”或“选择的自由度”的度量。</p>
+
+<p>从集合和分组的角度来说，如果一个集合里的元素趋向于落在同一分组里，那么告诉你某个元素属于哪个分组的信息量就越小，整个集合的熵也越小，换句话说，整个集合就越“纯净”。相反，如果一个集合里的元素趋向于分散在不同分组里，那么告诉你某个元素属于哪个分组的信息量就越大，整个集合的熵也越大，换句话说，整个集合就越“混乱”。</p>
+
+<p>已经知道单个集合的熵是如何计算的了。那么，如果将一个集合划分成多个更小的集合之后，又该如何根据这些小集合，来计算整体的熵呢？之前我们提到了信息量和熵具有加和的性质，所以对于包含多个集合的更大集合，它的信息量期望值是可以通过每个小集合的信息量期望值来推算的。具体来说，我们可以使用如下公式：</p>
+
+<p><img src="/images/20220531%E9%9B%86%E5%90%88%E5%88%92%E5%88%86%E4%BF%A1%E6%81%AF%E7%86%B5%E5%85%AC%E5%BC%8F.png" alt="20220531集合划分信息熵公式.png" /></p>
+
+<p>其中，<code>T</code>表示一种划分，<code>Pv</code>表示划分后其中某个小集合，<code>Entropy(Pv)</code>表示某个小集合的熵， 而<code>|Pv|/|P|</code>表示某个小集合出现的概率。</p>
+
+<h4>信息增益</h4>
+
+<p>一个系统的信息增益是指，由于信息量大增加带来的其信息熵的减少:</p>
+
+<p><img src="/images/20220531%E4%BF%A1%E6%81%AF%E5%A2%9E%E7%9B%8A%E5%85%AC%E5%BC%8F.png" alt="20220531信息增益公式.png" /></p>
+
+<p>其中<code>T</code>表示当前选择的特征，<code>Entropy(P)</code>表示选择特征<code>T</code>之前的熵，<code>Entropy(Pv)</code>表示特征<code>T</code>取值为<code>v</code>分组的熵。减号后面的部分表示选择<code>T</code>做决策之后，各种取值子集合的熵的加权平均（期望）后整体的熵。</p>
+
+<h4>再次回到“武侠人物分类”的小游戏</h4>
+
+<p>我们把这个信息增益的概念放到咱们的小游戏里就是，如果一个测试问题能够将来自不同分组的人物尽量的分开，也就是该划分对应的信息增益越高，那么我们就认为其区分能力越高，提供的信息含量也越多。</p>
+
+<p>我们还是以“性别”和“智商”的两个测试题为例。</p>
+
+<p>在提出任何问题之前，我们无法知道被测者属于哪位武侠人物，因此所有被测者属于同一个集合。假设被测者的概率分布和这10位武侠人物的先验概率分布相同，那么被测者集合的熵为3.32(<code>10*(-1 * 0.1 * log(0.1, 2))</code>)。</p>
+
+<p>通过性别的测试问题对人物进行划分后，我们得到了两个更小的集合，每个小集合都包含5种不同的人物分组，因此每个小集合的熵是2.32(<code>(-1 * 5 * 0.2 * log(0.2, 2))</code>)，两个小集合的整体熵是2.32(<code>0.5 * 2.32 + 0.5 * 2.32</code>)。因此使用性格的测试题后，信息增益是1(<code>3.32 - 2.32</code>)。</p>
+
+<p>而通过智商的测试问题对人物分组后，我们也得到了两个小集合，一个包含了8种人物，另一个包含了2种人物。包含8种人物的小集合其熵是3(<code>(-1* 8 * 0.125 * log(0.125, 2))</code>)，包含<code>2</code>种人物的小集合其熵是1(<code>(-1* 2 * 0.5 * log(0.5, 2))</code>)。两个小集合的整体熵是2.6(<code>0.8 * 3 + 0.2 * 1</code>)。因此使用智商的测试题后，信息增益是0.72(<code>3.32 - 2.6</code>)，低于基于性别的测试。所以，我们可以得出结论，有关性别的测试题比有关智商的测试题更具有区分能力。</p>
+
+<h3>27丨决策树：信息增益、增益比率和基尼指数的运用</h3>
+
+<h4>继续“武侠人物分类”游戏</h4>
+
+<p>还说上面的“武侠人物分类”游戏，被测者们每次回答一道问题，就会被细分到不同的集合，每个细分的集合纯净度就会提高，而熵就会下降。在测试结束的时候，如果所有被测者都被分配到了相应的武侠人物名下，那么每个人物分组都是最纯净的，熵值都为0。于是，测试问卷的过程就转化为“如何将熵从3.32下降到0”的过程。</p>
+
+<p>首先计算各个特征的信息增益：</p>
+
+<p><img src="/images/20220531%E6%AD%A6%E4%BE%A0%E4%BA%BA%E7%89%A9%E6%B8%B8%E6%88%8F%E5%90%84%E4%B8%AA%E7%89%B9%E5%BE%81%E4%BF%A1%E6%81%AF%E5%A2%9E%E7%9B%8A.png" alt="20220531武侠人物游戏各个特征信息增益.png" /></p>
+
+<p>按照信息增益从高到低的顺序选择特征问题：</p>
+
+<p><img src="/images/20220531%E6%AD%A6%E4%BE%A0%E4%BA%BA%E7%89%A9%E5%88%86%E7%B1%BB%E5%9B%BE.png" alt="20220531武侠人物分类图.png" /></p>
+
+<p>从这个图可以看出来，对于每种人物的判断，我们至多需要问3个问题，没有必要问全5个问题。比如，对于人物J和C，我们只需要问2个问题。假设读者属于10种武侠人物的概率是均等的，那么我们就可以利用之前介绍的知识，来计算读者需要回答的问题数量之期望值。每种人物出现的概率是0.1，8种人物需要问3个问题，2种人物需要问2个问题，那么回答问题数的期望值是2.8(<code>0.8 * 3 + 0.2 * 2</code>)。</p>
+
+<p>如果我们每次不选熵值最高的问题，而选择熵值最低的问题，那么需要回答的问题的数量期望值为4到5之间。</p>
+
+<h4>决策树</h4>
+
+<p>上述这个过程就体现了训练决策树（Decision Tree）的基本思想。决策树学习属于归纳推理算法之一，适用于分类问题。决定问卷题出现顺序的这个过程，其实就是建立决策树模型的过程，即<strong>训练</strong>过程。</p>
+
+<p>整个构建出来的图就是一个树状结构，这也是“决策树”这个名字的由来。而根据用户对每个问题的答案，从决策树的根节点走到叶子节点，最后来判断其属于何种人物类型，这个过程就是分类新数据的过程，即<strong>预测</strong>过程。</p>
+
+<blockquote><p>有点需要注意的是，问卷案例中的每类武侠人物。都只有一个样本，而在泛化的机器学习问题中，每个类型对应了多个样本。也就是说，我们可以有很多个郭靖，而且每个人的属性并不完全一致，但是它们的分类都是“郭靖”。正是因为这个原因，决策树通常都只能把整体的熵降低到一个比较低的值，而无法完全降到0。这也意味着，训练得到的决策树模型，常常无法完全准确地划分训练样本，只能求到一个近似的解。</p></blockquote>
+
+<h4>几种常见的决策树算法</h4>
+
+<p>采用信息增益来构建决策树的算法被称为<a href="https://zh.wikipedia.org/wiki/ID3%E7%AE%97%E6%B3%95">ID3</a>（Iterative Dichotomiser 3，迭代二叉树3代）。但是这个算法有一个缺点，它一般会优先考虑具有较多取值的特征，因为取值多的特征会有相对较大的信息增益。这是为什么呢？</p>
+
+<p>仔细观察一下信息熵的定义，就能发现背后的原因。更多的取值会把数据样本划分为更多更小的分组，这样熵就会大幅降低，信息增益就会大幅上升。但是这样构建出来的树，很容易导致机器学习中的过拟合现象，不利于决策树对新数据的预测。为了克服这个问题，人们又提出了一个改进版，<a href="https://zh.wikipedia.org/wiki/C4.5%E7%AE%97%E6%B3%95">C4.5算法</a>。</p>
+
+<p>决策树也有不足。这类算法受训练样本的影响很大，比较容易过拟合。在预测阶段，如果新的数据和原来的训练样本差异较大，那么分类效果就会比较差。为此人们也提出了一些优化方案，比如剪枝和随机森林。</p>
+
+<h3>28丨熵、信息增益和卡方：如何寻找关键特征？</h3>
+
+<h4>通过信息增益进行特征选择</h4>
+
+<p>类似于决策树算法。</p>
+
+<h4>通过卡方检验进行特征选择</h4>
+
+<p>在统计学中，我们使用卡方检验来检验两个变量是否相互独立。把它运用到特征选择，我们就可以检验特征与分类这两个变量是否独立。如果两者独立，证明特征和分类没有明显的相关性，特征对于分类来说没有提供足够的信息量。反之，如果两者有较强的相关性，那么特征对于分类来说就是有信息量的，是个好的特征。</p>
+
+<p>为了检验独立性，卡方检验考虑了四种情况的概率：P(fi,cj)、P(fi¯,cj¯)、P(fi,cj¯)和P(fi¯,cj)。</p>
+
+<p>在这四种概率中，P(fi,cj)和P(fi¯,cj¯)表示特征fi和分类cj是正相关的。如果P(fi,cj)很高，表示特征fi的出现意味着属于分类cj的概率更高；如果P(fi¯,cj¯)很高，表示特征fi不出现意味着不属于分类cj的概率更高。</p>
+
+<p>类似地，P(fi,cj¯)和P(fi¯,cj)表示特征fi和分类cj是负相关的。如果P(fi,cj¯)很高，表示特征fi的出现意味着不属于分类cj的概率更高；如果P(fi¯,cj)很高，表示特征fi不出现意味着属于分类cj的概率更高。</p>
+
+<p>如果特征和分类的相关性很高，要么是正向相关值远远大于负向相关值，要么是负向相关值远远大于正向相关值。如果特征和分类相关性很低，那么正向相关值和负向相关的值就会很接近。卡方检验就是利用了正向相关和负向相关的特性。</p>
+
+<p><img src="/images/20220531%E5%8D%A1%E6%96%B9%E6%A3%80%E9%AA%8C%E8%BF%9B%E8%A1%8C%E7%89%B9%E5%BE%81%E9%80%89%E6%8B%A9.png" alt="20220531卡方检验进行特征选择.png" /></p>
+
+<p>其中，N表示数据的总个数。通过这个公式，你可以看到，如果一个特征和分类的相关性很高，无论是正向相关还是负向相关，那么正向相关和负向相关的差值就很大，最终计算的值就很高。最后，我们就可以按照卡方检验的值由高到低对特征进行排序，挑选出排列靠前的特征。</p>
+
+<h3>29丨归一化和标准化：各种特征如何综合才是最合理的？</h3>
+
+<p>第一点，为什么有时候需要转换特征值？因为不同类型的特征取值范围不同，分布也不同，相互之间没有可比性。因此在线性回归中，通过这些原始值分析得到的权重，并不能代表每个特征实际的重要性。</p>
+
+<p>我们用Boston Housing 数据集对房价数据进行回归分析，这个数据来自 70 年代美国波斯顿周边地区的房价，是用于机器学习的经典数据集，你可以在<a href="https://www.kaggle.com/c/boston-housing#description">Kaggle的网站</a>下载到它，并查看表格中各列的含义：</p>
+
+<ol>
+<li>CRIM：per capita crime rate by town.</li>
+<li>ZN：proportion of residential land zoned for lots over 25,000 sq.ft.</li>
+<li>INDUS：proportion of non-retail business acres per town.</li>
+<li>CHAS：Charles River dummy variable (= 1 if tract bounds river; 0 otherwise).</li>
+<li>NOX：nitrogen oxides concentration (parts per 10 million).</li>
+<li>RM：average number of rooms per dwelling.</li>
+<li>AGE：proportion of owner-occupied units built prior to 1940.</li>
+<li>DIS：weighted mean of distances to five Boston employment centres.</li>
+<li>RAD：index of accessibility to radial highways.</li>
+<li>TAX：full-value property-tax rate per \$10,000.</li>
+<li>PTRATIO：pupil-teacher ratio by town.</li>
+<li>B：1000(Bk - 0.63)<sup>2</sup> where Bk is the proportion of blacks by town.</li>
+<li>LSTAT：lower status of the population (percent).</li>
+<li>MEDV：median value of owner-occupied homes in \$1000s.</li>
+</ol>
+
+
+<blockquote><p>Kaggle上面好像不能直接下载啦，可以点击<a href="/assets/resources/boston_house_price.csv">这里</a>下载。</p></blockquote>
+
+<p>使用下面的python代码实现线性回归分析：</p>
+
+<pre><code class="python">import pandas as pd
+from sklearn.linear_model import LinearRegression
+
+df = pd.read_csv("demo/datasets/boston_house_price.csv")  # 读取 Boston Housing 中的 csv数据
+df_features = df.drop(['MEDV'], axis=1)  # Dataframe 中除了最后一列，其余列都是特征，或者说自变量
+df_targets = df['MEDV']  # Dataframe 最后一列是目标变量，或者说因变量
+#
+regression = LinearRegression().fit(df_features, df_targets)  # 使用特征和目标数据，拟合线性回归模型
+print(regression.score(df_features, df_targets))  # 拟合程度的好坏
+print(regression.coef_)  # 各个特征所对应的系
+</code></pre>
+
+<p>输出结果：
+<code>
+0.7406426641094095
+[-1.08011358e-01  4.64204584e-02  2.05586264e-02  2.68673382e+00
+ -1.77666112e+01  3.80986521e+00  6.92224640e-04 -1.47556685e+00
+  3.06049479e-01 -1.23345939e-02 -9.52747232e-01  9.31168327e-03
+ -5.24758378e-01]
+</code></p>
+
+<p>因为不是所有的数据都是可以使用线性回归模型来表示，所以我们需要使用 regression.score 函数，来看拟合的程度。如果完美拟合，这个函数就会输出 1；如果拟合效果很差，这个函数的输出可能就是一个负数。</p>
+
+<p>这里 regression.score 函数的输出大约为 0.74，接近于 1.0。它表示这个数据集使用线性模型拟合的效果还是不错的。</p>
+
+<blockquote><p>注意：下面是原文章中的解释，但是和我下载到的数据跑出的结果匹配不上，但是有关归一化和标准化的作用还是能够看出来的。
+原文章中的输出：
+<code>
+0.735578647853312
+[-4.54789253e-03 -5.17062363e-02  4.93344687e-02  5.34084254e-02
+  3.78011391e+00 -1.54106687e+01  3.87910457e+00 -9.51042267e-03
+ -1.60411361e+00  3.61780090e-01 -1.14966409e-02 -8.48538613e-01
+  1.18853164e-02 -6.01842329e-01]
+</code></p></blockquote>
+
+<p>权重可以帮助我们解释哪个特征对最终房价的中位值有更大的影响。参看 csv 中的数据，你会发现最主要的两个正相关特征是 nox（系数为 3.78011391e+00）和 age（系数为 3.87910457e+00）。其中 nox 表示空气污染浓度，age 表示老房子占比，也就是说空气污染越多、房龄越高，房价中位数越高，这好像不太合乎常理。我们再来看看最主要的负相关特征 rm（系数为 -1.54106687e+01），也就是房间数量。房间数量越多，房价中位数越低，也不合理。</p>
+
+<p>造成这些现象最重要的原因是，不同类型的特征值没有转换到同一个可比较的范围内，所以线性回归后所得到的系数不具有可比性，因此我们无法直接对这些权重加以解释。</p>
+
+<h4>归一化（Normalization）</h4>
+
+<p>简单起见，这里的归一化是指使用特征取值范围中的最大值和最小值，把原始值转换为0到1之间的值。这样处理的好处在于简单易行，便于理解。不过，它的缺点也很明显，由于只考虑了最大最小值，因此很容易受到异常数据点的干扰。</p>
+
+<pre><code class="python">from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import MinMaxScaler
+
+minMaxScaler = MinMaxScaler()  # 基于 min 和 max 值的归一化
+
+df = pd.read_csv("demo/datasets/boston_house_price.csv")  # 读取 Boston Housing 中的 csv的数据
+df_normalized = minMaxScaler.fit_transform(df)  # 对原始数据进行归一化，包括特征值和目标变量
+df_features_normalized = df_normalized[:, 0:-1]  # 获取归一化之后的特征值
+df_targets_normalized = df_normalized[:, -1]  # 获取归一化之后的目标值
+
+# 再次进行线性回归
+regression_normalized = LinearRegression().fit(df_features_normalized, df_targets_normalized)
+print(regression_normalized.score(df_features_normalized, df_targets_normalized))
+print(regression_normalized.coef_)
+</code></pre>
+
+<p>输出：</p>
+
+<pre><code>0.7406426641094094
+[-0.21355017  0.10315657  0.0124631   0.0597052  -0.1918794   0.4418597
+  0.00149367 -0.36059247  0.15642529 -0.14362949 -0.19901831  0.08206283
+ -0.42260541]
+</code></pre>
+
+<blockquote><p>注意：下面是原文章中的解释，但是和我下载到的数据跑出的结果匹配不上，但是有关归一化和标准化的作用还是能够看出来的。
+原文章中的输出：
+<code>
+0.7355786478533118
+[-0.05103746 -0.08448544  0.10963215  0.03204506  0.08400253 -0.16643522
+  0.4451488  -0.01986622 -0.34152292  0.18490982 -0.13361651 -0.16216516
+  0.10390408 -0.48468369]
+</code></p></blockquote>
+
+<p>你可以看到，表示拟合程度的分数没有变，但是每个特征对应的系数或者说权重，发生了比较大的变化。仔细观察一下，你会发现，这次最主要的正相关特征是 age（0.4451488）和 tax（0.18490982），也就是老房子占比和房产税的税率，其中至少房产税的税率是比较合理的，因为高房价的地区普遍税率也比较高。而最主要的负相关特征是 rad（-0.34152292）和 lstat（-0.48468369），rad 表示高速交通的便利程度，它的值越大表示离高速越远，房价中位数越低。而 lstat 表示低收入人群的占比，这个值越大房价中位数越低，这两点都是合理的。</p>
+
+<h4>标准化（Standardizaiton）</h4>
+
+<p>另一种常见的方法是基于正态分布的 z 分数（z-score）标准化（Standardization）。该方法假设数据呈现标准正态分布。</p>
+
+<p>经过标准化处理之后，每种特征的取值都会变成一个标准正态分布，以0为均值，1为标准差。和归一化相比，标准化使用了数据是正态分布的假设，不容易受到过大或过小值的干扰。</p>
+
+<pre><code class="python">standardScaler = StandardScaler()  # 基于 Z 分数的标准化
+
+df = pd.read_csv("demo/datasets/boston_house_price.csv")  # 读取 Boston Housing 中的 csv的数据
+print(df)
+standardScaler.fit(df)
+df_standardized = standardScaler.transform(df)  # 对原始数据进行标准化，包括特征值和目标变量
+print(df_standardized)
+
+df_features_standardized = df_standardized[:, 0:-1]  # 获取标准化之后的特征值
+df_targets_standardized = df_standardized[:, -1]  # 获取标准化之后的特征值
+
+# 再次进行线性回归
+regression_standardized = LinearRegression().fit(df_features_standardized, df_targets_standardized)
+print(regression_standardized.score(df_features_standardized, df_targets_standardized))
+print(regression_standardized.coef_)
+</code></pre>
+
+<p>输出：</p>
+
+<pre><code>0.7406426641094093
+[-0.10101708  0.1177152   0.0153352   0.07419883 -0.22384803  0.29105647
+  0.00211864 -0.33783635  0.28974905 -0.22603168 -0.22427123  0.09243223
+ -0.40744693]
+</code></pre>
+
+<blockquote><p>注意：下面是原文章中的解释，但是和我下载到的数据跑出的结果匹配不上，但是有关归一化和标准化的作用还是能够看出来的。
+原文章中的输出：
+<code>
+0.7355786478533118
+[-0.07330367 -0.04144107  0.12194378  0.04074345  0.09805446 -0.19311408
+  0.29767387 -0.02916672 -0.34642803  0.34477088 -0.21410757 -0.19904179
+  0.11218058 -0.46369483]
+</code></p></blockquote>
+
+<p>表示拟合程度的分数任然没有变。再次对比不同特征所对应的系数，你会发现这次最主要的正相关特征还是 age（0.29767387）和 tax（0.34477088），但是相比之前，明显房产税的税率占了更高的权重，更加合理。而最主要的负相关特征还是 rad（-0.34152292）和 lstat（-0.48468369），这两点都是合理的。</p>
+
+<h3>30丨统计意义（上）：如何通过显著性检验，判断你的A-B测试结果是不是巧合？</h3>
+
+<h3>31丨统计意义（下）：如何通过显著性检验，判断你的A-B测试结果是不是巧合？</h3>
+
+<h3>32丨概率统计篇答疑和总结为什么会有欠拟合和过拟合？</h3>
+
+<h2>05-线性代数篇 (13讲)</h2>
+
+<h3>33丨线性代数：线性代数到底都讲了些什么？</h3>
+
+<h3>34丨向量空间模型：如何让计算机理解现实事物之间的关系？</h3>
+
+<h3>35丨文本检索：如何让计算机处理自然语言？</h3>
+
+<h3>36丨文本聚类：如何过滤冗余的新闻？</h3>
+
+<h3>37丨矩阵（上）：如何使用矩阵操作进行PageRank计算？</h3>
+
+<h3>38丨矩阵（下）：如何使用矩阵操作进行协同过滤推荐？</h3>
+
+<h3>39丨线性回归（上）：如何使用高斯消元求解线性方程组？</h3>
+
+<h3>40丨线性回归（中）：如何使用最小二乘法进行直线拟合？</h3>
+
+<h3>41丨线性回归（下）：如何使用最小二乘法进行效果验证？</h3>
+
+<h3>42丨PCA主成分分析（上）：如何利用协方差矩阵来降维？</h3>
+
+<h3>43丨PCA主成分分析（下）：为什么要计算协方差矩阵的特征值和特征向量？</h3>
+
+<h3>44丨奇异值分解：如何挖掘潜在的语义关系？</h3>
+
+<h3>45丨线性代数篇答疑和总结：矩阵乘法的几何意义是什么？</h3>
+
+<h2>06-综合应用篇 (6讲)</h2>
+
+<h3>46丨缓存系统：如何通过哈希表和队列实现高效访问？</h3>
+
+<h3>47丨搜索引擎（上）：如何通过倒排索引和向量空间模型，打造一个简单的搜索引擎？</h3>
+
+<h3>48丨搜索引擎（下）：如何通过查询的分类，让电商平台的搜索结果更相关？</h3>
+
+<h3>49丨推荐系统（上）：如何实现基于相似度的协同过滤？</h3>
+
+<h3>50丨推荐系统（下）：如何通过SVD分析用户和物品的矩阵？</h3>
+
+<h3>51丨综合应用篇答疑和总结：如何进行个性化用户画像的设计？</h3>
+
+<h2>07-加餐 (3讲)</h2>
+
+<h3>数学专栏课外加餐（一）丨我们为什么需要反码和补码？</h3>
+
+<h3>数学专栏课外加餐（三）：程序员需要读哪些数学书？</h3>
+
+<h3>数学专栏课外加餐（二）丨位操作的三个应用实例</h3>
+
+<h2>08-结束语 (1讲)</h2>
+
+<h3>结束语丨从数学到编程，本身就是一个很长的链条</h3>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[自然语言理解（NLU）综述]]></title>
@@ -1276,449 +1907,6 @@ Includes over 10,000 anatomical models with descriptions in English, Spanish, Fr
 <li><p><a href="https://www.raywenderlich.com/196233/create-ml-tutorial-getting-started">Create ML Tutorial: Getting Started</a> describes the usage of Create ML and Turi Create, including the history, code, data preparation, improving model accuracy and so on.</p></li>
 </ol>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[What is new in ARKit 2]]></title>
-    <link href="http://hongchaozhang.github.io/blog/2018/06/13/what-is-new-in-n-arkit-2/"/>
-    <updated>2018-06-13T13:24:59+08:00</updated>
-    <id>http://hongchaozhang.github.io/blog/2018/06/13/what-is-new-in-n-arkit-2</id>
-    <content type="html"><![CDATA[<!-- more -->
-
-
-<ul>
-<li><a href="#overview">Overview</a></li>
-<li><a href="#new-features-in-arkit-2">New Features in ARKit 2</a>
-
-<ul>
-<li><a href="#saving-and-loading-maps">Saving and Loading Maps</a>
-
-<ul>
-<li><a href="#world-tracking-recap">World Tracking Recap:</a></li>
-<li><a href="#world-tracking-enhancement">World Tracking Enhancement:</a></li>
-<li><a href="#saving-and-loading-maps">Saving and loading maps:</a></li>
-<li><a href="#how-to-get-a-good-map">How to get a good map</a></li>
-</ul>
-</li>
-<li><a href="#environment-texturing">Environment Texturing</a></li>
-<li><a href="#image-tracking">Image Tracking</a></li>
-<li><a href="#3d-object-detection">3D Object Detection</a></li>
-<li><a href="#face-tracking-enhancements">Face Tracking Enhancements</a></li>
-</ul>
-</li>
-<li><a href="#some-other-wwdc-sessions-related-to-ar">Some other WWDC Sessions Related to AR</a>
-
-<ul>
-<li><a href="#integrating-apps-and-content-with-ar-quick-look">Integrating Apps and Content with AR Quick Look</a></li>
-<li><a href="#inside-swiftshot-creating-an-ar-game">Inside SwiftShot: Creating an AR Game</a></li>
-<li><a href="#creating-great-ar-experiences">Creating Great AR Experiences</a></li>
-<li><a href="#understanding-arkit-tracking-and-detection">Understanding ARKit Tracking and Detection</a></li>
-</ul>
-</li>
-<li><a href="#some-other-materials-for-a-better-ar-app">Some other materials for a better AR app:</a>
-
-<ul>
-<li><a href="#building-your-first-ar-experience">Building Your First AR Experience</a></li>
-<li><a href="#managing-session-lifecycle-and-tracking-quality">Managing Session Lifecycle and Tracking Quality</a></li>
-<li><a href="#human-interface-guidelines---augmented-reality">Human Interface Guidelines - Augmented Reality</a></li>
-<li><a href="#handling-3d-interaction-and-ui-controls-in-augmented-reality">Handling 3D Interaction and UI Controls in Augmented Reality</a></li>
-<li><a href="#creating-a-multiuser-ar-experience">Creating a Multiuser AR Experience</a></li>
-<li><a href="#swiftshot-creating-a-game-for-augmented-reality">SwiftShot: Creating a Game for Augmented Reality</a></li>
-<li><a href="#recognizing-images-in-an-ar-experience">Recognizing Images in an AR Experience</a></li>
-<li><a href="#scanning-and-detecting-3d-objects">Scanning and Detecting 3D Objects</a></li>
-</ul>
-</li>
-</ul>
-
-
-<p><a id="markdown-overview" name="overview"></a></p>
-
-<h2>Overview</h2>
-
-<p>In ARKit 1, we have:</p>
-
-<ul>
-<li>Device positioning from world tracking process</li>
-<li>Horizontal and vertical plane detection from world tracking process</li>
-<li>Lighting estimation</li>
-<li>AR face tracking</li>
-</ul>
-
-
-<p>In ARKit 2, we have:</p>
-
-<ul>
-<li>Saving and loading maps</li>
-<li>Environment Texturing</li>
-<li>Image detection and tracking</li>
-<li>3D object tracking</li>
-<li>Improved face tracking</li>
-</ul>
-
-
-<p><a id="markdown-new-features-in-arkit-2" name="new-features-in-arkit-2"></a></p>
-
-<h2>New Features in ARKit 2</h2>
-
-<p><a id="markdown-saving-and-loading-maps" name="saving-and-loading-maps"></a></p>
-
-<h3>Saving and Loading Maps</h3>
-
-<p><a id="markdown-world-tracking-recap" name="world-tracking-recap"></a></p>
-
-<h4>World Tracking Recap:</h4>
-
-<ul>
-<li>Position and orientation of the device.</li>
-<li>Physical scale in the scene.</li>
-<li>3D feature points.</li>
-<li>Relocalization (iOS 11.3): we can relocalize objects when your AR session is interrupted, like phone coming or going from background. This feature is implemented by storing the mapping <code>ARWorldMap</code> between real world and the coordinate system. However the mapping is not exposed to developers.</li>
-</ul>
-
-
-<p><a id="markdown-world-tracking-enhancement" name="world-tracking-enhancement"></a></p>
-
-<h4>World Tracking Enhancement:</h4>
-
-<ul>
-<li><strong>Saving and loading maps</strong>: expose the <code>ARWorldMap</code> to developers.</li>
-<li>Faster initialization and plane detection</li>
-<li>Robust tracking and plane detection</li>
-<li>More accurate extent and boundary Continuous autofocus</li>
-<li>New 4:3 video formats (iPad is also 4:3)</li>
-</ul>
-
-
-<p><a id="markdown-saving-and-loading-maps" name="saving-and-loading-maps"></a></p>
-
-<h4>Saving and loading maps:</h4>
-
-<p><code>ARWorldmap</code> contains:</p>
-
-<ul>
-<li>Mapping of physical 3D space: for representing 3D feature points in the coordinate system.</li>
-<li>Mutable list of named anchors: for restoring previous 3D environment (like lighting node anchor), and relocalizing previously added virtual objects.</li>
-<li>Raw feature points and extent: for debugging and visualization.</li>
-<li>Serialization: for storing and recovering from an file.</li>
-</ul>
-
-
-<p><img src="/images/arkit2_arworldmap.jpg" width="500" alt="arkit arworldmap" /></p>
-
-<p>We can use the map in two different ways:</p>
-
-<ul>
-<li>Persistent: Restore previous AR scene for a new AR session. For example, you go to another room and come back or close the AR app and open it some time later.</li>
-<li>Multiuser experience: We can share the map among devices through WiFi or bluetooth.</li>
-</ul>
-
-
-<p>The SwiftShot is an multiuser experience AR game:</p>
-
-<p><img src="/images/swiftshot.jpg" alt="arkit2 swiftshot" /></p>
-
-<p>and the following is a small piece of the demo:</p>
-
-<p><img src="/images/arkit2_multiuser_experience_demo.gif" alt="swift shot game" /></p>
-
-<p><a id="markdown-how-to-get-a-good-map" name="how-to-get-a-good-map"></a></p>
-
-<h4>How to get a good map</h4>
-
-<p>In order to share or restore the map, we need to get a good one first. A good map should be:</p>
-
-<!-- * Important for relocalization -->
-
-
-<ul>
-<li>Multiple points of view: If we record the mapping from one point of view, and try to restore the coordinate system from another point of view, it will fail.</li>
-<li>Static, well-textured environment.</li>
-<li>Dense feature points on the map.</li>
-</ul>
-
-
-<p>We can use the <code>WorldMappingStatus</code> status from <code>ARFrame</code> to decide if the current map is good enough for sharing or storing:</p>
-
-<pre><code class="swift">public enum WorldMappingStatus : Int {
-   case notAvailable
-   case limited
-   case extending
-   case mapped 
-}
-</code></pre>
-
-<p><a id="markdown-environment-texturing" name="environment-texturing"></a></p>
-
-<h3>Environment Texturing</h3>
-
-<p>With the help of Environment Texturing, AR scene objects can reflect the environment texture on the surface of themselves, just like:</p>
-
-<p><img src="/images/arkit2_environment_texturing_demo.jpg" alt="arkit2 environment texturing demo" /></p>
-
-<p><a id="markdown-image-tracking" name="image-tracking"></a></p>
-
-<h3>Image Tracking</h3>
-
-<p>Moving objects can not be positioned in ARKit 1. In ARKit 2, specified images can be tracked in AR scene.</p>
-
-<p><img src="/images/arkit2_image_tracking.gif" alt="arkit 2 image tracking" /></p>
-
-<p>The classes in ARKit 2 for image tracking are:</p>
-
-<p><img src="/images/arkit2_image_tracking_classes.jpg" alt="arkit 2 image tracking classes" /></p>
-
-<p>The detected <code>ARImageAnchor</code>s have properties like:</p>
-
-<pre><code class="swift">open class ARImageAnchor : ARAnchor, ARTrackable { 
-    public var isTracked: Bool { get }
-    open var transform: simd_float4x4 { get }
-    open var referenceImage: ARReferenceImage { get }
-}
-</code></pre>
-
-<p>The specified image should:</p>
-
-<ul>
-<li>Histogram should be broad</li>
-<li>Not have multiple uniform color regions</li>
-<li>Not have repeated structures</li>
-</ul>
-
-
-<p>The following is the demo:</p>
-
-<p><img src="/images/arkit2_image_tracking_demo.gif" alt="arkit 2 image tracking demo" /></p>
-
-<p>The inputs of the above demo are:</p>
-
-<ul>
-<li>an static image of the cat, the same as it is in the picture frame</li>
-<li>an video of the cat</li>
-</ul>
-
-
-<p>The video is played at the position of the specified picture frame, with the same orientation of the picture frame.</p>
-
-<p>There are two classes related to image tracking:</p>
-
-<table>
-<thead>
-<tr>
-<th>ARImageTrackingConfiguration </th>
-<th> ARWorldTrackingConfiguration</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Has No World Origin </td>
-<td> Has World Origin</td>
-</tr>
-<tr>
-<td>After detecting the image, only do things inside the place of the image. </td>
-<td> After detecting the image, place some virtual objects outside the detected image plane.</td>
-</tr>
-</tbody>
-</table>
-
-
-<p><a id="markdown-3d-object-detection" name="3d-object-detection"></a></p>
-
-<h3>3D Object Detection</h3>
-
-<p>3D object detection workflow is:</p>
-
-<p><img src="/images/arkit2_3D_object_tracking_classes.jpg" alt="arkit2 3D object tracking classes" /></p>
-
-<p>The <code>ARObjectAnchor</code> contains properties like:</p>
-
-<pre><code class="swift">open class ARObjectAnchor : ARAnchor {
-    open var transform: simd_float4x4 { get }
-    open var referenceObject: ARReferenceObject { get }
-}
-</code></pre>
-
-<p>and <code>ARReferenceObject</code> is the scanned 3D object:</p>
-
-<pre><code class="swift">open class ARReferenceObject
-    : NSObject, NSCopying, NSSecureCoding {
-    open var name: String?
-    open var center: simd_float3 { get }
-    open var extent: simd_float3 { get }
-    open var rawFeaturePoints: ARPointCloud { get }
-}
-</code></pre>
-
-<blockquote><p>An <code>ARReferenceObject</code> contains only the spatial feature information needed for ARKit to recognize the real-world object, and is not a displayable 3D reconstruction of that object.</p></blockquote>
-
-<p>In order to get the <code>ARReferenceObject</code>, we should scan the real object, and store the result as an file (.arobject) or an xcode asset catalog for ARKit to use. Fortunately, Apple supplies a demo for scanning 3D object to get the <code>ARReferenceObject</code>. Refer to: <a href="https://developer.apple.com/documentation/arkit/scanning_and_detecting_3d_objects">Scanning and Detecting 3D Objects</a> for detail and the rough steps of object scanning are:</p>
-
-<p><img src="/images/arkit2_3D_object_scan.jpg" alt="arkit2 3D object scan" /></p>
-
-<p>For scanned object in the real world, we can dynamically add some info around it (Museum is a good use case.), like the demo does:</p>
-
-<p><img src="/images/arkit2_3D_object_tracking_demo.gif" alt="arkit2 object tracking demo" /></p>
-
-<p><a id="markdown-face-tracking-enhancements" name="face-tracking-enhancements"></a></p>
-
-<h3>Face Tracking Enhancements</h3>
-
-<p>With face tracking, we can place something on it or around it.</p>
-
-<p>Enhancements in ARKit 2:</p>
-
-<ul>
-<li>Gaze tracking</li>
-<li>Tongue support</li>
-</ul>
-
-
-<blockquote><p>Gaze and Tongue can be input of the AR app.</p></blockquote>
-
-<p>New changes in one screenshot:</p>
-
-<p><img src="/images/what-is-new-in-arkit-2.jpg" alt="what-is-new-in-arkit-2" /></p>
-
-<p><a id="markdown-some-other-wwdc-sessions-related-to-ar" name="some-other-wwdc-sessions-related-to-ar"></a></p>
-
-<h2>Some other WWDC Sessions Related to AR</h2>
-
-<p><a id="markdown-integrating-apps-and-content-with-ar-quick-lookhttpsdeveloperapplecomvideosplaywwdc2018603" name="integrating-apps-and-content-with-ar-quick-lookhttpsdeveloperapplecomvideosplaywwdc2018603"></a></p>
-
-<h3><a href="https://developer.apple.com/videos/play/wwdc2018/603/">Integrating Apps and Content with AR Quick Look</a></h3>
-
-<p>A deeper dive into a new feature in iOS that provides a way to preview any AR object from a USDZ file.</p>
-
-<p><img src="/images/QLPreviewController.png" alt="QLPreviewController" /></p>
-
-<ul>
-<li>There’s a great sequence diagram presented (see above) (I wish more sessions would have these!) for previewing USDZ objects, of which the <code>QLPreviewController</code> plays a central role.</li>
-<li>For web developers, it covers HTML samples for how to preview USDZ objects in Safari.</li>
-<li>Then it goes into a deep dive on how to create the actual USDZ objects, with more examples on new AR texturing capabilities.</li>
-<li>There’s also a quick overview on how to optimize the files, to keep the size down, and there’s a breakdown of the files that make up the USDZ format.</li>
-</ul>
-
-
-<p><a id="markdown-inside-swiftshot-creating-an-ar-gamehttpsdeveloperapplecomvideosplaywwdc2018605" name="inside-swiftshot-creating-an-ar-gamehttpsdeveloperapplecomvideosplaywwdc2018605"></a></p>
-
-<h3><a href="https://developer.apple.com/videos/play/wwdc2018/605/">Inside SwiftShot: Creating an AR Game</a></h3>
-
-<p>Covers world map sharing, networking, and the physics of how to build an AR game, as well as some design insight (I have limited game dev experience so I’ll do the best I can below).</p>
-
-<ul>
-<li>Pointers to remember with designing an AR game, such as “encouraging” the user to slowly move the device for world mapping!</li>
-<li>It demonstrates the usage of image &amp; object detection, world map sharing, and iBeacons for the game.</li>
-<li>Integrating <code>ARKit</code> with <code>SceneKit</code> and <code>Metal</code>, including the translation of physics data between each — position, velocity, and orientation.</li>
-<li>Performance enhancement with the <code>BitStreamCodable</code> protocol.</li>
-<li>A small look at how audio was integrated into the game.</li>
-</ul>
-
-
-<p><a id="markdown-creating-great-ar-experienceshttpsdeveloperapplecomvideosplaywwdc2018805" name="creating-great-ar-experienceshttpsdeveloperapplecomvideosplaywwdc2018805"></a></p>
-
-<h3><a href="https://developer.apple.com/videos/play/wwdc2018/805/">Creating Great AR Experiences</a></h3>
-
-<p>Best practises mainly from a UX &amp; design perspective (there are no code samples in this session).</p>
-
-<ul>
-<li>Logical dos and don’ts that may be useful, if you need help with thought towards product and empathy towards the user.</li>
-<li>They emphasize the importance of using transitions between AR scapes.</li>
-<li>Why AR is a special combination of touch and movement.</li>
-<li>They advise that minimal battery impact should be a huge focus! This is a challenge, given that they recommend to render the FPS at 60 to avoid latency.</li>
-<li>There’s a lengthy demonstration of creating an AR fireplace, with complex texturing, etc. It looks great, but unfortunately there were no coding samples accompanying the demo.</li>
-</ul>
-
-
-<p><a id="markdown-understanding-arkit-tracking-and-detectionhttpsdeveloperapplecomvideosplaywwdc2018610" name="understanding-arkit-tracking-and-detectionhttpsdeveloperapplecomvideosplaywwdc2018610"></a></p>
-
-<h3><a href="https://developer.apple.com/videos/play/wwdc2018/610/">Understanding ARKit Tracking and Detection</a></h3>
-
-<p>A good broad overview of all of the main AR concepts.</p>
-
-<ul>
-<li>This is such a good intro into not only AR on iOS, but AR in general, that it should have been part of 2017’s sessions when ARKit was first introduced. Better late than never. If you’re only going to watch one session, watch this one!</li>
-<li>It recaps the main features of ARKit — <strong>orientation</strong>, <strong>world tracking</strong>, and <strong>plane detection</strong>, and demos all of these in depth with coding samples.</li>
-<li>It then demos the new features of ARKit 2 — <strong>shared world mapping</strong>, <strong>image tracking</strong>, and <strong>object detection</strong> (which has been available in the Vision framework recapped above, but is now also accessible in ARKit).</li>
-<li>A good explanation on a core AR principle, <strong>Visual Inertial Odometry</strong>, is given. Short of going into the actual physics equations behind it, this should give you a great understanding of VIO.</li>
-</ul>
-
-
-<p><a id="markdown-some-other-materials-for-a-better-ar-app" name="some-other-materials-for-a-better-ar-app"></a></p>
-
-<h2>Some other materials for a better AR app:</h2>
-
-<p><a id="markdown-building-your-first-ar-experiencehttpsdeveloperapplecomdocumentationarkitbuilding_your_first_ar_experience" name="building-your-first-ar-experiencehttpsdeveloperapplecomdocumentationarkitbuilding_your_first_ar_experience"></a></p>
-
-<h3><a href="https://developer.apple.com/documentation/arkit/building_your_first_ar_experience">Building Your First AR Experience</a></h3>
-
-<p>This document demos an app for basic usage of ARKit.</p>
-
-<p><a id="markdown-managing-session-lifecycle-and-tracking-qualityhttpsdeveloperapplecomdocumentationarkitmanaging_session_lifecycle_and_tracking_quality" name="managing-session-lifecycle-and-tracking-qualityhttpsdeveloperapplecomdocumentationarkitmanaging_session_lifecycle_and_tracking_quality"></a></p>
-
-<h3><a href="https://developer.apple.com/documentation/arkit/managing_session_lifecycle_and_tracking_quality">Managing Session Lifecycle and Tracking Quality</a></h3>
-
-<p>Make your AR experience more robust by</p>
-
-<ul>
-<li>providing clear feedback, using <code>ARCamera.TrackingState</code>.</li>
-<li>recovering from interruptions, using <code>ARCamera.TrackingState.Reason.relocalizing</code>.</li>
-<li>resuming previous sessions, using <code>ARWorldMap</code>.</li>
-</ul>
-
-
-<p><a id="markdown-human-interface-guidelines---augmented-realityhttpsdeveloperapplecomdesignhuman-interface-guidelinesiossystem-capabilitiesaugmented-reality" name="human-interface-guidelines---augmented-realityhttpsdeveloperapplecomdesignhuman-interface-guidelinesiossystem-capabilitiesaugmented-reality"></a></p>
-
-<h3><a href="https://developer.apple.com/design/human-interface-guidelines/ios/system-capabilities/augmented-reality/">Human Interface Guidelines - Augmented Reality</a></h3>
-
-<p>This post describes how to rendering virtual objects, how to interact with virtual objects, how to handling interruptions. It is for UX.</p>
-
-<p><a id="markdown-handling-3d-interaction-and-ui-controls-in-augmented-realityhttpsdeveloperapplecomdocumentationarkithandling_3d_interaction_and_ui_controls_in_augmented_reality" name="handling-3d-interaction-and-ui-controls-in-augmented-realityhttpsdeveloperapplecomdocumentationarkithandling_3d_interaction_and_ui_controls_in_augmented_reality"></a></p>
-
-<h3><a href="https://developer.apple.com/documentation/arkit/handling_3d_interaction_and_ui_controls_in_augmented_reality">Handling 3D Interaction and UI Controls in Augmented Reality</a></h3>
-
-<p>This document describes the best practices for visual feedback, gesture interactions, and realistic rendering in AR experiences. And a demo app is supplied.</p>
-
-<p><img src="/images/arkit_demo_screenshot.jpg" alt="arkit demo" /></p>
-
-<p><a id="markdown-creating-a-multiuser-ar-experiencehttpsdeveloperapplecomdocumentationarkitcreating_a_multiuser_ar_experience" name="creating-a-multiuser-ar-experiencehttpsdeveloperapplecomdocumentationarkitcreating_a_multiuser_ar_experience"></a></p>
-
-<h3><a href="https://developer.apple.com/documentation/arkit/creating_a_multiuser_ar_experience">Creating a Multiuser AR Experience</a></h3>
-
-<p>This document demos an app (with source code) on how to transmit ARKit world-mapping data between nearby devices with the <a href="https://developer.apple.com/documentation/multipeerconnectivity">MultipeerConnectivity</a> framework (introduced in iOS 7.0) to create a shared basis for AR experiences. MultipeerConnectivity supports peer-to-peer connectivity and the discovery of nearby devices. With MultipeerConnectivity, you can not only share <code>ARWorldMap</code>, but also some actions. This makes multiuser AR game possible.</p>
-
-<p>However:</p>
-
-<ul>
-<li>Recording and transmitting a world map and relocalizing to a world map are time-consuming, bandwidth-intensive operations. A good design is needed for better performance.</li>
-<li>The persons received the world map data need to move their device so they see a similar perspective (also sent by the host) helps ARKit process the received map and establish a shared frame of reference for the multiuser experience.</li>
-</ul>
-
-
-<p><a id="markdown-swiftshot-creating-a-game-for-augmented-realityhttpsdeveloperapplecomdocumentationarkitswiftshot_creating_a_game_for_augmented_reality" name="swiftshot-creating-a-game-for-augmented-realityhttpsdeveloperapplecomdocumentationarkitswiftshot_creating_a_game_for_augmented_reality"></a></p>
-
-<h3><a href="https://developer.apple.com/documentation/arkit/swiftshot_creating_a_game_for_augmented_reality">SwiftShot: Creating a Game for Augmented Reality</a></h3>
-
-<p>This document demos the SwiftShot game shown on WWDC 2018, including:</p>
-
-<ul>
-<li>Designing Gameplay for AR</li>
-<li>Using Local Multipeer Networking and Sharing World Maps</li>
-<li>Synchronizing Gameplay Actions</li>
-<li>Solving Multiplayer Physics</li>
-</ul>
-
-
-<p><a id="markdown-recognizing-images-in-an-ar-experiencehttpsdeveloperapplecomdocumentationarkitrecognizing_images_in_an_ar_experience" name="recognizing-images-in-an-ar-experiencehttpsdeveloperapplecomdocumentationarkitrecognizing_images_in_an_ar_experience"></a></p>
-
-<h3><a href="https://developer.apple.com/documentation/arkit/recognizing_images_in_an_ar_experience">Recognizing Images in an AR Experience</a></h3>
-
-<p>Detect known 2D images in the user’s environment, and use their positions to place AR content.</p>
-
-<p><a id="markdown-scanning-and-detecting-3d-objectshttpsdeveloperapplecomdocumentationarkitscanning_and_detecting_3d_objects" name="scanning-and-detecting-3d-objectshttpsdeveloperapplecomdocumentationarkitscanning_and_detecting_3d_objects"></a></p>
-
-<h3><a href="https://developer.apple.com/documentation/arkit/scanning_and_detecting_3d_objects">Scanning and Detecting 3D Objects</a></h3>
-
-<p>Record spatial features of real-world objects, then use the results to find those objects in the user’s environment and trigger AR content.</p>
 ]]></content>
   </entry>
   
