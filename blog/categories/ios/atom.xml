@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ios | Reading Space]]></title>
   <link href="http://hongchaozhang.github.io/blog/categories/ios/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2022-10-08T12:20:40+08:00</updated>
+  <updated>2022-10-08T17:41:23+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -92,108 +92,61 @@
 
 
 <p>保存文件的代码如下：
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">func</span> <span class="nf">getRootPath</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">String</span><span class="o">?</span> <span class="p">{</span>
-</span><span class='line'>    <span class="k">return</span> <span class="n">NSSearchPathForDirectoriesInDomains</span><span class="p">(.</span><span class="n">documentDirectory</span><span class="p">,</span> <span class="p">.</span><span class="n">userDomainMask</span><span class="p">,</span> <span class="nb">true</span><span class="p">).</span><span class="n">first</span>
-</span><span class='line'><span class="p">}</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">func</span> <span class="n">saveImageFile</span><span class="p">()</span> <span class="p">{</span>
-</span><span class='line'>    <span class="k">if</span> <span class="k">let</span> <span class="n">rootPath</span> <span class="o">=</span> <span class="n">Utility</span><span class="p">.</span><span class="n">getRootPath</span><span class="p">(),</span>
-</span><span class='line'>        <span class="k">let</span> <span class="n">imageName</span> <span class="o">=</span> <span class="n">getFileName</span><span class="p">()</span> <span class="p">{</span>
-</span><span class='line'>        <span class="k">let</span> <span class="n">imagePath</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;(</span><span class="n">rootPath</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">imageName</span><span class="p">).</span><span class="n">png</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;</span>
-</span><span class='line'>        <span class="n">print</span><span class="p">(</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">image</span> <span class="nl">path</span><span class="p">:</span> <span class="p">(</span><span class="n">imagePath</span><span class="p">)</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;)</span>
-</span><span class='line'>        <span class="k">if</span> <span class="k">let</span> <span class="n">image</span> <span class="o">=</span> <span class="n">imageView</span><span class="p">.</span><span class="n">image</span><span class="p">,</span> <span class="k">let</span> <span class="n">imageData</span> <span class="o">=</span> <span class="n">image</span><span class="p">.</span><span class="n">pngData</span><span class="p">()</span> <span class="p">{</span>
-</span><span class='line'>            <span class="n">FileManager</span><span class="p">.</span><span class="k">default</span><span class="p">.</span><span class="n">createFile</span><span class="p">(</span><span class="nl">atPath</span><span class="p">:</span> <span class="n">imagePath</span><span class="p">,</span> <span class="nl">contents</span><span class="p">:</span> <span class="n">imageData</span><span class="p">,</span> <span class="nl">attributes</span><span class="p">:</span> <span class="nb">nil</span><span class="p">)</span>
-</span><span class='line'>        <span class="p">}</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'><span class="p">}</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">func</span> <span class="n">saveJsonFile</span><span class="p">()</span> <span class="p">{</span>
-</span><span class='line'>    <span class="k">if</span> <span class="k">let</span> <span class="n">rootPath</span> <span class="o">=</span> <span class="n">Utility</span><span class="p">.</span><span class="n">getRootPath</span><span class="p">(),</span>
-</span><span class='line'>        <span class="k">let</span> <span class="n">jsonFileName</span> <span class="o">=</span> <span class="n">getFileName</span><span class="p">()</span> <span class="p">{</span>
-</span><span class='line'>        <span class="k">let</span> <span class="n">jsonPath</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;(</span><span class="n">rootPath</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">jsonFileName</span><span class="p">).</span><span class="n">json</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;</span>
-</span><span class='line'>        <span class="n">print</span><span class="p">(</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">image</span> <span class="nl">path</span><span class="p">:</span> <span class="p">(</span><span class="n">jsonPath</span><span class="p">)</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;)</span>
-</span><span class='line'>        <span class="k">let</span> <span class="nl">jsonDic</span><span class="p">:</span> <span class="p">[</span><span class="nl">String</span><span class="p">:</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="nl">basicInfoKey</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">a</span> <span class="n">href</span><span class="o">=</span><span class="s">&quot;&quot;</span><span class="o">&gt;</span><span class="nl">String</span><span class="p">:</span> <span class="n">String</span><span class="o">&lt;/</span><span class="n">a</span><span class="o">&gt;</span><span class="p">,</span> <span class="nl">barFramesKey</span><span class="p">:</span> <span class="n">barFrames</span><span class="p">]</span>
-</span><span class='line'>        <span class="k">if</span> <span class="k">let</span> <span class="n">jsonData</span> <span class="o">=</span> <span class="n">try</span><span class="o">?</span> <span class="bp">NSKeyedArchiver</span><span class="p">.</span><span class="n">archivedData</span><span class="p">(</span><span class="nl">withRootObject</span><span class="p">:</span> <span class="n">jsonDic</span><span class="p">,</span> <span class="nl">requiringSecureCoding</span><span class="p">:</span> <span class="nb">false</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>            <span class="n">FileManager</span><span class="p">.</span><span class="k">default</span><span class="p">.</span><span class="n">createFile</span><span class="p">(</span><span class="nl">atPath</span><span class="p">:</span> <span class="n">jsonPath</span><span class="p">,</span> <span class="nl">contents</span><span class="p">:</span> <span class="n">jsonData</span><span class="p">,</span> <span class="nl">attributes</span><span class="p">:</span> <span class="nb">nil</span><span class="p">)</span>
-</span><span class='line'>        <span class="p">}</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure></p>
+```swift
+func getRootPath() -> String? {
+    return NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first
+}</p>
+
+<p>func saveImageFile() {
+    if let rootPath = Utility.getRootPath(),
+        let imageName = getFileName() {
+        let imagePath = &ldquo;(rootPath)/(imageName).png&rdquo;
+        print(&ldquo;image path: (imagePath)&rdquo;)
+        if let image = imageView.image, let imageData = image.pngData() {
+            FileManager.default.createFile(atPath: imagePath, contents: imageData, attributes: nil)
+        }
+    }
+}</p>
+
+<p>func saveJsonFile() {
+    if let rootPath = Utility.getRootPath(),
+        let jsonFileName = getFileName() {
+        let jsonPath = &ldquo;(rootPath)/(jsonFileName).json&rdquo;
+        print(&ldquo;image path: (jsonPath)&rdquo;)
+        let jsonDic: [String: Any] = [basicInfoKey: <a href="">String: String</a>, barFramesKey: barFrames]
+        if let jsonData = try? NSKeyedArchiver.archivedData(withRootObject: jsonDic, requiringSecureCoding: false) {
+            FileManager.default.createFile(atPath: jsonPath, contents: jsonData, attributes: nil)
+        }
+    }
+}
+```</p>
 
 <p>读取文件的代码如下：
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">func</span> <span class="nf">loadJsonFile</span><span class="p">()</span> <span class="p">{</span>
-</span><span class='line'>    <span class="k">if</span> <span class="k">let</span> <span class="n">rootPath</span> <span class="o">=</span> <span class="n">Utility</span><span class="p">.</span><span class="n">getRootPath</span><span class="p">(),</span>
-</span><span class='line'>        <span class="k">let</span> <span class="n">jsonName</span> <span class="o">=</span> <span class="n">navigationItem</span><span class="p">.</span><span class="n">title</span><span class="p">,</span>
-</span><span class='line'>        <span class="k">let</span> <span class="n">jsonData</span> <span class="o">=</span> <span class="n">FileManager</span><span class="p">.</span><span class="k">default</span><span class="p">.</span><span class="n">contents</span><span class="p">(</span><span class="nl">atPath</span><span class="p">:</span> <span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;(</span><span class="n">rootPath</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">jsonName</span><span class="p">).</span><span class="n">json</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;),</span>
-</span><span class='line'>        <span class="k">let</span> <span class="n">jsonObjectAny</span> <span class="o">=</span> <span class="bp">NSKeyedUnarchiver</span><span class="p">.</span><span class="n">unarchiveObject</span><span class="p">(</span><span class="nl">with</span><span class="p">:</span> <span class="n">jsonData</span><span class="p">),</span>
-</span><span class='line'>        <span class="k">let</span> <span class="n">jsonObject</span> <span class="o">=</span> <span class="n">jsonObjectAny</span> <span class="kt">as</span><span class="o">?</span> <span class="p">[</span><span class="nl">String</span><span class="p">:</span> <span class="n">Any</span><span class="p">]</span> <span class="p">{</span>
-</span><span class='line'>        <span class="k">if</span> <span class="k">let</span> <span class="n">sheetBasicInfo</span> <span class="o">=</span> <span class="n">jsonObject</span><span class="p">[</span><span class="n">basicInfoKey</span><span class="p">]</span> <span class="kt">as</span><span class="o">?</span> <span class="p">[</span><span class="nl">String</span><span class="p">:</span> <span class="n">String</span><span class="p">]</span> <span class="p">{</span>
-</span><span class='line'>            <span class="nb">self</span><span class="p">.</span><span class="n">sheetBasicInfo</span> <span class="o">=</span> <span class="n">sheetBasicInfo</span>
-</span><span class='line'>        <span class="p">}</span>
-</span><span class='line'>        <span class="k">if</span> <span class="k">let</span> <span class="n">barFrames</span> <span class="o">=</span> <span class="n">jsonObject</span><span class="p">[</span><span class="n">barFramesKey</span><span class="p">]</span> <span class="kt">as</span><span class="o">?</span> <span class="p">[</span><span class="nl">Int</span><span class="p">:</span> <span class="bp">CGRect</span><span class="p">]</span> <span class="p">{</span>
-</span><span class='line'>            <span class="nb">self</span><span class="p">.</span><span class="n">barFrames</span> <span class="o">=</span>  <span class="n">barFrames</span>
-</span><span class='line'>        <span class="p">}</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'><span class="p">}</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">func</span> <span class="n">loadSheetImage</span><span class="p">(</span><span class="n">with</span> <span class="nl">imageName</span><span class="p">:</span> <span class="n">String</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>    <span class="k">if</span> <span class="k">let</span> <span class="n">rootPath</span> <span class="o">=</span> <span class="n">Utility</span><span class="p">.</span><span class="n">getRootPath</span><span class="p">(),</span>
-</span><span class='line'>        <span class="k">let</span> <span class="n">sheetImage</span> <span class="o">=</span> <span class="bp">UIImage</span><span class="p">(</span><span class="nl">contentsOfFile</span><span class="p">:</span> <span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;(</span><span class="n">rootPath</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">imageName</span><span class="p">).</span><span class="n">png</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;)</span> <span class="p">{</span>
-</span><span class='line'>        <span class="n">sheetImageView</span><span class="p">.</span><span class="n">image</span> <span class="o">=</span> <span class="n">sheetImage</span>
-</span><span class='line'>        <span class="n">noteImageView</span><span class="p">.</span><span class="n">image</span> <span class="o">=</span> <span class="bp">UIImage</span><span class="p">(</span><span class="nl">contentsOfFile</span><span class="p">:</span> <span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;(</span><span class="n">rootPath</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">imageName</span><span class="p">)(</span><span class="n">noteImageSubfix</span><span class="p">).</span><span class="n">png</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;)</span>
-</span><span class='line'>        <span class="n">layoutImageView</span><span class="p">()</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure></p>
+```swift
+func loadJsonFile() {
+    if let rootPath = Utility.getRootPath(),
+        let jsonName = navigationItem.title,
+        let jsonData = FileManager.default.contents(atPath: &ldquo;(rootPath)/(jsonName).json&rdquo;),
+        let jsonObjectAny = NSKeyedUnarchiver.unarchiveObject(with: jsonData),
+        let jsonObject = jsonObjectAny as? [String: Any] {
+        if let sheetBasicInfo = jsonObject[basicInfoKey] as? [String: String] {
+            self.sheetBasicInfo = sheetBasicInfo
+        }
+        if let barFrames = jsonObject[barFramesKey] as? [Int: CGRect] {
+            self.barFrames =  barFrames
+        }
+    }
+}</p>
+
+<p>func loadSheetImage(with imageName: String) {
+    if let rootPath = Utility.getRootPath(),
+        let sheetImage = UIImage(contentsOfFile: &ldquo;(rootPath)/(imageName).png&rdquo;) {
+        sheetImageView.image = sheetImage
+        noteImageView.image = UIImage(contentsOfFile: &ldquo;(rootPath)/(imageName)(noteImageSubfix).png&rdquo;)
+        layoutImageView()
+    }
+}
+```</p>
 
 <p><a id="markdown-nsdefault保存标签信息" name="nsdefault保存标签信息"></a></p>
 
@@ -303,47 +256,28 @@ private func loadPhotos() {
 </code></p>
 
 <p>通过下面方法将所有图片信息显示在collection列表中：
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">func</span> <span class="nf">collectionView</span><span class="p">(</span><span class="n">_</span> <span class="nl">collectionView</span><span class="p">:</span> <span class="bp">UICollectionView</span><span class="p">,</span> <span class="n">numberOfItemsInSection</span> <span class="nl">section</span><span class="p">:</span> <span class="n">Int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Int</span> <span class="p">{</span>
-</span><span class='line'>    <span class="k">return</span> <span class="n">allPhotos</span><span class="p">.</span><span class="n">count</span>
-</span><span class='line'><span class="p">}</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">func</span> <span class="n">collectionView</span><span class="p">(</span><span class="n">_</span> <span class="nl">collectionView</span><span class="p">:</span> <span class="bp">UICollectionView</span><span class="p">,</span> <span class="n">cellForItemAt</span> <span class="nl">indexPath</span><span class="p">:</span> <span class="n">IndexPath</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">UICollectionViewCell</span> <span class="p">{</span>
-</span><span class='line'>    <span class="k">if</span> <span class="k">let</span> <span class="n">cell</span> <span class="o">=</span> <span class="n">collection</span><span class="p">.</span><span class="n">dequeueReusableCell</span><span class="p">(</span><span class="nl">withReuseIdentifier</span><span class="p">:</span> <span class="n">cellIdentifier</span><span class="p">,</span> <span class="k">for</span><span class="o">:</span> <span class="n">indexPath</span><span class="p">)</span> <span class="kt">as</span><span class="o">?</span> <span class="n">PhotoCollectionCell</span> <span class="p">{</span>
-</span><span class='line'>        <span class="k">let</span> <span class="n">assert</span> <span class="o">=</span> <span class="n">allPhotos</span><span class="p">.</span><span class="n">object</span><span class="p">(</span><span class="nl">at</span><span class="p">:</span> <span class="n">indexPath</span><span class="p">.</span><span class="n">item</span><span class="p">)</span>
-</span><span class='line'>        <span class="n">PHImageManager</span><span class="p">.</span><span class="k">default</span><span class="p">().</span><span class="n">requestImage</span><span class="p">(</span><span class="k">for</span><span class="o">:</span> <span class="n">assert</span><span class="p">,</span> <span class="nl">targetSize</span><span class="p">:</span> <span class="bp">CGSize</span><span class="p">(</span><span class="nl">width</span><span class="p">:</span> <span class="n">photoCollectionWH</span><span class="p">,</span> <span class="nl">height</span><span class="p">:</span> <span class="n">photoCollectionWH</span><span class="p">),</span> <span class="nl">contentMode</span><span class="p">:</span> <span class="p">.</span><span class="n">aspectFill</span><span class="p">,</span> <span class="nl">options</span><span class="p">:</span> <span class="p">.</span><span class="kr">none</span><span class="p">)</span> <span class="p">{</span> <span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">dic</span><span class="p">)</span> <span class="k">in</span>
-</span><span class='line'>            <span class="k">if</span> <span class="k">let</span> <span class="n">image</span> <span class="o">=</span> <span class="n">image</span> <span class="p">{</span>
-</span><span class='line'>                <span class="n">cell</span><span class="p">.</span><span class="n">imageView</span><span class="p">.</span><span class="n">image</span> <span class="o">=</span> <span class="n">image</span>
-</span><span class='line'>            <span class="p">}</span>
-</span><span class='line'>        <span class="p">}</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span>    <span class="k">return</span> <span class="n">cell</span>
-</span><span class='line'><span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-</span><span class='line'>    <span class="k">return</span> <span class="n">collection</span><span class="p">.</span><span class="n">dequeueReusableCell</span><span class="p">(</span><span class="nl">withReuseIdentifier</span><span class="p">:</span> <span class="n">cellIdentifier</span><span class="p">,</span> <span class="k">for</span><span class="o">:</span> <span class="n">indexPath</span><span class="p">)</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure></p>
+```swift
+func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    return allPhotos.count
+}</p>
+
+<p>func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    if let cell = collection.dequeueReusableCell(withReuseIdentifier: cellIdentifier, for: indexPath) as? PhotoCollectionCell {
+        let assert = allPhotos.object(at: indexPath.item)
+        PHImageManager.default().requestImage(for: assert, targetSize: CGSize(width: photoCollectionWH, height: photoCollectionWH), contentMode: .aspectFill, options: .none) { (image, dic) in
+            if let image = image {
+                cell.imageView.image = image
+            }
+        }</p>
+
+<pre><code>    return cell
+} else {
+    return collection.dequeueReusableCell(withReuseIdentifier: cellIdentifier, for: indexPath)
+}
+</code></pre>
+
+<p>}
+```</p>
 
 <p>通过下面方法，将用户选择的图片传给delegate处理（delegate可以是源ViewController）：
 <code>swift
@@ -401,35 +335,22 @@ func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -&gt
 </code></p>
 
 <p>通过实现下面的方法，左滑之后显示两个按钮: Edit Tags和Delete
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">func</span> <span class="n">tableView</span><span class="p">(</span><span class="n">_</span> <span class="nl">tableView</span><span class="p">:</span> <span class="bp">UITableView</span><span class="p">,</span> <span class="n">editActionsForRowAt</span> <span class="nl">indexPath</span><span class="p">:</span> <span class="n">IndexPath</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="n">UITableViewRowAction</span><span class="p">]</span><span class="o">?</span> <span class="p">{</span>
-</span><span class='line'>    <span class="k">let</span> <span class="n">deleteAction</span> <span class="o">=</span> <span class="n">UITableViewRowAction</span><span class="p">(</span><span class="nl">style</span><span class="p">:</span> <span class="p">.</span><span class="n">destructive</span><span class="p">,</span> <span class="nl">title</span><span class="p">:</span> <span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">Delete</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;)</span> <span class="p">{</span> <span class="p">(</span><span class="n">action</span><span class="p">,</span> <span class="n">indexPath</span><span class="p">)</span> <span class="k">in</span>
-</span><span class='line'>        <span class="nb">self</span><span class="p">.</span><span class="n">deleteItem</span><span class="p">(</span><span class="nl">at</span><span class="p">:</span> <span class="n">indexPath</span><span class="p">)</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>    <span class="k">let</span> <span class="n">editAction</span> <span class="o">=</span> <span class="n">UITableViewRowAction</span><span class="p">(</span><span class="nl">style</span><span class="p">:</span> <span class="p">.</span><span class="k">default</span><span class="p">,</span> <span class="nl">title</span><span class="p">:</span> <span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">Edit</span> <span class="n">Tags</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;)</span> <span class="p">{</span> <span class="p">(</span><span class="n">action</span><span class="p">,</span> <span class="n">indexPath</span><span class="p">)</span> <span class="k">in</span>
-</span><span class='line'>        <span class="nb">self</span><span class="p">.</span><span class="n">editTags</span><span class="p">(</span><span class="k">for</span><span class="o">:</span> <span class="n">indexPath</span><span class="p">)</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>    <span class="n">editAction</span><span class="p">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="bp">UIColor</span><span class="p">(</span><span class="nl">displayP3Red</span><span class="p">:</span> <span class="mi">60</span><span class="o">/</span><span class="mi">255</span><span class="p">,</span> <span class="nl">green</span><span class="p">:</span> <span class="mi">148</span><span class="o">/</span><span class="mi">255</span><span class="p">,</span> <span class="nl">blue</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span> <span class="nl">alpha</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">)</span>
-</span><span class='line'>    <span class="n">deleteAction</span><span class="p">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="p">.</span><span class="n">red</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="k">return</span> <span class="p">[</span><span class="n">deleteAction</span><span class="p">,</span> <span class="n">editAction</span><span class="p">]</span>
-</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure></p>
+```swift
+func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+    let deleteAction = UITableViewRowAction(style: .destructive, title: &ldquo;Delete&rdquo;) { (action, indexPath) in
+        self.deleteItem(at: indexPath)
+    }
+    let editAction = UITableViewRowAction(style: .default, title: &ldquo;Edit Tags&rdquo;) { (action, indexPath) in
+        self.editTags(for: indexPath)
+    }
+    editAction.backgroundColor = UIColor(displayP3Red: 60/255, green: 148/255, blue: 1.0, alpha: 1.0)
+    deleteAction.backgroundColor = .red</p>
+
+<pre><code>return [deleteAction, editAction]
+</code></pre>
+
+<p>}
+```</p>
 
 <p><a id="markdown-calayer--cashapelayer--core-graphics" name="calayer--cashapelayer--core-graphics"></a></p>
 
