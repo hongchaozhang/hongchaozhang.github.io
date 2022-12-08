@@ -25,3 +25,15 @@ categories: [reading]
 
 ## 杂想
 [《精英日课-杂想》](/blog/2022/10/07/jingyingrike-zaxiang/)
+
+
+## 伯克森悖论
+[《精英日课-博克森悖论》](/blog/2022/12/08/jingyingrike-bokesenbeilun)
+
+
+## 思维是平的
+[《精英日课-思维是平的》](/blog/2022/12/08/jingyingrike-siweishipingde)
+
+## 排序不等式
+[《精英日课-排序不等式》](/blog/2022/12/08/jingyingrike-paixubudengshi)
+

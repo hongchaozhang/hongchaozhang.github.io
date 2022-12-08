@@ -26,7 +26,7 @@ categories: [web, html, javascript]
 
 关键js代码如下：
 
-```javascript
+```
 function filterOut(names, props) {
     let set = new Set();
     props.forEach(o => set.add(o));
