@@ -1,0 +1,240 @@
+
+<!DOCTYPE HTML>
+
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>精英日课-排序不等式 - Reading Space</title>
+	<meta name="author" content="Zhang Hongchao">
+
+	
+	<meta name="description" content="精英日课-排序不等式 什么是排序不等式 排序不等式就是说：也就是大数乘大数加上小数乘小数，大于大数乘小数加小数乘大数。 假设: x1>x2>0
+y1>y2>0 那么： x1*y1 + x2*y2 > x1*y2 + x2*y1 它能告诉你效率和公平的本质关系，也正是因为这个不等式， &hellip;">
+	
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="Reading Space" type="application/atom+xml">
+	
+	<link rel="canonical" href="http://hongchaozhang.github.io/blog/2022/12/08/jingyingrike-paixubudengshi/">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<link href="/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<link href='http://fonts.googleapis.com/css?family=Nunito:400,300,700' rel='stylesheet' type='text/css'>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	
+  
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-62806905-2']);
+		_gaq.push(['_trackPageview']);
+
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
+
+
+</head>
+
+
+<body>
+	<div class="container">
+		<div class="left-col">
+			<div class="intrude-less">
+			<header id="header" class="inner"><div class="profilepic">
+	
+	<script src="/javascripts/md5.js"></script>
+	<script type="text/javascript">
+		$(function(){
+			$('.profilepic').append("<img src='http://www.gravatar.com/avatar/" + MD5("") + "?s=160' alt='Profile Picture' style='width: 160px;' />");
+		});
+	</script>
+	
+</div>
+
+<nav id="main-nav"><ul class="main">
+    <li><a href="/">Blog</a></li>
+    <li><a href="/blog/archives">Archives</a></li>
+    <li><a href="#">About</a></li>
+</ul>
+</nav>
+<nav id="sub-nav">
+	<div class="social">
+		
+		
+		
+		
+		
+			<a class="github" href="https://github.com/hongchaozhang" title="GitHub">GitHub</a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+    	
+    	
+			<a class="rss" href="/atom.xml" title="RSS">RSS</a>
+		
+	</div>
+</nav>
+
+
+
+<section class="categories">
+          <ul id="category_cloud" class="nav nav-list"><a href='/blog/categories/algorithm' style='font-size: 102.66666666666667%'>algorithm(2)</a> <a href='/blog/categories/android' style='font-size: 108.0%'>android(6)</a> <a href='/blog/categories/android-studio' style='font-size: 101.33333333333333%'>android studio(1)</a> <a href='/blog/categories/augmented-reality' style='font-size: 105.33333333333333%'>augmented reality(4)</a> <a href='/blog/categories/cs' style='font-size: 101.33333333333333%'>cs(1)</a> <a href='/blog/categories/css' style='font-size: 102.66666666666667%'>css(2)</a> <a href='/blog/categories/design-pattern' style='font-size: 104.0%'>design pattern(3)</a> <a href='/blog/categories/html' style='font-size: 104.0%'>html(3)</a> <a href='/blog/categories/html-css' style='font-size: 101.33333333333333%'>html css(1)</a> <a href='/blog/categories/http' style='font-size: 104.0%'>http(3)</a> <a href='/blog/categories/ios' style='font-size: 160.0%'>ios(45)</a> <a href='/blog/categories/java' style='font-size: 102.66666666666667%'>java(2)</a> <a href='/blog/categories/javascript' style='font-size: 106.66666666666667%'>javascript(5)</a> <a href='/blog/categories/machine-learning' style='font-size: 113.33333333333333%'>machine learning(10)</a> <a href='/blog/categories/map-tech' style='font-size: 104.0%'>map tech(3)</a> <a href='/blog/categories/mobile' style='font-size: 101.33333333333333%'>mobile(1)</a> <a href='/blog/categories/mongodb' style='font-size: 101.33333333333333%'>mongodb(1)</a> <a href='/blog/categories/music' style='font-size: 109.33333333333333%'>music(7)</a> <a href='/blog/categories/nlp' style='font-size: 102.66666666666667%'>nlp(2)</a> <a href='/blog/categories/nlu' style='font-size: 102.66666666666667%'>nlu(2)</a> <a href='/blog/categories/node' style='font-size: 104.0%'>node(3)</a> <a href='/blog/categories/nodejs' style='font-size: 104.0%'>nodejs(3)</a> <a href='/blog/categories/objective-c' style='font-size: 129.33333333333334%'>objective-c(22)</a> <a href='/blog/categories/philosophy' style='font-size: 102.66666666666667%'>philosophy(2)</a> <a href='/blog/categories/productivity' style='font-size: 130.66666666666666%'>productivity(23)</a> <a href='/blog/categories/python' style='font-size: 108.0%'>python(6)</a> <a href='/blog/categories/reading' style='font-size: 152.0%'>reading(39)</a> <a href='/blog/categories/server' style='font-size: 101.33333333333333%'>server(1)</a> <a href='/blog/categories/swift' style='font-size: 109.33333333333333%'>swift(7)</a> <a href='/blog/categories/web' style='font-size: 116.0%'>web(12)</a> <a href='/blog/categories/wwdc' style='font-size: 102.66666666666667%'>wwdc(2)</a> <a href='/blog/categories/xcode' style='font-size: 110.66666666666667%'>xcode(8)</a> </ul>
+      </section>
+
+
+</header>				
+			</div>
+		</div>	
+		<div class="mid-col">
+			
+				
+			
+			<div class="mid-col-container">
+				<div id="content" class="inner"><article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+	<h1 class="title" itemprop="name">精英日课-排序不等式</h1>
+	<div class="entry-content" itemprop="articleBody"><!-- more -->
+
+
+<h2>什么是排序不等式</h2>
+
+<p>排序不等式就是说：也就是大数乘大数加上小数乘小数，大于大数乘小数加小数乘大数。</p>
+
+<p>假设:</p>
+
+<ul>
+<li>x1>x2>0</li>
+<li>y1>y2>0</li>
+</ul>
+
+
+<p>那么：</p>
+
+<ul>
+<li>x1*y1 + x2*y2 > x1*y2 + x2*y1</li>
+</ul>
+
+
+<p>它能告诉你<strong>效率</strong>和<strong>公平</strong>的本质关系，也正是因为这个不等式，效率和公平是矛盾的。</p>
+
+<p>更关键的是，我们熟悉的那些不等式，比如什么“算数平均值大于几何平均值”、什么“柯西不等式”、什么“车比雪夫不等式”，都可以从排序不等式推导出来。</p>
+
+<h2>排序不等式的应用</h2>
+
+<p>世界上的很多配合不是加法、而是乘法关系。资源和人才往往不是一个加数，而是一个因子：把这个因子扩大一点点，整个这一块都能放大这么高的比例。所以：</p>
+
+<ol>
+<li>最好的资源应该用在最赚钱的地方，</li>
+<li>最厉害的人员应该放在最关键的岗位，</li>
+<li>最好的电影应该乘以最好的导演再乘以最好的演员、然后给最多的院线排期。</li>
+</ol>
+
+
+<p>这就是为什么好东西总爱扎堆，有志向的年轻人非得去大城市。这也是为什么会有马太效应，为什么人人都想跟最好的合作。这也是为什么市场总是让财富分布不平等。</p>
+
+<h3>销售额</h3>
+
+<p>比如你是某个决策者，你现在手里有个大项目，放在哪个地区都能提升当地的经济发展。那请问，你是把它放在经济发达地区呢，还是边远落后地区呢？</p>
+
+<p>只要你关心的是全国经济总量的提升，你想通过这个项目创造更多的税收，你就应该坚决投发达地区。同样是提升1%，发达地区的乘数要大得多。谁都喜欢大数，但是大数最能让大数发挥作用。</p>
+
+<h3>商店促销</h3>
+
+<p>促销要放在周末人多的时候，而不是平时人少的时候。（前提是没有达到销量瓶颈，比如门店承受能力。）</p>
+
+<h2>排序不等式，是资源配置的“零阶道理”。</h2>
+
+<p>排序不等式，是资源配置的“零阶道理”。</p>
+
+<p>当然，世界是复杂的，事物的发展常常是非线性的，什么东西太多了都会发生边际效应递减。也许这个项目在发达地区的发展空间已经饱和了，也许那个地区暂时落后，以后的发展潜力大，也许大城市生活成本太高了，也许最优秀的导演不会重视你这个剧本，应该找最合适的。</p>
+
+<p>但是，那些都是对零阶道理的一阶、或者高阶修正：零阶道理仍然是零阶道理。我们做决策必须首先考虑零阶道理，只有在证实了零阶道理在这里不行的情况下，我们才应该考虑那些修正。</p>
+
+<h2>不适用排序不等式的场景</h2>
+
+<h3>教育系统</h3>
+
+<p>教育系统有重点大学、重点中学，同一个学校里还会有重点班，重点班的老师是全校最好的。这完全符合排序不等式，教育系统希望培养高水平人才。但是你注意到没有，在任何一个班级里，老师重点关注的，往往不是最好的学生。这是为啥呢？因为<strong>学习成绩有上限</strong>。</p>
+
+<h3>福利系统</h3>
+
+<p>还有一种系统，比如福利系统，则要求各个相加项的大小有一个下限。是，在贫困山区建设通讯基站效率不高，但是贫困山区需要通讯基站。福利系统解决的是<strong>公平问题</strong>。这种系统有时候会把最好的官员排到最贫困的地区去，并不指望他们创造什么效益，只是希望提高那些地区的下限。而既然是为了公平，那就必然牺牲了效率。</p>
+
+<h3>安全系统</h3>
+
+<p>安全系统也强调下限。只要是防守，我们最关心的一定是最薄弱的地方，要把最好的资源和人手放在那个地方。</p>
+
+<h3>车间系统</h3>
+
+<p>我们假设你们车间有两条生产线，每条生产线需要两个人先后动作，共同完成一件产品。现在你有四个工人，老张和老李的良品率都是95%，小张和小李的良品率都是75%。那请问，你应该把这四个人怎么分组呢？</p>
+
+<p>直觉的分法，是让老张和小张一组，老李和小李一组，这样两个组的良品率是一样的，都是0.95×0.75=71%。你可能觉得这样分组还能让高手带一带低手，能起到骨干作用。我不知道那个高手“带动”低手的效应能有多大，但是我知道，排序不等式要求你让老张和老李一组，小张和小李一组。你的高手组良品率将是0.95×0.95=90%，低手良品率将是0.75×0.75=56%，而你的总良品率是两组的平均值，也就是73%——高于高低搭配分组的71%。</p>
+
+<h2>如何利用排序不等式</h2>
+
+<p>个人只能做一个乘法因子，管理者要的却是相乘再相加。如果你是一个系统的运行者，你必须清楚判断这是一个不设限系统，还是一个有上限或者下限的系统。</p>
+
+<p>公司在乎的是总收入，本质上是个不设限的系统。排序不等式告诉我们这样的系统应该狠抓“长板”，因为长板最能提高总量。有下限的系统最关心的是短板，而有上限的系统最希望每块板都差不多。</p>
+
+<p>作为个体，如果你认为自己是个大数因子，那你最好不要呆在有上限的系统中。</p>
+
+<p>教育系统搞搞数学竞赛什么的，也算是给好学生一个出路。</p>
+
+<p><strong>搞平均符合直觉，但是违反数学。</strong></p>
+
+<p>我们个人的生活和学习不也是这样的吗？直觉上你可能认为应该把每一件事都做好，每个学科都学好，其实不是。数学要求这是一个长板的世界：你应该把最好的精力、最多的时间用在最能体现你价值的项目上。</p>
+
+<p>设重点、偏科、不均匀、走极端，这才是自然之道。</p>
+</div>
+
+</article>
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+	
+	
+	
+	<a class="addthis_counter addthis_pill_style"></a>
+	</div>
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
+</div>
+
+
+</div>
+			</div>
+			<footer id="footer" class="inner">Copyright &copy; 2022
+
+    Zhang Hongchao
+
+
+<!--Design credit: <a href="http://shashankmehta.in/archive/2012/greyshade.html">Shashank Mehta</a>--></footer>
+		</div>
+	</div>
+	
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
