@@ -1,0 +1,498 @@
+
+<!DOCTYPE HTML>
+
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>cka questions - Reading Space</title>
+	<meta name="author" content="Zhang Hongchao">
+
+	
+	<meta name="description" content="Cka Questions 1 RBAC $ kubectl create clusterrole deployment-clusterrole --verb=create -- resource=deployments,statefulsets,daemonsets
+$ kubectl &hellip;">
+	
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="Reading Space" type="application/atom+xml">
+	
+	<link rel="canonical" href="http://hongchaozhang.github.io/blog/2022/12/16/cka-questions/">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<link href="/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<link href='http://fonts.googleapis.com/css?family=Nunito:400,300,700' rel='stylesheet' type='text/css'>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	
+  
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-62806905-2']);
+		_gaq.push(['_trackPageview']);
+
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
+
+
+</head>
+
+
+<body>
+	<div class="container">
+		<div class="left-col">
+			<div class="intrude-less">
+			<header id="header" class="inner"><div class="profilepic">
+	
+	<script src="/javascripts/md5.js"></script>
+	<script type="text/javascript">
+		$(function(){
+			$('.profilepic').append("<img src='http://www.gravatar.com/avatar/" + MD5("") + "?s=160' alt='Profile Picture' style='width: 160px;' />");
+		});
+	</script>
+	
+</div>
+
+<nav id="main-nav"><ul class="main">
+    <li><a href="/">Blog</a></li>
+    <li><a href="/blog/archives">Archives</a></li>
+    <li><a href="#">About</a></li>
+</ul>
+</nav>
+<nav id="sub-nav">
+	<div class="social">
+		
+		
+		
+		
+		
+			<a class="github" href="https://github.com/hongchaozhang" title="GitHub">GitHub</a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+    	
+    	
+			<a class="rss" href="/atom.xml" title="RSS">RSS</a>
+		
+	</div>
+</nav>
+
+
+
+<section class="categories">
+          <ul id="category_cloud" class="nav nav-list"><a href='/blog/categories/algorithm' style='font-size: 102.66666666666667%'>algorithm(2)</a> <a href='/blog/categories/android' style='font-size: 108.0%'>android(6)</a> <a href='/blog/categories/android-studio' style='font-size: 101.33333333333333%'>android studio(1)</a> <a href='/blog/categories/augmented-reality' style='font-size: 105.33333333333333%'>augmented reality(4)</a> <a href='/blog/categories/cs' style='font-size: 101.33333333333333%'>cs(1)</a> <a href='/blog/categories/css' style='font-size: 102.66666666666667%'>css(2)</a> <a href='/blog/categories/design-pattern' style='font-size: 104.0%'>design pattern(3)</a> <a href='/blog/categories/html' style='font-size: 104.0%'>html(3)</a> <a href='/blog/categories/html-css' style='font-size: 101.33333333333333%'>html css(1)</a> <a href='/blog/categories/http' style='font-size: 104.0%'>http(3)</a> <a href='/blog/categories/ios' style='font-size: 160.0%'>ios(45)</a> <a href='/blog/categories/java' style='font-size: 102.66666666666667%'>java(2)</a> <a href='/blog/categories/javascript' style='font-size: 106.66666666666667%'>javascript(5)</a> <a href='/blog/categories/machine-learning' style='font-size: 113.33333333333333%'>machine learning(10)</a> <a href='/blog/categories/map-tech' style='font-size: 104.0%'>map tech(3)</a> <a href='/blog/categories/mobile' style='font-size: 101.33333333333333%'>mobile(1)</a> <a href='/blog/categories/mongodb' style='font-size: 101.33333333333333%'>mongodb(1)</a> <a href='/blog/categories/music' style='font-size: 109.33333333333333%'>music(7)</a> <a href='/blog/categories/nlp' style='font-size: 102.66666666666667%'>nlp(2)</a> <a href='/blog/categories/nlu' style='font-size: 102.66666666666667%'>nlu(2)</a> <a href='/blog/categories/node' style='font-size: 104.0%'>node(3)</a> <a href='/blog/categories/nodejs' style='font-size: 104.0%'>nodejs(3)</a> <a href='/blog/categories/objective-c' style='font-size: 129.33333333333334%'>objective-c(22)</a> <a href='/blog/categories/philosophy' style='font-size: 102.66666666666667%'>philosophy(2)</a> <a href='/blog/categories/productivity' style='font-size: 130.66666666666666%'>productivity(23)</a> <a href='/blog/categories/python' style='font-size: 108.0%'>python(6)</a> <a href='/blog/categories/reading' style='font-size: 153.33333333333334%'>reading(40)</a> <a href='/blog/categories/server' style='font-size: 101.33333333333333%'>server(1)</a> <a href='/blog/categories/swift' style='font-size: 109.33333333333333%'>swift(7)</a> <a href='/blog/categories/web' style='font-size: 116.0%'>web(12)</a> <a href='/blog/categories/wwdc' style='font-size: 102.66666666666667%'>wwdc(2)</a> <a href='/blog/categories/xcode' style='font-size: 110.66666666666667%'>xcode(8)</a> </ul>
+      </section>
+
+
+</header>				
+			</div>
+		</div>	
+		<div class="mid-col">
+			
+				
+			
+			<div class="mid-col-container">
+				<div id="content" class="inner"><article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+	<h1 class="title" itemprop="name">Cka Questions</h1>
+	<div class="entry-content" itemprop="articleBody"><!-- more -->
+
+
+<p><details>
+  <summary>1 RBAC</summary></p>
+
+<pre><code>$ kubectl create clusterrole deployment-clusterrole --verb=create -- resource=deployments,statefulsets,daemonsets
+$ kubectl create namespace app-team1
+$ kubectl -n app-team1 create serviceaccount cicd-token
+$ kubectl -n app-team1 create rolebinding cicd-token-binding --clusterrole=deployment- clusterrole --serviceaccount=app-team1:cicd-token
+验证：$ kubectl -n app-team1 describe rolebindings.rbac.authorization.k8s.io cicd-token-binding
+</code></pre>
+
+<p></details></p>
+
+<p><details>
+  <summary>2 指定 node 设置为不可用</summary></p>
+
+<p>将名为 ek8s-node-1 的 node 设置为不可用，并且重新调度该 node 上所有允许的 pods</p>
+
+<pre><code>$ kubectl cordon ek8s-node-1
+$ kubectl drain ek8s-node-1 --ignore-daemonsets --delete-local-data --force
+验证：$ kubectl get nodes
+</code></pre>
+
+<p></details></p>
+
+<p><details>
+  <summary>3 升级 kubernetes 节点</summary></p>
+
+<pre><code>$ kubectl config use-context mk8s 
+$ kubectl get nodes
+$ ssh mk8s-master-0
+$ kubectl cordon mk8s-master-0
+$ kubectl drain mk8s-master-0 --ignore-daemonsets
+$ sudo -i
+% apt-mark unhold kubeadm kubectl kubelet
+% apt-get update &amp;&amp; apt-get install -y kubeadm=1.20.1-00 kubelet=1.20.1-00 kubectl=1.20.1- 00
+% apt-mark hold kubeadm kubectl kubelet
+% kubeadm upgrade plan
+% kubeadm upgrade apply v1.20.1 --etcd-upgrade=false 
+% exit
+现有的 Kubernetes 集权正在运行的版本是 1.18.8，仅将主节点上的所有 kubernetes 控 制面板和组件升级到版本 1.19.0
+另外，在主节点上升级 kubelet 和 kubectl
+$ kubectl rollout undo deployment coredns -n kube-system 
+$ exit
+验证：$ kubectl get node (确认只升级了 master 节点到 1.20.1 版本)
+</code></pre>
+
+<p></details></p>
+
+<p><details>
+  <summary>4 etcd 备份还原</summary></p>
+
+<pre><code>如果环境中没有 etcdctl 这个命令，需要先执行如下指令: 
+$ sudo apt install etcd-client
+$ ETCDCTL_API=3 etcdctl --endpoints 127.0.0.1:2379 --cacert=/opt/KUIN00601/ca.crt -- cert=/opt/KUIN00601/etcd-client.crt --key=/opt/KUIN00601/etcd-client.key snapshot save /srv/data/etcd-snapshot.db
+#还原:要求使用指定文件进行还原(1.20 中可能需要 root 权限)
+$ ETCDCTL_API=3 etcdctl --endpoints 127.0.0.1:2379 --cacert=/opt/KUIN00601/ca.crt -- cert=/opt/KUIN00601/etcd-client.crt --key=/opt/KUIN00601/etcd-client.key snapshot restore /var/lib/backup/etcd-snapshot-previous.db
+</code></pre>
+
+<p></details></p>
+
+<p><details>
+  <summary>5 创建 NetworkPolicy</summary></p>
+
+<p>命令</p>
+
+<pre><code>$ kubectl config use-context hk8s
+$ vi netwokpolicy.yaml
+# 将上面的 yaml 内容粘贴进来
+$ kubectl apply -f netwokpolicy.yaml
+验证：$ kubectl get networkpolicy
+参考：concepts -&gt; services networking -&gt; network policy
+</code></pre>
+
+<p>5-1. 同一个 namespace</p>
+
+<pre><code>apiVersion: networking.k8s.io/v1 kind: NetworkPolicy
+metadata:
+    name: allow-port-from-namespace
+    namespace: fubar 
+spec:
+    podSelector: {} 
+    policyTypes:
+    - Ingress 
+    ingress:
+    - from:
+        - podSelector: {} 
+        ports:
+        - protocol: TCP
+          port: 80
+</code></pre>
+
+<p>5-2. 非同一个 namespace</p>
+
+<pre><code>apiVersion: networking.k8s.io/v1 kind: NetworkPolicy
+metadata:
+    name: allow-port-from-namespace
+    namespace: fubar 
+spec:
+    podSelector: {} 
+    policyTypes:
+    - Ingress 
+    ingress:
+    - from:
+        - namespaceSelector:
+            matchLabels: 
+                project: corp-bar
+            ports:
+            - protocol: TCP
+            port: 80
+</code></pre>
+
+<p></details></p>
+
+<p><details>
+  <summary>6 创建svc</summary></p>
+
+<pre><code>$ kubectl config use-context k8s
+$ kubectl expose deployment front-end --port=80 --target-port=80 --protocol=TCP --type=NodePort --name=front-end-svc
+</code></pre>
+
+<p></details></p>
+
+<p><details>
+  <summary>7 创建ingress</summary></p>
+
+<pre><code>$ kubectl config use-context k8s
+$ vi ping-ingress.yaml
+# 将上面的 yaml 内容粘贴进来
+$ kubectl apply -f ping-ingress.yaml 
+验证：
+$ kubectl get ingress -n ing-internal -o wide // 获取ip地址
+$ curl -kL $(IP)
+参考：concepts -&gt; services networking -&gt; ingress
+# 返回 hello 即为成功
+</code></pre>
+
+<p></details></p>
+
+<p><details>
+  <summary>8 扩展deployment</summary></p>
+
+<pre><code>$ kubectl config use-context k8s
+$ kubectl scale deployment guestbook --replicas=6
+验证：kubectl get deployment
+</code></pre>
+
+<p></details></p>
+
+<p><details>
+  <summary>9 将pod部署到指定node节点上</summary></p>
+
+<p>命令：</p>
+
+<pre><code>$ kubectl config use-context k8s
+$ kubectl run nginx-kusc00401 --image=nginx --dry-run=client -o yaml &gt; pod-nginx.yaml 
+$ vi pod-nginx.yaml
+# 将上面的 yaml 内容粘贴进来
+$ kubectl apply -f pod-nginx.yaml
+验证: $ kubectl get po nginx-kusc00401 -o wide
+</code></pre>
+
+<p>yaml文件：</p>
+
+<pre><code>apiVersion: v1 
+kind: Pod 
+metadata:
+    name: nginx-kusc00401 
+spec:
+    containers:
+    - name: nginx
+      image: nginx
+      imagePullPolicy: IfNotPresent
+    nodeSelector: 
+      disk: ssd
+</code></pre>
+
+<p></details></p>
+
+<p><details>
+  <summary>10 检查有多少node节点是健康状态</summary></p>
+
+<pre><code>$ kubectl config use-context k8s
+$ kubectl describe node |grep -i taints |grep -v -i noschedule 
+$ echo $Num &gt; /opt/KUSC00402/kusc00402.txt
+</code></pre>
+
+<p></details></p>
+
+<p><details>
+  <summary>11 创建多个container的Pod</summary></p>
+
+<p>命令：</p>
+
+<pre><code>$ kubectl config use-context k8s
+$ kubectl run kucc4 --image=nginx --dry-run=client -oyaml &gt; pod-kucc1.yaml
+$ vi pod-kucc4.yaml
+# 将上面的 yaml 内容粘贴进来 $ kubectl apply -f pod-kucc1.yaml
+</code></pre>
+
+<p>yaml:</p>
+
+<pre><code>apiVersion: v1 
+kind: Pod 
+metadata:
+    name: kucc1 
+spec:
+    containers:
+    - name: nginx
+      image: nginx 
+    - name: redis
+      image: redis
+</code></pre>
+
+<p></details></p>
+
+<p><details>
+  <summary>12 创建PV</summary></p>
+
+<p>命令：</p>
+
+<pre><code>$ kubectl config use-context hk8s
+$ vi app-data-pv.yaml
+# 将上面的 yaml 内容粘贴进来 
+$ kubectl apply -f app-data-pv.yaml # 验证
+验证：$ kubectl get pv
+参考：tasks -&gt; config pod and containers -&gt; config a pod to use a pv
+</code></pre>
+
+<p>yaml:</p>
+
+<pre><code>apiVersion: v1
+kind: PersistentVolume 
+metadata:
+    name: app-config 
+spec:
+    capacity: 
+        storage: 2Gi
+    accessModes:
+        - ReadWriteMany
+    hostPath:
+        path: /srv/app-config
+</code></pre>
+
+<p></details></p>
+
+<p><details>
+  <summary>13 创建PVC</summary>
+命令：</p>
+
+<pre><code>$ kubectl config use-context ok8s
+$ vi pv-volume-pvc.yaml
+# 将上面的 yaml 内容粘贴进来
+$ kubectl apply -f pv-volume-pvc.yaml # 验证
+验证：$ kubectl get pvc
+# 修改 pvc 10Mi --&gt; 70Mi
+$ kubectl edit pvc pv-volume --record
+验证：$ kubectl get pvc
+参考：tasks -&gt; config pod and containers -&gt; config a pod to use a pv
+</code></pre>
+
+<p>yaml pvc:</p>
+
+<pre><code>apiVersion: v1
+kind: PersistentVolumeClaim 
+metadata:
+    name: pv-volume 
+spec:
+    storageClassName: csi-hostpath-sc
+    accessModes:
+        - ReadWriteOnce
+    resources: 
+        requests:
+            storage: 10Mi
+</code></pre>
+
+<p>yaml pod:</p>
+
+<pre><code>apiVersion: v1 kind: Pod 
+metadata:
+    name: web-server 
+spec:
+    volumes:
+        - name: mypv
+            persistentVolumeClaim: 
+                claimName: pv-volume
+    containers:
+        - name: nginx
+        image: nginx
+        ports:
+            - containerPort: 80
+                name: "http-server" 
+        volumeMounts:
+            - mountPath: "/usr/share/nginx/html" 
+                name: mypv
+</code></pre>
+
+<p></details></p>
+
+<p><details>
+  <summary>14 监控pod的日志</summary>
+监控 pod foobar 的日志并提取错误的 unable-access-website 相对于的日志写入到 /opt/KUTR00101/foobar</p>
+
+<pre><code>$ kubectl config use-context k8s
+$ kubectl logs foobar | grep unable-to-access-website &gt; /opt/KUTR00101/foobar
+</code></pre>
+
+<p></details></p>
+
+<p><details>
+  <summary>15 sidercar container logging</summary></p>
+
+<pre><code>$ kubectl config use-context k8s
+$ kubectl get po 11-factor-app -o yaml &gt; 15.yaml #
+$ kubectl delete -f 15.yaml
+$ kubectl apply -f 15.yaml
+验证：kubectl get pods / kubectl describe pod 11-factor-app
+参考：concepts -&gt; cluster administration -&gt; logging architecture
+</code></pre>
+
+<p></details></p>
+
+<p><details>
+  <summary>16 查看cpu使用率pod</summary></p>
+
+<pre><code>$ kubectl top pod -l name=cpu-user -A --sort-by=cpu
+$ echo 'podname' &gt;&gt;/opt/KUTR00401/KUTR00401.txt
+验证：cat /opt/KUTR00401/KUTR00401.txt
+</code></pre>
+
+<p></details></p>
+
+<p><details>
+  <summary>17 集群故障排查</summary></p>
+
+<pre><code>$ kubectl get nodes
+$ ssh wk8s-node-0
+% sudo -i
+% systemctl status kubelet
+% systemctl enable kubelet
+% systemctl restart kubelet
+% systemctl status kubelet
+% exit
+% exit
+$ kubectl get nodes
+</code></pre>
+
+<p></details></p>
+</div>
+
+</article>
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+	
+	
+	
+	<a class="addthis_counter addthis_pill_style"></a>
+	</div>
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
+</div>
+
+
+</div>
+			</div>
+			<footer id="footer" class="inner">Copyright &copy; 2022
+
+    Zhang Hongchao
+
+
+<!--Design credit: <a href="http://shashankmehta.in/archive/2012/greyshade.html">Shashank Mehta</a>--></footer>
+		</div>
+	</div>
+	
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

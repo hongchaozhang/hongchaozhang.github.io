@@ -4,7 +4,7 @@
   <title><![CDATA[Reading Space]]></title>
   <link href="http://hongchaozhang.github.io/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2022-12-09T00:02:41+08:00</updated>
+  <updated>2022-12-16T18:09:09+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -12,6 +12,364 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[cka questions]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2022/12/16/cka-questions/"/>
+    <updated>2022-12-16T17:06:22+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2022/12/16/cka-questions</id>
+    <content type="html"><![CDATA[<!-- more -->
+
+
+<p><details>
+  <summary>1 RBAC</summary></p>
+
+<pre><code>$ kubectl create clusterrole deployment-clusterrole --verb=create -- resource=deployments,statefulsets,daemonsets
+$ kubectl create namespace app-team1
+$ kubectl -n app-team1 create serviceaccount cicd-token
+$ kubectl -n app-team1 create rolebinding cicd-token-binding --clusterrole=deployment- clusterrole --serviceaccount=app-team1:cicd-token
+验证：$ kubectl -n app-team1 describe rolebindings.rbac.authorization.k8s.io cicd-token-binding
+</code></pre>
+
+<p></details></p>
+
+<p><details>
+  <summary>2 指定 node 设置为不可用</summary></p>
+
+<p>将名为 ek8s-node-1 的 node 设置为不可用，并且重新调度该 node 上所有允许的 pods</p>
+
+<pre><code>$ kubectl cordon ek8s-node-1
+$ kubectl drain ek8s-node-1 --ignore-daemonsets --delete-local-data --force
+验证：$ kubectl get nodes
+</code></pre>
+
+<p></details></p>
+
+<p><details>
+  <summary>3 升级 kubernetes 节点</summary></p>
+
+<pre><code>$ kubectl config use-context mk8s 
+$ kubectl get nodes
+$ ssh mk8s-master-0
+$ kubectl cordon mk8s-master-0
+$ kubectl drain mk8s-master-0 --ignore-daemonsets
+$ sudo -i
+% apt-mark unhold kubeadm kubectl kubelet
+% apt-get update &amp;&amp; apt-get install -y kubeadm=1.20.1-00 kubelet=1.20.1-00 kubectl=1.20.1- 00
+% apt-mark hold kubeadm kubectl kubelet
+% kubeadm upgrade plan
+% kubeadm upgrade apply v1.20.1 --etcd-upgrade=false 
+% exit
+现有的 Kubernetes 集权正在运行的版本是 1.18.8，仅将主节点上的所有 kubernetes 控 制面板和组件升级到版本 1.19.0
+另外，在主节点上升级 kubelet 和 kubectl
+$ kubectl rollout undo deployment coredns -n kube-system 
+$ exit
+验证：$ kubectl get node (确认只升级了 master 节点到 1.20.1 版本)
+</code></pre>
+
+<p></details></p>
+
+<p><details>
+  <summary>4 etcd 备份还原</summary></p>
+
+<pre><code>如果环境中没有 etcdctl 这个命令，需要先执行如下指令: 
+$ sudo apt install etcd-client
+$ ETCDCTL_API=3 etcdctl --endpoints 127.0.0.1:2379 --cacert=/opt/KUIN00601/ca.crt -- cert=/opt/KUIN00601/etcd-client.crt --key=/opt/KUIN00601/etcd-client.key snapshot save /srv/data/etcd-snapshot.db
+#还原:要求使用指定文件进行还原(1.20 中可能需要 root 权限)
+$ ETCDCTL_API=3 etcdctl --endpoints 127.0.0.1:2379 --cacert=/opt/KUIN00601/ca.crt -- cert=/opt/KUIN00601/etcd-client.crt --key=/opt/KUIN00601/etcd-client.key snapshot restore /var/lib/backup/etcd-snapshot-previous.db
+</code></pre>
+
+<p></details></p>
+
+<p><details>
+  <summary>5 创建 NetworkPolicy</summary></p>
+
+<p>命令</p>
+
+<pre><code>$ kubectl config use-context hk8s
+$ vi netwokpolicy.yaml
+# 将上面的 yaml 内容粘贴进来
+$ kubectl apply -f netwokpolicy.yaml
+验证：$ kubectl get networkpolicy
+参考：concepts -&gt; services networking -&gt; network policy
+</code></pre>
+
+<p>5-1. 同一个 namespace</p>
+
+<pre><code>apiVersion: networking.k8s.io/v1 kind: NetworkPolicy
+metadata:
+    name: allow-port-from-namespace
+    namespace: fubar 
+spec:
+    podSelector: {} 
+    policyTypes:
+    - Ingress 
+    ingress:
+    - from:
+        - podSelector: {} 
+        ports:
+        - protocol: TCP
+          port: 80
+</code></pre>
+
+<p>5-2. 非同一个 namespace</p>
+
+<pre><code>apiVersion: networking.k8s.io/v1 kind: NetworkPolicy
+metadata:
+    name: allow-port-from-namespace
+    namespace: fubar 
+spec:
+    podSelector: {} 
+    policyTypes:
+    - Ingress 
+    ingress:
+    - from:
+        - namespaceSelector:
+            matchLabels: 
+                project: corp-bar
+            ports:
+            - protocol: TCP
+            port: 80
+</code></pre>
+
+<p></details></p>
+
+<p><details>
+  <summary>6 创建svc</summary></p>
+
+<pre><code>$ kubectl config use-context k8s
+$ kubectl expose deployment front-end --port=80 --target-port=80 --protocol=TCP --type=NodePort --name=front-end-svc
+</code></pre>
+
+<p></details></p>
+
+<p><details>
+  <summary>7 创建ingress</summary></p>
+
+<pre><code>$ kubectl config use-context k8s
+$ vi ping-ingress.yaml
+# 将上面的 yaml 内容粘贴进来
+$ kubectl apply -f ping-ingress.yaml 
+验证：
+$ kubectl get ingress -n ing-internal -o wide // 获取ip地址
+$ curl -kL $(IP)
+参考：concepts -&gt; services networking -&gt; ingress
+# 返回 hello 即为成功
+</code></pre>
+
+<p></details></p>
+
+<p><details>
+  <summary>8 扩展deployment</summary></p>
+
+<pre><code>$ kubectl config use-context k8s
+$ kubectl scale deployment guestbook --replicas=6
+验证：kubectl get deployment
+</code></pre>
+
+<p></details></p>
+
+<p><details>
+  <summary>9 将pod部署到指定node节点上</summary></p>
+
+<p>命令：</p>
+
+<pre><code>$ kubectl config use-context k8s
+$ kubectl run nginx-kusc00401 --image=nginx --dry-run=client -o yaml &gt; pod-nginx.yaml 
+$ vi pod-nginx.yaml
+# 将上面的 yaml 内容粘贴进来
+$ kubectl apply -f pod-nginx.yaml
+验证: $ kubectl get po nginx-kusc00401 -o wide
+</code></pre>
+
+<p>yaml文件：</p>
+
+<pre><code>apiVersion: v1 
+kind: Pod 
+metadata:
+    name: nginx-kusc00401 
+spec:
+    containers:
+    - name: nginx
+      image: nginx
+      imagePullPolicy: IfNotPresent
+    nodeSelector: 
+      disk: ssd
+</code></pre>
+
+<p></details></p>
+
+<p><details>
+  <summary>10 检查有多少node节点是健康状态</summary></p>
+
+<pre><code>$ kubectl config use-context k8s
+$ kubectl describe node |grep -i taints |grep -v -i noschedule 
+$ echo $Num &gt; /opt/KUSC00402/kusc00402.txt
+</code></pre>
+
+<p></details></p>
+
+<p><details>
+  <summary>11 创建多个container的Pod</summary></p>
+
+<p>命令：</p>
+
+<pre><code>$ kubectl config use-context k8s
+$ kubectl run kucc4 --image=nginx --dry-run=client -oyaml &gt; pod-kucc1.yaml
+$ vi pod-kucc4.yaml
+# 将上面的 yaml 内容粘贴进来 $ kubectl apply -f pod-kucc1.yaml
+</code></pre>
+
+<p>yaml:</p>
+
+<pre><code>apiVersion: v1 
+kind: Pod 
+metadata:
+    name: kucc1 
+spec:
+    containers:
+    - name: nginx
+      image: nginx 
+    - name: redis
+      image: redis
+</code></pre>
+
+<p></details></p>
+
+<p><details>
+  <summary>12 创建PV</summary></p>
+
+<p>命令：</p>
+
+<pre><code>$ kubectl config use-context hk8s
+$ vi app-data-pv.yaml
+# 将上面的 yaml 内容粘贴进来 
+$ kubectl apply -f app-data-pv.yaml # 验证
+验证：$ kubectl get pv
+参考：tasks -&gt; config pod and containers -&gt; config a pod to use a pv
+</code></pre>
+
+<p>yaml:</p>
+
+<pre><code>apiVersion: v1
+kind: PersistentVolume 
+metadata:
+    name: app-config 
+spec:
+    capacity: 
+        storage: 2Gi
+    accessModes:
+        - ReadWriteMany
+    hostPath:
+        path: /srv/app-config
+</code></pre>
+
+<p></details></p>
+
+<p><details>
+  <summary>13 创建PVC</summary>
+命令：</p>
+
+<pre><code>$ kubectl config use-context ok8s
+$ vi pv-volume-pvc.yaml
+# 将上面的 yaml 内容粘贴进来
+$ kubectl apply -f pv-volume-pvc.yaml # 验证
+验证：$ kubectl get pvc
+# 修改 pvc 10Mi --&gt; 70Mi
+$ kubectl edit pvc pv-volume --record
+验证：$ kubectl get pvc
+参考：tasks -&gt; config pod and containers -&gt; config a pod to use a pv
+</code></pre>
+
+<p>yaml pvc:</p>
+
+<pre><code>apiVersion: v1
+kind: PersistentVolumeClaim 
+metadata:
+    name: pv-volume 
+spec:
+    storageClassName: csi-hostpath-sc
+    accessModes:
+        - ReadWriteOnce
+    resources: 
+        requests:
+            storage: 10Mi
+</code></pre>
+
+<p>yaml pod:</p>
+
+<pre><code>apiVersion: v1 kind: Pod 
+metadata:
+    name: web-server 
+spec:
+    volumes:
+        - name: mypv
+            persistentVolumeClaim: 
+                claimName: pv-volume
+    containers:
+        - name: nginx
+        image: nginx
+        ports:
+            - containerPort: 80
+                name: "http-server" 
+        volumeMounts:
+            - mountPath: "/usr/share/nginx/html" 
+                name: mypv
+</code></pre>
+
+<p></details></p>
+
+<p><details>
+  <summary>14 监控pod的日志</summary>
+监控 pod foobar 的日志并提取错误的 unable-access-website 相对于的日志写入到 /opt/KUTR00101/foobar</p>
+
+<pre><code>$ kubectl config use-context k8s
+$ kubectl logs foobar | grep unable-to-access-website &gt; /opt/KUTR00101/foobar
+</code></pre>
+
+<p></details></p>
+
+<p><details>
+  <summary>15 sidercar container logging</summary></p>
+
+<pre><code>$ kubectl config use-context k8s
+$ kubectl get po 11-factor-app -o yaml &gt; 15.yaml #
+$ kubectl delete -f 15.yaml
+$ kubectl apply -f 15.yaml
+验证：kubectl get pods / kubectl describe pod 11-factor-app
+参考：concepts -&gt; cluster administration -&gt; logging architecture
+</code></pre>
+
+<p></details></p>
+
+<p><details>
+  <summary>16 查看cpu使用率pod</summary></p>
+
+<pre><code>$ kubectl top pod -l name=cpu-user -A --sort-by=cpu
+$ echo 'podname' &gt;&gt;/opt/KUTR00401/KUTR00401.txt
+验证：cat /opt/KUTR00401/KUTR00401.txt
+</code></pre>
+
+<p></details></p>
+
+<p><details>
+  <summary>17 集群故障排查</summary></p>
+
+<pre><code>$ kubectl get nodes
+$ ssh wk8s-node-0
+% sudo -i
+% systemctl status kubelet
+% systemctl enable kubelet
+% systemctl restart kubelet
+% systemctl status kubelet
+% exit
+% exit
+$ kubectl get nodes
+</code></pre>
+
+<p></details></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[精英日课-排序不等式]]></title>
@@ -23,20 +381,20 @@
 
 <h2>什么是排序不等式</h2>
 
-<p>排序不等式就是说：也就是大数乘大数加上小数乘小数，大于大数乘小数加小数乘大数。</p>
+<p>排序不等式：大数乘大数加上小数乘小数，大于大数乘小数加小数乘大数。</p>
 
 <p>假设:</p>
 
 <ul>
-<li>x1>x2>0</li>
-<li>y1>y2>0</li>
+<li>x1>x2>x3>0</li>
+<li>y1>y2>y3>0</li>
 </ul>
 
 
 <p>那么：</p>
 
 <ul>
-<li>x1*y1 + x2*y2 > x1*y2 + x2*y1</li>
+<li>x1*y1 + x2*y2 + x3*y3 > [其它排序乘积相加] > x1*y3 + x2*y2 + x3*y1</li>
 </ul>
 
 
@@ -67,6 +425,12 @@
 
 <p>促销要放在周末人多的时候，而不是平时人少的时候。（前提是没有达到销量瓶颈，比如门店承受能力。）</p>
 
+<h3>车间系统</h3>
+
+<p>我们假设你们车间有两条生产线，每条生产线需要两个人先后动作，共同完成一件产品。现在你有四个工人，老张和老李的良品率都是95%，小张和小李的良品率都是75%。那请问，你应该把这四个人怎么分组呢？</p>
+
+<p>直觉的分法，是让老张和小张一组，老李和小李一组，这样两个组的良品率是一样的，都是0.95×0.75=71%。你可能觉得这样分组还能让高手带一带低手，能起到骨干作用。我不知道那个高手“带动”低手的效应能有多大，但是我知道，排序不等式要求你让老张和老李一组，小张和小李一组。你的高手组良品率将是0.95×0.95=90%，低手良品率将是0.75×0.75=56%，而你的总良品率是两组的平均值，也就是73%——高于高低搭配分组的71%。</p>
+
 <h2>排序不等式，是资源配置的“零阶道理”。</h2>
 
 <p>排序不等式，是资源配置的“零阶道理”。</p>
@@ -88,12 +452,6 @@
 <h3>安全系统</h3>
 
 <p>安全系统也强调下限。只要是防守，我们最关心的一定是最薄弱的地方，要把最好的资源和人手放在那个地方。</p>
-
-<h3>车间系统</h3>
-
-<p>我们假设你们车间有两条生产线，每条生产线需要两个人先后动作，共同完成一件产品。现在你有四个工人，老张和老李的良品率都是95%，小张和小李的良品率都是75%。那请问，你应该把这四个人怎么分组呢？</p>
-
-<p>直觉的分法，是让老张和小张一组，老李和小李一组，这样两个组的良品率是一样的，都是0.95×0.75=71%。你可能觉得这样分组还能让高手带一带低手，能起到骨干作用。我不知道那个高手“带动”低手的效应能有多大，但是我知道，排序不等式要求你让老张和老李一组，小张和小李一组。你的高手组良品率将是0.95×0.95=90%，低手良品率将是0.75×0.75=56%，而你的总良品率是两组的平均值，也就是73%——高于高低搭配分组的71%。</p>
 
 <h2>如何利用排序不等式</h2>
 
@@ -125,7 +483,7 @@
 
 <h3>脑补</h3>
 
-<p>不仅仅是策略、性格和意义，还有动机、信念、价值、情绪、立场、偏等等，所有这些代表人的“深层内心世界”的东西，都是我们想象出来的，而且是要用的时候临时编造的。</p>
+<p>不仅仅是策略、性格和意义，还有动机、信念、价值、情绪、立场、偏见等等，所有这些代表人的“深层内心世界”的东西，都是我们想象出来的，而且是要用的时候临时编造的。</p>
 
 <p>人只能看到细节局部，你的整体感，根本就是个错觉。哲学家和心理学把这个叫做“全局错觉”。</p>
 
@@ -3496,77 +3854,6 @@ zsh中若出现‘*’, ‘(’, ‘|’, ‘&lt;’, ‘[’, 或者 ‘?’符
 
 
 <p>7-4海明码是海明吗的一种：这里的“7”指的是实际有效的数据，一共是7位（Bit）。而这里的“4”，指的是我们额外存储了4位数据，用来纠错。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[使用Nodejs-Express-MongoDB搭建服务器]]></title>
-    <link href="http://hongchaozhang.github.io/blog/2021/10/27/mean-with-nodejs-express-mongodb/"/>
-    <updated>2021-10-27T15:47:25+08:00</updated>
-    <id>http://hongchaozhang.github.io/blog/2021/10/27/mean-with-nodejs-express-mongodb</id>
-    <content type="html"><![CDATA[<!-- more -->
-
-
-<p>Demo source code on the github: <a href="https://github.com/hongchaozhang/nodejs-express-mongodb">Github demo source code</a>.</p>
-
-<h2>Steps to start the server:</h2>
-
-<ol>
-<li>Clone the <a href="https://github.com/hongchaozhang/nodejs-express-mongodb">Github demo source code</a>.</li>
-<li>install MongoDB with the steps from <a href="https://cloud.tencent.com/developer/article/1770288">Mac OSX 平台 MongoDB 的安装及管理</a>.</li>
-<li>Config MongoDB and start it with <code>mongod --dbpath /usr/local/var/mongodb --logpath /usr/local/var/log/mongodb/mongo.log --fork</code>.</li>
-<li>Start the server by running <code>node server.js</code>.</li>
-<li>Test the APIs by curl or Postman (recommended).</li>
-</ol>
-
-
-<h3>Note</h3>
-
-<h4>nodejs version</h4>
-
-<p>If you meet the following error while running <code>node server.js</code>, check your nodejs version to make sure you are using 12 and above. <code>14.17.6</code> is tested. The error is:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>/Users/hozhang/Develop/PracticeProjects/nodejs-express-mongodb/node_modules/whatwg-url/lib/encoding.js:2
-</span><span class='line'>const utf8Encoder = new TextEncoder();
-</span><span class='line'>ReferenceError: TextEncoder is not defined</span></code></pre></td></tr></table></div></figure>
-
-
-<h4>How to start/shutdown MongoDB</h4>
-
-<ol>
-<li>After correctly configuring your MongoDB, use the following command to start it:
- <code>mongod --dbpath /usr/local/var/mongodb --logpath /usr/local/var/log/mongodb/mongo.log --fork</code></li>
-<li>After enter the mongo environment by running <code>mongo</code>, use the following command to shutdown the MongoDB:
- ```
-
-<blockquote><p>use admin;
-db.shutdownServer();
- ```</p></blockquote></li>
-</ol>
-
-
-<h4>MongoDB Compass</h4>
-
-<p>Use the official UI tool to manage your MongoDB data: MongoDB Compass.</p>
-
-<h4>Postman</h4>
-
-<p>Use the Postman to act as a client. It is convenient to config/manage the request.</p>
-
-<h2>code explanation</h2>
-
-<p>Refer to <a href="https://www.bezkoder.com/node-express-mongodb-crud-rest-api/">Node.js, Express &amp; MongoDb: Build a CRUD Rest Api example</a> for detailed code explanation.</p>
-
-<h2>References</h2>
-
-<ul>
-<li><a href="https://cloud.tencent.com/developer/article/1770288">Mac OSX 平台 MongoDB 的安装及管理</a></li>
-<li><a href="https://www.bezkoder.com/node-express-mongodb-crud-rest-api/">Node.js, Express &amp; MongoDb: Build a CRUD Rest Api example</a></li>
-</ul>
-
 ]]></content>
   </entry>
   
