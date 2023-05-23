@@ -4,7 +4,7 @@
   <title><![CDATA[Category: html css | Reading Space]]></title>
   <link href="http://hongchaozhang.github.io/blog/categories/html-css/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2022-12-16T18:12:32+08:00</updated>
+  <updated>2023-05-24T02:12:59+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -100,7 +100,7 @@ z-index:  canvas  -1      0    1    2
 
 <p>其实现代码的html如下：</p>
 
-<p>```html</p>
+<p>```</p>
 
 <div>
   <span class="red">Red</span>
@@ -153,7 +153,7 @@ CSS代码如下：
 
 <p>只需要在CSS中加入下面一段即可：</p>
 
-<pre><code class="css">div:first-child {
+<pre><code>div:first-child {
   opacity: .99;
 }
 </code></pre>

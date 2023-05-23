@@ -4,7 +4,7 @@
   <title><![CDATA[Category: algorithm | Reading Space]]></title>
   <link href="http://hongchaozhang.github.io/blog/categories/algorithm/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2022-12-16T18:12:32+08:00</updated>
+  <updated>2023-05-24T02:12:59+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -563,7 +563,7 @@
 
 <p>使用下面的python代码实现线性回归分析：</p>
 
-<pre><code class="python">import pandas as pd
+<pre><code>import pandas as pd
 from sklearn.linear_model import LinearRegression
 
 df = pd.read_csv("demo/datasets/boston_house_price.csv")  # 读取 Boston Housing 中的 csv数据
@@ -606,7 +606,7 @@ print(regression.coef_)  # 各个特征所对应的系
 
 <p>简单起见，这里的归一化是指使用特征取值范围中的最大值和最小值，把原始值转换为0到1之间的值。这样处理的好处在于简单易行，便于理解。不过，它的缺点也很明显，由于只考虑了最大最小值，因此很容易受到异常数据点的干扰。</p>
 
-<pre><code class="python">from sklearn.preprocessing import StandardScaler
+<pre><code>from sklearn.preprocessing import StandardScaler
 from sklearn.preprocessing import MinMaxScaler
 
 minMaxScaler = MinMaxScaler()  # 基于 min 和 max 值的归一化
@@ -647,7 +647,7 @@ print(regression_normalized.coef_)
 
 <p>经过标准化处理之后，每种特征的取值都会变成一个标准正态分布，以0为均值，1为标准差。和归一化相比，标准化使用了数据是正态分布的假设，不容易受到过大或过小值的干扰。</p>
 
-<pre><code class="python">standardScaler = StandardScaler()  # 基于 Z 分数的标准化
+<pre><code>standardScaler = StandardScaler()  # 基于 Z 分数的标准化
 
 df = pd.read_csv("demo/datasets/boston_house_price.csv")  # 读取 Boston Housing 中的 csv的数据
 print(df)

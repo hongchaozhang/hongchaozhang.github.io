@@ -4,7 +4,7 @@
   <title><![CDATA[Category: productivity | Reading Space]]></title>
   <link href="http://hongchaozhang.github.io/blog/categories/productivity/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2022-12-16T18:12:32+08:00</updated>
+  <updated>2023-05-24T02:12:59+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -12,6 +12,22 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[migrate Octopress to M1 MacBook]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2023/05/24/migrate-octopress-to-m1-macbook/"/>
+    <updated>2023-05-24T01:49:19+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2023/05/24/migrate-octopress-to-m1-macbook</id>
+    <content type="html"><![CDATA[<!-- more -->
+
+
+<p>pygments.rb is not compatible with M1, so I have to migrate to Rouge.
+- detail info in Notes</p>
+
+<p>understand: ruby gem bundle rails require load
+- link</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[从Terminal切换到iTerm2，从Bash切换到Zsh]]></title>
@@ -112,7 +128,7 @@ zsh中若出现‘*’, ‘(’, ‘|’, ‘&lt;’, ‘[’, 或者 ‘?’符
 
 <h2>xlrd和xlwt</h2>
 
-<pre><code class="python">#!/usr/bin/env python
+<pre><code>#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
 import xlrd
@@ -201,7 +217,7 @@ def write_excel():
 
 <p>下面是一个例子：</p>
 
-<pre><code class="python">from xml.etree import ElementTree as ET
+<pre><code>from xml.etree import ElementTree as ET
 
 # 读取xml文件
 tree = ET.parse('gadm36_CHN_2.kml')
@@ -374,117 +390,6 @@ tree.write('modifyChinaCity.kml')
 <p>上面的数据有的是网页数据，有的是excel数据（普查数据），对excel内部数据的结构调整可以参考<a href="http://hongchaozhang.github.io/blog/2016/03/04/parsing-and-write-excel-file-using-node-module/">使用node-xlsx进行excel文件的读写</a>进行。如果对Python比较熟悉，可以参考<a href="/blog/2020/06/23/parse-excel-using-python/">使用Python解析Excel文件</a>。</p>
 
 <p>最后贴上所有的资源，包括最后写成的文档：<a href="/assets/resources/%E4%B8%AD%E5%9B%BD%E5%90%84%E7%9C%81%E7%94%B7%E5%A5%B3%E6%AF%94%E4%BE%8B%E5%9C%B0%E5%9B%BE%E5%88%86%E6%9E%90.zip">中国各省男女比例地图分析</a>。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[迁移Octopress到新的机器上]]></title>
-    <link href="http://hongchaozhang.github.io/blog/2020/02/26/deploy-octopress-in-a-new-machine/"/>
-    <updated>2020-02-26T13:36:46+08:00</updated>
-    <id>http://hongchaozhang.github.io/blog/2020/02/26/deploy-octopress-in-a-new-machine</id>
-    <content type="html"><![CDATA[<!-- more -->
-
-
-
-
-<!-- TOC -->
-
-
-<ul>
-<li><a href="#%E9%97%AE%E9%A2%98">问题</a>
-
-<ul>
-<li><a href="#%E9%97%AE%E9%A2%981-rake%E7%89%88%E6%9C%AC%E9%97%AE%E9%A2%98">问题1: rake版本问题</a></li>
-<li><a href="#%E9%97%AE%E9%A2%982-rake-deploy%E9%94%99%E8%AF%AF">问题2: <code>rake deploy</code>错误</a></li>
-<li><a href="#%E9%97%AE%E9%A2%983-bundle-install%E9%94%99%E8%AF%AF">问题3: <code>bundle install</code>错误</a></li>
-</ul>
-</li>
-<li><a href="#%E5%8F%82%E8%80%83">参考</a></li>
-</ul>
-
-
-<!-- /TOC -->
-
-
-<p><a id="markdown-问题" name="问题"></a></p>
-
-<h2>问题</h2>
-
-<p>在新到Mac上面部署Octopress的时候遇到了几个问题。</p>
-
-<p>将github上面的资源clone到本地，并切换到<code>source</code>分支：</p>
-
-<pre><code>git clone -b source git@github.com:username/username.github.io.git octopress
-cd octopress
-</code></pre>
-
-<p>然后，安装rake：</p>
-
-<pre><code>gem install bundler
-rbenv rehash    # If you use rbenv, rehash to be able to run the bundle command
-bundle install
-</code></pre>
-
-<p><a id="markdown-问题1-rake版本问题" name="问题1-rake版本问题"></a></p>
-
-<h3>问题1: rake版本问题</h3>
-
-<p>之后，试图执行rake命令到时候，会报错：</p>
-
-<pre><code>rake aborted!
-Gem::LoadError: You have already activated rake 12.3.2, but your Gemfile requires rake 10.5.0. Prepending `bundle exec` to your command may solve this.
-/Users/hozhang/Develop/hongchaozhang.github.io/Rakefile:2:in `&lt;top (required)&gt;'
-/Library/Ruby/Gems/2.6.0/gems/rake-12.3.2/exe/rake:27:in `&lt;top (required)&gt;'
-(See full trace by running task with --trace)
-</code></pre>
-
-<p>这个时候，可以根据提示，在rake前面加上<code>bundle exec</code>，比如<code>bundle exec rake preview</code>。每次都这样，比较麻烦。这个问题到根源是Gemfile里面定义使用到rake版本和本地安装到rake版本不一致，这样修改：</p>
-
-<p>在octopress目录下找到我们上面第一步从远端clone下来到Gemfile，打开，将</p>
-
-<pre><code>gem 'rake', '~&gt; 10.0'
-</code></pre>
-
-<p>修改成</p>
-
-<pre><code>gem 'rake', '~&gt; 12.0'
-</code></pre>
-
-<p>即可。上面的<code>10.0</code>表示老版本，<code>12.0</code>表示新版本，查看本地rake的版本，如果是<code>12.3</code>，就用<code>12.0</code>。</p>
-
-<p><a id="markdown-问题2-rake-deploy错误" name="问题2-rake-deploy错误"></a></p>
-
-<h3>问题2: <code>rake deploy</code>错误</h3>
-
-<p>直接执行<code>rake deploy</code>，报错<code>[rejected] master -&gt; master (non-fast-forward)</code>，这是因为_deploy这个目录下面的内容是本地生成的，和远端没有关系，不能push。执行：</p>
-
-<pre><code>rm -rf _deploy
-git clone git@github.com:username/username.github.io.git _deploy
-</code></pre>
-
-<p>解决。</p>
-
-<p>当你在多台机器上同时工作时，经常会出现这个问题。</p>
-
-<p><a id="markdown-问题3-bundle-install错误" name="问题3-bundle-install错误"></a></p>
-
-<h3>问题3: <code>bundle install</code>错误</h3>
-
-<p>运行<code>bundle install</code>的时候出现错误：
-<code>
-Could not find ffi-1.9.18 in any of the sources...
-</code>
-需要运行一下<code>bundle update</code>,再运行<code>bundle install</code>。</p>
-
-<p><a id="markdown-参考" name="参考"></a></p>
-
-<h2>参考</h2>
-
-<ol>
-<li><a href="http://michal.codes/setting-up-existing-octopress-blog-on-a-new-machine/">Setting Up Existing Octopress Blog on a New Machine</a></li>
-<li><a href="http://paulcichonski.com/blog/2013/11/10/setting-up-octopress-on-a-new-machine/">Setting Up Octopress on a New Machine</a></li>
-</ol>
-
 ]]></content>
   </entry>
   

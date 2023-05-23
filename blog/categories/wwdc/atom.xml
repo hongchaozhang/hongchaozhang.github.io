@@ -4,7 +4,7 @@
   <title><![CDATA[Category: wwdc | Reading Space]]></title>
   <link href="http://hongchaozhang.github.io/blog/categories/wwdc/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2022-12-16T18:12:32+08:00</updated>
+  <updated>2023-05-24T02:12:59+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -330,7 +330,7 @@
 
 <p>We can use the <code>WorldMappingStatus</code> status from <code>ARFrame</code> to decide if the current map is good enough for sharing or storing:</p>
 
-<pre><code class="swift">public enum WorldMappingStatus : Int {
+<pre><code>public enum WorldMappingStatus : Int {
    case notAvailable
    case limited
    case extending
@@ -360,7 +360,7 @@
 
 <p>The detected <code>ARImageAnchor</code>s have properties like:</p>
 
-<pre><code class="swift">open class ARImageAnchor : ARAnchor, ARTrackable { 
+<pre><code>open class ARImageAnchor : ARAnchor, ARTrackable { 
     public var isTracked: Bool { get }
     open var transform: simd_float4x4 { get }
     open var referenceImage: ARReferenceImage { get }
@@ -422,7 +422,7 @@
 
 <p>The <code>ARObjectAnchor</code> contains properties like:</p>
 
-<pre><code class="swift">open class ARObjectAnchor : ARAnchor {
+<pre><code>open class ARObjectAnchor : ARAnchor {
     open var transform: simd_float4x4 { get }
     open var referenceObject: ARReferenceObject { get }
 }
@@ -430,7 +430,7 @@
 
 <p>and <code>ARReferenceObject</code> is the scanned 3D object:</p>
 
-<pre><code class="swift">open class ARReferenceObject
+<pre><code>open class ARReferenceObject
     : NSObject, NSCopying, NSSecureCoding {
     open var name: String?
     open var center: simd_float3 { get }

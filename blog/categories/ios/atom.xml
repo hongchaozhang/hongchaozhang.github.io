@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ios | Reading Space]]></title>
   <link href="http://hongchaozhang.github.io/blog/categories/ios/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2022-12-16T18:12:32+08:00</updated>
+  <updated>2023-05-24T02:12:59+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -92,7 +92,7 @@
 
 
 <p>保存文件的代码如下：
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -118,36 +118,35 @@
 <span class='line-number'>24</span>
 <span class='line-number'>25</span>
 <span class='line-number'>26</span>
-</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">func</span> <span class="nf">getRootPath</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">String</span><span class="o">?</span> <span class="p">{</span>
-</span><span class='line'>    <span class="k">return</span> <span class="n">NSSearchPathForDirectoriesInDomains</span><span class="p">(.</span><span class="n">documentDirectory</span><span class="p">,</span> <span class="p">.</span><span class="n">userDomainMask</span><span class="p">,</span> <span class="nb">true</span><span class="p">).</span><span class="n">first</span>
-</span><span class='line'><span class="p">}</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>func getRootPath() -&gt; String? {
+</span><span class='line'>    return NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first
+</span><span class='line'>}&lt;/p&gt;
 </span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">func</span> <span class="n">saveImageFile</span><span class="p">()</span> <span class="p">{</span>
-</span><span class='line'>    <span class="k">if</span> <span class="k">let</span> <span class="n">rootPath</span> <span class="o">=</span> <span class="n">Utility</span><span class="p">.</span><span class="n">getRootPath</span><span class="p">(),</span>
-</span><span class='line'>        <span class="k">let</span> <span class="n">imageName</span> <span class="o">=</span> <span class="n">getFileName</span><span class="p">()</span> <span class="p">{</span>
-</span><span class='line'>        <span class="k">let</span> <span class="n">imagePath</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;(</span><span class="n">rootPath</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">imageName</span><span class="p">).</span><span class="n">png</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;</span>
-</span><span class='line'>        <span class="n">print</span><span class="p">(</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">image</span> <span class="nl">path</span><span class="p">:</span> <span class="p">(</span><span class="n">imagePath</span><span class="p">)</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;)</span>
-</span><span class='line'>        <span class="k">if</span> <span class="k">let</span> <span class="n">image</span> <span class="o">=</span> <span class="n">imageView</span><span class="p">.</span><span class="n">image</span><span class="p">,</span> <span class="k">let</span> <span class="n">imageData</span> <span class="o">=</span> <span class="n">image</span><span class="p">.</span><span class="n">pngData</span><span class="p">()</span> <span class="p">{</span>
-</span><span class='line'>            <span class="n">FileManager</span><span class="p">.</span><span class="k">default</span><span class="p">.</span><span class="n">createFile</span><span class="p">(</span><span class="nl">atPath</span><span class="p">:</span> <span class="n">imagePath</span><span class="p">,</span> <span class="nl">contents</span><span class="p">:</span> <span class="n">imageData</span><span class="p">,</span> <span class="nl">attributes</span><span class="p">:</span> <span class="nb">nil</span><span class="p">)</span>
-</span><span class='line'>        <span class="p">}</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'><span class="p">}</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>&lt;p&gt;func saveImageFile() {
+</span><span class='line'>    if let rootPath = Utility.getRootPath(),
+</span><span class='line'>        let imageName = getFileName() {
+</span><span class='line'>        let imagePath = &ldquo;(rootPath)/(imageName).png&rdquo;
+</span><span class='line'>        print(&ldquo;image path: (imagePath)&rdquo;)
+</span><span class='line'>        if let image = imageView.image, let imageData = image.pngData() {
+</span><span class='line'>            FileManager.default.createFile(atPath: imagePath, contents: imageData, attributes: nil)
+</span><span class='line'>        }
+</span><span class='line'>    }
+</span><span class='line'>}&lt;/p&gt;
 </span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">func</span> <span class="n">saveJsonFile</span><span class="p">()</span> <span class="p">{</span>
-</span><span class='line'>    <span class="k">if</span> <span class="k">let</span> <span class="n">rootPath</span> <span class="o">=</span> <span class="n">Utility</span><span class="p">.</span><span class="n">getRootPath</span><span class="p">(),</span>
-</span><span class='line'>        <span class="k">let</span> <span class="n">jsonFileName</span> <span class="o">=</span> <span class="n">getFileName</span><span class="p">()</span> <span class="p">{</span>
-</span><span class='line'>        <span class="k">let</span> <span class="n">jsonPath</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;(</span><span class="n">rootPath</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">jsonFileName</span><span class="p">).</span><span class="n">json</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;</span>
-</span><span class='line'>        <span class="n">print</span><span class="p">(</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">image</span> <span class="nl">path</span><span class="p">:</span> <span class="p">(</span><span class="n">jsonPath</span><span class="p">)</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;)</span>
-</span><span class='line'>        <span class="k">let</span> <span class="nl">jsonDic</span><span class="p">:</span> <span class="p">[</span><span class="nl">String</span><span class="p">:</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="nl">basicInfoKey</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">a</span> <span class="n">href</span><span class="o">=</span><span class="s">&quot;&quot;</span><span class="o">&gt;</span><span class="nl">String</span><span class="p">:</span> <span class="n">String</span><span class="o">&lt;/</span><span class="n">a</span><span class="o">&gt;</span><span class="p">,</span> <span class="nl">barFramesKey</span><span class="p">:</span> <span class="n">barFrames</span><span class="p">]</span>
-</span><span class='line'>        <span class="k">if</span> <span class="k">let</span> <span class="n">jsonData</span> <span class="o">=</span> <span class="n">try</span><span class="o">?</span> <span class="bp">NSKeyedArchiver</span><span class="p">.</span><span class="n">archivedData</span><span class="p">(</span><span class="nl">withRootObject</span><span class="p">:</span> <span class="n">jsonDic</span><span class="p">,</span> <span class="nl">requiringSecureCoding</span><span class="p">:</span> <span class="nb">false</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>            <span class="n">FileManager</span><span class="p">.</span><span class="k">default</span><span class="p">.</span><span class="n">createFile</span><span class="p">(</span><span class="nl">atPath</span><span class="p">:</span> <span class="n">jsonPath</span><span class="p">,</span> <span class="nl">contents</span><span class="p">:</span> <span class="n">jsonData</span><span class="p">,</span> <span class="nl">attributes</span><span class="p">:</span> <span class="nb">nil</span><span class="p">)</span>
-</span><span class='line'>        <span class="p">}</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'>&lt;p&gt;func saveJsonFile() {
+</span><span class='line'>    if let rootPath = Utility.getRootPath(),
+</span><span class='line'>        let jsonFileName = getFileName() {
+</span><span class='line'>        let jsonPath = &ldquo;(rootPath)/(jsonFileName).json&rdquo;
+</span><span class='line'>        print(&ldquo;image path: (jsonPath)&rdquo;)
+</span><span class='line'>        let jsonDic: [String: Any] = [basicInfoKey: &lt;a href=""&gt;String: String&lt;/a&gt;, barFramesKey: barFrames]
+</span><span class='line'>        if let jsonData = try? NSKeyedArchiver.archivedData(withRootObject: jsonDic, requiringSecureCoding: false) {
+</span><span class='line'>            FileManager.default.createFile(atPath: jsonPath, contents: jsonData, attributes: nil)
+</span><span class='line'>        }
+</span><span class='line'>    }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure></p>
 
 <p>读取文件的代码如下：
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -170,36 +169,35 @@
 <span class='line-number'>21</span>
 <span class='line-number'>22</span>
 <span class='line-number'>23</span>
-</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">func</span> <span class="nf">loadJsonFile</span><span class="p">()</span> <span class="p">{</span>
-</span><span class='line'>    <span class="k">if</span> <span class="k">let</span> <span class="n">rootPath</span> <span class="o">=</span> <span class="n">Utility</span><span class="p">.</span><span class="n">getRootPath</span><span class="p">(),</span>
-</span><span class='line'>        <span class="k">let</span> <span class="n">jsonName</span> <span class="o">=</span> <span class="n">navigationItem</span><span class="p">.</span><span class="n">title</span><span class="p">,</span>
-</span><span class='line'>        <span class="k">let</span> <span class="n">jsonData</span> <span class="o">=</span> <span class="n">FileManager</span><span class="p">.</span><span class="k">default</span><span class="p">.</span><span class="n">contents</span><span class="p">(</span><span class="nl">atPath</span><span class="p">:</span> <span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;(</span><span class="n">rootPath</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">jsonName</span><span class="p">).</span><span class="n">json</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;),</span>
-</span><span class='line'>        <span class="k">let</span> <span class="n">jsonObjectAny</span> <span class="o">=</span> <span class="bp">NSKeyedUnarchiver</span><span class="p">.</span><span class="n">unarchiveObject</span><span class="p">(</span><span class="nl">with</span><span class="p">:</span> <span class="n">jsonData</span><span class="p">),</span>
-</span><span class='line'>        <span class="k">let</span> <span class="n">jsonObject</span> <span class="o">=</span> <span class="n">jsonObjectAny</span> <span class="kt">as</span><span class="o">?</span> <span class="p">[</span><span class="nl">String</span><span class="p">:</span> <span class="n">Any</span><span class="p">]</span> <span class="p">{</span>
-</span><span class='line'>        <span class="k">if</span> <span class="k">let</span> <span class="n">sheetBasicInfo</span> <span class="o">=</span> <span class="n">jsonObject</span><span class="p">[</span><span class="n">basicInfoKey</span><span class="p">]</span> <span class="kt">as</span><span class="o">?</span> <span class="p">[</span><span class="nl">String</span><span class="p">:</span> <span class="n">String</span><span class="p">]</span> <span class="p">{</span>
-</span><span class='line'>            <span class="nb">self</span><span class="p">.</span><span class="n">sheetBasicInfo</span> <span class="o">=</span> <span class="n">sheetBasicInfo</span>
-</span><span class='line'>        <span class="p">}</span>
-</span><span class='line'>        <span class="k">if</span> <span class="k">let</span> <span class="n">barFrames</span> <span class="o">=</span> <span class="n">jsonObject</span><span class="p">[</span><span class="n">barFramesKey</span><span class="p">]</span> <span class="kt">as</span><span class="o">?</span> <span class="p">[</span><span class="nl">Int</span><span class="p">:</span> <span class="bp">CGRect</span><span class="p">]</span> <span class="p">{</span>
-</span><span class='line'>            <span class="nb">self</span><span class="p">.</span><span class="n">barFrames</span> <span class="o">=</span>  <span class="n">barFrames</span>
-</span><span class='line'>        <span class="p">}</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'><span class="p">}</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>func loadJsonFile() {
+</span><span class='line'>    if let rootPath = Utility.getRootPath(),
+</span><span class='line'>        let jsonName = navigationItem.title,
+</span><span class='line'>        let jsonData = FileManager.default.contents(atPath: &ldquo;(rootPath)/(jsonName).json&rdquo;),
+</span><span class='line'>        let jsonObjectAny = NSKeyedUnarchiver.unarchiveObject(with: jsonData),
+</span><span class='line'>        let jsonObject = jsonObjectAny as? [String: Any] {
+</span><span class='line'>        if let sheetBasicInfo = jsonObject[basicInfoKey] as? [String: String] {
+</span><span class='line'>            self.sheetBasicInfo = sheetBasicInfo
+</span><span class='line'>        }
+</span><span class='line'>        if let barFrames = jsonObject[barFramesKey] as? [Int: CGRect] {
+</span><span class='line'>            self.barFrames =  barFrames
+</span><span class='line'>        }
+</span><span class='line'>    }
+</span><span class='line'>}&lt;/p&gt;
 </span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">func</span> <span class="n">loadSheetImage</span><span class="p">(</span><span class="n">with</span> <span class="nl">imageName</span><span class="p">:</span> <span class="n">String</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>    <span class="k">if</span> <span class="k">let</span> <span class="n">rootPath</span> <span class="o">=</span> <span class="n">Utility</span><span class="p">.</span><span class="n">getRootPath</span><span class="p">(),</span>
-</span><span class='line'>        <span class="k">let</span> <span class="n">sheetImage</span> <span class="o">=</span> <span class="bp">UIImage</span><span class="p">(</span><span class="nl">contentsOfFile</span><span class="p">:</span> <span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;(</span><span class="n">rootPath</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">imageName</span><span class="p">).</span><span class="n">png</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;)</span> <span class="p">{</span>
-</span><span class='line'>        <span class="n">sheetImageView</span><span class="p">.</span><span class="n">image</span> <span class="o">=</span> <span class="n">sheetImage</span>
-</span><span class='line'>        <span class="n">noteImageView</span><span class="p">.</span><span class="n">image</span> <span class="o">=</span> <span class="bp">UIImage</span><span class="p">(</span><span class="nl">contentsOfFile</span><span class="p">:</span> <span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;(</span><span class="n">rootPath</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">imageName</span><span class="p">)(</span><span class="n">noteImageSubfix</span><span class="p">).</span><span class="n">png</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;)</span>
-</span><span class='line'>        <span class="n">layoutImageView</span><span class="p">()</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'>&lt;p&gt;func loadSheetImage(with imageName: String) {
+</span><span class='line'>    if let rootPath = Utility.getRootPath(),
+</span><span class='line'>        let sheetImage = UIImage(contentsOfFile: &ldquo;(rootPath)/(imageName).png&rdquo;) {
+</span><span class='line'>        sheetImageView.image = sheetImage
+</span><span class='line'>        noteImageView.image = UIImage(contentsOfFile: &ldquo;(rootPath)/(imageName)(noteImageSubfix).png&rdquo;)
+</span><span class='line'>        layoutImageView()
+</span><span class='line'>    }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure></p>
 
 <p><a id="markdown-nsdefault保存标签信息" name="nsdefault保存标签信息"></a></p>
 
 <h3>NSDefault：保存标签信息</h3>
 
-<pre><code class="swift">UserDefaults.standard.setValue(allTags, forKey: allTagsKey)
+<pre><code>UserDefaults.standard.setValue(allTags, forKey: allTagsKey)
 let allTags = UserDefaults.standard.value(forKey: allTagsKey)
 </code></pre>
 
@@ -222,7 +220,7 @@ let allTags = UserDefaults.standard.value(forKey: allTagsKey)
 
 <h3>通过AVFoundation播放声音</h3>
 
-<pre><code class="swift">if let audioUrl = Bundle.main.url(forResource: "FirstMeter", withExtension: "wav", subdirectory: "Resource.bundle")  {
+<pre><code>if let audioUrl = Bundle.main.url(forResource: "FirstMeter", withExtension: "wav", subdirectory: "Resource.bundle")  {
     AudioServicesCreateSystemSoundID(audioUrl as CFURL, &amp;firstMeterId)
 }
 AudioServicesPlaySystemSound(self.firstMeterId)
@@ -241,13 +239,13 @@ AudioServicesPlaySystemSound(self.firstMeterId)
 <h2>navigationController的使用和数据的传递</h2>
 
 <p>通过下面两种方法进行ViewController的弹出
-<code>swift
+<code>
 let playVC = storyBoard.instantiateViewController(identifier: "Play")
 playVC.navigationItem.title = filtedFileNames[indexPath.row]
 navigationController?.pushViewController(playVC, animated: true)
 </code>
 或者
-<code>swift
+<code>
 let colorPickerVC = UIColorPickerViewController()
 colorPickerVC.selectedColor = brushColorButton.selectedColor
 colorPickerVC.delegate = self
@@ -273,7 +271,7 @@ present(colorPickerVC, animated: true, completion: nil)
 <p>需要在info.plist里面设置<code>NSPhotoLibraryUsageDescription</code>属性，设置在获取权限的时候显示给用户的弹窗中显示的内容。</p>
 
 <p>检查权限状态：
-<code>swift
+<code>
 private func requestPrivilegeAndLoadPhotos() {
     let status = PHPhotoLibrary.authorizationStatus()
     if status == .authorized {
@@ -294,7 +292,7 @@ private func requestPrivilegeAndLoadPhotos() {
 </code></p>
 
 <p>如果用户给了访问相册的权限，通过下面的方法加载所有图片信息：
-<code>swift
+<code>
 private func loadPhotos() {
     let allPhotosOptions = PHFetchOptions()
     allPhotosOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: true)]
@@ -303,7 +301,7 @@ private func loadPhotos() {
 </code></p>
 
 <p>通过下面方法将所有图片信息显示在collection列表中：
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -323,30 +321,29 @@ private func loadPhotos() {
 <span class='line-number'>18</span>
 <span class='line-number'>19</span>
 <span class='line-number'>20</span>
-</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">func</span> <span class="nf">collectionView</span><span class="p">(</span><span class="n">_</span> <span class="nl">collectionView</span><span class="p">:</span> <span class="bp">UICollectionView</span><span class="p">,</span> <span class="n">numberOfItemsInSection</span> <span class="nl">section</span><span class="p">:</span> <span class="n">Int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Int</span> <span class="p">{</span>
-</span><span class='line'>    <span class="k">return</span> <span class="n">allPhotos</span><span class="p">.</span><span class="n">count</span>
-</span><span class='line'><span class="p">}</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -&gt; Int {
+</span><span class='line'>    return allPhotos.count
+</span><span class='line'>}&lt;/p&gt;
 </span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">func</span> <span class="n">collectionView</span><span class="p">(</span><span class="n">_</span> <span class="nl">collectionView</span><span class="p">:</span> <span class="bp">UICollectionView</span><span class="p">,</span> <span class="n">cellForItemAt</span> <span class="nl">indexPath</span><span class="p">:</span> <span class="n">IndexPath</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">UICollectionViewCell</span> <span class="p">{</span>
-</span><span class='line'>    <span class="k">if</span> <span class="k">let</span> <span class="n">cell</span> <span class="o">=</span> <span class="n">collection</span><span class="p">.</span><span class="n">dequeueReusableCell</span><span class="p">(</span><span class="nl">withReuseIdentifier</span><span class="p">:</span> <span class="n">cellIdentifier</span><span class="p">,</span> <span class="k">for</span><span class="o">:</span> <span class="n">indexPath</span><span class="p">)</span> <span class="kt">as</span><span class="o">?</span> <span class="n">PhotoCollectionCell</span> <span class="p">{</span>
-</span><span class='line'>        <span class="k">let</span> <span class="n">assert</span> <span class="o">=</span> <span class="n">allPhotos</span><span class="p">.</span><span class="n">object</span><span class="p">(</span><span class="nl">at</span><span class="p">:</span> <span class="n">indexPath</span><span class="p">.</span><span class="n">item</span><span class="p">)</span>
-</span><span class='line'>        <span class="n">PHImageManager</span><span class="p">.</span><span class="k">default</span><span class="p">().</span><span class="n">requestImage</span><span class="p">(</span><span class="k">for</span><span class="o">:</span> <span class="n">assert</span><span class="p">,</span> <span class="nl">targetSize</span><span class="p">:</span> <span class="bp">CGSize</span><span class="p">(</span><span class="nl">width</span><span class="p">:</span> <span class="n">photoCollectionWH</span><span class="p">,</span> <span class="nl">height</span><span class="p">:</span> <span class="n">photoCollectionWH</span><span class="p">),</span> <span class="nl">contentMode</span><span class="p">:</span> <span class="p">.</span><span class="n">aspectFill</span><span class="p">,</span> <span class="nl">options</span><span class="p">:</span> <span class="p">.</span><span class="kr">none</span><span class="p">)</span> <span class="p">{</span> <span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">dic</span><span class="p">)</span> <span class="k">in</span>
-</span><span class='line'>            <span class="k">if</span> <span class="k">let</span> <span class="n">image</span> <span class="o">=</span> <span class="n">image</span> <span class="p">{</span>
-</span><span class='line'>                <span class="n">cell</span><span class="p">.</span><span class="n">imageView</span><span class="p">.</span><span class="n">image</span> <span class="o">=</span> <span class="n">image</span>
-</span><span class='line'>            <span class="p">}</span>
-</span><span class='line'>        <span class="p">}</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>&lt;p&gt;func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -&gt; UICollectionViewCell {
+</span><span class='line'>    if let cell = collection.dequeueReusableCell(withReuseIdentifier: cellIdentifier, for: indexPath) as? PhotoCollectionCell {
+</span><span class='line'>        let assert = allPhotos.object(at: indexPath.item)
+</span><span class='line'>        PHImageManager.default().requestImage(for: assert, targetSize: CGSize(width: photoCollectionWH, height: photoCollectionWH), contentMode: .aspectFill, options: .none) { (image, dic) in
+</span><span class='line'>            if let image = image {
+</span><span class='line'>                cell.imageView.image = image
+</span><span class='line'>            }
+</span><span class='line'>        }&lt;/p&gt;
 </span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span>    <span class="k">return</span> <span class="n">cell</span>
-</span><span class='line'><span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-</span><span class='line'>    <span class="k">return</span> <span class="n">collection</span><span class="p">.</span><span class="n">dequeueReusableCell</span><span class="p">(</span><span class="nl">withReuseIdentifier</span><span class="p">:</span> <span class="n">cellIdentifier</span><span class="p">,</span> <span class="k">for</span><span class="o">:</span> <span class="n">indexPath</span><span class="p">)</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>&lt;pre&gt;&lt;code&gt;    return cell
+</span><span class='line'>} else {
+</span><span class='line'>    return collection.dequeueReusableCell(withReuseIdentifier: cellIdentifier, for: indexPath)
+</span><span class='line'>}
+</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
 </span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'>&lt;p&gt;}</span></code></pre></td></tr></table></div></figure></p>
 
 <p>通过下面方法，将用户选择的图片传给delegate处理（delegate可以是源ViewController）：
-<code>swift
+<code>
 func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
     print("item: \(indexPath.item)")
     let assert = allPhotos.object(at: indexPath.item)
@@ -378,7 +375,7 @@ func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPat
 <h2>UIImage</h2>
 
 <p>下面两个图片加载方法对cache的运用是不一样的：
-<code>swift
+<code>
 + (UIImage *)imageNamed:(NSString *)name: use cached images
 + (UIImage *)imageWithContentsOfFile:(NSString *)path: skip cached images and read data directly from file
 </code></p>
@@ -394,14 +391,14 @@ func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPat
 <h2>可编辑的UITableView</h2>
 
 <p>通过实现下面方法保证每个cell支持左滑操作：
-<code>swift
+<code>
 func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -&gt; Bool {
     return true
 }
 </code></p>
 
 <p>通过实现下面的方法，左滑之后显示两个按钮: Edit Tags和Delete
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -415,21 +412,20 @@ func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -&gt
 <span class='line-number'>12</span>
 <span class='line-number'>13</span>
 <span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">func</span> <span class="n">tableView</span><span class="p">(</span><span class="n">_</span> <span class="nl">tableView</span><span class="p">:</span> <span class="bp">UITableView</span><span class="p">,</span> <span class="n">editActionsForRowAt</span> <span class="nl">indexPath</span><span class="p">:</span> <span class="n">IndexPath</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="n">UITableViewRowAction</span><span class="p">]</span><span class="o">?</span> <span class="p">{</span>
-</span><span class='line'>    <span class="k">let</span> <span class="n">deleteAction</span> <span class="o">=</span> <span class="n">UITableViewRowAction</span><span class="p">(</span><span class="nl">style</span><span class="p">:</span> <span class="p">.</span><span class="n">destructive</span><span class="p">,</span> <span class="nl">title</span><span class="p">:</span> <span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">Delete</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;)</span> <span class="p">{</span> <span class="p">(</span><span class="n">action</span><span class="p">,</span> <span class="n">indexPath</span><span class="p">)</span> <span class="k">in</span>
-</span><span class='line'>        <span class="nb">self</span><span class="p">.</span><span class="n">deleteItem</span><span class="p">(</span><span class="nl">at</span><span class="p">:</span> <span class="n">indexPath</span><span class="p">)</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>    <span class="k">let</span> <span class="n">editAction</span> <span class="o">=</span> <span class="n">UITableViewRowAction</span><span class="p">(</span><span class="nl">style</span><span class="p">:</span> <span class="p">.</span><span class="k">default</span><span class="p">,</span> <span class="nl">title</span><span class="p">:</span> <span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">Edit</span> <span class="n">Tags</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;)</span> <span class="p">{</span> <span class="p">(</span><span class="n">action</span><span class="p">,</span> <span class="n">indexPath</span><span class="p">)</span> <span class="k">in</span>
-</span><span class='line'>        <span class="nb">self</span><span class="p">.</span><span class="n">editTags</span><span class="p">(</span><span class="k">for</span><span class="o">:</span> <span class="n">indexPath</span><span class="p">)</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>    <span class="n">editAction</span><span class="p">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="bp">UIColor</span><span class="p">(</span><span class="nl">displayP3Red</span><span class="p">:</span> <span class="mi">60</span><span class="o">/</span><span class="mi">255</span><span class="p">,</span> <span class="nl">green</span><span class="p">:</span> <span class="mi">148</span><span class="o">/</span><span class="mi">255</span><span class="p">,</span> <span class="nl">blue</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span> <span class="nl">alpha</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">)</span>
-</span><span class='line'>    <span class="n">deleteAction</span><span class="p">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="p">.</span><span class="n">red</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -&gt; [UITableViewRowAction]? {
+</span><span class='line'>    let deleteAction = UITableViewRowAction(style: .destructive, title: &ldquo;Delete&rdquo;) { (action, indexPath) in
+</span><span class='line'>        self.deleteItem(at: indexPath)
+</span><span class='line'>    }
+</span><span class='line'>    let editAction = UITableViewRowAction(style: .default, title: &ldquo;Edit Tags&rdquo;) { (action, indexPath) in
+</span><span class='line'>        self.editTags(for: indexPath)
+</span><span class='line'>    }
+</span><span class='line'>    editAction.backgroundColor = UIColor(displayP3Red: 60/255, green: 148/255, blue: 1.0, alpha: 1.0)
+</span><span class='line'>    deleteAction.backgroundColor = .red&lt;/p&gt;
 </span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="k">return</span> <span class="p">[</span><span class="n">deleteAction</span><span class="p">,</span> <span class="n">editAction</span><span class="p">]</span>
-</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>&lt;pre&gt;&lt;code&gt;return [deleteAction, editAction]
+</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
 </span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'>&lt;p&gt;}</span></code></pre></td></tr></table></div></figure></p>
 
 <p><a id="markdown-calayer--cashapelayer--core-graphics" name="calayer--cashapelayer--core-graphics"></a></p>
 
@@ -495,7 +491,7 @@ func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -&gt
 
 <p>标签保存在UserDefault里面，数据格式如下：</p>
 
-<pre><code class="json">{
+<pre><code>{
     "ALL_TAGS" : ["tag1", "tag2", "tag3"],
     "天空之城1" : ["tag1", "tag2"],
     "天空之城2" : ["tag2", "tag3"],
@@ -514,7 +510,7 @@ func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -&gt
 
 <p>其中json文件格式如下：</p>
 
-<pre><code class="json">{
+<pre><code>{
     "basic info" : {
         "tempo" : "90", // 每分钟节拍数
         "meter" : "4", // 每小节节拍数
@@ -627,7 +623,7 @@ func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -&gt
 
 <h2>用Closure初始化一个变量</h2>
 
-<pre><code class="swift">let setupViewUsingClosure: UIView = {
+<pre><code>let setupViewUsingClosure: UIView = {
     let view = UIView()
     view.backgroundColor = .green
     return view
@@ -652,7 +648,7 @@ func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -&gt
 
 <p>当你第一次看到这个写法的时候肯定很疑惑：参数、类型、函数调用时的括号都跑哪去了？</p>
 
-<pre><code class="swift">let names = ["Chris", "Alex", "Ewa", "Barry", "Daniella"]
+<pre><code>let names = ["Chris", "Alex", "Ewa", "Barry", "Daniella"]
 rreversedNames = names.sorted { $0 &gt; $1 }
 </code></pre>
 
@@ -662,14 +658,14 @@ rreversedNames = names.sorted { $0 &gt; $1 }
 
 <blockquote><p>Closure expressions are unnamed closures written in a lightweight syntax that can capture values from their surrounding context.</p>
 
-<pre><code class="swift">{ (params) -&gt; returnType in
+<pre><code>{ (params) -&gt; returnType in
     statements
 }
 </code></pre></blockquote>
 
 <p>举个具体的例子：</p>
 
-<pre><code class="swift">let names = ["Chris", "Alex", "Ewa", "Barry", "Daniella"]
+<pre><code>let names = ["Chris", "Alex", "Ewa", "Barry", "Daniella"]
 reversedNames = names.sorted(by: { (s1: String, s2: String) -&gt; Bool in
     return s1 &gt; s2
 })
@@ -686,7 +682,7 @@ reversedNames = names.sorted(by: { (s1: String, s2: String) -&gt; Bool in
 
 <p>所以，上面的代码可以写为：</p>
 
-<pre><code class="swift">let names = ["Chris", "Alex", "Ewa", "Barry", "Daniella"]
+<pre><code>let names = ["Chris", "Alex", "Ewa", "Barry", "Daniella"]
 reversedNames = names.sorted(by: { s1, s2 in return s1 &gt; s2 } )
 </code></pre>
 
@@ -701,7 +697,7 @@ reversedNames = names.sorted(by: { s1, s2 in return s1 &gt; s2 } )
 
 <p>所以，代码继续改为：</p>
 
-<pre><code class="swift">let names = ["Chris", "Alex", "Ewa", "Barry", "Daniella"]
+<pre><code>let names = ["Chris", "Alex", "Ewa", "Barry", "Daniella"]
 reversedNames = names.sorted(by: { s1, s2 in s1 &gt; s2 } )
 </code></pre>
 
@@ -716,7 +712,7 @@ reversedNames = names.sorted(by: { s1, s2 in s1 &gt; s2 } )
 
 <p>代码继续改为：</p>
 
-<pre><code class="swift">let names = ["Chris", "Alex", "Ewa", "Barry", "Daniella"]
+<pre><code>let names = ["Chris", "Alex", "Ewa", "Barry", "Daniella"]
 rreversedNames = names.sorted(by: { $0 &gt; $1 } )
 </code></pre>
 
@@ -731,7 +727,7 @@ rreversedNames = names.sorted(by: { $0 &gt; $1 } )
 
 <p>代码就可以写成：</p>
 
-<pre><code class="swift">let names = ["Chris", "Alex", "Ewa", "Barry", "Daniella"]
+<pre><code>let names = ["Chris", "Alex", "Ewa", "Barry", "Daniella"]
 rreversedNames = names.sorted { $0 &gt; $1 }
 </code></pre>
 
@@ -753,7 +749,7 @@ rreversedNames = names.sorted { $0 &gt; $1 }
 
 <p>Place the capture list before a closure’s parameter list and return type if they are provided:</p>
 
-<pre><code class="swift">lazy var someClosure: (Int, String) -&gt; String = {
+<pre><code>lazy var someClosure: (Int, String) -&gt; String = {
     [unowned self, weak delegate = self.delegate!] (index: Int, stringToProcess: String) -&gt; String in
     // closure body goes here
 }
@@ -781,7 +777,7 @@ rreversedNames = names.sorted { $0 &gt; $1 }
 
 <p>比如：</p>
 
-<pre><code class="swift">// capturing values
+<pre><code>// capturing values
 var i = 0
 var closureArray = [()-&gt;()]()
 for _ in 1...5 {
@@ -802,7 +798,7 @@ closureArray[4]() // prints 5
 
 <p>If we want to prevent this behavior (capturing values) and print the value of i even if the properties change after their capturing inside the closure, we can explicitly capture the variable with a capture list like this:</p>
 
-<pre><code class="swift">var closureArray2 = [()-&gt;()]()
+<pre><code>var closureArray2 = [()-&gt;()]()
 var j = 0
 for _ in 1...5 {
     closureArray2.append { [j] in
@@ -822,14 +818,14 @@ closureArray2[4]() // prints 4
 
 <p>We can add multiple values to the capture list :</p>
 
-<pre><code class="swift">closure.append { [j,k,l] in
+<pre><code>closure.append { [j,k,l] in
     print("\(j) \(k) \(l)")
 }
 </code></pre>
 
 <p>also, you can have alias names for the values captured.</p>
 
-<pre><code class="swift">closure.append { [a = j, b = k, c = l] in
+<pre><code>closure.append { [a = j, b = k, c = l] in
     print("\(a) \(b) \(c)")
 }
 </code></pre>
@@ -883,7 +879,7 @@ closureArray2[4]() // prints 4
 
 <p>Before diving into Swift Sequences, let’s see a strange behavior.</p>
 
-<pre><code class="swift">let array = [1, 2, 3]
+<pre><code>let array = [1, 2, 3]
 array[7] 😭
 
 let dic = ["a": 1, "b": 2]
@@ -896,7 +892,7 @@ dic["z"] 😎
 
 <p>Arrays and dictionaries are two base collections provided by the Swift standard library. We can access those collections elements through the [] notation, also known as subscript. Let’s see how those subscripts are defined.</p>
 
-<pre><code class="swift">struct Array&lt;Element&gt; {
+<pre><code>struct Array&lt;Element&gt; {
     subscript(index: Int) -&gt; Element
 }
 
@@ -911,7 +907,7 @@ struct Dictionary&lt;Key: Hashable, Value&gt; {
 
 <p>We can adopt dictionaries safer approach by overloading the arrays subscript — we can’t override them. Adding an external name to the parameter is enough.</p>
 
-<pre><code class="swift">extension Array {
+<pre><code>extension Array {
     subscript(safe index: Int) -&gt; Element? {
         return index &gt;= 0 &amp;&amp; index &lt; count ? self[index] : nil
     }
@@ -924,7 +920,7 @@ struct Dictionary&lt;Key: Hashable, Value&gt; {
 
 <h2>Homemade collection</h2>
 
-<pre><code class="swift">struct Section&lt;T&gt; {
+<pre><code>struct Section&lt;T&gt; {
     let title: String
     let elements: [T]
 }
@@ -934,7 +930,7 @@ struct Dictionary&lt;Key: Hashable, Value&gt; {
 
 <p>Creating a subscript on our collection is very easy, we can even reuse the array’s extension we made earlier.</p>
 
-<pre><code class="swift">struct Section&lt;T&gt; {
+<pre><code>struct Section&lt;T&gt; {
     let title: String
     let elements: [T]
 
@@ -946,7 +942,7 @@ struct Dictionary&lt;Key: Hashable, Value&gt; {
 
 <p>An example in practice :</p>
 
-<pre><code class="swift">let cars = ["911", "Cayman", "Cayenne"]
+<pre><code>let cars = ["911", "Cayman", "Cayenne"]
 let section = Section(title: "Porsche", elements: cars)
 
 section[1]
@@ -975,7 +971,7 @@ section[1]
 
 <p>Here’s a definition of a Countdown sequence that serves as its own iterator. The makeIterator() method is provided as a default implementation.</p>
 
-<pre><code class="swift">struct Countdown: Sequence, IteratorProtocol {
+<pre><code>struct Countdown: Sequence, IteratorProtocol {
     var count: Int
 
     mutating func next() -&gt; Int? {
@@ -1003,7 +999,7 @@ for i in threeToGo {
 
 <p>The <code>Section</code> struct can&rsquo;t act as its own iterator, we need to define an iterator for it, and then return an instance of the defined iterator inside <code>func makeIterator() -&gt; Section&lt;T&gt;.Iterator</code> method.</p>
 
-<pre><code class="swift">struct Section&lt;T&gt;: Sequence {
+<pre><code>struct Section&lt;T&gt;: Sequence {
     let title: String
     let elements: [T]
 
@@ -1039,7 +1035,7 @@ for i in threeToGo {
 
 <p>Is that all? No! By conforming to SequenceType we also get methods for free, here is some of them.</p>
 
-<pre><code class="swift">section.min()
+<pre><code>section.min()
 // 911
 section.max()
 // Cayman
@@ -1051,7 +1047,7 @@ section.contains("911")
 
 <p>We get the min, max &amp; sort methods because the elements of our sequence, String in our case, are Comparable. Contains is available thanks to our elements being Equatable.</p>
 
-<pre><code class="swift">section.filter { $0.count &gt; 3 }
+<pre><code>section.filter { $0.count &gt; 3 }
 // ["Cayman", "Cayenne"]
 section.map { $0.count }
 // [3, 6, 7]
@@ -1097,7 +1093,7 @@ section.reduce(0) { $0 + $1.count }
 
 <h3>Make our <code>Section</code> Conform to <code>Collection</code> Protocol</h3>
 
-<pre><code class="swift">struct Section&lt;T&gt;: Collection {
+<pre><code>struct Section&lt;T&gt;: Collection {
     let title: String
     let elements: [T]
 
@@ -1148,7 +1144,7 @@ section.reduce(0) { $0 + $1.count }
 
 <p>Like conforming to <code>Sequence</code>, we get some methods / properties for free:</p>
 
-<pre><code class="swift">section.count
+<pre><code>section.count
 // 3
 section.first
 // 911
@@ -1170,7 +1166,7 @@ section.index(of: "911")
 
 <p>A simple example shows that it is also really easy to get a crash with Dictionaries.</p>
 
-<pre><code class="swift">let dic = ["a": "bmw", "b": "audi", "c": "citroen"]
+<pre><code>let dic = ["a": "bmw", "b": "audi", "c": "citroen"]
 
 var index = dic.startIndex
 dic[index]
@@ -1349,7 +1345,7 @@ dic[index]
 
 <p>For Intent Classification model training, we prepare the data set as follows (The size of the training data is 3282 falling into four intents.):</p>
 
-<pre><code class="json">[
+<pre><code>[
   {
     "text": "I would like the forecast in cupertino california  tomorrow", 
     "label": "searchWeatherForecast"
@@ -1377,7 +1373,7 @@ dic[index]
 
 <p>The training script is:</p>
 
-<pre><code class="swift">let trainingDataPath = Bundle.main.path(forResource: "intentClassificationFile", ofType: "json", inDirectory: "Data/text/train")!
+<pre><code>let trainingDataPath = Bundle.main.path(forResource: "intentClassificationFile", ofType: "json", inDirectory: "Data/text/train")!
 let trainingData = try! MLDataTable(contentsOf:  URL(fileURLWithPath: trainingDataPath))
 
 // Initializing the classifier with a training data.
@@ -1417,7 +1413,7 @@ try! classifier.write(to: URL(fileURLWithPath: "/Users/hozhang/Downloads/textCla
 
 <p>For the trained model of mlmodel type, we can use it in our iOS app through NLModel (from NatrualLanguage framework). The demo swift code may be like:</p>
 
-<pre><code class="swift">let modelUrl = Bundle.main.url(forResource: "Data/text/textClassifier", withExtension: "mlmodel")
+<pre><code>let modelUrl = Bundle.main.url(forResource: "Data/text/textClassifier", withExtension: "mlmodel")
 let compiledModelUrl = try! MLModel.compileModel(at: modelUrl!)
 let classifier = try! NLModel(contentsOf: compiledModelUrl)
 
@@ -1447,7 +1443,7 @@ print("text: \(text)\nlabel:\(label ?? "Not detected!")")
 
 <p>For Slot Filling model training, we prepare the data set as follows (The size of the training data is: 3282.):</p>
 
-<pre><code class="json">[
+<pre><code>[
   {
     "tokens": ["I", "would", "like", "the", "forecast", "in", "california", "tomorrow"], 
     "labels": ["none", "none", "none", "none", "none", "none", "location", "date"]
@@ -1465,7 +1461,7 @@ print("text: \(text)\nlabel:\(label ?? "Not detected!")")
 
 <p>The training script is:</p>
 
-<pre><code class="swift">// Initializing the training data from Resources folder.
+<pre><code>// Initializing the training data from Resources folder.
 let trainingDataPath = Bundle.main.path(forResource: "slotParsingFile", ofType: "json", inDirectory: "Data/text/train")!
 let trainingData = try! MLDataTable(contentsOf:  URL(fileURLWithPath: trainingDataPath))
 
@@ -1506,7 +1502,7 @@ try! classifier.write(to: URL(fileURLWithPath: "/Users/hozhang/Downloads/slotPar
 
 <p>We can load the mlmodel into an NLTagger (from NatrualLanguage framework), and use the NLTagger to tag labels for each word of the input command text. The demo swift script is like:</p>
 
-<pre><code class="swift">let weatherTagSchema = NLTagScheme("Weather")
+<pre><code>let weatherTagSchema = NLTagScheme("Weather")
 let modelUrl = Bundle.main.url(forResource: "Data/text/slotParsing", withExtension: "mlmodel")
 let compiledModelUrl = try! MLModel.compileModel(at: modelUrl!)
 let taggerModel = try! NLModel(contentsOf: compiledModelUrl)

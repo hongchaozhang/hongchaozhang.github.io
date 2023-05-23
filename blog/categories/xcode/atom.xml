@@ -4,7 +4,7 @@
   <title><![CDATA[Category: xcode | Reading Space]]></title>
   <link href="http://hongchaozhang.github.io/blog/categories/xcode/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2022-12-16T18:12:32+08:00</updated>
+  <updated>2023-05-24T02:12:59+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -65,7 +65,7 @@
 
 <p>该属性是只读属性，用来控制该view controller可不可以旋转。可以在自己的view controller中将其override，返回自己的逻辑，甚至将其override为读写属性，可以在其它地方进行设置。比如：</p>
 
-<pre><code class="swift">override public var shouldAutorotate: Bool {
+<pre><code>override public var shouldAutorotate: Bool {
     get {
         return self.shouldAutorotateVariable
     }
@@ -159,7 +159,7 @@
 
 <p>objc源代码：</p>
 
-<pre><code class="objc">@interface MyClass: NSObject
+<pre><code>@interface MyClass: NSObject
 
 - (void)sayHelloTo:(NSString*)person;
 
@@ -181,7 +181,7 @@
 
 <p>转换之后：</p>
 
-<pre><code class="swift">class MyClass: NSObject {
+<pre><code>class MyClass: NSObject {
     func sayHelloTo(person: String) {
         print("Hello, \(person).")
         self.performSelector("test")
@@ -210,7 +210,7 @@
 
 <p>同样用上述objc源代码，转换之后为：</p>
 
-<pre><code class="swift">class MyClass: NSObject {
+<pre><code>class MyClass: NSObject {
     func sayHello(to person: String?) {
         print("Hello Swift, Goodbye Obj-C!")
         perform(#selector(MyClass.test))
@@ -309,7 +309,7 @@ php ./cpd_script.php -cpd-xml cpd-output.xml
 
 <p>为了将xml文件转换成更好读的warning，需要在工程根目录下创建一个php文件，我们叫做cpd_script.php，拷贝下面的脚本到该文件中：</p>
 
-<pre><code class="php">&lt;?php
+<pre><code>&lt;?php
 foreach (simplexml_load_file('cpd-output.xml')-&gt;duplication as $duplication) {
     $files = $duplication-&gt;xpath('file');
     foreach ($files as $file) {

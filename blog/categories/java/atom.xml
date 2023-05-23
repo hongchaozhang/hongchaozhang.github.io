@@ -4,7 +4,7 @@
   <title><![CDATA[Category: java | Reading Space]]></title>
   <link href="http://hongchaozhang.github.io/blog/categories/java/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2022-12-16T18:12:32+08:00</updated>
+  <updated>2023-05-24T02:12:59+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -59,7 +59,7 @@ These are all tests that must run on an Android hardware device or an Android em
 
 <p>To create a basic JUnit 4 test class, create a Java class that contains one or more test methods. A test method begins with the @Test annotation and contains the code to exercise and verify a single functionality in the component that you want to test.</p>
 
-<pre><code class="java">import org.junit.Test;
+<pre><code>import org.junit.Test;
 import java.util.regex.Pattern;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -139,7 +139,7 @@ public class EmailValidatorTest {
 
 <p>For <code>mock</code>:</p>
 
-<pre><code class="java">Stock stock = mock(Stock.class);
+<pre><code>Stock stock = mock(Stock.class);
 when(stock.getPrice()).thenReturn(100.00);    // Mock implementation
 when(stock.getQuantity()).thenReturn(200);    // Mock implementation
 when(stock.getValue()).thenCallRealMethod();  // Real implementation
@@ -149,7 +149,7 @@ when(stock.getValue()).thenCallRealMethod();  // Real implementation
 
 <p>For <code>spy</code>:</p>
 
-<pre><code class="java">Stock stock = spy(new Stock());
+<pre><code>Stock stock = spy(new Stock());
 when(stock.getPrice()).thenReturn(100.00);    // Mock implementation
 when(stock.getQuantity()).thenReturn(200);    // Mock implementation
 // All other method call will use the real implementations
@@ -159,7 +159,7 @@ when(stock.getQuantity()).thenReturn(200);    // Mock implementation
 
 <p>There is one important pitfall when you use <code>when(Object)</code> with spy like in the previous example. The real method will be called (because <code>stock.getPrice()</code> is evaluated before <code>when(..)</code> at runtime). This can be a problem if your method contains logic that should not be called. You can write the previous example like this:</p>
 
-<pre><code class="java">Stock stock = spy(new Stock());
+<pre><code>Stock stock = spy(new Stock());
 doReturn(100.00).when(stock).getPrice();    // Mock implementation
 doReturn(200).when(stock).getQuantity();    // Mock implementation
 // All other method call will use the real implementations
@@ -175,13 +175,13 @@ doReturn(200).when(stock).getQuantity();    // Mock implementation
 
 <p>Instead of using:</p>
 
-<pre><code class="java">assertEquals(expected, "the two values should be the same");
+<pre><code>assertEquals(expected, "the two values should be the same");
 assertNotNull(object);
 </code></pre>
 
 <p>we can use:</p>
 
-<pre><code class="java">assertThat(expected, equalTo("the two values should be the same"));
+<pre><code>assertThat(expected, equalTo("the two values should be the same"));
 assertThat(object, is(NotNullValue()));
 </code></pre>
 

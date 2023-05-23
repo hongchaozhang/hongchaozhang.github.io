@@ -4,7 +4,7 @@
   <title><![CDATA[Category: music | Reading Space]]></title>
   <link href="http://hongchaozhang.github.io/blog/categories/music/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2022-12-16T18:12:32+08:00</updated>
+  <updated>2023-05-24T02:12:59+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -29,7 +29,7 @@
 
 <p>标签保存在UserDefault里面，数据格式如下：</p>
 
-<pre><code class="json">{
+<pre><code>{
     "ALL_TAGS" : ["tag1", "tag2", "tag3"],
     "天空之城1" : ["tag1", "tag2"],
     "天空之城2" : ["tag2", "tag3"],
@@ -48,7 +48,7 @@
 
 <p>其中json文件格式如下：</p>
 
-<pre><code class="json">{
+<pre><code>{
     "basic info" : {
         "tempo" : "90", // 每分钟节拍数
         "meter" : "4", // 每小节节拍数

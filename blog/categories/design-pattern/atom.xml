@@ -4,7 +4,7 @@
   <title><![CDATA[Category: design pattern | Reading Space]]></title>
   <link href="http://hongchaozhang.github.io/blog/categories/design-pattern/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2022-12-16T18:12:32+08:00</updated>
+  <updated>2023-05-24T02:12:59+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -403,7 +403,7 @@
 
 <p>继承一个抽象类（和接口类似）或者重写一个父类中的（虚）方法，也是OCP的惯用伎俩。典型的例子，就是那个图形的绘制的例子。</p>
 
-<pre><code class="swift">class Shape {
+<pre><code>class Shape {
     func draw() {}
 };
 
@@ -473,7 +473,7 @@ void drawAllShapes([Shape] list) {
 
 <p>对于LSP的违反常常会导致以明显违反OCP的方式使用运行时类型检测。这种方式常常是使用一个显式的if语句去确定一个对象的类型，以便于能够选择针对该类型的正确行为。考虑下面的例子：</p>
 
-<pre><code class="swift">class Shape {
+<pre><code>class Shape {
 
 };
 
@@ -512,7 +512,7 @@ void drawAllShapes([Shape] list) {
 
 <p>长方形的实现如下：</p>
 
-<pre><code class="swift">class Rectangle {
+<pre><code>class Rectangle {
     var width: Double = 0
     var height: Double = 0
 
@@ -542,7 +542,7 @@ void drawAllShapes([Shape] list) {
 
 <p>实现如下：</p>
 
-<pre><code class="swift">class Square: Rectangle {
+<pre><code>class Square: Rectangle {
     override func setWidth(_ width: Double) {
         self.width = width
         self.height = width
@@ -557,7 +557,7 @@ void drawAllShapes([Shape] list) {
 
 <p>Square看起来工作不错，而且这个设计似乎也是自相容的，正确的。可是这个结论是错误的，一个自相容的程序未必就和所有的用户程序相容。考虑下面的函数：</p>
 
-<pre><code class="swift">func tempFunc(_ rect: Rectangle) {
+<pre><code>func tempFunc(_ rect: Rectangle) {
     rect.setWidth(4)
     rect.setHeight(5)
     assert(rect.getArea() == 4*5)
@@ -751,17 +751,17 @@ void drawAllShapes([Shape] list) {
 
 <p>考虑一个既要访问TransferUI又要访问DepositUI的函数。假设我们想把这两个UI传入该函数，是应该这样写：</p>
 
-<pre><code class="swift">void tempFund(_ depositeUI: DepositUI, _ transferUI: TransferUI)
+<pre><code>void tempFund(_ depositeUI: DepositUI, _ transferUI: TransferUI)
 </code></pre>
 
 <p>还是应该这样写：</p>
 
-<pre><code class="swift">void tempFund(_ ui: UI)
+<pre><code>void tempFund(_ ui: UI)
 </code></pre>
 
 <p>以第二种方法编写函数的诱惑是很强的。毕竟，在第一种多参数形式中，两个参数应用的是同一个对象，调用起来是这个样子：</p>
 
-<pre><code class="swift">tempFunc(ui, ui)
+<pre><code>tempFunc(ui, ui)
 </code></pre>
 
 <p>虽然上面的调用看起来有悖常理，但是我们还是应该倾向于多参数形式。单参数形式的函数依赖于UI中包含的每一个接口，如果WithDrawalUI发生了改变，那么函数及其所有客户程序都会受到影响。这更悖常理。此外，我们也不能保证传入函数的两个参数一直是同一个对象。也许以后，接口对象会因为某些原因而分离，此时，函数并不需要关注接口对象是合并还是分拆这一事实。</p>
@@ -788,7 +788,7 @@ void drawAllShapes([Shape] list) {
 <!-- more -->
 
 
-<pre><code class="objc">+ (instancetype)sharedInstance
+<pre><code>+ (instancetype)sharedInstance
 {
     static dispatch_once_t once;
     static id sharedInstance;

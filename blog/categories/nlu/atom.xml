@@ -4,7 +4,7 @@
   <title><![CDATA[Category: nlu | Reading Space]]></title>
   <link href="http://hongchaozhang.github.io/blog/categories/nlu/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2022-12-16T18:12:32+08:00</updated>
+  <updated>2023-05-24T02:12:59+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -573,7 +573,7 @@ Lex is part of AWS, but Alexa isn&rsquo;t</p>
 
 <p>For Intent Classification model training, we prepare the data set as follows (The size of the training data is 3282 falling into four intents.):</p>
 
-<pre><code class="json">[
+<pre><code>[
   {
     "text": "I would like the forecast in cupertino california  tomorrow", 
     "label": "searchWeatherForecast"
@@ -601,7 +601,7 @@ Lex is part of AWS, but Alexa isn&rsquo;t</p>
 
 <p>The training script is:</p>
 
-<pre><code class="swift">let trainingDataPath = Bundle.main.path(forResource: "intentClassificationFile", ofType: "json", inDirectory: "Data/text/train")!
+<pre><code>let trainingDataPath = Bundle.main.path(forResource: "intentClassificationFile", ofType: "json", inDirectory: "Data/text/train")!
 let trainingData = try! MLDataTable(contentsOf:  URL(fileURLWithPath: trainingDataPath))
 
 // Initializing the classifier with a training data.
@@ -641,7 +641,7 @@ try! classifier.write(to: URL(fileURLWithPath: "/Users/hozhang/Downloads/textCla
 
 <p>For the trained model of mlmodel type, we can use it in our iOS app through NLModel (from NatrualLanguage framework). The demo swift code may be like:</p>
 
-<pre><code class="swift">let modelUrl = Bundle.main.url(forResource: "Data/text/textClassifier", withExtension: "mlmodel")
+<pre><code>let modelUrl = Bundle.main.url(forResource: "Data/text/textClassifier", withExtension: "mlmodel")
 let compiledModelUrl = try! MLModel.compileModel(at: modelUrl!)
 let classifier = try! NLModel(contentsOf: compiledModelUrl)
 
@@ -671,7 +671,7 @@ print("text: \(text)\nlabel:\(label ?? "Not detected!")")
 
 <p>For Slot Filling model training, we prepare the data set as follows (The size of the training data is: 3282.):</p>
 
-<pre><code class="json">[
+<pre><code>[
   {
     "tokens": ["I", "would", "like", "the", "forecast", "in", "california", "tomorrow"], 
     "labels": ["none", "none", "none", "none", "none", "none", "location", "date"]
@@ -689,7 +689,7 @@ print("text: \(text)\nlabel:\(label ?? "Not detected!")")
 
 <p>The training script is:</p>
 
-<pre><code class="swift">// Initializing the training data from Resources folder.
+<pre><code>// Initializing the training data from Resources folder.
 let trainingDataPath = Bundle.main.path(forResource: "slotParsingFile", ofType: "json", inDirectory: "Data/text/train")!
 let trainingData = try! MLDataTable(contentsOf:  URL(fileURLWithPath: trainingDataPath))
 
@@ -730,7 +730,7 @@ try! classifier.write(to: URL(fileURLWithPath: "/Users/hozhang/Downloads/slotPar
 
 <p>We can load the mlmodel into an NLTagger (from NatrualLanguage framework), and use the NLTagger to tag labels for each word of the input command text. The demo swift script is like:</p>
 
-<pre><code class="swift">let weatherTagSchema = NLTagScheme("Weather")
+<pre><code>let weatherTagSchema = NLTagScheme("Weather")
 let modelUrl = Bundle.main.url(forResource: "Data/text/slotParsing", withExtension: "mlmodel")
 let compiledModelUrl = try! MLModel.compileModel(at: modelUrl!)
 let taggerModel = try! NLModel(contentsOf: compiledModelUrl)

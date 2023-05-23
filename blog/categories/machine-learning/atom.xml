@@ -4,7 +4,7 @@
   <title><![CDATA[Category: machine learning | Reading Space]]></title>
   <link href="http://hongchaozhang.github.io/blog/categories/machine-learning/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2022-12-16T18:12:32+08:00</updated>
+  <updated>2023-05-24T02:12:59+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -563,7 +563,7 @@
 
 <p>使用下面的python代码实现线性回归分析：</p>
 
-<pre><code class="python">import pandas as pd
+<pre><code>import pandas as pd
 from sklearn.linear_model import LinearRegression
 
 df = pd.read_csv("demo/datasets/boston_house_price.csv")  # 读取 Boston Housing 中的 csv数据
@@ -606,7 +606,7 @@ print(regression.coef_)  # 各个特征所对应的系
 
 <p>简单起见，这里的归一化是指使用特征取值范围中的最大值和最小值，把原始值转换为0到1之间的值。这样处理的好处在于简单易行，便于理解。不过，它的缺点也很明显，由于只考虑了最大最小值，因此很容易受到异常数据点的干扰。</p>
 
-<pre><code class="python">from sklearn.preprocessing import StandardScaler
+<pre><code>from sklearn.preprocessing import StandardScaler
 from sklearn.preprocessing import MinMaxScaler
 
 minMaxScaler = MinMaxScaler()  # 基于 min 和 max 值的归一化
@@ -647,7 +647,7 @@ print(regression_normalized.coef_)
 
 <p>经过标准化处理之后，每种特征的取值都会变成一个标准正态分布，以0为均值，1为标准差。和归一化相比，标准化使用了数据是正态分布的假设，不容易受到过大或过小值的干扰。</p>
 
-<pre><code class="python">standardScaler = StandardScaler()  # 基于 Z 分数的标准化
+<pre><code>standardScaler = StandardScaler()  # 基于 Z 分数的标准化
 
 df = pd.read_csv("demo/datasets/boston_house_price.csv")  # 读取 Boston Housing 中的 csv的数据
 print(df)
@@ -1602,7 +1602,7 @@ Lex is part of AWS, but Alexa isn&rsquo;t</p>
 
 <p>For Intent Classification model training, we prepare the data set as follows (The size of the training data is 3282 falling into four intents.):</p>
 
-<pre><code class="json">[
+<pre><code>[
   {
     "text": "I would like the forecast in cupertino california  tomorrow", 
     "label": "searchWeatherForecast"
@@ -1630,7 +1630,7 @@ Lex is part of AWS, but Alexa isn&rsquo;t</p>
 
 <p>The training script is:</p>
 
-<pre><code class="swift">let trainingDataPath = Bundle.main.path(forResource: "intentClassificationFile", ofType: "json", inDirectory: "Data/text/train")!
+<pre><code>let trainingDataPath = Bundle.main.path(forResource: "intentClassificationFile", ofType: "json", inDirectory: "Data/text/train")!
 let trainingData = try! MLDataTable(contentsOf:  URL(fileURLWithPath: trainingDataPath))
 
 // Initializing the classifier with a training data.
@@ -1670,7 +1670,7 @@ try! classifier.write(to: URL(fileURLWithPath: "/Users/hozhang/Downloads/textCla
 
 <p>For the trained model of mlmodel type, we can use it in our iOS app through NLModel (from NatrualLanguage framework). The demo swift code may be like:</p>
 
-<pre><code class="swift">let modelUrl = Bundle.main.url(forResource: "Data/text/textClassifier", withExtension: "mlmodel")
+<pre><code>let modelUrl = Bundle.main.url(forResource: "Data/text/textClassifier", withExtension: "mlmodel")
 let compiledModelUrl = try! MLModel.compileModel(at: modelUrl!)
 let classifier = try! NLModel(contentsOf: compiledModelUrl)
 
@@ -1700,7 +1700,7 @@ print("text: \(text)\nlabel:\(label ?? "Not detected!")")
 
 <p>For Slot Filling model training, we prepare the data set as follows (The size of the training data is: 3282.):</p>
 
-<pre><code class="json">[
+<pre><code>[
   {
     "tokens": ["I", "would", "like", "the", "forecast", "in", "california", "tomorrow"], 
     "labels": ["none", "none", "none", "none", "none", "none", "location", "date"]
@@ -1718,7 +1718,7 @@ print("text: \(text)\nlabel:\(label ?? "Not detected!")")
 
 <p>The training script is:</p>
 
-<pre><code class="swift">// Initializing the training data from Resources folder.
+<pre><code>// Initializing the training data from Resources folder.
 let trainingDataPath = Bundle.main.path(forResource: "slotParsingFile", ofType: "json", inDirectory: "Data/text/train")!
 let trainingData = try! MLDataTable(contentsOf:  URL(fileURLWithPath: trainingDataPath))
 
@@ -1759,7 +1759,7 @@ try! classifier.write(to: URL(fileURLWithPath: "/Users/hozhang/Downloads/slotPar
 
 <p>We can load the mlmodel into an NLTagger (from NatrualLanguage framework), and use the NLTagger to tag labels for each word of the input command text. The demo swift script is like:</p>
 
-<pre><code class="swift">let weatherTagSchema = NLTagScheme("Weather")
+<pre><code>let weatherTagSchema = NLTagScheme("Weather")
 let modelUrl = Bundle.main.url(forResource: "Data/text/slotParsing", withExtension: "mlmodel")
 let compiledModelUrl = try! MLModel.compileModel(at: modelUrl!)
 let taggerModel = try! NLModel(contentsOf: compiledModelUrl)

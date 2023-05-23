@@ -4,7 +4,7 @@
   <title><![CDATA[Category: javascript | Reading Space]]></title>
   <link href="http://hongchaozhang.github.io/blog/categories/javascript/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2022-12-16T18:12:32+08:00</updated>
+  <updated>2023-05-24T02:12:59+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -507,7 +507,7 @@ For help, see: https://nodejs.org/en/docs/inspector
 
 <h4>Code:</h4>
 
-<pre><code class="javascript">var addTimer = function (widget) {
+<pre><code>var addTimer = function (widget) {
     var prop;
     for (prop in widget) {
         if (typeof widget[prop] === 'function') {
@@ -546,7 +546,7 @@ For help, see: https://nodejs.org/en/docs/inspector
 
 <h4>Code:</h4>
 
-<pre><code class="javascript">var addTimer = function (widget) {
+<pre><code>var addTimer = function (widget) {
     var prop;
     var getFuncWithTimer = function (prop) {
         return function () {
@@ -571,7 +571,7 @@ For help, see: https://nodejs.org/en/docs/inspector
 
 <h4>Code:</h4>
 
-<pre><code class="javascript">var addTimer = function (widget) {
+<pre><code>var addTimer = function (widget) {
     var prop;
     var getFuncWithTimer = function (prop) {
         var backupFunc = widget[prop];
@@ -597,7 +597,7 @@ For help, see: https://nodejs.org/en/docs/inspector
 
 <h4>Code:</h4>
 
-<pre><code class="javascript">var addTimer = function (widget) {
+<pre><code>var addTimer = function (widget) {
     var prop;
     var getFuncWithTimer = function (prop) {
         var backupFunc = widget[prop];
@@ -623,7 +623,7 @@ For help, see: https://nodejs.org/en/docs/inspector
     <link href="http://hongchaozhang.github.io/blog/2015/05/09/How-to-Add-a-Clone-function-to-Function/"/>
     <updated>2015-05-09T00:00:00+08:00</updated>
     <id>http://hongchaozhang.github.io/blog/2015/05/09/How-to-Add-a-Clone-function-to-Function</id>
-    <content type="html"><![CDATA[<pre><code class="javascript">Function.prototype.clone = function() {
+    <content type="html"><![CDATA[<pre><code>Function.prototype.clone = function() {
     var that = this;
     var temp = function temporary() { return that.apply(this, arguments); };
     for( key in this ) {
