@@ -14,7 +14,7 @@ published: true
 
 <!-- more -->
 
-```objc
+```
 + (instancetype)sharedInstance
 {
     static dispatch_once_t once;

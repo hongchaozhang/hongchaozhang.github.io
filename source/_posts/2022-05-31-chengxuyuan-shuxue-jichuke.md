@@ -443,7 +443,7 @@ Google公司最引以为傲的PageRank链接分析算法，它的核心思想就
 
 使用下面的python代码实现线性回归分析：
 
-```python
+```
 import pandas as pd
 from sklearn.linear_model import LinearRegression
 
@@ -487,7 +487,7 @@ print(regression.coef_)  # 各个特征所对应的系
 #### 归一化（Normalization）
 简单起见，这里的归一化是指使用特征取值范围中的最大值和最小值，把原始值转换为0到1之间的值。这样处理的好处在于简单易行，便于理解。不过，它的缺点也很明显，由于只考虑了最大最小值，因此很容易受到异常数据点的干扰。
 
-```python
+```
 from sklearn.preprocessing import StandardScaler
 from sklearn.preprocessing import MinMaxScaler
 
@@ -529,7 +529,7 @@ print(regression_normalized.coef_)
 
 经过标准化处理之后，每种特征的取值都会变成一个标准正态分布，以0为均值，1为标准差。和归一化相比，标准化使用了数据是正态分布的假设，不容易受到过大或过小值的干扰。
 
-```python
+```
 standardScaler = StandardScaler()  # 基于 Z 分数的标准化
 
 df = pd.read_csv("demo/datasets/boston_house_price.csv")  # 读取 Boston Housing 中的 csv的数据

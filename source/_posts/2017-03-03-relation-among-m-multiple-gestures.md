@@ -20,7 +20,7 @@ categories: [ios, swift, objective-c]
 
 可以为view添加多个不同的`UIGestureRecognizer`，比如pan和tap，可以同时起作用，但是如果你想**加入两个tap手势，第二个会将第一个手势覆盖**。这个时候，至少需要为其中一个tap手势添加delegate，并实现下面的方法，为两个tap同时存在的情况返回true：
     
-```swift
+```
 optional public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool
 ```
     
@@ -33,7 +33,7 @@ optional public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer,
 
 如果不希望在double tap的同时触发两次single tap，需要在single tap的delegate中实现方法
     
-```swift
+```
 optional public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRequireFailureOf otherGestureRecognizer: UIGestureRecognizer) -> Bool
 ```
     
@@ -41,7 +41,7 @@ optional public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer,
 
 如果希望在rotate的同时可以进行pinch，需要在pinch或者rotate的手势的delegate中实现方法：
     
-```swift
+```
 optional public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool
 ```
     
@@ -57,13 +57,13 @@ optional public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer,
 
 如果设置了
 
-```swift
+```
 singleTap.delegate = self.singleTapOnMapWidgetViewerGestureRecognizerDelegate
 ```
 
 那么
 
-```swift
+```
 singleTap.require(toFail: doubleTap)
 ```
 

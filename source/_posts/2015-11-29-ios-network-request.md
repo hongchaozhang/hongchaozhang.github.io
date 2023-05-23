@@ -18,7 +18,7 @@ ios网络请求设计的一些类，可以参考；[IOS网络编程：HTTP](http
 
 * Life Cycle of a URL Session with System-Provided Delegates
 
-```objc
+```
 
 - (void)startWithURLString:(NSString *)urlString {
     /**
@@ -52,7 +52,7 @@ ios网络请求设计的一些类，可以参考；[IOS网络编程：HTTP](http
 
 * Life Cycle of a URL Session with Custom Delegates
 
-```objc
+```
 
 - (void)startWithURLString:(NSString *)urlString {
     /**
@@ -76,7 +76,7 @@ ios网络请求设计的一些类，可以参考；[IOS网络编程：HTTP](http
 
 以及NSURLSessionDataDelegate中的：
 
-```objc
+```
 
 - (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask didReceiveData:(NSData *)data {
     // self.responseData is NSMutableData type
@@ -106,7 +106,7 @@ Temporary exceptions can be configured via your app's Info.plist file.
 
 打开Info.plist，加入如下字段：
 
-```xml
+```
 <key>NSAppTransportSecurity</key>
     <dict>
         <!--Include to allow all connections (DANGER)-->

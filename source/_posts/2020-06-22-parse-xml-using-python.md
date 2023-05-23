@@ -18,7 +18,7 @@ ELementTree官方文档参考：[The ElementTree XML API](https://docs.python.or
 
 下面是一个例子：
 
-```python
+```
 from xml.etree import ElementTree as ET
 
 # 读取xml文件

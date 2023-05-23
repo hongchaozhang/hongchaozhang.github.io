@@ -26,7 +26,7 @@ objc2swift的转换效果很一般。
 
 objc源代码：
 
-```objc
+```
 @interface MyClass: NSObject
 
 - (void)sayHelloTo:(NSString*)person;
@@ -49,7 +49,7 @@ objc源代码：
 
 转换之后：
 
-```swift
+```
 class MyClass: NSObject {
     func sayHelloTo(person: String) {
         print("Hello, \(person).")
@@ -76,7 +76,7 @@ swiftify也支持在线转换，而且转换效果明显好于objc2swift。如�
 
 同样用上述objc源代码，转换之后为：
 
-```swift
+```
 class MyClass: NSObject {
     func sayHello(to person: String?) {
         print("Hello Swift, Goodbye Obj-C!")

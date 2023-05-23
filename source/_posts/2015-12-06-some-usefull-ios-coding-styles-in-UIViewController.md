@@ -17,7 +17,7 @@ categories: [ios, objective-c]
 
 不要出现这样的代码：
 
-```objc
+```
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -32,7 +32,7 @@ categories: [ios, objective-c]
 
 而应该是这样的：
 
-```objc
+```
 #pragma mark - life cycle
 - (void)viewDidLoad
 {

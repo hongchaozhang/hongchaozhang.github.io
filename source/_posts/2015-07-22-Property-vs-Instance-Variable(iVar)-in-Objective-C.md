@@ -14,13 +14,13 @@ This post is deprecated. Refer to [Propety, Instance Variable and @synthesize](h
 To declare a variable in a objective-c class, we have the following two ways:
 
 * Property
-```objc
+```
 @interface Photo : NSObject
 @property (nonatomic, strong) NSString *photographer;
 @end
 ```
 * Instance Variable (iVar)
-```objc
+```
 @interface Photo : NSObject {
     NSString *photographer;
 }
@@ -59,7 +59,7 @@ iVar is faster than property, as property will call the `getter` or `setter` fun
 If you add `@synthesize photographer` in the implementation, compiler will automatically add an iVar `photographer` <del>and `_photographer`</del> to the class. You can directly use `photographer` <del>or `_photographer`</del> instead of `self.photographer` to get or set the value. The iVar method is faster, but keep in mind that it will not call the `getter` or `setter` method.
 
 If you declare the class like this and don't `@synthesize photographer`:
-```objc
+```
 @interface Photo : NSObject {
 	NSString *photographer;
 }

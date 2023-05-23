@@ -75,7 +75,7 @@ from back to front:
 
 其实现代码的html如下：
 
-```html
+```
 <div>
   <span class="red">Red</span>
 </div>
@@ -89,7 +89,7 @@ from back to front:
 
 CSS代码如下：
 
-```css
+```
 .red, .green, .blue {
   position: absolute;
   width: 100px;
@@ -122,7 +122,7 @@ CSS代码如下：
 
 只需要在CSS中加入下面一段即可：
 
-```css
+```
 div:first-child {
   opacity: .99;
 }

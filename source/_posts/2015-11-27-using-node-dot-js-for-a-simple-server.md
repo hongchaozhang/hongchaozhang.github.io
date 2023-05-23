@@ -10,7 +10,7 @@ categories: [node]
 
 参考[Node.js for Beginners](http://code.tutsplus.com/tutorials/nodejs-for-beginners--net-26314). 去除以下代码：
 
-```javascript
+```
 request.on("end", function () {
 
 });

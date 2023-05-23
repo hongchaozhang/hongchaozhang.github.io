@@ -125,7 +125,7 @@ If tracking quality changes, the tracking state will also change:
 
 And the tracking state changes will be notified by:
 
-```swift
+```
 
 func session(_ session: ARSession, cameraDidChangeTrackingState camera: ARCamera) { 
     if case .limited(let reason) = camera.trackingState {
@@ -159,7 +159,7 @@ Key infos in `ARFrame`:
 
 By calling the following method on `ARSCNView`, 
 
-```swift
+```
 open func hitTest(_ point: CGPoint, types: ARHitTestResult.ResultType) -> [ARHitTestResult]
 ```
 

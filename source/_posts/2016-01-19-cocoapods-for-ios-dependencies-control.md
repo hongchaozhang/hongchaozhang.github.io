@@ -120,7 +120,7 @@ pod 'Charts'
 
 一些人说的：
 
-```objc
+```
 @import Charts;
 ```
 
@@ -128,7 +128,7 @@ pod 'Charts'
 
 很庆幸，StackOverflow上有人遇到了相同的问题：[Module not found error when importing Swift pod into Objective-C project](http://stackoverflow.com/questions/33931517/module-not-found-error-when-importing-swift-pod-into-objective-c-project)，在需要用到Charts库中的类的文件中，加入下面代码：
 
-```objc
+```
 #import "Charts-Swift.h"
 ```
 

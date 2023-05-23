@@ -102,7 +102,7 @@ Apple has released CreateML for training natural language models, which also int
 
 For Intent Classification model training, we prepare the data set as follows (The size of the training data is 3282 falling into four intents.):
 
-```json
+```
 [
   {
     "text": "I would like the forecast in cupertino california  tomorrow", 
@@ -131,7 +131,7 @@ Apple has release CreateML framework for training machine learning models easily
 
 The training script is:
 
-```swift
+```
 let trainingDataPath = Bundle.main.path(forResource: "intentClassificationFile", ofType: "json", inDirectory: "Data/text/train")!
 let trainingData = try! MLDataTable(contentsOf:  URL(fileURLWithPath: trainingDataPath))
 
@@ -171,7 +171,7 @@ We can get 99.23% training accuracy and 98.87% validation accuracy.
 
 For the trained model of mlmodel type, we can use it in our iOS app through NLModel (from NatrualLanguage framework). The demo swift code may be like:
 
-```swift
+```
 let modelUrl = Bundle.main.url(forResource: "Data/text/textClassifier", withExtension: "mlmodel")
 let compiledModelUrl = try! MLModel.compileModel(at: modelUrl!)
 let classifier = try! NLModel(contentsOf: compiledModelUrl)
@@ -197,7 +197,7 @@ print("text: \(text)\nlabel:\(label ?? "Not detected!")")
 
 For Slot Filling model training, we prepare the data set as follows (The size of the training data is: 3282.):
 
-```json
+```
 [
   {
     "tokens": ["I", "would", "like", "the", "forecast", "in", "california", "tomorrow"], 
@@ -216,7 +216,7 @@ Like Intent Classification model training, CreateML framework also makes it easy
 
 The training script is:
 
-```swift
+```
 // Initializing the training data from Resources folder.
 let trainingDataPath = Bundle.main.path(forResource: "slotParsingFile", ofType: "json", inDirectory: "Data/text/train")!
 let trainingData = try! MLDataTable(contentsOf:  URL(fileURLWithPath: trainingDataPath))
@@ -257,7 +257,7 @@ We can get 99.64% training accuracy and 98.38% validation accuracy.
 
 We can load the mlmodel into an NLTagger (from NatrualLanguage framework), and use the NLTagger to tag labels for each word of the input command text. The demo swift script is like:
 
-```swift
+```
 let weatherTagSchema = NLTagScheme("Weather")
 let modelUrl = Bundle.main.url(forResource: "Data/text/slotParsing", withExtension: "mlmodel")
 let compiledModelUrl = try! MLModel.compileModel(at: modelUrl!)

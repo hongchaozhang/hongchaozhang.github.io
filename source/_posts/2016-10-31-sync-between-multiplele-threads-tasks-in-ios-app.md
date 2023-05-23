@@ -19,7 +19,7 @@ categories: [ios]
 
 例子：
 
-```objc
+```
 dispatch_group_t group = dispatch_group_create();
 dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0);
     
@@ -59,7 +59,7 @@ dispatch_group_notify(group, queue, ^ {
 
 例子：
 
-```objc
+```
 // dispatch_barrier_async can not be used together with dispatch_get_global_queue
 // dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0);
 dispatch_queue_t queue = dispatch_queue_create("com.company.app.queue", DISPATCH_QUEUE_CONCURRENT);
@@ -109,7 +109,7 @@ dispatch_async(queue, ^{
 
 例子：
 
-```objc
+```
 NSOperationQueue *queue = [[NSOperationQueue alloc] init];
     
 NSOperation *completionOperation = [NSBlockOperation blockOperationWithBlock:^{
@@ -173,7 +173,7 @@ dispatch_semaphore是GCD用来同步的一种方式，与他相关的共有三�
 
 例子：
 
-```objc
+```
 dispatch_queue_t queue = dispatch_queue_create("my.conQ", DISPATCH_QUEUE_CONCURRENT);
 dispatch_semaphore_t mySem = dispatch_semaphore_create(0);
     
@@ -219,7 +219,7 @@ dispatch_async(queue, ^{
 
 对于嵌套的block，仍然使用`dispatch_group_async`将block放入对应的group。比如下面的例子，对于Block1里面的Block4，我们仍然使用`dispatch_group_async`将Block4放入对应的group，即可以保证Block3在Block4之后执行。也就是说，只要是在`dispatch_group_notify`对应的Block3执行之前加入group的block，都需要执行，然后才能执行`dispatch_group_notify`对应的Block3，即，当`dispatch_group_notify`对应的Block3执行的时候，group中不能有任何没有执行的其它block存在。
 
-```objc
+```
 dispatch_group_async(group, queue, ^{
     // block4 inside block 1
     NSLog(@"Block4 inside Block1 Start");
@@ -235,7 +235,7 @@ dispatch_group_async(group, queue, ^{
 
 例子：
 
-```objc
+```
 dispatch_group_t group = dispatch_group_create();
 dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0);
     

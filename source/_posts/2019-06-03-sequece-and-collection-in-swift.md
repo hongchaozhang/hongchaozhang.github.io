@@ -32,7 +32,7 @@ But some of the code inside is old and can't be compiled with swift 5.0. So rewr
 
 Before diving into Swift Sequences, let’s see a strange behavior.
 
-```swift
+```
 let array = [1, 2, 3]
 array[7] 😭
 
@@ -46,7 +46,7 @@ In other words, when requesting an element that doesn’t exist, why arrays cras
 
 Arrays and dictionaries are two base collections provided by the Swift standard library. We can access those collections elements through the [] notation, also known as subscript. Let’s see how those subscripts are defined.
 
-```swift
+```
 struct Array<Element> {
     subscript(index: Int) -> Element
 }
@@ -62,7 +62,7 @@ For dictionaries, on the other hand, an optional Value is returned, which allows
 
 We can adopt dictionaries safer approach by overloading the arrays subscript — we can’t override them. Adding an external name to the parameter is enough.
 
-```swift
+```
 extension Array {
     subscript(safe index: Int) -> Element? {
         return index >= 0 && index < count ? self[index] : nil
@@ -75,7 +75,7 @@ We saw how we can create a new accessor to the elements of an array, but can we 
 <a id="markdown-homemade-collection" name="homemade-collection"></a>
 ## Homemade collection
 
-```swift
+```
 struct Section<T> {
     let title: String
     let elements: [T]
@@ -86,7 +86,7 @@ Internally, this ‘collection’ is based on an array. This is an implementatio
 
 Creating a subscript on our collection is very easy, we can even reuse the array’s extension we made earlier.
 
-```swift
+```
 struct Section<T> {
     let title: String
     let elements: [T]
@@ -99,7 +99,7 @@ struct Section<T> {
 
 An example in practice :
 
-```swift
+```
 let cars = ["911", "Cayman", "Cayenne"]
 let section = Section(title: "Porsche", elements: cars)
 
@@ -127,7 +127,7 @@ Alternatively, if your type can act as its own iterator, implementing the requir
 
 Here’s a definition of a Countdown sequence that serves as its own iterator. The makeIterator() method is provided as a default implementation.
 
-```swift
+```
 struct Countdown: Sequence, IteratorProtocol {
     var count: Int
 
@@ -155,7 +155,7 @@ for i in threeToGo {
 
 The `Section` struct can't act as its own iterator, we need to define an iterator for it, and then return an instance of the defined iterator inside `func makeIterator() -> Section<T>.Iterator` method.
 
-```swift
+```
 struct Section<T>: Sequence {
     let title: String
     let elements: [T]
@@ -191,7 +191,7 @@ struct Section<T>: Sequence {
 
 Is that all? No! By conforming to SequenceType we also get methods for free, here is some of them.
 
-```swift
+```
 section.min()
 // 911
 section.max()
@@ -204,7 +204,7 @@ section.contains("911")
 
 We get the min, max & sort methods because the elements of our sequence, String in our case, are Comparable. Contains is available thanks to our elements being Equatable.
 
-```swift
+```
 section.filter { $0.count > 3 }
 // ["Cayman", "Cayenne"]
 section.map { $0.count }
@@ -245,7 +245,7 @@ If you create a custom sequence that can provide repeated access to its elements
 <a id="markdown-make-our-section-conform-to-collection-protocol" name="make-our-section-conform-to-collection-protocol"></a>
 ### Make our `Section` Conform to `Collection` Protocol
 
-```swift
+```
 struct Section<T>: Collection {
     let title: String
     let elements: [T]
@@ -297,7 +297,7 @@ The `endIndex` has to be after the last element. It allows to define an empty co
 
 Like conforming to `Sequence`, we get some methods / properties for free:
 
-```swift
+```
 section.count
 // 3
 section.first
@@ -319,7 +319,7 @@ Dictionaries, like Arrays, are a collection, as Swift defines it. They both conf
 
 A simple example shows that it is also really easy to get a crash with Dictionaries.
 
-```swift
+```
 let dic = ["a": "bmw", "b": "audi", "c": "citroen"]
 
 var index = dic.startIndex

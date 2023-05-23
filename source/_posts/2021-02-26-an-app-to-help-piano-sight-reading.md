@@ -16,7 +16,7 @@ categories: [ios, music]
 
 标签保存在UserDefault里面，数据格式如下：
 
-```json
+```
 {
     "ALL_TAGS" : ["tag1", "tag2", "tag3"],
     "天空之城1" : ["tag1", "tag2"],
@@ -33,7 +33,7 @@ categories: [ios, music]
 
 其中json文件格式如下：
 
-```json
+```
 {
     "basic info" : {
         "tempo" : "90", // 每分钟节拍数

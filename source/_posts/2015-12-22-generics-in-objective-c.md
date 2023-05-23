@@ -16,7 +16,7 @@ categories: [ios, objective-c]
 
 以后，可以这样定义Array了：
 
-```objc
+```
 NSArray<MyClass *> *myArray = @[[MyClass new], [MyClass new]];
 ```
 

@@ -49,7 +49,7 @@ categories: [ios, swift]
 <a id="markdown-用closure初始化一个变量" name="用closure初始化一个变量"></a>
 ## 用Closure初始化一个变量
 
-```swift
+```
 let setupViewUsingClosure: UIView = {
     let view = UIView()
     view.backgroundColor = .green
@@ -71,7 +71,7 @@ let setupViewUsingClosure: UIView = {
 
 当你第一次看到这个写法的时候肯定很疑惑：参数、类型、函数调用时的括号都跑哪去了？
 
-```swift
+```
 let names = ["Chris", "Alex", "Ewa", "Barry", "Daniella"]
 rreversedNames = names.sorted { $0 > $1 }
 ```
@@ -82,7 +82,7 @@ Closure的定义如下：
 
 > Closure expressions are unnamed closures written in a lightweight syntax that can capture values from their surrounding context.
 >
-> ```swift
+> ```
 > { (params) -> returnType in
 >     statements
 > }
@@ -90,7 +90,7 @@ Closure的定义如下：
 
 举个具体的例子：
 
-```swift
+```
 let names = ["Chris", "Alex", "Ewa", "Barry", "Daniella"]
 reversedNames = names.sorted(by: { (s1: String, s2: String) -> Bool in
     return s1 > s2
@@ -105,7 +105,7 @@ reversedNames = names.sorted(by: { (s1: String, s2: String) -> Bool in
 
 所以，上面的代码可以写为：
 
-```swift
+```
 let names = ["Chris", "Alex", "Ewa", "Barry", "Daniella"]
 reversedNames = names.sorted(by: { s1, s2 in return s1 > s2 } )
 ```
@@ -118,7 +118,7 @@ reversedNames = names.sorted(by: { s1, s2 in return s1 > s2 } )
 
 所以，代码继续改为：
 
-```swift
+```
 let names = ["Chris", "Alex", "Ewa", "Barry", "Daniella"]
 reversedNames = names.sorted(by: { s1, s2 in s1 > s2 } )
 ```
@@ -131,7 +131,7 @@ reversedNames = names.sorted(by: { s1, s2 in s1 > s2 } )
 
 代码继续改为：
 
-```swift
+```
 let names = ["Chris", "Alex", "Ewa", "Barry", "Daniella"]
 rreversedNames = names.sorted(by: { $0 > $1 } )
 ```
@@ -144,7 +144,7 @@ rreversedNames = names.sorted(by: { $0 > $1 } )
 
 代码就可以写成：
 
-```swift
+```
 let names = ["Chris", "Alex", "Ewa", "Barry", "Daniella"]
 rreversedNames = names.sorted { $0 > $1 }
 ```
@@ -165,7 +165,7 @@ Closure带来的循环引用和内存泄漏，主要通过Capture List来解决�
 
 Place the capture list before a closure’s parameter list and return type if they are provided:
 
-```swift
+```
 lazy var someClosure: (Int, String) -> String = {
     [unowned self, weak delegate = self.delegate!] (index: Int, stringToProcess: String) -> String in
     // closure body goes here
@@ -192,7 +192,7 @@ lazy var someClosure: (Int, String) -> String = {
 
 比如：
 
-```swift
+```
 // capturing values
 var i = 0
 var closureArray = [()->()]()
@@ -214,7 +214,7 @@ The closure captures the current address of `i` and every time we access `i` , i
 
 If we want to prevent this behavior (capturing values) and print the value of i even if the properties change after their capturing inside the closure, we can explicitly capture the variable with a capture list like this:
 
-```swift
+```
 var closureArray2 = [()->()]()
 var j = 0
 for _ in 1...5 {
@@ -235,7 +235,7 @@ In this way, we keep an immutable copy of the variable `j`. Thanks to this copy,
 
 We can add multiple values to the capture list :
 
-```swift
+```
 closure.append { [j,k,l] in
     print("\(j) \(k) \(l)")
 }
@@ -243,7 +243,7 @@ closure.append { [j,k,l] in
 
 also, you can have alias names for the values captured.
 
-```swift
+```
 closure.append { [a = j, b = k, c = l] in
     print("\(a) \(b) \(c)")
 }

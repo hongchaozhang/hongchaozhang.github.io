@@ -15,7 +15,7 @@ categories: [ios, objective-c]
 
 <!-- more -->
 
-```objc
+```
 
 @interface PropertyTester() {
     NSString* testString;
@@ -46,7 +46,7 @@ categories: [ios, objective-c]
 
 Property可以告诉编译器：我声明了一个Property，名字叫做`propertyName`，你帮我声明一个Instance Variable `_propertyName`，并帮助我实现其getter和setter函数。于是，上述代码，我们可以写成：
 
-```objc
+```
 
 @interface PropertyTester()
 
@@ -72,13 +72,13 @@ Property可以告诉编译器：我声明了一个Property，名字叫做`proper
 
 其实在上述使用Property的代码中，编译器还帮助我们做了一件事情：
 
-```objc
+```
 @synthesize testString = _testString;
 ```
 
 从Xcode 4.4和LLVM Compiler 4.0起，有了**auto synthesize**，即@synthesize被更改为默认使用。因此，大多数情况下，你只需要 @property 指令，编译器将为你关心其它的事情。对，是“大多数”，因为在某些情况下，不会进行auto synthesize 。比如，对于上述代码，如果我打算自己实现getter函数：
 
-```objc
+```
 @interface PropertyTester()
 
 @property (nonatomic, strong) NSString* testString;
@@ -104,7 +104,7 @@ Property可以告诉编译器：我声明了一个Property，名字叫做`proper
 
 如果我再试图加入setter函数：
 
-```objc
+```
 @interface PropertyTester()
 @property (nonatomic, strong) NSString* testString;
 @end

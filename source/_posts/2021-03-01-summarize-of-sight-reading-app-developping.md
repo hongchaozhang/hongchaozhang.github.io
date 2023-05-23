@@ -44,7 +44,7 @@ categories: [ios, swift, objective-c]
 * png文件：每个乐谱都有一个乐谱图片，如果用户做了笔记，还有一个笔记图片。
     
 保存文件的代码如下：
-```swift
+```
 func getRootPath() -> String? {
     return NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first
 }
@@ -74,7 +74,7 @@ func saveJsonFile() {
 ```
 
 读取文件的代码如下：
-```swift
+```
 func loadJsonFile() {
     if let rootPath = Utility.getRootPath(),
         let jsonName = navigationItem.title,
@@ -103,7 +103,7 @@ func loadSheetImage(with imageName: String) {
 <a id="markdown-nsdefault保存标签信息" name="nsdefault保存标签信息"></a>
 
 ### NSDefault：保存标签信息
-```swift
+```
 UserDefaults.standard.setValue(allTags, forKey: allTagsKey)
 let allTags = UserDefaults.standard.value(forKey: allTagsKey)
 ```
@@ -123,7 +123,7 @@ let allTags = UserDefaults.standard.value(forKey: allTagsKey)
 
 ###  通过AVFoundation播放声音
 
-```swift
+```
 if let audioUrl = Bundle.main.url(forResource: "FirstMeter", withExtension: "wav", subdirectory: "Resource.bundle")  {
     AudioServicesCreateSystemSoundID(audioUrl as CFURL, &firstMeterId)
 }
@@ -143,13 +143,13 @@ AudioServicesPlaySystemSound(self.firstMeterId)
 ## navigationController的使用和数据的传递
 
 通过下面两种方法进行ViewController的弹出
-```swift
+```
 let playVC = storyBoard.instantiateViewController(identifier: "Play")
 playVC.navigationItem.title = filtedFileNames[indexPath.row]
 navigationController?.pushViewController(playVC, animated: true)
 ```
 或者
-```swift
+```
 let colorPickerVC = UIColorPickerViewController()
 colorPickerVC.selectedColor = brushColorButton.selectedColor
 colorPickerVC.delegate = self
@@ -171,7 +171,7 @@ present(colorPickerVC, animated: true, completion: nil)
 需要在info.plist里面设置`NSPhotoLibraryUsageDescription`属性，设置在获取权限的时候显示给用户的弹窗中显示的内容。
 
 检查权限状态：
-```swift
+```
 private func requestPrivilegeAndLoadPhotos() {
     let status = PHPhotoLibrary.authorizationStatus()
     if status == .authorized {
@@ -192,7 +192,7 @@ private func requestPrivilegeAndLoadPhotos() {
 ```
 
 如果用户给了访问相册的权限，通过下面的方法加载所有图片信息：
-```swift
+```
 private func loadPhotos() {
     let allPhotosOptions = PHFetchOptions()
     allPhotosOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: true)]
@@ -201,7 +201,7 @@ private func loadPhotos() {
 ```
 
 通过下面方法将所有图片信息显示在collection列表中：
-```swift
+```
 func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
     return allPhotos.count
 }
@@ -223,7 +223,7 @@ func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath:
 ```
 
 通过下面方法，将用户选择的图片传给delegate处理（delegate可以是源ViewController）：
-```swift
+```
 func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
     print("item: \(indexPath.item)")
     let assert = allPhotos.object(at: indexPath.item)
@@ -250,7 +250,7 @@ func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPat
 
 ## UIImage
 下面两个图片加载方法对cache的运用是不一样的：
-```swift
+```
 + (UIImage *)imageNamed:(NSString *)name: use cached images
 + (UIImage *)imageWithContentsOfFile:(NSString *)path: skip cached images and read data directly from file
 ```
@@ -265,14 +265,14 @@ func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPat
 
 ## 可编辑的UITableView
 通过实现下面方法保证每个cell支持左滑操作：
-```swift 
+``` 
 func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
     return true
 }
 ```
 
 通过实现下面的方法，左滑之后显示两个按钮: Edit Tags和Delete
-```swift
+```
 func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
     let deleteAction = UITableViewRowAction(style: .destructive, title: "Delete") { (action, indexPath) in
         self.deleteItem(at: indexPath)

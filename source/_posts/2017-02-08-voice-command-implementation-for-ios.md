@@ -90,7 +90,7 @@ Speech识别请求会返回最长一分钟的音频识别结果，如何从这�
 
 这个需求应该可以通过`AVSpeechSynthesizerDelegate`中下面的方法实现：
 
-```swift
+```
 public func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didFinish utterance: AVSpeechUtterance)
 ```
 

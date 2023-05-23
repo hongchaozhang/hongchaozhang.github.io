@@ -13,7 +13,7 @@ Note that the type of `coordinate` is `CLLocationCoordinate2D` with `latitude` a
 
 <!-- more -->
 Sample code: 
-```objc
+```
 @implementation MapOverlay
 
 @synthesize coordinate;
@@ -44,7 +44,7 @@ Sample code:
 Write your own overlay renderer class (for example, `MapOverlayRenderer`) confirm to `MKOverlayRenderer`, and implement `drawMapRect:zoomScale:inContext:` method.
 
 Sample code:
-```objc
+```
 - (void)drawMapRect:(MKMapRect)mapRect zoomScale:(MKZoomScale)zoomScale inContext:(CGContextRef)context
 {
     MKMapRect overlayMapRect = self.overlay.boundingMapRect;
@@ -59,7 +59,7 @@ Sample code:
 After you implement your overlay and overlay renderer, implement `mapView:redererForOverlay` method in your map view's delegate. In this method, you need to return an instance of your own overlay renderer, initialized with the given overlay.
 
 Sample code:
-```objc
+```
 - (MKOverlayRenderer *)mapView:(MKMapView *)mapView rendererForOverlay:(id<MKOverlay>)overlay
 {
     if ([overlay isKindOfClass:[MapOverlay class]]) {
@@ -74,7 +74,7 @@ Sample code:
 Then, we can add overlay instance to the map view through `addOverlay` or `addOverlays` methods.
 
 Sample code:
-```objc
+```
 MapOverlay *overlay = [[MapOverlay alloc] init];
 [self.mapView addOverlay:overlay level:MKOverlayLevelAboveLabels];
 ```

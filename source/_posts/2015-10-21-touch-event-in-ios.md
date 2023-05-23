@@ -27,7 +27,7 @@ iOS中主要有两种触控事件：
 
 可以通过如下代码，在ViewController中为UIView添加手势识别类，称为Action-Target模式。每一个Gesture Recognizer关联一个View，但是一个View可以关联多个Gesture Recognizer，因为一个View可能还能响应多种触控操作方式。
 
-```objc
+```
 - (void)viewDidLoad {
     [super viewDidLoad];
 
@@ -83,7 +83,7 @@ Long press (also known as “touch and hold”) | UILongPressGestureRecognizer
 
 当UIView中没有添加UIGestureRecognizer的时候，如果对UIView触发Pinch操作，如下四个事件接口函数中的`touches`都只能接收到一个touch的信息（新加的或者改变的touche）。如果想得到所有touch的信息，可以到`event.touches`中获取。
 
-```objc
+```
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
 - (void)touchesMoved:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
 - (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
@@ -146,7 +146,7 @@ iOS中事件传递首先从App(UIApplication)开始，接着传递到Window(UIWi
 
 UIResponder是所有可以响应事件的类的基类(从名字应该就可以看出来了)，其中包括最常见的UIView和UIViewController甚至是UIApplication，所以我们的UIView和UIViewController都是作为响应事件的载体，称为**响应者对象（Responder Object）**。UIResponder部分接口如下：
 
-```objc
+```
 NS_CLASS_AVAILABLE_IOS(2_0) @interface UIResponder : NSObject
 
 - (nullable UIResponder*)nextResponder;
@@ -182,7 +182,7 @@ NS_CLASS_AVAILABLE_IOS(2_0) @interface UIResponder : NSObject
 
 每当手指接触屏幕，UIApplication接收到手指的事件之后，就会去调用UIWindow的hitTest:withEvent:
 
-```objc
+```
 hitTest: (CGPoint) point withEvent: (UIEvent* )event{
 if (!self.isUserInteractionEnabled || self.isHidden || self.alpha <=0.01) {
     return nil;
@@ -198,7 +198,7 @@ for (UIView* v in subviews){
 
 完整版本：
 
-```objc
+```
 - (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
     if (self.alpha <= 0.01 || !self.userInteractionEnabled || self.hidden) {
         return nil;

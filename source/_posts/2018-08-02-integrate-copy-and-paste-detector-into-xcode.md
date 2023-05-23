@@ -68,7 +68,7 @@ php ./cpd_script.php -cpd-xml cpd-output.xml
 
 为了将xml文件转换成更好读的warning，需要在工程根目录下创建一个php文件，我们叫做cpd_script.php，拷贝下面的脚本到该文件中：
 
-```php
+```
 <?php
 foreach (simplexml_load_file('cpd-output.xml')->duplication as $duplication) {
     $files = $duplication->xpath('file');

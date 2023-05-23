@@ -27,14 +27,14 @@ npm install -g excel node-xlsx
 
 然后就可以这样解析excel文件：
 
-```javascript
+```
 var xlsx = require('node-xlsx');
 var obj = xlsx.parse(__dirname + '/myFile.xlsx'); // parses a file 
 ```
 
 下面是一段样例代码：
 
-```javascript
+```
 
 // Include modules.
 var xlsx = require('node-xlsx');
@@ -61,7 +61,7 @@ for (var sheet in excelObj) {
 
 ### 写入excel文件
 
-```javascript
+```
 // Include modules.
 var xlsx = require('node-xlsx');
 var fs = require('fs');
@@ -101,12 +101,12 @@ node demo.js
 
 如果需要debug，可以使用VSCode。在开始运行的时候碰到下面的错误“Cannot find runtime 'node' on PATH. Is 'node' installed?”。需要将自动生成的launch.json文件添加一行：
 
-```json
+```
 "runtimeExecutable": "/Users/hozhang/.nvm/versions/node/v10.15.0/bin/node"
 ```
 改成：
 
-```json
+```
 {
     // Use IntelliSense to learn about possible attributes.
     // Hover to view descriptions of existing attributes.

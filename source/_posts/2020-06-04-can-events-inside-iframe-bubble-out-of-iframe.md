@@ -43,7 +43,7 @@ iframe里面产生的click事件，外面有没有办法知道？
 ### 资料三
 如果满足同源策略，那么可以通过下面的方法将iframe内部的事件传到外部(参考[Detect mousemove when over an iframe?](https://stackoverflow.com/questions/5645485/detect-mousemove-when-over-an-iframe/11865037#11865037))：
 
-```javascript
+```
 // This example assumes execution from the parent of the the iframe
 
 function bubbleIframeMouseMove(iframe){
