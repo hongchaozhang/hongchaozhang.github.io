@@ -14,7 +14,7 @@ categories: [productivity, python]
 
 ## xlrd和xlwt
 
-```
+```python
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 

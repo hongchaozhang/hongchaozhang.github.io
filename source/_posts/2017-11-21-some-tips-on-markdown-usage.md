@@ -49,7 +49,7 @@ If the aspect ratio you define is not consistent with the original image, the he
 
 Using the following block of code for hiding some content and show the content while click.
 
-```
+```html
 <details> 
   <summary>Q1: What is the best Language in the World? </summary>
    A1: Swift 

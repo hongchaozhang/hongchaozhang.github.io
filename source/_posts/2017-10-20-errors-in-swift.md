@@ -45,13 +45,13 @@ published: true
 
 在Objective-C中，`FileManager`的copy接口如下：
 
-```
+```objc
 - (BOOL)copyItemAtPath:(NSString *)srcPath toPath:(NSString *)dstPath error:(NSError **)error
 ```
 
 调用该方法时，写法如下：
 
-```
+```swift
 NSFileManager *fileManager = [NSFileManager defaultManager];
 NSError *error;
 [fileManager copyItemAtPath:srcPath toPath:toPath error:&error];
@@ -64,13 +64,13 @@ if (error) {
 
 在Swift 1.x中，与Objective-C类似。方法接口如下：
 
-```
+```swift
 func copyItemAtPath(_ srcPath: String, toPath dstPath: String, error: NSErrorPointer)
 ```
 
 使用方法如下：
 
-```
+```swift
 let fileManager = NSFileManager.defaultManager()
 var error: NSError?
 fileManager.copyItemAtPath(srcPath, toPath: dstPath, error: &error)
@@ -83,7 +83,7 @@ if error != nil {
 
 在上面的例子中，因为这个 API 仅会在极其特定的条件下 (比如磁盘空间不足) 会出错，所以开发者为了方便，有时会直接传入 nil 来忽视掉这个错误：
 
-```
+```swift
 let fileManager = NSFileManager.defaultManager()
 // 不关心是否发生错误
 fileManager.copyItemAtPath(srcPath, toPath: dstPath, error: nil)
@@ -94,7 +94,7 @@ fileManager.copyItemAtPath(srcPath, toPath: dstPath, error: nil)
 
 这种做法无形中降低了应用的可靠性以及从错误中恢复的能力。为了解决这个问题，Swift 2 中在编译器层级就对`throws`进行了限定。上面提到的copy接口在Swift 2中的形式为：
 
-```
+```swift
 func copyItem(atPath srcPath: String, toPath dstPath: String) throws
 ```
 
@@ -105,7 +105,7 @@ func copyItem(atPath srcPath: String, toPath dstPath: String) throws
 
 下面是包含`throws`的一个自动售货机实现：
 
-```
+```swift
 enum VendingMachineError: Error {
     case invalidSelection
     case insufficientFunds(coinsNeeded: Int)
@@ -158,7 +158,7 @@ class VendingMachine {
 
 #### `do catch`
 
-```
+```swift
 var vendingMachine = VendingMachine()
 vendingMachine.coinsDeposited = 8
 do {
@@ -176,7 +176,7 @@ do {
 
 使用`try?`来处理错误，将其返回值变为Optional：如果在执行过程中出现错误，接口返回`nil`，同时错误停止继续传播。比如：
 
-```
+```swift
 func fetchDataFromDisk() throws -> Data
 
 func fetchDataFromServer() throws -> Data
@@ -199,7 +199,7 @@ func fetchData() -> Data? {
 
 比如，`loadImage(atPath:)`方法加载指定目录下面的一张图片到内存中，如果加载异常，会抛出错误。在下面的使用中，我们希望加载一张应用中包含的图片，这种情况下，可以通过`try!`来终止错误的继续传播。
 
-```
+```swift
 let photo = try! loadImage(atPath: "./Resources/John Appleseed.jpg")
 
 ```
@@ -208,7 +208,7 @@ let photo = try! loadImage(atPath: "./Resources/John Appleseed.jpg")
 
 也可以直接使用`try`来调用被标记为`throws`的接口，但是这种情况下，错误会继续传播，包含该调用的方法也必须被标记为`throws`才行，否则，编译器会报错。
 
-```
+```swift
 let favoriteSnacks = [
     "Alice": "Chips",
     "Bob": "Licorice",
@@ -239,13 +239,13 @@ Swift的错误抛出并不是传统意义的exception，在调试时抛出错误
 
 不能从接口直接看出有哪些可能抛出的Error，必须看Document才行，带来了一些不便。比如，只通过接口：
 
-```
+```swift
 func vend(itemNamed name: String) throws
 ```
 
 我们没有办法知道这个接口可能返回哪些错误。此时，要么阅读文档，获得确切的抛出错误，分别进行处理；或者将所有的错误统一处理如下：
 
-```
+```swift
 do {
     let snackName = favoriteSnacks[person] ?? "Candy Bar"
     try vendingMachine.vend(itemNamed: snackName)
@@ -269,7 +269,7 @@ do {
 
 简单的，显而易见的错误。这类错误的最大特点是我们不需要知道原因，只需要知道错误发生，并且想要进行处理。用来表示这种错误发生的方法一般就是返回一个`nil`值。在Swift中，这类错误最常见的情况就是将某个字符串转换为整数，或者在字典尝试用某个不存在的 key 获取元素：
 
-```
+```swift
 // Simple Domain Error 的例子
 let num = Int("hello world") // nil
 let element = dic["key_not_exist"] // nil
@@ -284,7 +284,7 @@ let element = dic["key_not_exist"] // nil
 
 **这类错误在Objective-C的时代通常用NSError类型来表示，而在Swift里则是通过throws来实现。**一般我们需要检查错误的类型，并作出合理的响应。而选择忽视这类错误往往是不明智的，因为它们是用户正常使用过程中可能会出现的情况，我们应该尝试对其恢复，或者至少向用户给出合理的提示，让他们知道发生了什么。像是网络请求超时，或者写入文件时磁盘空间不足：
 
-```
+```swift
 // 网络请求
 let url = URL(string: "https://www.example.com/")!
 let task = URLSession.shared.dataTask(with: url) { data, response, error in
@@ -320,7 +320,7 @@ func write(data: Data, to url: URL) {
 
 这类错误理论上可以恢复，但是由于语言本身的特性所决定，我们难以得知这类错误的来源，所以一般来说也不会去处理这种错误。这类错误包括类似下面这些情形：
 
-```
+```swift
 // 内存不足
 [Int](repeating: 100, count: .max)
 
@@ -340,7 +340,7 @@ foo()
 
 常见的 Logic failure 包括有：
 
-```
+```swift
 // 强制解包一个 `nil` 可选值
 var name: String? = nil
 name!
@@ -380,7 +380,7 @@ try! JSONDecoder().decode(Foo.self, from: Data())
 
 #### 方案 1 Simple domain error
 
-```
+```swift
 func loadModel() -> Model? {
     guard let path = Bundle.main.path(forResource: "my_pre_trained_model", ofType: "mdl") else {
         return nil
@@ -396,7 +396,7 @@ func loadModel() -> Model? {
 
 #### 方案 2 Recoverable error
 
-```
+```swift
 func loadModel() throws -> Model {
     guard let path = Bundle.main.path(forResource: "my_pre_trained_model", ofType: "mdl") else {
         throw AppError.FileNotExisting
@@ -409,7 +409,7 @@ func loadModel() throws -> Model {
 
 #### 方案 3 Universal error
 
-```
+```swift
 func loadModel() -> Model {
     guard let path = Bundle.main.path(forResource: "my_pre_trained_model", ofType: "mdl") else {
         fatalError("Model file not existing")
@@ -426,7 +426,7 @@ func loadModel() -> Model {
 
 #### 方案 4 Logic failure
 
-```
+```swift
 func loadModel() -> Model {
     let path = Bundle.main.path(forResource: "my_pre_trained_model", ofType: "mdl")!
     let url = URL(fileURLWithPath: path)
@@ -452,7 +452,7 @@ func loadModel() -> Model {
 
 #### 方案 1 Simple domain error
 
-```
+```swift
 func loadUser() -> User? {
     let username = UserDefaults.standard.string(forKey: "com.onevcat.app.defaults.username")
     if let username {
@@ -465,7 +465,7 @@ func loadUser() -> User? {
 
 #### 方案 2 Recoverable error
 
-```
+```swift
 func loadUser() throws -> User {
     let username = UserDefaults.standard.string(forKey: "com.onevcat.app.defaults.username")
     if let username {
@@ -478,7 +478,7 @@ func loadUser() throws -> User {
 
 #### 方案 3 Universal error
 
-```
+```swift
 func loadUser() -> User {
     let username = UserDefaults.standard.string(forKey: "com.onevcat.app.defaults.username")
     if let username {
@@ -491,7 +491,7 @@ func loadUser() -> User {
 
 #### 方案 4 Logic failure
 
-```
+```swift
 func loadUser() -> User {
     let username = UserDefaults.standard.string(forKey: "com.onevcat.app.defaults.username")
     return User(name: username!)
@@ -516,7 +516,7 @@ func loadUser() -> User {
 
 #### 方案 1 Simple domain error
 
-```
+```swift
 func foo() -> Bar? {
     return nil
 }
@@ -524,7 +524,7 @@ func foo() -> Bar? {
 
 #### 方案 2 Recoverable error
 
-```
+```swift
 func foo() throws -> Bar? {
     throw FrameworkError.NotImplemented
 }
@@ -532,7 +532,7 @@ func foo() throws -> Bar? {
 
 #### 方案 3 Universal error
 
-```
+```swift
 func foo() -> Bar? {
     fatalError("Not implemented yet.")
 }
@@ -540,7 +540,7 @@ func foo() -> Bar? {
 
 #### 方案 4 Logic failure
 
-```
+```swift
 func foo() -> Bar? {
     assertionFailure("Not implemented yet.")
     return nil
@@ -554,7 +554,7 @@ func foo() -> Bar? {
 
 其实在swift继承的时候，编译器会给我们添加一个默认的未实现的接口：
 
-```
+```swift
 required init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
 }
@@ -569,7 +569,7 @@ required init?(coder aDecoder: NSCoder) {
 
 #### 方案 1 Simple domain error
 
-```
+```swift
 func getDataFromSensor() -> Data? {
     let sensorState = sensor.getState()
     guard sensorState == .normal else {
@@ -580,7 +580,7 @@ func getDataFromSensor() -> Data? {
 ```
 
 #### 方案 2 Recoverable error
-```
+```swift
 func getDataFromSensor() throws -> Data {
     let sensorState = sensor.getState()
     guard sensorState == .normal else {
@@ -592,7 +592,7 @@ func getDataFromSensor() throws -> Data {
 
 #### 方案 3 Universal error
 
-```
+```swift
 func loadUser() -> Data {
     let sensorState = sensor.getState()
     guard sensorState == .normal, let data = try? sensor.getData() else {
@@ -604,7 +604,7 @@ func loadUser() -> Data {
 
 #### 方案 4 Logic failure
 
-```
+```swift
 func loadUser() -> Data {
     let sensorState = sensor.getState()
     assert(sensorState == .normal, "The sensor state is not normal")
@@ -644,7 +644,7 @@ Swift’s enumerations are well suited to represent simple errors. Create an enu
 
 The following example shows an IntParsingError enumeration that captures two different kinds of errors that can occur when parsing an integer from a string: overflow, where the value represented by the string is too large for the integer data type, and invalid input, where nonnumeric characters are found within the input.
 
-```
+```swift
 enum IntParsingError: Error {
     case overflow
     case invalidInput(String)
@@ -655,7 +655,7 @@ enum IntParsingError: Error {
 
 The following XMLParsingError conforms to Error and supply line and column position of the error.
 
-```
+```swift
 struct XMLParsingError: Error {
     enum ErrorKind {
         case invalidCharacter
@@ -677,7 +677,7 @@ func parse(_ source: String) throws -> XMLDoc {
 
 Here’s how you can catch any XMLParsingError errors thrown by the parse(_:) function:
 
-```
+```swift
 do {
     let xmlDoc = try parse(myXMLData)
 } catch let e as XMLParsingError {
@@ -694,7 +694,7 @@ do {
 
 You use a `defer` statement to execute a set of statements just before code execution leaves the current block of code. This statement lets you do any necessary cleanup that should be performed regardless of how execution leaves the current block of code—whether it leaves because an error was thrown or because of a statement such as `return` or `break`. For example, you can use a `defer` statement to ensure that file descriptors are closed and manually allocated memory is freed.
 
-```
+```swift
 func processFile(filename: String) throws {
     if exists(filename) {
         let file = open(filename)

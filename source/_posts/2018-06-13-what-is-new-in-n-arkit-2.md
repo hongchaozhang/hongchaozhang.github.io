@@ -113,7 +113,7 @@ In order to share or restore the map, we need to get a good one first. A good ma
 
 We can use the `WorldMappingStatus` status from `ARFrame` to decide if the current map is good enough for sharing or storing:
 
-```
+```swift
 public enum WorldMappingStatus : Int {
    case notAvailable
    case limited
@@ -142,7 +142,7 @@ The classes in ARKit 2 for image tracking are:
 
 The detected `ARImageAnchor`s have properties like:
 
-```
+```swift
 open class ARImageAnchor : ARAnchor, ARTrackable { 
     public var isTracked: Bool { get }
     open var transform: simd_float4x4 { get }
@@ -185,7 +185,7 @@ After detecting the image, only do things inside the place of the image. | After
 
 The `ARObjectAnchor` contains properties like:
 
-```
+```swift
 open class ARObjectAnchor : ARAnchor {
     open var transform: simd_float4x4 { get }
     open var referenceObject: ARReferenceObject { get }
@@ -194,7 +194,7 @@ open class ARObjectAnchor : ARAnchor {
 
 and `ARReferenceObject` is the scanned 3D object:
 
-```
+```swift
 open class ARReferenceObject
     : NSObject, NSCopying, NSSecureCoding {
     open var name: String?

@@ -67,7 +67,7 @@ openssl x509 -req -in certrequest.csr -signkey privatekey.pem -out certificate.p
 
 ### 实现服务器端app
 
-```
+```javascript
 var https = require('https')，
     fs = require("fs");
 

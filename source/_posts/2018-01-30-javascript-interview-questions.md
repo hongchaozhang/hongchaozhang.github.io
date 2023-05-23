@@ -25,7 +25,7 @@ What are the benefits of including 'use strict' at the beginning of a JavaScri
 
 Refer to [函数声明 VS 函数表达式](https://libuchao.com/2012/06/25/function-declaration-vs-function-expression).
 
-```
+```javascript
 // 方法一：函数声明
 function foo() {}
 
@@ -37,7 +37,7 @@ var foo = function () {};
 
 例如以下代码段：
 
-```
+```javascript
 alert(foo); // function foo() {}
 alert(bar); // undefined
 function foo() {}
@@ -63,7 +63,7 @@ Refer to [80% 应聘者都不及格的 JS 面试题](http://web.jobbole.com/9095
 
 下面程序的输出是什么？
 
-```
+```javascript
 for (var i = 0; i < 5; i++) {
     setTimeout(function() {
         console.log(new Date, i);
@@ -79,7 +79,7 @@ console.log(new Date, i);
 
 2. 用用闭包和立即执行函数实现如下：
 
-```
+```javascript
 for (var i = 0; i < 5; i++) {
     (function(j) {  // j = i
         setTimeout(function() {
@@ -93,7 +93,7 @@ console.log(i);
 
 3. 立即执行函数不是很直观，需要理解一下才能看懂。下面是一个更直观的实现：
 
-```
+```javascript
 var output = function (i) {
     setTimeout(function() {
         console.log(new Date, i);
@@ -109,7 +109,7 @@ console.log(new Date, i);
 
 4. 当然，也可以使用ES6的块级作用域（Block Scope）来实现：
 
-```
+```javascript
 for (let i = 0; i < 5; i++) {
     setTimeout(function() {
         console.log(new Date, i);
@@ -123,7 +123,7 @@ console.log(new Date, 5); // 这里不能用i，因为已经超出了i的作用�
 
 简单粗暴的方法可能是这样：
 
-```
+```javascript
 for (var i = 0; i < 5; i++) {
     (function(j) {
         setTimeout(function() {
@@ -139,7 +139,7 @@ setTimeout(function() { // 这里增加定时器，超时设置为 5 秒
 
 5. ES6的`Promise`实现
 
-```
+```javascript
 const tasks = []; // 这里存放异步操作的 Promise
 const output = (i) => new Promise((resolve) => {
     setTimeout(() => {
@@ -164,7 +164,7 @@ Promise.all(tasks).then(() => {
 
 6. ES7的'await'特性
 
-```
+```javascript
 // 模拟其他语言中的 sleep，实际上可以是任何异步操作
 const sleep = (timeountMS) => new Promise((resolve) => {
     setTimeout(resolve, timeountMS);
@@ -198,7 +198,7 @@ offsetWidth引起reflow
 
 NaN 是 Not a Number 的缩写，JavaScript 的一种特殊数值，其类型是 `Number`，可以通过 `isNaN(param)` 来判断一个值是否是 NaN：
 
-```
+```javascript
 console.log(isNaN(NaN)); //true
 console.log(isNaN(23)); //false
 console.log(isNaN('ds')); //true

@@ -58,7 +58,7 @@ categories: [ios, xcode, objective-c]
 
 并不是所有在block中引用`self`都会带来retain cycle，比如下面的代码就不会有内存泄露：
 
-```
+```objc
 - (void)testSelfInCocoaBlocks
 {
     NSArray *cats = @[@"Smily", @"Garfild", @"Other cat"];
@@ -70,7 +70,7 @@ categories: [ios, xcode, objective-c]
 
 因为在上面的代码中，block ratain了self，但是self中没有retain这个block。只有当block中引用了self，并且self又以某种方式（比如用一个具有strong属性的Property指向该block，或者将该block加入了self的一个具有strong属性的array中）强引用了该block，才会引起内存泄露，比如：
 
-```
+```objc
 - (void)testSelfInBlock
 {
     self.block = ^{
@@ -81,7 +81,7 @@ categories: [ios, xcode, objective-c]
 
 有时候即使没有直接引用self，也可能导致self被retain，这叫做“implicit retain”。一种可能的情况就是在block中引用了self的实例变量，比如：
 
-```
+```objc
 - (void)testHiddenSelfInCocoaBlocks
 {
     NSArray *cats = @[@"Smily", @"Garfild", @"Other cat"];
@@ -104,7 +104,7 @@ categories: [ios, xcode, objective-c]
 
 当我们在NSNotificationCenter的block中引用self的时候，也会产生retain cycle，比如：
 
-```
+```objc
 [[NSNotificationCenter defaultCenter] addObserverForName:@"not"
                                                       object:nil
                                                        queue:[NSOperationQueue mainQueue]
@@ -138,7 +138,7 @@ delegate的属性应该为weak。
 在ARC之前，我们可以使用`retainCount`得到一个Object被retain的次数。
 引入ARC之后，这个方法不能在code中使用，可以使用下面的方法获得retain的次数：
 
-```
+```objc
 NSLog(@"Retain count is %ld", CFGetRetainCount((__bridge CFTypeRef)myObject));
 ```
 

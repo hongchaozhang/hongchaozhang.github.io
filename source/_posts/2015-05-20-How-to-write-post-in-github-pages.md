@@ -89,7 +89,7 @@ For "category", it is similar.
 
 * Add [syntax highlighter CSS file](https://github.com/hongchaozhang/GitBlogs/blob/gh-pages/css/syntax.css) as *css/syntax.css* to your site
 * Load CSS inside of a corresponding layout file (e.g. *_layouts/default.html*)
-```
+```html
 <head>
 ...
 <link href="/css/syntax.css" rel="stylesheet">
@@ -103,7 +103,7 @@ There is a problem here: when you select code, the line numbers are also selecte
 * add `linenos=table` instead of `linenos` in the directive `{\% highlight objc linenos \%}`. The table may look ugly.
 * Add the following javascript code into your site (depending on jQuery):
 
-```
+```javascript
 // hide line numbers in code pieces right before we copy the code
 $(document).ready(function () {
 	$("code").bind("copy", function () {

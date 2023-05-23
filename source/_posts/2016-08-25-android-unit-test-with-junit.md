@@ -48,7 +48,7 @@ Your local unit test class should be written as a JUnit 4 test class. [JUnit](ht
 
 To create a basic JUnit 4 test class, create a Java class that contains one or more test methods. A test method begins with the @Test annotation and contains the code to exercise and verify a single functionality in the component that you want to test.
 
-```
+```java
 import org.junit.Test;
 import java.util.regex.Pattern;
 import static org.junit.Assert.assertFalse;
@@ -96,7 +96,7 @@ Annotation | Meaning | Note
 
 For `mock`:
 
-```
+```java
 Stock stock = mock(Stock.class);
 when(stock.getPrice()).thenReturn(100.00);    // Mock implementation
 when(stock.getQuantity()).thenReturn(200);    // Mock implementation
@@ -107,7 +107,7 @@ In that case, each method implementation is mocked, unless specify `thenCallReal
 
 For `spy`:
 
-```
+```java
 Stock stock = spy(new Stock());
 when(stock.getPrice()).thenReturn(100.00);    // Mock implementation
 when(stock.getQuantity()).thenReturn(200);    // Mock implementation
@@ -118,7 +118,7 @@ In that case, all method implementation are the real one, expect if you have def
 
 There is one important pitfall when you use `when(Object)` with spy like in the previous example. The real method will be called (because `stock.getPrice()` is evaluated before `when(..)` at runtime). This can be a problem if your method contains logic that should not be called. You can write the previous example like this:
 
-```
+```java
 Stock stock = spy(new Stock());
 doReturn(100.00).when(stock).getPrice();    // Mock implementation
 doReturn(200).when(stock).getQuantity();    // Mock implementation
@@ -134,14 +134,14 @@ Use [hamcrest](https://github.com/hamcrest/hamcrest-junit) to make the code more
 
 Instead of using:
 
-```
+```java
 assertEquals(expected, "the two values should be the same");
 assertNotNull(object);
 ```
 
 we can use:
 
-```
+```java
 assertThat(expected, equalTo("the two values should be the same"));
 assertThat(object, is(NotNullValue()));
 ```

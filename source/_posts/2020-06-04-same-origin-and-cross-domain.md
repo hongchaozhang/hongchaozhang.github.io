@@ -83,7 +83,7 @@ categories: [web]
 
 比如试图从不同源的iframe里面获取dom结构就会报错：
 
-```
+```javascript
 document.getElementById("myIFrame").contentWindow.document
 // Uncaught DOMException: Blocked a frame from accessing a cross-origin frame.
 ```
@@ -128,7 +128,7 @@ Cookie是服务器写入浏览器的一小段信息，只有同源的网页才�
 
 举例来说，父窗口[http://aaa.com]()向子窗口[http://bbb.com]()发消息，调用`postMessage`方法就可以了。
 
-```
+```javascript
 var popup = window.open('http://bbb.com', 'title');
 popup.postMessage('Hello World!', 'http://bbb.com');
 ```
@@ -137,13 +137,13 @@ popup.postMessage('Hello World!', 'http://bbb.com');
 
 子窗口向父窗口发送消息的写法类似。
 
-```
+```javascript
 window.opener.postMessage('Nice to see you', 'http://aaa.com');
 ```
 
 父窗口和子窗口都可以通过message事件，监听对方的消息。
 
-```
+```javascript
 window.addEventListener('message', function(e) {
   console.log(e.data);
 },false);
@@ -178,7 +178,7 @@ JSONP是服务器与客户端跨源通信的常用方法。最大特点就是简
 
 首先，网页动态插入\<script\>元素，由它向跨源网址发出请求。
 
-```
+```javascript
 function addScriptTag(src) {
   var script = document.createElement('script');
   script.setAttribute("type","text/javascript");
@@ -199,7 +199,7 @@ function foo(data) {
 
 服务器收到这个请求以后，会将数据放在回调函数的参数位置返回。
 
-```
+```javascript
 foo({
   "ip": "8.8.8.8"
 });
@@ -215,7 +215,7 @@ WebSocket是一种通信协议。该协议不实行同源政策，只要服务�
 
 下面是一个例子，浏览器发出的WebSocket请求的头信息（摘自维基百科）。
 
-```
+```json
 GET /chat HTTP/1.1
 Host: server.example.com
 Upgrade: websocket
@@ -230,7 +230,7 @@ Origin: http://example.com
 
 正是因为有了`Origin`这个字段，所以WebSocket才没有实行同源政策。因为服务器可以根据这个字段，判断是否许可本次通信。如果该域名在白名单内，服务器就会做出如下回应。
 
-```
+```json
 HTTP/1.1 101 Switching Protocols
 Upgrade: websocket
 Connection: Upgrade

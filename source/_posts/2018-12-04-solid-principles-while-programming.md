@@ -124,7 +124,7 @@ OCP的定义，换个说法：
 
 继承一个抽象类（和接口类似）或者重写一个父类中的（虚）方法，也是OCP的惯用伎俩。典型的例子，就是那个图形的绘制的例子。
 
-```
+```swift
 class Shape {
     func draw() {}
 };
@@ -188,7 +188,7 @@ void drawAllShapes([Shape] list) {
 对于LSP的违反常常会导致以明显违反OCP的方式使用运行时类型检测。这种方式常常是使用一个显式的if语句去确定一个对象的类型，以便于能够选择针对该类型的正确行为。考虑下面的例子：
 
 
-```
+```swift
 class Shape {
     
 };
@@ -227,7 +227,7 @@ Square和Circle不能替换其基类型Shape就是违反了LSP原则，这又进
 
 长方形的实现如下：
 
-```
+```swift
 class Rectangle {
     var width: Double = 0
     var height: Double = 0
@@ -258,7 +258,7 @@ class Rectangle {
 
 实现如下：
 
-```
+```swift
 class Square: Rectangle {
     override func setWidth(_ width: Double) {
         self.width = width
@@ -274,7 +274,7 @@ class Square: Rectangle {
 
 Square看起来工作不错，而且这个设计似乎也是自相容的，正确的。可是这个结论是错误的，一个自相容的程序未必就和所有的用户程序相容。考虑下面的函数：
 
-```
+```swift
 func tempFunc(_ rect: Rectangle) {
     rect.setWidth(4)
     rect.setHeight(5)
@@ -447,18 +447,18 @@ TimerDoor继承Door和TimerClient。尽管这两个基类的客户程序都可�
 
 考虑一个既要访问TransferUI又要访问DepositUI的函数。假设我们想把这两个UI传入该函数，是应该这样写：
 
-```
+```swift
 void tempFund(_ depositeUI: DepositUI, _ transferUI: TransferUI)
 ```
 还是应该这样写：
 
-```
+```swift
 void tempFund(_ ui: UI)
 ```
 
 以第二种方法编写函数的诱惑是很强的。毕竟，在第一种多参数形式中，两个参数应用的是同一个对象，调用起来是这个样子：
 
-```
+```swift
 tempFunc(ui, ui)
 ```
 

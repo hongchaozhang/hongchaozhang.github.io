@@ -47,7 +47,7 @@ iPhone比较简单，因为其没有spit view的功能，iPad因为有了spilt v
 
 该属性是只读属性，用来控制该view controller可不可以旋转。可以在自己的view controller中将其override，返回自己的逻辑，甚至将其override为读写属性，可以在其它地方进行设置。比如：
 
-```
+```swift
 override public var shouldAutorotate: Bool {
     get {
         return self.shouldAutorotateVariable

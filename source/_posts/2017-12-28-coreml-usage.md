@@ -52,7 +52,7 @@ From *Model Evaluation Parameters*(section C), we can see the input and output o
 
 The following is a sample usage of image classification model:
 
-```
+```swift
 
 // create request
 guard let selectedModel = try? VNCoreMLModel(for: Inceptionv3().model) else {

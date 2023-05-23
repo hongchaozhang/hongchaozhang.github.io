@@ -60,7 +60,7 @@ Descriptive and consistent naming makes software easier to read and understand. 
 
 **Preferred:**
 
-```
+```swift
 x.insert(y, at: z)          // “x, insert y at z”
 x.subViews(havingColor: y)  // “x's subviews having color y”
 x.capitalizingNouns()       // “x, capitalizing nouns”
@@ -68,7 +68,7 @@ x.capitalizingNouns()       // “x, capitalizing nouns”
 
 **Not Preferred:**
 
-```
+```swift
 x.insert(y, position: z)
 x.subViews(color: y)
 x.nounCapitalize()
@@ -116,14 +116,14 @@ When creating custom delegate methods, an unnamed first parameter should be the 
 
 **Preferred:**
 
-```
+```swift
 func namePickerView(_ namePickerView: NamePickerView, didSelectName name: String)
 func namePickerViewShouldReload(_ namePickerView: NamePickerView) -> Bool
 ```
 
 **Not Preferred:**
 
-```
+```swift
 func didSelectName(namePicker: NamePickerViewController, name: String)
 func namePickerShouldReload() -> Bool
 ```
@@ -140,7 +140,7 @@ In particular, when adding protocol conformance to a model, prefer adding a sepa
 
 **Preferred:**
 
-```
+```swift
 class MyViewController: UIViewController {
   // class stuff here
 }
@@ -158,7 +158,7 @@ extension MyViewController: UIScrollViewDelegate {
 
 **Not Preferred:**
 
-```
+```swift
 class MyViewController: UIViewController, UITableViewDataSource, UIScrollViewDelegate {
   // all methods
 }
@@ -187,7 +187,7 @@ You can define constants on a type rather than on an instance of that type using
 
 **Preferred:**
 
-```
+```swift
 enum Math {
   static let e = 2.718281828459045235360287
   static let root2 = 1.41421356237309504880168872
@@ -198,7 +198,7 @@ let hypotenuse = side * Math.root2
 
 **Not Preferred:**
 
-```
+```swift
 let e = 2.718281828459045235360287  // pollutes global namespace
 let root2 = 1.41421356237309504880168872
 
@@ -215,7 +215,7 @@ When coding with conditionals, the left-hand margin of the code should be the "g
 
 **Preferred:**
 
-```
+```swift
 func computeFFT(context: Context?, inputData: InputData?) throws -> Frequencies {
 
   guard let context = context else {
@@ -232,7 +232,7 @@ func computeFFT(context: Context?, inputData: InputData?) throws -> Frequencies 
 
 **Not Preferred:**
 
-```
+```swift
 func computeFFT(context: Context?, inputData: InputData?) throws -> Frequencies {
 
   if let context = context {
@@ -253,7 +253,7 @@ When multiple optionals are unwrapped either with `guard` or `if let`, minimize 
 
 **Preferred:**
 
-```
+```swift
 guard let number1 = number1,
       let number2 = number2,
       let number3 = number3 else {
@@ -264,7 +264,7 @@ guard let number1 = number1,
 
 **Not Preferred:**
 
-```
+```swift
 if let number1 = number1 {
   if let number2 = number2 {
     if let number3 = number3 {
@@ -290,7 +290,7 @@ if let number1 = number1 {
 
 1. Good practice
 
-```
+```swift
 func move(from start: Point, to end: Point)
 x.move(from: x, to: y) 
 ```
@@ -303,14 +303,14 @@ x.move(from: x, to: y)
 
 **Preferred:**
 
-```
+```swift
 a.moveTo(x: b, y: c)
 a.fadeFrom(red: b, green: c, blue: d)
 ```
 
 **Not Preferred:**
 
-```
+```swift
 a.move(toX: b, y: c)
 a.fade(fromRed: b, green: c, blue: d)
 ```

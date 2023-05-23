@@ -27,7 +27,7 @@ iOS应用如何在列表中高效地加载图片？
 
 主要代码：
 
-```
+```swift
 class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate {
 
     var data = [String]()

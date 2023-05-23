@@ -46,7 +46,7 @@ Contents
 
 2. How to implement a **Queue** using two **Stack**s?
  
-```
+```cpp
 class Stack
 {
 …
@@ -92,7 +92,7 @@ The key point is to use two stacks to implement the FIFO enqueue/dequeue operati
 
 
 
-```
+```java
 
 public class MyQueue<T> {
     private Stack<T>  stack1;
@@ -251,7 +251,7 @@ Note: Your algorithm should have a linear runtime complexity. Could you implemen
 
 **Solution 1**
 
-```
+```java
 
 // Time complexity O (n), space complexity O(1)
 int findSingleNumber2(int[] array) {
@@ -287,7 +287,7 @@ int findSingleNumber2(int[] array) {
 
 **Solution 2**
 
-```
+```java
 // Time complexity O(n), space complexity O(1)
 int findSingleNumber22(int[] array) {
 	int result = -1;
@@ -352,7 +352,7 @@ Right child is pushed before left child to make sure that left subtree is proces
 
 **递归实现**
 
-```
+```cpp
 void preOrder1(BinTree *root)     //递归前序遍历 
 {
     if(root!=NULL)
@@ -374,7 +374,7 @@ void preOrder1(BinTree *root)     //递归前序遍历
 2. 判断结点P的左孩子是否为空，若为空，则取栈顶结点并进行出栈操作，并将栈顶结点的右孩子置为当前的结点P，循环至1;若不为空，则将P的左孩子置为当前的结点P;
 3. 直到P为NULL并且栈为空，则遍历结束。
      
-```
+```cpp
 void preOrder2(BinTree *root)     //非递归前序遍历 
 {
     stack<BinTree*> s;
@@ -403,7 +403,7 @@ void preOrder2(BinTree *root)     //非递归前序遍历
 
 **递归实现**
 
-```
+```cpp
 void inOrder1(BinTree *root)      //递归中序遍历
 {
     if(root!=NULL)
@@ -425,7 +425,7 @@ void inOrder1(BinTree *root)      //递归中序遍历
 2. 若其左孩子为空，则取栈顶元素并进行出栈操作，访问该栈顶结点，然后将当前的P置为栈顶结点的右孩子；
 3. 直到P为NULL并且栈为空则遍历结束
 
-```
+```cpp
 void inOrder2(BinTree *root)      //非递归中序遍历
 {
     stack<BinTree*> s;
@@ -454,7 +454,7 @@ void inOrder2(BinTree *root)      //非递归中序遍历
 
 **递归实现**
 
-```
+```cpp
 void postOrder1(BinTree *root)    //递归后序遍历
 {
     if(root!=NULL)
@@ -474,7 +474,7 @@ void postOrder1(BinTree *root)    //递归后序遍历
 
 对于任一结点P，将其入栈，然后沿其左子树一直往下搜索，直到搜索到没有左孩子的结点，此时该结点出现在栈顶，但是此时不能将其出栈并访问，因此其右孩子还为被访问。所以接下来按照相同的规则对其右子树进行相同的处理，当访问完其右孩子时，该结点又出现在栈顶，此时可以将其出栈并访问。这样就保证了正确的访问顺序。可以看出，在这个过程中，每个结点都两次出现在栈顶，只有在第二次出现在栈顶时，才能访问它。因此需要多设置一个变量标识该结点是否是第一次出现在栈顶。
 
-```
+```cpp
 void postOrder2(BinTree *root)    //非递归后序遍历
 {
     stack<BTNode*> s;
@@ -514,7 +514,7 @@ void postOrder2(BinTree *root)    //非递归后序遍历
 
 要保证根结点在左孩子和右孩子访问之后才能访问，因此对于任一结点P，先将其入栈。如果P不存在左孩子和右孩子，则可以直接访问它；或者P存在左孩子或者右孩子，但是其左孩子和右孩子都已被访问过了，则同样可以直接访问该结点。若非上述两种情况，则将P的右孩子和左孩子依次入栈，这样就保证了每次取栈顶元素的时候，左孩子在右孩子前面被访问，左孩子和右孩子都在根结点前面被访问。
 
-```
+```cpp
 void postOrder3(BinTree *root)     //非递归后序遍历
 {
     stack<BinTree*> s;
@@ -546,7 +546,7 @@ void postOrder3(BinTree *root)     //非递归后序遍历
 
 #### Recursive method: 
 
-```
+```java
 
 /**
  * Definition for a binary tree node.
@@ -576,7 +576,7 @@ public class Solution {
 
 或者一种更简洁的方式：
 
-```
+```cpp
 
  TreeNode* invertTree(TreeNode* root) {  
         if(root==NULL)  
@@ -591,7 +591,7 @@ public class Solution {
 
 #### Iterative method: 
 
-```
+```cpp
 
 TreeNode* invertTree2(TreeNode* root) {  
         queue<TreeNode*> tree_queue;  
@@ -648,7 +648,7 @@ Before every iteration, if we calculate position of the given number, then in a 
 
 **Code:**
 
-```
+```c
 
 #include <stdio.h>
 
@@ -761,7 +761,7 @@ For `getInstance()`, we have two ways to implement it: **Lazy initialization** a
 
 #### Lazy initialization:
 
-```
+```java
 public class JavaHungrySingleton
 {
     private static  volatile JavaHungrySingleton  uniqueInstance;
@@ -791,7 +791,7 @@ public class JavaHungrySingleton
 
 If our application always create and use the Singleton class, we can use **Early initialization** to implement Singleton.
 
-```
+```java
 public class JavaHungrySingleton
 {
     private static JavaHungrySingleton  uniqueInstance  =  new JavaHungrySingleton();

@@ -11,7 +11,7 @@ title: Use Current Location Service in Map
 ### 1. Set *info.plist*
 
 For iOS SDK 8.0 and later, we need to set `NSLocationWhenInUseUsageDescription` and 'NSLocationAlwaysUsageDescription' in *info.plist* file. A sample case is:
-```
+```xml
 <key>NSLocationWhenInUseUsageDescription</key>
 <string>Do you allow the app to use your location?</string>
 <key>NSLocationAlwaysUsageDescription</key>
@@ -27,7 +27,7 @@ We ask for the authorization by an instance of `CLLocationManager`.
 
 * import `CoreLocation/CoreLocation.h` class, and define a location manager `locationManager` in the map view controller.
 * use the following code for asking authorization from user:
-```
+```objc
 if ([CLLocationManager locationServicesEnabled] ) { // check if the location service is enabled for the device
     if (self.locationManager == nil ) {
         self.locationManager = [[CLLocationManager alloc] init];
@@ -64,7 +64,7 @@ For iOS SDK 8.0 and later, we have two ways to get user current location:
 For this way, after we set `showsUserLocation` to `YES`, 
 
 * We can get the location in `mapView:didUpdateUserLocation:`.
-```
+```objc
 - (void)mapView:(MKMapView *)mapView didUpdateUserLocation:(MKUserLocation *)userLocation
 {
     // Center the map the first time we get a real location change.
@@ -87,7 +87,7 @@ Before implementing the above two methods, we should set the map view's delegate
 For this way, after we send the method, 
 
 * We can get the location in `locationManager:didUpdateLocations:`. The newest location is the `lastObject` of `locations`.
-```
+```objc
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations
 {
     self.currentLocation = [locations lastObject];
@@ -103,7 +103,7 @@ For this way, after we send the method,
 * When you add the current location annotation to map view, you can set the current location annotation view in mapView:viewForAnnotation: method. If `nil` is returned, a **red pin** will be use as the annotation view. **Question: How can we use the default blue circle as the annotation view, just as we set `showsUserLocation` to `YES`?**
 
 * You can also get erroe message when app fails to get the location in `locationManager:didFailWithError:` method.
-```
+```objc
 - (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error
 {
     NSLog(@"didFailWithError: %@", error);

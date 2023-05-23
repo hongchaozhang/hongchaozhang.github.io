@@ -60,7 +60,7 @@ One exception: `performSelector:` can run method that are not ready in compile t
 
 来自[Protected methods in Objective-C](http://stackoverflow.com/questions/3725857/protected-methods-in-objective-c)的protected method的实现：
 
-```
+```objc
 /////// SuperClass.h
 @interface SuperClass
 

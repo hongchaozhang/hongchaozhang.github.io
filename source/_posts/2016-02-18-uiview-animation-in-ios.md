@@ -17,7 +17,7 @@ categories: [ios, objective-c]
 
 ### Basic Usage
 
-```
+```objc
 [UIView animateWithDuration:1.0 animations:^{
     firstView.alpha = 0.0;
     secondView.alpha = 1.0;
@@ -35,7 +35,7 @@ Usage of Completion Handler
 
 Sample code：
 
-```
+```objc
 - (IBAction)showHideView:(id)sender
 {
     // Fade out the view right away
@@ -64,7 +64,7 @@ Nested animations are started at the same time as any parent animations.
 
 Sample code:
 
-```
+```objc
 [UIView animateWithDuration:1.0
         delay: 1.0
         options:UIViewAnimationOptionCurveEaseOut
@@ -99,7 +99,7 @@ View transitions help you hide sudden changes associated with adding, removing, 
 
 Sampel code for replacing a view with a different view:
 
-```
+```objc
 - (IBAction)toggleMainViews:(id)sender {
     [UIView transitionFromView:(displayingPrimary ? primaryView : secondaryView)
         toView:(displayingPrimary ? secondaryView : primaryView)

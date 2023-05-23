@@ -227,7 +227,7 @@ Output:  0200
 
 **Answer:**
 
-```
+```java
 
 // Function to print first k digits after dot in value
 // of 1/n. n is assumed to be a positive integer.
