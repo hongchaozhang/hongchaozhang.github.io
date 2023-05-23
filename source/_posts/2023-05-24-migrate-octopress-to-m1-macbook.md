@@ -9,7 +9,7 @@ categories: [productivity]
 <!-- more -->
 
 pygments.rb is not compatible with M1, so I have to migrate to Rouge.
-- detail info in Notes
+- detail info in yinxiangbiji
 
 understand: ruby gem bundle rails require load
 - link
