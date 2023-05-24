@@ -3,7 +3,7 @@ layout: post
 title: "理解CSS中的z-index"
 date: 2020-05-18 18:20:46 +0800
 comments: true
-categories: [html css]
+categories: [html, css]
 ---
 
 CSS中的`z-index`和iOS中的非常不一样：iOS非常简单，所有的`z-index`设置只在parent视图（view）中起作用。但是，CSS的`z-index`的作用范围却可以超出parent的限制。
