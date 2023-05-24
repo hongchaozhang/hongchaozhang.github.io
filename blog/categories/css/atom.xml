@@ -4,7 +4,7 @@
   <title><![CDATA[Category: css | Reading Space]]></title>
   <link href="http://hongchaozhang.github.io/blog/categories/css/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2023-05-24T02:12:59+08:00</updated>
+  <updated>2023-05-24T22:44:46+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -450,6 +450,165 @@
 <li><a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/white-space"><code>white-space</code></a></li>
 <li><a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/word-break"><code>word-break</code></a></li>
 <li><a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/word-wrap"><code>word-wrap</code>(<code>overflow-wrap</code>)</a></li>
+</ol>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[理解CSS中的z-index]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2020/05/18/understand-css-z-index/"/>
+    <updated>2020-05-18T18:20:46+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2020/05/18/understand-css-z-index</id>
+    <content type="html"><![CDATA[<p>CSS中的<code>z-index</code>和iOS中的非常不一样：iOS非常简单，所有的<code>z-index</code>设置只在parent视图（view）中起作用。但是，CSS的<code>z-index</code>的作用范围却可以超出parent的限制。</p>
+
+<!-- more -->
+
+
+<h2>Stacking Context</h2>
+
+<p><code>z-index</code>只在其所属的Stacking Context中起作用。但是，什么是Stacking Context？Stacking Context hirarchy和Html Elements Tree hirarchy又有什么区别？</p>
+
+<p>MDN上面的<a href="https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Positioning/Understanding_z_index/The_stacking_context">The stacking context</a>讲的非常清楚，抄下来。</p>
+
+<p>the rendering order of certain elements is influenced by their z-index value. This occurs because these elements have special properties which cause them to form a stacking context.</p>
+
+<p>A stacking context is formed, anywhere in the document, by any element in the following scenarios:</p>
+
+<ol>
+<li>Root element of the document (<html>).</li>
+<li><strong>Element with a <code>position</code> value absolute or relative and <code>z-index</code> value other than auto.</strong></li>
+<li>Element with a <code>position</code> value <code>fixed</code> or <code>sticky</code> (sticky for all mobile browsers, but not older desktop).</li>
+<li>Element that is a child of a flex (<code>flexbox</code>) container, with <code>z-index</code> value other than auto.</li>
+<li>Element that is a child of a grid (<code>grid</code>) container, with <code>z-index</code> value other than auto.</li>
+<li><strong>Element with a <code>opacity</code> value less than 1.</strong></li>
+<li>Element with a <code>mix-blend-mode</code> value other than <code>normal</code>.</li>
+<li>Element with any of the following properties with value other than none:
+
+<ul>
+<li><strong><code>transform</code></strong></li>
+<li><code>filter</code></li>
+<li><code>perspective</code></li>
+<li><code>clip-path</code></li>
+<li><code>mask</code> / <code>mask-image</code> / <code>mask-border</code></li>
+</ul>
+</li>
+<li>Element with a <code>isolation</code> value <code>isolate</code>.</li>
+<li>Element with a <code>-webkit-overflow-scrolling</code> value touch.</li>
+<li>Element with a <code>will-change</code> value specifying any property that would create a stacking context on non-initial value (see this <a href="https://dev.opera.com/articles/css-will-change-property/">post</a>).</li>
+<li>Element with a <code>contain</code> value of <code>layout</code>, or <code>paint</code>, or a composite value that includes either of them (i.e. <code>contain: strict</code>, <code>contain: content</code>).</li>
+</ol>
+
+
+<blockquote><p><strong>Note</strong>:
+1. The hierarchy of stacking contexts is a subset of the hierarchy of HTML elements because only certain elements create stacking contexts.
+2. iOS可以看成Stacking Context hirarchy和view hirarchy相同的一个特例。</p>
+
+<h2>同一Stacking Context中的元素的排序</h2></blockquote>
+
+<p>在同一Stacking Context内部，前后顺序是怎么排列的呢？</p>
+
+<p>简单地说，顺序大致如下：
+<code>
+                |      |         |    |
+                |           |    |    |   ⇦ ☻
+                |           |         |   user
+z-index:  canvas  -1      0    1    2
+</code></p>
+
+<p>from back to front:</p>
+
+<ol>
+<li>The stacking context’s root element</li>
+<li>Positioned elements (and their children) with negative z-index values (higher values are stacked in front of lower values; elements with the same value are stacked according to appearance in the HTML)</li>
+<li>Non-positioned elements (ordered by appearance in the HTML)</li>
+<li>Positioned elements (and their children) with a z-index value of auto (ordered by appearance in the HTML)</li>
+<li>Positioned elements (and their children) with positive z-index values (higher values are stacked in front of lower values; elements with the same value are stacked according to appearance in the HTML)</li>
+</ol>
+
+
+<p>更全面详细的说明见<a href="https://www.w3.org/TR/CSS2/zindex.html">Appendix E. Elaborate description of Stacking Contexts</a>。</p>
+
+<blockquote><p><strong>Note:</strong>
+这里有一点和iOS很不同：子元素可以跑到父元素的后面 （<code>z-index</code>小于0）。</p></blockquote>
+
+<h2>例子</h2>
+
+<p>我们可以借助下面的例子来理解Stacking Context。</p>
+
+<p>下面三个正方形的前后顺序：</p>
+
+<p><img src="/images/CSS_zIndex.png" alt="" /></p>
+
+<p>其实现代码的html如下：</p>
+
+<p>```</p>
+
+<div>
+  <span class="red">Red</span>
+</div>
+
+
+<div>
+  <span class="green">Green</span>
+</div>
+
+
+<div>
+  <span class="blue">Blue</span>
+</div>
+
+
+<pre><code>
+CSS代码如下：
+</code></pre>
+
+<p>.red, .green, .blue {
+  position: absolute;
+  width: 100px;
+  color: white;
+  line-height: 100px;
+  text-align: center;
+}</p>
+
+<p>.red {
+  z-index: 1;
+  top: 20px;
+  left: 20px;
+  background: red;
+}</p>
+
+<p>.green {
+  top: 60px;
+  left: 60px;
+  background: green;
+}</p>
+
+<p>.blue {
+  top: 100px;
+  left: 100px;
+  background: blue;
+}
+```</p>
+
+<p>怎样才能让红色的正方形回到最底层呢？</p>
+
+<p>只需要在CSS中加入下面一段即可：</p>
+
+<pre><code>div:first-child {
+  opacity: .99;
+}
+</code></pre>
+
+<p>将红色正方形的父元素变成Stacking Context，那么红色元素对应的span的<code>z-index</code>就只能在其父元素中起作用，而不能超出父元素了。</p>
+
+<p>这个例子没有什么实际意义，但是对于我们理解<code>z-index</code>起作用的范围却十分清楚。</p>
+
+<h2>参考</h2>
+
+<ol>
+<li><a href="https://www.w3.org/TR/CSS2/zindex.html">Appendix E. Elaborate description of Stacking Contexts</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Positioning/Understanding_z_index/The_stacking_context">The stacking context</a></li>
 </ol>
 
 ]]></content>

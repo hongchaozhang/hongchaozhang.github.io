@@ -5,11 +5,12 @@
 
 <head>
 	<meta charset="utf-8">
-	<title>Category: android studio - Reading Space</title>
+	<title>如何在一台机器上使用两个github账号 - Reading Space</title>
 	<meta name="author" content="Zhang Hongchao">
 
 	
-	<meta name="description" content="Category: android studio">
+	<meta name="description" content="如何在一台机器上使用两个github账号 最近公司的github账号从专有域名（github.company.com）迁移到了公共域名（github.com）下，所以我需要在一台机器上同时使用两个github账号。这里记录一下配置过程。 生成两个ssh key
+将ssh &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -19,7 +20,7 @@
 
 	<link href="/atom.xml" rel="alternate" title="Reading Space" type="application/atom+xml">
 	
-	<link rel="canonical" href="http://hongchaozhang.github.io/blog/categories/android-studio/">
+	<link rel="canonical" href="http://hongchaozhang.github.io/blog/2023/05/24/work-with-two-github-accounts/">
 	<link href="/favicon.png" rel="shortcut icon">
 	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
 	<link href="/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
@@ -105,29 +106,51 @@
 				
 			
 			<div class="mid-col-container">
-				<div id="content" class="inner">
-	
+				<div id="content" class="inner"><article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+	<h1 class="title" itemprop="name">如何在一台机器上使用两个github账号</h1>
+	<div class="entry-content" itemprop="articleBody"><!-- more -->
 
 
-	
-	
-	<section class="archives"><h1 class="year">2015</h1>
+<p>最近公司的github账号从专有域名（github.company.com）迁移到了公共域名（github.com）下，所以我需要在一台机器上同时使用两个github账号。这里记录一下配置过程。</p>
 
-<article itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-		<span class="date"><time datetime="2015-08-26T00:00:00+08:00" itemprop="datePublished">Aug 26</time></span>
-		<br>
-		<span class="tags">
+<ol>
+<li>生成两个ssh key</li>
+<li>将ssh key添加到github账号</li>
+<li>配置ssh config
+
+<ol>
+<li>如果不想配置config文件，需要手动保证ssh-agent里面每次有你想要的key，这个要不断切换，不方便，推荐使用config文件。</li>
+</ol>
+</li>
+<li>使用特殊的域名进行<code>git clone</code>操作。</li>
+</ol>
 
 
-	<a class='category' href='/blog/categories/android/'>android</a>, <a class='category' href='/blog/categories/android-studio/'>android studio</a>
+<p><code>~/.ssh</code>目录下文件和创建的<code>config</code>文件，内容如下：</p>
 
+<p><img src="/images/config-two-github-account.jpg" alt="config two github accounts" width="300"></p>
 
-</span>
-	    
-	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2015/08/26/How-to-Use-Google-Maps-Android-API-Utility-Library-in-Android-Studio/">How to Use Google Maps Android API Utility Library in Android Studio</a></h1>
+<p>具体步骤细节参考：</p>
+
+<ul>
+<li><a href="https://www.freecodecamp.org/news/manage-multiple-github-accounts-the-ssh-way-2dadc30ccaca/#:~:text=If%20it%E2%80%99s%20to%20a%20personal%20Git%20account%20that,do%20a%20Git%20push%20to%20the%20personal%20repository">How to manage multiple GitHub accounts on a single machine with SSH keys</a></li>
+<li><a href="https://gist.github.com/rahularity/86da20fe3858e6b311de068201d279e3">How To Work With Multiple Github Accounts on a single Machine</a></li>
+</ul>
+
+</div>
+
 </article>
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+	
+	
+	
+	<a class="addthis_counter addthis_pill_style"></a>
+	</div>
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
+</div>
+
 
 </div>
 			</div>
