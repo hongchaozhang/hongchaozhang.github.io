@@ -1,0 +1,249 @@
+
+<!DOCTYPE HTML>
+
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>事件循环中的Macrotask和Microtask - Reading Space</title>
+	<meta name="author" content="Zhang Hongchao">
+
+	
+	<meta name="description" content="事件循环中的Macrotask和Microtask For details, refer to Event loop: microtasks and macrotasks. Event Loop The event loop concept is very simple. There’s an &hellip;">
+	
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="Reading Space" type="application/atom+xml">
+	
+	<link rel="canonical" href="http://hongchaozhang.github.io/blog/2023/05/25/event-loop-and-macrotask-and-microtask/">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<link href="/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<link href='http://fonts.googleapis.com/css?family=Nunito:400,300,700' rel='stylesheet' type='text/css'>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	
+  
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-62806905-2']);
+		_gaq.push(['_trackPageview']);
+
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
+
+
+</head>
+
+
+<body>
+	<div class="container">
+		<div class="left-col">
+			<div class="intrude-less">
+			<header id="header" class="inner"><div class="profilepic">
+	
+	<script src="/javascripts/md5.js"></script>
+	<script type="text/javascript">
+		$(function(){
+			$('.profilepic').append("<img src='http://www.gravatar.com/avatar/" + MD5("") + "?s=160' alt='Profile Picture' style='width: 160px;' />");
+		});
+	</script>
+	
+</div>
+
+<nav id="main-nav"><ul class="main">
+    <li><a href="/">Blog</a></li>
+    <li><a href="/blog/archives">Archives</a></li>
+    <li><a href="#">About</a></li>
+</ul>
+</nav>
+<nav id="sub-nav">
+	<div class="social">
+		
+		
+		
+		
+		
+			<a class="github" href="https://github.com/hongchaozhang" title="GitHub">GitHub</a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+    	
+    	
+			<a class="rss" href="/atom.xml" title="RSS">RSS</a>
+		
+	</div>
+</nav>
+
+
+
+<section class="categories">
+          <ul id="category_cloud" class="nav nav-list"><a href='/blog/categories/algorithm' style='font-size: 102.66666666666667%'>algorithm(2)</a> <a href='/blog/categories/android' style='font-size: 108.0%'>android(6)</a> <a href='/blog/categories/android-studio' style='font-size: 101.33333333333333%'>android studio(1)</a> <a href='/blog/categories/augmented-reality' style='font-size: 105.33333333333333%'>augmented reality(4)</a> <a href='/blog/categories/cs' style='font-size: 101.33333333333333%'>cs(1)</a> <a href='/blog/categories/css' style='font-size: 104.0%'>css(3)</a> <a href='/blog/categories/design-pattern' style='font-size: 104.0%'>design pattern(3)</a> <a href='/blog/categories/html' style='font-size: 105.33333333333333%'>html(4)</a> <a href='/blog/categories/http' style='font-size: 104.0%'>http(3)</a> <a href='/blog/categories/ios' style='font-size: 160.0%'>ios(45)</a> <a href='/blog/categories/java' style='font-size: 102.66666666666667%'>java(2)</a> <a href='/blog/categories/javascript' style='font-size: 109.33333333333333%'>javascript(7)</a> <a href='/blog/categories/machine-learning' style='font-size: 113.33333333333333%'>machine learning(10)</a> <a href='/blog/categories/map-tech' style='font-size: 104.0%'>map tech(3)</a> <a href='/blog/categories/mobile' style='font-size: 101.33333333333333%'>mobile(1)</a> <a href='/blog/categories/mongodb' style='font-size: 101.33333333333333%'>mongodb(1)</a> <a href='/blog/categories/music' style='font-size: 109.33333333333333%'>music(7)</a> <a href='/blog/categories/nlp' style='font-size: 102.66666666666667%'>nlp(2)</a> <a href='/blog/categories/nlu' style='font-size: 102.66666666666667%'>nlu(2)</a> <a href='/blog/categories/nodejs' style='font-size: 109.33333333333333%'>nodejs(7)</a> <a href='/blog/categories/objective-c' style='font-size: 129.33333333333334%'>objective-c(22)</a> <a href='/blog/categories/philosophy' style='font-size: 102.66666666666667%'>philosophy(2)</a> <a href='/blog/categories/productivity' style='font-size: 132.0%'>productivity(24)</a> <a href='/blog/categories/python' style='font-size: 108.0%'>python(6)</a> <a href='/blog/categories/reading' style='font-size: 152.0%'>reading(39)</a> <a href='/blog/categories/server' style='font-size: 101.33333333333333%'>server(1)</a> <a href='/blog/categories/swift' style='font-size: 109.33333333333333%'>swift(7)</a> <a href='/blog/categories/web' style='font-size: 116.0%'>web(12)</a> <a href='/blog/categories/wwdc' style='font-size: 102.66666666666667%'>wwdc(2)</a> <a href='/blog/categories/xcode' style='font-size: 110.66666666666667%'>xcode(8)</a> </ul>
+      </section>
+
+
+</header>				
+			</div>
+		</div>	
+		<div class="mid-col">
+			
+				
+			
+			<div class="mid-col-container">
+				<div id="content" class="inner"><article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+	<h1 class="title" itemprop="name">事件循环中的Macrotask和Microtask</h1>
+	<div class="entry-content" itemprop="articleBody"><!-- more -->
+
+
+<p>For details, refer to <a href="https://javascript.info/event-loop">Event loop: microtasks and macrotasks</a>.</p>
+
+<h2>Event Loop</h2>
+
+<p>The event loop concept is very simple. There’s an endless loop, where the JavaScript engine waits for tasks, executes them and then sleeps, waiting for more tasks.</p>
+
+<p>For instance, while the engine is busy executing a <code>script</code>, a user may move their mouse causing <code>mousemove</code>, and <code>setTimeout</code> may be due and so on, these tasks form a queue.</p>
+
+<p>Tasks from the queue are processed on “first come – first served” basis. When the engine browser is done with the <code>script</code>, it handles <code>mousemove</code> event, then <code>setTimeout</code> handler, and so on.</p>
+
+<p>So far, quite simple, right?</p>
+
+<p>Two more details:</p>
+
+<ul>
+<li>Rendering never happens while the engine executes a task. It doesn’t matter if the task takes a long time. Changes to the DOM are painted only after the task is complete.</li>
+<li>If a task takes too long, the browser can’t do other tasks, such as processing user events. So after a time, it raises an alert like “Page Unresponsive”, suggesting killing the task with the whole page. That happens when there are a lot of complex calculations or a programming error leading to an infinite loop.</li>
+</ul>
+
+
+<p>Event Loop应用
+Use-case 1: <a href="https://javascript.info/event-loop#use-case-1-splitting-cpu-hungry-tasks">splitting CPU-hungry tasks</a>
+Use case 2: <a href="https://javascript.info/event-loop#use-case-1-splitting-cpu-hungry-tasks">progress indication</a>
+Use case 3: <a href="https://javascript.info/event-loop#use-case-3-doing-something-after-the-event">doing something after the event</a></p>
+
+<h2>Macrotasks and Microtasks</h2>
+
+<ul>
+<li>Macrotask：
+
+<ul>
+<li><code>script</code>，<code>mousemove</code>，<code>setTimeout</code></li>
+<li>use <code>setTimeout(f)</code> to dispatch a callback as a macrotask</li>
+</ul>
+</li>
+<li>Microtask：
+
+<ul>
+<li>They are usually created by promises: an execution of <code>.then/catch/finally</code> handler becomes a microtask.</li>
+<li> use <code>queueMicrotask(f)</code> to dispatch a callback as a microtask</li>
+</ul>
+</li>
+</ul>
+
+
+<p>Event loop workflow with macrotask and microtask:</p>
+
+<p><img src="/images/eventloopinv8.png" width="300px" alt="event loop and macrotask and microtask" /></p>
+
+<h2>Summary</h2>
+
+<p>A more detailed event loop algorithm (though still simplified compared to the specification):</p>
+
+<pre><code>1. Dequeue and run the oldest task from the macrotask queue (e.g. “script”).
+2. Execute all microtasks:
+    * While the microtask queue is not empty:
+        * Dequeue and run the oldest microtask.
+3. Render changes if any.
+4. If the macrotask queue is empty, wait till a macrotask appears.
+5. Go to step 1.
+</code></pre>
+
+<p>If you want a real parallel task execution, use Web Worker. it is running in a separate thread.</p>
+
+<h2>练习</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>console.log(1);
+</span><span class='line'>
+</span><span class='line'>setTimeout(() =&gt; console.log(2));
+</span><span class='line'>
+</span><span class='line'>Promise.resolve().then(() =&gt; console.log(3));
+</span><span class='line'>
+</span><span class='line'>Promise.resolve().then(() =&gt; setTimeout(() =&gt; console.log(4)));
+</span><span class='line'>
+</span><span class='line'>Promise.resolve().then(() =&gt; console.log(5));
+</span><span class='line'>
+</span><span class='line'>setTimeout(() =&gt; console.log(6));
+</span><span class='line'>
+</span><span class='line'>console.log(7);</span></code></pre></td></tr></table></div></figure>
+
+
+<p>答案：The console output is:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>1 7 3 5 2 6 4</span></code></pre></td></tr></table></div></figure>
+
+</div>
+
+</article>
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+	
+	
+	
+	<a class="addthis_counter addthis_pill_style"></a>
+	</div>
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
+</div>
+
+
+</div>
+			</div>
+			<footer id="footer" class="inner">Copyright &copy; 2023
+
+    Zhang Hongchao
+
+
+<!--Design credit: <a href="http://shashankmehta.in/archive/2012/greyshade.html">Shashank Mehta</a>--></footer>
+		</div>
+	</div>
+	
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

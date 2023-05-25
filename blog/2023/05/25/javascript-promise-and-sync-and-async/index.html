@@ -1,0 +1,385 @@
+
+<!DOCTYPE HTML>
+
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>Promise以及sync和async - Reading Space</title>
+	<meta name="author" content="Zhang Hongchao">
+
+	
+	<meta name="description" content="Promise以及sync和async For details, refer to Promises, async/await Basic usage 1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+let promise = new Promise( &hellip;">
+	
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="Reading Space" type="application/atom+xml">
+	
+	<link rel="canonical" href="http://hongchaozhang.github.io/blog/2023/05/25/javascript-promise-and-sync-and-async/">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<link href="/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<link href='http://fonts.googleapis.com/css?family=Nunito:400,300,700' rel='stylesheet' type='text/css'>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	
+  
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-62806905-2']);
+		_gaq.push(['_trackPageview']);
+
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
+
+
+</head>
+
+
+<body>
+	<div class="container">
+		<div class="left-col">
+			<div class="intrude-less">
+			<header id="header" class="inner"><div class="profilepic">
+	
+	<script src="/javascripts/md5.js"></script>
+	<script type="text/javascript">
+		$(function(){
+			$('.profilepic').append("<img src='http://www.gravatar.com/avatar/" + MD5("") + "?s=160' alt='Profile Picture' style='width: 160px;' />");
+		});
+	</script>
+	
+</div>
+
+<nav id="main-nav"><ul class="main">
+    <li><a href="/">Blog</a></li>
+    <li><a href="/blog/archives">Archives</a></li>
+    <li><a href="#">About</a></li>
+</ul>
+</nav>
+<nav id="sub-nav">
+	<div class="social">
+		
+		
+		
+		
+		
+			<a class="github" href="https://github.com/hongchaozhang" title="GitHub">GitHub</a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+    	
+    	
+			<a class="rss" href="/atom.xml" title="RSS">RSS</a>
+		
+	</div>
+</nav>
+
+
+
+<section class="categories">
+          <ul id="category_cloud" class="nav nav-list"><a href='/blog/categories/algorithm' style='font-size: 102.66666666666667%'>algorithm(2)</a> <a href='/blog/categories/android' style='font-size: 108.0%'>android(6)</a> <a href='/blog/categories/android-studio' style='font-size: 101.33333333333333%'>android studio(1)</a> <a href='/blog/categories/augmented-reality' style='font-size: 105.33333333333333%'>augmented reality(4)</a> <a href='/blog/categories/cs' style='font-size: 101.33333333333333%'>cs(1)</a> <a href='/blog/categories/css' style='font-size: 104.0%'>css(3)</a> <a href='/blog/categories/design-pattern' style='font-size: 104.0%'>design pattern(3)</a> <a href='/blog/categories/html' style='font-size: 105.33333333333333%'>html(4)</a> <a href='/blog/categories/http' style='font-size: 104.0%'>http(3)</a> <a href='/blog/categories/ios' style='font-size: 160.0%'>ios(45)</a> <a href='/blog/categories/java' style='font-size: 102.66666666666667%'>java(2)</a> <a href='/blog/categories/javascript' style='font-size: 109.33333333333333%'>javascript(7)</a> <a href='/blog/categories/machine-learning' style='font-size: 113.33333333333333%'>machine learning(10)</a> <a href='/blog/categories/map-tech' style='font-size: 104.0%'>map tech(3)</a> <a href='/blog/categories/mobile' style='font-size: 101.33333333333333%'>mobile(1)</a> <a href='/blog/categories/mongodb' style='font-size: 101.33333333333333%'>mongodb(1)</a> <a href='/blog/categories/music' style='font-size: 109.33333333333333%'>music(7)</a> <a href='/blog/categories/nlp' style='font-size: 102.66666666666667%'>nlp(2)</a> <a href='/blog/categories/nlu' style='font-size: 102.66666666666667%'>nlu(2)</a> <a href='/blog/categories/nodejs' style='font-size: 109.33333333333333%'>nodejs(7)</a> <a href='/blog/categories/objective-c' style='font-size: 129.33333333333334%'>objective-c(22)</a> <a href='/blog/categories/philosophy' style='font-size: 102.66666666666667%'>philosophy(2)</a> <a href='/blog/categories/productivity' style='font-size: 132.0%'>productivity(24)</a> <a href='/blog/categories/python' style='font-size: 108.0%'>python(6)</a> <a href='/blog/categories/reading' style='font-size: 152.0%'>reading(39)</a> <a href='/blog/categories/server' style='font-size: 101.33333333333333%'>server(1)</a> <a href='/blog/categories/swift' style='font-size: 109.33333333333333%'>swift(7)</a> <a href='/blog/categories/web' style='font-size: 116.0%'>web(12)</a> <a href='/blog/categories/wwdc' style='font-size: 102.66666666666667%'>wwdc(2)</a> <a href='/blog/categories/xcode' style='font-size: 110.66666666666667%'>xcode(8)</a> </ul>
+      </section>
+
+
+</header>				
+			</div>
+		</div>	
+		<div class="mid-col">
+			
+				
+			
+			<div class="mid-col-container">
+				<div id="content" class="inner"><article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+	<h1 class="title" itemprop="name">Promise以及sync和async</h1>
+	<div class="entry-content" itemprop="articleBody"><!-- more -->
+
+
+<p>For details, refer to <a href="https://javascript.info/async">Promises, async/await</a></p>
+
+<h2>Basic usage</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>let promise = new Promise(function(resolve, reject) {
+</span><span class='line'>  let resolved = true;
+</span><span class='line'>  if (resolved) {
+</span><span class='line'>  setTimeout(() =&gt; resolve("done!"), 1000);
+</span><span class='line'>  } else {
+</span><span class='line'>    setTimeout(() =&gt; reject(new Error("Whoops!")), 1000);
+</span><span class='line'>  }
+</span><span class='line'>});
+</span><span class='line'>
+</span><span class='line'>// resolve runs the first function in .then
+</span><span class='line'>promise
+</span><span class='line'>.finally(() =&gt; alert("Promise ready")) // triggers first
+</span><span class='line'>.then(
+</span><span class='line'>  result =&gt; alert(result), // shows "done!" after 1 second
+</span><span class='line'>  error =&gt; alert(error) // doesn't run
+</span><span class='line'>);</span></code></pre></td></tr></table></div></figure>
+
+
+<p>As you can see, the value returned by the first promise is passed through <code>finally</code> to the next <code>then</code>.</p>
+
+<h2>Promise chain</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>new Promise(function(resolve, reject) {
+</span><span class='line'>
+</span><span class='line'>  setTimeout(() =&gt; resolve(1), 1000); // (*)
+</span><span class='line'>
+</span><span class='line'>}).then(function(result) { // (**)
+</span><span class='line'>
+</span><span class='line'>  alert(result); // 1
+</span><span class='line'>  return result * 2;
+</span><span class='line'>
+</span><span class='line'>}).then(function(result) { // (***)
+</span><span class='line'>
+</span><span class='line'>  alert(result); // 2
+</span><span class='line'>  return result * 2;
+</span><span class='line'>
+</span><span class='line'>}).then(function(result) {
+</span><span class='line'>
+</span><span class='line'>  alert(result); // 4
+</span><span class='line'>  return result * 2;
+</span><span class='line'>
+</span><span class='line'>});</span></code></pre></td></tr></table></div></figure>
+
+
+<p><code>then</code> should be a <code>async</code> function, so it can convert any return values to a promise.</p>
+
+<h2>Error handling</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>fetch('/article/promise-chaining/user.json')
+</span><span class='line'>  .then(response =&gt; response.json())
+</span><span class='line'>  .then(user =&gt; fetch(`https://api.github.com/users/${user.name}`))
+</span><span class='line'>  .then(response =&gt; response.json())
+</span><span class='line'>  .then(githubUser =&gt; new Promise((resolve, reject) =&gt; {
+</span><span class='line'>    let img = document.createElement('img');
+</span><span class='line'>    img.src = githubUser.avatar_url;
+</span><span class='line'>    img.className = "promise-avatar-example";
+</span><span class='line'>    document.body.append(img);
+</span><span class='line'>
+</span><span class='line'>    setTimeout(() =&gt; {
+</span><span class='line'>      img.remove();
+</span><span class='line'>      resolve(githubUser);
+</span><span class='line'>    }, 3000);
+</span><span class='line'>  }))
+</span><span class='line'>  .catch(error =&gt; alert(error.message));</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The code of a promise executor and promise handlers has an &ldquo;invisible&rdquo; <code>try..catch</code> around it. If an exception happens, it gets caught and treated as a rejection.</p>
+
+<p>The &ldquo;invisible&rdquo; <code>try..catch</code> around the executor automatically catches the error and turns it into rejected promise.</p>
+
+<p>More details about the error handling workflow, refers to <a href="https://javascript.info/promise-error-handling">https://javascript.info/promise-error-handling</a></p>
+
+<h2>Promise.all</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>let urls = [
+</span><span class='line'>  'https://api.github.com/users/iliakan',
+</span><span class='line'>  'https://api.github.com/users/remy',
+</span><span class='line'>  'https://api.github.com/users/jeresig'
+</span><span class='line'>];
+</span><span class='line'>
+</span><span class='line'>// map every url to the promise of the fetch
+</span><span class='line'>let requests = urls.map(url =&gt; fetch(url));
+</span><span class='line'>
+</span><span class='line'>// Promise.all waits until all jobs are resolved
+</span><span class='line'>Promise.all(requests)
+</span><span class='line'>  .then(responses =&gt; responses.forEach(
+</span><span class='line'>    response =&gt; alert(`${response.url}: ${response.status}`)
+</span><span class='line'>  ));</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The new promise resolves when all listed promises are resolved, and the array of their results becomes its result.</p>
+
+<p>If any of the promises is rejected, the promise returned by <code>Promise.all</code> immediately rejects with that error.</p>
+
+<p>Please note that the order of the resulting array members is the same as in its source promises. Even though the first promise takes the longest time to resolve, it’s still first in the array of results.</p>
+
+<h2>Promisification</h2>
+
+<p>Used for changing callback style to promise style.</p>
+
+<h2>async/await</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>async function f() {
+</span><span class='line'>  return 1;
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>f().then(alert); // 1</span></code></pre></td></tr></table></div></figure>
+
+
+<p><code>async</code> ensures that the function returns a promise, and wraps non-promises in it.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>async function f() {
+</span><span class='line'>
+</span><span class='line'>  let promise = new Promise((resolve, reject) =&gt; {
+</span><span class='line'>    setTimeout(() =&gt; resolve("done!"), 1000)
+</span><span class='line'>  });
+</span><span class='line'>
+</span><span class='line'>  let result = await promise; // wait until the promise resolves (*)
+</span><span class='line'>
+</span><span class='line'>  alert(result); // "done!"
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>f();</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The function execution “pauses” at the line (*) and resumes when the promise settles, with result becoming its result. So the code above shows “done!” in one second.</p>
+
+<p>Let’s emphasize: <code>await</code> literally suspends the function execution until the promise settles, and then resumes it with the promise result. That doesn’t cost any CPU resources, because the JavaScript engine can do other jobs in the meantime: execute other scripts, handle events, etc.</p>
+
+<p>For details, refer to <a href="/blog/2023/05/25/event-loop-and-macrotask-and-microtask/">macrotask and microtask in event loop</a></p>
+
+<p><code>Async/Sync</code> is just a more elegant syntax of getting the promise result than <code>promise.then</code>. And, it’s easier to read and write.</p>
+</div>
+
+</article>
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+	
+	
+	
+	<a class="addthis_counter addthis_pill_style"></a>
+	</div>
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
+</div>
+
+
+</div>
+			</div>
+			<footer id="footer" class="inner">Copyright &copy; 2023
+
+    Zhang Hongchao
+
+
+<!--Design credit: <a href="http://shashankmehta.in/archive/2012/greyshade.html">Shashank Mehta</a>--></footer>
+		</div>
+	</div>
+	
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

@@ -4,7 +4,7 @@
   <title><![CDATA[Reading Space]]></title>
   <link href="http://hongchaozhang.github.io/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2023-05-24T22:44:46+08:00</updated>
+  <updated>2023-05-25T22:24:59+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -12,6 +12,346 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[事件循环中的Macrotask和Microtask]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2023/05/25/event-loop-and-macrotask-and-microtask/"/>
+    <updated>2023-05-25T22:01:49+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2023/05/25/event-loop-and-macrotask-and-microtask</id>
+    <content type="html"><![CDATA[<!-- more -->
+
+
+<p>For details, refer to <a href="https://javascript.info/event-loop">Event loop: microtasks and macrotasks</a>.</p>
+
+<h2>Event Loop</h2>
+
+<p>The event loop concept is very simple. There’s an endless loop, where the JavaScript engine waits for tasks, executes them and then sleeps, waiting for more tasks.</p>
+
+<p>For instance, while the engine is busy executing a <code>script</code>, a user may move their mouse causing <code>mousemove</code>, and <code>setTimeout</code> may be due and so on, these tasks form a queue.</p>
+
+<p>Tasks from the queue are processed on “first come – first served” basis. When the engine browser is done with the <code>script</code>, it handles <code>mousemove</code> event, then <code>setTimeout</code> handler, and so on.</p>
+
+<p>So far, quite simple, right?</p>
+
+<p>Two more details:</p>
+
+<ul>
+<li>Rendering never happens while the engine executes a task. It doesn’t matter if the task takes a long time. Changes to the DOM are painted only after the task is complete.</li>
+<li>If a task takes too long, the browser can’t do other tasks, such as processing user events. So after a time, it raises an alert like “Page Unresponsive”, suggesting killing the task with the whole page. That happens when there are a lot of complex calculations or a programming error leading to an infinite loop.</li>
+</ul>
+
+
+<p>Event Loop应用
+Use-case 1: <a href="https://javascript.info/event-loop#use-case-1-splitting-cpu-hungry-tasks">splitting CPU-hungry tasks</a>
+Use case 2: <a href="https://javascript.info/event-loop#use-case-1-splitting-cpu-hungry-tasks">progress indication</a>
+Use case 3: <a href="https://javascript.info/event-loop#use-case-3-doing-something-after-the-event">doing something after the event</a></p>
+
+<h2>Macrotasks and Microtasks</h2>
+
+<ul>
+<li>Macrotask：
+
+<ul>
+<li><code>script</code>，<code>mousemove</code>，<code>setTimeout</code></li>
+<li>use <code>setTimeout(f)</code> to dispatch a callback as a macrotask</li>
+</ul>
+</li>
+<li>Microtask：
+
+<ul>
+<li>They are usually created by promises: an execution of <code>.then/catch/finally</code> handler becomes a microtask.</li>
+<li> use <code>queueMicrotask(f)</code> to dispatch a callback as a microtask</li>
+</ul>
+</li>
+</ul>
+
+
+<p>Event loop workflow with macrotask and microtask:</p>
+
+<p><img src="http://hongchaozhang.github.io/images/eventloopinv8.png" width="300px" alt="event loop and macrotask and microtask" /></p>
+
+<h2>Summary</h2>
+
+<p>A more detailed event loop algorithm (though still simplified compared to the specification):</p>
+
+<pre><code>1. Dequeue and run the oldest task from the macrotask queue (e.g. “script”).
+2. Execute all microtasks:
+    * While the microtask queue is not empty:
+        * Dequeue and run the oldest microtask.
+3. Render changes if any.
+4. If the macrotask queue is empty, wait till a macrotask appears.
+5. Go to step 1.
+</code></pre>
+
+<p>If you want a real parallel task execution, use Web Worker. it is running in a separate thread.</p>
+
+<h2>练习</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>console.log(1);
+</span><span class='line'>
+</span><span class='line'>setTimeout(() =&gt; console.log(2));
+</span><span class='line'>
+</span><span class='line'>Promise.resolve().then(() =&gt; console.log(3));
+</span><span class='line'>
+</span><span class='line'>Promise.resolve().then(() =&gt; setTimeout(() =&gt; console.log(4)));
+</span><span class='line'>
+</span><span class='line'>Promise.resolve().then(() =&gt; console.log(5));
+</span><span class='line'>
+</span><span class='line'>setTimeout(() =&gt; console.log(6));
+</span><span class='line'>
+</span><span class='line'>console.log(7);</span></code></pre></td></tr></table></div></figure>
+
+
+<p>答案：The console output is:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>1 7 3 5 2 6 4</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Promise以及sync和async]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2023/05/25/javascript-promise-and-sync-and-async/"/>
+    <updated>2023-05-25T21:24:13+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2023/05/25/javascript-promise-and-sync-and-async</id>
+    <content type="html"><![CDATA[<!-- more -->
+
+
+<p>For details, refer to <a href="https://javascript.info/async">Promises, async/await</a></p>
+
+<h2>Basic usage</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>let promise = new Promise(function(resolve, reject) {
+</span><span class='line'>  let resolved = true;
+</span><span class='line'>  if (resolved) {
+</span><span class='line'>  setTimeout(() =&gt; resolve("done!"), 1000);
+</span><span class='line'>  } else {
+</span><span class='line'>    setTimeout(() =&gt; reject(new Error("Whoops!")), 1000);
+</span><span class='line'>  }
+</span><span class='line'>});
+</span><span class='line'>
+</span><span class='line'>// resolve runs the first function in .then
+</span><span class='line'>promise
+</span><span class='line'>.finally(() =&gt; alert("Promise ready")) // triggers first
+</span><span class='line'>.then(
+</span><span class='line'>  result =&gt; alert(result), // shows "done!" after 1 second
+</span><span class='line'>  error =&gt; alert(error) // doesn't run
+</span><span class='line'>);</span></code></pre></td></tr></table></div></figure>
+
+
+<p>As you can see, the value returned by the first promise is passed through <code>finally</code> to the next <code>then</code>.</p>
+
+<h2>Promise chain</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>new Promise(function(resolve, reject) {
+</span><span class='line'>
+</span><span class='line'>  setTimeout(() =&gt; resolve(1), 1000); // (*)
+</span><span class='line'>
+</span><span class='line'>}).then(function(result) { // (**)
+</span><span class='line'>
+</span><span class='line'>  alert(result); // 1
+</span><span class='line'>  return result * 2;
+</span><span class='line'>
+</span><span class='line'>}).then(function(result) { // (***)
+</span><span class='line'>
+</span><span class='line'>  alert(result); // 2
+</span><span class='line'>  return result * 2;
+</span><span class='line'>
+</span><span class='line'>}).then(function(result) {
+</span><span class='line'>
+</span><span class='line'>  alert(result); // 4
+</span><span class='line'>  return result * 2;
+</span><span class='line'>
+</span><span class='line'>});</span></code></pre></td></tr></table></div></figure>
+
+
+<p><code>then</code> should be a <code>async</code> function, so it can convert any return values to a promise.</p>
+
+<h2>Error handling</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>fetch('/article/promise-chaining/user.json')
+</span><span class='line'>  .then(response =&gt; response.json())
+</span><span class='line'>  .then(user =&gt; fetch(`https://api.github.com/users/${user.name}`))
+</span><span class='line'>  .then(response =&gt; response.json())
+</span><span class='line'>  .then(githubUser =&gt; new Promise((resolve, reject) =&gt; {
+</span><span class='line'>    let img = document.createElement('img');
+</span><span class='line'>    img.src = githubUser.avatar_url;
+</span><span class='line'>    img.className = "promise-avatar-example";
+</span><span class='line'>    document.body.append(img);
+</span><span class='line'>
+</span><span class='line'>    setTimeout(() =&gt; {
+</span><span class='line'>      img.remove();
+</span><span class='line'>      resolve(githubUser);
+</span><span class='line'>    }, 3000);
+</span><span class='line'>  }))
+</span><span class='line'>  .catch(error =&gt; alert(error.message));</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The code of a promise executor and promise handlers has an &ldquo;invisible&rdquo; <code>try..catch</code> around it. If an exception happens, it gets caught and treated as a rejection.</p>
+
+<p>The &ldquo;invisible&rdquo; <code>try..catch</code> around the executor automatically catches the error and turns it into rejected promise.</p>
+
+<p>More details about the error handling workflow, refers to <a href="https://javascript.info/promise-error-handling">https://javascript.info/promise-error-handling</a></p>
+
+<h2>Promise.all</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>let urls = [
+</span><span class='line'>  'https://api.github.com/users/iliakan',
+</span><span class='line'>  'https://api.github.com/users/remy',
+</span><span class='line'>  'https://api.github.com/users/jeresig'
+</span><span class='line'>];
+</span><span class='line'>
+</span><span class='line'>// map every url to the promise of the fetch
+</span><span class='line'>let requests = urls.map(url =&gt; fetch(url));
+</span><span class='line'>
+</span><span class='line'>// Promise.all waits until all jobs are resolved
+</span><span class='line'>Promise.all(requests)
+</span><span class='line'>  .then(responses =&gt; responses.forEach(
+</span><span class='line'>    response =&gt; alert(`${response.url}: ${response.status}`)
+</span><span class='line'>  ));</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The new promise resolves when all listed promises are resolved, and the array of their results becomes its result.</p>
+
+<p>If any of the promises is rejected, the promise returned by <code>Promise.all</code> immediately rejects with that error.</p>
+
+<p>Please note that the order of the resulting array members is the same as in its source promises. Even though the first promise takes the longest time to resolve, it’s still first in the array of results.</p>
+
+<h2>Promisification</h2>
+
+<p>Used for changing callback style to promise style.</p>
+
+<h2>async/await</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>async function f() {
+</span><span class='line'>  return 1;
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>f().then(alert); // 1</span></code></pre></td></tr></table></div></figure>
+
+
+<p><code>async</code> ensures that the function returns a promise, and wraps non-promises in it.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>async function f() {
+</span><span class='line'>
+</span><span class='line'>  let promise = new Promise((resolve, reject) =&gt; {
+</span><span class='line'>    setTimeout(() =&gt; resolve("done!"), 1000)
+</span><span class='line'>  });
+</span><span class='line'>
+</span><span class='line'>  let result = await promise; // wait until the promise resolves (*)
+</span><span class='line'>
+</span><span class='line'>  alert(result); // "done!"
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>f();</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The function execution “pauses” at the line (*) and resumes when the promise settles, with result becoming its result. So the code above shows “done!” in one second.</p>
+
+<p>Let’s emphasize: <code>await</code> literally suspends the function execution until the promise settles, and then resumes it with the promise result. That doesn’t cost any CPU resources, because the JavaScript engine can do other jobs in the meantime: execute other scripts, handle events, etc.</p>
+
+<p>For details, refer to <a href="http://hongchaozhang.github.io/blog/2023/05/25/event-loop-and-macrotask-and-microtask/">macrotask and microtask in event loop</a></p>
+
+<p><code>Async/Sync</code> is just a more elegant syntax of getting the promise result than <code>promise.then</code>. And, it’s easier to read and write.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[如何在一台机器上使用两个github账号]]></title>
@@ -2810,578 +3150,6 @@ zsh中若出现‘*’, ‘(’, ‘|’, ‘&lt;’, ‘[’, 或者 ‘?’符
 <h2>调试C/C++代码</h2>
 
 <p>参考<a href="https://www.tripfe.cn/node-js-four-postures-of-source-code-debugging/">Node.js源代码调试的4种姿势</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[极客时间-Web前端性能优化]]></title>
-    <link href="http://hongchaozhang.github.io/blog/2022/01/04/web-qianduan-xingneng-youhua/"/>
-    <updated>2022-01-04T18:06:29+08:00</updated>
-    <id>http://hongchaozhang.github.io/blog/2022/01/04/web-qianduan-xingneng-youhua</id>
-    <content type="html"><![CDATA[<!-- more -->
-
-
-
-
-<!-- TOC -->
-
-
-<ul>
-<li><a href="#%E8%B5%84%E6%BA%90%E5%8E%8B%E7%BC%A9%E4%B8%8E%E5%90%88%E5%B9%B6">资源压缩与合并</a>
-
-<ul>
-<li><a href="#%E5%9B%BE%E7%89%87%E4%BC%98%E5%8C%96">图片优化</a></li>
-</ul>
-</li>
-<li><a href="#%E5%9B%BE%E7%89%87%E7%9A%84%E6%87%92%E5%8A%A0%E8%BD%BD%E9%A2%84%E5%8A%A0%E8%BD%BD">图片的懒加载预加载</a>
-
-<ul>
-<li><a href="#%E6%87%92%E5%8A%A0%E8%BD%BD">懒加载：</a></li>
-<li><a href="#%E9%A2%84%E5%8A%A0%E8%BD%BD">预加载：</a></li>
-</ul>
-</li>
-<li><a href="#html%E6%B8%B2%E6%9F%93%E8%BF%87%E7%A8%8B">HTML渲染过程</a></li>
-<li><a href="#%E9%87%8D%E7%BB%98%E5%A4%96%E8%A7%82%E4%B8%8E%E5%9B%9E%E6%B5%81%E5%B8%83%E5%B1%80redrawreflow">重绘（外观）与回流（布局）redraw/reflow</a>
-
-<ul>
-<li><a href="#top-and-translate">top and translate</a></li>
-<li><a href="#opacity%E6%9B%BF%E6%8D%A2visibility"><code>opacity</code>替换<code>visibility</code></a></li>
-<li><a href="#css%E7%9A%84class%E6%9B%BF%E4%BB%A3style">css的class替代style</a></li>
-<li><a href="#displaynone"><code>display:none</code></a></li>
-<li><a href="#%E6%85%8E%E7%94%A8clientwidth">慎用<code>clientWidth</code></a></li>
-<li><a href="#%E5%B0%91%E7%94%A8table%E5%B8%83%E5%B1%80">少用table布局。</a></li>
-<li><a href="#%E5%8A%A8%E7%94%BB%E7%9A%84%E5%88%B7%E6%96%B0%E7%8E%87%E5%92%8C%E9%A1%B5%E9%9D%A2%E6%80%A7%E8%83%BD%E5%B9%B3%E8%A1%A1">动画的刷新率和页面性能平衡</a></li>
-<li><a href="#%E5%B0%86gif%E5%9B%BE%E5%8D%95%E7%8B%AC%E6%88%90%E4%B8%80%E4%B8%AA%E5%9B%BE%E5%B1%82">将gif图单独成一个图层</a></li>
-<li><a href="#%E5%90%AF%E7%94%A8gpu%E7%A1%AC%E4%BB%B6%E5%8A%A0%E9%80%9F">启用GPU硬件加速</a></li>
-</ul>
-</li>
-<li><a href="#%E6%B5%8F%E8%A7%88%E5%99%A8%E5%AD%98%E5%82%A8">浏览器存储</a></li>
-<li><a href="#%E7%BC%93%E5%AD%98">缓存</a></li>
-<li><a href="#%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF%E6%B8%B2%E6%9F%93">服务器端渲染</a></li>
-</ul>
-
-
-<!-- /TOC -->
-
-
-<p>总结极客时间课程《让你页面速度飞起来 Web前端性能优化》</p>
-
-<p><a id="markdown-资源压缩与合并" name="资源压缩与合并"></a></p>
-
-<h2>资源压缩与合并</h2>
-
-<p>资源合并会减少请求次数，总体上降低请求时间。但是，也不能不加考虑地都合并到一起，这样会影响首页渲染速度。</p>
-
-<p><a id="markdown-图片优化" name="图片优化"></a></p>
-
-<h3>图片优化</h3>
-
-<ol>
-<li>图片<strong>雪碧图</strong>，不能太大，太大影响首屏渲染性能。一个页面的小图放在一起，生成一张雪碧图即可。</li>
-<li><strong>inline image</strong>，inline image内嵌在html里面，作为html的一部分和html一起加载。当图片大小小于8KB时，考虑使用inline image。</li>
-<li><strong>使用webp格式图片</strong>，webp格式图片由google推出，android平台支持好，apple safari浏览器有兼容性问题（2020年Mac OS Big Sur中的Safari 14已经支持WebP格式。）</li>
-<li><strong>jpg</strong>、<strong>png</strong>、<strong>svg</strong>等图片格式各有其特点和应用场合。</li>
-</ol>
-
-
-<p>另附上两个工具软件：</p>
-
-<ol>
-<li><a href="https://tinypng.com">图片压缩网站</a></li>
-<li><a href="www.spritecow.com">雪碧图生成网站</a></li>
-</ol>
-
-
-<p><a id="markdown-图片的懒加载预加载" name="图片的懒加载预加载"></a></p>
-
-<h2>图片的懒加载预加载</h2>
-
-<p><a id="markdown-懒加载" name="懒加载"></a></p>
-
-<h3>懒加载：</h3>
-
-<p>通过图片进入可视区域的时候再设置img的src属性，进行请求。或者通过库实现。</p>
-
-<p><a id="markdown-预加载" name="预加载"></a></p>
-
-<h3>预加载：</h3>
-
-<ol>
-<li>使用<code>image</code>标签引入，先设置<code>display:none</code>。需要显示的时候再通过设置<code>display</code>属性将其显示出来。</li>
-<li>在js中<code>new image</code>，并且设置<code>image</code>的<code>src</code>，进行图片下载，保存在js的变量中，但是不显示，需要的时候直接拿过来显示即可。</li>
-<li>使用<code>XMLHttpRequest</code>，可以清楚知道请求的过程，但是存在跨域的问题。</li>
-<li>或者通过库实现：preloader.js</li>
-</ol>
-
-
-<p><a id="markdown-html渲染过程" name="html渲染过程"></a></p>
-
-<h2>HTML渲染过程</h2>
-
-<ol>
-<li>顺序执行，并发加载：为了让资源并发加载，可以部署多个CDN，以突破浏览器对单个域名并发加载数量的限制（4-6个）。
-
-<ol>
-<li><a href="https://juejin.cn/post/6844904035628089357">突破浏览器域名并发限制的解决方案</a></li>
-<li>浏览器为什么要有这个限制，针对这个限制我们在开发的时候怎么优化？参考<a href="https://segmentfault.com/a/1190000039157302">前端性能优化篇——浏览器同域名并发请求对限制</a></li>
-</ol>
-</li>
-<li>css加载延迟，页面先显示出没有样式的内容，原因是：css没有在header中引入，而是通过其他方式加载，比如在js中加载css。但是在header中通过link加载css也有缺点：阻塞页面渲染和js执行，但是不阻塞外部脚本的加载（得益于webkit的预扫描功能），但是阻塞执行。</li>
-<li><code>script</code>和<code>import</code>引入方式：<code>script</code>引入js是同步的，阻塞页面渲染。结合<code>differ</code>和<code>sync</code>标签影响js引入过程。不阻塞资源的加载（得益于webkit的预扫描功能）。</li>
-<li>SPA：单页应用，动态加载，路由到相关页面再加载相关的资源。</li>
-</ol>
-
-
-<p><a id="markdown-重绘外观与回流布局redrawreflow" name="重绘外观与回流布局redrawreflow"></a></p>
-
-<h2>重绘（外观）与回流（布局）redraw/reflow</h2>
-
-<p>css性能让js变慢：css影响layout，进而产生重绘与回流。多次的重绘与回流使得UI线程多次工作，而UI线程的启动会阻塞js线程的执行。</p>
-
-<p>下面是一些有关<strong>回流与重绘</strong>实战演练。通过观察Chrome的Performance调试工具分析渲染过程和性能瓶颈。截图如下：</p>
-
-<p><img src="http://hongchaozhang.github.io/images/chrome_performance_demo.jpg" alt="chrome_performance_demo.jpg" /></p>
-
-<p><a id="markdown-top-and-translate" name="top-and-translate"></a></p>
-
-<h3>top and translate</h3>
-
-<p>相比于<code>top</code>，<code>translate</code>没有回流的过程，对于dom结构复杂的页面，性能提升比较明显。</p>
-
-<p><details>
-  <summary>Code using <code>top</code></summary></p>
-
-<pre><code>&lt;html&gt;
-&lt;head&gt;
-    &lt;style&gt;
-        #rect {
-            position: relative;
-            top: 0;
-            width: 100px;
-            height: 100px;
-            background: blue;
-        }
-    &lt;/style&gt;
-&lt;/head&gt;
-&lt;body&gt;
-    &lt;div id="rect"&gt;&lt;/div&gt;
-    &lt;script&gt;
-        setTimeout(() =&gt; {
-            document.getElementById("rect").style.top = "100px";
-        }, 2000);
-    &lt;/script&gt;
-&lt;/body&gt;
-&lt;/html&gt;
-</code></pre>
-
-<p></details></p>
-
-<p><details>
-  <summary>Code using <code>transform</code></summary></p>
-
-<pre><code>&lt;html&gt;
-&lt;head&gt;
-    &lt;style&gt;
-        #rect {
-            position: relative;
-            transform: translateY(0);
-            width: 100px;
-            height: 100px;
-
-            background: blue;
-        }
-    &lt;/style&gt;
-&lt;/head&gt;
-&lt;body&gt;
-    &lt;div id="rect"&gt;&lt;/div&gt;
-    &lt;script&gt;
-        setTimeout(() =&gt; {
-            document.getElementById("rect").style.transform = "translateY(100px)";
-        }, 2000);
-    &lt;/script&gt;
-&lt;/body&gt;
-&lt;/html&gt;
-</code></pre>
-
-<p></details></p>
-
-<p><a id="markdown-opacity替换visibility" name="opacity替换visibility"></a></p>
-
-<h3><code>opacity</code>替换<code>visibility</code></h3>
-
-<p><code>opaciy</code>：如果被修改的dom元素自己是一个图层，不触发回流和重绘（试验结果：没有回流，但是有重绘）；否则，触发回流和重绘。
-<code>visibility</code>：不触发回流，只触发重绘。</p>
-
-<p><a id="markdown-css的class替代style" name="css的class替代style"></a></p>
-
-<h3>css的class替代style</h3>
-
-<p>多个dom样式通过class一次改动多条style属性，减少回流和重绘的次数</p>
-
-<p><a id="markdown-displaynone" name="displaynone"></a></p>
-
-<h3><code>display:none</code></h3>
-
-<p>先设置<code>display</code>为<code>none</code>，再修改各种属性，再将<code>display</code>设回来。</p>
-
-<p><a id="markdown-慎用clientwidth" name="慎用clientwidth"></a></p>
-
-<h3>慎用<code>clientWidth</code></h3>
-
-<p>不要在循环中获取dom的<code>clientWidth</code>，否则会flash掉浏览器的缓冲区，使浏览器性能下降。</p>
-
-<p>缓冲区是浏览器的优化机制，将多个改动合并成一次改动，以便提高效率。</p>
-
-<p><a id="markdown-少用table布局" name="少用table布局"></a></p>
-
-<h3>少用table布局。</h3>
-
-<p>修改某一<code>td</code>的宽度，会使得所有<code>td</code>进行回流。</p>
-
-<p><a id="markdown-动画的刷新率和页面性能平衡" name="动画的刷新率和页面性能平衡"></a></p>
-
-<h3>动画的刷新率和页面性能平衡</h3>
-
-<p><a id="markdown-将gif图单独成一个图层" name="将gif图单独成一个图层"></a></p>
-
-<h3>将gif图单独成一个图层</h3>
-
-<p>通过设置某些css属性，将某个dom做成一个图层：</p>
-
-<ol>
-<li><code>will-change</code></li>
-<li><code>transform: translateZ(0)</code></li>
-<li><code>translate3d(0,0,0)</code></li>
-</ol>
-
-
-<p><a id="markdown-启用gpu硬件加速" name="启用gpu硬件加速"></a></p>
-
-<h3>启用GPU硬件加速</h3>
-
-<p>启用GPU加速，会减少重绘的时间，但是图层增多，图层合并的时间会增加，这里也有个平衡需要把握。</p>
-
-<p>细节参考<a href="https://lz5z.com/Web%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96-CSS3%E7%A1%AC%E4%BB%B6%E5%8A%A0%E9%80%9F/">Web 性能优化-CSS3 硬件加速(GPU 加速)</a></p>
-
-<p><a id="markdown-浏览器存储" name="浏览器存储"></a></p>
-
-<h2>浏览器存储</h2>
-
-<ol>
-<li>cdn域名和主站域名区分开，防止获取静态资源携带cookie，浪费带宽。</li>
-<li>通过service worker开启另一个线程，和主页通过<code>postMessage</code>互相通信。</li>
-<li>通过浏览器performance profile查看性能瓶颈和改进效果。</li>
-<li>增加图层是减少的重绘与回流的时间与增加的图层合并时间的增加之间的平衡。比如通过设置translate3d开启GPU加速。</li>
-<li>获取offsetHeight为什么会降低效率？使缓冲区域失效，因为要得到一个真实的尺寸。缓冲区域是浏览器的一个优化机制，通过将多次更改dom综合起来一次更新，提高效率。</li>
-</ol>
-
-
-<p><a id="markdown-缓存" name="缓存"></a></p>
-
-<h2>缓存</h2>
-
-<p><strong>强缓存</strong>
-如果命中，不需要发请求到服务器。</p>
-
-<ol>
-<li>cache-control: max-age, s-max-age</li>
-<li>expires:</li>
-</ol>
-
-
-<p><strong>协商缓存（弱缓存）</strong>
-需要发请求到服务器询问本地缓存是否可用。如果可用，服务器返回304，不携带具体内容，具体内容从本地缓存中读取。如果不可用，服务器直接返回内容。</p>
-
-<ol>
-<li>last-modified:</li>
-<li>if-modified-since: 304</li>
-<li>e-tag:</li>
-<li>if-none-match:</li>
-</ol>
-
-
-<p>浏览器缓存流程如下：</p>
-
-<p><img src="http://hongchaozhang.github.io/images/%E6%B5%8F%E8%A7%88%E5%99%A8%E7%BC%93%E5%AD%98%E6%B5%81%E7%A8%8B%E5%9B%BE.png" alt="浏览器缓存流程图.png" /></p>
-
-<p>关于缓存，下面两篇文章介绍的很清楚：</p>
-
-<ol>
-<li><a href="https://www.jiqizhixin.com/articles/2020-07-24-12">Web 缓存介绍</a></li>
-<li><a href="https://segmentfault.com/a/1190000010787023">HTTP 缓存之浏览器刷新行为</a>: disable cache setting in the developper tool</li>
-</ol>
-
-
-<p><a id="markdown-服务器端渲染" name="服务器端渲染"></a></p>
-
-<h2>服务器端渲染</h2>
-
-<ol>
-<li>vue-ssr (server-side-rendering)</li>
-<li>react-ssr</li>
-<li>代价：需要一个universal的code base，保证其在服务器端和浏览器端都能运行。</li>
-</ol>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[极客时间-深入浅出云计算]]></title>
-    <link href="http://hongchaozhang.github.io/blog/2021/12/06/shenru-qianchu-yunjisuan/"/>
-    <updated>2021-12-06T10:21:06+08:00</updated>
-    <id>http://hongchaozhang.github.io/blog/2021/12/06/shenru-qianchu-yunjisuan</id>
-    <content type="html"><![CDATA[<!-- more -->
-
-
-
-
-<!-- TOC -->
-
-
-<ul>
-<li><a href="#01--%E5%8C%BA%E5%9F%9F%E5%92%8C%E5%8F%AF%E7%94%A8%E5%8C%BA%E6%AC%A2%E8%BF%8E%E6%9D%A5%E5%88%B0%E4%BA%91%E7%AB%AF%E6%95%B0%E6%8D%AE%E4%B8%AD%E5%BF%83">01 | 区域和可用区：欢迎来到云端数据中心</a></li>
-<li><a href="#02--%E4%BA%91%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%80%E4%BA%91%E7%AB%AF%E6%94%92%E6%9C%BA%E6%9C%89%E5%93%AA%E4%BA%9B%E5%AE%B9%E6%98%93%E5%BF%BD%E8%A7%86%E7%9A%84%E8%A6%81%E7%82%B9">02 | 云虚拟机（一）：云端“攒机”，有哪些容易忽视的要点?</a></li>
-<li><a href="#03-%E4%B8%A8%E4%BA%91%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%BA%8C%E7%9C%BC%E8%8A%B1%E7%BC%AD%E4%B9%B1%E7%9A%84%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%9E%8B%E5%8F%B7%E6%88%91%E8%AF%A5%E5%A6%82%E4%BD%95%E9%80%89%E6%8B%A9">03 丨云虚拟机（二）：眼花缭乱的虚拟机型号，我该如何选择？</a></li>
-<li><a href="#04-%E4%B8%A8%E4%BA%91%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%89%E8%80%81%E6%9D%BF%E8%A6%81%E6%B1%82%E7%9C%81%E7%9C%81%E7%9C%81%E6%9C%89%E5%93%AA%E4%BA%9B%E5%A6%99%E6%8B%9B">04 丨云虚拟机（三）：老板要求省省省，有哪些妙招？</a></li>
-<li><a href="#05--%E4%BA%91%E7%A1%AC%E7%9B%98%E4%BA%91%E4%B8%8Aio%E5%88%B0%E5%BA%95%E7%BB%99%E4%B8%8D%E7%BB%99%E5%8A%9B">05 | 云硬盘：云上IO到底给不给力？</a></li>
-<li><a href="#06--%E4%BA%91%E4%B8%8A%E8%99%9A%E6%8B%9F%E7%BD%91%E7%BB%9C%E5%BC%80%E5%90%88%E6%9C%89%E5%BA%A6%E7%BC%96%E7%BB%87%E6%97%A0%E5%BD%A2%E4%B9%8B%E7%BD%91">06 | 云上虚拟网络：开合有度，编织无形之网</a>
-
-<ul>
-<li><a href="#%E5%BC%B9%E6%80%A7%E7%BD%91%E5%8D%A1">弹性网卡</a></li>
-<li><a href="#%E5%85%AC%E7%BD%91ip%E5%92%8C%E5%BC%B9%E6%80%A7ip">公网IP和弹性IP</a></li>
-</ul>
-</li>
-<li><a href="#07--%E4%BA%91%E7%AB%AF%E6%9E%B6%E6%9E%84%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5%E4%B8%8E%E6%95%85%E9%9A%9C%E5%90%8C%E8%88%9E%E4%B8%8E%E4%BC%B8%E7%BC%A9%E5%85%B1%E7%94%9F">07 | 云端架构最佳实践：与故障同舞，与伸缩共生</a></li>
-<li><a href="#08-%E4%B8%A8%E4%BA%91%E4%B8%8A%E8%BF%90%E7%BB%B4%E4%BA%91%E7%AB%AF%E7%A9%B6%E7%AB%9F%E9%9C%80%E4%B8%8D%E9%9C%80%E8%A6%81%E8%BF%90%E7%BB%B4%E9%9C%80%E8%A6%81%E6%80%8E%E6%A0%B7%E7%9A%84%E8%BF%90%E7%BB%B4">08 丨云上运维：云端究竟需不需要运维？需要怎样的运维？</a></li>
-<li><a href="#09--%E4%BB%80%E4%B9%88%E6%98%AFpaas%E6%80%8E%E6%A0%B7%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E5%92%8C%E8%AF%84%E4%BC%B0paas">09 | 什么是PaaS？怎样深入理解和评估PaaS？</a></li>
-<li><a href="#10--%E5%AF%B9%E8%B1%A1%E5%AD%98%E5%82%A8%E7%9C%8B%E4%BC%BC%E7%AE%80%E5%8D%95%E7%9A%84%E5%AD%98%E5%82%A8%E6%9C%8D%E5%8A%A1%E9%83%BD%E6%9C%89%E5%93%AA%E4%BA%9B%E7%8E%84%E6%9C%BA">10 | 对象存储：看似简单的存储服务都有哪些玄机？</a>
-
-<ul>
-<li><a href="#%E5%AF%B9%E8%B1%A1%E5%AD%98%E5%82%A8%E7%9A%84%E9%AB%98%E7%BA%A7%E7%89%B9%E6%80%A7">对象存储的高级特性</a></li>
-</ul>
-</li>
-<li><a href="#11--%E5%BA%94%E7%94%A8%E6%89%98%E7%AE%A1%E6%9C%8D%E5%8A%A1web%E5%BA%94%E7%94%A8%E6%80%8E%E6%A0%B7%E5%9C%A8%E4%BA%91%E4%B8%8A%E5%AE%89%E5%AE%B6">11 | 应用托管服务：Web应用怎样在云上安家？</a></li>
-<li><a href="#12--%E4%BA%91%E6%95%B0%E6%8D%AE%E5%BA%93%E9%AB%98%E6%AD%8C%E7%8C%9B%E8%BF%9B%E7%9A%84%E6%95%B0%E6%8D%AE%E5%BA%93%E6%96%B0%E8%B4%B5">12 | 云数据库：高歌猛进的数据库“新贵”</a>
-
-<ul>
-<li><a href="#%E4%BA%91%E5%8E%9F%E7%94%9F%E6%95%B0%E6%8D%AE%E5%BA%93">云原生数据库</a></li>
-</ul>
-</li>
-<li><a href="#13--%E4%BA%91%E4%B8%8A%E5%A4%A7%E6%95%B0%E6%8D%AE%E4%BA%91%E8%AE%A1%E7%AE%97%E9%81%87%E4%B8%8A%E5%A4%A7%E6%95%B0%E6%8D%AE%E4%B8%BA%E4%BB%80%E4%B9%88%E5%A0%AA%E7%A7%B0%E5%A4%A9%E4%BD%9C%E4%B9%8B%E5%90%88">13 | 云上大数据：云计算遇上大数据，为什么堪称天作之合？</a></li>
-<li><a href="#14--%E4%BA%91%E4%B8%8A%E5%AE%B9%E5%99%A8%E6%9C%8D%E5%8A%A1%E4%BB%8Edocker%E5%88%B0kubernetes%E8%BF%8E%E6%8E%A5%E4%BA%91%E5%8E%9F%E7%94%9F%E6%B5%AA%E6%BD%AE">14 | 云上容器服务：从Docker到Kubernetes，迎接云原生浪潮</a></li>
-<li><a href="#15--%E6%97%A0%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AE%A1%E7%AE%97%E8%BF%BD%E6%B1%82%E6%9E%81%E8%87%B4%E6%95%88%E7%8E%87%E7%9A%84%E5%A4%9A%E9%9D%A2%E6%89%8B">15 | 无服务器计算：追求极致效率的多面手</a></li>
-<li><a href="#16--%E4%BA%91%E4%B8%8Aai%E6%9C%8D%E5%8A%A1%E4%BA%91ai%E8%83%BD%E4%BB%8E%E5%93%AA%E4%BA%9B%E6%96%B9%E9%9D%A2%E5%B8%AE%E5%8A%A9%E6%9E%84%E5%BB%BA%E6%99%BA%E8%83%BD%E5%BA%94%E7%94%A8">16 | 云上AI服务：云AI能从哪些方面帮助构建智能应用？</a></li>
-</ul>
-
-
-<!-- /TOC -->
-
-
-<p><a id="markdown-01--区域和可用区欢迎来到云端数据中心" name="01--区域和可用区欢迎来到云端数据中心"></a></p>
-
-<h2>01 | 区域和可用区：欢迎来到云端数据中心</h2>
-
-<p><a id="markdown-02--云虚拟机一云端攒机有哪些容易忽视的要点" name="02--云虚拟机一云端攒机有哪些容易忽视的要点"></a></p>
-
-<h2>02 | 云虚拟机（一）：云端“攒机”，有哪些容易忽视的要点?</h2>
-
-<p>传统的虚拟化（虚拟机），往往是对单一物理机器资源的纵向切割，计算、存储、网络等各方面的能力都是一台物理机的子集。因此，从可伸缩性的角度来说，传统虚拟机存在较大的局限，当物理机的局部出现故障时，也很容易影响到里面的虚拟机。</p>
-
-<p>得益于云端大规模的专属硬件以及高速的内部网络，云虚拟机的组成则有所不同。除了核心的 CPU 与内存部分仍属于一台宿主机外，它的网络、硬盘等其他部分，则可以超脱于宿主机之外，享受云端其他基础设施的能力。大致架构如下图所示：</p>
-
-<p><img src="http://hongchaozhang.github.io/images/%E4%BA%91%E8%99%9A%E6%8B%9F%E6%9C%BA%E8%B5%84%E6%BA%90%E6%9E%84%E6%88%90.jpeg" alt="云虚拟机资源构成" /></p>
-
-<p>所以，云虚拟机，与其说是由一台宿主机虚拟而成的，不如说是云数据中心中的不同部分一起协作，“拼凑”而成的一台机器。这样虚拟出来的机器，我们在使用感受上其实与传统服务器并无不同，但在可扩展性和故障隔离方面，它就具有很大的优势了。</p>
-
-<p><a id="markdown-03-丨云虚拟机二眼花缭乱的虚拟机型号我该如何选择" name="03-丨云虚拟机二眼花缭乱的虚拟机型号我该如何选择"></a></p>
-
-<h2>03丨云虚拟机（二）：眼花缭乱的虚拟机型号，我该如何选择？</h2>
-
-<p><a id="markdown-04-丨云虚拟机三老板要求省省省有哪些妙招" name="04-丨云虚拟机三老板要求省省省有哪些妙招"></a></p>
-
-<h2>04丨云虚拟机（三）：老板要求省省省，有哪些妙招？</h2>
-
-<p><a id="markdown-05--云硬盘云上io到底给不给力" name="05--云硬盘云上io到底给不给力"></a></p>
-
-<h2>05 | 云硬盘：云上IO到底给不给力？</h2>
-
-<p>云厂商对于云盘，一般会帮你在存储端同步和保留至少三份副本的数据。所以说，云硬盘的冗余度和可用性是非常之高的，一般极少发生云硬盘数据丢失的情况，你大可放心地使用。</p>
-
-<p>云盘性能指标：</p>
-
-<ul>
-<li>IOPS</li>
-<li>吞吐量</li>
-<li>访问延时</li>
-</ul>
-
-
-<p>云硬盘与传统磁盘的真正差异在于，绝大多数的云硬盘都是<strong>远程</strong>的。</p>
-
-<p>我们都知道，在经典计算机的体系结构中，硬盘是通过本地机器内部主板的高速总线，与 CPU、内存等部件相连接；而在云端，你的硬盘则很可能并不在宿主机上，而是在专用的磁盘服务器阵列中，两者是通过数据中心内部的特有IO线路进行连接的。</p>
-
-<p>理解了这样的一个结构，你就能明白，有些云上的“IO优化实例”（AWS 上称为 EBS-Optimized）是指什么了。它就是指云虚拟机与云硬盘之间的网络传输，进行了软硬件层面的优化，这样可以充分地发挥所挂载磁盘的性能。现在较新型号、较强性能的云虚拟机，一般都自动启用了这个优化。</p>
-
-<p>云存储的性能级别：</p>
-
-<p><img src="http://hongchaozhang.github.io/images/%E4%BA%91%E5%AD%98%E5%82%A8%E7%9A%84%E7%BA%A7%E5%88%AB.jpeg" alt="云存储的级别" /></p>
-
-<p>除了云盘性能等级，还有一个指标也是影响云盘性能的重要指标：云盘容量。不论是哪种磁盘类型，它的容量大小几乎都与性能正向相关。同等的性能等级下，云硬盘的容量越大，一般来说它的性能就越高，直到达到这个等级的上限。这是由云上磁盘能力共享的底层设计所决定的。</p>
-
-<p>所以在某些时候，你可能需要刻意地增大所申请的云硬盘的容量，以获取更高的性能，即便这些额外的空间不一定能被用上。</p>
-
-<p><a id="markdown-06--云上虚拟网络开合有度编织无形之网" name="06--云上虚拟网络开合有度编织无形之网"></a></p>
-
-<h2>06 | 云上虚拟网络：开合有度，编织无形之网</h2>
-
-<p>虚拟私有网络（Virtual Private Cloud，简称 VPC），是云计算网络端最重要的概念之一，它是指构建在云上的、相互隔离的、用户可以自主控制的私有网络环境。虚拟私有网络有时也称为专有网络（阿里云）或虚拟网络（Virtual Network 或 VNet，Azure 的叫法）。</p>
-
-<p>上面的概念解释也许不太好理解，其实用通俗的话来讲，私有网络就是一张属于你自己的内网。内网之内的服务器和设备，可以比较自由地互相通信，与外界默认是隔离的。如果外部互联网，或者其他虚拟网络需要连接，则需要额外的配置。</p>
-
-<p>所以说，虚拟私有网络，就是你在云上的保护网，能够有效地保护网内的各种设施。有的时候，你可能还要同时创建多个虚拟网络，让它们各司其职，实现更精细的隔离。</p>
-
-<p><a id="markdown-弹性网卡" name="弹性网卡"></a></p>
-
-<h3>弹性网卡</h3>
-
-<p>云上的网卡，之所以被称为“弹性”网卡，是因为它具备以下特征：</p>
-
-<ol>
-<li>一个虚拟机可以绑定多块网卡，有主网卡和辅助网卡之分；</li>
-<li>一块网卡隶属于一个子网，可以配置同一子网内的多个私有 IP；</li>
-<li>辅助网卡可以动态解绑，还能够绑定到另一台虚拟机上。</li>
-</ol>
-
-
-<p><a id="markdown-公网ip和弹性ip" name="公网ip和弹性ip"></a></p>
-
-<h3>公网IP和弹性IP</h3>
-
-<p>在绝大多数的云上，创建虚拟机时都会有一个选项，问你“是否同时为虚拟机分配一个公网 IP 地址”。如果你选择“是”，这样机器启动后，就会拥有一个自动分配的公网地址，便于你从自己的电脑连接到这个实例。这在很多时候都是最方便的选择。</p>
-
-<p>但对于生产环境，我的推荐是，尽量不要使用和依赖这个自动生成的公有 IP。因为它本质上是一个从公有云的 IP 池中临时租用给你的 IP。如果你的机器关闭或重启，下次获得的 IP 可能就完全不同了。</p>
-
-<p>这时，我们真正应该用到的是弹性 IP（Elastic IP），有些云称为 eIP。弹性 IP 一旦生成，它所对应的 IP 是固定、不会变化的，而且完全属于你所有。这非常适合需要稳定 IP 的生产环境。</p>
-
-<p>请不要被它的名字迷惑，它所谓的弹性，其实是指可以非常自由地解绑和再次绑定到任意目标。你本质上是买下了这个 IP 的所有权，将这个 IP 赋予谁，是你的权利，而且你还可以动态按需切换。</p>
-
-<p><a id="markdown-07--云端架构最佳实践与故障同舞与伸缩共生" name="07--云端架构最佳实践与故障同舞与伸缩共生"></a></p>
-
-<h2>07 | 云端架构最佳实践：与故障同舞，与伸缩共生</h2>
-
-<p>云上架构最需要注意什么呢？就像我在标题所描述的那样，云端架构一方面需要处理和应对可能出现的<strong>故障</strong>，保证架构和服务的可用性；另一方面则是需要充分利用好云端的<strong>弹性</strong>，要能够根据负载进行灵活的伸缩。</p>
-
-<p>那么，云上可能出现哪些不同层面的故障？相应的故障范围和应对措施又会是怎样的呢？</p>
-
-<p><strong>第一种故障是在宿主机的级别，这也是从概率上来说最常见的一种故障。</strong>当宿主机出现硬件故障等问题后，毫无疑问将影响位于同一宿主机上的多个虚拟机。为了避免产生这样的影响，当我们承载重要业务时，就需要创建多台虚拟机组成的集群，共同来进行支撑。这样，当一台虚拟机出现故障时，还有其他几台机器能够保证在线。</p>
-
-<p>这里需要注意的是，<strong>我们需要保证多个虚拟机不在同一台宿主机上，甚至不处于同一个机架上，以免这些虚拟机一起受到局部事故的影响。</strong></p>
-
-<p><strong>第二种规模更大的故障，是在数据中心，也就是可用区的层面。</strong>要应对这类故障，我们就需要<strong>多可用区的实例部署</strong>。</p>
-
-<p><strong>第三种更严重的故障，就是整个区域级别的事故了。</strong>当然这种一般非常少见，只有地震等不可抗力因素，或者人为过失引发出的一系列连锁反应，才有可能造成这么大的影响。区域级别的事故一般都难免会对业务造成影响了。这时能够进行补救的，主要看<strong>多区域架构层面是否有相关的预案</strong>。</p>
-
-<p>再更进一步的万全之策，就需要考虑<strong>多云</strong>了。也就是同时选用多家云厂商的公有云，一起来服务业务。虽然集成多个异构的云会带来额外的成本，但这能够最大限度地降低服务风险，因为两家云厂商同时出问题的概率实在是太低了。更何况，多云还能带来避免厂商锁定的好处，现在其实也越来越多见了。</p>
-
-<p>当然，盲目地追求可用性也不可取。<strong>根据业务需求，在成本投入与可用性之间获得一个最佳的平衡，才是你应该追求的目标。</strong></p>
-
-<p><a id="markdown-08-丨云上运维云端究竟需不需要运维需要怎样的运维" name="08-丨云上运维云端究竟需不需要运维需要怎样的运维"></a></p>
-
-<h2>08丨云上运维：云端究竟需不需要运维？需要怎样的运维？</h2>
-
-<p><a id="markdown-09--什么是paas怎样深入理解和评估paas" name="09--什么是paas怎样深入理解和评估paas"></a></p>
-
-<h2>09 | 什么是PaaS？怎样深入理解和评估PaaS？</h2>
-
-<p>PaaS 是在 IaaS 的基础上又做了许多工作，构建了很多关键抽象和可复用的单元，让我们用户能够在更上层进行应用的构建，把更多精力放在业务逻辑上。</p>
-
-<p>所以 PaaS 服务的优势，就在于生产力，在于效率，尤其是在搭建和运维层面。</p>
-
-<p><a id="markdown-10--对象存储看似简单的存储服务都有哪些玄机" name="10--对象存储看似简单的存储服务都有哪些玄机"></a></p>
-
-<h2>10 | 对象存储：看似简单的存储服务都有哪些玄机？</h2>
-
-<p>同样是存储服务，对象存储和前面我们 IaaS 部分讲过的云硬盘存储有什么区别呢？</p>
-
-<p>第一个主要区别，在于<strong>访问的接口与形式</strong>。</p>
-
-<p>云硬盘其实是挂载到虚拟机的虚拟硬盘，它是通过实现操作系统级别的底层接口，作为虚拟机的块存储设备而存在。我们也必须连接到相关的虚拟机，才能访问它里面的数据。</p>
-
-<p>而对象存储，本质是一个网络化的服务，调用方主要通过高层的 API 和 SDK 来和它进行交互。不管是面向外部公开互联网服务，还是和内部应用程序对接，对象存储都是通过提供像 HTTP 这样的网络接口来实现的。所以它的独立性很强，不需要依赖其他组件就可以运作。</p>
-
-<p>第二个主要区别，也是对象存储的一大特征，就是对象存储内本身不存在一个真正的文件系统，而是更接近一个<strong>键值</strong>（Key-Value）形式的存储服务。</p>
-
-<p>键值系统和云硬盘上经典文件系统的<strong>核心差异</strong>，就在于文件系统保存了更多的元数据，尤其是实现了目录结构和目录操作。而键值系统中，所谓的目录其实是多个对象共享的路径前缀，可以说是用前缀模拟出了目录。</p>
-
-<p>第三个主要区别，在于对象存储的<strong>据大容量</strong>。</p>
-
-<p><a id="markdown-对象存储的高级特性" name="对象存储的高级特性"></a></p>
-
-<h3>对象存储的高级特性</h3>
-
-<p>第一个重要特性，是<strong>存储分层</strong>。</p>
-
-<p><img src="http://hongchaozhang.github.io/images/%E5%AF%B9%E8%B1%A1%E5%AD%98%E5%82%A8%E5%88%86%E5%B1%82.jpeg" alt="对象存储分层" /></p>
-
-<p>存储分层的存在，让原本价格低廉的云上存储更加具有成本竞争力。给你举个例子，现在归档层的存储费用，在典型情况下大约是每 GB 每月 1 分钱左右，是不是低得惊人？所以，很多用户上云的一个应用场景就是，把原本占用大量传统磁盘的备份文件，利用对象存储的归档能力长期保存。</p>
-
-<p>第二个值得称道的特性，是<strong>生命周期管理</strong>。可以对存储对象设置过期规则。</p>
-
-<p>第三个特性，则是对象的<strong>版本管理</strong>。</p>
-
-<p><a id="markdown-11--应用托管服务web应用怎样在云上安家" name="11--应用托管服务web应用怎样在云上安家"></a></p>
-
-<h2>11 | 应用托管服务：Web应用怎样在云上安家？</h2>
-
-<p>你可以使用虚拟机和其他 IaaS 组件来搭建你的网站。但用 IaaS，你需要操心的事情比较多，包括虚拟机的创建、运行环境的搭建和依赖安装、高可用性和水平扩展的架构等等。而且一旦应用的规模大了，每次应用的更新升级也会是件麻烦事，另外你还要操心 Web 漏洞的弥补修复。</p>
-
-<p>那么，能不能有一个平台服务，来帮助我们解决所有这些基础架构问题，让我们只需要专注于应用构建本身就好了呢？当然是有的，这就是云上应用托管 PaaS 服务的由来。</p>
-
-<p><a id="markdown-12--云数据库高歌猛进的数据库新贵" name="12--云数据库高歌猛进的数据库新贵"></a></p>
-
-<h2>12 | 云数据库：高歌猛进的数据库“新贵”</h2>
-
-<p>而近年来随着云计算的兴起，云数据库作为一支新生力量，一路高歌猛进，打破了数据库市场的原有格局，也进入了越来越多开发者的视野当中。这类 PaaS 服务的朴素思想就是，将数据库服务搬到云上，让用户更方便轻松地使用、管理和维护数据库。</p>
-
-<p><a id="markdown-云原生数据库" name="云原生数据库"></a></p>
-
-<h3>云原生数据库</h3>
-
-<p>云原生数据库：完全为云设计、能够充分发挥云的特点和优势的数据库。</p>
-
-<p>出于生态发展和降低学习难度的需要，绝大多数的云原生数据库仍然保留了 SQL 等常见接口（有的还支持不同 SQL 方言的选择），但除此以外，云原生数据库大都进行了全面革新和重新设计，有的云会大刀阔斧地改造开源代码，有的甚至脱离了现有包袱，完全重新构建。</p>
-
-<p>这样的尝试取得了巨大的成功，业界也逐渐形成了一系列不同领域的云原生数据库矩阵，大大拓展了云上数据库的范畴和影响力。</p>
-
-<p>我这里也为你整理了一张表格，按照厂商和云数据库的类型进行了梳理和比较。其中，标红的部分是相当值得你关注的自研云原生数据库。</p>
-
-<p><img src="http://hongchaozhang.github.io/images/%E4%BA%91%E5%8E%9F%E7%94%9F%E6%95%B0%E6%8D%AE%E5%BA%93.jpeg" alt="云原生数据库" /></p>
-
-<p><a id="markdown-13--云上大数据云计算遇上大数据为什么堪称天作之合" name="13--云上大数据云计算遇上大数据为什么堪称天作之合"></a></p>
-
-<h2>13 | 云上大数据：云计算遇上大数据，为什么堪称天作之合？</h2>
-
-<p><a id="markdown-14--云上容器服务从docker到kubernetes迎接云原生浪潮" name="14--云上容器服务从docker到kubernetes迎接云原生浪潮"></a></p>
-
-<h2>14 | 云上容器服务：从Docker到Kubernetes，迎接云原生浪潮</h2>
-
-<p><a id="markdown-15--无服务器计算追求极致效率的多面手" name="15--无服务器计算追求极致效率的多面手"></a></p>
-
-<h2>15 | 无服务器计算：追求极致效率的多面手</h2>
-
-<p>无服务器（Serverless）完全屏蔽了计算资源，它是在真正地引导你不再去关心底层环境，你只要遵循标准方式来直接编写业务代码就可以了。其中一个具体应用就是函数即服务（FaaS，Function as a service)。</p>
-
-<p>各大云厂商现在都已经推出了各自的无服务器计算服务，比如 AWS 的 <strong>Lambda</strong>，阿里云的<strong>函数计算</strong>，微软Azure的<strong>Azure Function</strong>，微信的<strong>云函数</strong>。</p>
-
-<p>为了让这个云函数能够对外服务，我们接下来就需要为它添加一个 <strong>API网关触发器</strong>，这样当 API 被外界访问时，这个云函数就会被触发执行并返回结果给网关。</p>
-
-<p>API 网关是一个独立的 PaaS 服务，它可以和云函数联动使用。它的作用是为外界访问提供一个端点，并引流到我们的后台计算服务。</p>
-
-<p>无服务器计算灵活轻量，便于迭代。但是，我们还是要记得恪守冷静客观的原则。一定不要忽略了 Serverless 服务的限制，毕竟它的本质是受限的环境。<strong>冷启动的延时、内存的限制、云函数的运行时长、并发数上限</strong>等等，这些都是你大规模深入应用之前需要评估考虑的问题。虽然云厂商一直在改进，这些客观限制在当下对于你的场景是否造成了实质性障碍，也是你目前是否选择 Serverless 计算的一个重要依据。</p>
-
-<p><a id="markdown-16--云上ai服务云ai能从哪些方面帮助构建智能应用" name="16--云上ai服务云ai能从哪些方面帮助构建智能应用"></a></p>
-
-<h2>16 | 云上AI服务：云AI能从哪些方面帮助构建智能应用？</h2>
 ]]></content>
   </entry>
   

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: nodejs | Reading Space]]></title>
   <link href="http://hongchaozhang.github.io/blog/categories/nodejs/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2023-05-24T22:44:46+08:00</updated>
+  <updated>2023-05-25T22:24:59+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -12,6 +12,102 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[事件循环中的Macrotask和Microtask]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2023/05/25/event-loop-and-macrotask-and-microtask/"/>
+    <updated>2023-05-25T22:01:49+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2023/05/25/event-loop-and-macrotask-and-microtask</id>
+    <content type="html"><![CDATA[<!-- more -->
+
+
+<p>For details, refer to <a href="https://javascript.info/event-loop">Event loop: microtasks and macrotasks</a>.</p>
+
+<h2>Event Loop</h2>
+
+<p>The event loop concept is very simple. There’s an endless loop, where the JavaScript engine waits for tasks, executes them and then sleeps, waiting for more tasks.</p>
+
+<p>For instance, while the engine is busy executing a <code>script</code>, a user may move their mouse causing <code>mousemove</code>, and <code>setTimeout</code> may be due and so on, these tasks form a queue.</p>
+
+<p>Tasks from the queue are processed on “first come – first served” basis. When the engine browser is done with the <code>script</code>, it handles <code>mousemove</code> event, then <code>setTimeout</code> handler, and so on.</p>
+
+<p>So far, quite simple, right?</p>
+
+<p>Two more details:</p>
+
+<ul>
+<li>Rendering never happens while the engine executes a task. It doesn’t matter if the task takes a long time. Changes to the DOM are painted only after the task is complete.</li>
+<li>If a task takes too long, the browser can’t do other tasks, such as processing user events. So after a time, it raises an alert like “Page Unresponsive”, suggesting killing the task with the whole page. That happens when there are a lot of complex calculations or a programming error leading to an infinite loop.</li>
+</ul>
+
+
+<p>Event Loop应用
+Use-case 1: <a href="https://javascript.info/event-loop#use-case-1-splitting-cpu-hungry-tasks">splitting CPU-hungry tasks</a>
+Use case 2: <a href="https://javascript.info/event-loop#use-case-1-splitting-cpu-hungry-tasks">progress indication</a>
+Use case 3: <a href="https://javascript.info/event-loop#use-case-3-doing-something-after-the-event">doing something after the event</a></p>
+
+<h2>Macrotasks and Microtasks</h2>
+
+<ul>
+<li>Macrotask：
+
+<ul>
+<li><code>script</code>，<code>mousemove</code>，<code>setTimeout</code></li>
+<li>use <code>setTimeout(f)</code> to dispatch a callback as a macrotask</li>
+</ul>
+</li>
+<li>Microtask：
+
+<ul>
+<li>They are usually created by promises: an execution of <code>.then/catch/finally</code> handler becomes a microtask.</li>
+<li> use <code>queueMicrotask(f)</code> to dispatch a callback as a microtask</li>
+</ul>
+</li>
+</ul>
+
+
+<p>Event loop workflow with macrotask and microtask:</p>
+
+<p><img src="http://hongchaozhang.github.io/images/eventloopinv8.png" width="300px" alt="event loop and macrotask and microtask" /></p>
+
+<h2>Summary</h2>
+
+<p>A more detailed event loop algorithm (though still simplified compared to the specification):</p>
+
+<pre><code>1. Dequeue and run the oldest task from the macrotask queue (e.g. “script”).
+2. Execute all microtasks:
+    * While the microtask queue is not empty:
+        * Dequeue and run the oldest microtask.
+3. Render changes if any.
+4. If the macrotask queue is empty, wait till a macrotask appears.
+5. Go to step 1.
+</code></pre>
+
+<p>If you want a real parallel task execution, use Web Worker. it is running in a separate thread.</p>
+
+<h2>练习</h2>
+
+<pre><code>console.log(1);
+
+setTimeout(() =&gt; console.log(2));
+
+Promise.resolve().then(() =&gt; console.log(3));
+
+Promise.resolve().then(() =&gt; setTimeout(() =&gt; console.log(4)));
+
+Promise.resolve().then(() =&gt; console.log(5));
+
+setTimeout(() =&gt; console.log(6));
+
+console.log(7);
+</code></pre>
+
+<p>答案：The console output is:
+<code>
+1 7 3 5 2 6 4
+</code></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[如何调试NodeJs源码]]></title>
@@ -369,6 +465,131 @@ db.shutdownServer();
 <li><a href="https://www.bezkoder.com/node-express-mongodb-crud-rest-api/">Node.js, Express &amp; MongoDb: Build a CRUD Rest Api example</a></li>
 </ul>
 
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[使用node-xlsx进行excel文件的读写]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2016/03/04/parsing-and-write-excel-file-using-node-module/"/>
+    <updated>2016-03-04T14:54:54+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2016/03/04/parsing-and-write-excel-file-using-node-module</id>
+    <content type="html"><![CDATA[<h3>解析excel文件</h3>
+
+<p>在我的应用中需要对excel文件内容进行搜索，所以需要一个解析excel文件的插件。</p>
+
+<p><a href="https://www.npmjs.com/package/node-xlsx">node-xlsx</a>插件可以让我们解析、修改、新建excel文件。</p>
+
+<!-- more -->
+
+
+<p>安装到所在文件夹：</p>
+
+<pre><code>npm install excel node-xlsx
+</code></pre>
+
+<p>或者安装为全局应用：</p>
+
+<pre><code>npm install -g excel node-xlsx
+</code></pre>
+
+<p>然后就可以这样解析excel文件：</p>
+
+<pre><code>var xlsx = require('node-xlsx');
+var obj = xlsx.parse(__dirname + '/myFile.xlsx'); // parses a file 
+</code></pre>
+
+<p>下面是一段样例代码：</p>
+
+<pre><code>
+// Include modules.
+var xlsx = require('node-xlsx');
+
+// read xlsx file and analyse
+var excelObj = xlsx.parse('fileName.xlsx');
+
+for (var sheet in excelObj) {
+    if (sheet !== '0' &amp;&amp; excelObj.hasOwnProperty(sheet)) { // sheet is '0', '1', ...
+        var sheetData = excelObj[sheet].data; // data inside a sheet, which is an two-dimention array
+        var rowCount = sheetData.length;
+        activityCountDic[sheet] = rowCount;
+        for (var i = 1; i &lt; rowCount; i++) {
+            var rowData = sheetData[i]; // data inside one row, which is an one-dimention array
+            var columnCount = rowData.length;
+            for (var j = 0; j &lt; columnCount; j++) {
+                var cellData = rowData[j].toString(); // data in j column of the given row
+                console.log(cellData);
+            }
+        }
+    }
+}
+</code></pre>
+
+<h3>写入excel文件</h3>
+
+<pre><code>// Include modules.
+var xlsx = require('node-xlsx');
+var fs = require('fs');
+
+// 写入excel之后是一个一行两列的表格
+var data1 = [
+['name', 'age']
+];
+
+// 写入excel之后是一个三行两列的表格
+var data2 = [
+['name', 'age'], 
+['zhang san', '10'], 
+['li si', '11']
+];
+
+var buffer = xlsx.build([
+    {
+        name:'sheet1',
+        data:data1
+    }, {
+        name:'sheet2',
+        data:data2
+    }
+    ]);
+
+fs.writeFileSync('book.xlsx', buffer, {'flag':'w'}); // 如果文件存在，覆盖
+</code></pre>
+
+<h3>运行</h3>
+
+<p>将上面的代码保存成js文件，比如<code>demo.js</code>，通过node运行即可:</p>
+
+<pre><code>node demo.js
+</code></pre>
+
+<p>如果需要debug，可以使用VSCode。在开始运行的时候碰到下面的错误“Cannot find runtime &lsquo;node&rsquo; on PATH. Is &lsquo;node&rsquo; installed?”。需要将自动生成的launch.json文件添加一行：</p>
+
+<pre><code>"runtimeExecutable": "/Users/hozhang/.nvm/versions/node/v10.15.0/bin/node"
+</code></pre>
+
+<p>改成：</p>
+
+<pre><code>{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Launch Program",
+            "skipFiles": [
+                "&lt;node_internals&gt;/**"
+            ],
+            "program": "${workspaceFolder}/age.js",
+            // 指定node的位置
+            "runtimeExecutable": "/Users/hozhang/.nvm/versions/node/v10.15.0/bin/node"
+        }
+    ]
+}
+</code></pre>
 ]]></content>
   </entry>
   

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: javascript | Reading Space]]></title>
   <link href="http://hongchaozhang.github.io/blog/categories/javascript/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2023-05-24T22:44:46+08:00</updated>
+  <updated>2023-05-25T22:24:59+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -12,6 +12,249 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[事件循环中的Macrotask和Microtask]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2023/05/25/event-loop-and-macrotask-and-microtask/"/>
+    <updated>2023-05-25T22:01:49+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2023/05/25/event-loop-and-macrotask-and-microtask</id>
+    <content type="html"><![CDATA[<!-- more -->
+
+
+<p>For details, refer to <a href="https://javascript.info/event-loop">Event loop: microtasks and macrotasks</a>.</p>
+
+<h2>Event Loop</h2>
+
+<p>The event loop concept is very simple. There’s an endless loop, where the JavaScript engine waits for tasks, executes them and then sleeps, waiting for more tasks.</p>
+
+<p>For instance, while the engine is busy executing a <code>script</code>, a user may move their mouse causing <code>mousemove</code>, and <code>setTimeout</code> may be due and so on, these tasks form a queue.</p>
+
+<p>Tasks from the queue are processed on “first come – first served” basis. When the engine browser is done with the <code>script</code>, it handles <code>mousemove</code> event, then <code>setTimeout</code> handler, and so on.</p>
+
+<p>So far, quite simple, right?</p>
+
+<p>Two more details:</p>
+
+<ul>
+<li>Rendering never happens while the engine executes a task. It doesn’t matter if the task takes a long time. Changes to the DOM are painted only after the task is complete.</li>
+<li>If a task takes too long, the browser can’t do other tasks, such as processing user events. So after a time, it raises an alert like “Page Unresponsive”, suggesting killing the task with the whole page. That happens when there are a lot of complex calculations or a programming error leading to an infinite loop.</li>
+</ul>
+
+
+<p>Event Loop应用
+Use-case 1: <a href="https://javascript.info/event-loop#use-case-1-splitting-cpu-hungry-tasks">splitting CPU-hungry tasks</a>
+Use case 2: <a href="https://javascript.info/event-loop#use-case-1-splitting-cpu-hungry-tasks">progress indication</a>
+Use case 3: <a href="https://javascript.info/event-loop#use-case-3-doing-something-after-the-event">doing something after the event</a></p>
+
+<h2>Macrotasks and Microtasks</h2>
+
+<ul>
+<li>Macrotask：
+
+<ul>
+<li><code>script</code>，<code>mousemove</code>，<code>setTimeout</code></li>
+<li>use <code>setTimeout(f)</code> to dispatch a callback as a macrotask</li>
+</ul>
+</li>
+<li>Microtask：
+
+<ul>
+<li>They are usually created by promises: an execution of <code>.then/catch/finally</code> handler becomes a microtask.</li>
+<li> use <code>queueMicrotask(f)</code> to dispatch a callback as a microtask</li>
+</ul>
+</li>
+</ul>
+
+
+<p>Event loop workflow with macrotask and microtask:</p>
+
+<p><img src="http://hongchaozhang.github.io/images/eventloopinv8.png" width="300px" alt="event loop and macrotask and microtask" /></p>
+
+<h2>Summary</h2>
+
+<p>A more detailed event loop algorithm (though still simplified compared to the specification):</p>
+
+<pre><code>1. Dequeue and run the oldest task from the macrotask queue (e.g. “script”).
+2. Execute all microtasks:
+    * While the microtask queue is not empty:
+        * Dequeue and run the oldest microtask.
+3. Render changes if any.
+4. If the macrotask queue is empty, wait till a macrotask appears.
+5. Go to step 1.
+</code></pre>
+
+<p>If you want a real parallel task execution, use Web Worker. it is running in a separate thread.</p>
+
+<h2>练习</h2>
+
+<pre><code>console.log(1);
+
+setTimeout(() =&gt; console.log(2));
+
+Promise.resolve().then(() =&gt; console.log(3));
+
+Promise.resolve().then(() =&gt; setTimeout(() =&gt; console.log(4)));
+
+Promise.resolve().then(() =&gt; console.log(5));
+
+setTimeout(() =&gt; console.log(6));
+
+console.log(7);
+</code></pre>
+
+<p>答案：The console output is:
+<code>
+1 7 3 5 2 6 4
+</code></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Promise以及sync和async]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2023/05/25/javascript-promise-and-sync-and-async/"/>
+    <updated>2023-05-25T21:24:13+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2023/05/25/javascript-promise-and-sync-and-async</id>
+    <content type="html"><![CDATA[<!-- more -->
+
+
+<p>For details, refer to <a href="https://javascript.info/async">Promises, async/await</a></p>
+
+<h2>Basic usage</h2>
+
+<pre><code>let promise = new Promise(function(resolve, reject) {
+  let resolved = true;
+  if (resolved) {
+    setTimeout(() =&gt; resolve("done!"), 1000);
+  } else {
+    setTimeout(() =&gt; reject(new Error("Whoops!")), 1000);
+  }
+});
+
+// resolve runs the first function in .then
+promise
+.finally(() =&gt; alert("Promise ready")) // triggers first
+.then(
+  result =&gt; alert(result), // shows "done!" after 1 second
+  error =&gt; alert(error) // doesn't run
+);
+</code></pre>
+
+<p>As you can see, the value returned by the first promise is passed through <code>finally</code> to the next <code>then</code>.</p>
+
+<h2>Promise chain</h2>
+
+<pre><code>new Promise(function(resolve, reject) {
+
+  setTimeout(() =&gt; resolve(1), 1000); // (*)
+
+}).then(function(result) { // (**)
+
+  alert(result); // 1
+  return result * 2;
+
+}).then(function(result) { // (***)
+
+  alert(result); // 2
+  return result * 2;
+
+}).then(function(result) {
+
+  alert(result); // 4
+  return result * 2;
+
+});
+</code></pre>
+
+<p><code>then</code> should be a <code>async</code> function, so it can convert any return values to a promise.</p>
+
+<h2>Error handling</h2>
+
+<pre><code>fetch('/article/promise-chaining/user.json')
+  .then(response =&gt; response.json())
+  .then(user =&gt; fetch(`https://api.github.com/users/${user.name}`))
+  .then(response =&gt; response.json())
+  .then(githubUser =&gt; new Promise((resolve, reject) =&gt; {
+    let img = document.createElement('img');
+    img.src = githubUser.avatar_url;
+    img.className = "promise-avatar-example";
+    document.body.append(img);
+
+    setTimeout(() =&gt; {
+      img.remove();
+      resolve(githubUser);
+    }, 3000);
+  }))
+  .catch(error =&gt; alert(error.message));
+</code></pre>
+
+<p>The code of a promise executor and promise handlers has an &ldquo;invisible&rdquo; <code>try..catch</code> around it. If an exception happens, it gets caught and treated as a rejection.</p>
+
+<p>The &ldquo;invisible&rdquo; <code>try..catch</code> around the executor automatically catches the error and turns it into rejected promise.</p>
+
+<p>More details about the error handling workflow, refers to <a href="https://javascript.info/promise-error-handling">https://javascript.info/promise-error-handling</a></p>
+
+<h2>Promise.all</h2>
+
+<pre><code>let urls = [
+  'https://api.github.com/users/iliakan',
+  'https://api.github.com/users/remy',
+  'https://api.github.com/users/jeresig'
+];
+
+// map every url to the promise of the fetch
+let requests = urls.map(url =&gt; fetch(url));
+
+// Promise.all waits until all jobs are resolved
+Promise.all(requests)
+  .then(responses =&gt; responses.forEach(
+    response =&gt; alert(`${response.url}: ${response.status}`)
+  ));
+</code></pre>
+
+<p>The new promise resolves when all listed promises are resolved, and the array of their results becomes its result.</p>
+
+<p>If any of the promises is rejected, the promise returned by <code>Promise.all</code> immediately rejects with that error.</p>
+
+<p>Please note that the order of the resulting array members is the same as in its source promises. Even though the first promise takes the longest time to resolve, it’s still first in the array of results.</p>
+
+<h2>Promisification</h2>
+
+<p>Used for changing callback style to promise style.</p>
+
+<h2>async/await</h2>
+
+<pre><code>async function f() {
+  return 1;
+}
+
+f().then(alert); // 1
+</code></pre>
+
+<p><code>async</code> ensures that the function returns a promise, and wraps non-promises in it.</p>
+
+<pre><code>async function f() {
+
+  let promise = new Promise((resolve, reject) =&gt; {
+    setTimeout(() =&gt; resolve("done!"), 1000)
+  });
+
+  let result = await promise; // wait until the promise resolves (*)
+
+  alert(result); // "done!"
+}
+
+f();
+</code></pre>
+
+<p>The function execution “pauses” at the line (*) and resumes when the promise settles, with result becoming its result. So the code above shows “done!” in one second.</p>
+
+<p>Let’s emphasize: <code>await</code> literally suspends the function execution until the promise settles, and then resumes it with the promise result. That doesn’t cost any CPU resources, because the JavaScript engine can do other jobs in the meantime: execute other scripts, handle events, etc.</p>
+
+<p>For details, refer to <a href="/blog/2023/05/25/event-loop-and-macrotask-and-microtask/">macrotask and microtask in event loop</a></p>
+
+<p><code>Async/Sync</code> is just a more elegant syntax of getting the promise result than <code>promise.then</code>. And, it’s easier to read and write.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[重学前端-通过window属性了解协议API]]></title>
@@ -488,150 +731,6 @@ For help, see: https://nodejs.org/en/docs/inspector
 <li>代价：需要一个universal的code base，保证其在服务器端和浏览器端都能运行。</li>
 </ol>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Caution Javascript Closure in Loop]]></title>
-    <link href="http://hongchaozhang.github.io/blog/2015/05/09/caution-javascript-closure-in-loop/"/>
-    <updated>2015-05-09T00:00:00+08:00</updated>
-    <id>http://hongchaozhang.github.io/blog/2015/05/09/caution-javascript-closure-in-loop</id>
-    <content type="html"><![CDATA[<h3>Object</h3>
-
-<p>Define a function <span style="background-color:yellow;"><em>addTimer</em></span>, to log executed time for all function-type property of an object</p>
-
-<h3>Definition 1</h3>
-
-<!-- more -->
-
-
-<h4>Code:</h4>
-
-<pre><code>var addTimer = function (widget) {
-    var prop;
-    for (prop in widget) {
-        if (typeof widget[prop] === 'function') {
-            var backupFunc = widget[prop];
-            // the same problem with the following code
-            //backupFunc = (function () {
-            //    return widget[prop];
-            //})();
-
-            // try a deep copy here to make bakcupFunc not changed with prop
-            widget[prop] = function () {
-                console.time("from timer " + prop);
-                backupFunc.apply(this, arguments);
-                console.timeEnd("from timer " + prop);
-            };
-            // the same problem with the following code
-            //widget[prop] = (function () {
-            //    return function () {
-            //        console.time(prop);
-            //        backupFunc.apply(this, arguments);
-            //        console.timeEnd(prop);
-            //    };
-            //})();
-        }
-    }
-}
-</code></pre>
-
-<h4>Problem</h4>
-
-<p>All function type property in widget will call the last function type property</p>
-
-<h3>Definition 2</h3>
-
-<p>Since there is no block scope in JavaScript - only <strong>function scope</strong> - by wrapping the function creation in a new function, you ensure that the value of <code>prop</code> remains as you intended.</p>
-
-<h4>Code:</h4>
-
-<pre><code>var addTimer = function (widget) {
-    var prop;
-    var getFuncWithTimer = function (prop) {
-        return function () {
-            console.time("from timer " + prop);
-            widget[prop].apply(this, arguments);
-            console.timeEnd("from timer " + prop);
-        };
-    };
-    for (prop in widget) {
-        if (typeof widget[prop] === 'function') {
-            widget[prop] = getFuncWithTimer(prop);
-        }
-    }
-};
-</code></pre>
-
-<h4>Problem</h4>
-
-<p>exceed maximum call stack</p>
-
-<h3>Definition 3</h3>
-
-<h4>Code:</h4>
-
-<pre><code>var addTimer = function (widget) {
-    var prop;
-    var getFuncWithTimer = function (prop) {
-        var backupFunc = widget[prop];
-        return function () {
-            console.time("from timer " + prop);
-            backupFunc.apply(this, arguments);
-            console.timeEnd("from timer " + prop);
-        };
-    };
-    for (prop in widget) {
-        if (typeof widget[prop] === 'function') {
-            widget[prop] = getFuncWithTimer(prop);
-        }
-    }
-};
-</code></pre>
-
-<h4>Problem</h4>
-
-<p>All function with returned value can not work</p>
-
-<h3>Final Definition</h3>
-
-<h4>Code:</h4>
-
-<pre><code>var addTimer = function (widget) {
-    var prop;
-    var getFuncWithTimer = function (prop) {
-        var backupFunc = widget[prop];
-        return function () {
-            console.time("from timer " + prop);
-            var ret = backupFunc.apply(this, arguments);
-            console.timeEnd("from timer " + prop);
-            return ret;
-        };
-    };
-    for (prop in widget) {
-        if (typeof widget[prop] === 'function') {
-            widget[prop] = getFuncWithTimer(prop);
-        }
-    }
-};
-</code></pre>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[How to Add a Clone function to Function?]]></title>
-    <link href="http://hongchaozhang.github.io/blog/2015/05/09/How-to-Add-a-Clone-function-to-Function/"/>
-    <updated>2015-05-09T00:00:00+08:00</updated>
-    <id>http://hongchaozhang.github.io/blog/2015/05/09/How-to-Add-a-Clone-function-to-Function</id>
-    <content type="html"><![CDATA[<pre><code>Function.prototype.clone = function() {
-    var that = this;
-    var temp = function temporary() { return that.apply(this, arguments); };
-    for( key in this ) {
-        temp[key] = this[key];
-    }
-    return temp;
-};
-</code></pre>
 ]]></content>
   </entry>
   
