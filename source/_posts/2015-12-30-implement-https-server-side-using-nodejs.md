@@ -3,7 +3,7 @@ layout: post
 title: "https在Server端的Nodejs实现"
 date: 2015-12-30 21:23:19 +0800
 comments: true
-categories: [node]
+categories: [nodejs]
 ---
 
 服务器端利用Nodejs创建https的Server，请参考[Nodejs创建HTTPS服务器](http://blog.fens.me/nodejs-https-server/)

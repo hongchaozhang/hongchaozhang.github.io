@@ -3,7 +3,7 @@ layout: post
 title: "应用Node.js搭建一个简单的服务器"
 date: 2015-11-27 16:45:10 +0800
 comments: true
-categories: [node]
+categories: [nodejs]
 ---
 
 ### 第一个简单应用

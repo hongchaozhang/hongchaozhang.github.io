@@ -3,7 +3,7 @@ layout: post
 title: "使用node-xlsx进行excel文件的读写"
 date: 2016-03-04 14:54:54 +0800
 comments: true
-categories: [node]
+categories: [nodejs]
 ---
 
 ### 解析excel文件
