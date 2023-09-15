@@ -1,0 +1,826 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: react | Reading Space]]></title>
+  <link href="http://hongchaozhang.github.io/blog/categories/react/atom.xml" rel="self"/>
+  <link href="http://hongchaozhang.github.io/"/>
+  <updated>2023-09-15T17:55:33+08:00</updated>
+  <id>http://hongchaozhang.github.io/</id>
+  <author>
+    <name><![CDATA[Zhang Hongchao]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[React Learning Note 2023]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2023/09/15/react-learning-note-2023/"/>
+    <updated>2023-09-15T17:33:08+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2023/09/15/react-learning-note-2023</id>
+    <content type="html"><![CDATA[<!-- more -->
+
+
+<ul>
+<li><a href="#react-state-is-updated-in-a-batch">React state is updated in a “batch”</a></li>
+<li><a href="#update-react-state-with-a-new-object-do-not-mute-existing-one">Update react state with a new object, do not mute existing one</a></li>
+<li><a href="#declarative-ui">Declarative UI</a></li>
+<li><a href="#react-redux">React-redux</a></li>
+<li><a href="#hooks">Hooks</a></li>
+<li><a href="#react%E4%B8%AD%E7%9A%84%E5%8F%98%E9%87%8F">React中的变量</a></li>
+<li><a href="#useeffect">useEffect</a>
+
+<ul>
+<li><a href="#clean-up-function">clean up function</a></li>
+</ul>
+</li>
+<li><a href="#usememo">useMemo</a></li>
+<li><a href="#two-ways-to-store-previous-props">two ways to store previous props</a>
+
+<ul>
+<li><a href="#useref">useRef</a></li>
+<li><a href="#usestate">useState</a></li>
+</ul>
+</li>
+<li><a href="#fetch-data%E7%9A%84%E4%B8%A4%E4%B8%AA%E9%97%AE%E9%A2%98">fetch data的两个问题</a>
+
+<ul>
+<li><a href="#race-condition">race condition</a></li>
+<li><a href="#undo">undo</a></li>
+</ul>
+</li>
+<li><a href="#effect-event">Effect Event</a>
+
+<ul>
+<li><a href="#what-is-reactive">what is reactive</a></li>
+<li><a href="#problem">Problem</a></li>
+<li><a href="#solution">Solution:</a></li>
+<li><a href="#supress-react-lint-error">Supress react lint error</a></li>
+</ul>
+</li>
+<li><a href="#how-to-review-effect-dependencies">How to review effect dependencies</a>
+
+<ul>
+<li><a href="#ways-to-review-and-fix-this">ways to review and fix this</a></li>
+</ul>
+</li>
+<li><a href="#object-and-function-compare">Object and function compare</a></li>
+<li><a href="#usememo-and-usecallback">useMemo and useCallback</a></li>
+<li><a href="#forwardref">forwardRef</a>
+
+<ul>
+<li><a href="#useref-1">useRef</a></li>
+<li><a href="#basic-concepts">basic concepts</a></li>
+<li><a href="#expose-dom-node">expose dom node</a></li>
+<li><a href="#expose-an-object">expose an object</a></li>
+</ul>
+</li>
+<li><a href="#custom-hook">Custom Hook</a></li>
+<li><a href="#strict-mode">strict mode</a></li>
+<li><a href="#other-rules">Other Rules</a>
+
+<ul>
+<li><a href="#data-from-parent-to-child">data from parent to child</a></li>
+<li><a href="#usesyncexternalstore">useSyncExternalStore</a></li>
+<li><a href="#useeffect-dependencies">useEffect dependencies</a></li>
+</ul>
+</li>
+</ul>
+
+
+<h2>React state is updated in a “batch”</h2>
+
+<p>This means that you can not get the state immediately after you change it.</p>
+
+<p>number will be 1 after one click:
+<code>
+export default function Counter() {
+  const [number, setNumber] = useState(0);
+  return (
+    &lt;&gt;
+      &lt;h1&gt;{number}&lt;/h1&gt;
+      &lt;button onClick={() =&gt; {
+        setNumber(number + 1);
+        setNumber(number + 1);
+        setNumber(number + 1);
+      }}&gt;+3&lt;/button&gt;
+    &lt;/&gt;
+  )
+}
+</code>
+To make the number to be 3, pass a update function to the setNumber function. An update function will be queued and executed later.
+<code>
+export default function Counter() {
+  const [number, setNumber] = useState(0);
+  return (
+    &lt;&gt;
+      &lt;h1&gt;{number}&lt;/h1&gt;
+      &lt;button onClick={() =&gt; {
+        setNumber(n =&gt; n + 1);
+        setNumber(n =&gt; n + 1);
+        setNumber(n =&gt; n + 1);
+      }}&gt;+3&lt;/button&gt;
+    &lt;/&gt;
+  )
+}
+</code></p>
+
+<h2>Update react state with a new object, do not mute existing one</h2>
+
+<p>Use <code>…</code> , the object spread operator:
+<code>
+setPerson({
+  ...person, // Copy the old fields
+  firstName: e.target.value // But override this one
+});
+</code>
+Note that spread syntax is shallow: it only copies one level deep. To update nested object:
+<code>
+setPerson({
+  ...person, // Copy other fields
+  artwork: { // but replace the artwork
+    ...person.artwork, // with the same one
+    city: 'New Delhi' // but in New Delhi!
+  }
+});
+</code>
+For updating array object:
+<code>
+setArtists([
+  { id: nextId++, name: name },
+  ...artists // Put old items at the end
+]);
+</code>
+<code>Immer</code> is a popular library that lets you write using the convenient but mutating syntax and takes care of producing the copies for you.
+<code>
+updatePerson(draft =&gt; {
+  draft.artwork.city = 'Lagos';
+});
+</code>
+Using <code>Immer</code> for array:
+<code>
+updateMyTodos(draft =&gt; {
+  const artwork = draft.find(a =&gt; a.id === artworkId);
+  artwork.seen = nextSeen;
+});
+</code></p>
+
+<h2>Declarative UI</h2>
+
+<ul>
+<li>Declarative programming means describing the UI for each visual state rather than micromanaging the UI (imperative).</li>
+<li>When developing a component, Think in declarative UI way:
+
+<ol>
+<li>Identify all its visual states.</li>
+<li>Determine the human and computer triggers for state changes.</li>
+<li>Model the state with useState.</li>
+<li>Remove non-essential state to avoid bugs and paradoxes.</li>
+<li>Connect the event handlers to set state.</li>
+</ol>
+</li>
+</ul>
+
+
+<h2>React-redux</h2>
+
+<ul>
+<li>useReducer+useContext?</li>
+<li>Provider</li>
+<li>Context</li>
+</ul>
+
+
+<h2>Hooks</h2>
+
+<ul>
+<li>useContext: 跨层传输props，不用一层一层传下去</li>
+<li>useEffect: Use them to synchronize your component with a system outside of React.</li>
+</ul>
+
+
+<h2>React中的变量</h2>
+
+<ul>
+<li>Props：immutable, 触发rerender，不记忆(retained by component)</li>
+<li>State：immutable, 触发rerender，记忆(retained by React)</li>
+<li>useRef：mutable, 不触发rerender，记忆(retained by React)</li>
+</ul>
+
+
+<h2>useEffect</h2>
+
+<p>Effects let you specify side effects that are caused by rendering itself, rather than by a particular event.</p>
+
+<p>Effects run at the end of a <em>commit</em> after the screen updates. That is, useEffect “delays” a piece of code from running until that render is reflected on the screen.</p>
+
+<h3>clean up function</h3>
+
+<p>You can use a clean up function to clean up the effect. For example, if you subscribe to an external data source, you can unsubscribe it in the clean up function.
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>useEffect(() =&gt; {
+</span><span class='line'>  const connection = createConnection();
+</span><span class='line'>  connection.connect();
+</span><span class='line'>  return () =&gt; {
+</span><span class='line'>    connection.disconnect();
+</span><span class='line'>  };
+</span><span class='line'>}, []);&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;useEffect(() =&gt; {
+</span><span class='line'>  function handleScroll(e) {
+</span><span class='line'>    console.log(window.scrollX, window.scrollY);
+</span><span class='line'>  }
+</span><span class='line'>  window.addEventListener(&lsquo;scroll&rsquo;, handleScroll);
+</span><span class='line'>  return () =&gt; window.removeEventListener(&lsquo;scroll&rsquo;, handleScroll);
+</span><span class='line'>}, []);</span></code></pre></td></tr></table></div></figure>
+<strong>React will call your cleanup function each time before the next Effect runs again, and one final time when the component unmounts (gets removed).</strong>
+That is, the cleanup function runs not only during unmount, but before every re-render with changed dependencies.</p>
+
+<h2>useMemo</h2>
+
+<p>useMemo和useEffect都可以加依赖，但是useMemo在render过程起作用，而useEffect在commit之后起作用。
+所以，如果是render依赖的变量值，用useMemo，不用useEffect+useState。</p>
+
+<p>不推荐：
+<code>
+function TodoList({ todos, filter }) {
+  const [newTodo, setNewTodo] = useState('');
+  // 🔴 Avoid: redundant state and unnecessary Effect
+  const [visibleTodos, setVisibleTodos] = useState([]);
+  useEffect(() =&gt; {
+    setVisibleTodos(getFilteredTodos(todos, filter));
+  }, [todos, filter]);
+  // ...
+}
+</code>
+推荐：
+<code>
+import { useMemo, useState } from 'react';
+function TodoList({ todos, filter }) {
+  const [newTodo, setNewTodo] = useState('');
+  const visibleTodos = useMemo(() =&gt; {
+    // ✅ Does not re-run unless todos or filter change
+    return getFilteredTodos(todos, filter);
+  }, [todos, filter]);
+  // ...
+}
+</code></p>
+
+<h2>two ways to store previous props</h2>
+
+<h3>useRef</h3>
+
+<p><code>prevProps</code> updates after render:
+<code>
+  const prevProps = useRef();
+  useEffect(() =&gt; {
+    prevProps.current = props;
+  }, [props]);
+</code></p>
+
+<h3>useState</h3>
+
+<p><code>prevItems</code> is ready when render:
+<code>
+  const [prevItems, setPrevItems] = useState(items);
+  if (items !== prevItems) {
+    setPrevItems(items);
+  }
+</code></p>
+
+<h2>fetch data的两个问题</h2>
+
+<h3>race condition</h3>
+
+<p>输入特别快的时候，很多search的request连续发出，不能保证回来的顺序，会出问题。
+解决方法：给useEffect提供cleanup函数解决
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>function SearchResults({ query }) {
+</span><span class='line'>  const [results, setResults] = useState([]);
+</span><span class='line'>  const [page, setPage] = useState(1);
+</span><span class='line'>  useEffect(() =&gt; {
+</span><span class='line'>    let ignore = false;
+</span><span class='line'>    fetchResults(query, page).then(json =&gt; {
+</span><span class='line'>      if (!ignore) {
+</span><span class='line'>        setResults(json);
+</span><span class='line'>      }
+</span><span class='line'>    });
+</span><span class='line'>    return () =&gt; {
+</span><span class='line'>      ignore = true;
+</span><span class='line'>    };
+</span><span class='line'>  }, [query, page]);&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;  function handleNextPageClick() {
+</span><span class='line'>    setPage(page + 1);
+</span><span class='line'>  }
+</span><span class='line'>  // &hellip;
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure></p>
+
+<h3>undo</h3>
+
+<p>没看懂：<a href="https://react.dev/learn/you-might-not-need-an-effect#fetching-data">https://react.dev/learn/you-might-not-need-an-effect#fetching-data</a></p>
+
+<h2>Effect Event</h2>
+
+<h3>what is reactive</h3>
+
+<p>variables which can change due to a re-render
+* Logic inside event handlers (or Effect Event) is not reactive.
+* Logic inside Effects is reactive.</p>
+
+<h3>Problem</h3>
+
+<pre><code>function ChatRoom({ roomId, theme }) {
+  useEffect(() =&gt; {
+    const connection = createConnection(serverUrl, roomId);
+    connection.on('connected', () =&gt; {
+      showNotification('Connected!', theme);
+    });
+    connection.connect();
+    return () =&gt; {
+      connection.disconnect()
+    };
+  }, [roomId, theme]); // ✅ All dependencies declared
+  // ...
+</code></pre>
+
+<p>When reconnected, a notification will be shown, and the notificaiton will consider the theme.
+But when the theme changes, the notification will also be shown, which is not expected.</p>
+
+<h3>Solution:</h3>
+
+<p>Use Effect Event to separate this non-reactive logic from the reactive Effect around it.
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>function ChatRoom({ roomId, theme }) {
+</span><span class='line'>  const onConnected = useEffectEvent(() =&gt; {
+</span><span class='line'>    showNotification(&lsquo;Connected!&rsquo;, theme);
+</span><span class='line'>  });&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;  useEffect(() =&gt; {
+</span><span class='line'>    const connection = createConnection(serverUrl, roomId);
+</span><span class='line'>    connection.on(&lsquo;connected&rsquo;, () =&gt; {
+</span><span class='line'>      onConnected();
+</span><span class='line'>    });
+</span><span class='line'>    connection.connect();
+</span><span class='line'>    return () =&gt; connection.disconnect();
+</span><span class='line'>  }, [roomId]); // ✅ All dependencies declared
+</span><span class='line'>  // &hellip;</span></code></pre></td></tr></table></div></figure></p>
+
+<p>You can think of Effect Events as being very similar to event handlers. The main difference is that event handlers run in response to a user interactions, whereas Effect Events are triggered by you from Effects. Effect Events let you “break the chain” between the reactivity of Effects and code that should not be reactive.</p>
+
+<h3>Supress react lint error</h3>
+
+<p>React linter ask you to add all reactive variables into the Effect dependencies.
+Effect Events let you fix many patterns where you might be tempted to suppress the dependency linter.</p>
+
+<h2>How to review effect dependencies</h2>
+
+<p>Every time you adjust the Effect’s dependencies to reflect the code, look at the dependency list. Does it make sense for the Effect to re-run when any of these dependencies change? Sometimes, the answer is “no”:</p>
+
+<ul>
+<li>You might want to re-execute different parts of your Effect under different conditions.</li>
+<li>You might want to only read the latest value of some dependency instead of “reacting” to its changes.</li>
+<li>A dependency may change too often unintentionally because it’s an object or a function.</li>
+</ul>
+
+
+<h3>ways to review and fix this</h3>
+
+<ul>
+<li>Should this code move to an event handler?</li>
+<li>Is your Effect doing several unrelated things?
+
+<ul>
+<li>If different parts of your Effect should re-run for different reasons, split it into several Effects.</li>
+</ul>
+</li>
+<li>Are you reading some state to calculate the next state?
+
+<ul>
+<li>Use update function. Use <code>setMessages([...messages, receivedMessage])</code> instead of <code>setMessages(msgs =&gt; [...msgs, receivedMessage])</code></li>
+</ul>
+</li>
+<li>In JavaScript, objects and functions are considered different if they were created at different times.</li>
+<li>Try to avoid object and function dependencies. Move them outside the component or inside the Effect.
+
+<ul>
+<li>Move static objects and functions outside your component
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>function createOptions() {
+</span><span class='line'>return {
+</span><span class='line'>serverUrl: &lsquo;&lt;a href="https://localhost:1234"&gt;https://localhost:1234&lt;/a&gt;&rsquo;,
+</span><span class='line'>roomId: &lsquo;music&rsquo;
+</span><span class='line'>};
+</span><span class='line'>}&lt;/li&gt;
+</span><span class='line'>&lt;/ul&gt;
+</span><span class='line'>&lt;/li&gt;
+</span><span class='line'>&lt;/ul&gt;
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;function ChatRoom() {
+</span><span class='line'>  const [message, setMessage] = useState(&lsquo;&rsquo;);&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;  useEffect(() =&gt; {
+</span><span class='line'>    const options = createOptions();
+</span><span class='line'>    const connection = createConnection();
+</span><span class='line'>    connection.connect();
+</span><span class='line'>    return () =&gt; connection.disconnect();
+</span><span class='line'>  }, []); // ✅ All dependencies declared
+</span><span class='line'>  // &hellip;
+</span><span class='line'>&lt;code&gt;
+</span><span class='line'>    * Move dynamic objects and functions inside your Effect
+</span><span class='line'>&lt;/code&gt;
+</span><span class='line'>const serverUrl = &lsquo;&lt;a href="https://localhost:1234"&gt;https://localhost:1234&lt;/a&gt;&rsquo;;&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;function ChatRoom({ roomId }) {
+</span><span class='line'>  const [message, setMessage] = useState(&lsquo;&rsquo;);&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;  useEffect(() =&gt; {
+</span><span class='line'>    const options = {
+</span><span class='line'>      serverUrl: serverUrl,
+</span><span class='line'>      roomId: roomId
+</span><span class='line'>    };
+</span><span class='line'>    const connection = createConnection(options);
+</span><span class='line'>    connection.connect();
+</span><span class='line'>    return () =&gt; connection.disconnect();
+</span><span class='line'>  }, [roomId]); // ✅ All dependencies declared
+</span><span class='line'>  // &hellip;
+</span><span class='line'>&lt;code&gt;
+</span><span class='line'>* Read primitive values from objects
+</span><span class='line'>&lt;/code&gt;
+</span><span class='line'>function ChatRoom({ options }) {
+</span><span class='line'>  const [message, setMessage] = useState(&lsquo;&rsquo;);&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;  const { roomId, serverUrl } = options;
+</span><span class='line'>  useEffect(() =&gt; {
+</span><span class='line'>    const connection = createConnection({
+</span><span class='line'>      roomId: roomId,
+</span><span class='line'>      serverUrl: serverUrl
+</span><span class='line'>    });
+</span><span class='line'>    connection.connect();
+</span><span class='line'>    return () =&gt; connection.disconnect();
+</span><span class='line'>  }, [roomId, serverUrl]); // ✅ All dependencies declared
+</span><span class='line'>  // &hellip;</span></code></pre></td></tr></table></div></figure></p>
+
+<h2>Object and function compare</h2>
+
+<pre><code>import { useState, useEffect } from 'react';
+import { createConnection } from './chat.js';
+
+const serverUrl = 'https://localhost:1234';
+
+function ChatRoom({ roomId }) {
+  const [message, setMessage] = useState('');
+
+  // Temporarily disable the linter to demonstrate the problem
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const options = {
+    serverUrl: serverUrl,
+    roomId: roomId
+  };
+
+  useEffect(() =&gt; {
+    const connection = createConnection(options);
+    connection.connect();
+    return () =&gt; connection.disconnect();
+  }, [options]);
+
+  return (
+    &lt;&gt;
+      &lt;h1&gt;Welcome to the {roomId} room!&lt;/h1&gt;
+      &lt;input value={message} onChange={e =&gt; setMessage(e.target.value)} /&gt;
+    &lt;/&gt;
+  );
+}
+
+export default function App() {
+  const [roomId, setRoomId] = useState('general');
+  return (
+    &lt;&gt;
+      &lt;label&gt;
+        Choose the chat room:{' '}
+        &lt;select
+          value={roomId}
+          onChange={e =&gt; setRoomId(e.target.value)}
+        &gt;
+          &lt;option value="general"&gt;general&lt;/option&gt;
+          &lt;option value="travel"&gt;travel&lt;/option&gt;
+          &lt;option value="music"&gt;music&lt;/option&gt;
+        &lt;/select&gt;
+      &lt;/label&gt;
+      &lt;hr /&gt;
+      &lt;ChatRoom roomId={roomId} /&gt;
+    &lt;/&gt;
+  );
+}
+</code></pre>
+
+<p>In the example above, the input only updates the message state variable. From the user’s perspective, this should not affect the chat connection. However, every time you update the message, your component re-renders. When your component re-renders, the code inside of it runs again from scratch.</p>
+
+<p>A new options object is created from scratch on every re-render of the ChatRoom component. React sees that the options object is a different object from the options object created during the last render. This is why it re-synchronizes your Effect (which depends on options), and the chat re-connects as you type.</p>
+
+<p>This problem only affects objects and functions. In JavaScript, each newly created object and function is considered distinct from all the others. It doesn’t matter that the contents inside of them may be the same!</p>
+
+<p>Object and function dependencies can make your Effect re-synchronize more often than you need.</p>
+
+<p>This is why, whenever possible, you should try to avoid objects and functions as your Effect’s dependencies. Instead, try moving them outside the component, inside the Effect, or extracting primitive values out of them.</p>
+
+<h2>useMemo and useCallback</h2>
+
+<ul>
+<li>useMemo caches the result of calling your function.</li>
+<li>useCallback caches the function itself. React will not call your function.</li>
+</ul>
+
+
+<h2>forwardRef</h2>
+
+<p>First, get familar with <code>useRef</code>:</p>
+
+<h3>useRef</h3>
+
+<p>ref.current is set during the <em>commit</em> process, not <em>render</em> process, so do not read or write ref.current during rendering. We can use ref.current in event handler or useEffect.</p>
+
+<h3>basic concepts</h3>
+
+<pre><code>const MyInput = forwardRef(function MyInput(props, ref) {
+  return (
+    &lt;label&gt;
+      {props.label}
+      &lt;input ref={ref} /&gt;
+    &lt;/label&gt;
+  );
+});
+</code></pre>
+
+<p>The ref attribute passed by the parent component. The ref can be an object or a function. You should either
+* pass the ref you receive to another component, or
+* pass it to useImperativeHandle.</p>
+
+<h3>expose dom node</h3>
+
+<p>The parent <code>Form</code> component accesses the \&lt;input> DOM node exposed by <code>MyInput</code>.
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>import { forwardRef } from &lsquo;react&rsquo;;&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;const MyInput = forwardRef(function MyInput(props, ref) {
+</span><span class='line'>  const { label, &hellip;otherProps } = props;
+</span><span class='line'>  return (
+</span><span class='line'>    &lt;label&gt;
+</span><span class='line'>      {label}
+</span><span class='line'>      &lt;input {...otherProps} ref={ref} /&gt;
+</span><span class='line'>    &lt;/label&gt;
+</span><span class='line'>  );
+</span><span class='line'>});&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;function Form() {
+</span><span class='line'>  const ref = useRef(null);&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;  function handleClick() {
+</span><span class='line'>    ref.current.focus();
+</span><span class='line'>  }&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;  return (
+</span><span class='line'>    &lt;form&gt;
+</span><span class='line'>      &lt;MyInput label="Enter your name:" ref={ref} /&gt;
+</span><span class='line'>      &lt;button type="button" onClick={handleClick}&gt;
+</span><span class='line'>        Edit
+</span><span class='line'>      &lt;/button&gt;
+</span><span class='line'>    &lt;/form&gt;
+</span><span class='line'>  );
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure></p>
+
+<h3>expose an object</h3>
+
+<p>Use <code>useImperativeHandle</code> to expose an object referenced by <code>ref</code>:
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>import { forwardRef, useRef, useImperativeHandle } from &lsquo;react&rsquo;;&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;const MyInput = forwardRef(function MyInput(props, ref) {
+</span><span class='line'>  const inputRef = useRef(null);&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;  useImperativeHandle(ref, () =&gt; {
+</span><span class='line'>    return {
+</span><span class='line'>      focus() {
+</span><span class='line'>        inputRef.current.focus();
+</span><span class='line'>      },
+</span><span class='line'>      scrollIntoView() {
+</span><span class='line'>        inputRef.current.scrollIntoView();
+</span><span class='line'>      },
+</span><span class='line'>    };
+</span><span class='line'>  }, []);&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;  return &lt;input {...props} ref={inputRef} /&gt;;
+</span><span class='line'>});</span></code></pre></td></tr></table></div></figure></p>
+
+<h2>Custom Hook</h2>
+
+<p>You must follow these naming conventions:</p>
+
+<ul>
+<li>React component names must start with a capital letter, like StatusBar and SaveButton. React components also need to return something that React knows how to display, like a piece of JSX.</li>
+<li>Hook names must start with use followed by a capital letter, like useState (built-in) or useOnlineStatus (custom, like earlier on the page). Hooks may return arbitrary values.</li>
+</ul>
+
+
+<p>This convention guarantees that you can always look at a component and know where its state, Effects, and other React features might “hide”. For example, if you see a getColor() function call inside your component, you can be sure that it can’t possibly contain React state inside because its name doesn’t start with use. However, a function call like useOnlineStatus() will most likely contain calls to other Hooks inside!</p>
+
+<p>If your linter is configured for React, it will enforce this naming convention.</p>
+
+<p>Note that custom Hooks only share stateful logic, not state itself.</p>
+
+<h2>strict mode</h2>
+
+<p><StrictMode> lets you find common bugs in your components early during development.</p>
+
+<p>Strict Mode enables the following development-only behaviors:
+* Your components will re-render an extra time to find bugs caused by impure rendering.
+* Your components will re-run Effects an extra time to find bugs caused by missing Effect cleanup.
+* Your components will be checked for usage of deprecated APIs.</p>
+
+<h2>Other Rules</h2>
+
+<h3>data from parent to child</h3>
+
+<p>When child components update the state of their parent components in Effects, the data flow becomes very difficult to trace. Since both the child and the parent need the same data, let the parent component fetch that data, and pass it down to the child.
+This is simpler and keeps the data flow predictable: the data flows down from the parent to the child.</p>
+
+<h3>useSyncExternalStore</h3>
+
+<h3>useEffect dependencies</h3>
+
+<p>All variables from the component body used by the Effect should be in the Effect dependency list. However, you could instead “prove” to the linter that these values aren’t reactive values, i.e. that they can’t change as a result of a re-render. For example, if serverUrl and roomId don’t depend on rendering and always have the same values, you can move them outside the component. Now they don’t need to be dependencies:
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>const serverUrl = &lsquo;&lt;a href="https://localhost:1234"&gt;https://localhost:1234&lt;/a&gt;&rsquo;; // serverUrl is not reactive
+</span><span class='line'>const roomId = &lsquo;general&rsquo;; // roomId is not reactive&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;function ChatRoom() {
+</span><span class='line'>  useEffect(() =&gt; {
+</span><span class='line'>    const connection = createConnection(serverUrl, roomId);
+</span><span class='line'>    connection.connect();
+</span><span class='line'>    return () =&gt; {
+</span><span class='line'>      connection.disconnect();
+</span><span class='line'>    };
+</span><span class='line'>  }, []); // ✅ All dependencies declared
+</span><span class='line'>  // &hellip;
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure></p>
+]]></content>
+  </entry>
+  
+</feed>
