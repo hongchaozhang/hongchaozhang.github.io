@@ -16,7 +16,7 @@ categories: []
 2. 将ssh key添加到github账号
 3. 配置ssh config
    1. 如果不想配置config文件，需要手动保证ssh-agent里面每次有你想要的key，这个要不断切换，不方便，推荐使用config文件。
-4. 使用特殊的域名进行`git clone`操作。
+4. 使用特殊的域名进行`git clone`操作, `git clone git@github.com-hongchaozhang:hongchaozhang/deep-learning-specialization.git`.
 
 
 `~/.ssh`目录下文件和创建的`config`文件，内容如下：
