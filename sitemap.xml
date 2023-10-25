@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
+<loc>http://hongchaozhang.github.io/blog/2023/10/23/jingying-rike-2023-2/</loc>
+<lastmod>2023-10-23T17:39:43+08:00</lastmod>
+</url>
+<url>
 <loc>http://hongchaozhang.github.io/blog/2023/09/15/jingying-rike-2022-2023/</loc>
 <lastmod>2023-09-15T18:07:58+08:00</lastmod>
 </url>
@@ -737,6 +741,27 @@
 </url>
 <url>
 <loc>http://hongchaozhang.github.io/blog/categories/react/</loc>
+</url>
+<url>
+<loc>http://hongchaozhang.github.io/posts/2/</loc>
+</url>
+<url>
+<loc>http://hongchaozhang.github.io/posts/3/</loc>
+</url>
+<url>
+<loc>http://hongchaozhang.github.io/posts/4/</loc>
+</url>
+<url>
+<loc>http://hongchaozhang.github.io/posts/5/</loc>
+</url>
+<url>
+<loc>http://hongchaozhang.github.io/posts/6/</loc>
+</url>
+<url>
+<loc>http://hongchaozhang.github.io/posts/7/</loc>
+</url>
+<url>
+<loc>http://hongchaozhang.github.io/posts/8/</loc>
 </url>
 <url>
 <loc>http://hongchaozhang.github.io/images/L4151_L4153_L4156_L4158_User'sGuide.pdf</loc>
