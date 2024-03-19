@@ -4,7 +4,7 @@
   <title><![CDATA[Category: css | Reading Space]]></title>
   <link href="http://hongchaozhang.github.io/blog/categories/css/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2023-11-26T01:14:34+08:00</updated>
+  <updated>2024-03-20T00:41:33+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -341,7 +341,7 @@
 
 <ol>
 <li>normal：默认值。空格被合并，自动换行。</li>
-<li>nowrap：不仅空格被合并，换行符无效，连原本的自动换行都没了！只有\&lt;/br>才能导致换行！所以这个值的表现还是挺简单的，我们可以理解为"永不换行"。</li>
+<li>nowrap：不仅空格被合并，换行符无效，连原本的自动换行都没了！只有\</br\>才能导致换行！所以这个值的表现还是挺简单的，我们可以理解为"永不换行"。</li>
 <li>pre：下面四个用来保留空格，不常用。详情参考<a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/white-space">MDN介绍</a>。</li>
 <li>pre-wrap</li>
 <li>pre-line</li>
@@ -542,54 +542,46 @@ z-index:  canvas  -1      0    1    2
 
 <p>其实现代码的html如下：</p>
 
-<p>```</p>
-
-<div>
-  <span class="red">Red</span>
-</div>
-
-
-<div>
-  <span class="green">Green</span>
-</div>
-
-
-<div>
-  <span class="blue">Blue</span>
-</div>
-
-
-<pre><code>
-CSS代码如下：
+<pre><code>&lt;div&gt;
+  &lt;span class="red"&gt;Red&lt;/span&gt;
+&lt;/div&gt;
+&lt;div&gt;
+  &lt;span class="green"&gt;Green&lt;/span&gt;
+&lt;/div&gt;
+&lt;div&gt;
+  &lt;span class="blue"&gt;Blue&lt;/span&gt;
+&lt;/div&gt;
 </code></pre>
 
-<p>.red, .green, .blue {
+<p>CSS代码如下：</p>
+
+<pre><code>.red, .green, .blue {
   position: absolute;
   width: 100px;
   color: white;
   line-height: 100px;
   text-align: center;
-}</p>
+}
 
-<p>.red {
+.red {
   z-index: 1;
   top: 20px;
   left: 20px;
   background: red;
-}</p>
+}
 
-<p>.green {
+.green {
   top: 60px;
   left: 60px;
   background: green;
-}</p>
+}
 
-<p>.blue {
+.blue {
   top: 100px;
   left: 100px;
   background: blue;
 }
-```</p>
+</code></pre>
 
 <p>怎样才能让红色的正方形回到最底层呢？</p>
 

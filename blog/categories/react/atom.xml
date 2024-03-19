@@ -4,7 +4,7 @@
   <title><![CDATA[Category: react | Reading Space]]></title>
   <link href="http://hongchaozhang.github.io/blog/categories/react/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2023-11-26T01:14:34+08:00</updated>
+  <updated>2024-03-20T00:41:33+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -563,7 +563,7 @@ export default function App() {
 
 <h3>expose dom node</h3>
 
-<p>The parent <code>Form</code> component accesses the \&lt;input> DOM node exposed by <code>MyInput</code>.
+<p>The parent <code>Form</code> component accesses the \<input\> DOM node exposed by <code>MyInput</code>.
 ```
 import { forwardRef } from &lsquo;react&rsquo;;</p>
 
