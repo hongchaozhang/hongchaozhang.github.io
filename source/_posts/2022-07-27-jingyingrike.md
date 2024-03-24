@@ -37,3 +37,14 @@ categories: [reading]
 ## 排序不等式
 [《精英日课-排序不等式》](/blog/2022/12/08/jingyingrike-paixubudengshi)
 
+## 别相信直觉
+[《精英日课-别相信直觉》](/blog/2024/03/25/jingying-rike-biexiangxin-zhijue)
+
+## 摘抄2022-2023
+[《精英日课2022-2023》](/blog/2023/09/15/jingying-rike-2022-2023)
+
+## 摘抄2023（2）
+[《精英日课2023（2）》](/blog/2023/10/23/jingying-rike-2023-2)
+
+## 意识红色胶囊
+[《精英日课-意识红色胶囊》](/blog/2024/03/25/jingyingrike-yishi-hongse-jiaonang)
