@@ -48,3 +48,6 @@ categories: [reading]
 
 ## 意识红色胶囊
 [《精英日课-意识红色胶囊》](/blog/2024/03/25/jingyingrike-yishi-hongse-jiaonang)
+
+## 道可道非常道
+[《精英日课-道可道非常道》](/blog/2024/03/26/jingying-rike-daokedao-feichangdao)
