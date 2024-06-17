@@ -4,7 +4,7 @@
   <title><![CDATA[Category: python | Reading Space]]></title>
   <link href="http://hongchaozhang.github.io/blog/categories/python/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2024-03-26T00:35:19+08:00</updated>
+  <updated>2024-06-17T15:39:26+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -12,6 +12,30 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[how to start a python project]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2024/05/27/how-to-start-a-python-project/"/>
+    <updated>2024-05-27T18:28:33+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2024/05/27/how-to-start-a-python-project</id>
+    <content type="html"><![CDATA[<!-- more -->
+
+
+<p>venv:
+venv (built-in): venv is a module in Python 3&rsquo;s standard library used to create lightweight virtual environments.
+activate: source venv/bin/activate
+deactivate: deactivate</p>
+
+<p>pyenv:
+* python version control. Similar to nvm for node.js.
+* virtual env management. Similar to venv.</p>
+
+<p>pipenv:
+* python package management. Similar to npm for node.js.
+* activate: pipenv shell
+* deactivate: exit</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[程序员的数学基础课（黄申）]]></title>
@@ -1193,116 +1217,6 @@ tree.write('modifyChinaCity.kml')
 <h1>coding: utf-8</h1>
 
 <p>```</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[pdb commands for python debugging in command line]]></title>
-    <link href="http://hongchaozhang.github.io/blog/2015/06/27/pdb-commands-for-python-debugging-in-command-line/"/>
-    <updated>2015-06-27T00:00:00+08:00</updated>
-    <id>http://hongchaozhang.github.io/blog/2015/06/27/pdb-commands-for-python-debugging-in-command-line</id>
-    <content type="html"><![CDATA[<p>The page is from <a href="http://web.stanford.edu/class/physics91si/2013/handouts/Pdb_Commands.pdf">MIT</a>. Keeping here only for reference.</p>
-
-<h3>Startup and Help</h3>
-
-<!-- more -->
-
-
-
-
-<table>
-    <tr>
-        <td><strong>python -m pdb &lt;name&gt;.py [args]</strong></td>
-        <td>begin the debugger</td>
-    </tr>
-    <tr>
-        <td><strong>help [command]</strong></td>
-        <td>view a list of command, or view help for a specific command</td>
-    </tr>
-</table>
-
-
-<p>Within a python file:</p>
-
-<table>
-    <tr>
-        <td>import pdb
-        <br>...
-        <br>pdb.set_trace()</td>
-        <td>begin the debugger at this line when the file is run normally</td>
-    </tr>
-</table>
-
-
-<h3>Navigating Code (within the pdb interpreter)</h3>
-
-<table>
-    <tr>
-        <td><strong>l</strong>(ist)</td>
-        <td>list 11 lines surrounding the current line</td>
-    </tr>
-    <tr>
-        <td><strong>w</strong>(here)</td>
-        <td>display the file and line number of the current line</td>
-    </tr>
-    <tr>
-        <td><strong>n</strong>(ext)</td>
-        <td>execute the current line</td>
-    </tr><tr>
-        <td><strong>s</strong>(tep)</td>
-        <td>step into functions called at the current line</td>
-    </tr><tr>
-        <td><strong>r</strong>(eturn)</td>
-        <td>execute until the current function's return is encountered</td>
-    </tr>
-</table>
-
-
-<h3>Controlling Execution</h3>
-
-<table>
-    <tr>
-        <td><strong>b #</strong></td>
-        <td>create a breakpoint at line #</td>
-    </tr>
-    <tr>
-        <td><strong>condition</strong> 4 a==3</td>
-        <td>add condition a==3 to the 4th breakpoint</td>
-    </tr>
-    <tr>
-        <td><strong>b</strong></td>
-        <td>list breakpoints and their indices</td>
-    </tr>
-    <tr>
-        <td><strong>c</strong>(ontinue)</td>
-        <td>execute until a breakpoint is encountered</td>
-    </tr><tr>
-        <td><strong>clear #</strong></td>
-        <td>clear breakpoint of index #</td>
-    </tr>
-</table>
-
-
-<h3>Changing Variables / Interacting with Code</h3>
-
-<table>
-    <tr>
-        <td><strong>p &lt;name&gt;</strong></td>
-        <td>print value of variable &lt;name&gt;</td>
-    </tr>
-    <tr>
-        <td><strong>!&lt;expr&gt;</strong></td>
-        <td>execute the expression &lt;expr&gt;</td>
-    </tr>
-    <tr>
-        <td><strong>run [args]</strong></td>
-        <td>restart the debugger with sys.argv arguments [args]</td>
-    </tr><tr>
-        <td><strong>q</strong>(uit)</td>
-        <td>exit the debugger</td>
-    </tr>
-</table>
-
 ]]></content>
   </entry>
   

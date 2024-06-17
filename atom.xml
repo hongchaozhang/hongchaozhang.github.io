@@ -4,7 +4,7 @@
   <title><![CDATA[Reading Space]]></title>
   <link href="http://hongchaozhang.github.io/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2024-03-26T00:35:19+08:00</updated>
+  <updated>2024-06-17T15:39:26+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -12,6 +12,141 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[CSS resolution rules and specificity]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2024/06/17/css-resolution-rules-and-specificity/"/>
+    <updated>2024-06-17T11:53:39+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2024/06/17/css-resolution-rules-and-specificity</id>
+    <content type="html"><![CDATA[<!-- more -->
+
+
+<h2>Description</h2>
+
+<p>The css property doesn&rsquo;t take effect in the release build but works fine in the debug build.</p>
+
+<h2>Root cause</h2>
+
+<p>We applied two css classes in one dom node and didn’t specify the priority (have the same css specificity (0,1,0)), thus the CSS class order matters: the latter one will override the previous one.</p>
+
+<p>However, the css class order is not stable between the debug and release builds.</p>
+
+<h2>Solution</h2>
+
+<p>After fixing, the classes are like this:</p>
+
+<p><img src="http://hongchaozhang.github.io/images/css-specificity-1.png" alt="css-specificity-1" /></p>
+
+<p>We can use the scss file helper tools in VS Code:</p>
+
+<p><img src="http://hongchaozhang.github.io/images/css-specificity-2.png" alt="css-specificity-2" /></p>
+
+<p>Caution while nesting &amp; :</p>
+
+<p><img src="http://hongchaozhang.github.io/images/css-specificity-3.png" alt="css-specificity-3" /></p>
+
+<h2><a href="https://developer.mozilla.org/en-US/docs/Learn/CSS/Building_blocks/Cascade_and_inheritance">Cascade</a></h2>
+
+<p>When two rules from the same cascade layer apply and both have equal specificity, the one that is defined last in the stylesheet is the one that will be used.</p>
+
+<p>There are three factors to consider, listed here in increasing order of importance. Later ones overrule earlier ones:</p>
+
+<h3>Source order</h3>
+
+<h3><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/Specificity">Specificity</a></h3>
+
+<ul>
+<li>one identifier selector has 1-0-0 specificity</li>
+<li>one class selector (attribute selector) has 0-1-0 specificity</li>
+<li>one element selector has 0-0-1 specificity</li>
+<li>The specificity weight of :not/:is/:has comes from the selector parameter in the list of selectors with the highest specificity.</li>
+<li>Combinators, such as +, >, ~, &ldquo; &rdquo;, and ||, may make a selector more specific in what is selected but they don&rsquo;t add any value to the specificity weight.</li>
+</ul>
+
+
+<p><img src="http://hongchaozhang.github.io/images/css-specificity-4.png" alt="css-specificity-4" /></p>
+
+<h3>Importance</h3>
+
+<ul>
+<li>inline style</li>
+<li><code>!important</code>: DO NOT use <code>!important</code>. It makes the CSS hard to maintain and debug.
+
+<ul>
+<li>See a demo for <code>!important</code> <a href="https://developer.mozilla.org/en-US/docs/Learn/CSS/Building_blocks/Cascade_and_inheritance#!important">here</a>.</li>
+</ul>
+</li>
+</ul>
+
+
+<h2>Other info</h2>
+
+<p>The VS Code should have issues with “specificity” calculation.</p>
+
+<p><img src="http://hongchaozhang.github.io/images/css-specificity-5.png" alt="css-specificity-5" /></p>
+
+<p>The specificity should be 0-2-0.</p>
+
+<p>More examples can be seen from here: <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/Specificity#three-column_comparison">Specificity</a></p>
+
+<p><img src="http://hongchaozhang.github.io/images/css-specificity-6.png" alt="css-specificity-6" /></p>
+
+<p>Some online css specificity calculator can be used for testing:</p>
+
+<p><a href="https://specificity.keegan.st/">Specificity Calculator</a></p>
+
+<h2>How to avoid such issues?</h2>
+
+<ul>
+<li>Make sure all the loaded CSSs have different css specificity.</li>
+<li>Review the CSS in the developer tool.</li>
+<li>For a specific css property, filter out all CSSs which contains it.</li>
+<li>Make sure the CSS you want to apply have the highest css specificity.</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[how to start a python project]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2024/05/27/how-to-start-a-python-project/"/>
+    <updated>2024-05-27T18:28:33+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2024/05/27/how-to-start-a-python-project</id>
+    <content type="html"><![CDATA[<!-- more -->
+
+
+<p>venv:
+venv (built-in): venv is a module in Python 3&rsquo;s standard library used to create lightweight virtual environments.
+activate: source venv/bin/activate
+deactivate: deactivate</p>
+
+<p>pyenv:
+* python version control. Similar to nvm for node.js.
+* virtual env management. Similar to venv.</p>
+
+<p>pipenv:
+* python package management. Similar to npm for node.js.
+* activate: pipenv shell
+* deactivate: exit</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Notes for Generative AI with LLMs]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2024/03/26/notes-for-generative-ai-with-llms/"/>
+    <updated>2024-03-26T13:10:55+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2024/03/26/notes-for-generative-ai-with-llms</id>
+    <content type="html"><![CDATA[<!-- more -->
+
+
+<ul>
+<li><a href="https://github.com/hongchaozhang/Course--Generative-AI-with-LLMs/blob/main/Notes%20for%20Course%20%22Generative%20AI%20with%20Large%20Language%20Models%22.md">Notes for Course &ldquo;Generative AI with Large Language Models</a></li>
+<li><a href="https://github.com/hongchaozhang/Course--Generative-AI-with-LLMs/tree/main">github page</a></li>
+<li></li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[精英日课-道可道非常道]]></title>
@@ -77,6 +212,12 @@
 <p>这就引出了沃尔夫勒姆的第三个核心观念:人的价值在于历史。</p>
 
 <p>ai和人的根本区别是什么？是历史。人类有历史，并且有由历史确定的价值观。而AI没有历史，没有价值观。AI需要“对齐”人类的价值观。</p>
+
+<h3>习惯让人适应</h3>
+
+<p>快乐需要间隔，痛苦要一气呵成。
+因为习惯会让人适应。
+快乐我们不希望适应，但是痛苦我们希望适应。</p>
 ]]></content>
   </entry>
   
@@ -540,7 +681,7 @@
 <li>电子远像屏
 
 <ul>
-<li>完美衔接电子铲平，实现电子屏幕自由。通过摄像头，也可以实现纸质书的阅读和写作业。真正实现了一边用眼，一边提升实力的目标。</li>
+<li>完美衔接电子产品，实现电子屏幕自由。通过摄像头，也可以实现纸质书的阅读和写作业。真正实现了一边用眼，一边提升实力的目标。</li>
 </ul>
 </li>
 </ul>
@@ -578,6 +719,28 @@ OK镜，每年50度
 <p>激光手术治疗近视
 * 激光手术非常安全，而且相比多年前，现在不同的近视度数用不同的疗法，安全性更高。</p>
 
+<h2>《尤玉霞儿童眼健康》</h2>
+
+<h3>阿托品滴眼液</h3>
+
+<ol>
+<li>1%浓度的阿托品用来慢速散瞳。</li>
+<li>0.01%浓度的阿托品用来延缓近视发展。日本香港台湾新加坡有卖。大陆需要自行用人工泪液稀释，注意无菌环境。</li>
+<li>更新：2024年3月11日，国家药监局发布公告，沈阳兴齐眼药硫酸阿托品滴眼液，已于3月5日获批成为目前首个拿到“国药准字”批号的硫酸阿托品滴眼液。</li>
+</ol>
+
+
+<h3>积极佩戴眼镜</h3>
+
+<p>关于眼镜的几种误解：
+1. 无神，变形：这个都是因为周围的人已经习惯了眼镜后面的眼睛，突然摘下来，需要适应。
+2. 越戴越近视：戴眼镜，眼睛不用调节，视力会变好。
+3. 不戴视力更好：这是因为大脑处理模糊图像的能力提升。</p>
+
+<h3>激光手术</h3>
+
+<p>激光手术是安全的，唯一问题就是干眼，可以用人工泪液解决。</p>
+
 <h2>其它</h2>
 
 <ul>
@@ -597,6 +760,45 @@ OK镜，每年50度
     <updated>2023-10-23T17:39:43+08:00</updated>
     <id>http://hongchaozhang.github.io/blog/2023/10/23/jingying-rike-2023-2</id>
     <content type="html"><![CDATA[<!-- more -->
+
+
+<h2>怎样做成大事</h2>
+
+<h3>模块化</h3>
+
+<ul>
+<li>模块化是解决大问题的基本思想。能将大事情切割成很多互不影响的小事情的能力，就是领导大项目的能力。
+工匠精神和冒险精神</li>
+<li>工匠精神
+
+<ul>
+<li>悉尼大剧院的设计是个失败，花费是预算的14倍，设计师也被拉黑</li>
+</ul>
+</li>
+<li>冒险精神
+
+<ul>
+<li>你不能预测未来的困难，也不能预测未来的创造力
+
+<h3>敢为天下先</h3></li>
+</ul>
+</li>
+<li>不要做第一个做这件事的人。最理想的策略是等前浪死在沙滩上之后，你从他们的经验教训中学习。不敢为天下先才对。</li>
+</ul>
+
+
+<p>做项目和做运营</p>
+
+<p>项目每个都不一样</p>
+
+<p>运营就是按部就班的来就行，之前肯定有项目打底。</p>
+
+<h2>低上限项目和高上限项目</h2>
+
+<ul>
+<li>低上限项目，再怎么努力差别也不大，做及格就可以。长寿</li>
+<li>高上限项目，努力越大，汇报越大，要精益求精。文学，艺术，体育</li>
+</ul>
 
 
 <h2>为什么大项目总是延期？</h2>
@@ -785,7 +987,8 @@ OK镜，每年50度
 </li>
 <li>提供认知抓手，多个屏幕比一个屏幕效率高，运动中接受的信息，站起来逛逛走走，或者站立办公。</li>
 <li>阅读：蓝图</li>
-<li>马斯克：悲观者正确，乐观者成功</li>
+<li>马斯克：悲观者正确，乐观者成功。</li>
+<li>年轻人对于老人的忠告：您的忠告一定正确，若不是我们流着年轻的血，一定接受。</li>
 </ul>
 
 ]]></content>
@@ -3120,173 +3323,6 @@ Use case 3: <a href="https://javascript.info/event-loop#use-case-3-doing-somethi
 </span><span class='line'>names = filterOut(names, ["MediaSource", "SourceBuffer", "SourceBufferList"]);
 </span><span class='line'>console.log(names)</span></code></pre></td></tr></table></div></figure>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[精英日课-期权思维]]></title>
-    <link href="http://hongchaozhang.github.io/blog/2022/10/08/jingyingrike-qiquan/"/>
-    <updated>2022-10-08T11:40:36+08:00</updated>
-    <id>http://hongchaozhang.github.io/blog/2022/10/08/jingyingrike-qiquan</id>
-    <content type="html"><![CDATA[<!-- more -->
-
-
-<p>期货，英文option，你可以选，也可以不选，它是你的权利，不是义务。</p>
-
-<p>可选项的重要性：安眠药放那心里就踏实，已经有一个大学录取你了再去参加高考就不会发挥失常。</p>
-
-<p>期权是没有义务，但是它需要你花钱买：</p>
-
-<ol>
-<li>看涨期权call：未来某个时间点，你有权利以某一个价格买入。</li>
-<li>看跌期权put：未来某个时间点，你有权利以某一个价格卖出。</li>
-</ol>
-
-
-<p>期权可以用来：</p>
-
-<ol>
-<li>投机，当杠杆用。做空</li>
-<li>保险：对投资者，而不是投机者，期权其实是一个保险，是一个对冲风险的手段。
-
-<ul>
-<li>你可以一边持有一个股票，一边卖call</li>
-</ul>
-</li>
-</ol>
-
-
-<p>期权定价：</p>
-
-<ol>
-<li>股票当前价格</li>
-<li>期权的到期时间</li>
-<li>期权规定的股票的履约价格</li>
-<li>固定的银行利率</li>
-<li>股票的波动性：波动性越大，期权价格越高。因为你有权利挑好的，而没有义务负责坏的。
-
-<ul>
-<li>如果你有特权，你应该喜欢波动性，喜欢极端，喜欢两极分化。</li>
-</ul>
-</li>
-</ol>
-
-
-<p>其它：</p>
-
-<ol>
-<li>股票思维必须关注下限，考虑止损，而期权思维只关心上限。</li>
-<li>自己开公司是股票思维，风险投资是期权思维。</li>
-<li>奋斗是股票思维，演化（自然选择）是期权行为</li>
-<li>结婚是股票思维，暧昧是期权思维</li>
-<li>供给侧是股票思维，需求侧是期权思维</li>
-</ol>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[精英日课-问题分类]]></title>
-    <link href="http://hongchaozhang.github.io/blog/2022/10/08/jingyingrike-kunnandewenti/"/>
-    <updated>2022-10-08T11:38:23+08:00</updated>
-    <id>http://hongchaozhang.github.io/blog/2022/10/08/jingyingrike-kunnandewenti</id>
-    <content type="html"><![CDATA[<!-- more -->
-
-
-<p>问题可以分三类：</p>
-
-<ul>
-<li>单纯问题</li>
-<li>两难问题</li>
-<li>棘手问题</li>
-</ul>
-
-
-<h3>单纯问题</h3>
-
-<p>高考，有明确的答案，明确的方向和明确的敌人。这个世界最危险的事情，就是某些人认为一切问题都是单纯问题。</p>
-
-<h3>两难问题</h3>
-
-<p>必须在两个选择中做出取舍。</p>
-
-<h3>棘手问题</h3>
-
-<ol>
-<li>没有明确定义</li>
-<li>没有终极答案</li>
-<li>没有对错</li>
-<li>采取措施之后不会（立马）得到反馈</li>
-<li>没有试错练习的地方</li>
-<li>有什么选项都不知道</li>
-<li>没有先例</li>
-<li>这个问题可能只是表象，背后可能还有更多的问题</li>
-<li>多个利益相关方</li>
-<li>如果你上手，那么不论什么结果，你都要负责</li>
-</ol>
-
-
-<p>比如贫富差距、全球变暖等问题
-当瑞典女中学生指责各国政府对全球变暖应对不力等时候，当围观群众笑话特朗普对时候，其实都有点站着说话不腰疼。
-不是我们不够努力，也不是敌人太坏，而是这个问题太棘手。</p>
-
-<p>怎么处理棘手问题？不能解决，只能应对，应该追求管理这个问题。就像我们应对癌细胞一样。</p>
-
-<ol>
-<li>利益相关方充分沟通，不求达成共识，但求互相理解，消除一些偏见。</li>
-<li>公司决策相关的棘手问题，不妨想想公司的认同感和意义。</li>
-<li>行动。摸着石头过河。每次一小步，边做边调整。就这么应对着，跟着问题一起演化。也许一段时间之后，它就被别的问题取代了。</li>
-</ol>
-
-
-<p>单纯的人总希望一劳永逸地解决一个问题。这种理想主义者一旦受挫，又会心灰意冷，成为一个愤世嫉俗的人。他以为别人都自私就他自己真想解决问题，可是他又解决不了问题。</p>
-
-<p>殊不知，那些顶着骂名，从来没有做过一件快意事，小心翼翼不敢用力过猛，明知没有胜利的彼岸还在吭哧吭哧地维持着局面的人，才是真正值得尊敬的。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[精英日课-计算机不能做所有的事情]]></title>
-    <link href="http://hongchaozhang.github.io/blog/2022/10/08/jingyingrike-jisuanjibunengzuodeshiqing/"/>
-    <updated>2022-10-08T11:35:59+08:00</updated>
-    <id>http://hongchaozhang.github.io/blog/2022/10/08/jingyingrike-jisuanjibunengzuodeshiqing</id>
-    <content type="html"><![CDATA[<!-- more -->
-
-
-<h2>计算机不能做所有的事情</h2>
-
-<ul>
-<li>停机问题： 不存在这样一个程序（算法），它能够计算任何程序（算法）在给定输入上是否会结束（停机）。
-
-<ul>
-<li>理发师悖论</li>
-<li>全能悖论</li>
-<li>说谎者悖论</li>
-</ul>
-</li>
-<li>Y conbinator</li>
-<li>哥德尔不完备性定理，击碎了希尔伯特的美好愿景
-
-<ul>
-<li>这理论用在人工智能上，则指出有些道理可能是人类能够判别，但机器单纯用一阶公理化系统却无法得知的道理。不过机器可以用非一阶公理化系统，例如实验、经验。</li>
-</ul>
-</li>
-<li>康托尔对角线定理</li>
-</ul>
-
-
-<p>哥德尔的不完备性定理震撼了20世纪数学界的天空，其数学意义颠覆了希尔伯特的形式化数学的宏伟计划，其哲学意义直到21世纪的今天仍然不断被延伸到各个自然学科，深刻影响着人们的思维。图灵为了解决希尔伯特著名的第十问题而提出有效计算模型，进而作出了可计算理论和现代计算机的奠基性工作，著名的停机问题给出了机械计算模型的能力极限，其深刻的意义和漂亮的证明使它成为可计算理论中的标志性定理之一。丘齐，跟图灵同时代的天才，则从另一个抽象角度提出了lambda算子的思想，与图灵机抽象的倾向于硬件性不同，丘齐的lambda算子理论是从数学的角度进行抽象，不关心运算的机械过程而只关心运算的抽象性质，只用最简洁的几条公理便建立起了与图灵机完全等价的计算模型，其体现出来的数学抽象美开出了函数式编程语言这朵奇葩，Lisp、Scheme、Haskell… 这些以抽象性和简洁美为特点的语言至今仍然活跃在计算机科学界，虽然由于其本质上源于lambda算子理论的抽象方式不符合人的思维习惯从而注定无法成为主流的编程语言[2]，然而这仍然无法妨碍它们成为编程理论乃至计算机学科的最佳教本。而诞生于函数式编程语言的神奇的Y combinator至今仍然让人们陷入深沉的震撼和反思当中…</p>
-
-<p>参考：</p>
-
-<ul>
-<li><a href="https://www.infzm.com/contents/76948">【专栏】康托尔、哥德尔、图灵——永恒的金色对角线（1）</a></li>
-<li>&hellip;</li>
-<li><a href="https://www.infzm.com/contents/77590">【专栏】康托尔、哥德尔、图灵——永恒的金色对角线（13）</a></li>
-</ul>
-
-
-<p>用计算模拟真实世界，解释不了很多根本原因，但是不用解释。比如足球比赛，打仗胜败分析。</p>
 ]]></content>
   </entry>
   

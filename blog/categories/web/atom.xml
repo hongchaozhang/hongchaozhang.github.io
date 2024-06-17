@@ -4,7 +4,7 @@
   <title><![CDATA[Category: web | Reading Space]]></title>
   <link href="http://hongchaozhang.github.io/blog/categories/web/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2024-03-26T00:35:19+08:00</updated>
+  <updated>2024-06-17T15:39:26+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -12,6 +12,100 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[CSS resolution rules and specificity]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2024/06/17/css-resolution-rules-and-specificity/"/>
+    <updated>2024-06-17T11:53:39+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2024/06/17/css-resolution-rules-and-specificity</id>
+    <content type="html"><![CDATA[<!-- more -->
+
+
+<h2>Description</h2>
+
+<p>The css property doesn&rsquo;t take effect in the release build but works fine in the debug build.</p>
+
+<h2>Root cause</h2>
+
+<p>We applied two css classes in one dom node and didn’t specify the priority (have the same css specificity (0,1,0)), thus the CSS class order matters: the latter one will override the previous one.</p>
+
+<p>However, the css class order is not stable between the debug and release builds.</p>
+
+<h2>Solution</h2>
+
+<p>After fixing, the classes are like this:</p>
+
+<p><img src="/images/css-specificity-1.png" alt="css-specificity-1" /></p>
+
+<p>We can use the scss file helper tools in VS Code:</p>
+
+<p><img src="/images/css-specificity-2.png" alt="css-specificity-2" /></p>
+
+<p>Caution while nesting &amp; :</p>
+
+<p><img src="/images/css-specificity-3.png" alt="css-specificity-3" /></p>
+
+<h2><a href="https://developer.mozilla.org/en-US/docs/Learn/CSS/Building_blocks/Cascade_and_inheritance">Cascade</a></h2>
+
+<p>When two rules from the same cascade layer apply and both have equal specificity, the one that is defined last in the stylesheet is the one that will be used.</p>
+
+<p>There are three factors to consider, listed here in increasing order of importance. Later ones overrule earlier ones:</p>
+
+<h3>Source order</h3>
+
+<h3><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/Specificity">Specificity</a></h3>
+
+<ul>
+<li>one identifier selector has 1-0-0 specificity</li>
+<li>one class selector (attribute selector) has 0-1-0 specificity</li>
+<li>one element selector has 0-0-1 specificity</li>
+<li>The specificity weight of :not/:is/:has comes from the selector parameter in the list of selectors with the highest specificity.</li>
+<li>Combinators, such as +, >, ~, &ldquo; &rdquo;, and ||, may make a selector more specific in what is selected but they don&rsquo;t add any value to the specificity weight.</li>
+</ul>
+
+
+<p><img src="/images/css-specificity-4.png" alt="css-specificity-4" /></p>
+
+<h3>Importance</h3>
+
+<ul>
+<li>inline style</li>
+<li><code>!important</code>: DO NOT use <code>!important</code>. It makes the CSS hard to maintain and debug.
+
+<ul>
+<li>See a demo for <code>!important</code> <a href="https://developer.mozilla.org/en-US/docs/Learn/CSS/Building_blocks/Cascade_and_inheritance#!important">here</a>.</li>
+</ul>
+</li>
+</ul>
+
+
+<h2>Other info</h2>
+
+<p>The VS Code should have issues with “specificity” calculation.</p>
+
+<p><img src="/images/css-specificity-5.png" alt="css-specificity-5" /></p>
+
+<p>The specificity should be 0-2-0.</p>
+
+<p>More examples can be seen from here: <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/Specificity#three-column_comparison">Specificity</a></p>
+
+<p><img src="/images/css-specificity-6.png" alt="css-specificity-6" /></p>
+
+<p>Some online css specificity calculator can be used for testing:</p>
+
+<p><a href="https://specificity.keegan.st/">Specificity Calculator</a></p>
+
+<h2>How to avoid such issues?</h2>
+
+<ul>
+<li>Make sure all the loaded CSSs have different css specificity.</li>
+<li>Review the CSS in the developer tool.</li>
+<li>For a specific css property, filter out all CSSs which contains it.</li>
+<li>Make sure the CSS you want to apply have the highest css specificity.</li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[React Learning Note 2023]]></title>
@@ -1157,318 +1251,6 @@ console.log(names)
 
 <p>上面的内容来自极客时间的《透视HTTP协议》课程的39和40两节课。
 另外，<a href="/blog/2021/05/26/toushi-http-xieyi/">极客时间-罗剑锋-《透视HTTP协议》总结</a>中的章节<a href="/blog/2021/05/26/toushi-http-xieyi/#http%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96">http性能优化</a>，有一个概括性的描述。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[极客时间-Web前端性能优化]]></title>
-    <link href="http://hongchaozhang.github.io/blog/2022/01/04/web-qianduan-xingneng-youhua/"/>
-    <updated>2022-01-04T18:06:29+08:00</updated>
-    <id>http://hongchaozhang.github.io/blog/2022/01/04/web-qianduan-xingneng-youhua</id>
-    <content type="html"><![CDATA[<!-- more -->
-
-
-
-
-<!-- TOC -->
-
-
-<ul>
-<li><a href="#%E8%B5%84%E6%BA%90%E5%8E%8B%E7%BC%A9%E4%B8%8E%E5%90%88%E5%B9%B6">资源压缩与合并</a>
-
-<ul>
-<li><a href="#%E5%9B%BE%E7%89%87%E4%BC%98%E5%8C%96">图片优化</a></li>
-</ul>
-</li>
-<li><a href="#%E5%9B%BE%E7%89%87%E7%9A%84%E6%87%92%E5%8A%A0%E8%BD%BD%E9%A2%84%E5%8A%A0%E8%BD%BD">图片的懒加载预加载</a>
-
-<ul>
-<li><a href="#%E6%87%92%E5%8A%A0%E8%BD%BD">懒加载：</a></li>
-<li><a href="#%E9%A2%84%E5%8A%A0%E8%BD%BD">预加载：</a></li>
-</ul>
-</li>
-<li><a href="#html%E6%B8%B2%E6%9F%93%E8%BF%87%E7%A8%8B">HTML渲染过程</a></li>
-<li><a href="#%E9%87%8D%E7%BB%98%E5%A4%96%E8%A7%82%E4%B8%8E%E5%9B%9E%E6%B5%81%E5%B8%83%E5%B1%80redrawreflow">重绘（外观）与回流（布局）redraw/reflow</a>
-
-<ul>
-<li><a href="#top-and-translate">top and translate</a></li>
-<li><a href="#opacity%E6%9B%BF%E6%8D%A2visibility"><code>opacity</code>替换<code>visibility</code></a></li>
-<li><a href="#css%E7%9A%84class%E6%9B%BF%E4%BB%A3style">css的class替代style</a></li>
-<li><a href="#displaynone"><code>display:none</code></a></li>
-<li><a href="#%E6%85%8E%E7%94%A8clientwidth">慎用<code>clientWidth</code></a></li>
-<li><a href="#%E5%B0%91%E7%94%A8table%E5%B8%83%E5%B1%80">少用table布局。</a></li>
-<li><a href="#%E5%8A%A8%E7%94%BB%E7%9A%84%E5%88%B7%E6%96%B0%E7%8E%87%E5%92%8C%E9%A1%B5%E9%9D%A2%E6%80%A7%E8%83%BD%E5%B9%B3%E8%A1%A1">动画的刷新率和页面性能平衡</a></li>
-<li><a href="#%E5%B0%86gif%E5%9B%BE%E5%8D%95%E7%8B%AC%E6%88%90%E4%B8%80%E4%B8%AA%E5%9B%BE%E5%B1%82">将gif图单独成一个图层</a></li>
-<li><a href="#%E5%90%AF%E7%94%A8gpu%E7%A1%AC%E4%BB%B6%E5%8A%A0%E9%80%9F">启用GPU硬件加速</a></li>
-</ul>
-</li>
-<li><a href="#%E6%B5%8F%E8%A7%88%E5%99%A8%E5%AD%98%E5%82%A8">浏览器存储</a></li>
-<li><a href="#%E7%BC%93%E5%AD%98">缓存</a></li>
-<li><a href="#%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF%E6%B8%B2%E6%9F%93">服务器端渲染</a></li>
-</ul>
-
-
-<!-- /TOC -->
-
-
-<p>总结极客时间课程《让你页面速度飞起来 Web前端性能优化》</p>
-
-<p><a id="markdown-资源压缩与合并" name="资源压缩与合并"></a></p>
-
-<h2>资源压缩与合并</h2>
-
-<p>资源合并会减少请求次数，总体上降低请求时间。但是，也不能不加考虑地都合并到一起，这样会影响首页渲染速度。</p>
-
-<p><a id="markdown-图片优化" name="图片优化"></a></p>
-
-<h3>图片优化</h3>
-
-<ol>
-<li>图片<strong>雪碧图</strong>，不能太大，太大影响首屏渲染性能。一个页面的小图放在一起，生成一张雪碧图即可。</li>
-<li><strong>inline image</strong>，inline image内嵌在html里面，作为html的一部分和html一起加载。当图片大小小于8KB时，考虑使用inline image。</li>
-<li><strong>使用webp格式图片</strong>，webp格式图片由google推出，android平台支持好，apple safari浏览器有兼容性问题（2020年Mac OS Big Sur中的Safari 14已经支持WebP格式。）</li>
-<li><strong>jpg</strong>、<strong>png</strong>、<strong>svg</strong>等图片格式各有其特点和应用场合。</li>
-</ol>
-
-
-<p>另附上两个工具软件：</p>
-
-<ol>
-<li><a href="https://tinypng.com">图片压缩网站</a></li>
-<li><a href="www.spritecow.com">雪碧图生成网站</a></li>
-</ol>
-
-
-<p><a id="markdown-图片的懒加载预加载" name="图片的懒加载预加载"></a></p>
-
-<h2>图片的懒加载预加载</h2>
-
-<p><a id="markdown-懒加载" name="懒加载"></a></p>
-
-<h3>懒加载：</h3>
-
-<p>通过图片进入可视区域的时候再设置img的src属性，进行请求。或者通过库实现。</p>
-
-<p><a id="markdown-预加载" name="预加载"></a></p>
-
-<h3>预加载：</h3>
-
-<ol>
-<li>使用<code>image</code>标签引入，先设置<code>display:none</code>。需要显示的时候再通过设置<code>display</code>属性将其显示出来。</li>
-<li>在js中<code>new image</code>，并且设置<code>image</code>的<code>src</code>，进行图片下载，保存在js的变量中，但是不显示，需要的时候直接拿过来显示即可。</li>
-<li>使用<code>XMLHttpRequest</code>，可以清楚知道请求的过程，但是存在跨域的问题。</li>
-<li>或者通过库实现：preloader.js</li>
-</ol>
-
-
-<p><a id="markdown-html渲染过程" name="html渲染过程"></a></p>
-
-<h2>HTML渲染过程</h2>
-
-<ol>
-<li>顺序执行，并发加载：为了让资源并发加载，可以部署多个CDN，以突破浏览器对单个域名并发加载数量的限制（4-6个）。
-
-<ol>
-<li><a href="https://juejin.cn/post/6844904035628089357">突破浏览器域名并发限制的解决方案</a></li>
-<li>浏览器为什么要有这个限制，针对这个限制我们在开发的时候怎么优化？参考<a href="https://segmentfault.com/a/1190000039157302">前端性能优化篇——浏览器同域名并发请求对限制</a></li>
-</ol>
-</li>
-<li>css加载延迟，页面先显示出没有样式的内容，原因是：css没有在header中引入，而是通过其他方式加载，比如在js中加载css。但是在header中通过link加载css也有缺点：阻塞页面渲染和js执行，但是不阻塞外部脚本的加载（得益于webkit的预扫描功能），但是阻塞执行。</li>
-<li><code>script</code>和<code>import</code>引入方式：<code>script</code>引入js是同步的，阻塞页面渲染。结合<code>differ</code>和<code>sync</code>标签影响js引入过程。不阻塞资源的加载（得益于webkit的预扫描功能）。</li>
-<li>SPA：单页应用，动态加载，路由到相关页面再加载相关的资源。</li>
-</ol>
-
-
-<p><a id="markdown-重绘外观与回流布局redrawreflow" name="重绘外观与回流布局redrawreflow"></a></p>
-
-<h2>重绘（外观）与回流（布局）redraw/reflow</h2>
-
-<p>css性能让js变慢：css影响layout，进而产生重绘与回流。多次的重绘与回流使得UI线程多次工作，而UI线程的启动会阻塞js线程的执行。</p>
-
-<p>下面是一些有关<strong>回流与重绘</strong>实战演练。通过观察Chrome的Performance调试工具分析渲染过程和性能瓶颈。截图如下：</p>
-
-<p><img src="/images/chrome_performance_demo.jpg" alt="chrome_performance_demo.jpg" /></p>
-
-<p><a id="markdown-top-and-translate" name="top-and-translate"></a></p>
-
-<h3>top and translate</h3>
-
-<p>相比于<code>top</code>，<code>translate</code>没有回流的过程，对于dom结构复杂的页面，性能提升比较明显。</p>
-
-<p><details>
-  <summary>Code using <code>top</code></summary></p>
-
-<pre><code>&lt;html&gt;
-&lt;head&gt;
-    &lt;style&gt;
-        #rect {
-            position: relative;
-            top: 0;
-            width: 100px;
-            height: 100px;
-            background: blue;
-        }
-    &lt;/style&gt;
-&lt;/head&gt;
-&lt;body&gt;
-    &lt;div id="rect"&gt;&lt;/div&gt;
-    &lt;script&gt;
-        setTimeout(() =&gt; {
-            document.getElementById("rect").style.top = "100px";
-        }, 2000);
-    &lt;/script&gt;
-&lt;/body&gt;
-&lt;/html&gt;
-</code></pre>
-
-<p></details></p>
-
-<p><details>
-  <summary>Code using <code>transform</code></summary></p>
-
-<pre><code>&lt;html&gt;
-&lt;head&gt;
-    &lt;style&gt;
-        #rect {
-            position: relative;
-            transform: translateY(0);
-            width: 100px;
-            height: 100px;
-
-            background: blue;
-        }
-    &lt;/style&gt;
-&lt;/head&gt;
-&lt;body&gt;
-    &lt;div id="rect"&gt;&lt;/div&gt;
-    &lt;script&gt;
-        setTimeout(() =&gt; {
-            document.getElementById("rect").style.transform = "translateY(100px)";
-        }, 2000);
-    &lt;/script&gt;
-&lt;/body&gt;
-&lt;/html&gt;
-</code></pre>
-
-<p></details></p>
-
-<p><a id="markdown-opacity替换visibility" name="opacity替换visibility"></a></p>
-
-<h3><code>opacity</code>替换<code>visibility</code></h3>
-
-<p><code>opaciy</code>：如果被修改的dom元素自己是一个图层，不触发回流和重绘（试验结果：没有回流，但是有重绘）；否则，触发回流和重绘。
-<code>visibility</code>：不触发回流，只触发重绘。</p>
-
-<p><a id="markdown-css的class替代style" name="css的class替代style"></a></p>
-
-<h3>css的class替代style</h3>
-
-<p>多个dom样式通过class一次改动多条style属性，减少回流和重绘的次数</p>
-
-<p><a id="markdown-displaynone" name="displaynone"></a></p>
-
-<h3><code>display:none</code></h3>
-
-<p>先设置<code>display</code>为<code>none</code>，再修改各种属性，再将<code>display</code>设回来。</p>
-
-<p><a id="markdown-慎用clientwidth" name="慎用clientwidth"></a></p>
-
-<h3>慎用<code>clientWidth</code></h3>
-
-<p>不要在循环中获取dom的<code>clientWidth</code>，否则会flash掉浏览器的缓冲区，使浏览器性能下降。</p>
-
-<p>缓冲区是浏览器的优化机制，将多个改动合并成一次改动，以便提高效率。</p>
-
-<p><a id="markdown-少用table布局" name="少用table布局"></a></p>
-
-<h3>少用table布局。</h3>
-
-<p>修改某一<code>td</code>的宽度，会使得所有<code>td</code>进行回流。</p>
-
-<p><a id="markdown-动画的刷新率和页面性能平衡" name="动画的刷新率和页面性能平衡"></a></p>
-
-<h3>动画的刷新率和页面性能平衡</h3>
-
-<p><a id="markdown-将gif图单独成一个图层" name="将gif图单独成一个图层"></a></p>
-
-<h3>将gif图单独成一个图层</h3>
-
-<p>通过设置某些css属性，将某个dom做成一个图层：</p>
-
-<ol>
-<li><code>will-change</code></li>
-<li><code>transform: translateZ(0)</code></li>
-<li><code>translate3d(0,0,0)</code></li>
-</ol>
-
-
-<p><a id="markdown-启用gpu硬件加速" name="启用gpu硬件加速"></a></p>
-
-<h3>启用GPU硬件加速</h3>
-
-<p>启用GPU加速，会减少重绘的时间，但是图层增多，图层合并的时间会增加，这里也有个平衡需要把握。</p>
-
-<p>细节参考<a href="https://lz5z.com/Web%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96-CSS3%E7%A1%AC%E4%BB%B6%E5%8A%A0%E9%80%9F/">Web 性能优化-CSS3 硬件加速(GPU 加速)</a></p>
-
-<p><a id="markdown-浏览器存储" name="浏览器存储"></a></p>
-
-<h2>浏览器存储</h2>
-
-<ol>
-<li>cdn域名和主站域名区分开，防止获取静态资源携带cookie，浪费带宽。</li>
-<li>通过service worker开启另一个线程，和主页通过<code>postMessage</code>互相通信。</li>
-<li>通过浏览器performance profile查看性能瓶颈和改进效果。</li>
-<li>增加图层是减少的重绘与回流的时间与增加的图层合并时间的增加之间的平衡。比如通过设置translate3d开启GPU加速。</li>
-<li>获取offsetHeight为什么会降低效率？使缓冲区域失效，因为要得到一个真实的尺寸。缓冲区域是浏览器的一个优化机制，通过将多次更改dom综合起来一次更新，提高效率。</li>
-</ol>
-
-
-<p><a id="markdown-缓存" name="缓存"></a></p>
-
-<h2>缓存</h2>
-
-<p><strong>强缓存</strong>
-如果命中，不需要发请求到服务器。</p>
-
-<ol>
-<li>cache-control: max-age, s-max-age</li>
-<li>expires:</li>
-</ol>
-
-
-<p><strong>协商缓存（弱缓存）</strong>
-需要发请求到服务器询问本地缓存是否可用。如果可用，服务器返回304，不携带具体内容，具体内容从本地缓存中读取。如果不可用，服务器直接返回内容。</p>
-
-<ol>
-<li>last-modified:</li>
-<li>if-modified-since: 304</li>
-<li>e-tag:</li>
-<li>if-none-match:</li>
-</ol>
-
-
-<p>浏览器缓存流程如下：</p>
-
-<p><img src="/images/%E6%B5%8F%E8%A7%88%E5%99%A8%E7%BC%93%E5%AD%98%E6%B5%81%E7%A8%8B%E5%9B%BE.png" alt="浏览器缓存流程图.png" /></p>
-
-<p>关于缓存，下面两篇文章介绍的很清楚：</p>
-
-<ol>
-<li><a href="https://www.jiqizhixin.com/articles/2020-07-24-12">Web 缓存介绍</a></li>
-<li><a href="https://segmentfault.com/a/1190000010787023">HTTP 缓存之浏览器刷新行为</a>: disable cache setting in the developper tool</li>
-</ol>
-
-
-<p><a id="markdown-服务器端渲染" name="服务器端渲染"></a></p>
-
-<h2>服务器端渲染</h2>
-
-<ol>
-<li>vue-ssr (server-side-rendering)</li>
-<li>react-ssr</li>
-<li>代价：需要一个universal的code base，保证其在服务器端和浏览器端都能运行。</li>
-</ol>
-
 ]]></content>
   </entry>
   

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: llm | Reading Space]]></title>
+  <link href="http://hongchaozhang.github.io/blog/categories/llm/atom.xml" rel="self"/>
+  <link href="http://hongchaozhang.github.io/"/>
+  <updated>2024-06-17T15:39:26+08:00</updated>
+  <id>http://hongchaozhang.github.io/</id>
+  <author>
+    <name><![CDATA[Zhang Hongchao]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Notes for Generative AI with LLMs]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2024/03/26/notes-for-generative-ai-with-llms/"/>
+    <updated>2024-03-26T13:10:55+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2024/03/26/notes-for-generative-ai-with-llms</id>
+    <content type="html"><![CDATA[<!-- more -->
+
+
+<ul>
+<li><a href="https://github.com/hongchaozhang/Course--Generative-AI-with-LLMs/blob/main/Notes%20for%20Course%20%22Generative%20AI%20with%20Large%20Language%20Models%22.md">Notes for Course &ldquo;Generative AI with Large Language Models</a></li>
+<li><a href="https://github.com/hongchaozhang/Course--Generative-AI-with-LLMs/tree/main">github page</a></li>
+<li></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+</feed>
