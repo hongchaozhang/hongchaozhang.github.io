@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
+<loc>http://hongchaozhang.github.io/blog/2024/07/08/feiman-xiangxiangli/</loc>
+<lastmod>2024-07-08T00:53:34+08:00</lastmod>
+</url>
+<url>
 <loc>http://hongchaozhang.github.io/blog/2024/06/17/css-resolution-rules-and-specificity/</loc>
 <lastmod>2024-06-17T11:53:39+08:00</lastmod>
 </url>
