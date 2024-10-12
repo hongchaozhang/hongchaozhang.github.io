@@ -9,17 +9,20 @@ categories: [python]
 <!-- more -->
 
 venv: 
-venv (built-in): venv is a module in Python 3's standard library used to create lightweight virtual environments. 
-activate: source venv/bin/activate
-deactivate: deactivate
+
+* venv (built-in): venv is a module in Python 3's standard library used to create lightweight virtual environments. 
+* activate: `source venv/bin/activate`
+* deactivate: `deactivate`
 
 
 pyenv: 
+
 * python version control. Similar to nvm for node.js.
 * virtual env management. Similar to venv.
 
 
 pipenv: 
+
 * python package management. Similar to npm for node.js.
 * activate: pipenv shell
 * deactivate: exit
