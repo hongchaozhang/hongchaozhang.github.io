@@ -4,7 +4,7 @@
   <title><![CDATA[Category: python | Reading Space]]></title>
   <link href="http://hongchaozhang.github.io/blog/categories/python/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2024-10-12T23:19:46+08:00</updated>
+  <updated>2024-10-13T00:12:04+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -21,19 +21,31 @@
     <content type="html"><![CDATA[<!-- more -->
 
 
-<p>venv:
-venv (built-in): venv is a module in Python 3&rsquo;s standard library used to create lightweight virtual environments.
-activate: source venv/bin/activate
-deactivate: deactivate</p>
+<p>venv:</p>
 
-<p>pyenv:
-* python version control. Similar to nvm for node.js.
-* virtual env management. Similar to venv.</p>
+<ul>
+<li>venv (built-in): venv is a module in Python 3&rsquo;s standard library used to create lightweight virtual environments.</li>
+<li>activate: <code>source venv/bin/activate</code></li>
+<li>deactivate: <code>deactivate</code></li>
+</ul>
 
-<p>pipenv:
-* python package management. Similar to npm for node.js.
-* activate: pipenv shell
-* deactivate: exit</p>
+
+<p>pyenv:</p>
+
+<ul>
+<li>python version control. Similar to nvm for node.js.</li>
+<li>virtual env management. Similar to venv.</li>
+</ul>
+
+
+<p>pipenv:</p>
+
+<ul>
+<li>python package management. Similar to npm for node.js.</li>
+<li>activate: pipenv shell</li>
+<li>deactivate: exit</li>
+</ul>
+
 ]]></content>
   </entry>
   
