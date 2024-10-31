@@ -9,7 +9,10 @@
 	<meta name="author" content="Zhang Hongchao">
 
 	
-	<meta name="description" content="Jan 26th, 2018 ios, swift Swift Coding Conventions Collection of some Swift coding conventions, which will make Swift code more maintainable, more &hellip;">
+	<meta name="description" content="May 2nd, 2018 machine learning CNN与图像识别 卷积神经网络用于图像识别的现状。
+卷积与图像处理基础知识。
+卷积神经网络每一层的可视化，了解神经网络内部的物理意义。
+图像卷积滤波器与神经元和权重的关系。 Read on &rarr; Jan 26th, 2018 &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -93,7 +96,7 @@
 
 
 <section class="categories">
-          <ul id="category_cloud" class="nav nav-list"><a href='/blog/categories/algorithm' style='font-size: 102.4%'>algorithm(2)</a> <a href='/blog/categories/android' style='font-size: 107.2%'>android(6)</a> <a href='/blog/categories/android-studio' style='font-size: 101.2%'>android studio(1)</a> <a href='/blog/categories/augmented-reality' style='font-size: 104.8%'>augmented reality(4)</a> <a href='/blog/categories/cs' style='font-size: 101.2%'>cs(1)</a> <a href='/blog/categories/css' style='font-size: 103.6%'>css(3)</a> <a href='/blog/categories/design-pattern' style='font-size: 103.6%'>design pattern(3)</a> <a href='/blog/categories/html' style='font-size: 104.8%'>html(4)</a> <a href='/blog/categories/http' style='font-size: 103.6%'>http(3)</a> <a href='/blog/categories/ios' style='font-size: 154.0%'>ios(45)</a> <a href='/blog/categories/java' style='font-size: 102.4%'>java(2)</a> <a href='/blog/categories/javascript' style='font-size: 108.4%'>javascript(7)</a> <a href='/blog/categories/llm' style='font-size: 101.2%'>llm(1)</a> <a href='/blog/categories/machine-learning' style='font-size: 112.0%'>machine learning(10)</a> <a href='/blog/categories/map-tech' style='font-size: 103.6%'>map tech(3)</a> <a href='/blog/categories/mobile' style='font-size: 101.2%'>mobile(1)</a> <a href='/blog/categories/mongodb' style='font-size: 101.2%'>mongodb(1)</a> <a href='/blog/categories/music' style='font-size: 108.4%'>music(7)</a> <a href='/blog/categories/nlp' style='font-size: 102.4%'>nlp(2)</a> <a href='/blog/categories/nlu' style='font-size: 102.4%'>nlu(2)</a> <a href='/blog/categories/nodejs' style='font-size: 108.4%'>nodejs(7)</a> <a href='/blog/categories/objective-c' style='font-size: 126.4%'>objective-c(22)</a> <a href='/blog/categories/philosophy' style='font-size: 102.4%'>philosophy(2)</a> <a href='/blog/categories/productivity' style='font-size: 128.8%'>productivity(24)</a> <a href='/blog/categories/python' style='font-size: 108.4%'>python(7)</a> <a href='/blog/categories/react' style='font-size: 101.2%'>react(1)</a> <a href='/blog/categories/reading' style='font-size: 160.0%'>reading(50)</a> <a href='/blog/categories/server' style='font-size: 101.2%'>server(1)</a> <a href='/blog/categories/swift' style='font-size: 108.4%'>swift(7)</a> <a href='/blog/categories/web' style='font-size: 116.8%'>web(14)</a> <a href='/blog/categories/wwdc' style='font-size: 102.4%'>wwdc(2)</a> <a href='/blog/categories/xcode' style='font-size: 109.6%'>xcode(8)</a> </ul>
+          <ul id="category_cloud" class="nav nav-list"><a href='/blog/categories/algorithm' style='font-size: 102.3529411764706%'>algorithm(2)</a> <a href='/blog/categories/android' style='font-size: 107.05882352941177%'>android(6)</a> <a href='/blog/categories/android-studio' style='font-size: 101.17647058823529%'>android studio(1)</a> <a href='/blog/categories/augmented-reality' style='font-size: 104.70588235294117%'>augmented reality(4)</a> <a href='/blog/categories/cs' style='font-size: 101.17647058823529%'>cs(1)</a> <a href='/blog/categories/css' style='font-size: 103.52941176470588%'>css(3)</a> <a href='/blog/categories/design-pattern' style='font-size: 103.52941176470588%'>design pattern(3)</a> <a href='/blog/categories/html' style='font-size: 104.70588235294117%'>html(4)</a> <a href='/blog/categories/http' style='font-size: 103.52941176470588%'>http(3)</a> <a href='/blog/categories/ios' style='font-size: 152.94117647058823%'>ios(45)</a> <a href='/blog/categories/java' style='font-size: 102.3529411764706%'>java(2)</a> <a href='/blog/categories/javascript' style='font-size: 108.23529411764706%'>javascript(7)</a> <a href='/blog/categories/llm' style='font-size: 101.17647058823529%'>llm(1)</a> <a href='/blog/categories/machine-learning' style='font-size: 111.76470588235294%'>machine learning(10)</a> <a href='/blog/categories/map-tech' style='font-size: 103.52941176470588%'>map tech(3)</a> <a href='/blog/categories/mobile' style='font-size: 101.17647058823529%'>mobile(1)</a> <a href='/blog/categories/mongodb' style='font-size: 101.17647058823529%'>mongodb(1)</a> <a href='/blog/categories/music' style='font-size: 108.23529411764706%'>music(7)</a> <a href='/blog/categories/nlp' style='font-size: 102.3529411764706%'>nlp(2)</a> <a href='/blog/categories/nlu' style='font-size: 102.3529411764706%'>nlu(2)</a> <a href='/blog/categories/nodejs' style='font-size: 108.23529411764706%'>nodejs(7)</a> <a href='/blog/categories/objective-c' style='font-size: 125.88235294117646%'>objective-c(22)</a> <a href='/blog/categories/philosophy' style='font-size: 102.3529411764706%'>philosophy(2)</a> <a href='/blog/categories/productivity' style='font-size: 128.23529411764707%'>productivity(24)</a> <a href='/blog/categories/python' style='font-size: 108.23529411764706%'>python(7)</a> <a href='/blog/categories/react' style='font-size: 101.17647058823529%'>react(1)</a> <a href='/blog/categories/reading' style='font-size: 160.0%'>reading(51)</a> <a href='/blog/categories/server' style='font-size: 101.17647058823529%'>server(1)</a> <a href='/blog/categories/swift' style='font-size: 108.23529411764706%'>swift(7)</a> <a href='/blog/categories/web' style='font-size: 116.47058823529412%'>web(14)</a> <a href='/blog/categories/wwdc' style='font-size: 102.3529411764706%'>wwdc(2)</a> <a href='/blog/categories/xcode' style='font-size: 109.41176470588235%'>xcode(8)</a> </ul>
       </section>
 
 
@@ -107,6 +110,49 @@
 			<div class="mid-col-container">
 				<div id="content" class="inner">
 <div itemscope itemtype="http://schema.org/Blog">
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2018-05-02T18:55:44+08:00" pubdate data-updated="true">May 2nd, 2018</time></div>
+		<div class="tags">
+
+
+	<a class='category' href='/blog/categories/machine-learning/'>machine learning</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/blog/2018/05/02/cnn-and-image-classification/" itemprop="url">CNN与图像识别</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<ol>
+<li>卷积神经网络用于图像识别的现状。</li>
+<li>卷积与图像处理基础知识。</li>
+<li>卷积神经网络每一层的可视化，了解神经网络内部的物理意义。</li>
+<li>图像卷积滤波器与神经元和权重的关系。</li>
+</ol>
+
+
+
+		
+		<a href="/blog/2018/05/02/cnn-and-image-classification/" class="more-link">Read on &rarr;</a>
+	</div>
+
+</article>
 
 
     <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
@@ -819,44 +865,6 @@
 
 		
 		<a href="/blog/2016/06/16/property-and-method-visuability-of-category-and-inheritence-in-objective-c/" class="more-link">Read on &rarr;</a>
-	</div>
-
-</article>
-
-
-    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-
-<time datetime="2016-04-19T10:50:00+08:00" pubdate data-updated="true">Apr 19th, 2016</time></div>
-		<div class="tags">
-
-
-	<a class='category' href='/blog/categories/xcode/'>xcode</a>
-
-
-</div>
-		
-	</div>
-	<h1 class="title" itemprop="name"><a href="/blog/2016/04/19/documenting-in-xcode-e-with-headerdoc-tutorial/" itemprop="url">Documenting in Xcode With HeaderDoc Tutorial</a></h1>
-	<div class="entry-content" itemprop="articleBody">
-		<p><a href="https://www.raywenderlich.com/66395/documenting-in-xcode-with-headerdoc-tutorial">Documenting in Xcode with HeaderDoc Tutorial</a> 讲解的非常全面详细可操作。</p>
-
-<p>补充一点：如果最终导出的html文件想转换成docx或者pdf文件，只需要用word打开，然后另存为你想要的格式即可，多数情况下，word可以处理好格式的问题。</p>
-
-		
-		
 	</div>
 
 </article>
