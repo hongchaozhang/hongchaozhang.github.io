@@ -114,6 +114,7 @@ GEM
 
 PLATFORMS
   arm64-darwin-23
+  arm64-darwin-24
 
 DEPENDENCIES
   RedCloth (~> 4.3.2)
