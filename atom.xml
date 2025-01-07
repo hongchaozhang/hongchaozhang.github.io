@@ -4,7 +4,7 @@
   <title><![CDATA[Reading Space]]></title>
   <link href="http://hongchaozhang.github.io/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2025-01-07T23:29:02+08:00</updated>
+  <updated>2025-01-07T23:58:17+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -12,6 +12,103 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[精英日课]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2025/01/07/jingying-rike-notes/"/>
+    <updated>2025-01-07T23:41:38+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2025/01/07/jingying-rike-notes</id>
+    <content type="html"><![CDATA[<!-- more -->
+
+
+<h2>认知闭合</h2>
+
+<p>认知闭合需求指的是人们需要因果关系的解释和可预测性。</p>
+
+<p>比如讲故事必须传递一个明确的意义。传统音乐和爵士乐在这方面有所不同。</p>
+
+<ul>
+<li>传统音乐通常是线性的，有明确的主题和发展，</li>
+<li>爵士乐则是开放式的，更注重即兴和变化。</li>
+</ul>
+
+
+<h2>怎样激励10到25岁青少年</h2>
+
+<p>激励10到25岁青少年，要注意避免导师悖论，尽量做到提供“智者的反馈”。</p>
+
+<p>具体来说，可以使用以下策略：</p>
+
+<ol>
+<li>告诉他们：“我给你这些评语是因为我有很高的标准，我知道你能达到这些标准。”</li>
+<li>询问而不是告知，尊重并承认对方的主观能动性。</li>
+<li>共同寻找前进的方向。</li>
+<li>只提供建议，不帮他们做决定，让他们自己做决定。</li>
+<li>在提出批评建议的时候，要用夸奖三明治等技巧。
+
+<ol>
+<li>夸奖三明治：先夸奖，再提出批评，最后再夸奖。</li>
+</ol>
+</li>
+</ol>
+
+
+<h2>可扩展的事情（Scaling Law）</h2>
+
+<ul>
+<li>可扩展的事情值得多投入，而不可扩展的事情则不值得投入更多精力，比如吃好吃的和健身等。</li>
+<li>任何事情都不是一直可扩展的，因此我们要寻找一个高上限的事情来做。</li>
+</ul>
+
+
+<h2>智人之上</h2>
+
+<ul>
+<li>在真相和秩序之间需要找到平衡。</li>
+<li>罗素曾说过：“我不敢让人因为我的理念去死，因为我不确定我的理念是正确的。”这句话体现了政治家和科学家的区别。</li>
+</ul>
+
+
+<h2>挑战还是威胁？</h2>
+
+<ul>
+<li>挑战能够促进人的发挥，而威胁则只能限制人的发挥。</li>
+<li>奖励第一名是一种挑战，而淘汰最后一名则是一种威胁。</li>
+<li>通过控制感可以将威胁转化为挑战。</li>
+</ul>
+
+
+<h2>格拉德威尔</h2>
+
+<ul>
+<li>格拉德威尔提出了引爆点和10000小时理论，</li>
+<li>强调了超故事、理想叙事和潜规则。</li>
+<li>他还提出了三分之一定律，指出群体中的少数人会做更多的事情。</li>
+</ul>
+
+
+<h2>歧视和公平</h2>
+
+<ul>
+<li>在汽车尾气检测中，有一种仪器可以在路上精准检测尾气排放量，从而抓到排放不合格的车主。然而，这种方法可能会被认为是对穷人的歧视，因此要求所有人都去做检测。</li>
+<li>在新冠疫情中，有更有效的检测办法，比如肥胖和唾液粘稠的人更容易产生空气溶胶，助力病毒传播，但这种方法也可能被认为是对肥胖和唾液粘稠者的歧视。</li>
+</ul>
+
+
+<h2>诺贝尔奖</h2>
+
+<ul>
+<li>诺贝尔物理奖得主通常是圈内人，不能闭门造车、两耳不问天下事、一心只读圣贤书。</li>
+<li>相反，圈内人并不是腐败，而是因为他们有眼界、知主流，并且有高人指点。</li>
+<li>文学奖则不完全是这样。</li>
+</ul>
+
+
+<h2>其它</h2>
+
+<p>心流，及时反馈，产生 “努力-爽-努力-爽” 的节奏感</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[汪诘-科学故事解读]]></title>
@@ -3183,62 +3280,6 @@ Use case 3: <a href="https://javascript.info/event-loop#use-case-3-doing-somethi
 <li><a href="https://gist.github.com/rahularity/86da20fe3858e6b311de068201d279e3">How To Work With Multiple Github Accounts on a single Machine</a></li>
 </ul>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[迁移Octopress到MacBook（M1）]]></title>
-    <link href="http://hongchaozhang.github.io/blog/2023/05/24/migrate-octopress-to-m1-macbook/"/>
-    <updated>2023-05-24T01:49:19+08:00</updated>
-    <id>http://hongchaozhang.github.io/blog/2023/05/24/migrate-octopress-to-m1-macbook</id>
-    <content type="html"><![CDATA[<!-- more -->
-
-
-<p>2020年的<a href="http://hongchaozhang.github.io/blog/2020/02/26/deploy-octopress-in-a-new-machine/">迁移Octopress到新的机器上</a>里面描述的问题依然存在。除此之外，还有一些新的问题。</p>
-
-<h2>不能正常加载(require)pygments.rb</h2>
-
-<p>当运行 <code>rake generate</code> 时，会报错：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>jekyll 2.5.3 | Error:  Pygments can't parse unknown language: javascript.</span></code></pre></td></tr></table></div></figure>
-
-
-<p>通过运行<code>jekyll build</code>，可以看到报错的详细信息：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>/Users/hozhang/Develop/hongchaozhang.github.io/plugins/pygments_code.rb:1:in `require': cannot load such file -- pygments (LoadError)
-</span><span class='line'>...</span></code></pre></td></tr></table></div></figure>
-
-
-<p>当你写一个简单的rb脚本，使用<code>require 'pygments'</code>，却不会报错。</p>
-
-<p>我们可以通过运行下面的命令来获得当前所有的gems加载路径（<code>require</code>或者<code>load</code>）：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>puts $LOAD_PATH</span></code></pre></td></tr></table></div></figure>
-
-
-<p>可以看出，上面两种情况下，加载路径是不一样的。在<code>rake generate</code>的情况下，加载路径中没有<code>/Library/Ruby/Gems/2.6.0/gems/pygments.rb-2.4.0/lib</code>这个路径，所以会报错。</p>
-
-<blockquote><p><a href="https://medium.com/@connorstack/understanding-ruby-load-require-gems-bundler-and-rails-autoloading-from-the-bottom-up-3b422902ca0">Understanding ruby load, require, gems, bundler and rails auto loading from the bottom up</a>：这篇文章讲解了ruby的依赖加载机制，对于理解这个问题很有帮助，虽然最终还是没有解决问题。</p></blockquote>
-
-<h3>解决方法</h3>
-
-<p>将所有的code片段的语言类型指定都去掉。</p>
-
-<p>原来带语言标记的源文件暂时放在独立的branch里：<code>source_code_with_language_type</code>。等啥时候pygments的问题解决了再弄回来。</p>
-
-<h2>理解octopress</h2>
-
-<p>你自己的github.io那个repo就是一个octopress，每次重新clone之后，就要按照octopress的步骤重新操作一遍：
-* <a href="http://octopress.org/docs/setup/">http://octopress.org/docs/setup/</a>
-* <a href="http://octopress.org/docs/deploying/github/">http://octopress.org/docs/deploying/github/</a></p>
-
-<h2>在一台机器上同时用两个github账号工作</h2>
-
-<p>参考<a href="http://hongchaozhang.github.io/blog/2023/05/24/work-with-two-github-accounts/">如何在一台机器上使用两个github账号</a></p>
 ]]></content>
   </entry>
   
