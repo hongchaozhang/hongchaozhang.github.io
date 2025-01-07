@@ -4,7 +4,7 @@
   <title><![CDATA[Category: swift | Reading Space]]></title>
   <link href="http://hongchaozhang.github.io/blog/categories/swift/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2025-01-07T23:58:49+08:00</updated>
+  <updated>2025-01-08T00:14:24+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -92,61 +92,106 @@
 
 
 <p>保存文件的代码如下：
-```
-func getRootPath() -> String? {
-    return NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first
-}</p>
-
-<p>func saveImageFile() {
-    if let rootPath = Utility.getRootPath(),
-        let imageName = getFileName() {
-        let imagePath = &ldquo;(rootPath)/(imageName).png&rdquo;
-        print(&ldquo;image path: (imagePath)&rdquo;)
-        if let image = imageView.image, let imageData = image.pngData() {
-            FileManager.default.createFile(atPath: imagePath, contents: imageData, attributes: nil)
-        }
-    }
-}</p>
-
-<p>func saveJsonFile() {
-    if let rootPath = Utility.getRootPath(),
-        let jsonFileName = getFileName() {
-        let jsonPath = &ldquo;(rootPath)/(jsonFileName).json&rdquo;
-        print(&ldquo;image path: (jsonPath)&rdquo;)
-        let jsonDic: [String: Any] = [basicInfoKey: <a href="">String: String</a>, barFramesKey: barFrames]
-        if let jsonData = try? NSKeyedArchiver.archivedData(withRootObject: jsonDic, requiringSecureCoding: false) {
-            FileManager.default.createFile(atPath: jsonPath, contents: jsonData, attributes: nil)
-        }
-    }
-}
-```</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>func getRootPath() -&gt; String? {
+</span><span class='line'>    return NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first
+</span><span class='line'>}&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;func saveImageFile() {
+</span><span class='line'>    if let rootPath = Utility.getRootPath(),
+</span><span class='line'>        let imageName = getFileName() {
+</span><span class='line'>        let imagePath = &ldquo;(rootPath)/(imageName).png&rdquo;
+</span><span class='line'>        print(&ldquo;image path: (imagePath)&rdquo;)
+</span><span class='line'>        if let image = imageView.image, let imageData = image.pngData() {
+</span><span class='line'>            FileManager.default.createFile(atPath: imagePath, contents: imageData, attributes: nil)
+</span><span class='line'>        }
+</span><span class='line'>    }
+</span><span class='line'>}&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;func saveJsonFile() {
+</span><span class='line'>    if let rootPath = Utility.getRootPath(),
+</span><span class='line'>        let jsonFileName = getFileName() {
+</span><span class='line'>        let jsonPath = &ldquo;(rootPath)/(jsonFileName).json&rdquo;
+</span><span class='line'>        print(&ldquo;image path: (jsonPath)&rdquo;)
+</span><span class='line'>        let jsonDic: [String: Any] = [basicInfoKey: &lt;a href=""&gt;String: String&lt;/a&gt;, barFramesKey: barFrames]
+</span><span class='line'>        if let jsonData = try? NSKeyedArchiver.archivedData(withRootObject: jsonDic, requiringSecureCoding: false) {
+</span><span class='line'>            FileManager.default.createFile(atPath: jsonPath, contents: jsonData, attributes: nil)
+</span><span class='line'>        }
+</span><span class='line'>    }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure></p>
 
 <p>读取文件的代码如下：
-```
-func loadJsonFile() {
-    if let rootPath = Utility.getRootPath(),
-        let jsonName = navigationItem.title,
-        let jsonData = FileManager.default.contents(atPath: &ldquo;(rootPath)/(jsonName).json&rdquo;),
-        let jsonObjectAny = NSKeyedUnarchiver.unarchiveObject(with: jsonData),
-        let jsonObject = jsonObjectAny as? [String: Any] {
-        if let sheetBasicInfo = jsonObject[basicInfoKey] as? [String: String] {
-            self.sheetBasicInfo = sheetBasicInfo
-        }
-        if let barFrames = jsonObject[barFramesKey] as? [Int: CGRect] {
-            self.barFrames =  barFrames
-        }
-    }
-}</p>
-
-<p>func loadSheetImage(with imageName: String) {
-    if let rootPath = Utility.getRootPath(),
-        let sheetImage = UIImage(contentsOfFile: &ldquo;(rootPath)/(imageName).png&rdquo;) {
-        sheetImageView.image = sheetImage
-        noteImageView.image = UIImage(contentsOfFile: &ldquo;(rootPath)/(imageName)(noteImageSubfix).png&rdquo;)
-        layoutImageView()
-    }
-}
-```</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>func loadJsonFile() {
+</span><span class='line'>    if let rootPath = Utility.getRootPath(),
+</span><span class='line'>        let jsonName = navigationItem.title,
+</span><span class='line'>        let jsonData = FileManager.default.contents(atPath: &ldquo;(rootPath)/(jsonName).json&rdquo;),
+</span><span class='line'>        let jsonObjectAny = NSKeyedUnarchiver.unarchiveObject(with: jsonData),
+</span><span class='line'>        let jsonObject = jsonObjectAny as? [String: Any] {
+</span><span class='line'>        if let sheetBasicInfo = jsonObject[basicInfoKey] as? [String: String] {
+</span><span class='line'>            self.sheetBasicInfo = sheetBasicInfo
+</span><span class='line'>        }
+</span><span class='line'>        if let barFrames = jsonObject[barFramesKey] as? [Int: CGRect] {
+</span><span class='line'>            self.barFrames =  barFrames
+</span><span class='line'>        }
+</span><span class='line'>    }
+</span><span class='line'>}&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;func loadSheetImage(with imageName: String) {
+</span><span class='line'>    if let rootPath = Utility.getRootPath(),
+</span><span class='line'>        let sheetImage = UIImage(contentsOfFile: &ldquo;(rootPath)/(imageName).png&rdquo;) {
+</span><span class='line'>        sheetImageView.image = sheetImage
+</span><span class='line'>        noteImageView.image = UIImage(contentsOfFile: &ldquo;(rootPath)/(imageName)(noteImageSubfix).png&rdquo;)
+</span><span class='line'>        layoutImageView()
+</span><span class='line'>    }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure></p>
 
 <p><a id="markdown-nsdefault保存标签信息" name="nsdefault保存标签信息"></a></p>
 
@@ -256,28 +301,46 @@ private func loadPhotos() {
 </code></p>
 
 <p>通过下面方法将所有图片信息显示在collection列表中：
-```
-func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    return allPhotos.count
-}</p>
-
-<p>func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-    if let cell = collection.dequeueReusableCell(withReuseIdentifier: cellIdentifier, for: indexPath) as? PhotoCollectionCell {
-        let assert = allPhotos.object(at: indexPath.item)
-        PHImageManager.default().requestImage(for: assert, targetSize: CGSize(width: photoCollectionWH, height: photoCollectionWH), contentMode: .aspectFill, options: .none) { (image, dic) in
-            if let image = image {
-                cell.imageView.image = image
-            }
-        }</p>
-
-<pre><code>    return cell
-} else {
-    return collection.dequeueReusableCell(withReuseIdentifier: cellIdentifier, for: indexPath)
-}
-</code></pre>
-
-<p>}
-```</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -&gt; Int {
+</span><span class='line'>    return allPhotos.count
+</span><span class='line'>}&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -&gt; UICollectionViewCell {
+</span><span class='line'>    if let cell = collection.dequeueReusableCell(withReuseIdentifier: cellIdentifier, for: indexPath) as? PhotoCollectionCell {
+</span><span class='line'>        let assert = allPhotos.object(at: indexPath.item)
+</span><span class='line'>        PHImageManager.default().requestImage(for: assert, targetSize: CGSize(width: photoCollectionWH, height: photoCollectionWH), contentMode: .aspectFill, options: .none) { (image, dic) in
+</span><span class='line'>            if let image = image {
+</span><span class='line'>                cell.imageView.image = image
+</span><span class='line'>            }
+</span><span class='line'>        }&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;pre&gt;&lt;code&gt;    return cell
+</span><span class='line'>} else {
+</span><span class='line'>    return collection.dequeueReusableCell(withReuseIdentifier: cellIdentifier, for: indexPath)
+</span><span class='line'>}
+</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;}</span></code></pre></td></tr></table></div></figure></p>
 
 <p>通过下面方法，将用户选择的图片传给delegate处理（delegate可以是源ViewController）：
 <code>
@@ -335,22 +398,34 @@ func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -&gt
 </code></p>
 
 <p>通过实现下面的方法，左滑之后显示两个按钮: Edit Tags和Delete
-```
-func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
-    let deleteAction = UITableViewRowAction(style: .destructive, title: &ldquo;Delete&rdquo;) { (action, indexPath) in
-        self.deleteItem(at: indexPath)
-    }
-    let editAction = UITableViewRowAction(style: .default, title: &ldquo;Edit Tags&rdquo;) { (action, indexPath) in
-        self.editTags(for: indexPath)
-    }
-    editAction.backgroundColor = UIColor(displayP3Red: 60/255, green: 148/255, blue: 1.0, alpha: 1.0)
-    deleteAction.backgroundColor = .red</p>
-
-<pre><code>return [deleteAction, editAction]
-</code></pre>
-
-<p>}
-```</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -&gt; [UITableViewRowAction]? {
+</span><span class='line'>    let deleteAction = UITableViewRowAction(style: .destructive, title: &ldquo;Delete&rdquo;) { (action, indexPath) in
+</span><span class='line'>        self.deleteItem(at: indexPath)
+</span><span class='line'>    }
+</span><span class='line'>    let editAction = UITableViewRowAction(style: .default, title: &ldquo;Edit Tags&rdquo;) { (action, indexPath) in
+</span><span class='line'>        self.editTags(for: indexPath)
+</span><span class='line'>    }
+</span><span class='line'>    editAction.backgroundColor = UIColor(displayP3Red: 60/255, green: 148/255, blue: 1.0, alpha: 1.0)
+</span><span class='line'>    deleteAction.backgroundColor = .red&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;pre&gt;&lt;code&gt;return [deleteAction, editAction]
+</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;}</span></code></pre></td></tr></table></div></figure></p>
 
 <p><a id="markdown-calayer--cashapelayer--core-graphics" name="calayer--cashapelayer--core-graphics"></a></p>
 
