@@ -3,3 +3,5 @@ _deploy/
 .sass-cache/
 .ruby-version
 .pygments-cache/
+.bundle/
+vendor/
