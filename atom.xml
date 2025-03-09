@@ -4,7 +4,7 @@
   <title><![CDATA[Reading Space]]></title>
   <link href="http://hongchaozhang.github.io/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2025-01-08T00:14:24+08:00</updated>
+  <updated>2025-03-09T23:57:13+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -12,6 +12,247 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[李俊慧的经济学]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2025/03/09/lijunhui-jingjixue/"/>
+    <updated>2025-03-09T11:07:39+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2025/03/09/lijunhui-jingjixue</id>
+    <content type="html"><![CDATA[<!-- more -->
+
+
+<p>以下是整理后的经济学课程核心观点框架，按逻辑结构组织：</p>
+
+<h3>一、科学方法论与经济学基础</h3>
+
+<ol>
+<li><p><strong>科学方法论</strong></p>
+
+<ol>
+<li>假设：归纳总结出该领域的“公理”（如理性人）</li>
+<li>逻辑演绎：根据公理进行逻辑推理，得到一些定理。这一部分可长可短，不是必须的。（数学建模）</li>
+<li>事实验证：根据事实或者实验结果验证前两步得到的结论（公理和定理）（证伪导向）</li>
+</ol>
+</li>
+<li><p><strong>科学本质</strong></p>
+
+<ul>
+<li>科学理论核心标准：可证伪性（波普尔）＞可度量性</li>
+<li>有效假设特征：体系完备性＞前提正确性（如中医阴阳五行/经济学的理性人假设）</li>
+<li>奥卡姆剃刀原则：简单有效理论优先（供需理论＞复杂消费者理论）</li>
+<li>科学和正确的四种象限关系：科学正确＞科学错误＞非科学正确＞非科学错误
+
+<ul>
+<li>四脚动物有四条腿，不具有可证伪性。</li>
+<li>进化论也不具有可证伪性！</li>
+</ul>
+</li>
+<li>质疑第一步的假设是不科学的。只能通过第三部来验证第二步的结论。可证伪性是第三阶段要做的事情，需要提出一个逆反命题来作为证伪的入口。</li>
+</ul>
+</li>
+<li><p><strong>警惕经济学中常见的"伪科学"特征</strong></p>
+
+<ul>
+<li>套套逻辑（同义反复）</li>
+<li>不可证伪命题（如行为经济学陷阱中的"有时理性有时非理性"）</li>
+</ul>
+</li>
+</ol>
+
+
+<h3>二、核心经济理论体系</h3>
+
+<h4>价格理论框架</h4>
+
+<ul>
+<li> 需求定律本质：</li>
+<li> 相对价格＞货币价格</li>
+<li> 需求变化≠需求量变化</li>
+<li> 边际分析核心地位：筛选关键局限条件的数学工具（导数思维）</li>
+</ul>
+
+
+<h4>特殊物品辨析</h4>
+
+<ul>
+<li> 吉芬物品悖论：市场自淘汰机制（类似基因选择）</li>
+<li> 奢侈品功能：降低陌生人社会的信息费用</li>
+<li> 贫穷物品，富裕物品：需求曲线的不同弹性</li>
+</ul>
+
+
+<p>以上例子都是试图推翻需求定律。也许有些人确实会在物品相同的情况下买贵的东西，但是这种人很快就会消失在市场中。这就像不自私的基因会被淘汰一样。</p>
+
+<blockquote><p>与此类似，不婚不育是某些年轻人的观念，对于这一点我不担心，因为这种人会在自然选择之下会消失。</p></blockquote>
+
+<p>消费者理论太复杂，供需理论简单有效，根据奥卡姆剃刀原则，我们应该选择供需理论。</p>
+
+<ol>
+<li><strong>均衡观革新</strong>
+
+<ul>
+<li>任何状态都是均衡：含交易费用的理性选择结果。</li>
+<li>非均衡状态是对物理学的拙劣模仿，任何选择都是理性的选择，考虑了交易城本，是边际分析法。任何时候都是均衡的。</li>
+<li>非均衡是错误的，但是可以用来快速判断一个结论是否正确。
+
+<ul>
+<li>如果非均衡，那么一定有什么边界条件没有说清楚，你要相信，现在的状态就是理性（自私）选择的结果。</li>
+<li>澳门伴手礼香气周围门店没有跟风，就是非均衡，肯定还有什么原因没有找到。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+
+
+<h3>三、政府干预批判</h3>
+
+<ol>
+<li><p><strong>价格管制后果</strong></p>
+
+<ul>
+<li>典型案例：</li>
+<li>限广令→视频平台崛起</li>
+<li>义务教育→私立学校/学区房溢价</li>
+<li>医疗价格管制→以药养医/检查泛滥
+
+<ul>
+<li>医生收红包 -> 国家禁止收红包 -> 以药养医，租值消散更大，解释为什么药物价格这么贵 -> 国家药价管制 -> 医生多开检查 -> 租值消散越来越大</li>
+</ul>
+</li>
+<li>租值消散规律：管制强度与寻租方式正相关</li>
+</ul>
+</li>
+<li><p><strong>管制本质辨析</strong></p>
+
+<ul>
+<li>产权视角：医生vs加油站员工收红包的本质差异
+
+<ul>
+<li>医生收红包和加油站员工收红包本质不同，因为产权归属不同。医生是产权人，不是腐败，睁一只眼闭一只眼，加油站员工不是产权人，是腐败，要消灭。</li>
+</ul>
+</li>
+<li>&ldquo;免费最贵"定理：货币支付是租值消散最小方式</li>
+</ul>
+</li>
+</ol>
+
+
+<h3>四、制度经济学洞见</h3>
+
+<ol>
+<li><p><strong>法律经济分析</strong></p>
+
+<ul>
+<li>恶法悖论：</li>
+<li>严格执行→租值消散</li>
+<li>松散执行→法律权威受损</li>
+<li>恶法，不是无知就是无耻</li>
+<li>计划生育废除阻力：部门生存逻辑</li>
+</ul>
+</li>
+<li><p><strong>计划与市场边界</strong></p>
+
+<ul>
+<li>科斯定理应用：企业规模受内部交易费用限制</li>
+<li>列宁式计划经济的根本缺陷：忽略规模不经济</li>
+</ul>
+</li>
+</ol>
+
+
+<h3>五、经济学思维工具</h3>
+
+<ol>
+<li><p><strong>分析框架转换</strong></p>
+
+<ul>
+<li>实证分析三步法：
+① 物理现象（为什么发生）
+② 经济动机（为何选择）
+③ 伦理评判（是否应该）</li>
+<li>数据使用警示：</li>
+<li>警惕精确错误＞接受模糊正确</li>
+<li>区分因果与相关</li>
+</ul>
+</li>
+<li><p><strong>概念革新</strong></p>
+
+<ul>
+<li>经济理性≠日常自私：包含所有可解释行为</li>
+<li>歧视合理性：能力证明＞强制平等</li>
+</ul>
+</li>
+</ol>
+
+
+<h3>六、学科发展批判</h3>
+
+<ol>
+<li><strong>理论流派评析</strong>
+
+<ul>
+<li>推崇学派：马歇尔局部均衡/弗里德曼货币理论/张五常制度分析</li>
+<li>批判对象：</li>
+<li>瓦尔拉斯一般均衡（脱离现实）</li>
+<li>凯恩斯主义（人为割裂微观宏观）</li>
+</ul>
+</li>
+</ol>
+
+
+<h3>七、实然问题与应然问题的分析框架</h3>
+
+<p><strong>案例：人从楼上抛掷垃圾</strong><br/>
+1. <strong>学科视角划分</strong><br/>
+   - <strong>物理学（实然解释）</strong><br/>
+     研究现象规律：垃圾下落因地球引力作用<br/>
+     → 回答"为什么发生"<br/>
+   - <strong>经济学（实然解释）</strong><br/>
+     分析行为动机：抛掷垃圾因私人成本＜环境成本（负外部性）<br/>
+     → 回答"为何选择"<br/>
+   - <strong>伦理学（应然判断）</strong><br/>
+     价值评判：破坏公共环境应受谴责<br/>
+     → 回答"是否应该"</p>
+
+<ol>
+<li><strong>方法论转换</strong>
+
+<ul>
+<li>规范命题实证化路径：<br/>
+① 明确价值标准（如"社会总福利最大化"）<br/>
+② 构建可检验假说（如"禁止抛掷可使空气质量提升X%&ldquo;）<br/>
+③ 进行事实验证（污染数据对比/治理成本测算）</li>
+<li>关键突破：将道德判断转化为可证伪的成本收益分析</li>
+</ul>
+</li>
+</ol>
+
+
+<h3>八、其它</h3>
+
+<ol>
+<li>统计学的两个问题
+
+<ul>
+<li><ol>
+<li>错把相关性当因果性。</li>
+</ol>
+</li>
+<li><ol>
+<li>迷信数据。数据不一定代表整个状态空间。</li>
+</ol>
+</li>
+</ul>
+</li>
+<li>弗里德曼对大萧条的解释才是正统的，凯恩斯的解释是非正统的。</li>
+<li>不能看到一个犯罪就杀头，这样轻罪重罪都是一样的惩罚，那么重罪比例就会上升。如果一个人犯错了，就会上升到犯重罪。比如陈胜吴广起义，他们是因为犯了轻罪，就要被处死，所以干脆就起义了。</li>
+<li>经济学中的自私其实和我们生活中的自私不一样，只要是可解释的，就是自私的。这样说，其实用理性更合适。</li>
+<li>自然科学领域科学方法风气好，不用去学习科学方法论，只用随大流就可以。经济学领域科学方法风气不好，需要通过学习科学方法论，来提高自己的辨别能力。</li>
+</ol>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[精英日课笔记]]></title>
@@ -3235,43 +3476,6 @@ Use case 3: <a href="https://javascript.info/event-loop#use-case-3-doing-somethi
 <p>For details, refer to <a href="http://hongchaozhang.github.io/blog/2023/05/25/event-loop-and-macrotask-and-microtask/">macrotask and microtask in event loop</a></p>
 
 <p><code>Async/Sync</code> is just a more elegant syntax of getting the promise result than <code>promise.then</code>. And, it’s easier to read and write.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[如何在一台机器上使用两个github账号]]></title>
-    <link href="http://hongchaozhang.github.io/blog/2023/05/24/work-with-two-github-accounts/"/>
-    <updated>2023-05-24T21:30:12+08:00</updated>
-    <id>http://hongchaozhang.github.io/blog/2023/05/24/work-with-two-github-accounts</id>
-    <content type="html"><![CDATA[<!-- more -->
-
-
-<p>最近公司的github账号从专有域名（github.company.com）迁移到了公共域名（github.com）下，所以我需要在一台机器上同时使用两个github账号。这里记录一下配置过程。</p>
-
-<ol>
-<li>生成两个ssh key</li>
-<li>将ssh key添加到github账号</li>
-<li>配置ssh config
-
-<ol>
-<li>如果不想配置config文件，需要手动保证ssh-agent里面每次有你想要的key，这个要不断切换，不方便，推荐使用config文件。</li>
-</ol>
-</li>
-<li>使用特殊的域名进行<code>git clone</code>操作, <code>git clone git@github.com-hongchaozhang:hongchaozhang/deep-learning-specialization.git</code>.</li>
-</ol>
-
-
-<p><code>~/.ssh</code>目录下文件和创建的<code>config</code>文件，内容如下：</p>
-
-<p><img src="http://hongchaozhang.github.io/images/config-two-github-account.jpg" alt="config two github accounts" width="300"></p>
-
-<p>具体步骤细节参考：</p>
-
-<ul>
-<li><a href="https://www.freecodecamp.org/news/manage-multiple-github-accounts-the-ssh-way-2dadc30ccaca/#:~:text=If%20it%E2%80%99s%20to%20a%20personal%20Git%20account%20that,do%20a%20Git%20push%20to%20the%20personal%20repository">How to manage multiple GitHub accounts on a single machine with SSH keys</a></li>
-<li><a href="https://gist.github.com/rahularity/86da20fe3858e6b311de068201d279e3">How To Work With Multiple Github Accounts on a single Machine</a></li>
-</ul>
-
 ]]></content>
   </entry>
   
