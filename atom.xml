@@ -4,7 +4,7 @@
   <title><![CDATA[Reading Space]]></title>
   <link href="http://hongchaozhang.github.io/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2025-03-10T00:20:53+08:00</updated>
+  <updated>2025-03-24T23:47:35+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -12,6 +12,206 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Babel工作原理]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2025/03/24/babel-workflow/"/>
+    <updated>2025-03-24T23:20:31+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2025/03/24/babel-workflow</id>
+    <content type="html"><![CDATA[<!-- more -->
+
+
+<p>Babel is a JavaScript compiler。
+主要用于将 ECMAScript 2015+（ES6 及以上）的 JavaScript 代码转换成能够在当前和旧版浏览器环境中兼容运行的代码版本。</p>
+
+<h1>配置</h1>
+
+<p>Babel 的配置文件通常是<code>.babelrc.json</code>或<code>babel.config.json</code>，可以在其中配置需要使用的插件和预设:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>{
+</span><span class='line'>  "presets": [...],
+</span><span class='line'>  "plugins": [...]
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>甚至可以直接写在<code>package.json</code>中：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>{
+</span><span class='line'>  ...,
+</span><span class='line'>  "babel": {
+</span><span class='line'>    "presets": [...],
+</span><span class='line'>    "plugins": [...]
+</span><span class='line'>  },
+</span><span class='line'>  ...
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>更加灵活的，可以在<code>webpack.config.js</code>中访问 Node.js 的 APIs：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>module.exports = function (api) {
+</span><span class='line'>  api.cache(true);
+</span><span class='line'>
+</span><span class='line'>  const presets = [ ... ];
+</span><span class='line'>  const plugins = [ ... ];
+</span><span class='line'>
+</span><span class='line'>  if (process.env["ENV"] === "prod") {
+</span><span class='line'>    plugins.push(...);
+</span><span class='line'>  }
+</span><span class='line'>
+</span><span class='line'>  return {
+</span><span class='line'>    presets,
+</span><span class='line'>    plugins
+</span><span class='line'>  };
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<h1>工作流程</h1>
+
+<p><img src="http://hongchaozhang.github.io/images/babel-workflow.png" alt="babel workflow" /></p>
+
+<p>Babel 的编译过程与大多数编程语言的编译器类似，分为三个主要阶段：解析（Parsing）、转换（Transformation）和生成（Code Generation）</p>
+
+<h2>解析（Parsing）</h2>
+
+<p>这一阶段将代码字符串解析成抽象语法树（AST，Abstract Syntax Tree）<a href="https://developer.aliyun.com/article/1303957">2</a><a href="https://blog.csdn.net/ByteDanceTech/article/details/126900235">3</a>。AST 是源代码的抽象语法结构的树状表示，树上的每个节点都表示源代码中的一种结构<a href="https://developer.aliyun.com/article/1303957">2</a>。
+解析过程又分为两个步骤：</p>
+
+<ul>
+<li>分词：将整个代码字符串分割成语法单元数组：tokenizer，keyword</li>
+<li>语法分析：建立分析语法单元之间的关系<a href="https://developer.aliyun.com/article/1303957">2</a></li>
+</ul>
+
+
+<p>例如，一个简单的<code>console.log('zcy');</code>会被解析成包含程序结构、表达式语句、调用表达式等节点的 AST<a href="https://developer.aliyun.com/article/1303957">2</a>。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>{
+</span><span class='line'>  "type": "Program",
+</span><span class='line'>  "body": [
+</span><span class='line'>    {
+</span><span class='line'>      "type": "ExpressionStatement",
+</span><span class='line'>      "expression": {
+</span><span class='line'>        "type": "CallExpression",
+</span><span class='line'>        "callee": {
+</span><span class='line'>          "type": "MemberExpression",
+</span><span class='line'>          "computed": false,
+</span><span class='line'>          "object": {
+</span><span class='line'>            "type": "Identifier",
+</span><span class='line'>            "name": "console"
+</span><span class='line'>          },
+</span><span class='line'>          "property": {
+</span><span class='line'>            "type": "Identifier",
+</span><span class='line'>            "name": "log"
+</span><span class='line'>          }
+</span><span class='line'>        },
+</span><span class='line'>        "arguments": [
+</span><span class='line'>          {
+</span><span class='line'>          "type": "Literal",
+</span><span class='line'>          "value": "zcy",
+</span><span class='line'>          "raw": "'zcy'"
+</span><span class='line'>          }
+</span><span class='line'>        ]
+</span><span class='line'>      }
+</span><span class='line'>    }
+</span><span class='line'>  ],
+</span><span class='line'>  "sourceType": "script"
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>转换（Transformation）</h2>
+
+<p>这一阶段对 AST 进行转换操作<a href="https://developer.aliyun.com/article/1303957">2</a><a href="https://blog.csdn.net/ByteDanceTech/article/details/126900235">3</a>。转换通常通过 Babel plugin（插件）或者 preset（预设）实现，每个插件可以访问 AST 并对其进行修改，例如将箭头函数的节点转换为普通函数节点。</p>
+
+<h3>plugin（插件）</h3>
+
+<p>Babel 本身只是一个编译器，可以理解为一个框架，就像一个纯函数<code>const babel = code =&gt; code</code>一样，只负责解析然后生成代码。要实现具体的转换功能，需要添加和使用插件（plugins）。
+例如，要将箭头函数转换为普通函数，可以使用官方提供的<code>@babel/plugin-transform-arrow-functions</code>插件<a href="https://www.xuwenchao.site/blogs/babel.html">1</a>。每个插件负责特定类型的语法转换，开发者可以根据需要添加相应的插件。</p>
+
+<h3>presets（预设）</h3>
+
+<p>如果要编译一个完整的应用，单独配置每个所需的插件会非常繁琐。为了解决这个问题，Babel 引入了 presets（预设）的概念<a href="https://www.xuwenchao.site/blogs/babel.html">1</a>。
+presets 可以理解为 plugins 和部分配置的集合，使用预设可以避免单独配置每个 plugin 和参数，直接使用已经组合好的配置即可<a href="https://www.xuwenchao.site/blogs/babel.html">1</a>。常见的预设包括<code>@babel/preset-env</code>、<code>@babel/preset-react</code>等。</p>
+
+<h2>生成（Code Generation）</h2>
+
+<p>最后一个阶段是根据转换后的 AST 生成新的代码字符串。这一过程包括将 AST 中的每个节点映射回字符串形式，并生成源码映射（source maps）。</p>
+
+<h1>结论</h1>
+
+<p>Babel 作为现代前端开发的重要工具，为开发者提供了使用最新 JavaScript 特性的能力，同时保证了代码在各种浏览器环境中的兼容性。深入理解 Babel 的基本概念、工作流程和使用方法，对于前端开发者提升开发效率和代码质量有着重要意义。</p>
+
+<p>从入门的基本使用，到进阶的插件开发，再到专业的性能优化，Babel 的学习是一个循序渐进的过程。随着对 Babel 的不断深入学习和实践，开发者能够更加灵活地利用这一工具，构建更加现代化、高效的前端应用。</p>
+
+<h1>应用场景</h1>
+
+<ul>
+<li>编辑器</li>
+<li>LSP language server protocol</li>
+<li>语法高亮，自动补全</li>
+<li>静态代码分析</li>
+<li>代码转换</li>
+<li>代码压缩和优化</li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[道金斯《自私的基因》读后感]]></title>
@@ -3306,116 +3506,6 @@ This is simpler and keeps the data flow predictable: the data flows down from th
 </span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
 
 
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[事件循环中的Macrotask和Microtask]]></title>
-    <link href="http://hongchaozhang.github.io/blog/2023/05/25/event-loop-and-macrotask-and-microtask/"/>
-    <updated>2023-05-25T22:01:49+08:00</updated>
-    <id>http://hongchaozhang.github.io/blog/2023/05/25/event-loop-and-macrotask-and-microtask</id>
-    <content type="html"><![CDATA[<!-- more -->
-
-
-<p>For details, refer to <a href="https://javascript.info/event-loop">Event loop: microtasks and macrotasks</a>.</p>
-
-<h2>Event Loop</h2>
-
-<p>The event loop concept is very simple. There’s an endless loop, where the JavaScript engine waits for tasks, executes them and then sleeps, waiting for more tasks.</p>
-
-<p>For instance, while the engine is busy executing a <code>script</code>, a user may move their mouse causing <code>mousemove</code>, and <code>setTimeout</code> may be due and so on, these tasks form a queue.</p>
-
-<p>Tasks from the queue are processed on “first come – first served” basis. When the engine browser is done with the <code>script</code>, it handles <code>mousemove</code> event, then <code>setTimeout</code> handler, and so on.</p>
-
-<p>So far, quite simple, right?</p>
-
-<p>Two more details:</p>
-
-<ul>
-<li>Rendering never happens while the engine executes a task. It doesn’t matter if the task takes a long time. Changes to the DOM are painted only after the task is complete.</li>
-<li>If a task takes too long, the browser can’t do other tasks, such as processing user events. So after a time, it raises an alert like “Page Unresponsive”, suggesting killing the task with the whole page. That happens when there are a lot of complex calculations or a programming error leading to an infinite loop.</li>
-</ul>
-
-
-<p>Event Loop应用
-Use-case 1: <a href="https://javascript.info/event-loop#use-case-1-splitting-cpu-hungry-tasks">splitting CPU-hungry tasks</a>
-Use case 2: <a href="https://javascript.info/event-loop#use-case-1-splitting-cpu-hungry-tasks">progress indication</a>
-Use case 3: <a href="https://javascript.info/event-loop#use-case-3-doing-something-after-the-event">doing something after the event</a></p>
-
-<h2>Macrotasks and Microtasks</h2>
-
-<ul>
-<li>Macrotask：
-
-<ul>
-<li><code>script</code>，<code>mousemove</code>，<code>setTimeout</code></li>
-<li>use <code>setTimeout(f)</code> to dispatch a callback as a macrotask</li>
-</ul>
-</li>
-<li>Microtask：
-
-<ul>
-<li>They are usually created by promises: an execution of <code>.then/catch/finally</code> handler becomes a microtask.</li>
-<li> use <code>queueMicrotask(f)</code> to dispatch a callback as a microtask</li>
-</ul>
-</li>
-</ul>
-
-
-<p>Event loop workflow with macrotask and microtask:</p>
-
-<p><img src="http://hongchaozhang.github.io/images/eventloopinv8.png" width="300px" alt="event loop and macrotask and microtask" /></p>
-
-<h2>Summary</h2>
-
-<p>A more detailed event loop algorithm (though still simplified compared to the specification):</p>
-
-<pre><code>1. Dequeue and run the oldest task from the macrotask queue (e.g. “script”).
-2. Execute all microtasks:
-    * While the microtask queue is not empty:
-        * Dequeue and run the oldest microtask.
-3. Render changes if any.
-4. If the macrotask queue is empty, wait till a macrotask appears.
-5. Go to step 1.
-</code></pre>
-
-<p>If you want a real parallel task execution, use Web Worker. it is running in a separate thread.</p>
-
-<h2>练习</h2>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>console.log(1);
-</span><span class='line'>
-</span><span class='line'>setTimeout(() =&gt; console.log(2));
-</span><span class='line'>
-</span><span class='line'>Promise.resolve().then(() =&gt; console.log(3));
-</span><span class='line'>
-</span><span class='line'>Promise.resolve().then(() =&gt; setTimeout(() =&gt; console.log(4)));
-</span><span class='line'>
-</span><span class='line'>Promise.resolve().then(() =&gt; console.log(5));
-</span><span class='line'>
-</span><span class='line'>setTimeout(() =&gt; console.log(6));
-</span><span class='line'>
-</span><span class='line'>console.log(7);</span></code></pre></td></tr></table></div></figure>
-
-
-<p>答案：The console output is:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>1 7 3 5 2 6 4</span></code></pre></td></tr></table></div></figure>
 
 ]]></content>
   </entry>

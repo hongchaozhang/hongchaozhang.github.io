@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: babel | Reading Space]]></title>
+  <link href="http://hongchaozhang.github.io/blog/categories/babel/atom.xml" rel="self"/>
+  <link href="http://hongchaozhang.github.io/"/>
+  <updated>2025-03-24T23:47:35+08:00</updated>
+  <id>http://hongchaozhang.github.io/</id>
+  <author>
+    <name><![CDATA[Zhang Hongchao]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Babel工作原理]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2025/03/24/babel-workflow/"/>
+    <updated>2025-03-24T23:20:31+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2025/03/24/babel-workflow</id>
+    <content type="html"><![CDATA[<!-- more -->
+
+
+<p>Babel is a JavaScript compiler。
+主要用于将 ECMAScript 2015+（ES6 及以上）的 JavaScript 代码转换成能够在当前和旧版浏览器环境中兼容运行的代码版本。</p>
+
+<h1>配置</h1>
+
+<p>Babel 的配置文件通常是<code>.babelrc.json</code>或<code>babel.config.json</code>，可以在其中配置需要使用的插件和预设:</p>
+
+<pre><code>{
+  "presets": [...],
+  "plugins": [...]
+}
+</code></pre>
+
+<p>甚至可以直接写在<code>package.json</code>中：</p>
+
+<pre><code>{
+  ...,
+  "babel": {
+    "presets": [...],
+    "plugins": [...]
+  },
+  ...
+}
+</code></pre>
+
+<p>更加灵活的，可以在<code>webpack.config.js</code>中访问 Node.js 的 APIs：</p>
+
+<pre><code>module.exports = function (api) {
+  api.cache(true);
+
+  const presets = [ ... ];
+  const plugins = [ ... ];
+
+  if (process.env["ENV"] === "prod") {
+    plugins.push(...);
+  }
+
+  return {
+    presets,
+    plugins
+  };
+}
+</code></pre>
+
+<h1>工作流程</h1>
+
+<p><img src="/images/babel-workflow.png" alt="babel workflow" /></p>
+
+<p>Babel 的编译过程与大多数编程语言的编译器类似，分为三个主要阶段：解析（Parsing）、转换（Transformation）和生成（Code Generation）</p>
+
+<h2>解析（Parsing）</h2>
+
+<p>这一阶段将代码字符串解析成抽象语法树（AST，Abstract Syntax Tree）<a href="https://developer.aliyun.com/article/1303957">2</a><a href="https://blog.csdn.net/ByteDanceTech/article/details/126900235">3</a>。AST 是源代码的抽象语法结构的树状表示，树上的每个节点都表示源代码中的一种结构<a href="https://developer.aliyun.com/article/1303957">2</a>。
+解析过程又分为两个步骤：</p>
+
+<ul>
+<li>分词：将整个代码字符串分割成语法单元数组：tokenizer，keyword</li>
+<li>语法分析：建立分析语法单元之间的关系<a href="https://developer.aliyun.com/article/1303957">2</a></li>
+</ul>
+
+
+<p>例如，一个简单的<code>console.log('zcy');</code>会被解析成包含程序结构、表达式语句、调用表达式等节点的 AST<a href="https://developer.aliyun.com/article/1303957">2</a>。</p>
+
+<pre><code>{
+  "type": "Program",
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "expression": {
+        "type": "CallExpression",
+        "callee": {
+          "type": "MemberExpression",
+          "computed": false,
+          "object": {
+            "type": "Identifier",
+            "name": "console"
+          },
+          "property": {
+            "type": "Identifier",
+            "name": "log"
+          }
+        },
+        "arguments": [
+          {
+          "type": "Literal",
+          "value": "zcy",
+          "raw": "'zcy'"
+          }
+        ]
+      }
+    }
+  ],
+  "sourceType": "script"
+}
+</code></pre>
+
+<h2>转换（Transformation）</h2>
+
+<p>这一阶段对 AST 进行转换操作<a href="https://developer.aliyun.com/article/1303957">2</a><a href="https://blog.csdn.net/ByteDanceTech/article/details/126900235">3</a>。转换通常通过 Babel plugin（插件）或者 preset（预设）实现，每个插件可以访问 AST 并对其进行修改，例如将箭头函数的节点转换为普通函数节点。</p>
+
+<h3>plugin（插件）</h3>
+
+<p>Babel 本身只是一个编译器，可以理解为一个框架，就像一个纯函数<code>const babel = code =&gt; code</code>一样，只负责解析然后生成代码。要实现具体的转换功能，需要添加和使用插件（plugins）。
+例如，要将箭头函数转换为普通函数，可以使用官方提供的<code>@babel/plugin-transform-arrow-functions</code>插件<a href="https://www.xuwenchao.site/blogs/babel.html">1</a>。每个插件负责特定类型的语法转换，开发者可以根据需要添加相应的插件。</p>
+
+<h3>presets（预设）</h3>
+
+<p>如果要编译一个完整的应用，单独配置每个所需的插件会非常繁琐。为了解决这个问题，Babel 引入了 presets（预设）的概念<a href="https://www.xuwenchao.site/blogs/babel.html">1</a>。
+presets 可以理解为 plugins 和部分配置的集合，使用预设可以避免单独配置每个 plugin 和参数，直接使用已经组合好的配置即可<a href="https://www.xuwenchao.site/blogs/babel.html">1</a>。常见的预设包括<code>@babel/preset-env</code>、<code>@babel/preset-react</code>等。</p>
+
+<h2>生成（Code Generation）</h2>
+
+<p>最后一个阶段是根据转换后的 AST 生成新的代码字符串。这一过程包括将 AST 中的每个节点映射回字符串形式，并生成源码映射（source maps）。</p>
+
+<h1>结论</h1>
+
+<p>Babel 作为现代前端开发的重要工具，为开发者提供了使用最新 JavaScript 特性的能力，同时保证了代码在各种浏览器环境中的兼容性。深入理解 Babel 的基本概念、工作流程和使用方法，对于前端开发者提升开发效率和代码质量有着重要意义。</p>
+
+<p>从入门的基本使用，到进阶的插件开发，再到专业的性能优化，Babel 的学习是一个循序渐进的过程。随着对 Babel 的不断深入学习和实践，开发者能够更加灵活地利用这一工具，构建更加现代化、高效的前端应用。</p>
+
+<h1>应用场景</h1>
+
+<ul>
+<li>编辑器</li>
+<li>LSP language server protocol</li>
+<li>语法高亮，自动补全</li>
+<li>静态代码分析</li>
+<li>代码转换</li>
+<li>代码压缩和优化</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+</feed>
