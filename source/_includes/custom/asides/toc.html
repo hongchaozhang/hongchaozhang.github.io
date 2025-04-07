@@ -1,0 +1,39 @@
+<div class="toc-container">
+  <h3>文章目录</h3>
+  <div id="toc"></div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const content = document.querySelector('.entry-content');
+  if (!content) return;
+  
+  const headings = content.querySelectorAll('h1, h2, h3, h4, h5, h6');
+  const toc = document.getElementById('toc');
+  
+  if (headings.length > 0) {
+    let currentLevel = 0;
+    let tocHTML = '<ul>';
+    
+    headings.forEach((heading, index) => {
+      const level = parseInt(heading.tagName[1]);
+      const id = `heading-${index}`;
+      heading.id = id;
+      
+      if (level > currentLevel) {
+        tocHTML += '<ul>'.repeat(level - currentLevel);
+      } else if (level < currentLevel) {
+        tocHTML += '</ul>'.repeat(currentLevel - level);
+      }
+      
+      tocHTML += `<li><a href="#${id}">${heading.textContent}</a></li>`;
+      currentLevel = level;
+    });
+    
+    tocHTML += '</ul>'.repeat(currentLevel);
+    toc.innerHTML = tocHTML;
+  } else {
+    toc.innerHTML = '<p>本文没有目录</p>';
+  }
+});
+</script> 

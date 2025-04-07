@@ -119,6 +119,22 @@ Babel 本身只是一个编译器，可以理解为一个框架，就像一个�
 如果要编译一个完整的应用，单独配置每个所需的插件会非常繁琐。为了解决这个问题，Babel 引入了 presets（预设）的概念[1](https://www.xuwenchao.site/blogs/babel.html)。
 presets 可以理解为 plugins 和部分配置的集合，使用预设可以避免单独配置每个 plugin 和参数，直接使用已经组合好的配置即可[1](https://www.xuwenchao.site/blogs/babel.html)。常见的预设包括`@babel/preset-env`、`@babel/preset-react`等。
 
+@babel/preset-env 包含以下插件：
+
+-   @babel/plugin-transform-template-literals
+-   @babel/plugin-transform-literals
+-   @babel/plugin-transform-function-name
+-   @babel/plugin-transform-arrow-functions
+-   @babel/plugin-transform-block-scoped-functions
+-   @babel/plugin-transform-classes
+-   @babel/plugin-transform-object-super
+
+@babel/preset-react 包含以下插件：  
+
+-   @babel/plugin-syntax-jsx
+-   @babel/plugin-transform-react-jsx
+-   @babel/plugin-transform-react-display-name
+
 ## 生成（Code Generation）
 
 最后一个阶段是根据转换后的 AST 生成新的代码字符串。这一过程包括将 AST 中的每个节点映射回字符串形式，并生成源码映射（source maps）。

@@ -1,0 +1,144 @@
+// 基础设置
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden; // 禁止body滚动
+}
+
+// 容器布局
+.container {
+    display: flex;
+    width: 100%;
+    height: 100vh; // 使用视口高度
+    margin: 0;
+    overflow: hidden; // 禁止容器滚动
+
+    // 左边栏
+    .left-col {
+        position: relative !important;
+        flex: 0 0 300px;
+        width: 300px;
+        height: 100%;
+        background: #3d4349;
+        color: #fff;
+        overflow-y: auto; // 允许纵向滚动
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+
+        .intrude-less {
+            padding: 20px;
+        }
+    }
+
+    // 中间内容区
+    .mid-col {
+        position: relative !important;
+        flex: 1;
+        height: 100%;
+        background: #fff;
+        overflow-y: auto; // 允许纵向滚动
+
+        .mid-col-container {
+            padding: 30px 40px;
+        }
+    }
+
+    // 右边栏
+    .right-col {
+        position: relative !important;
+        flex: 0 0 240px;
+        width: 240px;
+        height: 100%;
+        background: #f9f9f9;
+        padding: 0;
+        overflow-y: auto; // 允许纵向滚动
+        display: none; // 默认隐藏右边栏
+    }
+}
+
+// 修复右边栏目录位置
+.toc-container {
+    position: relative;
+    padding: 20px;
+    
+    h3 {
+        margin-bottom: 15px;
+        font-size: 18px;
+        color: #333;
+        font-weight: bold;
+        border-bottom: 1px solid #eee;
+        padding-bottom: 10px;
+    }
+
+    ul {
+        list-style: none;
+        padding-left: 15px;
+        margin: 0;
+
+        li {
+            margin: 5px 0;
+            line-height: 1.4;
+
+            a {
+                color: #666;
+                text-decoration: none;
+                font-size: 14px;
+
+                &:hover {
+                    color: #333;
+                    text-decoration: underline;
+                }
+            }
+        }
+    }
+}
+
+// 在单篇文章页面显示右边栏
+body.single .container .right-col {
+    display: block;
+}
+
+// 确保TOC只在右边栏中显示
+#toc {
+    display: none;
+}
+
+.right-col #toc {
+    display: block;
+}
+
+// 媒体查询
+@media screen and (max-width: 1200px) {
+    .container {
+        flex-wrap: nowrap;
+    }
+
+    .right-col {
+        display: none !important; // 强制在小屏幕上隐藏
+    }
+}
+
+@media screen and (max-width: 768px) {
+    html, body {
+        overflow-y: auto; // 在小屏幕上允许页面整体滚动
+    }
+    
+    .container {
+        flex-direction: column;
+        height: auto;
+    }
+
+    .left-col {
+        flex: none;
+        height: auto;
+        width: 100%;
+        max-height: none;
+    }
+
+    .mid-col {
+        flex: 1;
+        width: 100%;
+        height: auto;
+    }
+}
