@@ -51,7 +51,7 @@ html, body {
         width: 240px;
         height: 100%;
         background: #f9f9f9;
-        padding: 0;
+        padding: 20px;
         overflow-y: auto; // 允许纵向滚动
         display: none; // 默认隐藏右边栏
     }
@@ -60,7 +60,7 @@ html, body {
 // 修复右边栏目录位置
 .toc-container {
     position: relative;
-    padding: 20px;
+    // padding: 20px;
     
     h3 {
         margin-bottom: 15px;
