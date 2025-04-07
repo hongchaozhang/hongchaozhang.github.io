@@ -44,7 +44,7 @@
 </head>
 
 
-<body>
+<body class="single">
 	<div class="container">
 		<div class="left-col">
 			<div class="intrude-less">
@@ -62,7 +62,7 @@
 <nav id="main-nav"><ul class="main">
     <li><a href="/">Blog</a></li>
     <li><a href="/blog/archives">Archives</a></li>
-    <li><a href="#">About</a></li>
+    <li><a href="/about">About</a></li>
 </ul>
 </nav>
 <nav id="sub-nav">
@@ -361,6 +361,48 @@
 
 <!--Design credit: <a href="http://shashankmehta.in/archive/2012/greyshade.html">Shashank Mehta</a>--></footer>
 		</div>
+		
+		<div class="right-col">
+			<div class="toc-container">
+				<h3>文章目录</h3>
+				<div id="toc"></div>
+			</div>
+			<script>
+			document.addEventListener('DOMContentLoaded', function() {
+				const content = document.querySelector('.entry-content');
+				if (!content) return;
+				
+				const headings = content.querySelectorAll('h1, h2, h3, h4, h5, h6');
+				const toc = document.getElementById('toc');
+				
+				if (headings.length > 0) {
+					let currentLevel = 0;
+					let tocHTML = '<ul>';
+					
+					headings.forEach((heading, index) => {
+						const level = parseInt(heading.tagName[1]);
+						const id = `heading-${index}`;
+						heading.id = id;
+						
+						if (level > currentLevel) {
+							tocHTML += '<ul>'.repeat(level - currentLevel);
+						} else if (level < currentLevel) {
+							tocHTML += '</ul>'.repeat(currentLevel - level);
+						}
+						
+						tocHTML += `<li><a href="#${id}">${heading.textContent}</a></li>`;
+						currentLevel = level;
+					});
+					
+					tocHTML += '</ul>'.repeat(currentLevel);
+					toc.innerHTML = tocHTML;
+				} else {
+					toc.innerHTML = '<p>本文没有目录</p>';
+				}
+			});
+			</script>
+		</div>
+		
 	</div>
 	
 

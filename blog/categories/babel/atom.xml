@@ -4,7 +4,7 @@
   <title><![CDATA[Category: babel | Reading Space]]></title>
   <link href="http://hongchaozhang.github.io/blog/categories/babel/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2025-03-24T23:47:35+08:00</updated>
+  <updated>2025-04-08T00:42:28+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -130,6 +130,28 @@
 
 <p>如果要编译一个完整的应用，单独配置每个所需的插件会非常繁琐。为了解决这个问题，Babel 引入了 presets（预设）的概念<a href="https://www.xuwenchao.site/blogs/babel.html">1</a>。
 presets 可以理解为 plugins 和部分配置的集合，使用预设可以避免单独配置每个 plugin 和参数，直接使用已经组合好的配置即可<a href="https://www.xuwenchao.site/blogs/babel.html">1</a>。常见的预设包括<code>@babel/preset-env</code>、<code>@babel/preset-react</code>等。</p>
+
+<p>@babel/preset-env 包含以下插件：</p>
+
+<ul>
+<li>@babel/plugin-transform-template-literals</li>
+<li>@babel/plugin-transform-literals</li>
+<li>@babel/plugin-transform-function-name</li>
+<li>@babel/plugin-transform-arrow-functions</li>
+<li>@babel/plugin-transform-block-scoped-functions</li>
+<li>@babel/plugin-transform-classes</li>
+<li>@babel/plugin-transform-object-super</li>
+</ul>
+
+
+<p>@babel/preset-react 包含以下插件：</p>
+
+<ul>
+<li>@babel/plugin-syntax-jsx</li>
+<li>@babel/plugin-transform-react-jsx</li>
+<li>@babel/plugin-transform-react-display-name</li>
+</ul>
+
 
 <h2>生成（Code Generation）</h2>
 

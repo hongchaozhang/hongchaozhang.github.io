@@ -45,7 +45,7 @@
 </head>
 
 
-<body>
+<body class="single">
 	<div class="container">
 		<div class="left-col">
 			<div class="intrude-less">
@@ -63,7 +63,7 @@
 <nav id="main-nav"><ul class="main">
     <li><a href="/">Blog</a></li>
     <li><a href="/blog/archives">Archives</a></li>
-    <li><a href="#">About</a></li>
+    <li><a href="/about">About</a></li>
 </ul>
 </nav>
 <nav id="sub-nav">
@@ -279,6 +279,28 @@
 <p>如果要编译一个完整的应用，单独配置每个所需的插件会非常繁琐。为了解决这个问题，Babel 引入了 presets（预设）的概念<a href="https://www.xuwenchao.site/blogs/babel.html">1</a>。
 presets 可以理解为 plugins 和部分配置的集合，使用预设可以避免单独配置每个 plugin 和参数，直接使用已经组合好的配置即可<a href="https://www.xuwenchao.site/blogs/babel.html">1</a>。常见的预设包括<code>@babel/preset-env</code>、<code>@babel/preset-react</code>等。</p>
 
+<p>@babel/preset-env 包含以下插件：</p>
+
+<ul>
+<li>@babel/plugin-transform-template-literals</li>
+<li>@babel/plugin-transform-literals</li>
+<li>@babel/plugin-transform-function-name</li>
+<li>@babel/plugin-transform-arrow-functions</li>
+<li>@babel/plugin-transform-block-scoped-functions</li>
+<li>@babel/plugin-transform-classes</li>
+<li>@babel/plugin-transform-object-super</li>
+</ul>
+
+
+<p>@babel/preset-react 包含以下插件：</p>
+
+<ul>
+<li>@babel/plugin-syntax-jsx</li>
+<li>@babel/plugin-transform-react-jsx</li>
+<li>@babel/plugin-transform-react-display-name</li>
+</ul>
+
+
 <h2>生成（Code Generation）</h2>
 
 <p>最后一个阶段是根据转换后的 AST 生成新的代码字符串。这一过程包括将 AST 中的每个节点映射回字符串形式，并生成源码映射（source maps）。</p>
@@ -324,6 +346,48 @@ presets 可以理解为 plugins 和部分配置的集合，使用预设可以避
 
 <!--Design credit: <a href="http://shashankmehta.in/archive/2012/greyshade.html">Shashank Mehta</a>--></footer>
 		</div>
+		
+		<div class="right-col">
+			<div class="toc-container">
+				<h3>文章目录</h3>
+				<div id="toc"></div>
+			</div>
+			<script>
+			document.addEventListener('DOMContentLoaded', function() {
+				const content = document.querySelector('.entry-content');
+				if (!content) return;
+				
+				const headings = content.querySelectorAll('h1, h2, h3, h4, h5, h6');
+				const toc = document.getElementById('toc');
+				
+				if (headings.length > 0) {
+					let currentLevel = 0;
+					let tocHTML = '<ul>';
+					
+					headings.forEach((heading, index) => {
+						const level = parseInt(heading.tagName[1]);
+						const id = `heading-${index}`;
+						heading.id = id;
+						
+						if (level > currentLevel) {
+							tocHTML += '<ul>'.repeat(level - currentLevel);
+						} else if (level < currentLevel) {
+							tocHTML += '</ul>'.repeat(currentLevel - level);
+						}
+						
+						tocHTML += `<li><a href="#${id}">${heading.textContent}</a></li>`;
+						currentLevel = level;
+					});
+					
+					tocHTML += '</ul>'.repeat(currentLevel);
+					toc.innerHTML = tocHTML;
+				} else {
+					toc.innerHTML = '<p>本文没有目录</p>';
+				}
+			});
+			</script>
+		</div>
+		
 	</div>
 	
 
