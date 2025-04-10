@@ -69,7 +69,14 @@ module Jekyll
       html = ''
       lists.each do | category, counter |
         url = category_dir + category.to_url
-        style = "font-size: #{100 + (60 * Float(counter)/max)}%"
+        # 计算字体大小百分比，范围从100%到160%
+        font_size = 100 + (60 * Float(counter)/max)
+        
+        # 根据分类数量确定颜色
+        # 使用不同的颜色区间，确保区分度大
+        color = get_color_by_count(counter, max)
+        
+        style = "font-size: #{font_size}%; color: #{color};"
         html << "<a href='#{url}' style='#{style}'>#{category}"
         if @opts['counter']
           html << "(#{categories[category].count})"
@@ -77,6 +84,34 @@ module Jekyll
         html << "</a> "
       end
       html
+    end
+    
+    # 根据计数确定颜色，确保在深灰色背景下清晰可见
+    def get_color_by_count(count, max)
+      # 将计数分为10个区间，并分配不同的颜色
+      ratio = Float(count) / max
+      
+      if ratio < 0.1
+        "#ffffff" # 白色 - 最少数量
+      elsif ratio < 0.2
+        "#4fc3f7" # 亮蓝色
+      elsif ratio < 0.3
+        "#81c784" # 亮绿色
+      elsif ratio < 0.4
+        "#fff176" # 亮黄色
+      elsif ratio < 0.5
+        "#ffb74d" # 亮橙色
+      elsif ratio < 0.6
+        "#ff8a65" # 亮红色
+      elsif ratio < 0.7
+        "#ba68c8" # 亮紫色
+      elsif ratio < 0.8
+        "#4db6ac" # 亮青色
+      elsif ratio < 0.9
+        "#cc5252" # 亮靛蓝
+      else
+        "#ff5252" # 亮红 - 最多数量
+      end
     end
   end
 
