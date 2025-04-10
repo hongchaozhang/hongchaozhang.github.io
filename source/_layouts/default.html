@@ -32,8 +32,14 @@
 				const toc = document.getElementById('toc');
 				
 				if (headings.length > 0) {
-					let currentLevel = 0;
-					let tocHTML = '<ul>';
+					let minLevel = 6;
+					headings.forEach(heading => {
+						const level = parseInt(heading.tagName[1]);
+						minLevel = Math.min(minLevel, level);
+					});
+					
+					let currentLevel = minLevel;
+					let tocHTML = '<ul class="toc-list">';
 					
 					headings.forEach((heading, index) => {
 						const level = parseInt(heading.tagName[1]);
@@ -50,7 +56,9 @@
 						currentLevel = level;
 					});
 					
-					tocHTML += '</ul>'.repeat(currentLevel);
+					tocHTML += '</ul>'.repeat(Math.max(0, currentLevel - minLevel));
+					tocHTML += '</ul>';
+					
 					toc.innerHTML = tocHTML;
 				} else {
 					toc.innerHTML = '<p>本文没有目录</p>';
