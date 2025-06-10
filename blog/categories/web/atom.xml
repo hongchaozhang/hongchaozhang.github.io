@@ -4,7 +4,7 @@
   <title><![CDATA[Category: web | Reading Space]]></title>
   <link href="http://hongchaozhang.github.io/blog/categories/web/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2025-06-10T17:47:54+08:00</updated>
+  <updated>2025-06-10T18:27:41+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -14,7 +14,219 @@
 
   
   <entry>
-    <title type="html"><![CDATA[how to improve web performance]]></title>
+    <title type="html"><![CDATA[Web性能指标]]></title>
+    <link href="http://hongchaozhang.github.io/blog/2025/06/10/kpi-for-web-performance/"/>
+    <updated>2025-06-10T17:51:04+08:00</updated>
+    <id>http://hongchaozhang.github.io/blog/2025/06/10/kpi-for-web-performance</id>
+    <content type="html"><![CDATA[<!-- more -->
+
+
+<p>下面是Google Web Vitals的指标，以及如何测量。</p>
+
+<ul>
+<li><a href="https://web.dev/articles/vitals">Web Vitals</a></li>
+<li><a href="https://web.dev/articles/lcp#measure">Largest Contentful Paint (LCP)</a></li>
+<li><a href="https://web.dev/articles/inp#how-to-measure-inp">Interaction to Next Paint (INP)</a></li>
+<li><a href="https://web.dev/articles/cls#measure">Cumulative Layout Shift (CLS)</a></li>
+</ul>
+
+
+<p>下面对其进行总结。</p>
+
+<hr />
+
+<h2>🔍 什么是 Web Vitals？</h2>
+
+<ul>
+<li><strong>Web Vitals</strong> 是 Google 推出的统一性能评估体系，旨在让开发者、产品经理等聚焦界面体验质量的核心指标 (<a href="https://web.dev/articles/vitals">web.dev</a>)。</li>
+<li>它简化了性能指标体系，聚焦当前"<strong>Core Web Vitals</strong>&ldquo;（核心页面体验指标） (<a href="https://developers.google.com/search/docs/appearance/core-web-vitals">developers.google.com</a>)。</li>
+</ul>
+
+
+<hr />
+
+<h2>🎯 Core Web Vitals 主要指标</h2>
+
+<p><img src="/images/LCP-INP-CLS.jpg" alt="lcp inp cls" /></p>
+
+<p>这三个指标反映了用户体验的三个关键维度：</p>
+
+<table>
+<thead>
+<tr>
+<th> 指标                              </th>
+<th> 描述                     </th>
+<th> 优良阈值                   </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td> LCP (Largest Contentful Paint)  </td>
+<td> 最大内容元素首次对用户可见所需时间      </td>
+<td> ≤ 2.5 s (<a href="https://web.dev/articles/vitals">web.dev</a>) </td>
+</tr>
+<tr>
+<td> INP (Interaction to Next Paint) </td>
+<td> 用户交互至下一帧渲染完成的延迟，反映响应速度 </td>
+<td> ≤ 200 ms               </td>
+</tr>
+<tr>
+<td> CLS (Cumulative Layout Shift)   </td>
+<td> 页面元素意外移动引起的视觉稳定性问题累积分数 </td>
+<td> ≤ 0.1                  </td>
+</tr>
+</tbody>
+</table>
+
+
+<ul>
+<li>衡量标准采用 <strong>75th percentile</strong>，也就是大多数用户（前 75%）体验应满足上述阈值 (<a href="https://web.dev/articles/vitals">web.dev</a>)。</li>
+<li>长期来看，Core Web Vitals 指标可能会随着研究演进调整（目前由实验→待定→稳定阶段管理） 。</li>
+</ul>
+
+
+<hr />
+
+<h2>🛠 如何衡量 Web Vitals</h2>
+
+<ul>
+<li><strong>合成工具</strong>：Lighthouse、WebPageTest、Chrome DevTools Performance 面板（支持实时测量 FCI、LCP、CLS、INP） (<a href="https://web.dev/performance">web.dev</a>)。</li>
+<li><p><strong>真实用户监控</strong>：</p>
+
+<ul>
+<li>使用 <code>web-vitals</code> JS 库采集、上报（可配合 GA4、BigQuery）(<a href="https://web.dev/articles/vitals-ga4">web.dev</a>)；</li>
+<li>或使用现成 RUM 工具，如 Google Analytics、CrUX、Search Console Core Web Vitals 报告等 (<a href="https://web.dev/articles/vitals-ga4">web.dev</a>)。</li>
+</ul>
+</li>
+</ul>
+
+
+<hr />
+
+<h2><a href="https://web.dev/articles/lcp#measure">Largest Contentful Paint (LCP)</a></h2>
+
+<h3>1. 什么是 LCP？</h3>
+
+<ul>
+<li><strong>LCP</strong> 指的是浏览器首次渲染页面中 <strong>最大内容元素</strong>（如图片块、文本块或视频）的时间，相对于页面开始加载时刻(<a href="https://web.dev/articles/lcp?utm_source=chatgpt.com">web.dev</a>)。</li>
+<li>它是 Core Web Vitals 中衡量“页面主要内容是否快速可见”的关键指标，比传统指标（如 FCP、DOMContentLoaded）更能贴合用户感知(<a href="https://web.dev/articles/lcp?hl=ja&amp;utm_source=chatgpt.com">web.dev</a>)。</li>
+<li>LCP被认为是最接近“首屏渲染时间”的指标。</li>
+</ul>
+
+
+<h3>2. 考量元素与规则</h3>
+
+<ul>
+<li>LCP 只考虑特定类型元素。</li>
+<li>只计算可见部分</li>
+</ul>
+
+
+<p>下面是几个LCP的例子。</p>
+
+<p><img src="/images/lcp-demo1.png" alt="lcp demo 1" /></p>
+
+<p>在这个例子中，新内容被添加到DOM中，这改变了哪个元素是最大的。</p>
+
+<p><img src="/images/lcp-demo-2.png" alt="lcp demo 2" /></p>
+
+<p>在这个例子中，Instagram的logo相对较早加载，即使其他内容逐渐显示，它仍然是最大的元素。</p>
+
+<p><img src="/images/lcp-demo-3.png" alt="lcp demo 3" /></p>
+
+<p>在这个Google搜索结果页面的例子中，最大的元素是一段文本，它在任何图像或logo加载完成之前就显示出来了。由于所有单独的图像都比这段文本小，所以在整个加载过程中它始终是最大的元素。</p>
+
+<hr />
+
+<h2><a href="https://web.dev/articles/inp#how-to-measure-inp">Interaction to Next Paint (INP)</a></h2>
+
+<h3>🎯 什么是 INP？</h3>
+
+<ul>
+<li><strong>INP</strong> 是 Core Web Vitals 的一项稳定指标，用来评估页面对用户所有交互（点击、触摸、键盘输入等）的整体响应能力。</li>
+<li>它会记录整个页面生命周期中的每次交互延迟，最终以 <strong>最长的那次交互</strong>（剔除极端值）作为该页面的 INP 分数。</li>
+</ul>
+
+
+<h3>🔄 为什么用 INP 替代 FID？</h3>
+
+<ul>
+<li><strong>FID（First Input Delay）</strong> 只测量页面首次交互的延迟，而 INP 更全面，衡量整个访问过程中的所有交互延迟，更真实反映用户体验。</li>
+<li>INP 包括从用户输入、事件处理到下一帧</li>
+</ul>
+
+
+<h3>🧪 如何测量 INP？</h3>
+
+<p>使用 <code>web-vitals</code> JavaScript 库测量 INP。</p>
+
+<h3>🛠 提高 INP 的常见优化措施</h3>
+
+<ol>
+<li>避免主线程长时间阻塞（比如大循环或同步 JS）。</li>
+<li>将重逻辑拆分为异步任务（如 requestIdleCallback、setTimeout）。</li>
+<li>减少第三方脚本干扰。</li>
+<li>延迟加载不重要的资源（如图片、iframe）。</li>
+<li>使用 <code>content-visibility: auto</code> 优化首次绘制区域。</li>
+</ol>
+
+
+<hr />
+
+<h2><a href="https://web.dev/articles/cls#measure">Cumulative Layout Shift (CLS)</a></h2>
+
+<h3>🧩 什么是 CLS？</h3>
+
+<ul>
+<li><strong>CLS（Cumulative Layout Shift）</strong> 測量的是页面在非用户触发的情况下，视觉内容发生的意外位移累积程度，是 Core Web Vitals 的一项重要稳定指标 ([web.dev][1])。</li>
+<li>一次布局移动（layout shift）指的是在两个绘制帧之间，一个可见元素的位置改变。若多个这种变化连续发生（间隔 &lt; 1 秒，总时长 ≤ 5 秒），它们形成一个布局移动“突发窗口”（session window），CLS 取该窗口里得分最高的一组变化 ([web.dev][1])。</li>
+</ul>
+
+
+<hr />
+
+<h3>📊 如何计算布局移动分数？</h3>
+
+<p>每次 layout‑shift 条目的分数由下面两个部分组成：</p>
+
+<ol>
+<li><strong>impact fraction</strong>：不稳定元素的影响区域占视口大小的比例。</li>
+<li><strong>distance fraction</strong>：元素移动距离占视口最大边长（宽或高）的比例。</li>
+</ol>
+
+
+<h3>🧪 如何测量 CLS？</h3>
+
+<h4>实验室工具（合成环境）：</h4>
+
+<ul>
+<li>Chrome DevTools、Lighthouse、PageSpeed Insights、WebPageTest 都可测量加载过程中的 CLS 值。</li>
+</ul>
+
+
+<h4>真实用户监控（Field Data）：</h4>
+
+<ul>
+<li>使用 CrUX、Search Console、PageSpeed Insights RUM 等；</li>
+<li>推荐通过 <code>web-vitals</code> 或 Layout Instability API 捕获事件并上报</li>
+</ul>
+
+
+<h3>🛠 如何优化 CLS？</h3>
+
+<ul>
+<li><strong>显式指定资源尺寸</strong>：给图片、视频、iframe 设置 <code>width/height</code> 或使用 CSS aspect-ratio，避免加载后推移。</li>
+<li><strong>先占位后加载</strong>：异步加载资源前预留空间（例如广告、远程组件），加载后不引起布局移动。</li>
+<li><strong>适度动画过渡</strong>：用 CSS <code>transform</code> 动画代替突兀的布局变化，若与用户交互触发可排除计算。</li>
+<li><strong>第三方脚本注意尺寸</strong>：广告、embed 内容应提供固定高度/宽度；若动态变化，应用动画或预留长条提示。</li>
+<li><strong>过滤用户交互触发移动</strong>：500ms 内关联用户交互的 layout shift 不计入 CLS（例如点击展开）。</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[怎样提高web性能]]></title>
     <link href="http://hongchaozhang.github.io/blog/2025/06/10/how-to-improve-web-performance/"/>
     <updated>2025-06-10T16:57:17+08:00</updated>
     <id>http://hongchaozhang.github.io/blog/2025/06/10/how-to-improve-web-performance</id>
@@ -829,23 +1041,36 @@ updateMyTodos(draft =&gt; {
 <h3>clean up function</h3>
 
 <p>You can use a clean up function to clean up the effect. For example, if you subscribe to an external data source, you can unsubscribe it in the clean up function.
-```
-useEffect(() => {
-  const connection = createConnection();
-  connection.connect();
-  return () => {
-    connection.disconnect();
-  };
-}, []);</p>
-
-<p>useEffect(() => {
-  function handleScroll(e) {
-    console.log(window.scrollX, window.scrollY);
-  }
-  window.addEventListener(&lsquo;scroll&rsquo;, handleScroll);
-  return () => window.removeEventListener(&lsquo;scroll&rsquo;, handleScroll);
-}, []);
-```
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>useEffect(() =&gt; {
+</span><span class='line'>  const connection = createConnection();
+</span><span class='line'>  connection.connect();
+</span><span class='line'>  return () =&gt; {
+</span><span class='line'>    connection.disconnect();
+</span><span class='line'>  };
+</span><span class='line'>}, []);&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;useEffect(() =&gt; {
+</span><span class='line'>  function handleScroll(e) {
+</span><span class='line'>    console.log(window.scrollX, window.scrollY);
+</span><span class='line'>  }
+</span><span class='line'>  window.addEventListener(&lsquo;scroll&rsquo;, handleScroll);
+</span><span class='line'>  return () =&gt; window.removeEventListener(&lsquo;scroll&rsquo;, handleScroll);
+</span><span class='line'>}, []);</span></code></pre></td></tr></table></div></figure>
 <strong>React will call your cleanup function each time before the next Effect runs again, and one final time when the component unmounts (gets removed).</strong>
 That is, the cleanup function runs not only during unmount, but before every re-render with changed dependencies.</p>
 
@@ -907,28 +1132,46 @@ function TodoList({ todos, filter }) {
 
 <p>输入特别快的时候，很多search的request连续发出，不能保证回来的顺序，会出问题。
 解决方法：给useEffect提供cleanup函数解决
-```
-function SearchResults({ query }) {
-  const [results, setResults] = useState([]);
-  const [page, setPage] = useState(1);
-  useEffect(() => {
-    let ignore = false;
-    fetchResults(query, page).then(json => {
-      if (!ignore) {
-        setResults(json);
-      }
-    });
-    return () => {
-      ignore = true;
-    };
-  }, [query, page]);</p>
-
-<p>  function handleNextPageClick() {
-    setPage(page + 1);
-  }
-  // &hellip;
-}
-```</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>function SearchResults({ query }) {
+</span><span class='line'>  const [results, setResults] = useState([]);
+</span><span class='line'>  const [page, setPage] = useState(1);
+</span><span class='line'>  useEffect(() =&gt; {
+</span><span class='line'>    let ignore = false;
+</span><span class='line'>    fetchResults(query, page).then(json =&gt; {
+</span><span class='line'>      if (!ignore) {
+</span><span class='line'>        setResults(json);
+</span><span class='line'>      }
+</span><span class='line'>    });
+</span><span class='line'>    return () =&gt; {
+</span><span class='line'>      ignore = true;
+</span><span class='line'>    };
+</span><span class='line'>  }, [query, page]);&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;  function handleNextPageClick() {
+</span><span class='line'>    setPage(page + 1);
+</span><span class='line'>  }
+</span><span class='line'>  // &hellip;
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure></p>
 
 <h3>undo</h3>
 
@@ -964,22 +1207,34 @@ But when the theme changes, the notification will also be shown, which is not ex
 <h3>Solution:</h3>
 
 <p>Use Effect Event to separate this non-reactive logic from the reactive Effect around it.
-```
-function ChatRoom({ roomId, theme }) {
-  const onConnected = useEffectEvent(() => {
-    showNotification(&lsquo;Connected!&rsquo;, theme);
-  });</p>
-
-<p>  useEffect(() => {
-    const connection = createConnection(serverUrl, roomId);
-    connection.on(&lsquo;connected&rsquo;, () => {
-      onConnected();
-    });
-    connection.connect();
-    return () => connection.disconnect();
-  }, [roomId]); // ✅ All dependencies declared
-  // &hellip;
-```</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>function ChatRoom({ roomId, theme }) {
+</span><span class='line'>  const onConnected = useEffectEvent(() =&gt; {
+</span><span class='line'>    showNotification(&lsquo;Connected!&rsquo;, theme);
+</span><span class='line'>  });&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;  useEffect(() =&gt; {
+</span><span class='line'>    const connection = createConnection(serverUrl, roomId);
+</span><span class='line'>    connection.on(&lsquo;connected&rsquo;, () =&gt; {
+</span><span class='line'>      onConnected();
+</span><span class='line'>    });
+</span><span class='line'>    connection.connect();
+</span><span class='line'>    return () =&gt; connection.disconnect();
+</span><span class='line'>  }, [roomId]); // ✅ All dependencies declared
+</span><span class='line'>  // &hellip;</span></code></pre></td></tr></table></div></figure></p>
 
 <p>You can think of Effect Events as being very similar to event handlers. The main difference is that event handlers run in response to a user interactions, whereas Effect Events are triggered by you from Effects. Effect Events let you “break the chain” between the reactivity of Effects and code that should not be reactive.</p>
 
@@ -1020,63 +1275,116 @@ Effect Events let you fix many patterns where you might be tempted to suppress t
 
 <ul>
 <li>Move static objects and functions outside your component
-```
-function createOptions() {
-return {
-serverUrl: &lsquo;<a href="https://localhost:1234">https://localhost:1234</a>&rsquo;,
-roomId: &lsquo;music&rsquo;
-};
-}</li>
-</ul>
-</li>
-</ul>
-
-
-<p>function ChatRoom() {
-  const [message, setMessage] = useState(&lsquo;&rsquo;);</p>
-
-<p>  useEffect(() => {
-    const options = createOptions();
-    const connection = createConnection();
-    connection.connect();
-    return () => connection.disconnect();
-  }, []); // ✅ All dependencies declared
-  // &hellip;
-<code>
-    * Move dynamic objects and functions inside your Effect
-</code>
-const serverUrl = &lsquo;<a href="https://localhost:1234">https://localhost:1234</a>&rsquo;;</p>
-
-<p>function ChatRoom({ roomId }) {
-  const [message, setMessage] = useState(&lsquo;&rsquo;);</p>
-
-<p>  useEffect(() => {
-    const options = {
-      serverUrl: serverUrl,
-      roomId: roomId
-    };
-    const connection = createConnection(options);
-    connection.connect();
-    return () => connection.disconnect();
-  }, [roomId]); // ✅ All dependencies declared
-  // &hellip;
-<code>
-* Read primitive values from objects
-</code>
-function ChatRoom({ options }) {
-  const [message, setMessage] = useState(&lsquo;&rsquo;);</p>
-
-<p>  const { roomId, serverUrl } = options;
-  useEffect(() => {
-    const connection = createConnection({
-      roomId: roomId,
-      serverUrl: serverUrl
-    });
-    connection.connect();
-    return () => connection.disconnect();
-  }, [roomId, serverUrl]); // ✅ All dependencies declared
-  // &hellip;
-```</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>function createOptions() {
+</span><span class='line'>return {
+</span><span class='line'>serverUrl: &lsquo;&lt;a href="https://localhost:1234"&gt;https://localhost:1234&lt;/a&gt;&rsquo;,
+</span><span class='line'>roomId: &lsquo;music&rsquo;
+</span><span class='line'>};
+</span><span class='line'>}&lt;/li&gt;
+</span><span class='line'>&lt;/ul&gt;
+</span><span class='line'>&lt;/li&gt;
+</span><span class='line'>&lt;/ul&gt;
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;function ChatRoom() {
+</span><span class='line'>  const [message, setMessage] = useState(&lsquo;&rsquo;);&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;  useEffect(() =&gt; {
+</span><span class='line'>    const options = createOptions();
+</span><span class='line'>    const connection = createConnection();
+</span><span class='line'>    connection.connect();
+</span><span class='line'>    return () =&gt; connection.disconnect();
+</span><span class='line'>  }, []); // ✅ All dependencies declared
+</span><span class='line'>  // &hellip;
+</span><span class='line'>&lt;code&gt;
+</span><span class='line'>    * Move dynamic objects and functions inside your Effect
+</span><span class='line'>&lt;/code&gt;
+</span><span class='line'>const serverUrl = &lsquo;&lt;a href="https://localhost:1234"&gt;https://localhost:1234&lt;/a&gt;&rsquo;;&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;function ChatRoom({ roomId }) {
+</span><span class='line'>  const [message, setMessage] = useState(&lsquo;&rsquo;);&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;  useEffect(() =&gt; {
+</span><span class='line'>    const options = {
+</span><span class='line'>      serverUrl: serverUrl,
+</span><span class='line'>      roomId: roomId
+</span><span class='line'>    };
+</span><span class='line'>    const connection = createConnection(options);
+</span><span class='line'>    connection.connect();
+</span><span class='line'>    return () =&gt; connection.disconnect();
+</span><span class='line'>  }, [roomId]); // ✅ All dependencies declared
+</span><span class='line'>  // &hellip;
+</span><span class='line'>&lt;code&gt;
+</span><span class='line'>* Read primitive values from objects
+</span><span class='line'>&lt;/code&gt;
+</span><span class='line'>function ChatRoom({ options }) {
+</span><span class='line'>  const [message, setMessage] = useState(&lsquo;&rsquo;);&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;  const { roomId, serverUrl } = options;
+</span><span class='line'>  useEffect(() =&gt; {
+</span><span class='line'>    const connection = createConnection({
+</span><span class='line'>      roomId: roomId,
+</span><span class='line'>      serverUrl: serverUrl
+</span><span class='line'>    });
+</span><span class='line'>    connection.connect();
+</span><span class='line'>    return () =&gt; connection.disconnect();
+</span><span class='line'>  }, [roomId, serverUrl]); // ✅ All dependencies declared
+</span><span class='line'>  // &hellip;</span></code></pre></td></tr></table></div></figure></p>
 
 <h2>Object and function compare</h2>
 
@@ -1176,60 +1484,102 @@ export default function App() {
 <h3>expose dom node</h3>
 
 <p>The parent <code>Form</code> component accesses the \<input\> DOM node exposed by <code>MyInput</code>.
-```
-import { forwardRef } from &lsquo;react&rsquo;;</p>
-
-<p>const MyInput = forwardRef(function MyInput(props, ref) {
-  const { label, &hellip;otherProps } = props;
-  return (
-    <label>
-      {label}
-      <input {...otherProps} ref={ref} />
-    </label>
-  );
-});</p>
-
-<p>function Form() {
-  const ref = useRef(null);</p>
-
-<p>  function handleClick() {
-    ref.current.focus();
-  }</p>
-
-<p>  return (
-    <form>
-      <MyInput label="Enter your name:" ref={ref} />
-      <button type="button" onClick={handleClick}>
-        Edit
-      </button>
-    </form>
-  );
-}
-```</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>import { forwardRef } from &lsquo;react&rsquo;;&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;const MyInput = forwardRef(function MyInput(props, ref) {
+</span><span class='line'>  const { label, &hellip;otherProps } = props;
+</span><span class='line'>  return (
+</span><span class='line'>    &lt;label&gt;
+</span><span class='line'>      {label}
+</span><span class='line'>      &lt;input {...otherProps} ref={ref} /&gt;
+</span><span class='line'>    &lt;/label&gt;
+</span><span class='line'>  );
+</span><span class='line'>});&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;function Form() {
+</span><span class='line'>  const ref = useRef(null);&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;  function handleClick() {
+</span><span class='line'>    ref.current.focus();
+</span><span class='line'>  }&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;  return (
+</span><span class='line'>    &lt;form&gt;
+</span><span class='line'>      &lt;MyInput label="Enter your name:" ref={ref} /&gt;
+</span><span class='line'>      &lt;button type="button" onClick={handleClick}&gt;
+</span><span class='line'>        Edit
+</span><span class='line'>      &lt;/button&gt;
+</span><span class='line'>    &lt;/form&gt;
+</span><span class='line'>  );
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure></p>
 
 <h3>expose an object</h3>
 
 <p>Use <code>useImperativeHandle</code> to expose an object referenced by <code>ref</code>:
-```
-import { forwardRef, useRef, useImperativeHandle } from &lsquo;react&rsquo;;</p>
-
-<p>const MyInput = forwardRef(function MyInput(props, ref) {
-  const inputRef = useRef(null);</p>
-
-<p>  useImperativeHandle(ref, () => {
-    return {
-      focus() {
-        inputRef.current.focus();
-      },
-      scrollIntoView() {
-        inputRef.current.scrollIntoView();
-      },
-    };
-  }, []);</p>
-
-<p>  return <input {...props} ref={inputRef} />;
-});
-```</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>import { forwardRef, useRef, useImperativeHandle } from &lsquo;react&rsquo;;&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;const MyInput = forwardRef(function MyInput(props, ref) {
+</span><span class='line'>  const inputRef = useRef(null);&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;  useImperativeHandle(ref, () =&gt; {
+</span><span class='line'>    return {
+</span><span class='line'>      focus() {
+</span><span class='line'>        inputRef.current.focus();
+</span><span class='line'>      },
+</span><span class='line'>      scrollIntoView() {
+</span><span class='line'>        inputRef.current.scrollIntoView();
+</span><span class='line'>      },
+</span><span class='line'>    };
+</span><span class='line'>  }, []);&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;  return &lt;input {...props} ref={inputRef} /&gt;;
+</span><span class='line'>});</span></code></pre></td></tr></table></div></figure></p>
 
 <h2>Custom Hook</h2>
 
@@ -1268,156 +1618,32 @@ This is simpler and keeps the data flow predictable: the data flows down from th
 <h3>useEffect dependencies</h3>
 
 <p>All variables from the component body used by the Effect should be in the Effect dependency list. However, you could instead “prove” to the linter that these values aren’t reactive values, i.e. that they can’t change as a result of a re-render. For example, if serverUrl and roomId don’t depend on rendering and always have the same values, you can move them outside the component. Now they don’t need to be dependencies:
-```
-const serverUrl = &lsquo;<a href="https://localhost:1234">https://localhost:1234</a>&rsquo;; // serverUrl is not reactive
-const roomId = &lsquo;general&rsquo;; // roomId is not reactive</p>
-
-<p>function ChatRoom() {
-  useEffect(() => {
-    const connection = createConnection(serverUrl, roomId);
-    connection.connect();
-    return () => {
-      connection.disconnect();
-    };
-  }, []); // ✅ All dependencies declared
-  // &hellip;
-}
-```</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[重学前端-通过window属性了解协议API]]></title>
-    <link href="http://hongchaozhang.github.io/blog/2022/10/08/chongxueqianduan-tongguo-window-liaojie-protocol-api/"/>
-    <updated>2022-10-08T17:18:04+08:00</updated>
-    <id>http://hongchaozhang.github.io/blog/2022/10/08/chongxueqianduan-tongguo-window-liaojie-protocol-api</id>
-    <content type="html"><![CDATA[<!-- more -->
-
-
-<p>浏览器的API数目繁多，这一节课，我设计了一个实验，我们一起来给API分分类。</p>
-
-<p>我们按照每个API所在的标准来分类。所以，我们用代码来反射浏览器环境中全局对象的属性，然后我们用JavaScript的filter方法来逐步过滤掉已知的属性。</p>
-
-<p>接下来，我们整理API的方法如下：</p>
-
-<ol>
-<li>从Window的属性中，找到API名称；</li>
-<li>查阅MDN或者Google，找到API所在的标准；</li>
-<li>阅读标准，手工或者用代码整理出标准中包含的API；</li>
-<li>用代码在Window的属性中过滤掉标准中涉及的API。</li>
-<li>重复这个过程，我们可以找到所有的API对应的标准。</li>
-</ol>
-
-
-<p>原文点击<a href="/assets/resources/37%E4%B8%A8%E6%B5%8F%E8%A7%88%E5%99%A8API%EF%BC%88%E5%B0%8F%E5%AE%9E%E9%AA%8C%EF%BC%89%EF%BC%9A%E5%8A%A8%E6%89%8B%E6%95%B4%E7%90%86%E5%85%A8%E9%83%A8API.html">这里</a>获取。</p>
-
-<p>从原文整理出来的html文件点击<a href="/assets/resources/traverseWindows.html">这里</a>获取。</p>
-
-<p>关键js代码如下：</p>
-
-<pre><code>function filterOut(names, props) {
-    let set = new Set();
-    props.forEach(o =&gt; set.add(o));
-    return names.filter(e =&gt; !set.has(e));
-}
-
-let names = Object.getOwnPropertyNames(window)
-console.log(names)
-
-// 过滤JavaScript 标准规定的属性
-let js = new Set();
-let objects = ["BigInt", "BigInt64Array", "BigUint64Array", "Infinity", "NaN", "undefined", "eval", "isFinite", "isNaN", "parseFloat", "parseInt", "decodeURI", "decodeURIComponent", "encodeURI", "encodeURIComponent", "Array", "Date", "RegExp", "Promise", "Proxy", "Map", "WeakMap", "Set", "WeakSet", "Function", "Boolean", "String", "Number", "Symbol", "Object", "Error", "EvalError", "RangeError", "ReferenceError", "SyntaxError", "TypeError", "URIError", "ArrayBuffer", "SharedArrayBuffer", "DataView", "Float32Array", "Float64Array", "Int8Array", "Int16Array", "Int32Array", "Uint8Array", "Uint16Array", "Uint32Array", "Uint8ClampedArray", "Atomics", "JSON", "Math", "Reflect", "escape", "unescape"];
-objects.forEach(o =&gt; js.add(o));
-names = names.filter(e =&gt; !js.has(e));
-console.log('\nnames after filtering JS Standard:')
-console.log(names)
-
-// 接下来我们看看已经讲过的 DOM 部分，DOM 部分包含了 document 属性和一系列的构造器，我们可以用 JavaScript 的 prototype 来过滤构造器。
-names = names.filter( e =&gt; {
-    try { 
-        return !(window[e].prototype instanceof Node)
-    } catch(err) {
-        return true;
-    }
-}).filter( e =&gt; e != "Node")
-console.log('\nnames after filtering DOM:')
-console.log(names)
-
-// 接下来我们要找到 Window 对象的定义，我们在下面链接中可以找到。https://html.spec.whatwg.org/#window 这里有一个 Window 接口，是使用 WebIDL 定义的，我们手工把其中的函数和属性整理出来
-let windowprops = new Set();
-objects = ["window", "self", "document", "name", "location", "history", "customElements", "locationbar", "menubar", " personalbar", "scrollbars", "statusbar", "toolbar", "status", "close", "closed", "stop", "focus", " blur", "frames", "length", "top", "opener", "parent", "frameElement", "open", "navigator", "applicationCache", "alert", "confirm", "prompt", "print", "postMessage", "console"];
-objects.forEach(o =&gt; windowprops.add(o));
-names = names.filter(e =&gt; !windowprops.has(e));
-console.log('\nnames after filtering WebIDL:')
-console.log(names)
-
-// 我们还要过滤掉所有的事件，也就是 on 开头的属性。
-names = names.filter( e =&gt; !e.match(/^on/))
-// webkit 前缀的私有属性我们也过滤掉：
-names = names.filter( e =&gt; !e.match(/^webkit/))
-// 除此之外，我们在 HTML 标准中还能找到所有的接口，这些我们也过滤掉：
-let interfaces = new Set();
-objects = ["ApplicationCache", "AudioTrack", "AudioTrackList", "BarProp", "BeforeUnloadEvent", "BroadcastChannel", "CanvasGradient", "CanvasPattern", "CanvasRenderingContext2D", "CloseEvent", "CustomElementRegistry", "DOMStringList", "DOMStringMap", "DataTransfer", "DataTransferItem", "DataTransferItemList", "DedicatedWorkerGlobalScope", "Document", "DragEvent", "ErrorEvent", "EventSource", "External", "FormDataEvent", "HTMLAllCollection", "HashChangeEvent", "History", "ImageBitmap", "ImageBitmapRenderingContext", "ImageData", "Location", "MediaError", "MessageChannel", "MessageEvent", "MessagePort", "MimeType", "MimeTypeArray", "Navigator", "OffscreenCanvas", "OffscreenCanvasRenderingContext2D", "PageTransitionEvent", "Path2D", "Plugin", "PluginArray", "PopStateEvent", "PromiseRejectionEvent", "RadioNodeList", "SharedWorker", "SharedWorkerGlobalScope", "Storage", "StorageEvent", "TextMetrics", "TextTrack", "TextTrackCue", "TextTrackCueList", "TextTrackList", "TimeRanges", "TrackEvent", "ValidityState", "VideoTrack", "VideoTrackList", "WebSocket", "Window", "Worker", "WorkerGlobalScope", "WorkerLocation", "WorkerNavigator"];
-objects.forEach(o =&gt; interfaces.add(o));
-names = names.filter(e =&gt; !interfaces.has(e));
-console.log('\nnames after filtering HTML:')
-console.log(names)
-
-// 过滤i18n api
-names = names.filter(e =&gt; e != "Intl")
-console.log(names)
-
-/* Streams 标准
-    接下来我看到的属性是： ByteLengthQueuingStrategy。
-    同样经过查阅，它来自 WHATWG 的 Streams 标准：
-    https://streams.spec.whatwg.org/#blqs-class
-*/
-names = filterOut(names, ["ReadableStream", "ReadableStreamDefaultReader", "ReadableStreamBYOBReader", "ReadableStreamDefaultController", "ReadableByteStreamController", "ReadableStreamBYOBRequest", "WritableStream", "WritableStreamDefaultWriter", "WritableStreamDefaultController", "TransformStream", "TransformStreamDefaultController", "ByteLengthQueuingStrategy", "CountQueuingStrategy"]);
-console.log(names)
-
-/*
-    接下来我看到的属性是：WebGLContext​Event。
-    显然，这个属性来自 WebGL 标准：
-    https://www.khronos.org/registry/webgl/specs/latest/1.0/#5.15
-*/
-names = filterOut(names, ["WebGLContextEvent","WebGLObject", "WebGLBuffer", "WebGLFramebuffer", "WebGLProgram", "WebGLRenderbuffer", "WebGLShader", "WebGLTexture", "WebGLUniformLocation", "WebGLActiveInfo", "WebGLShaderPrecisionFormat", "WebGLRenderingContext"]);
-console.log(names)
-
-/*
-    Web Audio API
-    下一个属性是 WaveShaperNode。这个属性名听起来就跟声音有关，这个属性来自 W3C 的 Web Audio API 标准。
-    我们来看一下标准：
-    https://www.w3.org/TR/webaudio/
-*/
-names = filterOut(names, ["AudioContext", "AudioNode", "AnalyserNode", "AudioBuffer", "AudioBufferSourceNode", "AudioDestinationNode", "AudioParam", "AudioListener", "AudioWorklet", "AudioWorkletGlobalScope", "AudioWorkletNode", "AudioWorkletProcessor", "BiquadFilterNode", "ChannelMergerNode", "ChannelSplitterNode", "ConstantSourceNode", "ConvolverNode", "DelayNode", "DynamicsCompressorNode", "GainNode", "IIRFilterNode", "MediaElementAudioSourceNode", "MediaStreamAudioSourceNode", "MediaStreamTrackAudioSourceNode", "MediaStreamAudioDestinationNode", "PannerNode", "PeriodicWave", "OscillatorNode", "StereoPannerNode", "WaveShaperNode", "ScriptProcessorNode", "AudioProcessingEvent"]);
-console.log(names)
-
-/*
-    Encoding 标准
-    在我的环境中，下一个属性是 TextDecoder，经过查阅得知，这个属性也来自一份 WHATWG 的标准，Encoding：
-    https://encoding.spec.whatwg.org/#dom-textencoder
-*/
-names = filterOut(names, ["TextDecoder", "TextEncoder", "TextDecoderStream", "TextEncoderStream"]);
-console.log(names)
-
-/*
-    Web Cryptography API
-    我们继续看下去，下一个属性是 SubtleCrypto，这个属性来自 Web Cryptography API，也是 W3C 的标准。
-    https://www.w3.org/TR/WebCryptoAPI/
-    这份标准中规定了三个 Class 和一个 Window 对象的扩展，给 Window 对象添加了一个属性 crypto。
-*/
-names = filterOut(names, ["CryptoKey", "SubtleCrypto", "Crypto", "crypto"]);
-console.log(names)
-
-/*
-    Media Source Extensions
-    下一个属性是 SourceBufferList，它来自于：
-    https://www.w3.org/TR/media-source/
-    这份标准中包含了三个接口，这份标准还扩展了一些接口，但是没有扩展 window。
-*/
-names = filterOut(names, ["MediaSource", "SourceBuffer", "SourceBufferList"]);
-console.log(names)
-</code></pre>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>const serverUrl = &lsquo;&lt;a href="https://localhost:1234"&gt;https://localhost:1234&lt;/a&gt;&rsquo;; // serverUrl is not reactive
+</span><span class='line'>const roomId = &lsquo;general&rsquo;; // roomId is not reactive&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;function ChatRoom() {
+</span><span class='line'>  useEffect(() =&gt; {
+</span><span class='line'>    const connection = createConnection(serverUrl, roomId);
+</span><span class='line'>    connection.connect();
+</span><span class='line'>    return () =&gt; {
+</span><span class='line'>      connection.disconnect();
+</span><span class='line'>    };
+</span><span class='line'>  }, []); // ✅ All dependencies declared
+</span><span class='line'>  // &hellip;
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure></p>
 ]]></content>
   </entry>
   
