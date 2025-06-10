@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "how to improve web performance"
+title: "怎样提高web性能"
 date: 2025-06-10 16:57:17 +0800
 comments: true
 categories: [performance, web]
@@ -37,8 +37,8 @@ categories: [performance, web]
 3. **深入分析各项耗时明细**
 
    * **网络请求分析**：查看资源请求的数量、按域名分组大小、缓存命中率、是否存在多余的第三方脚本；关注阻塞（Blocking）、排队（Queuing）和传输（Transfer）时长。
-   * **JavaScript 执行分析**：分析脚本解析与编译、函数执行、长任务（Long Tasks）。如**有大量主线程阻塞**、长任务会阻塞渲染或用户交互，需要考虑拆分 Webpack bundle、采用 **Code Splitting**、**懒加载**。
-   * **渲染与布局**：查看是否存在**强制同步布局（Forced Reflow）**、频繁的 DOM 操作导致布局抖动，是否存在大面积的 repaint。
+   * **JavaScript 执行分析**：分析脚本解析与编译、函数执行、长任务（Long Tasks）。如*有大量主线程阻塞*、长任务会阻塞渲染或用户交互，需要考虑拆分 Webpack bundle、采用 *Code Splitting*、*懒加载*。
+   * **渲染与布局**：查看是否存在*强制同步布局（Forced Reflow）*、频繁的 DOM 操作导致布局抖动，是否存在大面积的 repaint。
    * **资源加载优先级**：评估关键 CSS/JS 是否合理 inline 或预加载，图片是否做了懒加载、尺寸压缩，以及字体加载策略（font-display）是否合理。
 
 4. **定位瓶颈并分类优化方案**
