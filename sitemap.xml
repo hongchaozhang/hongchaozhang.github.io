@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
+<loc>http://hongchaozhang.github.io/blog/2025/06/10/how-to-improve-web-performance/</loc>
+<lastmod>2025-06-10T16:57:17+08:00</lastmod>
+</url>
+<url>
 <loc>http://hongchaozhang.github.io/blog/2025/05/26/wuge-xinzhi-cengci/</loc>
 <lastmod>2025-05-26T23:46:20+08:00</lastmod>
 </url>
@@ -826,6 +830,9 @@
 </url>
 <url>
 <loc>http://hongchaozhang.github.io/blog/categories/babel/</loc>
+</url>
+<url>
+<loc>http://hongchaozhang.github.io/blog/categories/performance/</loc>
 </url>
 <url>
 <loc>http://hongchaozhang.github.io/images/L4151_L4153_L4156_L4158_User'sGuide.pdf</loc>
