@@ -17,14 +17,12 @@ categories: [performance, web]
 
 下面对其进行总结。
 
----
 
 ## 🔍 什么是 Web Vitals？
 
 * **Web Vitals** 是 Google 推出的统一性能评估体系，旨在让开发者、产品经理等聚焦界面体验质量的核心指标 ([web.dev](https://web.dev/articles/vitals))。
 * 它简化了性能指标体系，聚焦当前"**Core Web Vitals**"（核心页面体验指标） ([developers.google.com](https://developers.google.com/search/docs/appearance/core-web-vitals))。
 
----
 
 ## 🎯 Core Web Vitals 主要指标
 
@@ -41,7 +39,7 @@ categories: [performance, web]
 * 衡量标准采用 **75th percentile**，也就是大多数用户（前 75%）体验应满足上述阈值 ([web.dev](https://web.dev/articles/vitals))。
 * 长期来看，Core Web Vitals 指标可能会随着研究演进调整（目前由实验→待定→稳定阶段管理） 。
 
----
+
 
 ## 🛠 如何衡量 Web Vitals
 
@@ -51,7 +49,7 @@ categories: [performance, web]
   * 使用 `web-vitals` JS 库采集、上报（可配合 GA4、BigQuery）([web.dev](https://web.dev/articles/vitals-ga4))；
   * 或使用现成 RUM 工具，如 Google Analytics、CrUX、Search Console Core Web Vitals 报告等 ([web.dev](https://web.dev/articles/vitals-ga4))。
 
----
+
 
 ## [Largest Contentful Paint (LCP)](https://web.dev/articles/lcp#measure)
 
@@ -84,7 +82,7 @@ categories: [performance, web]
 
 在这个Google搜索结果页面的例子中，最大的元素是一段文本，它在任何图像或logo加载完成之前就显示出来了。由于所有单独的图像都比这段文本小，所以在整个加载过程中它始终是最大的元素。
 
----
+
 
 ## [Interaction to Next Paint (INP)](https://web.dev/articles/inp#how-to-measure-inp)
 
@@ -114,7 +112,6 @@ categories: [performance, web]
 4. 延迟加载不重要的资源（如图片、iframe）。
 5. 使用 `content-visibility: auto` 优化首次绘制区域。
 
----
 
 ## [Cumulative Layout Shift (CLS)](https://web.dev/articles/cls#measure)
 
@@ -123,7 +120,6 @@ categories: [performance, web]
 * **CLS（Cumulative Layout Shift）** 測量的是页面在非用户触发的情况下，视觉内容发生的意外位移累积程度，是 Core Web Vitals 的一项重要稳定指标 ([web.dev][1])。
 * 一次布局移动（layout shift）指的是在两个绘制帧之间，一个可见元素的位置改变。若多个这种变化连续发生（间隔 < 1 秒，总时长 ≤ 5 秒），它们形成一个布局移动“突发窗口”（session window），CLS 取该窗口里得分最高的一组变化 ([web.dev][1])。
 
----
 
 ### 📊 如何计算布局移动分数？
 

@@ -87,20 +87,27 @@ article{
 			border: none;
 		}
 		table{
-			background: $color-gray05;
-			border: 1px solid $color-gray03;
+			border-collapse: collapse;
 			border-spacing: 0;
-			margin-top: 10px;
+			margin-top: 30px;
+			margin-bottom: 30px;
+			width: 100%;
+			border-top: 1px solid $color-gray04;
+			border-bottom: 1px solid $color-gray04;
 			th{
-				background: $color-gray03;
-				padding: 0 15px;
+				font-weight: normal;
+				padding: 8px 15px;
+				text-align: left;
+				border-bottom: 2px solid $color-gray03;
 			}
 			td{
-				text-align: center;
+				padding: 8px 15px;
+				text-align: left;
+				border-bottom: 1px solid $color-gray04;
 			}
 			tr{
-				&:nth-of-type(2n){
-					background: $color-gray04;
+				&:last-child td{
+					border-bottom: none;
 				}
 			}
 		}

@@ -12,7 +12,6 @@ categories: [performance, web]
 
 以下内容分为三部分：一是分析思路与流程，二是常用工具推荐，三是Chrome DevTools 中几个常用且好用的功能示例。
 
----
 
 ## 一、分析思路与流程
 
@@ -76,7 +75,6 @@ categories: [performance, web]
    * 借助 Lighthouse、CI/CD 中的自动化检测工具（如 GitHub Action + Lighthouse CI）持续监控；
    * 对比真实用户数据（RUM），避免“合成测试指标很好，但真用户网络环境下反而没提升”的情况。
 
----
 
 ## 二、常用工具推荐
 
@@ -106,7 +104,7 @@ categories: [performance, web]
    * **BrowserMob Proxy / Fiddler / Charles**：抓包工具，用于调试 HTTP/HTTPS 请求，查看请求头、响应头、Cookie、重定向链路。
    * **HEAP Profiler / CPU Profiler（Chrome DevTools）**：用于深度分析 JS 运行时性能、内存泄漏、调用栈等。
 
----
+
 
 ## 三、Chrome DevTools 中几个好用的功能
 
@@ -201,7 +199,7 @@ categories: [performance, web]
 
   * 查看 Cache Storage、Service Worker、Local Storage、IndexedDB、Cookie 等。若项目启用了 PWA，可以查看离线缓存策略是否生效、Service Worker 是否出现异常。
 
----
+
 
 ## 四、小结
 
