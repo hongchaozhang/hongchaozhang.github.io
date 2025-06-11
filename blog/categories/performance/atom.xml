@@ -4,7 +4,7 @@
   <title><![CDATA[Category: performance | Reading Space]]></title>
   <link href="http://hongchaozhang.github.io/blog/categories/performance/atom.xml" rel="self"/>
   <link href="http://hongchaozhang.github.io/"/>
-  <updated>2025-06-10T18:27:41+08:00</updated>
+  <updated>2025-06-11T14:37:53+08:00</updated>
   <id>http://hongchaozhang.github.io/</id>
   <author>
     <name><![CDATA[Zhang Hongchao]]></name>
@@ -33,8 +33,6 @@
 
 <p>下面对其进行总结。</p>
 
-<hr />
-
 <h2>🔍 什么是 Web Vitals？</h2>
 
 <ul>
@@ -42,8 +40,6 @@
 <li>它简化了性能指标体系，聚焦当前"<strong>Core Web Vitals</strong>&ldquo;（核心页面体验指标） (<a href="https://developers.google.com/search/docs/appearance/core-web-vitals">developers.google.com</a>)。</li>
 </ul>
 
-
-<hr />
 
 <h2>🎯 Core Web Vitals 主要指标</h2>
 
@@ -85,8 +81,6 @@
 </ul>
 
 
-<hr />
-
 <h2>🛠 如何衡量 Web Vitals</h2>
 
 <ul>
@@ -100,8 +94,6 @@
 </li>
 </ul>
 
-
-<hr />
 
 <h2><a href="https://web.dev/articles/lcp#measure">Largest Contentful Paint (LCP)</a></h2>
 
@@ -136,8 +128,6 @@
 
 <p>在这个Google搜索结果页面的例子中，最大的元素是一段文本，它在任何图像或logo加载完成之前就显示出来了。由于所有单独的图像都比这段文本小，所以在整个加载过程中它始终是最大的元素。</p>
 
-<hr />
-
 <h2><a href="https://web.dev/articles/inp#how-to-measure-inp">Interaction to Next Paint (INP)</a></h2>
 
 <h3>🎯 什么是 INP？</h3>
@@ -171,8 +161,6 @@
 </ol>
 
 
-<hr />
-
 <h2><a href="https://web.dev/articles/cls#measure">Cumulative Layout Shift (CLS)</a></h2>
 
 <h3>🧩 什么是 CLS？</h3>
@@ -182,8 +170,6 @@
 <li>一次布局移动（layout shift）指的是在两个绘制帧之间，一个可见元素的位置改变。若多个这种变化连续发生（间隔 &lt; 1 秒，总时长 ≤ 5 秒），它们形成一个布局移动“突发窗口”（session window），CLS 取该窗口里得分最高的一组变化 ([web.dev][1])。</li>
 </ul>
 
-
-<hr />
 
 <h3>📊 如何计算布局移动分数？</h3>
 
@@ -236,8 +222,6 @@
 <p>下面是GPT总结的web性能优化，我整理了一下，方便自己阅读。</p>
 
 <p>以下内容分为三部分：一是分析思路与流程，二是常用工具推荐，三是Chrome DevTools 中几个常用且好用的功能示例。</p>
-
-<hr />
 
 <h2>一、分析思路与流程</h2>
 
@@ -343,8 +327,6 @@
 </ol>
 
 
-<hr />
-
 <h2>二、常用工具推荐</h2>
 
 <ol>
@@ -386,8 +368,6 @@
 </li>
 </ol>
 
-
-<hr />
 
 <h2>三、Chrome DevTools 中几个好用的功能</h2>
 
@@ -562,8 +542,6 @@
 </li>
 </ul>
 
-
-<hr />
 
 <h2>四、小结</h2>
 

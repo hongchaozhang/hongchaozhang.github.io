@@ -125,8 +125,6 @@ Cumulative Layout Shift (CLS) &hellip;">
 
 <p>下面对其进行总结。</p>
 
-<hr />
-
 <h2>🔍 什么是 Web Vitals？</h2>
 
 <ul>
@@ -134,8 +132,6 @@ Cumulative Layout Shift (CLS) &hellip;">
 <li>它简化了性能指标体系，聚焦当前"<strong>Core Web Vitals</strong>&ldquo;（核心页面体验指标） (<a href="https://developers.google.com/search/docs/appearance/core-web-vitals">developers.google.com</a>)。</li>
 </ul>
 
-
-<hr />
 
 <h2>🎯 Core Web Vitals 主要指标</h2>
 
@@ -177,8 +173,6 @@ Cumulative Layout Shift (CLS) &hellip;">
 </ul>
 
 
-<hr />
-
 <h2>🛠 如何衡量 Web Vitals</h2>
 
 <ul>
@@ -192,8 +186,6 @@ Cumulative Layout Shift (CLS) &hellip;">
 </li>
 </ul>
 
-
-<hr />
 
 <h2><a href="https://web.dev/articles/lcp#measure">Largest Contentful Paint (LCP)</a></h2>
 
@@ -228,8 +220,6 @@ Cumulative Layout Shift (CLS) &hellip;">
 
 <p>在这个Google搜索结果页面的例子中，最大的元素是一段文本，它在任何图像或logo加载完成之前就显示出来了。由于所有单独的图像都比这段文本小，所以在整个加载过程中它始终是最大的元素。</p>
 
-<hr />
-
 <h2><a href="https://web.dev/articles/inp#how-to-measure-inp">Interaction to Next Paint (INP)</a></h2>
 
 <h3>🎯 什么是 INP？</h3>
@@ -263,8 +253,6 @@ Cumulative Layout Shift (CLS) &hellip;">
 </ol>
 
 
-<hr />
-
 <h2><a href="https://web.dev/articles/cls#measure">Cumulative Layout Shift (CLS)</a></h2>
 
 <h3>🧩 什么是 CLS？</h3>
@@ -274,8 +262,6 @@ Cumulative Layout Shift (CLS) &hellip;">
 <li>一次布局移动（layout shift）指的是在两个绘制帧之间，一个可见元素的位置改变。若多个这种变化连续发生（间隔 &lt; 1 秒，总时长 ≤ 5 秒），它们形成一个布局移动“突发窗口”（session window），CLS 取该窗口里得分最高的一组变化 ([web.dev][1])。</li>
 </ul>
 
-
-<hr />
 
 <h3>📊 如何计算布局移动分数？</h3>
 
